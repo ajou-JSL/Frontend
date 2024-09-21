@@ -89,14 +89,18 @@ jobs:
           git tag ${{ steps.bump_version.outputs.new_tag }}
           git push origin ${{ steps.bump_version.outputs.new_tag }}
 
+
+
       # 9. GitHub Releases에 새 릴리스 생성 및 APK 업로드
       - name: Create GitHub Release
         uses: ncipollo/release-action@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ steps.bump_version.outputs.new_tag }}
-          release_name: "MOUM Release ${{ steps.bump_version.outputs.new_tag }}"
+          release_name: "MOUM-${{ steps.bump_version.outputs.new_tag }}"
           body: "New release based on version ${{ steps.bump_version.outputs.new_tag }}. It is test release."
           draft: false
           prerelease: true
           files: ${{ steps.find_apk.outputs.apk_path }}  # APK 경로를 동적으로 설정
+          replacesArtifacts: true  # 기존 파일 대체 설정
+          skipIfReleaseExists: false  # 기존 릴리스가 있어도 무시하고 업데이트
