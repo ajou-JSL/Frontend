@@ -46,7 +46,7 @@ jobs:
       - name: Find APK Path
         id: find_apk
         run: |
-          APK_PATH=$(find app/build/outputs/apk/ -name "*.apk" | head -n 1)
+          APK_PATH=$(find app/build/outputs/apk/release/ -name "*.apk" | head -n 1)
           echo "APK path: $APK_PATH"
           echo ::set-output name=apk_path::$APK_PATH
           
