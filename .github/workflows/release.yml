@@ -24,15 +24,23 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
-      # 3-1. gradlew 파일에 실행 권한 부여
+      # 3. gradlew 파일에 실행 권한 부여
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
         
-      # 3-2. Gradle로 APK 빌드
+      # 4. Gradle로 APK 빌드
       - name: Build APK
         run: ./gradlew assembleRelease
 
-      # 4. GitHub API를 통해 최신 태그 가져오기
+      # 5. APK 파일 경로 찾기
+      - name: Find APK Path
+        id: find_apk
+        run: |
+          APK_PATH=$(find app/build/outputs/apk/ -name "*.apk" | head -n 1)
+          echo "APK path: $APK_PATH"
+          echo ::set-output name=apk_path::$APK_PATH
+          
+      # 6. GitHub API를 통해 최신 태그 가져오기
       - name: Get latest tag
         id: get_tag
         run: |
@@ -40,7 +48,7 @@ jobs:
           echo "Latest tag: $latest_tag"
           echo ::set-output name=latest_tag::$latest_tag
 
-      # 5. 새 버전 태그 생성 (기존 태그에서 숫자를 증가시킴)
+      # 7. 새 버전 태그 생성 (기존 태그에서 숫자를 증가시킴)
       - name: Bump version tag
         id: bump_version
         run: |
@@ -69,7 +77,7 @@ jobs:
           echo "New tag: $new_tag"
           echo ::set-output name=new_tag::$new_tag
 
-      # 6. 새로운 태그를 원격 저장소에 푸시 (GITHUB_TOKEN 사용)
+      # 8. 새로운 태그를 원격 저장소에 푸시 (GITHUB_TOKEN 사용)
       - name: Push new tag to GitHub
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # GITHUB_TOKEN 사용하여 권한 부여
@@ -79,14 +87,14 @@ jobs:
           git tag ${{ steps.bump_version.outputs.new_tag }}
           git push origin ${{ steps.bump_version.outputs.new_tag }}
 
-      # 7. GitHub Releases에 새 릴리스 생성 및 APK 업로드
+      # 9. GitHub Releases에 새 릴리스 생성 및 APK 업로드
       - name: Create GitHub Release
         uses: ncipollo/release-action@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ steps.bump_version.outputs.new_tag }}
-          release_name: "Release ${{ steps.bump_version.outputs.new_tag }}"
-          body: "New release based on version ${{ steps.bump_version.outputs.new_tag }}"
+          release_name: "MOUM Release ${{ steps.bump_version.outputs.new_tag }}"
+          body: "New release based on version ${{ steps.bump_version.outputs.new_tag }}. It is test release."
           draft: false
           prerelease: true
-          files: ${{ steps.apk_path.outputs.apk-path }}
+          files: ${{ steps.find_apk.outputs.apk_path }}  # APK 경로를 동적으로 설정
