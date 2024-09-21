@@ -8,7 +8,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    
+    permissions:  # 권한 설정
+      contents: write  # 리포지토리에 쓰기 권한을 부여
+      
     steps:
       # 1. GitHub에서 리포지토리 체크아웃
       - name: Checkout code
