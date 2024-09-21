@@ -66,9 +66,13 @@ jobs:
           echo "New tag: $new_tag"
           echo ::set-output name=new_tag::$new_tag
 
-      # 6. 새로운 태그를 릴리스에 적용
-      - name: Create new tag
+      # 6. 새로운 태그를 원격 저장소에 푸시 (GITHUB_TOKEN 사용)
+      - name: Push new tag to GitHub
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # GITHUB_TOKEN 사용하여 권한 부여
         run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
           git tag ${{ steps.bump_version.outputs.new_tag }}
           git push origin ${{ steps.bump_version.outputs.new_tag }}
 
