@@ -16,6 +16,8 @@ jobs:
       # 1. GitHub에서 리포지토리 체크아웃
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # 전체 Git 기록과 태그를 포함
 
       # 2. JDK 설치 (Android 앱을 빌드하기 위한 Java 설치)
       - name: Set up JDK 17
