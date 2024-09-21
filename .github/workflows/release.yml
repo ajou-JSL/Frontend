@@ -1,0 +1,106 @@
+name: Build and Release
+
+on:
+  push:
+    branches:
+      - main  # main 브랜치에 푸시될 때마다 실행
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    permissions:  # 권한 설정
+      contents: write  # 리포지토리에 쓰기 권한을 부여
+      
+    steps:
+      # 1. GitHub에서 리포지토리 체크아웃
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # 전체 Git 기록과 태그를 포함
+
+      # 2. JDK 설치 (Android 앱을 빌드하기 위한 Java 설치)
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      # 3. gradlew 파일에 실행 권한 부여
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+        
+      # 4. Gradle로 APK 빌드
+      - name: Build APK
+        run: ./gradlew assembleRelease
+
+      # 5. APK 파일 경로 찾기
+      - name: Find APK Path
+        id: find_apk
+        run: |
+          APK_PATH=$(find app/build/outputs/apk/ -name "*.apk" | head -n 1)
+          echo "APK path: $APK_PATH"
+          echo ::set-output name=apk_path::$APK_PATH
+          
+      # 6. GitHub API를 통해 최신 태그 가져오기
+      - name: Get latest tag
+        id: get_tag
+        run: |
+          latest_tag=$(git describe --tags `git rev-list --tags --max-count=1` || echo "v0.0.0")
+          echo "Latest tag: $latest_tag"
+          echo ::set-output name=latest_tag::$latest_tag
+
+      # 7. 새 버전 태그 생성 (기존 태그에서 숫자를 증가시킴)
+      - name: Bump version tag
+        id: bump_version
+        run: |
+          # 버전 태그를 X.Y.Z 형식으로 가정
+          latest_tag=${{ steps.get_tag.outputs.latest_tag }}
+          IFS='.' read -r -a parts <<< "${latest_tag#v}" # 'v' 제거 후 숫자 분리
+          major="${parts[0]}"
+          minor="${parts[1]}"
+          patch="${parts[2]}"
+          
+          # 패치 번호가 9이면 마이너를 증가시키고 패치를 0으로 초기화
+          if [ "$patch" -eq 9 ]; then
+            patch=0
+            minor=$((minor+1))
+          else
+            patch=$((patch+1))
+          fi
+          
+          # 마이너가 10에 도달하면 메이저를 증가시키고 마이너를 0으로 초기화
+          if [ "$minor" -eq 10 ]; then
+            minor=0
+            major=$((major+1))
+          fi
+
+          new_tag="v$major.$minor.$patch"
+          echo "New tag: $new_tag"
+          echo ::set-output name=new_tag::$new_tag
+
+      # 8. 새로운 태그를 원격 저장소에 푸시 (GITHUB_TOKEN 사용)
+      - name: Push new tag to GitHub
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # GITHUB_TOKEN 사용하여 권한 부여
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git tag ${{ steps.bump_version.outputs.new_tag }}
+          git push origin ${{ steps.bump_version.outputs.new_tag }}
+
+
+
+      # 9. GitHub Releases에 새 릴리스 생성 및 APK 업로드
+      - name: Create GitHub Release
+        uses: ncipollo/release-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ steps.bump_version.outputs.new_tag }}
+          release_name: "MOUM-${{ steps.bump_version.outputs.new_tag }}"
+          body: "New release based on version ${{ steps.bump_version.outputs.new_tag }}. It is test release."
+          draft: false
+          prerelease: true
+          files: ${{ steps.find_apk.outputs.apk_path }}  # APK 경로를 동적으로 설정
+          replacesArtifacts: true  # 기존 파일 대체 설정
+          skipIfReleaseExists: false  # 기존 릴리스가 있어도 무시하고 업데이트
