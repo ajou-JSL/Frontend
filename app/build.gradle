@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    id 'jacoco' // 버전 없이 id만 추가
 }
 
 android {
@@ -21,15 +22,51 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug {  // debug 빌드 타입에 testCoverageEnabled 추가
+            testCoverageEnabled true
+        }
     }
+
+    // 추가
+    testOptions {
+        unitTests.includeAndroidResources = true
+        unitTests.returnDefaultValues = true
+
+        unitTests.all {
+            jacoco {
+                includeNoLocationClasses = true
+                excludes = ['jdk.internal.*']
+            }
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
-dependencies {
+// jacoco 리포트
+tasks.register("jacocoTestReport", JacocoReport) {
+    dependsOn(testDebugUnitTest)
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+    }
 
+    def mainSrc = "${project.projectDir}/src/main/java"
+    sourceDirectories.setFrom(files([mainSrc])) // 커버리지를 측정할 소스 디렉터리
+
+    // 커버리지에서 제외할 파일
+    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
+    def debugTree = fileTree(dir: "${buildDir}/intermediates/classes/debug", excludes: fileFilter)
+    classDirectories.setFrom(files([debugTree])) // 컴파일 결과 파일이 있는 디렉터리 지정.
+
+    // 커버리지 측정 결과를 저장할 파일
+    executionData.setFrom(fileTree(dir: "${buildDir}/jacoco/testDebugUnitTest.exec"))
+}
+
+dependencies {
     implementation libs.appcompat
     implementation libs.material
     implementation libs.activity
