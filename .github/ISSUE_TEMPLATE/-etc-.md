@@ -1,8 +1,8 @@
 ---
 name: "[ETC]"
 about: 기타 이슈
-title: ''
-labels: ''
+title: 'ex) [ETC] title message #issue_number'
+labels: "\U0001F7E4 ETC"
 assignees: ''
 
 ---
