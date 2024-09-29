@@ -54,8 +54,22 @@ jobs:
         id: jacoco
         uses: madrapps/jacoco-report@v1.7.0
         with:
-          paths: ${{ github.workspace }}/build/reports/jacoco/**/jacocoTestReport.xml
+          paths: ${{ github.workspace }}/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml
           token: ${{ secrets.GITHUB_TOKEN }}
           title: "코드 커버리지 측정"
           min-coverage-overall: 0
           min-coverage-changed-files: 0
+          update-comment: ture
+
+      # 8. jacoco HTML 보고서 업로드
+      - name: Upload jacoco HTML report
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-html-report
+          path: ${{ github.workspace }}/build/reports/jacoco/jacocoTestReport/html
+
+      # 9. 커버리지 정보 출력
+      - name: Get the Coverage info
+        run: |
+          echo "Total coverage ${{ steps.jacoco.outputs.coverage-overall }}"
+          echo "Changed Files coverage ${{ steps.jacoco.outputs.coverage-changed-files }}"
