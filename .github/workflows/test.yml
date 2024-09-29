@@ -42,7 +42,7 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
         with:
-          junit_files: '**/build/test-results/test/TEST-*.xml'
+          junit_files: '**/build/test-results/testDebugUnitTest/TEST-*.xml'
 
       # 7. jacoco 커버리지 가져오기
       - name: Add coverage to PR
