@@ -8,10 +8,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     permissions:  # 권한 설정
       contents: write  # 리포지토리에 쓰기 권한을 부여
-      
+
     steps:
       # 1. GitHub에서 리포지토리 체크아웃
       - name: Checkout code
@@ -49,7 +49,7 @@ jobs:
           APK_PATH=$(find app/build/outputs/apk/release/ -name "*.apk" | head -n 1)
           echo "APK path: $APK_PATH"
           echo ::set-output name=apk_path::$APK_PATH
-          
+
       # 6. GitHub API를 통해 최신 태그 가져오기
       - name: Get latest tag
         id: get_tag
