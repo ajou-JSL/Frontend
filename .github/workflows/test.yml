@@ -11,6 +11,11 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+
+    permissions:
+      checks: write # 체크런 생성 권한 추가
+      contents: read # 리포지토리 읽기 권한 추가
+
     steps:
       # 1. GitHub에서 리포지토리 체크아웃
       - name: Checkout code
