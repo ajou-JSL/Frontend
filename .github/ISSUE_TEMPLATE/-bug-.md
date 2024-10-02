@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-## 🖥️ Descriptions
+## 🖥️ Descriptions 
  - 내용을 적어주세요 
 
 ## ☻ Details
