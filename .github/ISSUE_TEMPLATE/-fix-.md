@@ -1,7 +1,7 @@
 ---
 name: "[FIX]"
 about: 코드 수정사항
-title: 'ex) [FIX] title message #issue_number'
+title: 'ex) [FIX] title message '
 labels: "\U0001F7E2 FIX"
 assignees: ''
 

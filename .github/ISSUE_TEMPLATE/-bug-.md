@@ -1,7 +1,7 @@
 ---
 name: "[BUG]"
 about: 버그 리포트
-title: 'ex) [BUG] title message #issue_number'
+title: ex) [BUG] title message
 labels: "\U0001F534 BUG"
 assignees: ''
 

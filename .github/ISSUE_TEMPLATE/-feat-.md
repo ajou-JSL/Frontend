@@ -1,7 +1,7 @@
 ---
 name: "[FEAT]"
 about: 기능 제안 (신규/수정 요청사항)
-title: 'ex) [FEAT] title message #issue_number'
+title: ex) [FEAT] title message
 labels: "⚪️ FEAT"
 assignees: ''
 
