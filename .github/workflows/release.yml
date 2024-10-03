@@ -1,12 +1,14 @@
 name: Build and Release
 
 on:
-  push:
+  pull_request:
+    types: [ closed ]  # PR이 닫히는 이벤트(merged 포함)에 대해서만 실행
     branches:
-      - main  # main 브랜치에 푸시될 때마다 실행
+      - main  # PR이 main 브랜치에 병합될 때만 실행
 
 jobs:
   build:
+    if: github.event.pull_request.merged == true  # PR이 병합된 경우에만 빌드 실행
     runs-on: ubuntu-latest
 
     permissions:  # 권한 설정
