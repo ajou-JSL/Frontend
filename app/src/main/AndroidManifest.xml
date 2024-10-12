@@ -15,6 +15,14 @@
         <activity
             android:name=".MainActivity"
             android:exported="true">
+        </activity>
+        <activity
+            android:name=".view.SignupBasicActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".view.SignupProfileActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
