@@ -4,6 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/SignupBasicActivity"
     tools:context=".view.SignupBasicActivity">
+    <data>
+        <!-- ViewModel을 위한 variable 정의 -->
+        <variable
+            name="viewModel"
+            type="com.example.moum.viewmodel.SignupViewModel" />
+    </data>
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -112,7 +118,8 @@
                                 android:textSize="14sp"
                                 android:textColor="@color/gray7"
                                 android:fontFamily="@font/noto_sans_kr_bold"
-                                android:gravity="center_vertical"/>
+                                android:gravity="center_vertical"
+                                android:text="@={viewModel.user.name}"/>
                         </LinearLayout>
                     </LinearLayout>
                     <LinearLayout
@@ -164,7 +171,8 @@
                             android:textColor="@color/gray7"
                             android:textSize="14sp"
                             android:fontFamily="@font/noto_sans_kr_bold"
-                            android:gravity="center_vertical"/>
+                            android:gravity="center_vertical"
+                            android:text="@={viewModel.user.id}"/>
                         </LinearLayout>
                     </LinearLayout>
                     <LinearLayout
@@ -217,7 +225,8 @@
                             android:textColor="@color/gray7"
                             android:textSize="14sp"
                             android:fontFamily="@font/noto_sans_kr_bold"
-                            android:gravity="center_vertical"/>
+                            android:gravity="center_vertical"
+                            android:text="@={viewModel.user.password}"/>
                         </LinearLayout>
                     </LinearLayout>
                     <LinearLayout
@@ -260,17 +269,19 @@
                             android:paddingRight="10dp"
                             android:paddingTop="10dp"
                             android:paddingBottom="5dp"                            >
-                        <EditText
-                            android:id="@+id/signup_edittext_password_check"
-                            android:layout_width="match_parent"
-                            android:layout_height="33dp"
-                            android:background="@color/transparent"
-                            android:fontFamily="@font/noto_sans_kr_bold"
-                            android:inputType="textPassword"
-                            android:hint="비밀번호 확인을 입력하세요"
-                            android:textColor="@color/gray7"
-                            android:textSize="14sp"
-                            android:gravity="center_vertical"/>
+
+                            <EditText
+                                android:id="@+id/signup_edittext_password_check"
+                                android:layout_width="match_parent"
+                                android:layout_height="33dp"
+                                android:background="@color/transparent"
+                                android:fontFamily="@font/noto_sans_kr_bold"
+                                android:gravity="center_vertical"
+                                android:hint="비밀번호 확인을 입력하세요"
+                                android:inputType="textPassword"
+                                android:textColor="@color/gray7"
+                                android:textSize="14sp"
+                                android:text="@={viewModel.user.passwordCheck}"/>
                         </LinearLayout>
                     </LinearLayout>
                     <LinearLayout
@@ -325,7 +336,8 @@
                                 android:hint="이메일을 입력하세요"
                                 android:inputType="text"
                                 android:textColor="@color/gray7"
-                                android:textSize="14sp" />
+                                android:textSize="14sp"
+                                android:text="@={viewModel.user.email}"/>
                         </LinearLayout>
                     </LinearLayout>
                     <LinearLayout
@@ -388,6 +400,7 @@
                                     android:textSize="14sp" />
                             </LinearLayout>
                             <androidx.appcompat.widget.AppCompatButton
+                                android:id="@+id/button_email_auth"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:background="@drawable/background_rounded_gray"
