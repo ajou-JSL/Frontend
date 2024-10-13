@@ -43,7 +43,7 @@ public class SignupRepository {
             public void onFailure(Call<SignupApi.EmailAuthResponse> call, Throwable t) {
                 callback.onResult(new Pair<Boolean,String>(false, "네트워크 연결 실패"));
             }
-        }
-    });
+        });
+
     }
 }
