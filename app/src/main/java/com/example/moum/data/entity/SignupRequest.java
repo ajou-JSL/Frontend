@@ -1,12 +1,11 @@
 package com.example.moum.data.entity;
 
-public class User {
+public class SignupRequest {
     private String name;
     private String id;
     private String password;
     private String passwordCheck;
     private String email;
-
 
     public String getName() {
         return name;
@@ -23,7 +22,6 @@ public class User {
     public String getEmail() {
         return email;
     }
-
 
     public void setName(String name) {
         this.name = name;

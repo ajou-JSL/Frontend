@@ -3,6 +3,8 @@ package com.example.moum.repository;
 import android.util.Pair;
 
 import com.example.moum.data.api.SignupApi;
+import com.example.moum.data.entity.EmailAuthRequest;
+import com.example.moum.data.entity.EmailAuthResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,10 +30,11 @@ public class SignupRepository {
 
     public void emailAuth(String email, com.example.moum.repository.Callback<Pair<Boolean, String>> callback) {
 
-        Call<SignupApi.EmailAuthResponse> result = signupApi.emailAuth(email);
-        result.enqueue(new Callback<SignupApi.EmailAuthResponse>() {
+        EmailAuthRequest emailAuthRequest = new EmailAuthRequest(email);
+        Call<EmailAuthResponse> result = signupApi.emailAuth(emailAuthRequest);
+        result.enqueue(new Callback<EmailAuthResponse>() {
             @Override
-            public void onResponse(Call<SignupApi.EmailAuthResponse> call, Response<SignupApi.EmailAuthResponse> response) {
+            public void onResponse(Call<EmailAuthResponse> call, Response<EmailAuthResponse> response) {
                 if (response.isSuccessful()) {
                     callback.onResult(new Pair<Boolean,String>(true, "이메일 인증 성공"));
                 } else {
@@ -40,7 +43,7 @@ public class SignupRepository {
             }
 
             @Override
-            public void onFailure(Call<SignupApi.EmailAuthResponse> call, Throwable t) {
+            public void onFailure(Call<EmailAuthResponse> call, Throwable t) {
                 callback.onResult(new Pair<Boolean,String>(false, "네트워크 연결 실패"));
             }
         });

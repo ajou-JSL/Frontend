@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.moum.data.entity.User;
+import com.example.moum.data.entity.SignupRequest;
 import com.example.moum.repository.SignupRepository;
 
 import java.util.regex.Pattern;
@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 public class SignupViewModel extends ViewModel {
 
     private SignupRepository signupRepository;
-    private final MutableLiveData<User> user = new MutableLiveData<>(new User());
+    private final MutableLiveData<SignupRequest> user = new MutableLiveData<>(new SignupRequest());
     private final MutableLiveData<Pair<Boolean, String>> isEmailAuthSuccess = new MutableLiveData<>();
 
     public SignupViewModel() {
@@ -22,7 +22,7 @@ public class SignupViewModel extends ViewModel {
     }
 
     /*getter, setter*/
-    public LiveData<User> getUser() {
+    public LiveData<SignupRequest> getUser() {
         return user;
     }
 
@@ -51,14 +51,6 @@ public class SignupViewModel extends ViewModel {
         signupRepository.emailAuth(email, result -> {
             setIsEmailAuthSuccess(result.first, result.second);
         });
-    }
-
-    public void storeBasic(){
-
-    }
-
-    public void storeProfile(){
-
     }
 
     public void signup(){

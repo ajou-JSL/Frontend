@@ -1,41 +1,23 @@
 package com.example.moum.data.api;
 
-import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
+import com.example.moum.data.entity.EmailAuthRequest;
+import com.example.moum.data.entity.EmailAuthResponse;
+import com.example.moum.data.entity.SignupResponse;
+import com.example.moum.data.entity.SignupRequest;
+
 import retrofit2.Call;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Multipart;
+import retrofit2.http.Body;
 import retrofit2.http.POST;
-import retrofit2.http.Part;
-import retrofit2.http.Query;
 
 public interface SignupApi {
 
     @POST("/api/send-email")
     Call<EmailAuthResponse> emailAuth(
-        @Query("email") String email
+            @Body EmailAuthRequest emailAuthRequest
     );
 
-    class EmailAuthResponse {
-        private String success;
-        private String verifyCode;
-
-        public String getSuccess() {
-            return success;
-        }
-
-        public String getVerifyCode() {
-            return verifyCode;
-        }
-
-        public void setSuccess(String success) {
-            this.success = success;
-        }
-
-        public void setVerifyCode(String verifyCode) {
-            this.verifyCode = verifyCode;
-        }
-
-    }
+    @POST("/signup")
+    Call<SignupResponse> signup(
+            @Body SignupRequest signupRequest
+    );
 }

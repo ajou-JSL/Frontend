@@ -442,8 +442,9 @@
             android:gravity="center_vertical">
 
             <CheckBox
-                android:layout_width="20dp"
-                android:layout_height="20dp"/>
+                android:id="@+id/checkbox_personal_agreement"
+                android:layout_width="15dp"
+                android:layout_height="20dp" />
             <TextView
                 android:textColor="@color/gray4"
                 android:textSize="15sp"
@@ -467,6 +468,7 @@
 
         </LinearLayout>
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_signup_next"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/background_rounded_neon_mint"

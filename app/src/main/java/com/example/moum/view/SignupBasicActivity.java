@@ -1,5 +1,6 @@
 package com.example.moum.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -32,6 +33,19 @@ public class SignupBasicActivity extends AppCompatActivity {
             }
         });
 
+        /*다음 버튼 이벤트*/
+        activitySignupBasicBinding.buttonSignupNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SignupBasicActivity.this, SignupProfileActivity.class);
+                intent.putExtra("name", signupViewModel.getUser().getValue().getName());
+                intent.putExtra("id", signupViewModel.getUser().getValue().getId());
+                intent.putExtra("password", signupViewModel.getUser().getValue().getPassword());
+                intent.putExtra("passwordCheck", signupViewModel.getUser().getValue().getPasswordCheck());
+                intent.putExtra("email", signupViewModel.getUser().getValue().getEmail());
+                startActivity(intent);
+            }
+        });
     }
 
 }
