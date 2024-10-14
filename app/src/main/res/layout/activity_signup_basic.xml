@@ -90,6 +90,7 @@
                                 android:fontFamily="@font/noto_sans_kr_regular"
                                 />
                             <TextView
+                                android:id="@+id/signup_error_name"
                                 android:textColor="@color/red"
                                 android:textSize="9sp"
                                 android:fontFamily="@font/noto_sans_kr_regular"
@@ -100,6 +101,7 @@
                                 />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/placeholder_signup_name"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
                             android:background="@drawable/background_rounded_gray_stroke"
@@ -119,62 +121,12 @@
                                 android:textColor="@color/gray7"
                                 android:fontFamily="@font/noto_sans_kr_bold"
                                 android:gravity="center_vertical"
-                                android:text="@={viewModel.user.name}"/>
+                                android:text="@={viewModel.user.name}"
+                                android:focusable="true"
+                                android:focusableInTouchMode="true"/>
                         </LinearLayout>
                     </LinearLayout>
-                    <LinearLayout
-                        android:id="@+id/placeholder_id"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginBottom="15dp">
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal"
-                            android:layout_gravity="bottom">
-                            <TextView
-                                android:textColor="@color/gray4"
-                                android:textSize="14sp"
-                                android:layout_marginEnd="17dp"
-                                android:layout_height="wrap_content"
-                                android:layout_width="wrap_content"
-                                android:text="아이디*"
-                                android:fontFamily="@font/noto_sans_kr_regular"
-                                />
-                            <TextView
-                                android:textColor="@color/red"
-                                android:textSize="9sp"
-                                android:fontFamily="@font/noto_sans_kr_regular"
-                                android:layout_height="wrap_content"
-                                android:layout_width="match_parent"
-                                android:text=""
-                                android:layout_gravity="center_vertical"
-                                />
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="48dp"
-                            android:background="@drawable/background_rounded_gray_stroke"
-                            android:paddingLeft="10dp"
-                            android:paddingRight="10dp"
-                            android:paddingTop="10dp"
-                            android:paddingBottom="5dp"                            >
-                        <EditText
-                            android:id="@+id/signup_edittext_id"
-                            android:background="@color/transparent"
-                            android:layout_width="match_parent"
-                            android:layout_height="33dp"
-                            android:inputType="text"
-                            android:hint="아이디를 입력하세요"
-                            android:textColor="@color/gray7"
-                            android:textSize="14sp"
-                            android:fontFamily="@font/noto_sans_kr_bold"
-                            android:gravity="center_vertical"
-                            android:text="@={viewModel.user.id}"/>
-                        </LinearLayout>
-                    </LinearLayout>
+
                     <LinearLayout
                         android:id="@+id/placeholder_password"
                         android:layout_width="match_parent"
@@ -198,6 +150,7 @@
                                 android:fontFamily="@font/noto_sans_kr_regular"
                                 />
                             <TextView
+                                android:id="@+id/signup_error_password"
                                 android:textColor="@color/red"
                                 android:textSize="9sp"
                                 android:fontFamily="@font/noto_sans_kr_regular"
@@ -208,6 +161,7 @@
                                 />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/placeholder_signup_password"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
                             android:background="@drawable/background_rounded_gray_stroke"
@@ -251,6 +205,7 @@
                                 android:fontFamily="@font/noto_sans_kr_regular"
                                 />
                             <TextView
+                                android:id="@+id/signup_error_password_check"
                                 android:textColor="@color/red"
                                 android:textSize="9sp"
                                 android:fontFamily="@font/noto_sans_kr_regular"
@@ -262,6 +217,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/placeholder_signup_password_check"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
                             android:background="@drawable/background_rounded_gray_stroke"
@@ -306,6 +262,7 @@
                                 android:fontFamily="@font/noto_sans_kr_regular"
                                 />
                             <TextView
+                                android:id="@+id/signup_error_email"
                                 android:textColor="@color/red"
                                 android:textSize="9sp"
                                 android:fontFamily="@font/noto_sans_kr_regular"
@@ -317,6 +274,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/placeholder_signup_email"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
                             android:background="@drawable/background_rounded_gray_stroke"
@@ -362,6 +320,7 @@
                                 android:fontFamily="@font/noto_sans_kr_regular"
                                 />
                             <TextView
+                                android:id="@+id/signup_error_email_code"
                                 android:textColor="@color/red"
                                 android:textSize="9sp"
                                 android:fontFamily="@font/noto_sans_kr_regular"
@@ -376,6 +335,7 @@
                             android:layout_height="match_parent"
                             android:orientation="horizontal">
                             <LinearLayout
+                                android:id="@+id/placeholder_signup_email_code"
                                 android:layout_width="0dp"
                                 android:layout_height="48dp"
                                 android:background="@drawable/background_rounded_gray_stroke"
@@ -397,7 +357,8 @@
                                     android:hint="인증코드 6자리"
                                     android:inputType="numberPassword"
                                     android:textColor="@color/gray7"
-                                    android:textSize="14sp" />
+                                    android:textSize="14sp"
+                                    android:text="@={viewModel.user.emailCode}"/>
                             </LinearLayout>
                             <androidx.appcompat.widget.AppCompatButton
                                 android:id="@+id/button_email_auth"
@@ -410,6 +371,19 @@
                                 android:textSize="14sp"
                                 android:fontFamily="@font/noto_sans_kr_semibold">
 
+                            </androidx.appcompat.widget.AppCompatButton>
+
+                            <androidx.appcompat.widget.AppCompatButton
+                                android:id="@+id/button_email_confirm"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:background="@drawable/background_rounded_gray"
+                                android:fontFamily="@font/noto_sans_kr_semibold"
+                                android:text="코드 확인"
+                                android:textColor="@color/gray0"
+                                android:textSize="14sp"
+                                android:visibility="gone">
                             </androidx.appcompat.widget.AppCompatButton>
 
                         </LinearLayout>
@@ -475,7 +449,8 @@
             android:text="다음"
             android:textColor="@color/gray0"
             android:textSize="14sp"
-            android:fontFamily="@font/noto_sans_kr_semibold"/>
+            android:fontFamily="@font/noto_sans_kr_semibold"
+            android:enabled="false"/>
 
         
     </LinearLayout>

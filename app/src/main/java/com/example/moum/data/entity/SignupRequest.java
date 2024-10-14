@@ -6,6 +6,7 @@ public class SignupRequest {
     private String password;
     private String passwordCheck;
     private String email;
+    private String emailCode;
 
     public String getName() {
         return name;
@@ -22,6 +23,9 @@ public class SignupRequest {
     public String getEmail() {
         return email;
     }
+    public String getEmailCode() {
+        return emailCode;
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -37,5 +41,8 @@ public class SignupRequest {
     }
     public void setEmail(String email) {
         this.email = email;
+    }
+    public void setEmailCode(String emailCode) {
+        this.emailCode = emailCode;
     }
 }
