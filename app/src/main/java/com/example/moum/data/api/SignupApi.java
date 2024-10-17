@@ -13,12 +13,12 @@ import retrofit2.http.POST;
 
 public interface SignupApi {
 
-    @POST("/api/send-email")
+    @POST("/send-email")
     Call<EmailAuthResponse> emailAuth(
             @Body EmailAuthRequest emailAuthRequest
     );
 
-    @POST("/api/check-email_code")
+    @POST("/verify-code")
     Call<EmailCodeResponse> checkEmailCode(
             @Body EmailCodeRequest emailCodeRequest
     );

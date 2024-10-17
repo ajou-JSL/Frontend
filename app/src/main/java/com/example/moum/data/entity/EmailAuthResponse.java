@@ -2,23 +2,40 @@ package com.example.moum.data.entity;
 
 public class EmailAuthResponse {
 
-    private String success;
-    private String verifyCode;
+    private int status;
+    private String code;
+    private String message;
+    private String data;
 
-    public String getSuccess() {
-        return success;
+    public int getStatus() {
+        return status;
     }
 
-    public String getVerifyCode() {
-        return verifyCode;
+    public String getCode() {
+        return code;
     }
 
-    public void setSuccess(String success) {
-        this.success = success;
+    public String getMessage() {
+        return message;
     }
 
-    public void setVerifyCode(String verifyCode) {
-        this.verifyCode = verifyCode;
+    public String getData() {
+        return data;
     }
 
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
 }

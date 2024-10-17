@@ -383,7 +383,8 @@
                                 android:text="코드 확인"
                                 android:textColor="@color/gray0"
                                 android:textSize="14sp"
-                                android:visibility="gone">
+                                android:visibility="gone"
+                                android:enabled="false">
                             </androidx.appcompat.widget.AppCompatButton>
 
                         </LinearLayout>
@@ -445,13 +446,13 @@
             android:id="@+id/button_signup_next"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@drawable/background_rounded_neon_mint"
+            android:background="@drawable/background_rounded_neon_mint_bold"
             android:text="다음"
             android:textColor="@color/gray0"
             android:textSize="14sp"
             android:fontFamily="@font/noto_sans_kr_semibold"
-            android:enabled="false"/>
+            />
 
-        
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout></layout>

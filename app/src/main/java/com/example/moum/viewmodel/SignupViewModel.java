@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.moum.data.entity.SignupRequest;
 import com.example.moum.repository.SignupRepository;
+import com.example.moum.utils.ServerCodeMap;
 import com.example.moum.utils.Validation;
 
 import java.util.regex.Pattern;
@@ -21,6 +22,7 @@ public class SignupViewModel extends ViewModel {
     private final MutableLiveData<Validation> isEmailCodeSuccess = new MutableLiveData<>();
     private final MutableLiveData<Validation> isBasicValid = new MutableLiveData<>();
     private final MutableLiveData<Validation> isProfileValid = new MutableLiveData<>();
+    private final MutableLiveData<Validation> isPersonalAgree = new MutableLiveData<>();
 
     public SignupViewModel() {
         signupRepository = SignupRepository.getInstance();
@@ -47,6 +49,8 @@ public class SignupViewModel extends ViewModel {
         isBasicValid.setValue(validation);
     }
 
+    public void setIsPersonalAgree(Validation validation) {isPersonalAgree.setValue(validation);}
+
     public MutableLiveData<Validation> getIsEmailAuthSuccess() {
         return isEmailAuthSuccess;
     }
@@ -61,6 +65,10 @@ public class SignupViewModel extends ViewModel {
 
     public MutableLiveData<Validation> getIsEmailCodeSuccess() {
         return isEmailCodeSuccess;
+    }
+
+    public MutableLiveData<Validation> getIsPersonalAgree() {
+        return isPersonalAgree;
     }
 
     public void emailAuth(){
@@ -139,8 +147,14 @@ public class SignupViewModel extends ViewModel {
         }
 
         /*isEmailAuthSuccess check*/
-        if(isEmailAuthSuccess.getValue() != Validation.VALID_ALL){
+        if(isEmailAuthSuccess.getValue() == null || isEmailAuthSuccess.getValue() != Validation.VALID_ALL){
             setIsBasicValid(Validation.EMAIL_AUTH_NOT_TRIED);
+            return;
+        }
+
+        /*isPersonalAgreement check*/
+        if(isPersonalAgree.getValue() == null || isPersonalAgree.getValue() != Validation.VALID_ALL){
+            setIsBasicValid(Validation.PERSONAL_NOT_AGREE);
             return;
         }
 
@@ -176,8 +190,14 @@ public class SignupViewModel extends ViewModel {
             return;
         }
 
+        /*emailAuthSuccess check*/
+        if(getIsEmailAuthSuccess().getValue() == null | getIsEmailAuthSuccess().getValue() != Validation.VALID_ALL){
+            setIsEmailCodeSuccess(Validation.EMAIL_AUTH_NOT_TRIED);
+        }
+        String email = user.getValue().getEmail();
+
         /*goto repository*/
-        signupRepository.checkEmailCode(emailCode, this::setIsEmailCodeSuccess);
+        signupRepository.checkEmailCode(email, emailCode, this::setIsEmailCodeSuccess);
     }
 
 

@@ -17,9 +17,13 @@ public enum Validation {
     PASSWORD_NOT_EQUAL,
 
     //email auth check
-    EMAIL_AUTH_FAILED,
     EMAIL_AUTH_NOT_TRIED,
+    EMAIL_ALREADY_AUTH,
     EMAIL_CODE_FAILED,
+    EMAIL_CODE_NOT_CORRECT,
+
+    //personal agreement
+    PERSONAL_NOT_AGREE,
 
     //error
     NOT_VALID_ANYWAY,
