@@ -101,6 +101,7 @@
                                     android:fontFamily="@font/noto_sans_kr_regular"
                                     />
                                 <TextView
+                                    android:id="@+id/signup_error_nickname"
                                     android:textColor="@color/red"
                                     android:textSize="9sp"
                                     android:fontFamily="@font/noto_sans_kr_regular"
@@ -129,7 +130,9 @@
                                     android:textSize="14sp"
                                     android:textColor="@color/gray7"
                                     android:fontFamily="@font/noto_sans_kr_bold"
-                                    android:gravity="center_vertical"/>
+                                    android:gravity="center_vertical"
+                                    android:focusable="true"
+                                    android:focusableInTouchMode="true"/>
                             </LinearLayout>
                         </LinearLayout>
 
@@ -139,8 +142,8 @@
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:layout_marginBottom="15dp">
-                            
-                            
+
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -153,10 +156,11 @@
                                     android:layout_marginEnd="17dp"
                                     android:layout_height="wrap_content"
                                     android:layout_width="wrap_content"
-                                    android:text="이메일 인증코드*"
+                                    android:text="프로필 사진*"
                                     android:fontFamily="@font/noto_sans_kr_regular"
                                     />
                                 <TextView
+                                    android:id="@+id/signup_error_profile_image"
                                     android:textColor="@color/red"
                                     android:textSize="9sp"
                                     android:fontFamily="@font/noto_sans_kr_regular"
@@ -170,13 +174,13 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:orientation="horizontal">
-                                
-                                <ImageView
+
+                                <de.hdodenhof.circleimageview.CircleImageView
+                                    android:id="@+id/imageview_signup_profile"
                                     android:layout_width="50dp"
                                     android:layout_height="50dp"
-                                    android:src="@drawable/background_circle_gray"
-                                    android:layout_marginRight="10dp"
-                                    />
+                                    android:background="@drawable/background_circle_gray"
+                                    android:layout_marginEnd="10dp"/>
                                 <androidx.appcompat.widget.AppCompatButton
                                     android:id="@+id/button_image_upload"
                                     android:layout_width="0dp"
@@ -217,6 +221,7 @@
                                     android:fontFamily="@font/noto_sans_kr_regular"
                                     />
                                 <TextView
+                                    android:id="@+id/signup_error_profile_description"
                                     android:textColor="@color/red"
                                     android:textSize="9sp"
                                     android:fontFamily="@font/noto_sans_kr_regular"
@@ -245,7 +250,9 @@
                                     android:hint="한 줄 소개를 입력하세요"
                                     android:textColor="@color/gray7"
                                     android:textSize="14sp"
-                                    android:gravity="center_vertical"/>
+                                    android:gravity="center_vertical"
+                                    android:focusable="true"
+                                    android:focusableInTouchMode="true"/>
                             </LinearLayout>
                         </LinearLayout>
                         <LinearLayout
@@ -270,6 +277,7 @@
                                     android:fontFamily="@font/noto_sans_kr_regular"
                                     />
                                 <TextView
+                                    android:id="@+id/signup_error_instrument"
                                     android:textColor="@color/red"
                                     android:textSize="9sp"
                                     android:fontFamily="@font/noto_sans_kr_regular"
@@ -298,7 +306,9 @@
                                     android:hint="연주 악기 또는 분야를 입력하세요"
                                     android:textColor="@color/gray7"
                                     android:textSize="14sp"
-                                    android:gravity="center_vertical"/>
+                                    android:gravity="center_vertical"
+                                    android:focusable="true"
+                                    android:focusableInTouchMode="true"/>
                             </LinearLayout>
                         </LinearLayout>
                         <LinearLayout
@@ -323,6 +333,7 @@
                                     android:fontFamily="@font/noto_sans_kr_regular"
                                     />
                                 <TextView
+                                    android:id="@+id/signup_error_proficiency"
                                     android:textColor="@color/red"
                                     android:textSize="9sp"
                                     android:fontFamily="@font/noto_sans_kr_regular"
@@ -363,6 +374,7 @@
                                     android:fontFamily="@font/noto_sans_kr_regular"
                                     />
                                 <TextView
+                                    android:id="@+id/signup_error_address"
                                     android:textColor="@color/red"
                                     android:textSize="9sp"
                                     android:fontFamily="@font/noto_sans_kr_regular"
@@ -457,7 +469,9 @@
                                     android:textSize="14sp"
                                     android:textColor="@color/gray7"
                                     android:fontFamily="@font/noto_sans_kr_bold"
-                                    android:gravity="center_vertical"/>
+                                    android:gravity="center_vertical"
+                                    android:focusable="true"
+                                    android:focusableInTouchMode="true"/>
                             </LinearLayout>
                         </LinearLayout>
 

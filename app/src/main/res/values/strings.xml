@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">MOUM</string>
+    <string-array name="proficiency_list">
+        <item>하</item>
+        <item>중</item>
+        <item>상</item>
+    </string-array>
+    <string-array name="address_list">
+    </string-array>
 </resources>

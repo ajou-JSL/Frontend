@@ -1,7 +1,6 @@
 package com.example.moum.viewmodel;
 
-import android.util.Log;
-import android.util.Pair;
+import android.net.Uri;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -9,7 +8,6 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.moum.data.entity.SignupRequest;
 import com.example.moum.repository.SignupRepository;
-import com.example.moum.utils.ServerCodeMap;
 import com.example.moum.utils.Validation;
 
 import java.util.regex.Pattern;
@@ -23,6 +21,10 @@ public class SignupViewModel extends ViewModel {
     private final MutableLiveData<Validation> isBasicValid = new MutableLiveData<>();
     private final MutableLiveData<Validation> isProfileValid = new MutableLiveData<>();
     private final MutableLiveData<Validation> isPersonalAgree = new MutableLiveData<>();
+
+    private final MutableLiveData<String> proficiency = new MutableLiveData<>();
+    private final MutableLiveData<String> address = new MutableLiveData<>();
+    private final MutableLiveData<Uri> profileImage = new MutableLiveData<>();
 
     public SignupViewModel() {
         signupRepository = SignupRepository.getInstance();
@@ -51,6 +53,12 @@ public class SignupViewModel extends ViewModel {
 
     public void setIsPersonalAgree(Validation validation) {isPersonalAgree.setValue(validation);}
 
+    public void setProficiency(String string) {proficiency.setValue(string);}
+
+    public void setAddress(String string) {address.setValue(string);}
+
+    public void setProfileImage(Uri uri) {profileImage.setValue(uri);}
+
     public MutableLiveData<Validation> getIsEmailAuthSuccess() {
         return isEmailAuthSuccess;
     }
@@ -69,6 +77,10 @@ public class SignupViewModel extends ViewModel {
 
     public MutableLiveData<Validation> getIsPersonalAgree() {
         return isPersonalAgree;
+    }
+
+    public MutableLiveData<Uri> getProfileImage() {
+        return profileImage;
     }
 
     public void emailAuth(){
@@ -204,4 +216,5 @@ public class SignupViewModel extends ViewModel {
     public void signup(){
         //TO-DO
     }
+
 }

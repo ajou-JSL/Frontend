@@ -3,7 +3,7 @@ package com.example.moum.utils;
 
 import java.util.HashMap;
 
-public class ServerCodeMap {
+public class ValueMap {
 
     public static final HashMap<String, Validation> codeToVal = new HashMap<String, Validation>() {
         {

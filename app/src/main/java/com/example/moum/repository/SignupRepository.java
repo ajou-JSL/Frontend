@@ -9,7 +9,7 @@ import com.example.moum.data.entity.EmailCodeRequest;
 import com.example.moum.data.entity.EmailCodeResponse;
 import com.example.moum.data.entity.ErrorDetail;
 import com.example.moum.data.entity.ErrorResponse;
-import com.example.moum.utils.ServerCodeMap;
+import com.example.moum.utils.ValueMap;
 import com.example.moum.utils.Validation;
 import com.google.gson.Gson;
 
@@ -48,7 +48,7 @@ public class SignupRepository {
                     /*성공적으로 응답을 받았을 때*/
                     EmailAuthResponse responseBody = response.body();
                     Log.d(TAG, "status: " + responseBody.getStatus() + "code: " + responseBody.getCode() + "message: " + responseBody.getMessage() + "data: " + responseBody.getData());
-                    Validation validation = ServerCodeMap.getCodeToVal(responseBody.getCode());
+                    Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     callback.onResult(validation);
 
                 } else {
@@ -60,7 +60,7 @@ public class SignupRepository {
                             for (ErrorDetail error : errorResponse.getErrors()) {
                                 Log.d(TAG, "Field: " + error.getField() + " Reason: " + error.getReason());
                             }
-                            Validation validation = ServerCodeMap.getCodeToVal(errorResponse.getCode());
+                            Validation validation = ValueMap.getCodeToVal(errorResponse.getCode());
                             callback.onResult(validation);
                         }
                     } catch (Exception e) {
@@ -91,7 +91,7 @@ public class SignupRepository {
                     /*성공적으로 응답을 받았을 때*/
                     EmailCodeResponse responseBody = response.body();
                     Log.d(TAG, "status: " + responseBody.getStatus() + "code: " + responseBody.getCode() + "message: " + responseBody.getMessage() + "data: " + responseBody.getData());
-                    Validation validation = ServerCodeMap.getCodeToVal(responseBody.getCode());
+                    Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     callback.onResult(validation);
                 } else {
 
@@ -102,7 +102,7 @@ public class SignupRepository {
                             for (ErrorDetail error : errorResponse.getErrors()) {
                                 Log.d(TAG, "Field: " + error.getField() + " Reason: " + error.getReason());
                             }
-                            Validation validation = ServerCodeMap.getCodeToVal(errorResponse.getCode());
+                            Validation validation = ValueMap.getCodeToVal(errorResponse.getCode());
                             callback.onResult(validation);
                         }
                     } catch (Exception e) {
@@ -117,4 +117,5 @@ public class SignupRepository {
             }
         });
     }
+
 }
