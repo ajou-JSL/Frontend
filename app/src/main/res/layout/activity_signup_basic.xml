@@ -441,16 +441,16 @@
                 android:alpha="0.3"/>
 
         </LinearLayout>
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_signup_next"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/background_rounded_neon_mint_bold"
+            android:fontFamily="@font/noto_sans_kr_semibold"
             android:text="다음"
             android:textColor="@color/gray0"
-            android:textSize="14sp"
-            android:fontFamily="@font/noto_sans_kr_semibold"
-            />
+            android:textSize="14sp" />
 
 
     </LinearLayout>
