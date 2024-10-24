@@ -58,7 +58,8 @@
                 android:fontFamily="@font/noto_sans_kr_bold"
                 android:gravity="center_vertical"
                 android:focusable="true"
-                android:focusableInTouchMode="true"/>
+                android:focusableInTouchMode="true"
+                />
         </LinearLayout>
     </LinearLayout>
 

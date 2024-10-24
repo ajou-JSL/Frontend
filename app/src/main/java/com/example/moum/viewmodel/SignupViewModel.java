@@ -1,37 +1,44 @@
 package com.example.moum.viewmodel;
 
 import android.net.Uri;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.moum.data.entity.SignupRequest;
+import com.example.moum.data.entity.Record;
+import com.example.moum.data.entity.User;
 import com.example.moum.repository.SignupRepository;
 import com.example.moum.utils.Validation;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class SignupViewModel extends ViewModel {
 
     private SignupRepository signupRepository;
-    private final MutableLiveData<SignupRequest> user = new MutableLiveData<>(new SignupRequest());
+    public String TAG = getClass().toString();
+    private final MutableLiveData<User> user = new MutableLiveData<>(new User());
     private final MutableLiveData<Validation> isEmailAuthSuccess = new MutableLiveData<>();
     private final MutableLiveData<Validation> isEmailCodeSuccess = new MutableLiveData<>();
     private final MutableLiveData<Validation> isBasicValid = new MutableLiveData<>();
     private final MutableLiveData<Validation> isProfileValid = new MutableLiveData<>();
     private final MutableLiveData<Validation> isPersonalAgree = new MutableLiveData<>();
+    private final MutableLiveData<Validation> isSignupSuccess = new MutableLiveData<>();
 
-    private final MutableLiveData<String> proficiency = new MutableLiveData<>();
-    private final MutableLiveData<String> address = new MutableLiveData<>();
+    private final MutableLiveData<String> proficiency = new MutableLiveData<>("하");
+    private final MutableLiveData<String> address = new MutableLiveData<>("");
     private final MutableLiveData<Uri> profileImage = new MutableLiveData<>();
+    private ArrayList<Record> records = new ArrayList<>();
 
     public SignupViewModel() {
         signupRepository = SignupRepository.getInstance();
     }
 
     /*getter, setter*/
-    public LiveData<SignupRequest> getUser() {
+    public LiveData<User> getUser() {
         return user;
     }
 
@@ -48,10 +55,12 @@ public class SignupViewModel extends ViewModel {
     }
 
     public void setIsProfileValid(Validation validation) {
-        isBasicValid.setValue(validation);
+        isProfileValid.setValue(validation);
     }
 
     public void setIsPersonalAgree(Validation validation) {isPersonalAgree.setValue(validation);}
+
+    public void setIsSignupSuccess(Validation validation) {isSignupSuccess.setValue(validation);}
 
     public void setProficiency(String string) {proficiency.setValue(string);}
 
@@ -77,6 +86,10 @@ public class SignupViewModel extends ViewModel {
 
     public MutableLiveData<Validation> getIsPersonalAgree() {
         return isPersonalAgree;
+    }
+
+    public MutableLiveData<Validation> getIsSignupSuccess() {
+        return isSignupSuccess;
     }
 
     public MutableLiveData<Uri> getProfileImage() {
@@ -181,10 +194,6 @@ public class SignupViewModel extends ViewModel {
 
     }
 
-    public void validCheckProfile(){
-        //TO-DO
-    }
-
     public void validCheckEmailCode(){
 
         /*null check*/
@@ -212,9 +221,64 @@ public class SignupViewModel extends ViewModel {
         signupRepository.checkEmailCode(email, emailCode, this::setIsEmailCodeSuccess);
     }
 
+    public void loadBasic(String name, String password, String email){
+
+        User userValue = user.getValue();
+        userValue.setName(name);
+        userValue.setPassword(password);
+        userValue.setEmail(email);
+    }
+
+    public void validCheckProfile(){
+
+        /*null check*/
+        if(user.getValue() == null){
+            Log.e(TAG, "user가 null");
+            setIsProfileValid(Validation.NOT_VALID_ANYWAY);
+            return;
+        }
+        else if(user.getValue().getNickname() == null || user.getValue().getNickname().isEmpty()) {
+            Log.e(TAG, "nickname이 null");
+            setIsProfileValid(Validation.NICKNAME_NOT_WRITTEN);
+            return;
+        }
+        else if(user.getValue().getInstrument() == null || user.getValue().getInstrument().isEmpty()) {
+            setIsProfileValid(Validation.INSTRUMENT_NOT_WRITTEN);
+            return;
+        }
+        else if(proficiency.getValue() == null || proficiency.getValue().isEmpty()) {
+            setIsProfileValid(Validation.PROFICIENCY_NOT_WRITTEN);
+            return;
+        }
+
+        /*if above all pass, valid all!*/
+        setIsProfileValid(Validation.VALID_ALL);
+    }
+
+
+    public void addRecord(String name, String startDate, String endDate){
+
+        Record newRecord = new Record(name, startDate, endDate);
+        records.add(newRecord);
+
+    }
 
     public void signup(){
-        //TO-DO
+
+
+        /*processing for repository*/
+        User userValue = user.getValue();
+        if(profileImage.getValue() != null)
+            userValue.setProfileImage(profileImage.getValue());
+        if(!records.isEmpty())
+            userValue.setRecords(records);
+        if(proficiency.getValue() != null)
+            userValue.setProficiency(proficiency.getValue());
+        if(address.getValue() != null)
+            userValue.setAddress(address.getValue());
+
+        /*goto repository*/
+        signupRepository.signup(userValue, this::setIsSignupSuccess);
     }
 
 }

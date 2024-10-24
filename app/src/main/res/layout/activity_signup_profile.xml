@@ -4,6 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/SignupProfileActivity"
     tools:context=".view.SignupProfileActivity">
+    <data>
+        <!-- ViewModel을 위한 variable 정의 -->
+        <variable
+            name="viewModel"
+            type="com.example.moum.viewmodel.SignupViewModel" />
+    </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -48,7 +54,7 @@
 
                     </LinearLayout>
                     <TextView
-                        android:textColor="@color/gray4"
+                        android:textColor="@color/gray7"
                         android:textSize="18sp"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
@@ -132,8 +138,10 @@
                                     android:textColor="@color/gray7"
                                     android:fontFamily="@font/noto_sans_kr_bold"
                                     android:gravity="center_vertical"
+                                    android:text="@={viewModel.user.nickname}"
                                     android:focusable="true"
-                                    android:focusableInTouchMode="true"/>
+                                    android:focusableInTouchMode="true"
+                                    />
                             </LinearLayout>
                         </LinearLayout>
 
@@ -157,7 +165,7 @@
                                     android:layout_marginEnd="17dp"
                                     android:layout_height="wrap_content"
                                     android:layout_width="wrap_content"
-                                    android:text="프로필 사진*"
+                                    android:text="프로필 사진"
                                     android:fontFamily="@font/noto_sans_kr_regular"
                                     />
                                 <TextView
@@ -254,7 +262,9 @@
                                     android:textSize="14sp"
                                     android:gravity="center_vertical"
                                     android:focusable="true"
-                                    android:focusableInTouchMode="true"/>
+                                    android:focusableInTouchMode="true"
+                                    android:text="@={viewModel.user.profileDescription}"
+                                    />
                             </LinearLayout>
                         </LinearLayout>
                         <LinearLayout
@@ -311,7 +321,9 @@
                                     android:textSize="14sp"
                                     android:gravity="center_vertical"
                                     android:focusable="true"
-                                    android:focusableInTouchMode="true"/>
+                                    android:focusableInTouchMode="true"
+                                    android:text="@={viewModel.user.instrument}"
+                                    />
                             </LinearLayout>
                         </LinearLayout>
                         <LinearLayout
@@ -458,9 +470,10 @@
             >
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_signup_submit"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@drawable/background_rounded_neon_mint"
+                android:background="@drawable/background_rounded_neon_mint_bold"
                 android:text="다음"
                 android:textColor="@color/gray0"
                 android:textSize="14sp"

@@ -1,4 +1,4 @@
-package com.example.moum.data.entity;
+package com.example.moum.data.dto;
 
 import java.util.List;
 

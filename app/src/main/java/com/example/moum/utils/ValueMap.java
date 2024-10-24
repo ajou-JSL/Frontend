@@ -10,11 +10,11 @@ public class ValueMap {
             /**
              * TO-DO 승우님과 코드 맞춰봐야함, 아직까지는 유효하지 않은 코드들임
              */
-            put("C002", Validation.EMAIL_NOT_FORMAL);
-            put("E001", Validation.EMAIL_ALREADY_AUTH);
-            put("E001", Validation.VALID_ALL);
-            put("C006", Validation.EMAIL_CODE_FAILED);
-            put("E001", Validation.EMAIL_CODE_NOT_CORRECT);
+            put("0000", Validation.VALID_ALL);
+            put("E001", Validation.EMAIL_NOT_FORMAL);
+            put("E002", Validation.EMAIL_ALREADY_AUTH);
+            put("E003", Validation.EMAIL_CODE_FAILED);
+            put("E004", Validation.EMAIL_CODE_NOT_CORRECT);
         }
     };
 

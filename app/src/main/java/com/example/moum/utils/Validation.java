@@ -8,6 +8,9 @@ public enum Validation {
     PASSWORD_CHECK_NOT_WRITTEN,
     EMAIL_NOT_WRITTEN,
     EMAIL_CODE_NOT_WRITTEN,
+    NICKNAME_NOT_WRITTEN,
+    INSTRUMENT_NOT_WRITTEN,
+    PROFICIENCY_NOT_WRITTEN,
 
     //not formal
     NAME_NOT_FORMAL,
@@ -24,6 +27,9 @@ public enum Validation {
 
     //personal agreement
     PERSONAL_NOT_AGREE,
+
+    //basic signup check
+    BASIC_SIGNUP_NOT_TRIED,
 
     //error
     NOT_VALID_ANYWAY,

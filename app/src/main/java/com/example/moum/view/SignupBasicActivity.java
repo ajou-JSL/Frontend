@@ -174,13 +174,15 @@ public class SignupBasicActivity extends AppCompatActivity {
                 binding.signupEdittextPasswordCheck.requestFocus();
                 binding.signupErrorPasswordCheck.setText("비밀번호와 비밀번호 확인이 일치하지 않습니다. ");
             }
+            else if(isBasicValid == Validation.NETWORK_FAILED) {
+                Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+            }
             else if(isBasicValid == Validation.VALID_ALL) {
 
                 /*SignupProfile로 이동*/
                 Intent intent = new Intent(SignupBasicActivity.this, SignupProfileActivity.class);
                 intent.putExtra("name", signupViewModel.getUser().getValue().getName());
                 intent.putExtra("password", signupViewModel.getUser().getValue().getPassword());
-                intent.putExtra("passwordCheck", signupViewModel.getUser().getValue().getPasswordCheck());
                 intent.putExtra("email", signupViewModel.getUser().getValue().getEmail());
                 startActivity(intent);
             }

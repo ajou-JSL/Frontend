@@ -1,7 +1,6 @@
-package com.example.moum.data.entity;
+package com.example.moum.data.dto;
 
-public class EmailAuthResponse {
-
+public class EmailCodeResponse {
     private int status;
     private String code;
     private String message;
