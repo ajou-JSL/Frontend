@@ -7,10 +7,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -25,7 +23,6 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
-import com.example.moum.MainActivity;
 import com.example.moum.R;
 import com.example.moum.databinding.ActivitySignupProfileBinding;
 import com.example.moum.utils.Validation;
@@ -240,7 +237,7 @@ public class SignupProfileActivity extends AppCompatActivity {
             else if(isSignupSuccess == Validation.VALID_ALL) {
 
                 /*다음 Acitivity로 이동*/
-                Intent nextIntent = new Intent(SignupProfileActivity.this, MainActivity.class);
+                Intent nextIntent = new Intent(SignupProfileActivity.this, InitialActivity.class);
                 startActivity(nextIntent);
             }
             else{

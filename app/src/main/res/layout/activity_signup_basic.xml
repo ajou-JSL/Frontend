@@ -46,7 +46,7 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:id="@+id/button_return"
+                        android:id="@+id/button_signup_return"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:src="@drawable/button_rounded_left"

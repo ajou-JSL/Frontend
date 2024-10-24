@@ -35,6 +35,16 @@ public class SignupBasicActivity extends AppCompatActivity {
         signupViewModel = new ViewModelProvider(this).get(SignupViewModel.class);
         binding.setViewModel(signupViewModel);
 
+        /*이전 버튼 클릭 이벤트*/
+        binding.buttonSignupReturn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SignupBasicActivity.this, InitialActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
         /*이메일 인증 버튼 이벤트*/
         binding.buttonEmailAuth.setOnClickListener(new View.OnClickListener() {
             @Override
