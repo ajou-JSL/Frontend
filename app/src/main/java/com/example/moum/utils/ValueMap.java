@@ -15,6 +15,7 @@ public class ValueMap {
             put("E002", Validation.EMAIL_ALREADY_AUTH);
             put("E003", Validation.EMAIL_CODE_FAILED);
             put("E004", Validation.EMAIL_CODE_NOT_CORRECT);
+            put("A004", Validation.LOGIN_FAILED);
         }
     };
 

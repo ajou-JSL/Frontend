@@ -31,6 +31,9 @@ public enum Validation {
     //basic signup check
     BASIC_SIGNUP_NOT_TRIED,
 
+    //login
+    LOGIN_FAILED,
+
     //error
     NOT_VALID_ANYWAY,
     NETWORK_FAILED,

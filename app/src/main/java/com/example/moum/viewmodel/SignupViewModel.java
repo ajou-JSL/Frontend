@@ -233,12 +233,10 @@ public class SignupViewModel extends ViewModel {
 
         /*null check*/
         if(user.getValue() == null){
-            Log.e(TAG, "user가 null");
             setIsProfileValid(Validation.NOT_VALID_ANYWAY);
             return;
         }
         else if(user.getValue().getNickname() == null || user.getValue().getNickname().isEmpty()) {
-            Log.e(TAG, "nickname이 null");
             setIsProfileValid(Validation.NICKNAME_NOT_WRITTEN);
             return;
         }
