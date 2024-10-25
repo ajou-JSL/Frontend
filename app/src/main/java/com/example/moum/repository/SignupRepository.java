@@ -1,17 +1,15 @@
 package com.example.moum.repository;
 
-import android.net.Uri;
 import android.util.Log;
 
 import com.example.moum.data.api.SignupApi;
 import com.example.moum.data.dto.EmailAuthRequest;
-import com.example.moum.data.dto.EmailAuthResponse;
 import com.example.moum.data.dto.EmailCodeRequest;
-import com.example.moum.data.dto.EmailCodeResponse;
 import com.example.moum.data.dto.ErrorDetail;
 import com.example.moum.data.dto.ErrorResponse;
 import com.example.moum.data.dto.SignupRequest;
-import com.example.moum.data.dto.SignupResponse;
+import com.example.moum.data.dto.SuccessResponse;
+import com.example.moum.data.entity.Result;
 import com.example.moum.data.entity.User;
 import com.example.moum.utils.ValueMap;
 import com.example.moum.utils.Validation;
@@ -45,20 +43,21 @@ public class SignupRepository {
         return instance;
     }
 
-    public void emailAuth(String email, com.example.moum.utils.Callback<Validation> callback) {
+    public void emailAuth(String email, com.example.moum.utils.Callback<Result<Object>> callback) {
 
         EmailAuthRequest emailAuthRequest = new EmailAuthRequest(email);
-        Call<EmailAuthResponse> result = signupApi.emailAuth(emailAuthRequest);
-        result.enqueue(new Callback<EmailAuthResponse>() {
+        Call<SuccessResponse> result = signupApi.emailAuth(emailAuthRequest);
+        result.enqueue(new Callback<SuccessResponse>() {
             @Override
-            public void onResponse(Call<EmailAuthResponse> call, Response<EmailAuthResponse> response) {
+            public void onResponse(Call<SuccessResponse> call, Response<SuccessResponse> response) {
                 if (response.isSuccessful()) {
 
                     /*성공적으로 응답을 받았을 때*/
-                    EmailAuthResponse responseBody = response.body();
+                    SuccessResponse responseBody = response.body();
                     Log.d(TAG, "status: " + responseBody.getStatus() + "code: " + responseBody.getCode() + "message: " + responseBody.getMessage() + "data: " + responseBody.getData());
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
-                    callback.onResult(validation);
+                    Result<Object> result = new Result<>(validation);
+                    callback.onResult(result);
 
                 } else {
 
@@ -70,7 +69,8 @@ public class SignupRepository {
                                 Log.d(TAG, "Field: " + error.getField() + " Reason: " + error.getReason());
                             }
                             Validation validation = ValueMap.getCodeToVal(errorResponse.getCode());
-                            callback.onResult(validation);
+                            Result<Object> result = new Result<>(validation);
+                            callback.onResult(result);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -79,29 +79,31 @@ public class SignupRepository {
             }
 
             @Override
-            public void onFailure(Call<EmailAuthResponse> call, Throwable t) {
+            public void onFailure(Call<SuccessResponse> call, Throwable t) {
 
                 /*요청과 응답에 실패했을 때*/
-                callback.onResult(Validation.NETWORK_FAILED);
+                Result<Object> result = new Result<>(Validation.NETWORK_FAILED);
+                callback.onResult(result);
             }
         });
 
     }
 
-    public void checkEmailCode(String email, String verifyCode, com.example.moum.utils.Callback<Validation> callback) {
+    public void checkEmailCode(String email, String verifyCode, com.example.moum.utils.Callback<Result<Object>> callback) {
 
         EmailCodeRequest emailCodeRequest = new EmailCodeRequest(email, verifyCode);
-        Call<EmailCodeResponse> result = signupApi.checkEmailCode(emailCodeRequest);
-        result.enqueue(new Callback<EmailCodeResponse>() {
+        Call<SuccessResponse> result = signupApi.checkEmailCode(emailCodeRequest);
+        result.enqueue(new Callback<SuccessResponse>() {
             @Override
-            public void onResponse(Call<EmailCodeResponse> call, Response<EmailCodeResponse> response) {
+            public void onResponse(Call<SuccessResponse> call, Response<SuccessResponse> response) {
                 if (response.isSuccessful()) {
 
                     /*성공적으로 응답을 받았을 때*/
-                    EmailCodeResponse responseBody = response.body();
+                    SuccessResponse responseBody = response.body();
                     Log.d(TAG, "status: " + responseBody.getStatus() + "code: " + responseBody.getCode() + "message: " + responseBody.getMessage() + "data: " + responseBody.getData());
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
-                    callback.onResult(validation);
+                    Result<Object> result = new Result<>(validation);
+                    callback.onResult(result);
                 } else {
 
                     /*응답은 받았으나 문제 발생 시*/
@@ -112,7 +114,8 @@ public class SignupRepository {
                                 Log.d(TAG, "Field: " + error.getField() + " Reason: " + error.getReason());
                             }
                             Validation validation = ValueMap.getCodeToVal(errorResponse.getCode());
-                            callback.onResult(validation);
+                            Result<Object> result = new Result<>(validation);
+                            callback.onResult(result);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -121,13 +124,14 @@ public class SignupRepository {
             }
 
             @Override
-            public void onFailure(Call<EmailCodeResponse> call, Throwable t) {
-                callback.onResult(Validation.NETWORK_FAILED);
+            public void onFailure(Call<SuccessResponse> call, Throwable t) {
+                Result<Object> result = new Result<>(Validation.NETWORK_FAILED);
+                callback.onResult(result);
             }
         });
     }
 
-    public void signup(User user, com.example.moum.utils.Callback<Validation> callback) {
+    public void signup(User user, com.example.moum.utils.Callback<Result<Object>> callback) {
 
         SignupRequest signupRequest = new SignupRequest(
             user.getName(),
@@ -144,17 +148,18 @@ public class SignupRepository {
         RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpeg"), file);
         MultipartBody.Part profileImage = MultipartBody.Part.createFormData("profileImage", file.getName(), requestFile);
 
-        Call<SignupResponse> result = signupApi.signup(signupRequest, profileImage);
-        result.enqueue(new Callback<SignupResponse>() {
+        Call<SuccessResponse> result = signupApi.signup(signupRequest, profileImage);
+        result.enqueue(new Callback<SuccessResponse>() {
             @Override
-            public void onResponse(Call<SignupResponse> call, Response<SignupResponse> response) {
+            public void onResponse(Call<SuccessResponse> call, Response<SuccessResponse> response) {
                 if (response.isSuccessful()) {
 
                     /*성공적으로 응답을 받았을 때*/
-                    SignupResponse responseBody = response.body();
+                    SuccessResponse responseBody = response.body();
                     Log.d(TAG, "status: " + responseBody.getStatus() + "code: " + responseBody.getCode() + "message: " + responseBody.getMessage() + "data: " + responseBody.getData());
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
-                    callback.onResult(validation);
+                    Result<Object> result = new Result<>(validation);
+                    callback.onResult(result);
                 } else {
 
                     /*응답은 받았으나 문제 발생 시*/
@@ -165,7 +170,8 @@ public class SignupRepository {
                                 Log.d(TAG, "Field: " + error.getField() + " Reason: " + error.getReason());
                             }
                             Validation validation = ValueMap.getCodeToVal(errorResponse.getCode());
-                            callback.onResult(validation);
+                            Result<Object> result = new Result<>(validation);
+                            callback.onResult(result);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -174,8 +180,9 @@ public class SignupRepository {
             }
 
             @Override
-            public void onFailure(Call<SignupResponse> call, Throwable t) {
-                callback.onResult(Validation.NETWORK_FAILED);
+            public void onFailure(Call<SuccessResponse> call, Throwable t) {
+                Result<Object> result = new Result<>(Validation.NETWORK_FAILED);
+                callback.onResult(result);
             }
         });
     }

@@ -3,26 +3,18 @@ package com.example.moum.repository;
 import android.util.Log;
 
 import com.example.moum.data.api.LoginApi;
-import com.example.moum.data.api.SignupApi;
 import com.example.moum.data.dto.ErrorDetail;
 import com.example.moum.data.dto.ErrorResponse;
 import com.example.moum.data.dto.LoginRequest;
-import com.example.moum.data.dto.SignupRequest;
-import com.example.moum.data.dto.SignupResponse;
 import com.example.moum.data.dto.SuccessResponse;
 import com.example.moum.data.entity.Result;
 import com.example.moum.data.entity.Token;
-import com.example.moum.data.entity.User;
 import com.example.moum.utils.Validation;
 import com.example.moum.utils.ValueMap;
 import com.google.gson.Gson;
 
-import java.io.File;
 import java.util.List;
 
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

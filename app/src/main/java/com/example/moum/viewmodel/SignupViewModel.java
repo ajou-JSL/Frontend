@@ -114,7 +114,9 @@ public class SignupViewModel extends ViewModel {
         }
 
         /*goto repository*/
-        signupRepository.emailAuth(email, this::setIsEmailAuthSuccess);
+        signupRepository.emailAuth(email, result -> {
+            setIsEmailAuthSuccess(result.getValidation());
+        });
     }
 
     public void validCheckBasic(){
@@ -218,7 +220,9 @@ public class SignupViewModel extends ViewModel {
         String email = user.getValue().getEmail();
 
         /*goto repository*/
-        signupRepository.checkEmailCode(email, emailCode, this::setIsEmailCodeSuccess);
+        signupRepository.checkEmailCode(email, emailCode, result -> {
+            setIsEmailAuthSuccess(result.getValidation());
+        });
     }
 
     public void loadBasic(String name, String password, String email){
@@ -276,7 +280,9 @@ public class SignupViewModel extends ViewModel {
             userValue.setAddress(address.getValue());
 
         /*goto repository*/
-        signupRepository.signup(userValue, this::setIsSignupSuccess);
+        signupRepository.signup(userValue, result -> {
+            setIsEmailAuthSuccess(result.getValidation());
+        });
     }
 
 }

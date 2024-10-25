@@ -1,7 +1,5 @@
 package com.example.moum.data.api;
 
-import com.example.moum.data.dto.EmailAuthRequest;
-import com.example.moum.data.dto.EmailAuthResponse;
 import com.example.moum.data.dto.LoginRequest;
 import com.example.moum.data.dto.SuccessResponse;
 
