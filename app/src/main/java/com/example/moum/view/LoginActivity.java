@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.moum.R;
 import com.example.moum.databinding.ActivityLoginBinding;
+import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.viewmodel.LoginViewModel;
 import com.example.moum.viewmodel.SignupViewModel;
@@ -81,7 +82,6 @@ public class LoginActivity extends AppCompatActivity {
             }
             else if(isLoginSuccess == Validation.VALID_ALL) {
 
-                /*SignupProfile로 이동*/
                 /**
                  * TO-DO: 이동할 액티비티 수정 필요
                  */
@@ -91,6 +91,14 @@ public class LoginActivity extends AppCompatActivity {
             else{
                 Log.e(TAG, "다음 버튼 감시 결과를 알 수 없습니다.");
             }
+        });
+
+        /*자동로그인을 위해 SharedPreference에 토큰 저장*/
+        loginViewModel.getToken().observe(this, token -> {
+
+            SharedPreferenceManager sharedPreferenceManager = new SharedPreferenceManager(context, getString(R.string.preference_file_key));
+            sharedPreferenceManager.setCache(getString(R.string.user_access_token_key), token.getAccess());
+            sharedPreferenceManager.setCache(getString(R.string.user_refresh_token_key), token.getRefresh());
         });
 
         /*placeholder에 focus시 이벤트*/

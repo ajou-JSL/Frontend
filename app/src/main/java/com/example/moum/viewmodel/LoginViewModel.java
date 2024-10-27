@@ -3,19 +3,22 @@ package com.example.moum.viewmodel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.moum.R;
 import com.example.moum.data.dto.LoginRequest;
 import com.example.moum.data.entity.Token;
 import com.example.moum.repository.LoginRepository;
+import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 
 import java.util.regex.Pattern;
 
 public class LoginViewModel extends ViewModel {
 
-    private LoginRepository loginRepository;
+    private final LoginRepository loginRepository;
     private final MutableLiveData<String> email = new MutableLiveData<>();
     private final MutableLiveData<String> password = new MutableLiveData<>();
     private final MutableLiveData<Validation> isLoginSuccess = new MutableLiveData<>();
+    private final MutableLiveData<Token> token = new MutableLiveData<>();
 
     public LoginViewModel(){
         loginRepository = LoginRepository.getInstance();
@@ -31,6 +34,10 @@ public class LoginViewModel extends ViewModel {
 
     public MutableLiveData<Validation> getIsLoginSuccess() {
         return isLoginSuccess;
+    }
+
+    public MutableLiveData<Token> getToken() {
+        return token;
     }
 
     public void setIsLoginSuccess(Validation validation){
@@ -67,16 +74,8 @@ public class LoginViewModel extends ViewModel {
         loginRepository.login(email.getValue(), password.getValue(), result -> {
 
             if(result.getValidation() != null && result.getValidation() == Validation.VALID_ALL && result.getData() != null){
-                Token token = result.getData();
-                String access = token.getAccess();
-                String refresh = token.getRefresh();
-
-                /*sharedReference에 토큰 저장*/
-                /**
-                 * TO-DO
-                 */
+                this.token.setValue(result.getData());
             }
-
             setIsLoginSuccess(result.getValidation());
 
         });
