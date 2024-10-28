@@ -32,10 +32,13 @@ public class SignupRepository {
     private String TAG = getClass().toString();
 
     private SignupRepository() {
-        retrofitClient = RetrofitClient.getClient();
+        retrofitClient = new RetrofitClientManager().getClient();
         signupApi = retrofitClient.create(SignupApi.class);
     }
-
+    public SignupRepository(Retrofit retrofitClient, SignupApi signupApi){
+        this.retrofitClient = retrofitClient;
+        this.signupApi = signupApi;
+    }
     public static SignupRepository getInstance() {
         if (instance == null) {
             instance = new SignupRepository();
@@ -144,9 +147,11 @@ public class SignupRepository {
             user.getAddress(),
             user.getRecords()
         );
-        File file = new File(user.getProfileImage().toString());
-        RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpeg"), file);
-        MultipartBody.Part profileImage = MultipartBody.Part.createFormData("profileImage", file.getName(), requestFile);
+        MultipartBody.Part profileImage = null;
+        if(user.getProfileImage() != null){
+            RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpg"), user.getProfileImage());
+            profileImage = MultipartBody.Part.createFormData("profileImage", user.getProfileImage().getName(), requestFile);
+        }
 
         Call<SuccessResponse> result = signupApi.signup(signupRequest, profileImage);
         result.enqueue(new Callback<SuccessResponse>() {

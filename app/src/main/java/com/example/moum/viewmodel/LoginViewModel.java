@@ -24,6 +24,10 @@ public class LoginViewModel extends ViewModel {
         loginRepository = LoginRepository.getInstance();
     }
 
+    public LoginViewModel(LoginRepository loginRepository){
+        this.loginRepository = loginRepository;
+    }
+
     public MutableLiveData<String> getEmail() {
         return email;
     }
@@ -39,6 +43,10 @@ public class LoginViewModel extends ViewModel {
     public MutableLiveData<Token> getToken() {
         return token;
     }
+
+    public void setEmail(String email) { this.email.setValue(email); }
+
+    public void setPassword(String password) { this.password.setValue(password); }
 
     public void setIsLoginSuccess(Validation validation){
         isLoginSuccess.setValue(validation);

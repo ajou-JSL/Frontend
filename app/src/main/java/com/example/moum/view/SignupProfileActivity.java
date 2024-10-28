@@ -3,6 +3,8 @@ package com.example.moum.view;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +19,7 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
@@ -28,6 +31,14 @@ import com.example.moum.databinding.ActivitySignupProfileBinding;
 import com.example.moum.utils.Validation;
 import com.example.moum.viewmodel.SignupViewModel;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 
 public class SignupProfileActivity extends AppCompatActivity {
@@ -37,6 +48,7 @@ public class SignupProfileActivity extends AppCompatActivity {
     private Context context;
     public String TAG = getClass().toString();
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -79,6 +91,7 @@ public class SignupProfileActivity extends AppCompatActivity {
 
         /*사진 업로드 감시*/
         signupViewModel.getProfileImage().observe(this, uri -> {
+            Log.e(TAG, "Uri: " + uri.toString());
             Glide.with(this).load(uri).into(binding.imageviewSignupProfile);
         });
 
@@ -154,6 +167,7 @@ public class SignupProfileActivity extends AppCompatActivity {
                     }
                 });
                 buttonRecordStart.setOnClickListener(new View.OnClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void onClick(View view) {
                         DatePickerDialog datePickerDialog = new DatePickerDialog(SignupProfileActivity.this,
@@ -216,12 +230,15 @@ public class SignupProfileActivity extends AppCompatActivity {
                     AppCompatButton buttonRecordEnd = recordChild.findViewById(R.id.button_record_date_end);
 
                     String recordName = edittextRecordName.getText().toString();
-                    String startDate = buttonRecordStart.getText().toString();
-                    String endDate = buttonRecordEnd.getText().toString();
+                    String startDateString = buttonRecordStart.getText().toString();
+                    String endDateString = buttonRecordEnd.getText().toString();
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                    LocalDate startDate = LocalDate.parse(startDateString, formatter);
+                    LocalDate endDate = LocalDate.parse(endDateString, formatter);
 
                     signupViewModel.addRecord(recordName, startDate, endDate);
                 }
-                signupViewModel.signup();
+                signupViewModel.signup(context);
             }
             else{
                 Log.e(TAG, "다음 버튼 감시 결과를 알 수 없습니다.");
@@ -279,5 +296,28 @@ public class SignupProfileActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private File convertUriToFile(Uri uri){
+
+        File file = null;
+        try {
+            InputStream inputStream = context.getContentResolver().openInputStream(uri);
+            if (inputStream != null) {
+                // 임시 파일 생성
+                file = new File(context.getCacheDir(), "temp_image.jpg");
+                FileOutputStream outputStream = new FileOutputStream(file);
+                byte[] buffer = new byte[1024];
+                int bytesRead;
+                while ((bytesRead = inputStream.read(buffer)) != -1) {
+                    outputStream.write(buffer, 0, bytesRead);
+                }
+                outputStream.close();
+                inputStream.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return file;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.moum.viewmodel;
 
+import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
@@ -10,8 +11,14 @@ import androidx.lifecycle.ViewModel;
 import com.example.moum.data.entity.Record;
 import com.example.moum.data.entity.User;
 import com.example.moum.repository.SignupRepository;
+import com.example.moum.utils.ImageManager;
 import com.example.moum.utils.Validation;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -37,16 +44,22 @@ public class SignupViewModel extends ViewModel {
         signupRepository = SignupRepository.getInstance();
     }
 
+    public SignupViewModel(SignupRepository signupRepository){
+        this.signupRepository = signupRepository;
+    }
+
     /*getter, setter*/
     public LiveData<User> getUser() {
         return user;
     }
 
-    private void setIsEmailAuthSuccess(Validation validation){
+    public void setUser(User user) { this.user.setValue(user);}
+
+    public void setIsEmailAuthSuccess(Validation validation){
         isEmailAuthSuccess.setValue(validation);
     }
 
-    private void setIsEmailCodeSuccess(Validation validation) {
+    public void setIsEmailCodeSuccess(Validation validation) {
         isEmailCodeSuccess.setValue(validation);
     }
 
@@ -151,7 +164,7 @@ public class SignupViewModel extends ViewModel {
         String nameFormat = "^[a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ]{2,10}$";
         String passwordFormat = "^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,20}$";
         String emailFormat = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-        String emailCodeFormat = "^[0-9]{6}$";
+        String emailCodeFormat = "^[0-9a-zA-Z]{6}$";
         Pattern namePattern = Pattern.compile(nameFormat);
         Pattern passwordPattern = Pattern.compile(passwordFormat);
         Pattern emailPattern = Pattern.compile(emailFormat);
@@ -173,8 +186,8 @@ public class SignupViewModel extends ViewModel {
             return;
         }
 
-        /*isEmailAuthSuccess check*/
-        if(isEmailAuthSuccess.getValue() == null || isEmailAuthSuccess.getValue() != Validation.VALID_ALL){
+        /*isEmailCodeSuccess check*/
+        if(isEmailCodeSuccess.getValue() == null || isEmailCodeSuccess.getValue() != Validation.VALID_ALL){
             setIsBasicValid(Validation.EMAIL_AUTH_NOT_TRIED);
             return;
         }
@@ -200,7 +213,7 @@ public class SignupViewModel extends ViewModel {
 
         /*null check*/
         if (user.getValue() == null || user.getValue().getEmailCode() == null || user.getValue().getEmailCode().isEmpty()) {
-            setIsEmailAuthSuccess(Validation.EMAIL_CODE_NOT_WRITTEN);
+            setIsEmailCodeSuccess(Validation.EMAIL_CODE_NOT_WRITTEN);
             return;
         }
 
@@ -209,24 +222,27 @@ public class SignupViewModel extends ViewModel {
         String emailCodeFormat = "^[0-9]{6}$";
         Pattern emailCodePattern = Pattern.compile(emailCodeFormat);
         if(!emailCodePattern.matcher(emailCode).matches()){
-            setIsEmailAuthSuccess(Validation.EMAIL_CODE_NOT_FORMAL);
+            setIsEmailCodeSuccess(Validation.EMAIL_CODE_NOT_FORMAL);
             return;
         }
 
         /*emailAuthSuccess check*/
-        if(getIsEmailAuthSuccess().getValue() == null | getIsEmailAuthSuccess().getValue() != Validation.VALID_ALL){
+        if(getIsEmailAuthSuccess().getValue() == null || getIsEmailAuthSuccess().getValue() != Validation.VALID_ALL){
             setIsEmailCodeSuccess(Validation.EMAIL_AUTH_NOT_TRIED);
         }
         String email = user.getValue().getEmail();
 
         /*goto repository*/
         signupRepository.checkEmailCode(email, emailCode, result -> {
-            setIsEmailAuthSuccess(result.getValidation());
+            setIsEmailCodeSuccess(result.getValidation());
         });
     }
 
     public void loadBasic(String name, String password, String email){
 
+        if(user.getValue() == null){
+            user.setValue(new User());
+        }
         User userValue = user.getValue();
         userValue.setName(name);
         userValue.setPassword(password);
@@ -257,21 +273,30 @@ public class SignupViewModel extends ViewModel {
         setIsProfileValid(Validation.VALID_ALL);
     }
 
-
-    public void addRecord(String name, String startDate, String endDate){
+    public void addRecord(String name, LocalDate startDate, LocalDate endDate){
 
         Record newRecord = new Record(name, startDate, endDate);
         records.add(newRecord);
 
     }
 
-    public void signup(){
+    public void signup(Context context){
 
+
+        /*isProfileValid check*/
+        if(getIsProfileValid().getValue() == null || getIsProfileValid().getValue() != Validation.VALID_ALL){
+            setIsSignupSuccess(Validation.NOT_VALID_ANYWAY);
+        }
 
         /*processing for repository*/
         User userValue = user.getValue();
-        if(profileImage.getValue() != null)
-            userValue.setProfileImage(profileImage.getValue());
+        if(profileImage.getValue() != null){
+
+            Uri uri = profileImage.getValue();
+            ImageManager imageManager = new ImageManager(context);
+            File file = imageManager.convertUriToFile(uri);
+            userValue.setProfileImage(file);
+        }
         if(!records.isEmpty())
             userValue.setRecords(records);
         if(proficiency.getValue() != null)
@@ -281,7 +306,7 @@ public class SignupViewModel extends ViewModel {
 
         /*goto repository*/
         signupRepository.signup(userValue, result -> {
-            setIsEmailAuthSuccess(result.getValidation());
+            setIsSignupSuccess(result.getValidation());
         });
     }
 

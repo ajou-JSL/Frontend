@@ -9,18 +9,18 @@ public class SignupRequest {
     private String password;
     private String email;
 
-    private String nickname;
+    private String username;
     private String profileDescription;
     private String instrument;
     private String proficiency;
     private String address;
     private ArrayList<Record> records;
 
-    public SignupRequest(String name, String password, String email, String nickname, String profileDescription, String instrument, String proficiency, String address, ArrayList<Record> records){
+    public SignupRequest(String name, String password, String email, String userName, String profileDescription, String instrument, String proficiency, String address, ArrayList<Record> records){
         this.name = name;
         this.password = password;
         this.email = email;
-        this.nickname = nickname;
+        this.username = userName;
         this.profileDescription = profileDescription;
         this.instrument = instrument;
         this.proficiency = proficiency;
@@ -38,8 +38,8 @@ public class SignupRequest {
         return email;
     }
 
-    public String getNickname() {
-        return nickname;
+    public String getUsername() {
+        return username;
     }
     public String getProfileDescription() {
         return profileDescription;
@@ -67,9 +67,10 @@ public class SignupRequest {
         this.email = email;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setUsername(String userName) {
+        this.username = userName;
     }
+
     public void setProfileDescription(String profileDescription) {
         this.profileDescription = profileDescription;
     }

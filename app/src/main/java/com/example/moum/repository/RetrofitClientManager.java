@@ -9,21 +9,29 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RetrofitClient {
-    private static Retrofit retrofit = null;
-    private static Retrofit authRetrofit = null;
+public class RetrofitClientManager {
+    private Retrofit retrofit = null;
+    private Retrofit authRetrofit = null;
     private static String BASE_URL = "http://192.168.0.127:8080/";
 
+    public static void setBaseUrl(String baseUrl) {
+        BASE_URL = baseUrl;
+    }
+
+    public static String getBaseUrl() {
+        return BASE_URL;
+    }
+
     /*인증 없는 클라이언트를 사용할 때*/
-    public static Retrofit getClient() {
+    public Retrofit getClient() {
         if (retrofit == null) {
             HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
             OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                    .connectTimeout(10, TimeUnit.MINUTES)
-                    .readTimeout(10,TimeUnit.MINUTES)
-                    .writeTimeout(10,TimeUnit.MINUTES)
+                    .connectTimeout(5, TimeUnit.MINUTES)
+                    .readTimeout(5,TimeUnit.MINUTES)
+                    .writeTimeout(5,TimeUnit.MINUTES)
                     .addInterceptor(loggingInterceptor)
                     .build();
             retrofit = new Retrofit.Builder()
@@ -36,7 +44,7 @@ public class RetrofitClient {
     }
 
     /*인증된 클라이언트를 사용할 떄*/
-    public static Retrofit getAuthClient(Context context, String accessToken, String refreshToken) {
+    public Retrofit getAuthClient(Context context, String accessToken, String refreshToken) {
 
         if (authRetrofit == null) {
             HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();

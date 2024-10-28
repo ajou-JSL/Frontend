@@ -1,11 +1,13 @@
 package com.example.moum.data.entity;
 
+import java.time.LocalDate;
+
 public class Record {
     private String recordName;
-    private String startDate;
-    private String endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
-    public Record(String recordName, String startDate, String endDate){
+    public Record(String recordName, LocalDate startDate, LocalDate endDate){
         this.recordName = recordName;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -14,20 +16,20 @@ public class Record {
     public String getRecordName() {
         return recordName;
     }
-    public String getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
-    public String getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
     public void setRecordName(String recordName) {
         this.recordName = recordName;
     }
-    public void setStartDate(String startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
-    public void setEndDate(String endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 }

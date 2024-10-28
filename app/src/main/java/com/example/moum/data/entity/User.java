@@ -2,6 +2,7 @@ package com.example.moum.data.entity;
 
 import android.net.Uri;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class User {
@@ -12,7 +13,7 @@ public class User {
     private String emailCode;
 
     private String nickname;
-    private Uri profileImage;
+    private File profileImage;
     private String profileDescription;
     private String instrument;
     private String proficiency;
@@ -38,7 +39,7 @@ public class User {
     public String getNickname() {
         return nickname;
     }
-    public Uri getProfileImage() {
+    public File getProfileImage() {
         return profileImage;
     }
     public String getProfileDescription() {
@@ -76,7 +77,7 @@ public class User {
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
-    public void setProfileImage(Uri profileImage) {
+    public void setProfileImage(File profileImage) {
         this.profileImage = profileImage;
     }
     public void setProfileDescription(String profileDescription) {

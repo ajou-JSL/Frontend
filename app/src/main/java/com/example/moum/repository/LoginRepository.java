@@ -27,8 +27,14 @@ public class LoginRepository {
     private String TAG = getClass().toString();
 
     private LoginRepository() {
-        retrofitClient = RetrofitClient.getClient();
+
+        retrofitClient = new RetrofitClientManager().getClient();
         loginApi = retrofitClient.create(LoginApi.class);
+    }
+
+    public LoginRepository(Retrofit retrofitClient, LoginApi loginApi){
+        this.retrofitClient = retrofitClient;
+        this.loginApi = loginApi;
     }
 
     public static LoginRepository getInstance() {
