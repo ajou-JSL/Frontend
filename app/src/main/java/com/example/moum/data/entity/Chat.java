@@ -16,7 +16,6 @@ public class Chat {
         this.message = message;
         this.chatroomId = chatroomId;
         this.timestamp = timestamp;
-        this.isSentByMe = sender.equals(receiver);
     }
 
     public void setMessage(String message) {

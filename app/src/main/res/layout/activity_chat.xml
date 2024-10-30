@@ -11,14 +11,16 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraint_chat_top"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/gray0">
 
             <LinearLayout
                 android:id="@+id/headerLayout"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
+                android:layout_height="90dp"
+                android:paddingTop="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
                 android:background="@drawable/background_white_underline"
@@ -31,7 +33,7 @@
                     android:id="@+id/image_chat_profile"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/background_circle_gray"/>
+                    android:src="@drawable/background_circle_darkgray"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -45,7 +47,7 @@
                         android:layout_height="wrap_content"
                         android:text="홍길동"
                         android:textColor="@color/gray7"
-                        android:textSize="11sp" />
+                        android:textSize="13sp" />
 
                     <TextView
                         android:id="@+id/textview_chat_message_time"
@@ -66,19 +68,21 @@
                     android:id="@+id/button_chat_invite"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:src="@drawable/icon_envelope"/>
+                    android:src="@drawable/icon_envelope"
+                    android:alpha="0.3"/>
 
                 <RelativeLayout
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:layout_marginStart="15dp">
+                    android:layout_marginStart="20dp">
 
                     <ImageView
                         android:id="@+id/spinner_icon"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:src="@drawable/icon_ellipsis_vertical"
-                        android:scaleType="fitCenter" />
+                        android:scaleType="fitCenter"
+                        android:alpha="0.7"/>
 
                     <Spinner
                         android:id="@+id/spinner_chat_etc"
@@ -98,6 +102,7 @@
                 android:layout_width="match_parent"
                 android:layout_weight="1"
                 android:layout_height="0dp"
+                android:background="@color/gray0"
                 app:layout_constraintTop_toBottomOf="@id/headerLayout"
                 app:layout_constraintBottom_toTopOf="@id/footerLayout"/>
 
@@ -113,8 +118,8 @@
                 android:paddingBottom="15dp"
                 android:paddingTop="15dp"
                 android:gravity="center_vertical"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp">
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
 
                 <EditText
                     android:id="@+id/edittext_chat_send"
@@ -137,7 +142,8 @@
                     android:id="@+id/button_chat_send"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:src="@drawable/icon_paper_plane"/>
+                    android:src="@drawable/icon_paper_plane"
+                    android:alpha="0.3"/>
 
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

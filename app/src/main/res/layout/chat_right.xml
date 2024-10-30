@@ -21,9 +21,9 @@
         android:maxWidth="250dp"
         android:text="내가 보낸 메세지"
         android:textColor="@color/gray7"
-        android:textSize="12sp"
+        android:textSize="14sp"
         android:background="@drawable/background_rounded_gray_chat"
-        android:fontFamily="@font/noto_sans_kr_light"
+        android:fontFamily="@font/noto_sans_kr_regular"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,7 +34,7 @@
         android:layout_marginEnd="5dp"
         android:text="00:00"
         android:textColor="@color/gray7"
-        android:textSize="9sp"
+        android:textSize="10sp"
         android:fontFamily="@font/noto_sans_kr_light"
         android:includeFontPadding="false"
         app:layout_constraintBottom_toBottomOf="@+id/right_content"

@@ -1,6 +1,7 @@
 package com.example.moum.view;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Layout;
 import android.util.Log;
@@ -10,7 +11,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.ViewModelProvider;
@@ -20,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.moum.R;
 import com.example.moum.data.entity.Chat;
 import com.example.moum.databinding.ActivityChatBinding;
+import com.example.moum.utils.Validation;
 import com.example.moum.viewmodel.ChatViewModel;
 
 import java.util.ArrayList;
@@ -45,8 +49,12 @@ public class ChatActivity extends AppCompatActivity {
 
         /*채팅방 정보 불러오기*/
         /**
-         * TO-DO
+         * TO-DO: Intent 써서 채팅방 액티비티로부터 불러오는 로직으로 변경할 것
          */
+        String sender = "testuser1";
+        String receiver = "testuser2";
+        Integer chatroomId = 1;
+        chatViewModel.loadChatroomInfo(sender, receiver, chatroomId);
 
         /*채팅 리사이클러뷰 연결*/
         RecyclerView recyclerView = binding.recyclerChat;
@@ -113,14 +121,91 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-        /*채팅 보내기 버튼 이벤트*/
-        binding.buttonChatSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String message = binding.edittextChatSend.getText().toString();
-                chatViewModel.send(message);
+        /*기존 채팅 불러오기*/
+        chatViewModel.receiveRecentChat();
+
+        /*기존 채팅 도착 감시*/
+        chatViewModel.getIsReceiveRecentChatSuccess().observe(this, isReceiveRecentChatSuccess -> {
+            Validation validation = isReceiveRecentChatSuccess.getValidation();
+            Chat receivedChat = isReceiveRecentChatSuccess.getData();
+            if(validation == Validation.CHAT_RECEIVE_SUCCESS){
+                chats.add(receivedChat);
+                chatAdapter.notifyItemInserted(chats.size()-1);
+                recyclerView.scrollToPosition(chats.size()-1);
+            }
+            else if(validation == Validation.CHAT_RECEIVE_FAIL){
+                Toast.makeText(context, "채팅 불러오기에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+            }
+            else if(validation == Validation.NETWORK_FAILED){
+                Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Log.e(TAG, "채팅 불러오기 결과를 알 수 없습니다.");
             }
         });
 
+        /*채팅 보내기 버튼 이벤트*/
+        binding.buttonChatSend.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onClick(View view) {
+                String message = binding.edittextChatSend.getText().toString();
+                /**
+                 * TO-DO: 테스트용 chatSendTest 대신 chatSend()로 변경 요망
+                 */
+                chatViewModel.chatSendTest(message);
+                binding.edittextChatSend.setText("");
+            }
+        });
+
+        /*채팅 보내기 결과 감시*/
+        chatViewModel.getIsChatSendSuccess().observe(this, isChatSendSuccess -> {
+            Validation validation = isChatSendSuccess.getValidation();
+            Chat sentChat = isChatSendSuccess.getData();
+            if(validation == Validation.CHAT_SEND_SUCCESS){
+                chats.add(sentChat);
+                chatAdapter.notifyItemInserted(chats.size()-1);
+                recyclerView.scrollToPosition(chats.size()-1);
+            }
+            else if(validation == Validation.CHAT_SEND_FAIL){
+                Toast.makeText(context, "채팅 전송에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+            }
+            else if(validation == Validation.NETWORK_FAILED){
+                Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Log.e(TAG, "채팅 전송 결과를 알 수 없습니다.");
+            }
+        });
+
+        /*위로 스크롤 시 이전 채팅 불러오기*/
+        /**
+         * TO-DO
+         */
+        //chatViewModel.receiveOldChat(chats.get(0).getTimestamp());
+
+        /*이전 채팅 결과 감시*/
+        chatViewModel.getIsReceiveOldChatSuccess().observe(this, isReceiveOldChatSuccess -> {
+            Validation validation = isReceiveOldChatSuccess.getValidation();
+            Chat receivedChat = isReceiveOldChatSuccess.getData();
+            if(validation == Validation.CHAT_RECEIVE_SUCCESS){
+                chats.add(0, receivedChat); // 맨 앞에 add
+                chatAdapter.notifyItemInserted(chats.size()-1);
+            }
+            else if(validation == Validation.CHAT_RECEIVE_FAIL){
+                Toast.makeText(context, "채팅 불러오기에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+            }
+            else if(validation == Validation.NETWORK_FAILED){
+                Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Log.e(TAG, "채팅 불러오기 결과를 알 수 없습니다.");
+            }
+        });
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
     }
 }
