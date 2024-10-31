@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_home"
+        android:title="홈"
+        android:icon="@drawable/ic_home"
+        android:enabled="true"/>
+    <item
+        android:id="@+id/menu_moumtalk"
+        android:title="모음톡"
+        android:icon="@drawable/ic_moumtalk"
+        android:enabled="true"/>
+    <item
+        android:id="@+id/menu_community"
+        android:title="커뮤니티"
+        android:icon="@drawable/ic_community"
+        android:enabled="true"/>
+    <item
+        android:id="@+id/menu_mymoum"
+        android:title="나의 모음"
+        android:icon="@drawable/ic_mymoum"
+        android:enabled="true"/>
+    <item
+        android:id="@+id/menu_my_information"
+        android:title="내정보"
+        android:icon="@drawable/ic_person"
+        android:enabled="true"/>
+
+</menu>

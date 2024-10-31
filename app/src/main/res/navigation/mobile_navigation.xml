@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/menu_home">
+
+    <fragment
+        android:id="@+id/menu_home"
+        android:name="com.example.moum.view.bottomnavi.HomeFragment"
+        android:label="home"
+        tools:layout="@layout/fragment_home" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/menu_moumtalk"
+        android:name="com.example.moum.view.bottomnavi.MoumtalkFragment"
+        android:label="moum talk"
+        tools:layout="@layout/fragment_moumtalk" />
+
+    <fragment
+        android:id="@+id/menu_community"
+        android:name="com.example.moum.view.bottomnavi.CommunityFragment"
+        android:label="community"
+        tools:layout="@layout/fragment_community" />
+
+    <fragment
+        android:id="@+id/menu_mymoum"
+        android:name="com.example.moum.view.bottomnavi.MymoumFragment"
+        android:label="my moum"
+        tools:layout="@layout/fragment_mymoum" />
+
+    <fragment
+        android:id="@+id/menu_my_information"
+        android:name="com.example.moum.view.bottomnavi.MyInformationFragment"
+        android:label="my information"
+        tools:layout="@layout/fragment_my_information" />
+
+</navigation>

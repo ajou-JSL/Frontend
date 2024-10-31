@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">MOUM</string>
+
+    <string-array name="community_spinner1_items">
+        <item>조회순</item>
+        <item>최신순</item>
+        <item>댓글순</item>
+        <item>추천순</item>
+    </string-array>
+
+
 </resources>
