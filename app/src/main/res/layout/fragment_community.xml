@@ -87,12 +87,12 @@
         app:layout_constraintTop_toBottomOf="@+id/tabLayout"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <include layout="@layout/fragment_board_free" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/community_tabbar_page"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
 
 
 

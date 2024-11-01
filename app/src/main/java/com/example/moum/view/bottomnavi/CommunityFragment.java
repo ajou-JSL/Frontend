@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.moum.databinding.FragmentCommunityBinding;
+import com.example.moum.view.community.TabbarPagerAdapter;
 import com.example.moum.viewmodel.bottomnavi.CommunityViewModel;
 import com.example.moum.view.community.CommunitySearchActivity;
 import com.google.android.material.tabs.TabLayout;
@@ -29,20 +30,36 @@ public class CommunityFragment extends Fragment {
 
         initSearchButton();
 
+
+        //tablayout setting
+        TabbarPagerAdapter adapter = new TabbarPagerAdapter(getChildFragmentManager(), getLifecycle());
+        binding.communityTabbarPage.setAdapter(adapter);
         ViewPager2 pager = binding.communityTabbarPage;
         TabLayout tabLayout = binding.tabLayout;
 
-
-        pager.setOffscreenPageLimit(2);
-        new TabLayoutMediator(tabLayout, pager,
-                (tab, position) -> {tab.setText("Tab " + (position + 1));}).attach();
-        pager.setAdapter(new PageAdapter(this));
-
+        new TabLayoutMediator(tabLayout, pager, new TabLayoutMediator.TabConfigurationStrategy() {
+            @Override
+            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+                switch (position) {
+                    case 0:
+                        tab.setText("자유게시판");
+                        break;
+                    case 1:
+                        tab.setText("모집게시판");
+                        break;
+                    case 2:
+                        tab.setText("단체 탐색");
+                        break;
+                    case 3:
+                        tab.setText("공연 탐색");
+                        break;
+                }
+            }
+        }).attach();
 
 
         return root;
     }
-
 
 
     private void initSearchButton() {
@@ -54,8 +71,6 @@ public class CommunityFragment extends Fragment {
             }
         });
     }
-
-
 
 
     @Override
