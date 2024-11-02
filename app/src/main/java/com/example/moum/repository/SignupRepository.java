@@ -27,16 +27,23 @@ import retrofit2.Retrofit;
 
 public class SignupRepository {
     private static SignupRepository instance;
+    private RetrofitClientManager retrofitClientManager;
     private SignupApi signupApi;
     private Retrofit retrofitClient;
     private String TAG = getClass().toString();
 
     private SignupRepository() {
-        retrofitClient = new RetrofitClientManager().getClient();
+        retrofitClientManager = new RetrofitClientManager();
+        retrofitClientManager.setBaseUrl("http://223.130.162.175:8080/");
+        retrofitClient = retrofitClientManager.getClient();
         signupApi = retrofitClient.create(SignupApi.class);
     }
     public SignupRepository(Retrofit retrofitClient, SignupApi signupApi){
+        /**
+         * 수정필요
+         */
         this.retrofitClient = retrofitClient;
+        retrofitClientManager.setBaseUrl("http://223.130.162.175:8080/");
         this.signupApi = signupApi;
     }
     public static SignupRepository getInstance() {

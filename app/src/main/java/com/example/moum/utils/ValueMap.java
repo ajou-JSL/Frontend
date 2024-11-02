@@ -18,10 +18,10 @@ public class ValueMap {
             put("C002", Validation.EMAIL_NOT_FORMAL);
             put("E001", Validation.VALID_ALL);
             put("C006", Validation.EMAIL_CODE_FAILED);
-            put("M001", Validation.VALID_ALL);
-            put("CH001", Validation.CHAT_SEND_SUCCESS);
-            put("CH002", Validation.CHAT_SEND_FAIL);
-            put("CH003", Validation.CHAT_RECEIVE_FAIL);
+            put("M002", Validation.VALID_ALL);
+            put("S-CH001", Validation.CHAT_POST_SUCCESS);
+            put("F-CH001", Validation.CHAT_POST_FAIL);
+            put("F-CH002", Validation.CHAT_RECEIVE_FAIL);
         }
     };
 

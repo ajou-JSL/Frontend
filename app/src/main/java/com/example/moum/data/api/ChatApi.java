@@ -3,6 +3,9 @@ package com.example.moum.data.api;
 import com.example.moum.data.dto.ChatSendRequest;
 import com.example.moum.data.dto.ChatSendResponse;
 import com.example.moum.data.dto.SuccessResponse;
+import com.example.moum.data.entity.Chatroom;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -10,9 +13,14 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface ChatApi {
-    @POST("/api/chat/test/{id}")
+    @POST("/api/chat/test/{chatroomId}")
     Call<ChatSendResponse> chatSend(
-            @Path("id") int id,
+            @Path("chatroomId") int chatroomId,
             @Body ChatSendRequest chatSendRequest
+    );
+
+    @POST("/api/chatroom/member/{memberId}")
+    Call<SuccessResponse<List<Chatroom>>> loadChatrooms(
+            @Path("memberId") String memberId
     );
 }

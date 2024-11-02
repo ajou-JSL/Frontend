@@ -1,19 +1,28 @@
 package com.example.moum.data.dto;
 
 import com.example.moum.data.entity.Record;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
 public class SignupRequest {
+    @SerializedName("name")
     private String name;
+    @SerializedName("password")
     private String password;
+    @SerializedName("email")
     private String email;
-
+    @SerializedName("username")
     private String username;
+    @SerializedName("profileDescription")
     private String profileDescription;
+    @SerializedName("instrument")
     private String instrument;
+    @SerializedName("proficiency")
     private String proficiency;
+    @SerializedName("address")
     private String address;
+    @SerializedName("records")
     private ArrayList<Record> records;
 
     public SignupRequest(String name, String password, String email, String userName, String profileDescription, String instrument, String proficiency, String address, ArrayList<Record> records){

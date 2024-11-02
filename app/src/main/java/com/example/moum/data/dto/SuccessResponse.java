@@ -1,10 +1,14 @@
 package com.example.moum.data.dto;
 
-public class SuccessResponse {
+import androidx.annotation.NonNull;
+
+import java.util.List;
+
+public class SuccessResponse<T> {
     private int status;
     private String code;
     private String message;
-    private String data;
+    private T data;
 
     public int getStatus() {
         return status;
@@ -18,7 +22,7 @@ public class SuccessResponse {
         return message;
     }
 
-    public String getData() {
+    public T getData() {
         return data;
     }
 
@@ -34,7 +38,18 @@ public class SuccessResponse {
         this.message = message;
     }
 
-    public void setData(String data) {
+    public void setData(T data) {
         this.data = data;
     }
+
+    @Override
+    public String toString() {
+        return "SuccessResponse{" +
+                "status=" + status +
+                ", code='" + code + '\'' +
+                ", message='" + message + '\'' +
+                ", data=" + data.toString() +
+                '}';
+    }
+
 }

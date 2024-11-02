@@ -51,10 +51,10 @@ public class ChatActivity extends AppCompatActivity {
         /**
          * TO-DO: Intent 써서 채팅방 액티비티로부터 불러오는 로직으로 변경할 것
          */
-        String sender = "testuser1";
+        String sender = "testuser";
         String receiver = "testuser2";
-        Integer chatroomId = 1;
-        chatViewModel.loadChatroomInfo(sender, receiver, chatroomId);
+        Integer chatroomId = 0;
+        chatViewModel.setChatroomInfo(sender, receiver, chatroomId);
 
         /*채팅 리사이클러뷰 연결*/
         RecyclerView recyclerView = binding.recyclerChat;
@@ -153,7 +153,7 @@ public class ChatActivity extends AppCompatActivity {
                 /**
                  * TO-DO: 테스트용 chatSendTest 대신 chatSend()로 변경 요망
                  */
-                chatViewModel.chatSendTest(message);
+                chatViewModel.chatSend(message);
                 binding.edittextChatSend.setText("");
             }
         });
@@ -162,12 +162,12 @@ public class ChatActivity extends AppCompatActivity {
         chatViewModel.getIsChatSendSuccess().observe(this, isChatSendSuccess -> {
             Validation validation = isChatSendSuccess.getValidation();
             Chat sentChat = isChatSendSuccess.getData();
-            if(validation == Validation.CHAT_SEND_SUCCESS){
+            if(validation == Validation.CHAT_POST_SUCCESS){
                 chats.add(sentChat);
                 chatAdapter.notifyItemInserted(chats.size()-1);
                 recyclerView.scrollToPosition(chats.size()-1);
             }
-            else if(validation == Validation.CHAT_SEND_FAIL){
+            else if(validation == Validation.CHAT_POST_FAIL){
                 Toast.makeText(context, "채팅 전송에 실패하였습니다.", Toast.LENGTH_SHORT).show();
             }
             else if(validation == Validation.NETWORK_FAILED){

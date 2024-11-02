@@ -1,13 +1,18 @@
 package com.example.moum.data.dto;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class ChatStreamResponse {
     private String sender;
     private String receiver;
     private String message;
     private int chatroomId;
-    private LocalDateTime timestamp;
+    private String timestamp;
     private String timestampFormatted;
 
     public void setReceiver(String receiver) {
@@ -22,7 +27,7 @@ public class ChatStreamResponse {
         this.sender = sender;
     }
 
-    public void setTimestamp(LocalDateTime timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -50,8 +55,13 @@ public class ChatStreamResponse {
         return chatroomId;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public LocalDateTime getTimestamp() {
-        return timestamp;
+        if (timestamp != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-ddHH:mm:ss.SSS");
+            return LocalDateTime.parse(timestamp, formatter);
+        }
+        return null;
     }
 
     public String getTimestampFormatted() {

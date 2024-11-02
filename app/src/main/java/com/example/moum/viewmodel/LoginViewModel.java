@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 public class LoginViewModel extends ViewModel {
 
     private final LoginRepository loginRepository;
-    private final MutableLiveData<String> email = new MutableLiveData<>();
+    private final MutableLiveData<String> id = new MutableLiveData<>();
     private final MutableLiveData<String> password = new MutableLiveData<>();
     private final MutableLiveData<Validation> isLoginSuccess = new MutableLiveData<>();
     private final MutableLiveData<Token> token = new MutableLiveData<>();
@@ -28,8 +28,8 @@ public class LoginViewModel extends ViewModel {
         this.loginRepository = loginRepository;
     }
 
-    public MutableLiveData<String> getEmail() {
-        return email;
+    public MutableLiveData<String> getId() {
+        return id;
     }
 
     public MutableLiveData<String> getPassword() {
@@ -44,7 +44,7 @@ public class LoginViewModel extends ViewModel {
         return token;
     }
 
-    public void setEmail(String email) { this.email.setValue(email); }
+    public void setId(String id) { this.id.setValue(id); }
 
     public void setPassword(String password) { this.password.setValue(password); }
 
@@ -55,8 +55,8 @@ public class LoginViewModel extends ViewModel {
     public void login(){
 
         /*null check*/
-        if(email.getValue() == null || email.getValue().isEmpty()){
-            setIsLoginSuccess(Validation.EMAIL_NOT_WRITTEN);
+        if(id.getValue() == null || id.getValue().isEmpty()){
+            setIsLoginSuccess(Validation.ID_NOT_WRITTEN);
             return;
         }
         else if(password.getValue() == null || password.getValue().isEmpty()){
@@ -65,21 +65,22 @@ public class LoginViewModel extends ViewModel {
         }
 
         /*valid check*/
-        String emailFormat = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
+        //String idFormant = "^[a-z0-9]{4,20}$";
         String passwordFormat = "^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,20}$";
-        Pattern emailPattern = Pattern.compile(emailFormat);
+        //Pattern idPattern = Pattern.compile(idFormant);
         Pattern passwordPattern = Pattern.compile(passwordFormat);
-        if(!emailPattern.matcher(email.getValue()).matches()){
-            setIsLoginSuccess(Validation.EMAIL_NOT_FORMAL);
-            return;
-        }
-        else if(!passwordPattern.matcher(password.getValue()).matches()){
+//        if(!idPattern.matcher(id.getValue()).matches()){
+//            setIsLoginSuccess(Validation.ID_NOT_FORMAL);
+//            return;
+//        }
+        if(!passwordPattern.matcher(password.getValue()).matches()){
             setIsLoginSuccess(Validation.PASSWORD_NOT_FORMAL);
             return;
         }
 
         /*goto repository*/
-        loginRepository.login(email.getValue(), password.getValue(), result -> {
+        loginRepository.login(id.getValue(), password.getValue(), result -> {
 
             if(result.getValidation() != null && result.getValidation() == Validation.VALID_ALL && result.getData() != null){
                 this.token.setValue(result.getData());

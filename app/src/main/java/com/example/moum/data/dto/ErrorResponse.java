@@ -40,4 +40,14 @@ public class ErrorResponse {
     public void setErrors(List<ErrorDetail> errors) {
         this.errors = errors;
     }
+
+    @Override
+    public String toString() {
+        return "ErrorResponse{" +
+                "status=" + status +
+                ", code='" + code + '\'' +
+                ", message='" + message + '\'' +
+                ", errors=" + errors +
+                '}';
+    }
 }

@@ -1,6 +1,11 @@
 package com.example.moum.data.dto;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class ChatSendResponse {
     private int status;
@@ -45,14 +50,16 @@ public class ChatSendResponse {
         private String receiver;
         private String message;
         private Integer chatroomId;
-        private LocalDateTime timestamp;
+        private List<Integer> timestamp;
+        private String timestampFormatted;
 
-        public SentChat(String sender, String receiver, String message, Integer chatroomId, LocalDateTime timestamp){
+        public SentChat(String sender, String receiver, String message, Integer chatroomId, List<Integer> timestamp, String timestampFormatted){
             this.sender = sender;
             this.receiver = receiver;
             this.message = message;
             this.chatroomId = chatroomId;
             this.timestamp = timestamp;
+            this.timestampFormatted = timestampFormatted;
         }
 
         public void setMessage(String message) {
@@ -71,8 +78,12 @@ public class ChatSendResponse {
             this.sender = sender;
         }
 
-        public void setTimestamp(LocalDateTime timestamp) {
+        public void setTimestamp(List<Integer> timestamp) {
             this.timestamp = timestamp;
+        }
+
+        public void setTimestampFormatted(String timestampFormatted) {
+            this.timestampFormatted = timestampFormatted;
         }
 
         public String getMessage() {
@@ -83,8 +94,13 @@ public class ChatSendResponse {
             return chatroomId;
         }
 
+        @RequiresApi(api = Build.VERSION_CODES.O)
         public LocalDateTime getTimestamp() {
-            return timestamp;
+            if (timestamp != null && timestamp.size() >= 6) {
+                return LocalDateTime.of(timestamp.get(0), timestamp.get(1), timestamp.get(2),
+                        timestamp.get(3), timestamp.get(4), timestamp.get(5));
+            }
+            return null;
         }
 
         public String getReceiver() {
@@ -93,6 +109,10 @@ public class ChatSendResponse {
 
         public String getSender() {
             return sender;
+        }
+
+        public String getTimestampFormatted() {
+            return timestampFormatted;
         }
     }
 }

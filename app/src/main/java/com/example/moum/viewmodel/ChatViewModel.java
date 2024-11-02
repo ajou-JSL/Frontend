@@ -55,7 +55,7 @@ public class ChatViewModel extends ViewModel {
         return isReceiveOldChatSuccess;
     }
 
-    public void loadChatroomInfo(String sender, String receiver, Integer chatroomId){
+    public void setChatroomInfo(String sender, String receiver, Integer chatroomId){
         this.sender = sender;
         this.receiver = receiver;
         this.chatroomId = chatroomId;
@@ -80,7 +80,7 @@ public class ChatViewModel extends ViewModel {
     public void chatSendTest(String message){
         Chat chat = new Chat(sender, receiver, message, chatroomId, LocalDateTime.now());
         chat.setSentByMe(true);
-        Result<Chat> result = new Result<>(Validation.CHAT_SEND_SUCCESS, chat);
+        Result<Chat> result = new Result<>(Validation.CHAT_POST_SUCCESS, chat);
         setIsChatSendSuccess(result);
     }
 

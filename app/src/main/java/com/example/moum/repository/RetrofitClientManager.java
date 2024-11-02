@@ -3,6 +3,9 @@ package com.example.moum.repository;
 import android.content.Context;
 
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -12,13 +15,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClientManager {
     private Retrofit retrofit = null;
     private Retrofit authRetrofit = null;
-    private static String BASE_URL = "http://223.130.162.175:8080/";
+    private String BASE_URL = "";
 
-    public static void setBaseUrl(String baseUrl) {
+    public void setBaseUrl(String baseUrl) {
         BASE_URL = baseUrl;
     }
 
-    public static String getBaseUrl() {
+    public String getBaseUrl() {
         return BASE_URL;
     }
 
@@ -34,10 +37,11 @@ public class RetrofitClientManager {
                     .writeTimeout(5,TimeUnit.MINUTES)
                     .addInterceptor(loggingInterceptor)
                     .build();
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .client(okHttpClient)
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
         }
         return retrofit;

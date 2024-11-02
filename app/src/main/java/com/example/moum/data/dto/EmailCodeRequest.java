@@ -1,7 +1,11 @@
 package com.example.moum.data.dto;
 
+import com.google.gson.annotations.SerializedName;
+
 public class EmailCodeRequest {
+    @SerializedName("email")
     private String email;
+    @SerializedName("verifyCode")
     private String verifyCode;
 
     public EmailCodeRequest(String email, String verifyCode){

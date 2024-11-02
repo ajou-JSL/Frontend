@@ -15,6 +15,8 @@ import com.google.gson.Gson;
 
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -22,17 +24,20 @@ import retrofit2.Retrofit;
 
 public class LoginRepository {
     private static LoginRepository instance;
+    private RetrofitClientManager retrofitClientManager;
     private LoginApi loginApi;
     private Retrofit retrofitClient;
     private String TAG = getClass().toString();
 
     private LoginRepository() {
-
-        retrofitClient = new RetrofitClientManager().getClient();
+        retrofitClientManager = new RetrofitClientManager();
+        retrofitClientManager.setBaseUrl("http://223.130.162.175:8080/");
+        retrofitClient = retrofitClientManager.getClient();
         loginApi = retrofitClient.create(LoginApi.class);
     }
 
     public LoginRepository(Retrofit retrofitClient, LoginApi loginApi){
+        retrofitClientManager.setBaseUrl("http://223.130.162.175:8080/");
         this.retrofitClient = retrofitClient;
         this.loginApi = loginApi;
     }
@@ -44,10 +49,11 @@ public class LoginRepository {
         return instance;
     }
 
-    public void login(String email, String password, com.example.moum.utils.Callback<Result<Token>> callback) {
+    public void login(String id, String password, com.example.moum.utils.Callback<Result<Token>> callback) {
 
-        LoginRequest loginRequest = new LoginRequest(email, password);
-        Call<SuccessResponse> result = loginApi.login(loginRequest);
+        RequestBody id1 = RequestBody.create(MediaType.parse("multipart/form-data"), id);
+        RequestBody password1 = RequestBody.create(MediaType.parse("multipart/form-data"), password);
+        Call<SuccessResponse> result = loginApi.login(id1, password1);
         result.enqueue(new Callback<SuccessResponse>() {
             @Override
             public void onResponse(Call<SuccessResponse> call, Response<SuccessResponse> response) {

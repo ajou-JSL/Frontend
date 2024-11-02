@@ -74,11 +74,11 @@
                                     android:layout_marginEnd="17dp"
                                     android:layout_height="wrap_content"
                                     android:layout_width="wrap_content"
-                                    android:text="이메일"
+                                    android:text="아이디"
                                     android:fontFamily="@font/noto_sans_kr_regular"
                                     />
                                 <TextView
-                                    android:id="@+id/login_error_email"
+                                    android:id="@+id/login_error_id"
                                     android:textColor="@color/red"
                                     android:textSize="9sp"
                                     android:fontFamily="@font/noto_sans_kr_regular"
@@ -89,7 +89,7 @@
                                     />
                             </LinearLayout>
                             <LinearLayout
-                                android:id="@+id/placeholder_login_email"
+                                android:id="@+id/placeholder_login_id"
                                 android:layout_width="match_parent"
                                 android:layout_height="48dp"
                                 android:background="@drawable/background_rounded_gray_stroke"
@@ -99,17 +99,17 @@
                                 android:paddingBottom="5dp"
                                 >
                                 <EditText
-                                    android:id="@+id/login_edittext_email"
+                                    android:id="@+id/login_edittext_id"
                                     android:layout_width="match_parent"
                                     android:layout_height="33dp"
                                     android:background="@color/transparent"
                                     android:inputType="text"
-                                    android:hint="이메일을 입력하세요"
+                                    android:hint="아이디를 입력하세요"
                                     android:textSize="14sp"
                                     android:textColor="@color/gray7"
                                     android:fontFamily="@font/noto_sans_kr_bold"
                                     android:gravity="center_vertical"
-                                    android:text="@={viewModel.email}"
+                                    android:text="@={viewModel.id}"
                                     android:focusable="true"
                                     android:focusableInTouchMode="true"/>
                             </LinearLayout>

@@ -3,6 +3,7 @@ package com.example.moum.utils;
 public enum Validation {
 
     //not written
+    ID_NOT_WRITTEN,
     NAME_NOT_WRITTEN,
     PASSWORD_NOT_WRITTEN,
     PASSWORD_CHECK_NOT_WRITTEN,
@@ -13,6 +14,7 @@ public enum Validation {
     PROFICIENCY_NOT_WRITTEN,
 
     //not formal
+    ID_NOT_FORMAL,
     NAME_NOT_FORMAL,
     PASSWORD_NOT_FORMAL,
     EMAIL_NOT_FORMAL,
@@ -35,8 +37,8 @@ public enum Validation {
     LOGIN_FAILED,
 
     //chat send & receive
-    CHAT_SEND_SUCCESS,
-    CHAT_SEND_FAIL,
+    CHAT_POST_SUCCESS,
+    CHAT_POST_FAIL,
     CHAT_RECEIVE_SUCCESS,
     CHAT_RECEIVE_FAIL,
 

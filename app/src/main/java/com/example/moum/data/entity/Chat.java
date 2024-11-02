@@ -65,4 +65,16 @@ public class Chat {
     public boolean isSentByMe() {
         return isSentByMe;
     }
+
+    @Override
+    public String toString() {
+        return "Chat{" +
+                "sender='" + sender + '\'' +
+                ", receiver='" + receiver + '\'' +
+                ", message='" + message + '\'' +
+                ", chatroomId=" + chatroomId +
+                ", timestamp=" + timestamp +
+                ", isSentByMe=" + isSentByMe +
+                '}';
+    }
 }

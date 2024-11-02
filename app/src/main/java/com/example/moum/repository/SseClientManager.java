@@ -2,6 +2,7 @@ package com.example.moum.repository;
 
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -12,9 +13,9 @@ public class SseClientManager {
 
     private OkHttpClient sseClient = null;
     private OkHttpClient authSseClient = null;
-    private static String BASE_URL = "http://223.130.162.175:8080/";
+    private static String BASE_URL = "http://172.21.38.228:8070/";
 
-    public void setBaseUrl(String baseUrl) {
+    public static void setBaseUrl(String baseUrl) {
         BASE_URL = baseUrl;
     }
 
@@ -29,10 +30,12 @@ public class SseClientManager {
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
             sseClient = new OkHttpClient.Builder()
-                    .connectTimeout(5, TimeUnit.MINUTES)
-                    .readTimeout(5,TimeUnit.MINUTES)
-                    .writeTimeout(5,TimeUnit.MINUTES)
+                    .connectTimeout(5, TimeUnit.SECONDS)
+                    .readTimeout(5, TimeUnit.SECONDS)
+                    .writeTimeout(5, TimeUnit.SECONDS)
                     .addInterceptor(loggingInterceptor)
+                    .retryOnConnectionFailure(true)
+                    .connectionPool(new ConnectionPool(1, 1, TimeUnit.MINUTES))
                     .build();
         }
         return sseClient;
