@@ -49,9 +49,7 @@ public class MoumtalkFragment extends Fragment {
         recyclerView.setAdapter(chatroomAdapter);
 
         /*채팅방 리스트 정보 불러오기*/
-        /**
-         * TO-DO: 이후 토큰 사용 방식으로 변경 예정
-         */
+        // TODO: 이후 토큰 사용 방식으로 변경 예정
         String tempMemberId = "testuser";
         chatroomViewModel.setMemberId(tempMemberId);
         chatroomViewModel.loadChatrooms();
@@ -72,7 +70,16 @@ public class MoumtalkFragment extends Fragment {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
             }
             else{
-                Log.e(TAG, "채팅방 리시트 불러오기 결과를 알 수 없습니다.");
+                Log.e(TAG, "채팅방 리스트 불러오기 결과를 알 수 없습니다.");
+            }
+        });
+
+        /*새 모음톡 플로팅 버튼 이벤트*/
+        binding.buttonAddChatroom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, "새 모음톡 플로팅 버튼 클릭", Toast.LENGTH_SHORT).show();
+                // TODO 플로팅 버튼 클릭 시 모음톡 생성 액티비티로 전환
             }
         });
 

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
     <fragment
         android:id="@+id/nav_host_fragment_activity_main"
@@ -20,7 +21,12 @@
         android:id="@+id/nav_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/gray2"
+        android:background="@color/gray1"
+        android:paddingBottom="0dp"
+        android:layout_marginBottom="0dp"
+        app:itemIconTint="@color/navigation_color_selector"
+        app:itemTextColor="@color/navigation_color_selector"
+        app:itemActiveIndicatorStyle="@color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/bottom_nav_menu"
         app:itemIconSize="32dp"
