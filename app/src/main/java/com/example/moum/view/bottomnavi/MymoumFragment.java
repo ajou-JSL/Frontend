@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.moum.databinding.FragmentMyMoumBinding;
 import com.example.moum.viewmodel.bottomnavi.MymoumViewModel;
 
-public class MymoumFragment extends Fragment {
+public class MyMoumFragment extends Fragment {
 
     private FragmentMyMoumBinding binding;
 
