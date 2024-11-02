@@ -7,24 +7,17 @@ import static org.mockito.Mockito.doAnswer;
 
 import android.content.Context;
 import android.net.Uri;
-import android.view.LayoutInflater;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
-import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.MutableLiveData;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.moum.data.entity.Result;
-import com.example.moum.data.entity.Token;
 import com.example.moum.data.entity.User;
-import com.example.moum.databinding.ActivityLoginBinding;
-import com.example.moum.databinding.ActivitySignupBasicBinding;
 import com.example.moum.repository.SignupRepository;
 import com.example.moum.utils.Callback;
 import com.example.moum.utils.Validation;
-import com.example.moum.viewmodel.LoginViewModel;
-import com.example.moum.viewmodel.SignupViewModel;
+import com.example.moum.viewmodel.auth.SignupViewModel;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -35,7 +28,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
-import java.lang.reflect.Field;
 import java.time.LocalDate;
 
 @RunWith(AndroidJUnit4.class)

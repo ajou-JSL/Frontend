@@ -18,8 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.moum.data.entity.Chatroom;
 import com.example.moum.databinding.FragmentMoumtalkBinding;
 import com.example.moum.utils.Validation;
-import com.example.moum.view.ChatroomAdapter;
-import com.example.moum.viewmodel.ChatroomViewModel;
+import com.example.moum.view.chat.ChatroomAdapter;
+import com.example.moum.viewmodel.chat.ChatroomViewModel;
 
 import java.util.ArrayList;
 import java.util.List;

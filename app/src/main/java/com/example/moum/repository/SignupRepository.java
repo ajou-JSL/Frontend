@@ -11,11 +11,10 @@ import com.example.moum.data.dto.SignupRequest;
 import com.example.moum.data.dto.SuccessResponse;
 import com.example.moum.data.entity.Result;
 import com.example.moum.data.entity.User;
+import com.example.moum.repository.client.RetrofitClientManager;
 import com.example.moum.utils.ValueMap;
 import com.example.moum.utils.Validation;
 import com.google.gson.Gson;
-
-import java.io.File;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;

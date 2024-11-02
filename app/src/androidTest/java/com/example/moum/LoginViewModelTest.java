@@ -1,7 +1,6 @@
 package com.example.moum;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
-import androidx.lifecycle.MutableLiveData;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import org.junit.Before;
 import org.junit.Rule;
@@ -20,7 +19,7 @@ import com.example.moum.data.entity.Token;
 import com.example.moum.repository.LoginRepository;
 import com.example.moum.utils.Callback;
 import com.example.moum.utils.Validation;
-import com.example.moum.viewmodel.LoginViewModel;
+import com.example.moum.viewmodel.auth.LoginViewModel;
 
 @RunWith(AndroidJUnit4.class)
 public class LoginViewModelTest {

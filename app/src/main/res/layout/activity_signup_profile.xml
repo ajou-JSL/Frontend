@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/SignupProfileActivity"
-    tools:context=".view.SignupProfileActivity">
+    tools:context=".view.auth.SignupProfileActivity">
     <data>
         <!-- ViewModel을 위한 variable 정의 -->
         <variable
             name="viewModel"
-            type="com.example.moum.viewmodel.SignupViewModel" />
+            type="com.example.moum.viewmodel.auth.SignupViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

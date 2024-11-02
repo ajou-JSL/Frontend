@@ -3,12 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/LoginActivity"
-    tools:context=".view.LoginActivity">
+    tools:context=".view.auth.LoginActivity">
     <data>
         <!-- ViewModel을 위한 variable 정의 -->
         <variable
             name="viewModel"
-            type="com.example.moum.viewmodel.LoginViewModel" />
+            type="com.example.moum.viewmodel.auth.LoginViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

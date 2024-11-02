@@ -27,6 +27,10 @@ android {
         }
     }
 
+    buildFeatures{
+        viewBinding true
+    }
+
     // 추가
     testOptions {
         //안드로이드 리소스 사용가능 + 메소드 미호출시 기본값 반환

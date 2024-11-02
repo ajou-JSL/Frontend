@@ -3,16 +3,13 @@ package com.example.moum;
 import static org.junit.Assert.assertEquals;
 
 import android.content.Context;
-import android.net.Uri;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import com.example.moum.data.api.LoginApi;
 import com.example.moum.data.api.SignupApi;
 import com.example.moum.data.entity.User;
-import com.example.moum.repository.LoginRepository;
-import com.example.moum.repository.RetrofitClientManager;
+import com.example.moum.repository.client.RetrofitClientManager;
 import com.example.moum.repository.SignupRepository;
 import com.example.moum.utils.Validation;
 

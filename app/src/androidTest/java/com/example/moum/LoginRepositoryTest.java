@@ -2,13 +2,11 @@ package com.example.moum;
 
 import static org.junit.Assert.assertEquals;
 
-import android.util.Log;
-
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.moum.data.api.LoginApi;
 import com.example.moum.repository.LoginRepository;
-import com.example.moum.repository.RetrofitClientManager;
+import com.example.moum.repository.client.RetrofitClientManager;
 import com.example.moum.utils.Validation;
 
 import org.junit.Before;

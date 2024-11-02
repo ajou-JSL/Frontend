@@ -17,28 +17,28 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".view.SplashActivity"
+            android:name=".view.auth.SplashActivity"
             android:exported="true"
             android:theme="@style/SplashTheme">
         </activity>
         <activity
-            android:name=".view.ChatActivity"
+            android:name=".view.chat.ChatActivity"
             android:exported="true">
         </activity>
         <activity
-            android:name=".view.InitialActivity"
+            android:name=".view.auth.InitialActivity"
             android:exported="true">
         </activity>
         <activity
-            android:name=".view.SignupBasicActivity"
+            android:name=".view.auth.SignupBasicActivity"
             android:exported="true">
         </activity>
         <activity
-            android:name=".view.SignupProfileActivity"
+            android:name=".view.auth.SignupProfileActivity"
             android:exported="true">
         </activity>
         <activity
-            android:name=".view.LoginActivity"
+            android:name=".view.auth.LoginActivity"
             android:exported="true">
         </activity>
         <activity android:name=".MainActivity"
@@ -48,5 +48,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".view.community.CommunitySearchActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MOUM" />
     </application>
+
 </manifest>
