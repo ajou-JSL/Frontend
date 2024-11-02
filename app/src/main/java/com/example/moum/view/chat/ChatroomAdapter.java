@@ -73,9 +73,12 @@ public class ChatroomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     int pos = getAdapterPosition();
                     if (pos != RecyclerView.NO_POSITION) {
                         Intent intent = new Intent(context, ChatActivity.class);
+                        intent.putExtra("chatroomId", chatroom.getChatroomId());
                         intent.putExtra("chatroomName", chatroom.getChatroomName());
                         intent.putExtra("chatroomLastTime", chatroomLastTime.getText());
                         intent.putExtra("chatroomProfile", chatroom.getChatroomProfile());
+                        intent.putExtra("chatroomType", chatroom.getChatroomType().getValue());
+                        intent.putExtra("chatroomLeader", chatroom.getChatroomLeader());
                         context.startActivity(intent);
                     }
                 }

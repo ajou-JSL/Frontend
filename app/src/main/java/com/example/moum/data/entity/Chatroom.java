@@ -1,6 +1,8 @@
 package com.example.moum.data.entity;
 
 import android.net.Uri;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
@@ -12,13 +14,33 @@ public class Chatroom {
     private String chatroomContent;
     private LocalDateTime chatroomLastTimestamp;
     private Uri chatroomProfile;
+    private ChatroomType chatroomType;
+    private String chatroomLeader;
 
-    public Chatroom(Integer chatroomId, String chatroomName, String chatroomContent, LocalDateTime chatroomLastTimestamp, Uri chatroomProfile){
+    public enum ChatroomType{
+        PERSONAL_CHAT(0),
+        MULTI_CHAT(1),
+        SYSTEM_CHAT(2);
+
+        private final int value;
+        ChatroomType(int value) {
+            this.value = value;
+        }
+
+        public int getValue() {
+            return value;
+        }
+
+    }
+
+    public Chatroom(Integer chatroomId, String chatroomName, String chatroomContent, LocalDateTime chatroomLastTimestamp, Uri chatroomProfile, ChatroomType chatroomType, String chatroomLeader){
         this.chatroomId = chatroomId;
         this.chatroomName = chatroomName;
         this.chatroomContent = chatroomContent;
         this.chatroomLastTimestamp = chatroomLastTimestamp;
         this.chatroomProfile = chatroomProfile;
+        this.chatroomType = chatroomType;
+        this.chatroomLeader = chatroomLeader;
     }
 
     public Integer getChatroomId() {
@@ -39,6 +61,14 @@ public class Chatroom {
 
     public String getChatroomContent() {
         return chatroomContent;
+    }
+
+    public ChatroomType getChatroomType() {
+        return chatroomType;
+    }
+
+    public String getChatroomLeader() {
+        return chatroomLeader;
     }
 
     @Override

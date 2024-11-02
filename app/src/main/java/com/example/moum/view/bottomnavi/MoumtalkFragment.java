@@ -1,6 +1,7 @@
 package com.example.moum.view.bottomnavi;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,9 +16,13 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.moum.MainActivity;
+import com.example.moum.R;
 import com.example.moum.data.entity.Chatroom;
 import com.example.moum.databinding.FragmentMoumtalkBinding;
+import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
+import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.view.chat.ChatroomAdapter;
 import com.example.moum.viewmodel.chat.ChatroomViewModel;
 
@@ -30,6 +35,7 @@ public class MoumtalkFragment extends Fragment {
     private ChatroomViewModel chatroomViewModel;
     private Context context;
     private final String TAG = getClass().toString();
+    SharedPreferenceManager sharedPreferenceManager;
     private ArrayList<Chatroom> chatrooms = new ArrayList<>();
 
 
@@ -40,6 +46,16 @@ public class MoumtalkFragment extends Fragment {
         chatroomViewModel = new ViewModelProvider(requireActivity()).get(ChatroomViewModel.class);
         context = getContext();
         View view = binding.getRoot();
+
+        /*자동로그인 정보를 SharedPreference에서 불러오기*/
+        sharedPreferenceManager = new SharedPreferenceManager(context, getString(R.string.preference_file_key));
+        String accessToken = sharedPreferenceManager.getCache(getString(R.string.user_access_token_key), "no-access-token");
+        if(accessToken.isEmpty() || accessToken.equals("no-access-token")){
+            Toast.makeText(context, "로그인 정보가 없어 초기 페이지로 돌아갑니다.", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(context, InitialActivity.class);
+            startActivity(intent);
+            getActivity().finish();
+        }
 
         /*채팅방 리사이클러뷰 연결*/
         RecyclerView recyclerView = binding.recyclerChatroom;

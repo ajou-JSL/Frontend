@@ -12,16 +12,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moum.R;
 import com.example.moum.data.entity.Chat;
+import com.example.moum.data.entity.Chatroom;
+
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<Chat> chats;
+    private Chatroom.ChatroomType chatroomType;
     private static final int VIEW_TYPE_LEFT = 1;
     private static final int VIEW_TYPE_RIGHT = 2;
 
-    public void setChats(ArrayList<Chat> chats) {
+    public void setChats(ArrayList<Chat> chats, Chatroom.ChatroomType chatroomType) {
         this.chats = chats;
+        this.chatroomType = chatroomType;
     }
 
     @Override

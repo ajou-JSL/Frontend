@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.moum.data.entity.Chat;
+import com.example.moum.data.entity.Chatroom;
 import com.example.moum.data.entity.Result;
 import com.example.moum.repository.ChatRepository;
 import com.example.moum.utils.Validation;
@@ -22,6 +23,8 @@ public class ChatViewModel extends ViewModel {
     private String sender;
     private String receiver;
     private Integer chatroomId;
+    private Chatroom.ChatroomType chatroomType;
+    private String chatroomLeader;
 
     public ChatViewModel(){
         chatRepository = ChatRepository.getInstance();
@@ -55,10 +58,12 @@ public class ChatViewModel extends ViewModel {
         return isReceiveOldChatSuccess;
     }
 
-    public void setChatroomInfo(String sender, String receiver, Integer chatroomId){
+    public void setChatroomInfo(String sender, String receiver, Integer chatroomId, Chatroom.ChatroomType chatroomType, String chatroomLeader){
         this.sender = sender;
         this.receiver = receiver;
         this.chatroomId = chatroomId;
+        this.chatroomType = chatroomType;
+        this.chatroomLeader = chatroomLeader;
     }
 
     public MutableLiveData<Chat> getReceivedChat() {
