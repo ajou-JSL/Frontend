@@ -191,7 +191,7 @@
                 android:id="@+id/button_login"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@drawable/background_rounded_neon_mint_bold"
+                android:background="@drawable/button_neon_mint_bold_ripple"
                 android:fontFamily="@font/noto_sans_kr_semibold"
                 android:text="로그인"
                 android:textColor="@color/gray0"

@@ -145,9 +145,9 @@ public class SignupBasicActivity extends AppCompatActivity {
         /*다음 버튼 결과 감시*/
         signupViewModel.getIsBasicValid().observe(this, isBasicValid -> {
 
-            if(isBasicValid == Validation.NOT_VALID_ANYWAY || isBasicValid == Validation.NAME_NOT_WRITTEN) {
-                binding.signupEdittextName.requestFocus();
-                binding.signupErrorName.setText("이름을 입력하세요.");
+            if(isBasicValid == Validation.NOT_VALID_ANYWAY || isBasicValid == Validation.ID_NOT_WRITTEN) {
+                binding.signupEdittextMemberId.requestFocus();
+                binding.signupErrorName.setText("아이디를 입력하세요.");
             }
             else if(isBasicValid == Validation.PASSWORD_NOT_WRITTEN) {
                 binding.signupEdittextPassword.requestFocus();
@@ -161,13 +161,13 @@ public class SignupBasicActivity extends AppCompatActivity {
                 binding.signupEdittextEmail.requestFocus();
                 binding.signupErrorEmail.setText("이메일을 입력하세요.");
             }
-            else if(isBasicValid == Validation.NAME_NOT_FORMAL) {
-                binding.signupEdittextName.requestFocus();
-                binding.signupErrorName.setText("이름이 유효하지 않습니다.");
+            else if(isBasicValid == Validation.ID_NOT_FORMAL) {
+                binding.signupEdittextMemberId.requestFocus();
+                binding.signupErrorName.setText("아이디는 영문, 한글, 숫자로 구성된 4~20자입니다.");
             }
             else if(isBasicValid == Validation.PASSWORD_NOT_FORMAL) {
                 binding.signupEdittextPassword.requestFocus();
-                binding.signupErrorPassword.setText("비밀번호가 유효하지 않습니다");
+                binding.signupErrorPassword.setText("비밀번호는 영문 대소문자, 숫자, 특수문자가 포함된 8~20자입니다.");
             }
             else if(isBasicValid == Validation.EMAIL_CODE_NOT_FORMAL) {
                 binding.signupEdittextEmail.requestFocus();
@@ -191,7 +191,7 @@ public class SignupBasicActivity extends AppCompatActivity {
 
                 /*SignupProfile로 이동*/
                 Intent intent = new Intent(SignupBasicActivity.this, SignupProfileActivity.class);
-                intent.putExtra("name", signupViewModel.getUser().getValue().getName());
+                intent.putExtra("memberId", signupViewModel.getUser().getValue().getMemberId());
                 intent.putExtra("password", signupViewModel.getUser().getValue().getPassword());
                 intent.putExtra("email", signupViewModel.getUser().getValue().getEmail());
                 startActivity(intent);
@@ -203,14 +203,14 @@ public class SignupBasicActivity extends AppCompatActivity {
 
 
         /*각 placeholder 포커스 시 이벤트*/
-        binding.signupEdittextName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        binding.signupEdittextMemberId.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
                 if(hasFocus){
                     binding.signupErrorName.setText("");
-                    binding.placeholderSignupName.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_mint_stroke));
+                    binding.placeholderSignupMemberId.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_mint_stroke));
                 }else{
-                    binding.placeholderSignupName.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_gray_stroke));
+                    binding.placeholderSignupMemberId.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_gray_stroke));
                 }
             }
         });

@@ -134,8 +134,8 @@ public class SignupViewModel extends ViewModel {
             setIsBasicValid(Validation.NOT_VALID_ANYWAY);
             return;
         }
-        else if(user.getValue().getName() == null || user.getValue().getName().isEmpty()) {
-            setIsBasicValid(Validation.NAME_NOT_WRITTEN);
+        else if(user.getValue().getMemberId() == null || user.getValue().getMemberId().isEmpty()) {
+            setIsBasicValid(Validation.ID_NOT_WRITTEN);
             return;
         }
         else if(user.getValue().getPassword() == null || user.getValue().getPassword().isEmpty()) {
@@ -156,16 +156,16 @@ public class SignupViewModel extends ViewModel {
         }
 
         /*formal check*/
-        String nameFormat = "^[a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ]{2,10}$";
+        String idFormat = "^[a-z0-9]{4,20}$";
         String passwordFormat = "^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,20}$";
         String emailFormat = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
         String emailCodeFormat = "^[0-9a-zA-Z]{6}$";
-        Pattern namePattern = Pattern.compile(nameFormat);
+        Pattern idPattern = Pattern.compile(idFormat);
         Pattern passwordPattern = Pattern.compile(passwordFormat);
         Pattern emailPattern = Pattern.compile(emailFormat);
         Pattern emailCodePattern = Pattern.compile(emailCodeFormat);
-        if(!namePattern.matcher(user.getValue().getName()).matches()){
-            setIsBasicValid(Validation.NAME_NOT_FORMAL);
+        if(!idPattern.matcher(user.getValue().getMemberId()).matches()){
+            setIsBasicValid(Validation.ID_NOT_FORMAL);
             return;
         }
         else if(!passwordPattern.matcher(user.getValue().getPassword()).matches()){
@@ -214,7 +214,7 @@ public class SignupViewModel extends ViewModel {
 
         /*validation check*/
         String emailCode = user.getValue().getEmailCode();
-        String emailCodeFormat = "^[0-9]{6}$";
+        String emailCodeFormat = "^[0-9a-zA-Z]{6}$";
         Pattern emailCodePattern = Pattern.compile(emailCodeFormat);
         if(!emailCodePattern.matcher(emailCode).matches()){
             setIsEmailCodeSuccess(Validation.EMAIL_CODE_NOT_FORMAL);
@@ -233,13 +233,13 @@ public class SignupViewModel extends ViewModel {
         });
     }
 
-    public void loadBasic(String name, String password, String email){
+    public void setBasic(String memberId, String password, String email){
 
         if(user.getValue() == null){
             user.setValue(new User());
         }
         User userValue = user.getValue();
-        userValue.setName(name);
+        userValue.setMemberId(memberId);
         userValue.setPassword(password);
         userValue.setEmail(email);
     }

@@ -15,18 +15,18 @@ import retrofit2.http.Part;
 public interface SignupApi {
 
     @POST("/send-email")
-    Call<SuccessResponse> emailAuth(
+    Call<SuccessResponse<String>> emailAuth(
             @Body EmailAuthRequest emailAuthRequest
     );
 
     @POST("/verify-code")
-    Call<SuccessResponse> checkEmailCode(
+    Call<SuccessResponse<String>> checkEmailCode(
             @Body EmailCodeRequest emailCodeRequest
     );
 
     @Multipart
     @POST("/signup")
-    Call<SuccessResponse> signup(
+    Call<SuccessResponse<String>> signup(
             @Part("profile") SignupRequest signupRequest,
             @Part MultipartBody.Part profileImage
 

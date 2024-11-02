@@ -6,14 +6,14 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 
 public class SignupRequest {
-    @SerializedName("name")
-    private String name;
+    @SerializedName("memberId")
+    private String memberId;
     @SerializedName("password")
     private String password;
     @SerializedName("email")
     private String email;
-    @SerializedName("username")
-    private String username;
+    @SerializedName("nickname")
+    private String nickname;
     @SerializedName("profileDescription")
     private String profileDescription;
     @SerializedName("instrument")
@@ -25,11 +25,11 @@ public class SignupRequest {
     @SerializedName("records")
     private ArrayList<Record> records;
 
-    public SignupRequest(String name, String password, String email, String userName, String profileDescription, String instrument, String proficiency, String address, ArrayList<Record> records){
-        this.name = name;
+    public SignupRequest(String memberId, String password, String email, String nickname, String profileDescription, String instrument, String proficiency, String address, ArrayList<Record> records){
+        this.memberId = memberId;
         this.password = password;
         this.email = email;
-        this.username = userName;
+        this.nickname = nickname;
         this.profileDescription = profileDescription;
         this.instrument = instrument;
         this.proficiency = proficiency;
@@ -37,8 +37,8 @@ public class SignupRequest {
         this.records = records;
     }
 
-    public String getName() {
-        return name;
+    public String getMemberId() {
+        return memberId;
     }
     public String getPassword() {
         return password;
@@ -47,8 +47,8 @@ public class SignupRequest {
         return email;
     }
 
-    public String getUsername() {
-        return username;
+    public String getNickname() {
+        return nickname;
     }
     public String getProfileDescription() {
         return profileDescription;
@@ -66,8 +66,8 @@ public class SignupRequest {
         return records;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setMemberId(String name) {
+        this.memberId = memberId;
     }
     public void setPassword(String password) {
         this.password = password;
@@ -76,8 +76,8 @@ public class SignupRequest {
         this.email = email;
     }
 
-    public void setUsername(String userName) {
-        this.username = userName;
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public void setProfileDescription(String profileDescription) {

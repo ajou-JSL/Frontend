@@ -38,9 +38,7 @@ public class SignupRepository {
         signupApi = retrofitClient.create(SignupApi.class);
     }
     public SignupRepository(Retrofit retrofitClient, SignupApi signupApi){
-        /**
-         * 수정필요
-         */
+        //TODO 테스트용
         this.retrofitClient = retrofitClient;
         retrofitClientManager.setBaseUrl("http://223.130.162.175:8080/");
         this.signupApi = signupApi;
@@ -55,28 +53,24 @@ public class SignupRepository {
     public void emailAuth(String email, com.example.moum.utils.Callback<Result<Object>> callback) {
 
         EmailAuthRequest emailAuthRequest = new EmailAuthRequest(email);
-        Call<SuccessResponse> result = signupApi.emailAuth(emailAuthRequest);
-        result.enqueue(new Callback<SuccessResponse>() {
+        Call<SuccessResponse<String>> result = signupApi.emailAuth(emailAuthRequest);
+        result.enqueue(new Callback<SuccessResponse<String>>() {
             @Override
-            public void onResponse(Call<SuccessResponse> call, Response<SuccessResponse> response) {
+            public void onResponse(Call<SuccessResponse<String>> call, Response<SuccessResponse<String>> response) {
                 if (response.isSuccessful()) {
-
                     /*성공적으로 응답을 받았을 때*/
-                    SuccessResponse responseBody = response.body();
-                    Log.d(TAG, "status: " + responseBody.getStatus() + "code: " + responseBody.getCode() + "message: " + responseBody.getMessage() + "data: " + responseBody.getData());
+                    SuccessResponse<String> responseBody = response.body();
+                    Log.e(TAG, responseBody.toString());
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<Object> result = new Result<>(validation);
                     callback.onResult(result);
 
                 } else {
-
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
                         if (errorResponse != null && errorResponse.getErrors() != null) {
-                            for (ErrorDetail error : errorResponse.getErrors()) {
-                                Log.d(TAG, "Field: " + error.getField() + " Reason: " + error.getReason());
-                            }
+                            Log.e(TAG, errorResponse.toString());
                             Validation validation = ValueMap.getCodeToVal(errorResponse.getCode());
                             Result<Object> result = new Result<>(validation);
                             callback.onResult(result);
@@ -86,10 +80,8 @@ public class SignupRepository {
                     }
                 }
             }
-
             @Override
-            public void onFailure(Call<SuccessResponse> call, Throwable t) {
-
+            public void onFailure(Call<SuccessResponse<String>> call, Throwable t) {
                 /*요청과 응답에 실패했을 때*/
                 Result<Object> result = new Result<>(Validation.NETWORK_FAILED);
                 callback.onResult(result);
@@ -101,27 +93,23 @@ public class SignupRepository {
     public void checkEmailCode(String email, String verifyCode, com.example.moum.utils.Callback<Result<Object>> callback) {
 
         EmailCodeRequest emailCodeRequest = new EmailCodeRequest(email, verifyCode);
-        Call<SuccessResponse> result = signupApi.checkEmailCode(emailCodeRequest);
-        result.enqueue(new Callback<SuccessResponse>() {
+        Call<SuccessResponse<String>> result = signupApi.checkEmailCode(emailCodeRequest);
+        result.enqueue(new Callback<SuccessResponse<String>>() {
             @Override
-            public void onResponse(Call<SuccessResponse> call, Response<SuccessResponse> response) {
+            public void onResponse(Call<SuccessResponse<String>> call, Response<SuccessResponse<String>> response) {
                 if (response.isSuccessful()) {
-
                     /*성공적으로 응답을 받았을 때*/
                     SuccessResponse responseBody = response.body();
-                    Log.d(TAG, "status: " + responseBody.getStatus() + "code: " + responseBody.getCode() + "message: " + responseBody.getMessage() + "data: " + responseBody.getData());
+                    Log.e(TAG, responseBody.toString());
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<Object> result = new Result<>(validation);
                     callback.onResult(result);
                 } else {
-
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
                         if (errorResponse != null && errorResponse.getErrors() != null) {
-                            for (ErrorDetail error : errorResponse.getErrors()) {
-                                Log.d(TAG, "Field: " + error.getField() + " Reason: " + error.getReason());
-                            }
+                            Log.e(TAG, errorResponse.toString());
                             Validation validation = ValueMap.getCodeToVal(errorResponse.getCode());
                             Result<Object> result = new Result<>(validation);
                             callback.onResult(result);
@@ -131,9 +119,8 @@ public class SignupRepository {
                     }
                 }
             }
-
             @Override
-            public void onFailure(Call<SuccessResponse> call, Throwable t) {
+            public void onFailure(Call<SuccessResponse<String>> call, Throwable t) {
                 Result<Object> result = new Result<>(Validation.NETWORK_FAILED);
                 callback.onResult(result);
             }
@@ -143,7 +130,7 @@ public class SignupRepository {
     public void signup(User user, com.example.moum.utils.Callback<Result<Object>> callback) {
 
         SignupRequest signupRequest = new SignupRequest(
-            user.getName(),
+            user.getMemberId(),
             user.getPassword(),
             user.getEmail(),
             user.getNickname(),
@@ -159,27 +146,23 @@ public class SignupRepository {
             profileImage = MultipartBody.Part.createFormData("profileImage", user.getProfileImage().getName(), requestFile);
         }
 
-        Call<SuccessResponse> result = signupApi.signup(signupRequest, profileImage);
-        result.enqueue(new Callback<SuccessResponse>() {
+        Call<SuccessResponse<String>> result = signupApi.signup(signupRequest, profileImage);
+        result.enqueue(new Callback<SuccessResponse<String>>() {
             @Override
-            public void onResponse(Call<SuccessResponse> call, Response<SuccessResponse> response) {
+            public void onResponse(Call<SuccessResponse<String>> call, Response<SuccessResponse<String>> response) {
                 if (response.isSuccessful()) {
-
                     /*성공적으로 응답을 받았을 때*/
                     SuccessResponse responseBody = response.body();
-                    Log.d(TAG, "status: " + responseBody.getStatus() + "code: " + responseBody.getCode() + "message: " + responseBody.getMessage() + "data: " + responseBody.getData());
+                    Log.e(TAG, responseBody.toString());
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<Object> result = new Result<>(validation);
                     callback.onResult(result);
                 } else {
-
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
                         if (errorResponse != null && errorResponse.getErrors() != null) {
-                            for (ErrorDetail error : errorResponse.getErrors()) {
-                                Log.d(TAG, "Field: " + error.getField() + " Reason: " + error.getReason());
-                            }
+                            Log.e(TAG, errorResponse.toString());
                             Validation validation = ValueMap.getCodeToVal(errorResponse.getCode());
                             Result<Object> result = new Result<>(validation);
                             callback.onResult(result);
@@ -189,9 +172,8 @@ public class SignupRepository {
                     }
                 }
             }
-
             @Override
-            public void onFailure(Call<SuccessResponse> call, Throwable t) {
+            public void onFailure(Call<SuccessResponse<String>> call, Throwable t) {
                 Result<Object> result = new Result<>(Validation.NETWORK_FAILED);
                 callback.onResult(result);
             }

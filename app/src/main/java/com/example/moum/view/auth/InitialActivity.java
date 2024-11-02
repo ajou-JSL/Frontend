@@ -44,19 +44,19 @@ public class InitialActivity extends AppCompatActivity {
         });
 
         /*자동로그인 정보를 SharedPreference에서 불러오기*/
-        SharedPreferenceManager sharedPreferenceManager = new SharedPreferenceManager(context, getString(R.string.preference_file_key));
-        String accessToken = sharedPreferenceManager.getCache(getString(R.string.user_access_token_key), "no-access-token");
-        if(accessToken.isEmpty() || accessToken.equals("no-access-token")){
-            return;
-        }
-        else{
-            /**
-             * 목적지 액티비티 수정 필요
-             */
-            Intent intent = new Intent(InitialActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        }
+//        SharedPreferenceManager sharedPreferenceManager = new SharedPreferenceManager(context, getString(R.string.preference_file_key));
+//        String accessToken = sharedPreferenceManager.getCache(getString(R.string.user_access_token_key), "no-access-token");
+//        if(accessToken.isEmpty() || accessToken.equals("no-access-token")){
+//            return;
+//        }
+//        else{
+//            /**
+//             * 목적지 액티비티 수정 필요
+//             */
+//            Intent intent = new Intent(InitialActivity.this, MainActivity.class);
+//            startActivity(intent);
+//            finish();
+//        }
 
 
     }

@@ -60,10 +60,10 @@ public class SignupProfileActivity extends AppCompatActivity {
 
         /*이전 액티비티에서 전달된 데이터 받기*/
         Intent prevIntent = getIntent();
-        String name = prevIntent.getStringExtra("name");
+        String memberId = prevIntent.getStringExtra("memberId");
         String password = prevIntent.getStringExtra("password");
         String email = prevIntent.getStringExtra("email");
-        signupViewModel.loadBasic(name, password, email);
+        signupViewModel.setBasic(memberId, password, email);
 
         /*Photo picker 선택 후 콜백*/
         ActivityResultLauncher<PickVisualMediaRequest> pickMedia = registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
@@ -296,26 +296,4 @@ public class SignupProfileActivity extends AppCompatActivity {
         });
     }
 
-    private File convertUriToFile(Uri uri){
-
-        File file = null;
-        try {
-            InputStream inputStream = context.getContentResolver().openInputStream(uri);
-            if (inputStream != null) {
-                // 임시 파일 생성
-                file = new File(context.getCacheDir(), "temp_image.jpg");
-                FileOutputStream outputStream = new FileOutputStream(file);
-                byte[] buffer = new byte[1024];
-                int bytesRead;
-                while ((bytesRead = inputStream.read(buffer)) != -1) {
-                    outputStream.write(buffer, 0, bytesRead);
-                }
-                outputStream.close();
-                inputStream.close();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return file;
-    }
 }

@@ -6,7 +6,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class User {
-    private String name;
+    private String memberId;
     private String password;
     private String passwordCheck;
     private String email;
@@ -20,8 +20,8 @@ public class User {
     private String address;
     private ArrayList<Record> records;
 
-    public String getName() {
-        return name;
+    public String getMemberId() {
+        return memberId;
     }
     public String getPassword() {
         return password;
@@ -58,8 +58,8 @@ public class User {
         return records;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setMemberId(String memberId) {
+        this.memberId = memberId;
     }
     public void setPassword(String password) {
         this.password = password;

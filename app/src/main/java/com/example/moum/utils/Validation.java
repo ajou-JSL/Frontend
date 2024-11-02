@@ -4,7 +4,6 @@ public enum Validation {
 
     //not written
     ID_NOT_WRITTEN,
-    NAME_NOT_WRITTEN,
     PASSWORD_NOT_WRITTEN,
     PASSWORD_CHECK_NOT_WRITTEN,
     EMAIL_NOT_WRITTEN,
@@ -15,7 +14,6 @@ public enum Validation {
 
     //not formal
     ID_NOT_FORMAL,
-    NAME_NOT_FORMAL,
     PASSWORD_NOT_FORMAL,
     EMAIL_NOT_FORMAL,
     EMAIL_CODE_NOT_FORMAL,
