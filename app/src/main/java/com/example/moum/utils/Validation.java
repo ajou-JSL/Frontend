@@ -46,6 +46,9 @@ public enum Validation {
     NOT_VALID_ANYWAY,
     NETWORK_FAILED,
 
+    //group
+    GROUP_NOT_SELECTED,
+
     //valid all
     VALID_ALL
 }

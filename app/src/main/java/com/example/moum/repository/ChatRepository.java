@@ -14,6 +14,7 @@ import com.example.moum.data.dto.ChatStreamResponse;
 import com.example.moum.data.dto.SuccessResponse;
 import com.example.moum.data.entity.Chat;
 import com.example.moum.data.entity.Chatroom;
+import com.example.moum.data.entity.Group;
 import com.example.moum.data.entity.Result;
 import com.example.moum.repository.client.RetrofitClientManager;
 import com.example.moum.repository.client.SseClientManager;
@@ -25,6 +26,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.HttpUrl;
@@ -310,6 +312,45 @@ public class ChatRepository {
             @Override
             public void onFailure(Call<SuccessResponse<List<Chatroom>>> call, Throwable t) {
                 Result<List<Chatroom>> result = new Result<>(Validation.NETWORK_FAILED);
+                callback.onResult(result);
+            }
+        });
+    }
+
+    public void loadGroups(String memberId, com.example.moum.utils.Callback<Result<List<Group>>> callback){
+        Call<SuccessResponse<List<Group>>> result = chatApi.loadGroups(memberId);
+        result.enqueue(new retrofit2.Callback<SuccessResponse<List<Group>>>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onResponse(Call<SuccessResponse<List<Group>>> call, Response<SuccessResponse<List<Group>>> response) {
+                if (response.isSuccessful()) {
+                    /*성공적으로 응답을 받았을 때*/
+                    SuccessResponse<List<Group>> responseBody = response.body();
+                    Log.e(TAG, responseBody.toString());
+                    List<Group> groups = responseBody.getData();
+
+                    Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
+                    Result<List<Group>> result = new Result<>(validation, groups);
+                    callback.onResult(result);
+                }
+                else {
+                    /*응답은 받았으나 문제 발생 시*/
+                    try {
+                        ChatErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ChatErrorResponse.class);
+                        if (errorResponse != null) {
+                            Log.e(TAG, errorResponse.toString());
+                            Validation validation = ValueMap.getCodeToVal(errorResponse.getCode());
+                            Result<List<Group>> result = new Result<>(validation);
+                            callback.onResult(result);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<SuccessResponse<List<Group>>> call, Throwable t) {
+                Result<List<Group>> result = new Result<>(Validation.NETWORK_FAILED);
                 callback.onResult(result);
             }
         });

@@ -96,10 +96,10 @@ public class LoginActivity extends AppCompatActivity {
 
         /*자동로그인을 위해 SharedPreference에 토큰 저장*/
         loginViewModel.getToken().observe(this, token -> {
-
             SharedPreferenceManager sharedPreferenceManager = new SharedPreferenceManager(context, getString(R.string.preference_file_key));
             sharedPreferenceManager.setCache(getString(R.string.user_access_token_key), token.getAccess());
             sharedPreferenceManager.setCache(getString(R.string.user_refresh_token_key), token.getRefresh());
+            sharedPreferenceManager.setCache(getString(R.string.user_member_id_key), token.getMemberId());
         });
 
         /*placeholder에 focus시 이벤트*/

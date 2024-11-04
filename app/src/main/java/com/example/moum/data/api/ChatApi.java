@@ -4,6 +4,7 @@ import com.example.moum.data.dto.ChatSendRequest;
 import com.example.moum.data.dto.SuccessResponse;
 import com.example.moum.data.entity.Chat;
 import com.example.moum.data.entity.Chatroom;
+import com.example.moum.data.entity.Group;
 
 import java.util.List;
 
@@ -21,6 +22,11 @@ public interface ChatApi {
 
     @POST("/api/chatroom/member/{memberId}")
     Call<SuccessResponse<List<Chatroom>>> loadChatrooms(
+            @Path("memberId") String memberId
+    );
+
+    @POST("/api/group/{memberId}")
+    Call<SuccessResponse<List<Group>>> loadGroups(
             @Path("memberId") String memberId
     );
 }
