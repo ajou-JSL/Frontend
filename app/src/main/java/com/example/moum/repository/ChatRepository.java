@@ -10,7 +10,6 @@ import androidx.annotation.RequiresApi;
 import com.example.moum.data.api.ChatApi;
 import com.example.moum.data.dto.ChatErrorResponse;
 import com.example.moum.data.dto.ChatSendRequest;
-import com.example.moum.data.dto.ChatSendResponse;
 import com.example.moum.data.dto.ChatStreamResponse;
 import com.example.moum.data.dto.SuccessResponse;
 import com.example.moum.data.entity.Chat;
@@ -75,22 +74,19 @@ public class ChatRepository {
     public void chatSend(Chat chat, com.example.moum.utils.Callback<Result<Chat>> callback) {
 
         ChatSendRequest chatSendRequest = new ChatSendRequest(chat.getSender(), chat.getReceiver(), chat.getMessage());
-        Call<ChatSendResponse> result = chatApi.chatSend(chat.getChatroomId(), chatSendRequest);
-        result.enqueue(new retrofit2.Callback<ChatSendResponse>() {
+        Call<SuccessResponse<Chat>> result = chatApi.chatSend(chat.getChatroomId(), chatSendRequest);
+        result.enqueue(new retrofit2.Callback<SuccessResponse<Chat>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
-            public void onResponse(Call<ChatSendResponse> call, Response<ChatSendResponse> response) {
+            public void onResponse(Call<SuccessResponse<Chat>> call, Response<SuccessResponse<Chat>> response) {
                 if (response.isSuccessful()) {
 
                     /*성공적으로 응답을 받았을 때*/
-                    ChatSendResponse responseBody = response.body();
+                    SuccessResponse<Chat> responseBody = response.body();
                     Log.e(TAG, responseBody.toString());
-                    ChatSendResponse.SentChat sentChat = responseBody.getData();
-                    Log.e(TAG, "[Data] sender: " + sentChat.getSender() + " Receiver: " + sentChat.getReceiver() + " Message: " + sentChat.getMessage() + " Timestamp: " + sentChat.getTimestamp() + " ChatroomId: " + sentChat.getChatroomId());
+                    Chat sentChat = responseBody.getData();
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
-
-                    Chat chat = new Chat(sentChat.getSender(), sentChat.getReceiver(), sentChat.getMessage(), sentChat.getChatroomId(), sentChat.getTimestamp());
-                    Result<Chat> result = new Result<Chat>(validation, chat);
+                    Result<Chat> result = new Result<Chat>(validation, sentChat);
                     callback.onResult(result);
 
                 } else {
@@ -111,7 +107,7 @@ public class ChatRepository {
             }
 
             @Override
-            public void onFailure(Call<ChatSendResponse> call, Throwable t) {
+            public void onFailure(Call<SuccessResponse<Chat>> call, Throwable t) {
                 Result<Chat> result = new Result<Chat>(Validation.NETWORK_FAILED);
                 callback.onResult(result);
             }

@@ -8,6 +8,7 @@ public class Chat {
     private String message;
     private Integer chatroomId;
     private LocalDateTime timestamp;
+    private String timestampFormatted;
     private boolean isSentByMe;
 
     public Chat(String sender, String receiver, String message, Integer chatroomId, LocalDateTime timestamp){
@@ -42,6 +43,10 @@ public class Chat {
         this.timestamp = timestamp;
     }
 
+    public void setTimestampFormatted(String timestampFormatted) {
+        this.timestampFormatted = timestampFormatted;
+    }
+
     public String getMessage() {
         return message;
     }
@@ -66,6 +71,10 @@ public class Chat {
         return isSentByMe;
     }
 
+    public String getTimestampFormatted() {
+        return timestampFormatted;
+    }
+
     @Override
     public String toString() {
         return "Chat{" +
@@ -74,7 +83,6 @@ public class Chat {
                 ", message='" + message + '\'' +
                 ", chatroomId=" + chatroomId +
                 ", timestamp=" + timestamp +
-                ", isSentByMe=" + isSentByMe +
                 '}';
     }
 }

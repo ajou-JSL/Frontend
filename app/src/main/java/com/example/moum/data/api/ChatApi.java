@@ -1,8 +1,8 @@
 package com.example.moum.data.api;
 
 import com.example.moum.data.dto.ChatSendRequest;
-import com.example.moum.data.dto.ChatSendResponse;
 import com.example.moum.data.dto.SuccessResponse;
+import com.example.moum.data.entity.Chat;
 import com.example.moum.data.entity.Chatroom;
 
 import java.util.List;
@@ -14,7 +14,7 @@ import retrofit2.http.Path;
 
 public interface ChatApi {
     @POST("/api/chat/test/{chatroomId}")
-    Call<ChatSendResponse> chatSend(
+    Call<SuccessResponse<Chat>> chatSend(
             @Path("chatroomId") int chatroomId,
             @Body ChatSendRequest chatSendRequest
     );
