@@ -63,14 +63,14 @@ public class LoginViewModel extends ViewModel {
 
         /*valid check*/
 
-        //String idFormant = "^[a-z0-9]{4,20}$";
+        String idFormant = "^[a-z0-9]{4,20}$";
         String passwordFormat = "^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,20}$";
-        //Pattern idPattern = Pattern.compile(idFormant);
+        Pattern idPattern = Pattern.compile(idFormant);
         Pattern passwordPattern = Pattern.compile(passwordFormat);
-//        if(!idPattern.matcher(id.getValue()).matches()){
-//            setIsLoginSuccess(Validation.ID_NOT_FORMAL);
-//            return;
-//        }
+        if(!idPattern.matcher(id.getValue()).matches()){
+            setIsLoginSuccess(Validation.ID_NOT_FORMAL);
+            return;
+        }
         if(!passwordPattern.matcher(password.getValue()).matches()){
             setIsLoginSuccess(Validation.PASSWORD_NOT_FORMAL);
             return;
@@ -80,6 +80,7 @@ public class LoginViewModel extends ViewModel {
         loginRepository.login(id.getValue(), password.getValue(), result -> {
 
             if(result.getValidation() != null && result.getValidation() == Validation.VALID_ALL && result.getData() != null){
+                result.getData().setMemberId(id.getValue());
                 this.token.setValue(result.getData());
             }
             setIsLoginSuccess(result.getValidation());

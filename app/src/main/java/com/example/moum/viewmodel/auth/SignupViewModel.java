@@ -182,7 +182,7 @@ public class SignupViewModel extends ViewModel {
         }
 
         /*isEmailCodeSuccess check*/
-        if(isEmailCodeSuccess.getValue() == null || isEmailCodeSuccess.getValue() != Validation.VALID_ALL){
+        if(isEmailCodeSuccess.getValue() == null || isEmailCodeSuccess.getValue() != Validation.EMAIL_AUTH_SUCCESS){
             setIsBasicValid(Validation.EMAIL_AUTH_NOT_TRIED);
             return;
         }

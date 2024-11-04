@@ -14,7 +14,7 @@ import retrofit2.http.Part;
 
 public interface SignupApi {
 
-    @POST("/send-email")
+    @POST("/send-mail")
     Call<SuccessResponse<String>> emailAuth(
             @Body EmailAuthRequest emailAuthRequest
     );
