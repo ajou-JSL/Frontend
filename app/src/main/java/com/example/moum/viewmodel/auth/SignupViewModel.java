@@ -222,7 +222,7 @@ public class SignupViewModel extends ViewModel {
         }
 
         /*emailAuthSuccess check*/
-        if(getIsEmailAuthSuccess().getValue() == null || getIsEmailAuthSuccess().getValue() != Validation.VALID_ALL){
+        if(getIsEmailAuthSuccess().getValue() == null || getIsEmailAuthSuccess().getValue() != Validation.EMAIL_AUTH_SUCCESS){
             setIsEmailCodeSuccess(Validation.EMAIL_AUTH_NOT_TRIED);
         }
         String email = user.getValue().getEmail();

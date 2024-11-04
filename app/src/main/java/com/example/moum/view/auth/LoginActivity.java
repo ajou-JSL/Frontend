@@ -80,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
             else if(isLoginSuccess == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
             }
-            else if(isLoginSuccess == Validation.VALID_ALL) {
+            else if(isLoginSuccess == Validation.LOGIN_SUCCESS) {
 
                 /**
                  * TO-DO: 이동할 액티비티 수정 필요

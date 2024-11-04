@@ -63,13 +63,13 @@ public class SignupBasicActivity extends AppCompatActivity {
                 binding.signupEdittextEmail.requestFocus();
                 binding.signupErrorEmail.setText("이메일이 유효하지 않습니다.");
             }
-            else if(isEmailAuthSuccess == Validation.EMAIL_ALREADY_AUTH){
+            else if(isEmailAuthSuccess == Validation.EMAIL_AUTH_FAILED){
                 binding.signupEdittextEmail.setEnabled(false);
                 binding.buttonEmailAuth.setVisibility(View.GONE);
                 binding.buttonEmailConfirm.setVisibility(View.VISIBLE);
                 binding.signupErrorEmailCode.setText("이미 인증이 완료된 이메일입니다.");
             }
-            else if(isEmailAuthSuccess == Validation.VALID_ALL){
+            else if(isEmailAuthSuccess == Validation.EMAIL_AUTH_SUCCESS){
                 binding.signupEdittextEmail.setEnabled(false);
                 binding.buttonEmailAuth.setVisibility(View.GONE);
                 binding.buttonEmailAuth.setEnabled(false);
@@ -104,11 +104,7 @@ public class SignupBasicActivity extends AppCompatActivity {
             else if(isEmailCodeSuccess == Validation.EMAIL_AUTH_NOT_TRIED) {
                 Toast.makeText(context, "이메일 인증코드 전송이 정상적으로 이루어지지 않았습니다. 새로고침하세요.", Toast.LENGTH_SHORT).show();
             }
-            else if(isEmailCodeSuccess == Validation.EMAIL_CODE_FAILED) {
-                binding.signupEdittextEmailCode.requestFocus();
-                binding.signupErrorEmailCode.setText("코드가 유효하지 않거나 이미 인증한 코드입니다.");
-            }
-            else if(isEmailCodeSuccess == Validation.EMAIL_CODE_NOT_CORRECT) {
+            else if(isEmailCodeSuccess == Validation.EMAIL_AUTH_FAILED) {
                 binding.signupEdittextEmailCode.requestFocus();
                 binding.signupErrorEmailCode.setText("인증코드가 올바르지 않습니다.");
             }
@@ -116,7 +112,7 @@ public class SignupBasicActivity extends AppCompatActivity {
                 binding.signupEdittextEmailCode.requestFocus();
                 binding.signupErrorEmailCode.setText("호출에 실패하였습니다.");
             }
-            else if(isEmailCodeSuccess == Validation.VALID_ALL){
+            else if(isEmailCodeSuccess == Validation.EMAIL_AUTH_SUCCESS){
                 binding.signupEdittextEmailCode.setEnabled(false);
                 Toast.makeText(context, "이메일 인증에 성공하였습니다.", Toast.LENGTH_SHORT).show();
             }
