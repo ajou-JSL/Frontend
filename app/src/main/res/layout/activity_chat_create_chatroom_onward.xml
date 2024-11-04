@@ -30,7 +30,7 @@
                 app:contentInsetStart="0dp">
 
                 <ImageView
-                    android:id="@+id/button_chat_create_chatroom_onward_return"
+                    android:id="@+id/button_return"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@drawable/button_rounded_left"
@@ -54,7 +54,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"/>
                 <TextView
-                    android:id="@+id/button_chat_create_chatroom_onward_next"
+                    android:id="@+id/button_next"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="완료"
@@ -136,7 +136,7 @@
                             android:paddingBottom="5dp"
                             >
                             <EditText
-                                android:id="@+id/signup_edittext_nickname"
+                                android:id="@+id/edittext_moumtalk_name"
                                 android:layout_width="match_parent"
                                 android:layout_height="33dp"
                                 android:background="@color/transparent"
@@ -146,7 +146,6 @@
                                 android:textColor="@color/gray7"
                                 android:fontFamily="@font/noto_sans_kr_bold"
                                 android:gravity="center_vertical"
-                                android:text="@={viewModel.moumtalkName}"
                                 android:focusable="true"
                                 android:focusableInTouchMode="true"
                                 />
@@ -161,6 +160,7 @@
 
 
                         <LinearLayout
+                            android:id="@+id/placeholder_moumtalk_profile"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
@@ -192,7 +192,7 @@
                             android:orientation="horizontal">
 
                             <de.hdodenhof.circleimageview.CircleImageView
-                                android:id="@+id/imageview_signup_profile"
+                                android:id="@+id/imageview_moumtalk_profile"
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
                                 android:background="@drawable/background_circle_gray"

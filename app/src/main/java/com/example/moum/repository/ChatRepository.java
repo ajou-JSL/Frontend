@@ -16,6 +16,7 @@ import com.example.moum.data.entity.Chat;
 import com.example.moum.data.entity.Chatroom;
 import com.example.moum.data.entity.Group;
 import com.example.moum.data.entity.Result;
+import com.example.moum.data.entity.User;
 import com.example.moum.repository.client.RetrofitClientManager;
 import com.example.moum.repository.client.SseClientManager;
 import com.example.moum.utils.Validation;
@@ -23,6 +24,7 @@ import com.example.moum.utils.ValueMap;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalDateTime;
@@ -317,20 +319,20 @@ public class ChatRepository {
         });
     }
 
-    public void loadGroups(String memberId, com.example.moum.utils.Callback<Result<List<Group>>> callback){
-        Call<SuccessResponse<List<Group>>> result = chatApi.loadGroups(memberId);
-        result.enqueue(new retrofit2.Callback<SuccessResponse<List<Group>>>() {
+    public void createChatroom(String chatroomName, File chatroomProfileFile, ArrayList<User> participants, com.example.moum.utils.Callback<Result<List<Chatroom>>> callback){
+        Call<SuccessResponse<List<Chatroom>>> result = chatApi.loadChatrooms(memberId);
+        result.enqueue(new retrofit2.Callback<SuccessResponse<List<Chatroom>>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
-            public void onResponse(Call<SuccessResponse<List<Group>>> call, Response<SuccessResponse<List<Group>>> response) {
+            public void onResponse(Call<SuccessResponse<List<Chatroom>>> call, Response<SuccessResponse<List<Chatroom>>> response) {
                 if (response.isSuccessful()) {
                     /*성공적으로 응답을 받았을 때*/
-                    SuccessResponse<List<Group>> responseBody = response.body();
+                    SuccessResponse<List<Chatroom>> responseBody = response.body();
                     Log.e(TAG, responseBody.toString());
-                    List<Group> groups = responseBody.getData();
+                    List<Chatroom> chatrooms = responseBody.getData();
 
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
-                    Result<List<Group>> result = new Result<>(validation, groups);
+                    Result<List<Chatroom>> result = new Result<>(validation, chatrooms);
                     callback.onResult(result);
                 }
                 else {
@@ -340,7 +342,7 @@ public class ChatRepository {
                         if (errorResponse != null) {
                             Log.e(TAG, errorResponse.toString());
                             Validation validation = ValueMap.getCodeToVal(errorResponse.getCode());
-                            Result<List<Group>> result = new Result<>(validation);
+                            Result<List<Chatroom>> result = new Result<>(validation);
                             callback.onResult(result);
                         }
                     } catch (Exception e) {
@@ -349,10 +351,11 @@ public class ChatRepository {
                 }
             }
             @Override
-            public void onFailure(Call<SuccessResponse<List<Group>>> call, Throwable t) {
-                Result<List<Group>> result = new Result<>(Validation.NETWORK_FAILED);
+            public void onFailure(Call<SuccessResponse<List<Chatroom>>> call, Throwable t) {
+                Result<List<Chatroom>> result = new Result<>(Validation.NETWORK_FAILED);
                 callback.onResult(result);
             }
         });
     }
+
 }

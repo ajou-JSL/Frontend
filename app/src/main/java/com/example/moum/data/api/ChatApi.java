@@ -24,9 +24,4 @@ public interface ChatApi {
     Call<SuccessResponse<List<Chatroom>>> loadChatrooms(
             @Path("memberId") String memberId
     );
-
-    @POST("/api/group/{memberId}")
-    Call<SuccessResponse<List<Group>>> loadGroups(
-            @Path("memberId") String memberId
-    );
 }

@@ -7,12 +7,14 @@ import com.example.moum.data.entity.Chatroom;
 import com.example.moum.data.entity.Group;
 import com.example.moum.data.entity.Result;
 import com.example.moum.repository.ChatRepository;
+import com.example.moum.repository.TeamRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ChatCreateChatroomViewModel extends ViewModel {
     private ChatRepository chatRepository;
+    private TeamRepository teamRepository;
     private MutableLiveData<Result<List<Group>>> isLoadGroupSuccess = new MutableLiveData<>();
     private Group selectedGroup;
 
@@ -32,10 +34,13 @@ public class ChatCreateChatroomViewModel extends ViewModel {
         this.selectedGroup = group;
     }
 
-    public ChatCreateChatroomViewModel(){ this.chatRepository = ChatRepository.getInstance(); }
+    public ChatCreateChatroomViewModel(){
+        this.chatRepository = ChatRepository.getInstance();
+        this.teamRepository = TeamRepository.getInstance();
+    }
 
     public void loadGroups(String memberId){
-        chatRepository.loadGroups(memberId, this::setIsLoadGroupSuccess);
+        teamRepository.loadGroups(memberId, this::setIsLoadGroupSuccess);
     }
 
 }

@@ -42,6 +42,10 @@ public enum Validation {
     CHAT_RECEIVE_SUCCESS,
     CHAT_RECEIVE_FAIL,
 
+    //chatroom
+    CHATROOM_NAME_EMPTY,
+    PARTICIPATE_AT_LEAST_TWO,
+
     //error
     NOT_VALID_ANYWAY,
     NETWORK_FAILED,
