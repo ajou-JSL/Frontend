@@ -45,6 +45,8 @@ public enum Validation {
     //chatroom
     CHATROOM_NAME_EMPTY,
     PARTICIPATE_AT_LEAST_TWO,
+    CHATROOM_NOT_LOADED,
+    CHATROOM_GROUP_NOT_FOUND,
 
     //error
     NOT_VALID_ANYWAY,

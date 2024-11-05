@@ -42,7 +42,7 @@ public class ChatCreateChatroomOnwardActivity extends AppCompatActivity {
     private SharedPreferenceManager sharedPreferenceManager;
     private String accessToken;
     private String memberId;
-    private ArrayList<User> members;
+    private ArrayList<User> members = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -114,14 +114,17 @@ public class ChatCreateChatroomOnwardActivity extends AppCompatActivity {
 
         /*그룹의 멤버 리스트 조회 요청 결과 감시*/
         viewModel.getIsloadMembersOfGroupSuccess().observe(this, isLoadMembersOfGroupSuccess -> {
-            members.addAll(isLoadMembersOfGroupSuccess.getData());
             Validation validation = isLoadMembersOfGroupSuccess.getValidation();
             //TODO: validation 추가도면 if절 더 추가
-            if(validation == Validation.NETWORK_FAILED){
+            if(validation == Validation.CHATROOM_GROUP_NOT_FOUND){
+                Toast.makeText(context, "단체 설정 정보가 없습니다.", Toast.LENGTH_SHORT).show();
+            }
+            else if(validation == Validation.NETWORK_FAILED){
                 Toast.makeText(context, "호출에 실패했습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "호출 실패 from loadGroups()");
             }
             else if(validation == Validation.VALID_ALL) {
+                members.addAll(isLoadMembersOfGroupSuccess.getData());
                 chatroomParticipantAdapter.notifyItemInserted(members.size()-1);
                 recyclerView.scrollToPosition(0);
             }
@@ -138,9 +141,32 @@ public class ChatCreateChatroomOnwardActivity extends AppCompatActivity {
 
                 String chatroomName = binding.edittextMoumtalkName.getText().toString();
                 ArrayList<Boolean> isParticipates = ChatroomParticipantAdapter.getIsParticipates();
-                viewModel.setInfo(chatroomName, members, isParticipates);
+                viewModel.setInfo(groupId, chatroomName, members, isParticipates);
                 viewModel.createChatroom(context);
             }
         });
+
+        /*제출 버튼 결과 감시*/
+        viewModel.getIsCreateChatroomSuccess().observe(this, result -> {
+            if(result == Validation.CHATROOM_NOT_LOADED){
+                Toast.makeText(context, "채팅방 정보를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
+            }
+            else if(result == Validation.CHATROOM_NAME_EMPTY){
+                binding.signupErrorMoumtalkName.setText("모음톡 이름을 입력하세요.");
+                binding.edittextMoumtalkName.requestFocus();
+            }
+            else if(result == Validation.PARTICIPATE_AT_LEAST_TWO){
+                binding.signupErrorMoumtalkParticipants.setText("멤버를 1명 이상 선택하세요.");
+                binding.recyclerMoumtalkParticipants.requestFocus();
+            }
+            else if(result == Validation.NETWORK_FAILED){
+                Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Toast.makeText(context, "알 수 없는 감시 결과", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "알 수 없는 감시 결과");
+            }
+        });
+
     }
 }

@@ -27,7 +27,7 @@ public interface SignupApi {
     @Multipart
     @POST("/signup")
     Call<SuccessResponse> signup(
-            @Part("profile") SignupRequest signupRequest,
+            @Part("memberRequestDto") SignupRequest signupRequest,
             @Part MultipartBody.Part profileImage
 
     );

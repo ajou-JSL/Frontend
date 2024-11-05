@@ -60,7 +60,8 @@
                     android:text="다음"
                     android:fontFamily="@font/noto_sans_kr_semibold"
                     android:textColor="@color/gray7"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:clickable="true"/>
 
             </LinearLayout>
 

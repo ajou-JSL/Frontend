@@ -1,8 +1,10 @@
 package com.example.moum.viewmodel.chat;
 
+import android.app.Application;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -14,7 +16,7 @@ import com.example.moum.utils.Validation;
 
 import java.time.LocalDateTime;
 
-public class ChatViewModel extends ViewModel {
+public class ChatViewModel extends AndroidViewModel {
     private final ChatRepository chatRepository;
     private MutableLiveData<Chat> receivedChat = new MutableLiveData<>();
     private MutableLiveData<Result<Chat>> isChatSendSuccess = new MutableLiveData<>();
@@ -26,13 +28,15 @@ public class ChatViewModel extends ViewModel {
     private Chatroom.ChatroomType chatroomType;
     private String chatroomLeader;
 
-    public ChatViewModel(){
-        chatRepository = ChatRepository.getInstance();
+    public ChatViewModel(Application application){
+
+        super(application);
+        chatRepository = ChatRepository.getInstance(application);
     }
 
-    public ChatViewModel(ChatRepository chatRepository){
-        this.chatRepository = chatRepository;
-    }
+//    public ChatViewModel(ChatRepository chatRepository){
+//        this.chatRepository = chatRepository;
+//    }
 
     public void setIsChatSendSuccess(Result<Chat> isChatSendSuccess) {
         this.isChatSendSuccess.setValue(isChatSendSuccess);

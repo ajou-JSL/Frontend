@@ -34,4 +34,12 @@ public class Token {
     public String getMemberId() {
         return memberId;
     }
+
+    @Override
+    public String toString() {
+        return "Token{" +
+                "access='" + access + '\'' +
+                ", refresh='" + refresh + '\'' +
+                '}';
+    }
 }

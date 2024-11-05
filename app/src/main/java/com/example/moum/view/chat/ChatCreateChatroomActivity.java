@@ -88,32 +88,32 @@ public class ChatCreateChatroomActivity extends AppCompatActivity {
                 int i = 0;
                 for(Group group : groups)
                     groupNameList[i] = group.getGroupName();
+
+                /*group 스피너 Adapter 연결*/
+                Spinner groupSpinner = binding.spinnerChatroomList;
+                ArrayAdapter<String> groupAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, groupNameList);
+                groupAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                groupSpinner.setAdapter(groupAdapter);
+
+                groupSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        String selectedGroupName = groupNameList[position];
+                        for(Group group : groups)
+                            if(group.getGroupName().equals(selectedGroupName)){
+                                chatCreateChatroomViewModel.setSelectedGroup(group);
+                                binding.signupErrorChatroomList.setText("");
+                            }
+                    }
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                        return;
+                    }
+                });
             }
             else{
                 Toast.makeText(context, "알 수 없는 validation", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "알 수 없는 validation from loadGroups()");
-            }
-        });
-
-        /*group 스피너 Adapter 연결*/
-        Spinner groupSpinner = binding.spinnerChatroomList;
-        ArrayAdapter<String> groupAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, groupNameList);
-        groupAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        groupSpinner.setAdapter(groupAdapter);
-
-        groupSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedGroupName = groupNameList[position];
-                for(Group group : groups)
-                    if(group.getGroupName().equals(selectedGroupName)){
-                        chatCreateChatroomViewModel.setSelectedGroup(group);
-                        binding.signupErrorChatroomList.setText("");
-                    }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                return;
             }
         });
 
@@ -127,6 +127,9 @@ public class ChatCreateChatroomActivity extends AppCompatActivity {
                     intent.putExtra("groupName", group.getGroupName());
                     intent.putExtra("groupId", group.getGroupId());
                     startActivity(intent);
+                }
+                else{
+                    Toast.makeText(ChatCreateChatroomActivity.this, "단체를 선택하세요.", Toast.LENGTH_SHORT).show();
                 }
             }
         });

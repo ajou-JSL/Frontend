@@ -1,5 +1,8 @@
 package com.example.moum.viewmodel.chat;
 
+import android.app.Application;
+
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -12,7 +15,7 @@ import com.example.moum.repository.TeamRepository;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChatCreateChatroomViewModel extends ViewModel {
+public class ChatCreateChatroomViewModel extends AndroidViewModel {
     private ChatRepository chatRepository;
     private TeamRepository teamRepository;
     private MutableLiveData<Result<List<Group>>> isLoadGroupSuccess = new MutableLiveData<>();
@@ -34,8 +37,9 @@ public class ChatCreateChatroomViewModel extends ViewModel {
         this.selectedGroup = group;
     }
 
-    public ChatCreateChatroomViewModel(){
-        this.chatRepository = ChatRepository.getInstance();
+    public ChatCreateChatroomViewModel(Application application){
+        super(application);
+        this.chatRepository = ChatRepository.getInstance(application);
         this.teamRepository = TeamRepository.getInstance();
     }
 

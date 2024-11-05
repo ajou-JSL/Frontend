@@ -1,5 +1,7 @@
 package com.example.moum.repository;
 
+import android.app.Application;
+import android.content.Context;
 import android.os.Build;
 import android.util.Log;
 
@@ -11,6 +13,7 @@ import com.example.moum.data.api.ChatApi;
 import com.example.moum.data.dto.ChatErrorResponse;
 import com.example.moum.data.dto.ChatSendRequest;
 import com.example.moum.data.dto.ChatStreamResponse;
+import com.example.moum.data.dto.ChatroomCreateRequest;
 import com.example.moum.data.dto.SuccessResponse;
 import com.example.moum.data.entity.Chat;
 import com.example.moum.data.entity.Chatroom;
@@ -32,8 +35,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.HttpUrl;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.sse.EventSource;
 import okhttp3.sse.EventSourceListener;
 import okhttp3.sse.EventSources;
@@ -49,28 +55,31 @@ public class ChatRepository {
     private final SseClientManager sseClientManager;
     private final OkHttpClient sseClient;
     private final String TAG = getClass().toString();
+    private static String CHAT_BASE_URL = "http://172.21.38.228:8070/";
 
-    private ChatRepository() {
+    private ChatRepository(Application application) {
+
         retrofitClientManager = new RetrofitClientManager();
-        retrofitClientManager.setBaseUrl("http://172.21.38.228:8070/");
-        retrofitClient = retrofitClientManager.getClient();//이후에는 AuthClient()로 교체 필요!
+        retrofitClientManager.setBaseUrl(CHAT_BASE_URL);
+        retrofitClient = retrofitClientManager.getAuthClient(application.getApplicationContext());
         chatApi = retrofitClient.create(ChatApi.class);
         sseClientManager = new SseClientManager();
+        sseClientManager.setBaseUrl(CHAT_BASE_URL);
         sseClient = sseClientManager.getClient();
     }
 
-    public ChatRepository(RetrofitClientManager retrofitClientManager, SseClientManager sseClientManager, ChatApi chatApi){
-        this.retrofitClientManager = retrofitClientManager;
-        this.sseClientManager = sseClientManager;
-        this.retrofitClient = retrofitClientManager.getClient();
-        this.sseClient = sseClientManager.getClient();
-        this.chatApi = chatApi;
-        retrofitClientManager.setBaseUrl("http://172.21.38.228:8070/");
-    }
+//    public ChatRepository(RetrofitClientManager retrofitClientManager, SseClientManager sseClientManager, ChatApi chatApi){
+//        this.retrofitClientManager = retrofitClientManager;
+//        this.sseClientManager = sseClientManager;
+//        this.retrofitClient = retrofitClientManager.getClient();
+//        this.sseClient = sseClientManager.getClient();
+//        this.chatApi = chatApi;
+//        retrofitClientManager.setBaseUrl("http://172.21.38.228:8070/");
+//    }
 
-    public static ChatRepository getInstance() {
+    public static ChatRepository getInstance(Application application) {
         if (instance == null) {
-            instance = new ChatRepository();
+            instance = new ChatRepository(application);
         }
         return instance;
     }
@@ -319,20 +328,32 @@ public class ChatRepository {
         });
     }
 
-    public void createChatroom(String chatroomName, File chatroomProfileFile, ArrayList<User> participants, com.example.moum.utils.Callback<Result<List<Chatroom>>> callback){
-        Call<SuccessResponse<List<Chatroom>>> result = chatApi.loadChatrooms(memberId);
-        result.enqueue(new retrofit2.Callback<SuccessResponse<List<Chatroom>>>() {
+    public void createChatroom(Integer groupId, String chatroomName, File chatroomProfileFile, ArrayList<User> participants, com.example.moum.utils.Callback<Result<String>> callback){
+        /*processing into DTO*/
+        MultipartBody.Part profileImage = null;
+        if(chatroomProfileFile != null){
+            RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpg"), chatroomProfileFile);
+            profileImage = MultipartBody.Part.createFormData("profileImage", chatroomProfileFile.getName(), requestFile);
+        }
+        ArrayList<ChatroomCreateRequest.Member> members = new ArrayList<>();
+        for(User user : participants){
+            ChatroomCreateRequest.Member member = new ChatroomCreateRequest.Member(user.getName());
+            members.add(member);
+        }
+        ChatroomCreateRequest request = new ChatroomCreateRequest(groupId, chatroomName, members);
+
+        Call<SuccessResponse<String>> result = chatApi.createChatroom(profileImage, request);
+        result.enqueue(new retrofit2.Callback<SuccessResponse<String>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
-            public void onResponse(Call<SuccessResponse<List<Chatroom>>> call, Response<SuccessResponse<List<Chatroom>>> response) {
+            public void onResponse(Call<SuccessResponse<String>> call, Response<SuccessResponse<String>> response) {
                 if (response.isSuccessful()) {
                     /*성공적으로 응답을 받았을 때*/
-                    SuccessResponse<List<Chatroom>> responseBody = response.body();
+                    SuccessResponse<String> responseBody = response.body();
                     Log.e(TAG, responseBody.toString());
-                    List<Chatroom> chatrooms = responseBody.getData();
 
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
-                    Result<List<Chatroom>> result = new Result<>(validation, chatrooms);
+                    Result<String> result = new Result<>(validation);
                     callback.onResult(result);
                 }
                 else {
@@ -342,7 +363,7 @@ public class ChatRepository {
                         if (errorResponse != null) {
                             Log.e(TAG, errorResponse.toString());
                             Validation validation = ValueMap.getCodeToVal(errorResponse.getCode());
-                            Result<List<Chatroom>> result = new Result<>(validation);
+                            Result<String> result = new Result<>(validation);
                             callback.onResult(result);
                         }
                     } catch (Exception e) {
@@ -351,8 +372,8 @@ public class ChatRepository {
                 }
             }
             @Override
-            public void onFailure(Call<SuccessResponse<List<Chatroom>>> call, Throwable t) {
-                Result<List<Chatroom>> result = new Result<>(Validation.NETWORK_FAILED);
+            public void onFailure(Call<SuccessResponse<String>> call, Throwable t) {
+                Result<String> result = new Result<>(Validation.NETWORK_FAILED);
                 callback.onResult(result);
             }
         });

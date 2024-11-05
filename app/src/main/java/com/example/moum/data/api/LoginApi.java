@@ -1,8 +1,10 @@
 package com.example.moum.data.api;
 
 import com.example.moum.data.dto.LoginRequest;
+import com.example.moum.data.dto.RefreshRequest;
 import com.example.moum.data.dto.SignupRequest;
 import com.example.moum.data.dto.SuccessResponse;
+import com.example.moum.data.entity.Token;
 
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -17,5 +19,10 @@ public interface LoginApi {
     Call<SuccessResponse> login(
             @Part("username") RequestBody username,
             @Part("password") RequestBody password
+    );
+
+    @POST("/refresh")
+    Call<SuccessResponse<String>> refresh(
+            @Body RefreshRequest refreshRequest
     );
 }
