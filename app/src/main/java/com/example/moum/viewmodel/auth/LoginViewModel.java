@@ -1,5 +1,8 @@
 package com.example.moum.viewmodel.auth;
 
+import android.app.Application;
+
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -9,7 +12,7 @@ import com.example.moum.utils.Validation;
 
 import java.util.regex.Pattern;
 
-public class LoginViewModel extends ViewModel {
+public class LoginViewModel extends AndroidViewModel {
 
     private final LoginRepository loginRepository;
     private final MutableLiveData<String> id = new MutableLiveData<>();
@@ -17,13 +20,14 @@ public class LoginViewModel extends ViewModel {
     private final MutableLiveData<Validation> isLoginSuccess = new MutableLiveData<>();
     private final MutableLiveData<Token> token = new MutableLiveData<>();
 
-    public LoginViewModel(){
-        loginRepository = LoginRepository.getInstance();
+    public LoginViewModel(Application application){
+        super(application);
+        loginRepository = LoginRepository.getInstance(application);
     }
 
-    public LoginViewModel(LoginRepository loginRepository){
-        this.loginRepository = loginRepository;
-    }
+//    public LoginViewModel(LoginRepository loginRepository){
+//        this.loginRepository = loginRepository;
+//    }
 
     public MutableLiveData<String> getId() {
         return id;

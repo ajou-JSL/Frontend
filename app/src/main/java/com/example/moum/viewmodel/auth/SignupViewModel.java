@@ -233,7 +233,7 @@ public class SignupViewModel extends ViewModel {
         });
     }
 
-    public void setBasic(String memberId, String password, String email){
+    public void setBasic(String memberId, String password, String email, String emailCode){
 
         if(user.getValue() == null){
             user.setValue(new User());
@@ -242,6 +242,7 @@ public class SignupViewModel extends ViewModel {
         userValue.setMemberId(memberId);
         userValue.setPassword(password);
         userValue.setEmail(email);
+        userValue.setEmailCode(emailCode);
     }
 
     public void validCheckProfile(){

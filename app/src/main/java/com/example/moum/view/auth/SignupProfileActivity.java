@@ -37,6 +37,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.SignStyle;
+import java.time.temporal.ChronoField;
 import java.util.Calendar;
 
 public class SignupProfileActivity extends AppCompatActivity {
@@ -63,7 +66,16 @@ public class SignupProfileActivity extends AppCompatActivity {
         String memberId = prevIntent.getStringExtra("memberId");
         String password = prevIntent.getStringExtra("password");
         String email = prevIntent.getStringExtra("email");
-        signupViewModel.setBasic(memberId, password, email);
+        String emailCode = prevIntent.getStringExtra("emailCode");
+        signupViewModel.setBasic(memberId, password, email, emailCode);
+
+        /*이전 버튼 클릭 이벤트*/
+        binding.buttonReturn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         /*Photo picker 선택 후 콜백*/
         ActivityResultLauncher<PickVisualMediaRequest> pickMedia = registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
@@ -203,7 +215,6 @@ public class SignupProfileActivity extends AppCompatActivity {
 
         /*제출 버튼 결과 감시*/
         signupViewModel.getIsProfileValid().observe(this, isProfileValid -> {
-
             if(isProfileValid == Validation.NOT_VALID_ANYWAY || isProfileValid == Validation.NICKNAME_NOT_WRITTEN) {
                 binding.signupEdittextNickname.requestFocus();
                 binding.signupErrorNickname.setText("닉네임을 입력하세요.");
@@ -230,7 +241,13 @@ public class SignupProfileActivity extends AppCompatActivity {
                     String recordName = edittextRecordName.getText().toString();
                     String startDateString = buttonRecordStart.getText().toString();
                     String endDateString = buttonRecordEnd.getText().toString();
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                    DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+                            .appendValue(ChronoField.YEAR, 4)
+                            .appendLiteral('-')
+                            .appendValue(ChronoField.MONTH_OF_YEAR, 1, 2, SignStyle.NOT_NEGATIVE)
+                            .appendLiteral('-')
+                            .appendValue(ChronoField.DAY_OF_MONTH, 1, 2, SignStyle.NOT_NEGATIVE)
+                            .toFormatter();
                     LocalDate startDate = LocalDate.parse(startDateString, formatter);
                     LocalDate endDate = LocalDate.parse(endDateString, formatter);
 
@@ -239,23 +256,32 @@ public class SignupProfileActivity extends AppCompatActivity {
                 signupViewModel.signup(context);
             }
             else{
+                Toast.makeText(context, "알수 없는 감시 결과(Code: " + isProfileValid.toString() + ")", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "다음 버튼 감시 결과를 알 수 없습니다.");
             }
         });
 
         /*signup 결과 감시*/
         signupViewModel.getIsSignupSuccess().observe(this, isSignupSuccess -> {
-
-            if(isSignupSuccess == Validation.NETWORK_FAILED) {
+            if(isSignupSuccess == Validation.INVALID_TYPE_VALUE){
+                Toast.makeText(context, "잘못 입력된 값이 있습니다.", Toast.LENGTH_SHORT).show();
+            }
+            else if(isSignupSuccess == Validation.EMAIL_AUTH_ALREADY){
+                Toast.makeText(context, "이미 가입 완료된 이메일입니다.", Toast.LENGTH_SHORT).show();
+            }
+            else if(isSignupSuccess == Validation.EMAIL_AUTH_FAILED){
+                Toast.makeText(context, "이메일 인증이 실패하였습니다.", Toast.LENGTH_SHORT).show();
+            }
+            else if(isSignupSuccess == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
             }
-            else if(isSignupSuccess == Validation.VALID_ALL) {
-
+            else if(isSignupSuccess == Validation.SIGNUP_SUCCESS) {
                 /*다음 Acitivity로 이동*/
                 Intent nextIntent = new Intent(SignupProfileActivity.this, InitialActivity.class);
                 startActivity(nextIntent);
             }
             else{
+                Toast.makeText(context, "알수 없는 감시 결과(Code: " + isSignupSuccess.toString() + ")", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "signup 감시 결과를 알 수 없습니다.");
             }
         });

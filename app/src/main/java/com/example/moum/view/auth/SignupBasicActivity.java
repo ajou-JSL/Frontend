@@ -2,6 +2,7 @@ package com.example.moum.view.auth;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -64,13 +65,15 @@ public class SignupBasicActivity extends AppCompatActivity {
                 binding.signupErrorEmail.setText("이메일이 유효하지 않습니다.");
             }
             else if(isEmailAuthSuccess == Validation.EMAIL_AUTH_FAILED){
-                binding.signupEdittextEmail.setEnabled(false);
-                binding.buttonEmailAuth.setVisibility(View.GONE);
-                binding.buttonEmailConfirm.setVisibility(View.VISIBLE);
                 binding.signupErrorEmailCode.setText("이미 인증이 완료된 이메일입니다.");
+            }
+            else if (isEmailAuthSuccess == Validation.INVALID_INPUT_VALUE){
+                binding.signupEdittextEmail.requestFocus();
+                binding.signupErrorEmail.setText("이메일이 유효하지 않습니다.");
             }
             else if(isEmailAuthSuccess == Validation.EMAIL_AUTH_SUCCESS){
                 binding.signupEdittextEmail.setEnabled(false);
+                binding.signupEdittextEmail.setTextColor(Color.GRAY);
                 binding.buttonEmailAuth.setVisibility(View.GONE);
                 binding.buttonEmailAuth.setEnabled(false);
                 binding.buttonEmailConfirm.setVisibility(View.VISIBLE);
@@ -82,8 +85,8 @@ public class SignupBasicActivity extends AppCompatActivity {
                 binding.signupErrorEmailCode.setText("호출에 실패하였습니다.");
             }
             else{
+                Toast.makeText(context, "알수 없는 감시 결과(Code: " + isEmailAuthSuccess.toString() + ")", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "이메일 인증 버튼 감시 결과를 알 수 없습니다.");
-                Log.e(TAG, "validation: " + isEmailAuthSuccess.toString());
             }
 
         });
@@ -113,17 +116,25 @@ public class SignupBasicActivity extends AppCompatActivity {
                 binding.signupEdittextEmailCode.requestFocus();
                 binding.signupErrorEmailCode.setText("인증코드가 올바르지 않습니다.");
             }
+            else if(isEmailCodeSuccess == Validation.EMAIL_AUTH_ALREADY) {
+                Toast.makeText(context, "이미 인증이 완료된 이메일입니다. 다른 메일로 가입을 시도하세요.", Toast.LENGTH_SHORT).show();
+            }
+            else if (isEmailCodeSuccess == Validation.INVALID_TYPE_VALUE){
+                binding.signupEdittextEmailCode.requestFocus();
+                binding.signupErrorEmailCode.setText("인증코드가 올바르지 않습니다.");
+            }
             else if(isEmailCodeSuccess == Validation.NETWORK_FAILED) {
                 binding.signupEdittextEmailCode.requestFocus();
                 binding.signupErrorEmailCode.setText("호출에 실패하였습니다.");
             }
             else if(isEmailCodeSuccess == Validation.EMAIL_AUTH_SUCCESS){
                 binding.signupEdittextEmailCode.setEnabled(false);
+                binding.signupEdittextEmailCode.setTextColor(Color.GRAY);
                 Toast.makeText(context, "이메일 인증에 성공하였습니다.", Toast.LENGTH_SHORT).show();
             }
             else{
+                Toast.makeText(context, "알수 없는 감시 결과(Code: " + isEmailCodeSuccess.toString() + ")", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "이메일 인증 버튼 감시 결과를 알 수 없습니다.");
-                Log.e(TAG, "validation: " + isEmailCodeSuccess.toString());
             }
         });
 
@@ -203,11 +214,12 @@ public class SignupBasicActivity extends AppCompatActivity {
                 intent.putExtra("memberId", signupViewModel.getUser().getValue().getMemberId());
                 intent.putExtra("password", signupViewModel.getUser().getValue().getPassword());
                 intent.putExtra("email", signupViewModel.getUser().getValue().getEmail());
+                intent.putExtra("emailCode", signupViewModel.getUser().getValue().getEmailCode());
                 startActivity(intent);
             }
             else{
+                Toast.makeText(context, "알수 없는 감시 결과(Code: " + isBasicValid.toString() + ")", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "이메일 인증 버튼 감시 결과를 알 수 없습니다.");
-                Log.e(TAG, "validation: " + isBasicValid.toString());
             }
         });
 

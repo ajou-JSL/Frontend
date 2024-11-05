@@ -99,7 +99,7 @@ public class SignupRepository {
             public void onResponse(Call<SuccessResponse<String>> call, Response<SuccessResponse<String>> response) {
                 if (response.isSuccessful()) {
                     /*성공적으로 응답을 받았을 때*/
-                    SuccessResponse responseBody = response.body();
+                    SuccessResponse<String> responseBody = response.body();
                     Log.e(TAG, responseBody.toString());
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<Object> result = new Result<>(validation);
@@ -138,8 +138,11 @@ public class SignupRepository {
             user.getInstrument(),
             user.getProficiency(),
             user.getAddress(),
-            user.getRecords()
+            user.getEmailCode()
         );
+                //TODO 백엔드에서의 이력 추가 완료 시, 주석 제거 필요
+//            user.getRecords()
+
         MultipartBody.Part profileImage = null;
         if(user.getProfileImage() != null){
             RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpg"), user.getProfileImage());

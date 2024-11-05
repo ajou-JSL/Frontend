@@ -1,5 +1,7 @@
 package com.example.moum.repository;
 
+import android.app.Application;
+import android.health.connect.datatypes.AppInfo;
 import android.util.Log;
 
 import com.example.moum.data.api.LoginApi;
@@ -26,14 +28,18 @@ public class LoginRepository {
     private static LoginRepository instance;
     private RetrofitClientManager retrofitClientManager;
     private LoginApi loginApi;
+    private LoginApi authLoginApi;
     private Retrofit retrofitClient;
+    private Retrofit authRetrofitClient;
     private String TAG = getClass().toString();
 
-    private LoginRepository() {
+    private LoginRepository(Application application) {
         retrofitClientManager = new RetrofitClientManager();
         retrofitClientManager.setBaseUrl("http://223.130.162.175:8080/");
         retrofitClient = retrofitClientManager.getClient();
+        authRetrofitClient = retrofitClientManager.getAuthClient(application);
         loginApi = retrofitClient.create(LoginApi.class);
+        authLoginApi = authRetrofitClient.create(LoginApi.class);
     }
 
     public LoginRepository(Retrofit retrofitClient, LoginApi loginApi){
@@ -42,23 +48,22 @@ public class LoginRepository {
         this.loginApi = loginApi;
     }
 
-    public static LoginRepository getInstance() {
+    public static LoginRepository getInstance(Application application) {
         if (instance == null) {
-            instance = new LoginRepository();
+            instance = new LoginRepository(application);
         }
         return instance;
     }
 
+    //TODO: feature/chat과 병합 후에 authClient로 교체해야함
     public void login(String id, String password, com.example.moum.utils.Callback<Result<Token>> callback) {
-
         RequestBody id1 = RequestBody.create(MediaType.parse("multipart/form-data"), id);
         RequestBody password1 = RequestBody.create(MediaType.parse("multipart/form-data"), password);
-        Call<SuccessResponse> result = loginApi.login(id1, password1);
-        result.enqueue(new Callback<SuccessResponse>() {
+        Call<SuccessResponse<String>> result = loginApi.login(id1, password1);
+        result.enqueue(new Callback<SuccessResponse<String>>() {
             @Override
-            public void onResponse(Call<SuccessResponse> call, Response<SuccessResponse> response) {
+            public void onResponse(Call<SuccessResponse<String>> call, Response<SuccessResponse<String>> response) {
                 if (response.isSuccessful()) {
-
                     /*성공적으로 응답을 받았을 때*/
                     String header = response.headers().get("access");
                     Log.e(TAG, "Header: " + header);
@@ -69,21 +74,19 @@ public class LoginRepository {
                     }
                     Token token = new Token(header, cookies.get(0));
 
-                    SuccessResponse responseBody = response.body();
-                    Log.e(TAG, "Status: " + responseBody.getStatus() + "Code: " + responseBody.getCode() + "Message: " + responseBody.getMessage() + "Data: " + responseBody.getData());
+                    SuccessResponse<String> responseBody = response.body();
+                    assert responseBody != null;
+                    Log.e(TAG, responseBody.toString());
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<Token> result = new Result<Token>(validation, token);
                     callback.onResult(result);
 
                 } else {
-
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
                         if (errorResponse != null && errorResponse.getErrors() != null) {
-                            for (ErrorDetail error : errorResponse.getErrors()) {
-                                Log.e(TAG, "Field: " + error.getField() + " Reason: " + error.getReason());
-                            }
+                            Log.e(TAG, errorResponse.toString());
                             Validation validation = ValueMap.getCodeToVal(errorResponse.getCode());
                             Result<Token> result = new Result<Token>(validation);
                             callback.onResult(result);
@@ -93,10 +96,46 @@ public class LoginRepository {
                     }
                 }
             }
-
             @Override
-            public void onFailure(Call<SuccessResponse> call, Throwable t) {
+            public void onFailure(Call<SuccessResponse<String>> call, Throwable t) {
                 Result<Token> result = new Result<Token>(Validation.NETWORK_FAILED);
+                callback.onResult(result);
+            }
+        });
+    }
+
+    public void logout(com.example.moum.utils.Callback<Result<Object>> callback) {
+        Call<SuccessResponse<Object>> result = authLoginApi.logout();
+        result.enqueue(new Callback<SuccessResponse<Object>>() {
+            @Override
+            public void onResponse(Call<SuccessResponse<Object>> call, Response<SuccessResponse<Object>> response) {
+                if (response.isSuccessful()) {
+                    /*성공적으로 응답을 받았을 때*/
+                    SuccessResponse<Object> responseBody = response.body();
+                    assert responseBody != null;
+                    Log.e(TAG, responseBody.toString());
+                    Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
+                    Result<Object> result = new Result<>(validation);
+                    callback.onResult(result);
+
+                } else {
+                    /*응답은 받았으나 문제 발생 시*/
+                    try {
+                        ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
+                        if (errorResponse != null && errorResponse.getErrors() != null) {
+                            Log.e(TAG, errorResponse.toString());
+                            Validation validation = ValueMap.getCodeToVal(errorResponse.getCode());
+                            Result<Object> result = new Result<>(validation);
+                            callback.onResult(result);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<SuccessResponse<Object>> call, Throwable t) {
+                Result<Object> result = new Result<>(Validation.NETWORK_FAILED);
                 callback.onResult(result);
             }
         });

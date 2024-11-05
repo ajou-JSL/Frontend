@@ -354,7 +354,7 @@
                                     android:fontFamily="@font/noto_sans_kr_bold"
                                     android:gravity="center_vertical"
                                     android:hint="인증코드 6자리"
-                                    android:inputType="numberPassword"
+                                    android:inputType="text"
                                     android:textColor="@color/gray7"
                                     android:textSize="14sp"
                                     android:text="@={viewModel.user.emailCode}"/>

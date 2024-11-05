@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.moum.MainActivity;
 import com.example.moum.R;
 import com.example.moum.databinding.ActivityLoginBinding;
 import com.example.moum.utils.SharedPreferenceManager;
@@ -82,10 +83,15 @@ public class LoginActivity extends AppCompatActivity {
             }
             else if(isLoginSuccess == Validation.LOGIN_SUCCESS) {
 
-                /**
-                 * TO-DO: 이동할 액티비티 수정 필요
-                 */
-                Intent intent = new Intent(LoginActivity.this, ChatActivity.class);
+                /*자동로그인을 위해 SharedPreference에 토큰 저장*/
+                loginViewModel.getToken().observe(this, token -> {
+                    SharedPreferenceManager sharedPreferenceManager = new SharedPreferenceManager(context, getString(R.string.preference_file_key));
+                    sharedPreferenceManager.setCache(getString(R.string.user_access_token_key), token.getAccess());
+                    sharedPreferenceManager.setCache(getString(R.string.user_refresh_token_key), token.getRefresh());
+                    sharedPreferenceManager.setCache(getString(R.string.user_member_id_key), token.getMemberId());
+                });
+
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -94,13 +100,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        /*자동로그인을 위해 SharedPreference에 토큰 저장*/
-        loginViewModel.getToken().observe(this, token -> {
-            SharedPreferenceManager sharedPreferenceManager = new SharedPreferenceManager(context, getString(R.string.preference_file_key));
-            sharedPreferenceManager.setCache(getString(R.string.user_access_token_key), token.getAccess());
-            sharedPreferenceManager.setCache(getString(R.string.user_refresh_token_key), token.getRefresh());
-            sharedPreferenceManager.setCache(getString(R.string.user_member_id_key), token.getMemberId());
-        });
+
 
         /*placeholder에 focus시 이벤트*/
         binding.loginEdittextId.setOnFocusChangeListener(new View.OnFocusChangeListener() {

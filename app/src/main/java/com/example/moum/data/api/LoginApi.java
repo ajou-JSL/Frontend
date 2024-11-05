@@ -1,6 +1,7 @@
 package com.example.moum.data.api;
 
 import com.example.moum.data.dto.LoginRequest;
+import com.example.moum.data.dto.RefreshRequest;
 import com.example.moum.data.dto.SignupRequest;
 import com.example.moum.data.dto.SuccessResponse;
 
@@ -14,8 +15,17 @@ import retrofit2.http.Part;
 public interface LoginApi {
     @Multipart
     @POST("/login")
-    Call<SuccessResponse> login(
+    Call<SuccessResponse<String>> login(
             @Part("username") RequestBody username,
             @Part("password") RequestBody password
+    );
+
+    @POST("/logout")
+    Call<SuccessResponse<Object>> logout(
+    );
+
+    @POST("/refresh")
+    Call<SuccessResponse<String>> refresh(
+            @Body RefreshRequest refreshRequest
     );
 }
