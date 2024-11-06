@@ -1,6 +1,5 @@
 package com.example.moum.view.chat;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -8,37 +7,19 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.moum.data.dto.ChatErrorResponse;
 import com.example.moum.data.dto.ChatStreamResponse;
-import com.example.moum.data.entity.Chat;
-import com.example.moum.data.entity.Result;
 import com.example.moum.databinding.ActivityTestBinding;
-import com.example.moum.repository.client.SseClientManager;
-import com.example.moum.utils.Validation;
-import com.example.moum.utils.ValueMap;
 import com.google.gson.Gson;
 import com.here.oksse.OkSse;
 import com.here.oksse.ServerSentEvent;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import okhttp3.HttpUrl;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.sse.EventSource;
-import okhttp3.sse.EventSourceListener;
-import okhttp3.sse.EventSources;
 
 public class TestActivity extends AppCompatActivity {
     private String TAG = getClass().toString();
@@ -52,9 +33,6 @@ public class TestActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
-        SseClientManager sseClientManager = new SseClientManager();
-        sseClientManager.setBaseUrl(CHAT_BASE_URL);
-        OkHttpClient sseClient = sseClientManager.getClient();
         ArrayList<String> messages = new ArrayList<>();
 
         String m;

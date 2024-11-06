@@ -8,9 +8,11 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.moum.data.entity.Chatroom;
 import com.example.moum.data.entity.Result;
 import com.example.moum.data.entity.User;
 import com.example.moum.repository.ChatRepository;
+import com.example.moum.repository.ChatroomRepository;
 import com.example.moum.repository.TeamRepository;
 import com.example.moum.utils.ImageManager;
 import com.example.moum.utils.Validation;
@@ -20,10 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChatCreateChatroomOnWardViewModel extends AndroidViewModel {
-    private ChatRepository chatRepository;
+    private ChatroomRepository chatroomRepository;
     private TeamRepository teamRepository;
-    private Integer groupId;
-    private String chatroomName;
+    private Chatroom chatroom;
     private ArrayList<User> members;
     private ArrayList<Boolean> isParticipates;
     private final MutableLiveData<Uri> chatroomProfile = new MutableLiveData<>();
@@ -33,7 +34,7 @@ public class ChatCreateChatroomOnWardViewModel extends AndroidViewModel {
 
     public ChatCreateChatroomOnWardViewModel(Application application){
         super(application);
-        chatRepository = ChatRepository.getInstance(application);
+        chatroomRepository = ChatroomRepository.getInstance(application);
         teamRepository = TeamRepository.getInstance();
     }
 
@@ -65,15 +66,13 @@ public class ChatCreateChatroomOnWardViewModel extends AndroidViewModel {
         this.isCreateChatroomSuccess.setValue(validation);
     }
 
-    public void setInfo(Integer groupId, String chatroomName, ArrayList<User> members, ArrayList<Boolean> isParticipates){
-        this.groupId = groupId;
-        this.chatroomName = chatroomName;
+    public void setInfo(String memberId, Integer groupId, String chatroomName, ArrayList<User> members, ArrayList<Boolean> isParticipates){
+        this.chatroom = new Chatroom(groupId, null, null, chatroomName, Chatroom.ChatroomType.MULTI_CHAT, memberId);
         this.members = members;
         this.isParticipates = isParticipates;
     }
 
     public void loadMembersOfGroup(Integer groupId){
-
         /*valid check*/
         if(groupId == -1){
             Result<List<User>> result = new Result<>(Validation.CHATROOM_GROUP_NOT_FOUND);
@@ -86,7 +85,6 @@ public class ChatCreateChatroomOnWardViewModel extends AndroidViewModel {
     }
 
     public void createChatroom(Context context){
-
         /*valid check*/
         Result<List<User>> isLoadMembersOfGroupSuccessVal = isloadMembersOfGroupSuccess.getValue();
         if(isLoadMembersOfGroupSuccessVal == null || isLoadMembersOfGroupSuccessVal.getValidation() != Validation.VALID_ALL){
@@ -97,7 +95,7 @@ public class ChatCreateChatroomOnWardViewModel extends AndroidViewModel {
             setIsCreateChatroomSuccess(Validation.CHATROOM_NOT_LOADED);
             return;
         }
-        else if(chatroomName == null || chatroomName.isEmpty()) {
+        else if(chatroom.getChatroomName() == null || chatroom.getChatroomName().isEmpty()) {
             setIsCreateChatroomSuccess(Validation.CHATROOM_NAME_EMPTY);
             return;
         }
@@ -120,7 +118,7 @@ public class ChatCreateChatroomOnWardViewModel extends AndroidViewModel {
         }
 
         /*goto repository*/
-        chatRepository.createChatroom(groupId, chatroomName, chatroomProfileFile, participants, result -> {
+        chatroomRepository.createChatroom(chatroom, chatroomProfileFile, participants, result -> {
             setIsCreateChatroomSuccess(result.getValidation());
         });
     }

@@ -14,9 +14,9 @@
 
     <fragment
         android:id="@+id/menu_moumtalk"
-        android:name="com.example.moum.view.bottomnavi.MoumtalkFragment"
+        android:name="com.example.moum.view.chat.ChatroomFragment"
         android:label="moum talk"
-        tools:layout="@layout/fragment_moumtalk" />
+        tools:layout="@layout/fragment_chatroom" />
 
     <fragment
         android:id="@+id/menu_community"

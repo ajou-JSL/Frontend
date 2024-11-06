@@ -5,9 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -21,18 +18,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.moum.R;
-import com.example.moum.data.entity.Group;
 import com.example.moum.data.entity.User;
-import com.example.moum.databinding.ActivityChatCreateChatroomBinding;
 import com.example.moum.databinding.ActivityChatCreateChatroomOnwardBinding;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
+import com.example.moum.view.chat.adapter.ChatroomParticipantAdapter;
 import com.example.moum.viewmodel.chat.ChatCreateChatroomOnWardViewModel;
-import com.example.moum.viewmodel.chat.ChatCreateChatroomViewModel;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ChatCreateChatroomOnwardActivity extends AppCompatActivity {
     private ChatCreateChatroomOnWardViewModel viewModel;
@@ -141,7 +135,7 @@ public class ChatCreateChatroomOnwardActivity extends AppCompatActivity {
 
                 String chatroomName = binding.edittextMoumtalkName.getText().toString();
                 ArrayList<Boolean> isParticipates = ChatroomParticipantAdapter.getIsParticipates();
-                viewModel.setInfo(groupId, chatroomName, members, isParticipates);
+                viewModel.setInfo(memberId, groupId, chatroomName, members, isParticipates);
                 viewModel.createChatroom(context);
             }
         });

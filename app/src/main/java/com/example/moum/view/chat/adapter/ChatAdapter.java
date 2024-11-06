@@ -1,4 +1,4 @@
-package com.example.moum.view.chat;
+package com.example.moum.view.chat.adapter;
 
 import android.os.Build;
 import android.view.LayoutInflater;

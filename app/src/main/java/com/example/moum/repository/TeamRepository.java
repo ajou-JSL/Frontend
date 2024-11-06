@@ -3,39 +3,21 @@ package com.example.moum.repository;
 import android.os.Build;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
-import com.example.moum.data.api.ChatApi;
 import com.example.moum.data.api.TeamApi;
 import com.example.moum.data.dto.ChatErrorResponse;
-import com.example.moum.data.dto.ChatSendRequest;
-import com.example.moum.data.dto.ChatStreamResponse;
 import com.example.moum.data.dto.SuccessResponse;
-import com.example.moum.data.entity.Chat;
-import com.example.moum.data.entity.Chatroom;
 import com.example.moum.data.entity.Group;
 import com.example.moum.data.entity.Result;
 import com.example.moum.data.entity.User;
 import com.example.moum.repository.client.RetrofitClientManager;
-import com.example.moum.repository.client.SseClientManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.utils.ValueMap;
 import com.google.gson.Gson;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.time.LocalDateTime;
 import java.util.List;
 
-import okhttp3.HttpUrl;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.sse.EventSource;
-import okhttp3.sse.EventSourceListener;
-import okhttp3.sse.EventSources;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -54,7 +36,7 @@ public class TeamRepository {
         teamApi = retrofitClient.create(TeamApi.class);
     }
 
-    public TeamRepository(RetrofitClientManager retrofitClientManager, SseClientManager sseClientManager, TeamApi teamApi){
+    public TeamRepository(RetrofitClientManager retrofitClientManager, TeamApi teamApi){
         this.retrofitClientManager = retrofitClientManager;
         this.retrofitClient = retrofitClientManager.getClient();
         this.teamApi = teamApi;

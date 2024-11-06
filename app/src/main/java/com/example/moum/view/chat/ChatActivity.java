@@ -30,7 +30,7 @@ import com.example.moum.databinding.ActivityChatBinding;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
-import com.example.moum.view.auth.SignupProfileActivity;
+import com.example.moum.view.chat.adapter.ChatAdapter;
 import com.example.moum.viewmodel.chat.ChatViewModel;
 
 import java.util.ArrayList;
@@ -64,7 +64,7 @@ public class ChatActivity extends AppCompatActivity {
         /*자동로그인 정보를 SharedPreference에서 불러오기*/
         sharedPreferenceManager = new SharedPreferenceManager(context, getString(R.string.preference_file_key));
         String accessToken = sharedPreferenceManager.getCache(getString(R.string.user_access_token_key), "no-access-token");
-        String memberId = sharedPreferenceManager.getCache("user_memberId", "no-memberId");
+        String memberId = sharedPreferenceManager.getCache(getString(R.string.user_member_id_key), "no-memberId");
         if(accessToken.isEmpty() || accessToken.equals("no-access-token")){
             Toast.makeText(context, "로그인 정보가 없어 초기 페이지로 돌아갑니다.", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(context, InitialActivity.class);
@@ -73,20 +73,20 @@ public class ChatActivity extends AppCompatActivity {
         }
 
         /*채팅방 정보 불러오기*/
-        String sender = "testuser"; //임시
-        String receiver = "testuser2"; //임시
         Intent prevIntent = getIntent();
+        int groupId = prevIntent.getIntExtra("groupId", 0);
+        String receiverId = prevIntent.getStringExtra("receiverId");
         int chatroomId = prevIntent.getIntExtra("chatroomId", 0);
         String chatroomName = prevIntent.getStringExtra("chatroomName");
-        String chatroomLastTime = prevIntent.getStringExtra("chatroomLastTime");
+        String chatroomLastTimestamp = prevIntent.getStringExtra("chatroomLastTime");
         String chatroomProfileStr = prevIntent.getStringExtra("chatroomProfile");
         int chatroomTypeInt = prevIntent.getIntExtra("chatroomType", 0);
         String chatroomLeader = prevIntent.getStringExtra("chatroomLeader");
 
         Chatroom.ChatroomType chatroomType = Chatroom.ChatroomType.values()[chatroomTypeInt];
         binding.textviewChatUserName.setText(chatroomName);
-        binding.textviewChatMessageTime.setText(chatroomLastTime);
-        chatViewModel.setChatroomInfo(sender, receiver, chatroomId, chatroomType, chatroomLeader);
+        binding.textviewChatMessageTime.setText(chatroomLastTimestamp);
+        chatViewModel.setChatroomInfo(memberId, groupId, receiverId, chatroomId, chatroomName, chatroomType, chatroomLeader);
         Uri chatroomProfile;
         if(chatroomProfileStr != null) {
             chatroomProfile = Uri.parse(chatroomProfileStr);
@@ -117,7 +117,7 @@ public class ChatActivity extends AppCompatActivity {
             public void onClick(View view) {
                 /*다음 Acitivity로 이동*/
                 Intent nextIntent = new Intent(ChatActivity.this, ChatInviteActivity.class);
-                nextIntent.putExtra("receiver", receiver);
+                nextIntent.putExtra("receiverId", receiverId);
                 startActivity(nextIntent);
             }
         });
@@ -240,7 +240,7 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if(!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE && !chats.isEmpty()){
+                if(!recyclerView.canScrollVertically(-1) && newState == RecyclerView.SCROLL_STATE_IDLE && !chats.isEmpty()){
                     chatViewModel.receiveOldChat(chats.get(0).getTimestamp());
                 }
             }

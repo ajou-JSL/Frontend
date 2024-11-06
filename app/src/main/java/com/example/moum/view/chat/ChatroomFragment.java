@@ -1,4 +1,4 @@
-package com.example.moum.view.bottomnavi;
+package com.example.moum.view.chat;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,22 +16,21 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.moum.MainActivity;
 import com.example.moum.R;
 import com.example.moum.data.entity.Chatroom;
-import com.example.moum.databinding.FragmentMoumtalkBinding;
+import com.example.moum.databinding.FragmentChatroomBinding;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
-import com.example.moum.view.chat.ChatroomAdapter;
+import com.example.moum.view.chat.adapter.ChatroomAdapter;
 import com.example.moum.viewmodel.chat.ChatroomViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MoumtalkFragment extends Fragment {
+public class ChatroomFragment extends Fragment {
 
-    private FragmentMoumtalkBinding binding;
+    private FragmentChatroomBinding binding;
     private ChatroomViewModel chatroomViewModel;
     private Context context;
     private final String TAG = getClass().toString();
@@ -42,7 +41,7 @@ public class MoumtalkFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = FragmentMoumtalkBinding.inflate(inflater,container, false);
+        binding = FragmentChatroomBinding.inflate(inflater,container, false);
         chatroomViewModel = new ViewModelProvider(requireActivity()).get(ChatroomViewModel.class);
         context = getContext();
         View view = binding.getRoot();
@@ -50,6 +49,7 @@ public class MoumtalkFragment extends Fragment {
         /*자동로그인 정보를 SharedPreference에서 불러오기*/
         sharedPreferenceManager = new SharedPreferenceManager(context, getString(R.string.preference_file_key));
         String accessToken = sharedPreferenceManager.getCache(getString(R.string.user_access_token_key), "no-access-token");
+        String memberId = sharedPreferenceManager.getCache(getString(R.string.user_member_id_key), "no-memberId");
         if(accessToken.isEmpty() || accessToken.equals("no-access-token")){
             Toast.makeText(context, "로그인 정보가 없어 초기 페이지로 돌아갑니다.", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(context, InitialActivity.class);
@@ -65,9 +65,7 @@ public class MoumtalkFragment extends Fragment {
         recyclerView.setAdapter(chatroomAdapter);
 
         /*채팅방 리스트 정보 불러오기*/
-        // TODO: 이후 토큰 사용 방식으로 변경 예정
-        String tempMemberId = "testuser";
-        chatroomViewModel.setMemberId(tempMemberId);
+        chatroomViewModel.setMemberId(memberId);
         chatroomViewModel.loadChatrooms();
 
         /*채팅방 리스트 불러오기 결과 감시*/
@@ -96,6 +94,8 @@ public class MoumtalkFragment extends Fragment {
             public void onClick(View view) {
                 Toast.makeText(context, "새 모음톡 플로팅 버튼 클릭", Toast.LENGTH_SHORT).show();
                 // TODO 플로팅 버튼 클릭 시 모음톡 생성 액티비티로 전환
+                Intent intent = new Intent(context, ChatCreateChatroomActivity.class);
+                context.startActivity(intent);
             }
         });
 

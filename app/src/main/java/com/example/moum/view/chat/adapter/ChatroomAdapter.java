@@ -1,4 +1,4 @@
-package com.example.moum.view.chat;
+package com.example.moum.view.chat.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.moum.R;
 import com.example.moum.data.entity.Chatroom;
+import com.example.moum.view.chat.ChatActivity;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -73,6 +74,8 @@ public class ChatroomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     int pos = getAdapterPosition();
                     if (pos != RecyclerView.NO_POSITION) {
                         Intent intent = new Intent(context, ChatActivity.class);
+                        intent.putExtra("groupId", chatroom.getGroupId());
+                        intent.putExtra("receiverId", chatroom.getReceiverId());
                         intent.putExtra("chatroomId", chatroom.getChatroomId());
                         intent.putExtra("chatroomName", chatroom.getChatroomName());
                         intent.putExtra("chatroomLastTime", chatroomLastTime.getText());

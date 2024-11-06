@@ -27,10 +27,7 @@ public class ChatViewModel extends AndroidViewModel {
     private PublishSubject<Result<Chat>> isReceiveRecentChatSuccess = PublishSubject.create();
     private PublishSubject<Result<Chat>> isReceiveOldChatSuccess = PublishSubject.create();
     private String sender;
-    private String receiver;
-    private Integer chatroomId;
-    private Chatroom.ChatroomType chatroomType;
-    private String chatroomLeader;
+    private Chatroom chatroom;
     private String TAG = getClass().toString();
 
     public ChatViewModel(Application application){
@@ -67,12 +64,9 @@ public class ChatViewModel extends AndroidViewModel {
         return isReceiveOldChatSuccess;
     }
 
-    public void setChatroomInfo(String sender, String receiver, Integer chatroomId, Chatroom.ChatroomType chatroomType, String chatroomLeader){
+    public void setChatroomInfo(String sender, Integer groupId, String receiverId, Integer chatroomId, String chatroomName, Chatroom.ChatroomType chatroomType, String chatroomLeader) {
         this.sender = sender;
-        this.receiver = receiver;
-        this.chatroomId = chatroomId;
-        this.chatroomType = chatroomType;
-        this.chatroomLeader = chatroomLeader;
+        this.chatroom = new Chatroom(groupId, receiverId, chatroomId, chatroomName, chatroomType, chatroomLeader);
     }
 
     public MutableLiveData<Chat> getReceivedChat() {
@@ -81,7 +75,7 @@ public class ChatViewModel extends AndroidViewModel {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void chatSend(String message){
-        Chat chat = new Chat(sender, receiver, message, chatroomId, LocalDateTime.now());
+        Chat chat = new Chat(sender, null, message, chatroom.getChatroomId(), LocalDateTime.now());
         chatRepository.chatSend(chat, result -> {
             if(result.getData() != null){
                 result.getData().setSentByMe(true);
@@ -92,14 +86,14 @@ public class ChatViewModel extends AndroidViewModel {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void chatSendTest(String message){
-        Chat chat = new Chat(sender, receiver, message, chatroomId, LocalDateTime.now());
+        Chat chat = new Chat(sender, null, message, chatroom.getChatroomId(), LocalDateTime.now());
         chat.setSentByMe(true);
         Result<Chat> result = new Result<>(Validation.CHAT_POST_SUCCESS, chat);
         setIsChatSendSuccess(result);
     }
 
     public void receiveRecentChat(){
-        chatRepository.receiveRecentChat(chatroomId, result -> {
+        chatRepository.receiveRecentChat(chatroom.getChatroomId(), result -> {
             if(result.getData() != null){
                 Chat chat = result.getData();
                 if(chat.getSender().equals(sender))
@@ -112,7 +106,7 @@ public class ChatViewModel extends AndroidViewModel {
     }
 
     public void receiveOldChat(LocalDateTime beforeTimestamp){
-        chatRepository.receiveOldChat(chatroomId, beforeTimestamp, result -> {
+        chatRepository.receiveOldChat(chatroom.getChatroomId(), beforeTimestamp, result -> {
             if(result.getData() != null){
                 Chat chat = result.getData();
                 if(chat.getSender().equals(sender))
