@@ -55,13 +55,18 @@ public class ChatStreamResponse {
         return chatroomId;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public LocalDateTime getTimestamp() {
-        if (timestamp != null) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-ddHH:mm:ss.SSS");
-            return LocalDateTime.parse(timestamp, formatter);
-        }
-        return null;
+//    @RequiresApi(api = Build.VERSION_CODES.O)
+//    public LocalDateTime getTimestamp() {
+//        if (timestamp != null) {
+//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-ddHH:mm:ss.SSS");
+//            return LocalDateTime.parse(timestamp, formatter);
+//        }
+//        return null;
+//    }
+
+
+    public String getTimestamp() {
+        return timestamp;
     }
 
     public String getTimestampFormatted() {

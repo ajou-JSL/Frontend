@@ -1,6 +1,11 @@
 package com.example.moum.data.entity;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Chat {
     private String sender;
@@ -17,6 +22,16 @@ public class Chat {
         this.message = message;
         this.chatroomId = chatroomId;
         this.timestamp = timestamp;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public Chat(String sender, String receiver, String message, Integer chatroomId, String timestamp){
+        this.sender = sender;
+        this.receiver = receiver;
+        this.message = message;
+        this.chatroomId = chatroomId;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
+        this.timestamp = LocalDateTime.parse(timestamp, formatter);
     }
 
     public void setMessage(String message) {

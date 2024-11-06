@@ -24,6 +24,10 @@
         <activity
             android:name=".view.chat.ChatActivity"
             android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".view.auth.InitialActivity"
@@ -55,10 +59,9 @@
         <activity
             android:name=".view.chat.ChatCreateChatroomOnwardActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        </activity>
+        <activity android:name=".view.chat.TestActivity"
+            android:exported="true">
         </activity>
     </application>
 

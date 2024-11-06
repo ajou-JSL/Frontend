@@ -29,12 +29,12 @@ public class SseClientManager {
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
             sseClient = new OkHttpClient.Builder()
-                    .connectTimeout(5, TimeUnit.SECONDS)
-                    .readTimeout(5, TimeUnit.SECONDS)
-                    .writeTimeout(5, TimeUnit.SECONDS)
+//                    .connectTimeout(0, TimeUnit.SECONDS)
+                    .readTimeout(0, TimeUnit.SECONDS)
+//                    .writeTimeout(0, TimeUnit.SECONDS)
                     .addInterceptor(loggingInterceptor)
                     .retryOnConnectionFailure(true)
-                    .connectionPool(new ConnectionPool(1, 1, TimeUnit.MINUTES))
+//                    .connectionPool(new ConnectionPool(1, 1, TimeUnit.MINUTES))
                     .build();
         }
         return sseClient;
@@ -47,9 +47,9 @@ public class SseClientManager {
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
             authSseClient = new OkHttpClient.Builder()
-                    .connectTimeout(5, TimeUnit.SECONDS)
-                    .readTimeout(5, TimeUnit.SECONDS)
-                    .writeTimeout(5, TimeUnit.SECONDS)
+                    .connectTimeout(10, TimeUnit.SECONDS)
+                    .readTimeout(10, TimeUnit.SECONDS)
+                    .writeTimeout(10, TimeUnit.SECONDS)
                     .addInterceptor(loggingInterceptor)
                     .addInterceptor(new AuthInterceptor(context)) //이 요청에는 특별히 Auth가 이루어지도록 붙임
                     .retryOnConnectionFailure(true)

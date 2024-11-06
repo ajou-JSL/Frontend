@@ -3,6 +3,8 @@ package com.example.moum.repository;
 import android.app.Application;
 import android.content.Context;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -46,6 +48,11 @@ import okhttp3.sse.EventSources;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import com.here.oksse.OkSse;
+import com.here.oksse.ServerSentEvent;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class ChatRepository {
     private static ChatRepository instance;
@@ -55,13 +62,13 @@ public class ChatRepository {
     private final SseClientManager sseClientManager;
     private final OkHttpClient sseClient;
     private final String TAG = getClass().toString();
-    private static String CHAT_BASE_URL = "http://172.21.38.228:8070/";
+    private static String CHAT_BASE_URL = "http://172.21.89.157:8070/";
 
     private ChatRepository(Application application) {
 
         retrofitClientManager = new RetrofitClientManager();
         retrofitClientManager.setBaseUrl(CHAT_BASE_URL);
-        retrofitClient = retrofitClientManager.getAuthClient(application.getApplicationContext());
+        retrofitClient = retrofitClientManager.getClient();
         chatApi = retrofitClient.create(ChatApi.class);
         sseClientManager = new SseClientManager();
         sseClientManager.setBaseUrl(CHAT_BASE_URL);
@@ -134,6 +141,7 @@ public class ChatRepository {
                 .addPathSegment("api")
                 .addPathSegment("chat")
                 .addPathSegment("test")
+                .addPathSegment("paging")
                 .addPathSegment(String.valueOf(chatroomId))
                 .build();
 
@@ -144,87 +152,62 @@ public class ChatRepository {
                 .addHeader("Accept", "text/event-stream")
                 .build();
 
-        EventSource eventSource = EventSources.createFactory(sseClient).newEventSource(request, new EventSourceListener() {
+        /*OkSse로 SSE 통신 스트림 연결*/
+        OkSse okSse = new OkSse();
+        Handler handler = new Handler(Looper.getMainLooper());
+        ServerSentEvent sse = okSse.newServerSentEvent(request, new ServerSentEvent.Listener() {
             @Override
-            public void onClosed(@NonNull okhttp3.sse.EventSource eventSource) {
-                super.onClosed(eventSource);
-                Log.e(TAG, "onClosed");
+            public void onOpen(ServerSentEvent sse, okhttp3.Response response) {
+                Log.d(TAG, "SSE connection open - recent");
             }
 
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
-            public void onEvent(@NonNull okhttp3.sse.EventSource eventSource, @Nullable String id, @Nullable String type, @NonNull String data) {
-                super.onEvent(eventSource, id, type, data);
-                Log.e(TAG, "onEvent");
-                ChatStreamResponse receivedChat = new Gson().fromJson(data, ChatStreamResponse.class);
-                Validation validation = Validation.CHAT_RECEIVE_SUCCESS;
-                Chat chat = new Chat(receivedChat.getSender(), receivedChat.getReceiver(), receivedChat.getMessage(), receivedChat.getChatroomId(), receivedChat.getTimestamp());
-                Result<Chat> result = new Result<Chat>(validation, chat);
-                callback.onResult(result);
+            public void onMessage(ServerSentEvent sse, String id, String event, String message) {
+                Log.d(TAG, "Event: "+event+ " => Message; "+message + " - recent");
+                if(event.equals("message")){
+                    ChatStreamResponse receivedChat = new Gson().fromJson(message, ChatStreamResponse.class);
+                    if (receivedChat != null) {
+                        Validation validation = Validation.CHAT_RECEIVE_SUCCESS;
+                        Chat chat = new Chat(receivedChat.getSender(), receivedChat.getReceiver(), receivedChat.getMessage(), receivedChat.getChatroomId(), receivedChat.getTimestamp());
+                        Result<Chat> result = new Result<Chat>(validation, chat);
+                        /*viewModel에 도착하는 순서를 보장하기 위해 handler 사용*/
+                        handler.post(() -> {
+                            callback.onResult(result);
+                        });
+
+                    }
+                }
             }
 
             @Override
-            public void onFailure(@NonNull okhttp3.sse.EventSource eventSource, @Nullable Throwable t, @Nullable okhttp3.Response response) {
-                super.onFailure(eventSource, t, response);
-                Log.e(TAG, "onFailure");
-                Result<Chat> result = new Result<Chat>(Validation.NETWORK_FAILED);
-                callback.onResult(result);
+            public void onComment(ServerSentEvent sse, String comment) {
+                Log.d(TAG, comment + " - recent");
             }
 
             @Override
-            public void onOpen(@NonNull okhttp3.sse.EventSource eventSource, @NonNull okhttp3.Response response) {
-                Log.e(TAG, "onOpen");
-                super.onOpen(eventSource, response);
+            public boolean onRetryTime(ServerSentEvent sse, long milliseconds) {
+                Log.e(TAG, "onRetryTime - recent");
+                return false;
+            }
+
+            @Override
+            public boolean onRetryError(ServerSentEvent sse, Throwable throwable, okhttp3.Response response) {
+                Log.e(TAG, "onRetryError - recent");
+                return false;
+            }
+
+            @Override
+            public void onClosed(ServerSentEvent sse) {
+                Log.e(TAG, "onClosed - recent");
+            }
+
+            @Override
+            public Request onPreRetry(ServerSentEvent sse, Request originalRequest) {
+                Log.e(TAG, "onPreRetry - recent");
+                return null;
             }
         });
-
-
-//        sseClient.newCall(request).enqueue(new okhttp3.Callback() {
-//            @RequiresApi(api = Build.VERSION_CODES.O)
-//            @Override
-//            public void onResponse(@NonNull okhttp3.Call call, @NonNull okhttp3.Response response) throws IOException {
-//                Log.e(TAG, "response 도착");
-//                if(response.isSuccessful()) {
-//
-//                    /*성공적으로 응답을 받았을 때*/
-//                    Log.e(TAG, "SSE  응답 성공");
-//                    try (BufferedReader reader = new BufferedReader(
-//                            new InputStreamReader(response.body().byteStream()))) {
-//                        String line;
-//                        while ((line = reader.readLine()) != null) {
-//                            ChatStreamResponse receivedChat = new Gson().fromJson(line, ChatStreamResponse.class);
-//                            if (receivedChat != null) {
-//                                Validation validation = Validation.CHAT_RECEIVE_SUCCESS;
-//                                Chat chat = new Chat(receivedChat.getSender(), receivedChat.getReceiver(), receivedChat.getMessage(), receivedChat.getChatroomId(), receivedChat.getTimestamp());
-//                                Result<Chat> result = new Result<Chat>(validation, chat);
-//                                callback.onResult(result);
-//                            }
-//                        }
-//                    }
-//                }
-//                else{
-//
-//                    /*응답은 받았으나 문제 발생 시*/
-//                    try {
-//                        ChatErrorResponse errorResponse = new Gson().fromJson(response.body().string(), ChatErrorResponse.class);
-//                        if (errorResponse != null) {
-//                            Log.e(TAG, "Status: " + errorResponse.getStatus() + "Code: " + errorResponse.getCode() + "Messsage: " + errorResponse.getMessage());
-//                            Validation validation = ValueMap.getCodeToVal(errorResponse.getCode());
-//                            Result<Chat> result = new Result<Chat>(validation);
-//                            callback.onResult(result);
-//                        }
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(@NonNull okhttp3.Call call, @NonNull IOException e) {
-//                Result<Chat> result = new Result<Chat>(Validation.NETWORK_FAILED);
-//                callback.onResult(result);
-//            }
-//        });
     }
 
     public void receiveOldChat(Integer chatroomId, LocalDateTime beforeTimestamp, com.example.moum.utils.Callback<Result<Chat>> callback) {
@@ -245,46 +228,60 @@ public class ChatRepository {
                 .get()
                 .build();
 
-        /*SSE client를 통해 요청 전송*/
-        sseClient.newCall(request).enqueue(new okhttp3.Callback() {
+        /*OkSse로 SSE 통신 스트림 연결*/
+        OkSse okSse = new OkSse();
+        Handler handler = new Handler(Looper.getMainLooper());
+        ServerSentEvent sse = okSse.newServerSentEvent(request, new ServerSentEvent.Listener() {
+            @Override
+            public void onOpen(ServerSentEvent sse, okhttp3.Response response) {
+                Log.d(TAG, "SSE connection open - old");
+            }
+
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
-            public void onResponse(@NonNull okhttp3.Call call, @NonNull okhttp3.Response response) throws IOException {
-                if(response.isSuccessful()) {
-                    /*성공적으로 응답을 받았을 때*/
-                    try (BufferedReader reader = new BufferedReader(
-                            new InputStreamReader(response.body().byteStream()))) {
-                        String line;
-                        while ((line = reader.readLine()) != null) {
-                            ChatStreamResponse receivedChat = new Gson().fromJson(line, ChatStreamResponse.class);
-                            if (receivedChat != null) {
-                                Validation validation = Validation.CHAT_RECEIVE_SUCCESS;
-                                Chat chat = new Chat(receivedChat.getSender(), receivedChat.getReceiver(), receivedChat.getMessage(), receivedChat.getChatroomId(), receivedChat.getTimestamp());
-                                Result<Chat> result = new Result<Chat>(validation, chat);
-                                callback.onResult(result);
-                            }
-                        }
-                    }
-                }
-                else{
-                    /*응답은 받았으나 문제 발생 시*/
-                    try {
-                        ChatErrorResponse errorResponse = new Gson().fromJson(response.body().string(), ChatErrorResponse.class);
-                        if (errorResponse != null) {
-                            Log.e(TAG, errorResponse.toString());
-                            Validation validation = ValueMap.getCodeToVal(errorResponse.getCode());
-                            Result<Chat> result = new Result<Chat>(validation);
+            public void onMessage(ServerSentEvent sse, String id, String event, String message) {
+                Log.d(TAG, "Event: "+event+ " => Message; "+message + "- old");
+                if(event.equals("message")){
+                    ChatStreamResponse receivedChat = new Gson().fromJson(message, ChatStreamResponse.class);
+                    if (receivedChat != null) {
+                        Validation validation = Validation.CHAT_RECEIVE_SUCCESS;
+                        Chat chat = new Chat(receivedChat.getSender(), receivedChat.getReceiver(), receivedChat.getMessage(), receivedChat.getChatroomId(), receivedChat.getTimestamp());
+                        Result<Chat> result = new Result<Chat>(validation, chat);
+                        /*viewModel에 도착하는 순서를 보장하기 위해 handler 사용*/
+                        handler.post(() -> {
                             callback.onResult(result);
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                        });
+
                     }
                 }
             }
+
             @Override
-            public void onFailure(@NonNull okhttp3.Call call, @NonNull IOException e) {
-                Result<Chat> result = new Result<Chat>(Validation.NETWORK_FAILED);
-                callback.onResult(result);
+            public void onComment(ServerSentEvent sse, String comment) {
+                Log.d(TAG, comment + "- old");
+            }
+
+            @Override
+            public boolean onRetryTime(ServerSentEvent sse, long milliseconds) {
+                Log.e(TAG, "onRetryTime - old");
+                return false;
+            }
+
+            @Override
+            public boolean onRetryError(ServerSentEvent sse, Throwable throwable, okhttp3.Response response) {
+                Log.e(TAG, "onRetryError - old");
+                return false;
+            }
+
+            @Override
+            public void onClosed(ServerSentEvent sse) {
+                Log.e(TAG, "onClosed - old");
+            }
+
+            @Override
+            public Request onPreRetry(ServerSentEvent sse, Request originalRequest) {
+                Log.e(TAG, "onPreRetry - old");
+                return null;
             }
         });
     }

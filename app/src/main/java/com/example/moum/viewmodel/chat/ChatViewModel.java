@@ -2,6 +2,7 @@ package com.example.moum.viewmodel.chat;
 
 import android.app.Application;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
@@ -16,17 +17,21 @@ import com.example.moum.utils.Validation;
 
 import java.time.LocalDateTime;
 
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.subjects.PublishSubject;
+
 public class ChatViewModel extends AndroidViewModel {
     private final ChatRepository chatRepository;
     private MutableLiveData<Chat> receivedChat = new MutableLiveData<>();
     private MutableLiveData<Result<Chat>> isChatSendSuccess = new MutableLiveData<>();
-    private MutableLiveData<Result<Chat>> isReceiveRecentChatSuccess = new MutableLiveData<>();
-    private MutableLiveData<Result<Chat>> isReceiveOldChatSuccess = new MutableLiveData<>();
+    private PublishSubject<Result<Chat>> isReceiveRecentChatSuccess = PublishSubject.create();
+    private PublishSubject<Result<Chat>> isReceiveOldChatSuccess = PublishSubject.create();
     private String sender;
     private String receiver;
     private Integer chatroomId;
     private Chatroom.ChatroomType chatroomType;
     private String chatroomLeader;
+    private String TAG = getClass().toString();
 
     public ChatViewModel(Application application){
 
@@ -43,22 +48,22 @@ public class ChatViewModel extends AndroidViewModel {
     }
 
     public void setIsReceiveRecentChatSuccess(Result<Chat> isReceiveRecentChatSuccess) {
-        this.isChatSendSuccess.postValue(isReceiveRecentChatSuccess);
+        this.isReceiveRecentChatSuccess.onNext(isReceiveRecentChatSuccess);
     }
 
     public void setIsReceiveOldChatSuccess(Result<Chat> isReceiveOldChatSuccess) {
-        this.isReceiveOldChatSuccess.postValue(isReceiveOldChatSuccess);
+        this.isReceiveOldChatSuccess.onNext(isReceiveOldChatSuccess);
     }
 
     public MutableLiveData<Result<Chat>> getIsChatSendSuccess() {
         return isChatSendSuccess;
     }
 
-    public MutableLiveData<Result<Chat>> getIsReceiveRecentChatSuccess() {
+    public Observable<Result<Chat>> getIsReceiveRecentChatSuccess() {
         return isReceiveRecentChatSuccess;
     }
 
-    public MutableLiveData<Result<Chat>> getIsReceiveOldChatSuccess() {
+    public Observable<Result<Chat>> getIsReceiveOldChatSuccess() {
         return isReceiveOldChatSuccess;
     }
 

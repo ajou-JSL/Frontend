@@ -36,6 +36,9 @@ import com.example.moum.viewmodel.chat.ChatViewModel;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.Disposable;
+
 public class ChatActivity extends AppCompatActivity {
 
     private ActivityChatBinding binding;
@@ -45,6 +48,8 @@ public class ChatActivity extends AppCompatActivity {
     private InputMethodManager inputMethodManager;
     private final String TAG = getClass().toString();
     SharedPreferenceManager sharedPreferenceManager;
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private final static int SIZE_OF_STREAM = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -71,7 +76,7 @@ public class ChatActivity extends AppCompatActivity {
         String sender = "testuser"; //임시
         String receiver = "testuser2"; //임시
         Intent prevIntent = getIntent();
-        int chatroomId = prevIntent.getIntExtra("chatroomId", -1);
+        int chatroomId = prevIntent.getIntExtra("chatroomId", 0);
         String chatroomName = prevIntent.getStringExtra("chatroomName");
         String chatroomLastTime = prevIntent.getStringExtra("chatroomLastTime");
         String chatroomProfileStr = prevIntent.getStringExtra("chatroomProfile");
@@ -175,11 +180,11 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-        /*기존 채팅 불러오기*/
+        /*최신 채팅 불러오기*/
         chatViewModel.receiveRecentChat();
 
-        /*기존 채팅 도착 감시*/
-        chatViewModel.getIsReceiveRecentChatSuccess().observe(this, isReceiveRecentChatSuccess -> {
+        /*최신 채팅 도착 감시*/
+        Disposable recentChatDisposable = chatViewModel.getIsReceiveRecentChatSuccess().subscribe(isReceiveRecentChatSuccess -> {
             Validation validation = isReceiveRecentChatSuccess.getValidation();
             Chat receivedChat = isReceiveRecentChatSuccess.getData();
             if(validation == Validation.CHAT_RECEIVE_SUCCESS){
@@ -197,6 +202,7 @@ public class ChatActivity extends AppCompatActivity {
                 Log.e(TAG, "채팅 불러오기 결과를 알 수 없습니다.");
             }
         });
+        compositeDisposable.add(recentChatDisposable);
 
         /*채팅 보내기 버튼 이벤트*/
         binding.buttonChatSend.setOnClickListener(new View.OnClickListener() {
@@ -204,9 +210,6 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String message = binding.edittextChatSend.getText().toString();
-                /**
-                 * TO-DO: 테스트용 chatSendTest 대신 chatSend()로 변경 요망
-                 */
                 chatViewModel.chatSend(message);
                 binding.edittextChatSend.setText("");
             }
@@ -249,12 +252,13 @@ public class ChatActivity extends AppCompatActivity {
         });
 
         /*이전 채팅 결과 감시*/
-        chatViewModel.getIsReceiveOldChatSuccess().observe(this, isReceiveOldChatSuccess -> {
+        Disposable oldChatDisposable = chatViewModel.getIsReceiveOldChatSuccess().subscribe(isReceiveOldChatSuccess -> {
             Validation validation = isReceiveOldChatSuccess.getValidation();
             Chat receivedChat = isReceiveOldChatSuccess.getData();
             if(validation == Validation.CHAT_RECEIVE_SUCCESS){
                 chats.add(0, receivedChat); // 맨 앞에 add
                 chatAdapter.notifyItemInserted(chats.size()-1);
+                recyclerView.scrollToPosition(SIZE_OF_STREAM - 1);
             }
             else if(validation == Validation.CHAT_RECEIVE_FAIL){
                 Toast.makeText(context, "채팅 불러오기에 실패하였습니다.", Toast.LENGTH_SHORT).show();
@@ -266,10 +270,17 @@ public class ChatActivity extends AppCompatActivity {
                 Log.e(TAG, "채팅 불러오기 결과를 알 수 없습니다.");
             }
         });
+        compositeDisposable.add(oldChatDisposable);
     }
 
     @Override
     protected void onStart(){
         super.onStart();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        compositeDisposable.clear();
     }
 }
