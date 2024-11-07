@@ -40,7 +40,7 @@ public class ChatCreateChatroomViewModel extends AndroidViewModel {
     public ChatCreateChatroomViewModel(Application application){
         super(application);
         this.chatRepository = ChatRepository.getInstance(application);
-        this.teamRepository = TeamRepository.getInstance();
+        this.teamRepository = TeamRepository.getInstance(application);
     }
 
     public void loadGroups(String memberId){

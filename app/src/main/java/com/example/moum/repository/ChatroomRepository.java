@@ -19,6 +19,7 @@ import com.example.moum.data.entity.Chat;
 import com.example.moum.data.entity.Chatroom;
 import com.example.moum.data.entity.Result;
 import com.example.moum.data.entity.User;
+import com.example.moum.repository.client.BaseUrl;
 import com.example.moum.repository.client.RetrofitClientManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.utils.ValueMap;
@@ -46,12 +47,10 @@ public class ChatroomRepository {
     private final RetrofitClientManager retrofitClientManager;
     private final Retrofit retrofitClient;
     private final String TAG = getClass().toString();
-    private static String CHATROOM_BASE_URL = "http://223.130.162.175:8080/";
 
     private ChatroomRepository(Application application) {
-
         retrofitClientManager = new RetrofitClientManager();
-        retrofitClientManager.setBaseUrl(CHATROOM_BASE_URL);
+        retrofitClientManager.setBaseUrl(BaseUrl.BASIC_SERVER_PATH.getUrl());
         retrofitClient = retrofitClientManager.getAuthClient(application);
         chatroomApi = retrofitClient.create(ChatroomApi.class);
     }

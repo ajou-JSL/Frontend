@@ -10,6 +10,7 @@ import com.example.moum.data.dto.ErrorResponse;
 import com.example.moum.data.dto.SuccessResponse;
 import com.example.moum.data.entity.Result;
 import com.example.moum.data.entity.Token;
+import com.example.moum.repository.client.BaseUrl;
 import com.example.moum.repository.client.RetrofitClientManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.utils.ValueMap;
@@ -35,7 +36,7 @@ public class LoginRepository {
 
     private LoginRepository(Application application) {
         retrofitClientManager = new RetrofitClientManager();
-        retrofitClientManager.setBaseUrl("http://223.130.162.175:8080/");
+        retrofitClientManager.setBaseUrl(BaseUrl.BASIC_SERVER_PATH.getUrl());
         retrofitClient = retrofitClientManager.getClient();
         authRetrofitClient = retrofitClientManager.getAuthClient(application);
         loginApi = retrofitClient.create(LoginApi.class);
@@ -43,7 +44,7 @@ public class LoginRepository {
     }
 
     public LoginRepository(Retrofit retrofitClient, LoginApi loginApi){
-        retrofitClientManager.setBaseUrl("http://223.130.162.175:8080/");
+        retrofitClientManager.setBaseUrl(BaseUrl.BASIC_SERVER_PATH.getUrl());
         this.retrofitClient = retrofitClient;
         this.loginApi = loginApi;
     }
@@ -55,7 +56,6 @@ public class LoginRepository {
         return instance;
     }
 
-    //TODO: feature/chat과 병합 후에 authClient로 교체해야함
     public void login(String id, String password, com.example.moum.utils.Callback<Result<Token>> callback) {
         RequestBody id1 = RequestBody.create(MediaType.parse("multipart/form-data"), id);
         RequestBody password1 = RequestBody.create(MediaType.parse("multipart/form-data"), password);

@@ -35,7 +35,7 @@ public class ChatCreateChatroomOnWardViewModel extends AndroidViewModel {
     public ChatCreateChatroomOnWardViewModel(Application application){
         super(application);
         chatroomRepository = ChatroomRepository.getInstance(application);
-        teamRepository = TeamRepository.getInstance();
+        teamRepository = TeamRepository.getInstance(application);
     }
 
     public List<User> getMembers() {

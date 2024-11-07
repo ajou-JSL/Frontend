@@ -11,6 +11,7 @@ import com.example.moum.data.dto.SignupRequest;
 import com.example.moum.data.dto.SuccessResponse;
 import com.example.moum.data.entity.Result;
 import com.example.moum.data.entity.User;
+import com.example.moum.repository.client.BaseUrl;
 import com.example.moum.repository.client.RetrofitClientManager;
 import com.example.moum.utils.ValueMap;
 import com.example.moum.utils.Validation;
@@ -33,14 +34,14 @@ public class SignupRepository {
 
     private SignupRepository() {
         retrofitClientManager = new RetrofitClientManager();
-        retrofitClientManager.setBaseUrl("http://223.130.162.175:8080/");
+        retrofitClientManager.setBaseUrl(BaseUrl.BASIC_SERVER_PATH.getUrl());
         retrofitClient = retrofitClientManager.getClient();
         signupApi = retrofitClient.create(SignupApi.class);
     }
     public SignupRepository(Retrofit retrofitClient, SignupApi signupApi){
         //TODO 테스트용
         this.retrofitClient = retrofitClient;
-        retrofitClientManager.setBaseUrl("http://223.130.162.175:8080/");
+        retrofitClientManager.setBaseUrl(BaseUrl.BASIC_SERVER_PATH.getUrl());
         this.signupApi = signupApi;
     }
     public static SignupRepository getInstance() {

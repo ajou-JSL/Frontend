@@ -18,6 +18,7 @@ import com.example.moum.data.entity.Chat;
 import com.example.moum.data.entity.Chatroom;
 import com.example.moum.data.entity.Result;
 import com.example.moum.data.entity.User;
+import com.example.moum.repository.client.BaseUrl;
 import com.example.moum.repository.client.RetrofitClientManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.utils.ValueMap;
@@ -45,12 +46,11 @@ public class ChatRepository {
     private final RetrofitClientManager retrofitClientManager;
     private final Retrofit retrofitClient;
     private final String TAG = getClass().toString();
-    private static String CHAT_BASE_URL = "http://172.30.1.72:8070/";
 
     private ChatRepository(Application application) {
 
         retrofitClientManager = new RetrofitClientManager();
-        retrofitClientManager.setBaseUrl(CHAT_BASE_URL);
+        retrofitClientManager.setBaseUrl(BaseUrl.CHAT_SERVER_PATH.getUrl());
         retrofitClient = retrofitClientManager.getAuthClient(application);
         chatApi = retrofitClient.create(ChatApi.class);
     }
@@ -115,7 +115,7 @@ public class ChatRepository {
 
     public void receiveRecentChat(Integer chatroomId, com.example.moum.utils.Callback<Result<Chat>> callback) {
         /*URL 생성*/
-        HttpUrl url = HttpUrl.parse(CHAT_BASE_URL)
+        HttpUrl url = HttpUrl.parse(BaseUrl.CHAT_SERVER_PATH.getUrl())
                 .newBuilder()
                 .addPathSegment("api")
                 .addPathSegment("chat")
@@ -195,7 +195,7 @@ public class ChatRepository {
 
     public void receiveOldChat(Integer chatroomId, LocalDateTime beforeTimestamp, com.example.moum.utils.Callback<Result<Chat>> callback) {
         /*URL 생성*/
-        HttpUrl url = HttpUrl.parse(CHAT_BASE_URL)
+        HttpUrl url = HttpUrl.parse(BaseUrl.CHAT_SERVER_PATH.getUrl())
                 .newBuilder()
                 .addPathSegment("api")
                 .addPathSegment("chat")

@@ -1,5 +1,6 @@
 package com.example.moum.repository;
 
+import android.app.Application;
 import android.os.Build;
 import android.util.Log;
 
@@ -11,6 +12,7 @@ import com.example.moum.data.dto.SuccessResponse;
 import com.example.moum.data.entity.Group;
 import com.example.moum.data.entity.Result;
 import com.example.moum.data.entity.User;
+import com.example.moum.repository.client.BaseUrl;
 import com.example.moum.repository.client.RetrofitClientManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.utils.ValueMap;
@@ -29,10 +31,10 @@ public class TeamRepository {
     private final Retrofit retrofitClient;
     private final String TAG = getClass().toString();
 
-    private TeamRepository() {
+    private TeamRepository(Application application) {
         retrofitClientManager = new RetrofitClientManager();
-        retrofitClientManager.setBaseUrl("http:///223.130.162.175:8080/");
-        retrofitClient = retrofitClientManager.getClient();//이후에는 AuthClient()로 교체 필요!
+        retrofitClientManager.setBaseUrl(BaseUrl.BASIC_SERVER_PATH.getUrl());
+        retrofitClient = retrofitClientManager.getAuthClient(application);
         teamApi = retrofitClient.create(TeamApi.class);
     }
 
@@ -40,12 +42,12 @@ public class TeamRepository {
         this.retrofitClientManager = retrofitClientManager;
         this.retrofitClient = retrofitClientManager.getClient();
         this.teamApi = teamApi;
-        retrofitClientManager.setBaseUrl("http:///223.130.162.175:8080/");
+        retrofitClientManager.setBaseUrl(BaseUrl.BASIC_SERVER_PATH.getUrl());
     }
 
-    public static TeamRepository getInstance() {
+    public static TeamRepository getInstance(Application application) {
         if (instance == null) {
-            instance = new TeamRepository();
+            instance = new TeamRepository(application);
         }
         return instance;
     }
