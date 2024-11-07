@@ -25,9 +25,10 @@ public class LoginViewModel extends AndroidViewModel {
         loginRepository = LoginRepository.getInstance(application);
     }
 
-//    public LoginViewModel(LoginRepository loginRepository){
-//        this.loginRepository = loginRepository;
-//    }
+    public LoginViewModel(Application application, LoginRepository loginRepository){
+        super(application);
+        this.loginRepository = loginRepository;
+    }
 
     public MutableLiveData<String> getId() {
         return id;
@@ -66,7 +67,6 @@ public class LoginViewModel extends AndroidViewModel {
         }
 
         /*valid check*/
-
         String idFormant = "^[a-z0-9]{4,20}$";
         String passwordFormat = "^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,20}$";
         Pattern idPattern = Pattern.compile(idFormant);
@@ -82,9 +82,8 @@ public class LoginViewModel extends AndroidViewModel {
 
         /*goto repository*/
         loginRepository.login(id.getValue(), password.getValue(), result -> {
-
-            if(result.getValidation() != null && result.getValidation() == Validation.VALID_ALL && result.getData() != null){
-                result.getData().setMemberId(id.getValue());
+            if(result.getValidation() != null && result.getValidation() == Validation.LOGIN_SUCCESS && result.getData() != null){
+                result.getData().setUesrname(id.getValue());
                 this.token.setValue(result.getData());
             }
             setIsLoginSuccess(result.getValidation());

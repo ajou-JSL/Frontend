@@ -2,7 +2,7 @@ package com.example.moum.repository.client;
 
 public enum BaseUrl {
     BASIC_SERVER_PATH("http://223.130.162.175:8080/"),
-    CHAT_SERVER_PATH("http://172.21.34.87:8070/");
+    CHAT_SERVER_PATH("http://223.130.162.175:8070/");
 
     private String url;
 

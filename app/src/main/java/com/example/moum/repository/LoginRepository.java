@@ -56,13 +56,13 @@ public class LoginRepository {
         return instance;
     }
 
-    public void login(String id, String password, com.example.moum.utils.Callback<Result<Token>> callback) {
-        RequestBody id1 = RequestBody.create(MediaType.parse("multipart/form-data"), id);
+    public void login(String username, String password, com.example.moum.utils.Callback<Result<Token>> callback) {
+        RequestBody username1 = RequestBody.create(MediaType.parse("multipart/form-data"), username);
         RequestBody password1 = RequestBody.create(MediaType.parse("multipart/form-data"), password);
-        Call<SuccessResponse<String>> result = loginApi.login(id1, password1);
-        result.enqueue(new Callback<SuccessResponse<String>>() {
+        Call<SuccessResponse<Integer>> result = loginApi.login(username1, password1);
+        result.enqueue(new Callback<SuccessResponse<Integer>>() {
             @Override
-            public void onResponse(Call<SuccessResponse<String>> call, Response<SuccessResponse<String>> response) {
+            public void onResponse(Call<SuccessResponse<Integer>> call, Response<SuccessResponse<Integer>> response) {
                 if (response.isSuccessful()) {
                     /*성공적으로 응답을 받았을 때*/
                     String header = response.headers().get("access");
@@ -72,10 +72,11 @@ public class LoginRepository {
                     for (String cookie : cookies) {
                         Log.e(TAG, "Cookie: " + cookie);
                     }
-                    Token token = new Token(header, cookies.get(0));
-
-                    SuccessResponse<String> responseBody = response.body();
+                    SuccessResponse<Integer> responseBody = response.body();
                     assert responseBody != null;
+                    Integer id = responseBody.getData();
+                    Token token = new Token(header, cookies.get(0), id);
+
                     Log.e(TAG, responseBody.toString());
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<Token> result = new Result<Token>(validation, token);
@@ -97,7 +98,7 @@ public class LoginRepository {
                 }
             }
             @Override
-            public void onFailure(Call<SuccessResponse<String>> call, Throwable t) {
+            public void onFailure(Call<SuccessResponse<Integer>> call, Throwable t) {
                 Result<Token> result = new Result<Token>(Validation.NETWORK_FAILED);
                 callback.onResult(result);
             }

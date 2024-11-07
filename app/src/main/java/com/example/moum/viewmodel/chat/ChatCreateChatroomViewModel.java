@@ -38,8 +38,8 @@ public class ChatCreateChatroomViewModel extends AndroidViewModel {
         this.teamRepository = TeamRepository.getInstance(application);
     }
 
-    public void loadTeamsAsLeader(String memberId){
-        teamRepository.loadTeamsAsLeader(memberId, this::setIsLoadTeamsAsLeaderSuccess);
+    public void loadTeamsAsLeader(Integer id){
+        teamRepository.loadTeamsAsLeader(id, this::setIsLoadTeamsAsLeaderSuccess);
     }
 
 }

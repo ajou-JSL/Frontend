@@ -21,7 +21,7 @@ public interface TeamApi {
 
     @POST("/api/teams/teams-all/{memberId}")
     Call<SuccessResponse<List<Team>>> loadTeamsAsLeader(
-            @Path("memberId") String memberId
+            @Path("memberId") Integer id
     );
 
 //    @POST("/api/teams/teams-all/{memberId}")

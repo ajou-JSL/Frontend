@@ -57,7 +57,6 @@ public class LoginActivity extends AppCompatActivity {
 
         /*로그인 결과 감시*/
         loginViewModel.getIsLoginSuccess().observe(this, isLoginSuccess -> {
-
             if(isLoginSuccess == Validation.PASSWORD_NOT_WRITTEN) {
                 binding.loginEdittextPassword.requestFocus();
                 binding.loginErrorPassword.setText("비밀번호를 입력하세요.");
@@ -88,7 +87,9 @@ public class LoginActivity extends AppCompatActivity {
                     SharedPreferenceManager sharedPreferenceManager = new SharedPreferenceManager(context, getString(R.string.preference_file_key));
                     sharedPreferenceManager.setCache(getString(R.string.user_access_token_key), token.getAccess());
                     sharedPreferenceManager.setCache(getString(R.string.user_refresh_token_key), token.getRefresh());
-                    sharedPreferenceManager.setCache(getString(R.string.user_member_id_key), token.getMemberId());
+                    sharedPreferenceManager.setCache(getString(R.string.user_username_key), token.getUesrname());
+                    sharedPreferenceManager.setCache(getString(R.string.user_id_key), token.getId());
+                    Log.e(TAG, "access: " + token.getAccess() + " \nrefresh: " + token.getRefresh() + "\nusername: " + token.getUesrname() + "\nid: " + token.getId());
                 });
 
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);

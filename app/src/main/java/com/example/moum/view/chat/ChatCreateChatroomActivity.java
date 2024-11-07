@@ -46,8 +46,9 @@ public class ChatCreateChatroomActivity extends AppCompatActivity {
 
         /*자동로그인 정보를 SharedPreference에서 불러오기*/
         sharedPreferenceManager = new SharedPreferenceManager(context, getString(R.string.preference_file_key));
-        accessToken = sharedPreferenceManager.getCache(getString(R.string.user_access_token_key), "no-access-token");
-        memberId = sharedPreferenceManager.getCache(getString(R.string.user_member_id_key), "no-member-id");
+        String accessToken = sharedPreferenceManager.getCache(getString(R.string.user_access_token_key), "no-access-token");
+        String username = sharedPreferenceManager.getCache(getString(R.string.user_username_key), "no-memberId");
+        Integer id = sharedPreferenceManager.getCache(getString(R.string.user_id_key), -1);
         if(accessToken.isEmpty() || accessToken.equals("no-access-token")){
             Toast.makeText(context, "로그인 정보가 없어 초기 페이지로 돌아갑니다.", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(context, InitialActivity.class);
@@ -66,7 +67,7 @@ public class ChatCreateChatroomActivity extends AppCompatActivity {
 
         /*단체 리스트 받아오기*/
         //groupList = getResources().getStringArray(R.array.proficiency_list);
-        chatCreateChatroomViewModel.loadTeamsAsLeader(memberId);
+        chatCreateChatroomViewModel.loadTeamsAsLeader(id);
 
         /*단체 리스트 받아오기 결과 감시*/
         chatCreateChatroomViewModel.getIsLoadTeamsAsLeaderSuccess().observe(this, result -> {

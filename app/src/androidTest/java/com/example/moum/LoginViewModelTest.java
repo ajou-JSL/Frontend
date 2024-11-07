@@ -1,6 +1,7 @@
 package com.example.moum;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import org.junit.Before;
 import org.junit.Rule;
@@ -13,6 +14,8 @@ import org.mockito.junit.MockitoRule;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
+
+import android.app.Application;
 
 import com.example.moum.data.entity.Result;
 import com.example.moum.data.entity.Token;
@@ -37,7 +40,8 @@ public class LoginViewModelTest {
 
     @Before
     public void setUp() {
-        loginViewModel = new LoginViewModel(loginRepository);
+        Application application = ApplicationProvider.getApplicationContext();
+        loginViewModel = new LoginViewModel(application, loginRepository);
     }
 
     @DisplayName("로그인 정보가 비어있을 시에, 이에 맞는 isLoginSuccess 값을 리턴한다.")
@@ -45,9 +49,9 @@ public class LoginViewModelTest {
     public void testWhenNull_shouldReturnExpectedValue() {
 
         // Given
-        String email = "";
+        String id = "sosongha3";
         String password = "asdfg12345!";
-        loginViewModel.setEmail(email);
+        loginViewModel.setId(id);
         loginViewModel.setPassword(password);
 
         // When
@@ -62,9 +66,9 @@ public class LoginViewModelTest {
     public void testWhenNotValid_shouldReturnExpectedValue() {
 
         // Given
-        String email = "sosongha3@a";
+        String id = "sosongha3";
         String password = "asdfg12345!";
-        loginViewModel.setEmail(email);
+        loginViewModel.setId(id);
         loginViewModel.setPassword(password);
 
         // When
@@ -79,19 +83,19 @@ public class LoginViewModelTest {
     public void testWhenCorrect_shouldReturnExpectedValue() {
 
         // Given
-        String email = "sosongha3@ajou.ac.kr";
+        String id = "sosongha3";
         String password = "asdfg12345!";
-        loginViewModel.setEmail(email);
+        loginViewModel.setId(id);
         loginViewModel.setPassword(password);
         Validation validation = Validation.VALID_ALL;
-        Token token = new Token("abcde", "12345");
+        Token token = new Token("abcde", "12345", 0);
         Result<Token> expectedResult = new Result<>(validation, token);
 
         doAnswer(invocation -> {
             Callback<Result<Token>> callback = invocation.getArgument(2);
             callback.onResult(expectedResult);
             return null;
-        }).when(loginRepository).login(eq(email), eq(password), any(Callback.class));
+        }).when(loginRepository).login(eq(id), eq(password), any(Callback.class));
 
         // When
         loginViewModel.login();

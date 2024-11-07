@@ -1,14 +1,15 @@
 package com.example.moum.data.entity;
 
 public class Token {
-
     private String access;
     private String refresh;
-    private String memberId;
+    private String uesrname;
+    private Integer id;
 
-    public Token(String access, String refresh){
+    public Token(String access, String refresh, Integer id){
         this.access = access;
         this.refresh = refresh;
+        this.id = id;
     }
 
     public void setAccess(String access) {
@@ -19,8 +20,12 @@ public class Token {
         this.refresh = refresh;
     }
 
-    public void setMemberId(String memberId) {
-        this.memberId = memberId;
+    public void setUesrname(String uesrname) {
+        this.uesrname = uesrname;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getAccess() {
@@ -31,8 +36,12 @@ public class Token {
         return refresh;
     }
 
-    public String getMemberId() {
-        return memberId;
+    public String getUesrname() {
+        return uesrname;
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     @Override

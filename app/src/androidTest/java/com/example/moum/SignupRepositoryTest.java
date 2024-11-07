@@ -34,6 +34,7 @@ import retrofit2.Retrofit;
 public class SignupRepositoryTest {
 
     private MockWebServer mockWebServer;
+    private  RetrofitClientManager retrofitClientManager;
     private Retrofit retrofitClient;
     private SignupRepository signupRepository;
     private SignupApi signupApi;
@@ -45,8 +46,9 @@ public class SignupRepositoryTest {
         mockWebServer = new MockWebServer();
         mockWebServer.start(0);
 
-        RetrofitClientManager.setBaseUrl(mockWebServer.url("/").toString());
-        retrofitClient = new RetrofitClientManager().getClient();
+        retrofitClientManager = new RetrofitClientManager();
+        retrofitClientManager.setBaseUrl(mockWebServer.url("/").toString());
+        retrofitClient = retrofitClientManager.getClient();
         signupApi = retrofitClient.create(SignupApi.class);
         signupRepository = new SignupRepository(retrofitClient, signupApi);
 
@@ -187,7 +189,7 @@ public class SignupRepositoryTest {
         signupRepository.checkEmailCode("test@gmail.com", "123456", result -> {
 
             try {
-                assertEquals(Validation.EMAIL_CODE_FAILED, result.getValidation());
+                assertEquals(Validation.EMAIL_AUTH_FAILED, result.getValidation());
             } finally {
                 latch.countDown();
             }

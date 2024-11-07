@@ -64,7 +64,8 @@ public class ChatActivity extends AppCompatActivity {
         /*자동로그인 정보를 SharedPreference에서 불러오기*/
         sharedPreferenceManager = new SharedPreferenceManager(context, getString(R.string.preference_file_key));
         String accessToken = sharedPreferenceManager.getCache(getString(R.string.user_access_token_key), "no-access-token");
-        String memberId = sharedPreferenceManager.getCache(getString(R.string.user_member_id_key), "no-memberId");
+        String username = sharedPreferenceManager.getCache(getString(R.string.user_username_key), "no-memberId");
+        Integer id = sharedPreferenceManager.getCache(getString(R.string.user_id_key), -1);
         if(accessToken.isEmpty() || accessToken.equals("no-access-token")){
             Toast.makeText(context, "로그인 정보가 없어 초기 페이지로 돌아갑니다.", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(context, InitialActivity.class);
@@ -86,13 +87,13 @@ public class ChatActivity extends AppCompatActivity {
         Chatroom.ChatroomType chatroomType = Chatroom.ChatroomType.values()[chatroomTypeInt];
         binding.textviewChatUserName.setText(chatroomName);
         binding.textviewChatMessageTime.setText(chatroomLastTimestamp);
-        chatViewModel.setChatroomInfo(memberId, groupId, receiverId, chatroomId, chatroomName, chatroomType, chatroomLeader);
+        chatViewModel.setChatroomInfo(username, groupId, receiverId, chatroomId, chatroomName, chatroomType, chatroomLeader);
         Uri chatroomProfile;
         if(chatroomProfileStr != null) {
             chatroomProfile = Uri.parse(chatroomProfileStr);
             Glide.with(this).load(chatroomProfile).into(binding.imageChatProfile);
         }
-        if(chatroomLeader != null && chatroomLeader.equals(memberId) && chatroomType == Chatroom.ChatroomType.MULTI_CHAT)
+        if(chatroomLeader != null && chatroomLeader.equals(username) && chatroomType == Chatroom.ChatroomType.MULTI_CHAT)
             binding.buttonChatInvite.setVisibility(View.VISIBLE);
         else
             binding.buttonChatInvite.setVisibility(View.INVISIBLE);
@@ -103,13 +104,6 @@ public class ChatActivity extends AppCompatActivity {
         chatAdapter.setChats(chats, chatroomType);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(chatAdapter);
-
-        /*메세지 새로 도착 시, 리사이클러뷰 업데이트*/
-        chatViewModel.getReceivedChat().observe(this, receivedChat -> {
-            chats.add(receivedChat);
-            chatAdapter.notifyItemInserted(chats.size()-1);
-            recyclerView.scrollToPosition(chats.size()-1);
-        });
 
         /*초대하기 버튼 이벤트*/
         binding.buttonChatInvite.setOnClickListener(new View.OnClickListener() {
@@ -125,7 +119,7 @@ public class ChatActivity extends AppCompatActivity {
         /*설정 스피너 Adapter 연결*/
         Spinner etcSpinner = binding.spinnerChatEtc;
         String[] etcList = getResources().getStringArray(R.array.chat_etc_list);
-        if(chatroomType != Chatroom.ChatroomType.MULTI_CHAT || chatroomLeader == null || !chatroomLeader.equals(memberId))
+        if(chatroomType != Chatroom.ChatroomType.MULTI_CHAT || chatroomLeader == null || !chatroomLeader.equals(username))
             etcList = Arrays.copyOfRange(etcList, 0, 1);
         ArrayAdapter<String> etcAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, etcList);
         etcAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

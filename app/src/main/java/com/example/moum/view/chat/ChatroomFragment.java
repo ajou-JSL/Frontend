@@ -49,7 +49,8 @@ public class ChatroomFragment extends Fragment {
         /*자동로그인 정보를 SharedPreference에서 불러오기*/
         sharedPreferenceManager = new SharedPreferenceManager(context, getString(R.string.preference_file_key));
         String accessToken = sharedPreferenceManager.getCache(getString(R.string.user_access_token_key), "no-access-token");
-        String memberId = sharedPreferenceManager.getCache(getString(R.string.user_member_id_key), "no-memberId");
+        String username = sharedPreferenceManager.getCache(getString(R.string.user_username_key), "no-memberId");
+        Integer id = sharedPreferenceManager.getCache(getString(R.string.user_id_key), -1);
         if(accessToken.isEmpty() || accessToken.equals("no-access-token")){
             Toast.makeText(context, "로그인 정보가 없어 초기 페이지로 돌아갑니다.", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(context, InitialActivity.class);
@@ -65,7 +66,7 @@ public class ChatroomFragment extends Fragment {
         recyclerView.setAdapter(chatroomAdapter);
 
         /*채팅방 리스트 정보 불러오기*/
-        chatroomViewModel.setMemberId(memberId);
+        chatroomViewModel.setMemberId(username);
         chatroomViewModel.loadChatrooms();
 
         /*채팅방 리스트 불러오기 결과 감시*/

@@ -48,21 +48,17 @@ public class ChatRepository {
     private final String TAG = getClass().toString();
 
     private ChatRepository(Application application) {
-
         retrofitClientManager = new RetrofitClientManager();
         retrofitClientManager.setBaseUrl(BaseUrl.CHAT_SERVER_PATH.getUrl());
         retrofitClient = retrofitClientManager.getAuthClient(application);
         chatApi = retrofitClient.create(ChatApi.class);
     }
 
-//    public ChatRepository(RetrofitClientManager retrofitClientManager, SseClientManager sseClientManager, ChatApi chatApi){
-//        this.retrofitClientManager = retrofitClientManager;
-//        this.sseClientManager = sseClientManager;
-//        this.retrofitClient = retrofitClientManager.getClient();
-//        this.sseClient = sseClientManager.getClient();
-//        this.chatApi = chatApi;
-//        retrofitClientManager.setBaseUrl("http://172.21.38.228:8070/");
-//    }
+    public ChatRepository(Application application, RetrofitClientManager retrofitClientManager){
+        this.retrofitClientManager = retrofitClientManager;
+        this.retrofitClient = retrofitClientManager.getAuthClient(application);
+        this.chatApi = retrofitClient.create(ChatApi.class);
+    }
 
     public static ChatRepository getInstance(Application application) {
         if (instance == null) {
@@ -79,7 +75,6 @@ public class ChatRepository {
             @Override
             public void onResponse(Call<SuccessResponse<Chat>> call, Response<SuccessResponse<Chat>> response) {
                 if (response.isSuccessful()) {
-
                     /*성공적으로 응답을 받았을 때*/
                     SuccessResponse<Chat> responseBody = response.body();
                     Log.e(TAG, responseBody.toString());

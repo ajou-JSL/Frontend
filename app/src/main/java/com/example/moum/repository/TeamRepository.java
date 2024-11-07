@@ -8,6 +8,7 @@ import androidx.annotation.RequiresApi;
 
 import com.example.moum.data.api.TeamApi;
 import com.example.moum.data.dto.ChatErrorResponse;
+import com.example.moum.data.dto.ErrorResponse;
 import com.example.moum.data.dto.SuccessResponse;
 import com.example.moum.data.entity.Team;
 import com.example.moum.data.entity.Result;
@@ -130,8 +131,8 @@ public class TeamRepository {
         });
     }
 
-    public void loadTeamsAsLeader(String memberId, com.example.moum.utils.Callback<Result<List<Team>>> callback){
-        Call<SuccessResponse<List<Team>>> result = teamApi.loadTeamsAsLeader(memberId);
+    public void loadTeamsAsLeader(Integer id, com.example.moum.utils.Callback<Result<List<Team>>> callback){
+        Call<SuccessResponse<List<Team>>> result = teamApi.loadTeamsAsLeader(id);
         result.enqueue(new retrofit2.Callback<SuccessResponse<List<Team>>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
@@ -149,7 +150,7 @@ public class TeamRepository {
                 else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
-                        ChatErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ChatErrorResponse.class);
+                        ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
                         if (errorResponse != null) {
                             Log.e(TAG, errorResponse.toString());
                             Validation validation = ValueMap.getCodeToVal(errorResponse.getCode());

@@ -22,7 +22,6 @@ import io.reactivex.rxjava3.subjects.PublishSubject;
 
 public class ChatViewModel extends AndroidViewModel {
     private final ChatRepository chatRepository;
-    private MutableLiveData<Chat> receivedChat = new MutableLiveData<>();
     private MutableLiveData<Result<Chat>> isChatSendSuccess = new MutableLiveData<>();
     private PublishSubject<Result<Chat>> isReceiveRecentChatSuccess = PublishSubject.create();
     private PublishSubject<Result<Chat>> isReceiveOldChatSuccess = PublishSubject.create();
@@ -31,14 +30,14 @@ public class ChatViewModel extends AndroidViewModel {
     private String TAG = getClass().toString();
 
     public ChatViewModel(Application application){
-
         super(application);
         chatRepository = ChatRepository.getInstance(application);
     }
 
-//    public ChatViewModel(ChatRepository chatRepository){
-//        this.chatRepository = chatRepository;
-//    }
+    public ChatViewModel(Application application, ChatRepository chatRepository){
+        super(application);
+        this.chatRepository = chatRepository;
+    }
 
     public void setIsChatSendSuccess(Result<Chat> isChatSendSuccess) {
         this.isChatSendSuccess.setValue(isChatSendSuccess);
@@ -64,19 +63,24 @@ public class ChatViewModel extends AndroidViewModel {
         return isReceiveOldChatSuccess;
     }
 
+    public String getSender() {
+        return sender;
+    }
+
+    public Chatroom getChatroom() {
+        return chatroom;
+    }
+
     public void setChatroomInfo(String sender, Integer groupId, String receiverId, Integer chatroomId, String chatroomName, Chatroom.ChatroomType chatroomType, String chatroomLeader) {
         this.sender = sender;
         this.chatroom = new Chatroom(groupId, receiverId, chatroomId, chatroomName, chatroomType, chatroomLeader);
-    }
-
-    public MutableLiveData<Chat> getReceivedChat() {
-        return receivedChat;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void chatSend(String message){
         Chat chat = new Chat(sender, null, message, chatroom.getChatroomId(), LocalDateTime.now());
         chatRepository.chatSend(chat, result -> {
+            Log.e(TAG, "chatSend return");
             if(result.getData() != null){
                 result.getData().setSentByMe(true);
             }
