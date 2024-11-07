@@ -134,8 +134,8 @@ public class SignupViewModel extends ViewModel {
             setIsBasicValid(Validation.NOT_VALID_ANYWAY);
             return;
         }
-        else if(user.getValue().getName() == null || user.getValue().getName().isEmpty()) {
-            setIsBasicValid(Validation.NAME_NOT_WRITTEN);
+        else if(user.getValue().getUsername() == null || user.getValue().getUsername().isEmpty()) {
+            setIsBasicValid(Validation.ID_NOT_WRITTEN);
             return;
         }
         else if(user.getValue().getPassword() == null || user.getValue().getPassword().isEmpty()) {
@@ -156,16 +156,16 @@ public class SignupViewModel extends ViewModel {
         }
 
         /*formal check*/
-        String nameFormat = "^[a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ]{2,10}$";
+        String idFormat = "^[a-z0-9]{4,20}$";
         String passwordFormat = "^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,20}$";
         String emailFormat = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
         String emailCodeFormat = "^[0-9a-zA-Z]{6}$";
-        Pattern namePattern = Pattern.compile(nameFormat);
+        Pattern idPattern = Pattern.compile(idFormat);
         Pattern passwordPattern = Pattern.compile(passwordFormat);
         Pattern emailPattern = Pattern.compile(emailFormat);
         Pattern emailCodePattern = Pattern.compile(emailCodeFormat);
-        if(!namePattern.matcher(user.getValue().getName()).matches()){
-            setIsBasicValid(Validation.NAME_NOT_FORMAL);
+        if(!idPattern.matcher(user.getValue().getUsername()).matches()){
+            setIsBasicValid(Validation.ID_NOT_FORMAL);
             return;
         }
         else if(!passwordPattern.matcher(user.getValue().getPassword()).matches()){
@@ -182,7 +182,7 @@ public class SignupViewModel extends ViewModel {
         }
 
         /*isEmailCodeSuccess check*/
-        if(isEmailCodeSuccess.getValue() == null || isEmailCodeSuccess.getValue() != Validation.VALID_ALL){
+        if(isEmailCodeSuccess.getValue() == null || isEmailCodeSuccess.getValue() != Validation.EMAIL_AUTH_SUCCESS){
             setIsBasicValid(Validation.EMAIL_AUTH_NOT_TRIED);
             return;
         }
@@ -214,7 +214,7 @@ public class SignupViewModel extends ViewModel {
 
         /*validation check*/
         String emailCode = user.getValue().getEmailCode();
-        String emailCodeFormat = "^[0-9]{6}$";
+        String emailCodeFormat = "^[0-9a-zA-Z]{6}$";
         Pattern emailCodePattern = Pattern.compile(emailCodeFormat);
         if(!emailCodePattern.matcher(emailCode).matches()){
             setIsEmailCodeSuccess(Validation.EMAIL_CODE_NOT_FORMAL);
@@ -222,7 +222,7 @@ public class SignupViewModel extends ViewModel {
         }
 
         /*emailAuthSuccess check*/
-        if(getIsEmailAuthSuccess().getValue() == null || getIsEmailAuthSuccess().getValue() != Validation.VALID_ALL){
+        if(getIsEmailAuthSuccess().getValue() == null || getIsEmailAuthSuccess().getValue() != Validation.EMAIL_AUTH_SUCCESS){
             setIsEmailCodeSuccess(Validation.EMAIL_AUTH_NOT_TRIED);
         }
         String email = user.getValue().getEmail();
@@ -233,15 +233,16 @@ public class SignupViewModel extends ViewModel {
         });
     }
 
-    public void loadBasic(String name, String password, String email){
+    public void setBasic(String memberId, String password, String email, String emailCode){
 
         if(user.getValue() == null){
             user.setValue(new User());
         }
         User userValue = user.getValue();
-        userValue.setName(name);
+        userValue.setUsername(memberId);
         userValue.setPassword(password);
         userValue.setEmail(email);
+        userValue.setEmailCode(emailCode);
     }
 
     public void validCheckProfile(){
@@ -251,7 +252,7 @@ public class SignupViewModel extends ViewModel {
             setIsProfileValid(Validation.NOT_VALID_ANYWAY);
             return;
         }
-        else if(user.getValue().getNickname() == null || user.getValue().getNickname().isEmpty()) {
+        else if(user.getValue().getName() == null || user.getValue().getName().isEmpty()) {
             setIsProfileValid(Validation.NICKNAME_NOT_WRITTEN);
             return;
         }

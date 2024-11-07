@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.moum.MainActivity;
 import com.example.moum.R;
 import com.example.moum.databinding.ActivityLoginBinding;
 import com.example.moum.utils.SharedPreferenceManager;
@@ -80,26 +81,23 @@ public class LoginActivity extends AppCompatActivity {
             else if(isLoginSuccess == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
             }
-            else if(isLoginSuccess == Validation.VALID_ALL) {
+            else if(isLoginSuccess == Validation.LOGIN_SUCCESS) {
 
-                /**
-                 * TO-DO: 이동할 액티비티 수정 필요
-                 */
-                Intent intent = new Intent(LoginActivity.this, ChatActivity.class);
+                /*자동로그인을 위해 SharedPreference에 토큰 저장*/
+                loginViewModel.getToken().observe(this, token -> {
+                    SharedPreferenceManager sharedPreferenceManager = new SharedPreferenceManager(context, getString(R.string.preference_file_key));
+                    sharedPreferenceManager.setCache(getString(R.string.user_access_token_key), token.getAccess());
+                    sharedPreferenceManager.setCache(getString(R.string.user_refresh_token_key), token.getRefresh());
+                    sharedPreferenceManager.setCache(getString(R.string.user_member_id_key), token.getMemberId());
+                });
+
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
             }
             else{
                 Log.e(TAG, "다음 버튼 감시 결과를 알 수 없습니다.");
             }
-        });
-
-        /*자동로그인을 위해 SharedPreference에 토큰 저장*/
-        loginViewModel.getToken().observe(this, token -> {
-            SharedPreferenceManager sharedPreferenceManager = new SharedPreferenceManager(context, getString(R.string.preference_file_key));
-            sharedPreferenceManager.setCache(getString(R.string.user_access_token_key), token.getAccess());
-            sharedPreferenceManager.setCache(getString(R.string.user_refresh_token_key), token.getRefresh());
-            sharedPreferenceManager.setCache(getString(R.string.user_member_id_key), token.getMemberId());
         });
 
         /*placeholder에 focus시 이벤트*/

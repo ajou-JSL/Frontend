@@ -44,12 +44,13 @@ public class SuccessResponse<T> {
 
     @Override
     public String toString() {
-        return "SuccessResponse{" +
+        String str = "SuccessResponse{" +
                 "status=" + status +
                 ", code='" + code + '\'' +
-                ", message='" + message + '\'' +
-                ", data=" + data.toString() +
-                '}';
+                ", message='" + message + '\'';
+        if(data != null)
+            str = str + ", data=" + data.toString() + '}';
+        return str;
     }
 
 }

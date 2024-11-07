@@ -1,5 +1,8 @@
 package com.example.moum.viewmodel.auth;
 
+import android.app.Application;
+
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -9,7 +12,7 @@ import com.example.moum.utils.Validation;
 
 import java.util.regex.Pattern;
 
-public class LoginViewModel extends ViewModel {
+public class LoginViewModel extends AndroidViewModel {
 
     private final LoginRepository loginRepository;
     private final MutableLiveData<String> id = new MutableLiveData<>();
@@ -17,13 +20,14 @@ public class LoginViewModel extends ViewModel {
     private final MutableLiveData<Validation> isLoginSuccess = new MutableLiveData<>();
     private final MutableLiveData<Token> token = new MutableLiveData<>();
 
-    public LoginViewModel(){
-        loginRepository = LoginRepository.getInstance();
+    public LoginViewModel(Application application){
+        super(application);
+        loginRepository = LoginRepository.getInstance(application);
     }
 
-    public LoginViewModel(LoginRepository loginRepository){
-        this.loginRepository = loginRepository;
-    }
+//    public LoginViewModel(LoginRepository loginRepository){
+//        this.loginRepository = loginRepository;
+//    }
 
     public MutableLiveData<String> getId() {
         return id;
@@ -62,14 +66,15 @@ public class LoginViewModel extends ViewModel {
         }
 
         /*valid check*/
-        //String idFormant = "^[a-z0-9]{4,20}$";
+
+        String idFormant = "^[a-z0-9]{4,20}$";
         String passwordFormat = "^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,20}$";
-        //Pattern idPattern = Pattern.compile(idFormant);
+        Pattern idPattern = Pattern.compile(idFormant);
         Pattern passwordPattern = Pattern.compile(passwordFormat);
-//        if(!idPattern.matcher(id.getValue()).matches()){
-//            setIsLoginSuccess(Validation.ID_NOT_FORMAL);
-//            return;
-//        }
+        if(!idPattern.matcher(id.getValue()).matches()){
+            setIsLoginSuccess(Validation.ID_NOT_FORMAL);
+            return;
+        }
         if(!passwordPattern.matcher(password.getValue()).matches()){
             setIsLoginSuccess(Validation.PASSWORD_NOT_FORMAL);
             return;
@@ -79,8 +84,8 @@ public class LoginViewModel extends ViewModel {
         loginRepository.login(id.getValue(), password.getValue(), result -> {
 
             if(result.getValidation() != null && result.getValidation() == Validation.VALID_ALL && result.getData() != null){
-                Token token = result.getData();
-                token.setMemberId(id.getValue());
+                result.getData().setMemberId(id.getValue());
+                this.token.setValue(result.getData());
             }
             setIsLoginSuccess(result.getValidation());
 

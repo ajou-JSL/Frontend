@@ -16,9 +16,13 @@ import retrofit2.http.Part;
 public interface LoginApi {
     @Multipart
     @POST("/login")
-    Call<SuccessResponse> login(
+    Call<SuccessResponse<String>> login(
             @Part("username") RequestBody username,
             @Part("password") RequestBody password
+    );
+
+    @POST("/logout")
+    Call<SuccessResponse<Object>> logout(
     );
 
     @POST("/refresh")

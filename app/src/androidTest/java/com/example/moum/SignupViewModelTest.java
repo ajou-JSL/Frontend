@@ -206,7 +206,7 @@ public class SignupViewModelTest {
 
         // Given
         User expectedUser = new User();
-        expectedUser.setNickname("소지섭사촌");
+        expectedUser.setName("소지섭사촌");
         expectedUser.setInstrument("트럼펫");
         signupViewModel.setUser(expectedUser);
         signupViewModel.setProficiency("하");

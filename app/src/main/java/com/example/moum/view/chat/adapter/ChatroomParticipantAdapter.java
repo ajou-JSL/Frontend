@@ -93,7 +93,7 @@ public class ChatroomParticipantAdapter extends RecyclerView.Adapter<RecyclerVie
         @RequiresApi(api = Build.VERSION_CODES.O)
         public void bind(User participant){
             this.participant = participant;
-            participantName.setText(participant.getNickname());
+            participantName.setText(participant.getName());
             Glide.with(context).load(participant.getProfileImage()).into(participantProfile);
         }
     }

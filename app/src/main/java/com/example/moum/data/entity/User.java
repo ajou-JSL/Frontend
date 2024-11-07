@@ -6,13 +6,13 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class User {
-    private String name;
+    private String username;
     private String password;
     private String passwordCheck;
     private String email;
     private String emailCode;
 
-    private String nickname;
+    private String name;
     private File profileImage;
     private String profileDescription;
     private String instrument;
@@ -20,8 +20,8 @@ public class User {
     private String address;
     private ArrayList<Record> records;
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
     public String getPassword() {
         return password;
@@ -36,8 +36,8 @@ public class User {
         return emailCode;
     }
 
-    public String getNickname() {
-        return nickname;
+    public String getName() {
+        return name;
     }
     public File getProfileImage() {
         return profileImage;
@@ -58,8 +58,8 @@ public class User {
         return records;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
     public void setPassword(String password) {
         this.password = password;
@@ -74,8 +74,8 @@ public class User {
         this.emailCode = emailCode;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setName(String name) {
+        this.name = name;
     }
     public void setProfileImage(File profileImage) {
         this.profileImage = profileImage;
