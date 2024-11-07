@@ -4,47 +4,42 @@ import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
-import com.example.moum.data.entity.Chatroom;
-import com.example.moum.data.entity.Group;
+import com.example.moum.data.entity.Team;
 import com.example.moum.data.entity.Result;
 import com.example.moum.repository.ChatRepository;
 import com.example.moum.repository.TeamRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ChatCreateChatroomViewModel extends AndroidViewModel {
-    private ChatRepository chatRepository;
     private TeamRepository teamRepository;
-    private MutableLiveData<Result<List<Group>>> isLoadGroupSuccess = new MutableLiveData<>();
-    private Group selectedGroup;
+    private MutableLiveData<Result<List<Team>>> isLoadTeamsAsLeaderSuccess = new MutableLiveData<>();
+    private Team selectedTeam;
 
-    public MutableLiveData<Result<List<Group>>> getIsLoadGroupSuccess() {
-        return isLoadGroupSuccess;
+    public MutableLiveData<Result<List<Team>>> getIsLoadTeamsAsLeaderSuccess() {
+        return isLoadTeamsAsLeaderSuccess;
     }
 
-    public Group getSelectedGroup() {
-        return selectedGroup;
+    public Team getSelectedGroup() {
+        return selectedTeam;
     }
 
-    public void setIsLoadGroupSuccess(Result<List<Group>> isLoadGroupSuccess) {
-        this.isLoadGroupSuccess.setValue(isLoadGroupSuccess);
+    public void setIsLoadTeamsAsLeaderSuccess(Result<List<Team>> isLoadTeamsAsLeaderSuccess) {
+        this.isLoadTeamsAsLeaderSuccess.setValue(isLoadTeamsAsLeaderSuccess);
     }
 
-    public void setSelectedGroup(Group group) {
-        this.selectedGroup = group;
+    public void setSelectedGroup(Team team) {
+        this.selectedTeam = team;
     }
 
     public ChatCreateChatroomViewModel(Application application){
         super(application);
-        this.chatRepository = ChatRepository.getInstance(application);
         this.teamRepository = TeamRepository.getInstance(application);
     }
 
-    public void loadGroups(String memberId){
-        teamRepository.loadGroups(memberId, this::setIsLoadGroupSuccess);
+    public void loadTeamsAsLeader(String memberId){
+        teamRepository.loadTeamsAsLeader(memberId, this::setIsLoadTeamsAsLeaderSuccess);
     }
 
 }

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.moum.R;
+import com.example.moum.data.entity.Team;
 import com.example.moum.data.entity.User;
 
 import java.util.ArrayList;
@@ -22,11 +23,11 @@ import java.util.Collections;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChatroomParticipantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private ArrayList<User> participants;
+    private ArrayList<Team.Member> participants;
     private static ArrayList<Boolean> isParticipates;
     private Context context;
 
-    public void setParticipants(ArrayList<User> participants, Context context) {
+    public void setParticipants(ArrayList<Team.Member> participants, Context context) {
         this.participants = participants;
         isParticipates = new ArrayList<>(Collections.nCopies(participants.size(), false));
         this.context = context;
@@ -46,7 +47,7 @@ public class ChatroomParticipantAdapter extends RecyclerView.Adapter<RecyclerVie
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        User participant = participants.get(position);
+        Team.Member participant = participants.get(position);
         ((ChatroomParticipantAdapter.ChatroomParticipantViewHolder) holder).bind(participant);
 
     }
@@ -57,7 +58,7 @@ public class ChatroomParticipantAdapter extends RecyclerView.Adapter<RecyclerVie
     }
 
     static class ChatroomParticipantViewHolder extends RecyclerView.ViewHolder{
-        private User participant;
+        private Team.Member participant;
         private TextView participantName;
         private CircleImageView participantProfile;
         private Context context;
@@ -91,10 +92,10 @@ public class ChatroomParticipantAdapter extends RecyclerView.Adapter<RecyclerVie
         }
 
         @RequiresApi(api = Build.VERSION_CODES.O)
-        public void bind(User participant){
+        public void bind(Team.Member participant){
             this.participant = participant;
             participantName.setText(participant.getName());
-            Glide.with(context).load(participant.getProfileImage()).into(participantProfile);
+            Glide.with(context).load(participant.getProfileImageUrl()).into(participantProfile);
         }
     }
 }

@@ -15,17 +15,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.moum.R;
-import com.example.moum.data.entity.Group;
+import com.example.moum.data.entity.Team;
 import com.example.moum.databinding.ActivityChatCreateChatroomBinding;
-import com.example.moum.databinding.ActivitySignupProfileBinding;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
-import com.example.moum.view.auth.LoginActivity;
-import com.example.moum.viewmodel.auth.SignupViewModel;
 import com.example.moum.viewmodel.chat.ChatCreateChatroomViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ChatCreateChatroomActivity extends AppCompatActivity {
@@ -33,8 +29,8 @@ public class ChatCreateChatroomActivity extends AppCompatActivity {
     private ActivityChatCreateChatroomBinding binding;
     private Context context;
     public String TAG = getClass().toString();
-    private String[] groupNameList;
-    private List<Group> groups;
+    private String[] teamNameList;
+    private List<Team> teams;
     private SharedPreferenceManager sharedPreferenceManager;
     private String accessToken;
     private String memberId;
@@ -70,12 +66,13 @@ public class ChatCreateChatroomActivity extends AppCompatActivity {
 
         /*단체 리스트 받아오기*/
         //groupList = getResources().getStringArray(R.array.proficiency_list);
-        chatCreateChatroomViewModel.loadGroups(memberId);
+        chatCreateChatroomViewModel.loadTeamsAsLeader(memberId);
 
         /*단체 리스트 받아오기 결과 감시*/
-        chatCreateChatroomViewModel.getIsLoadGroupSuccess().observe(this, result -> {
+        chatCreateChatroomViewModel.getIsLoadTeamsAsLeaderSuccess().observe(this, result -> {
 
-            groups = result.getData();
+            //TODO validation 더 추가해야함
+            teams = result.getData();
             Validation validation = result.getValidation();
             if(validation == Validation.GROUP_NOT_SELECTED){
                 binding.signupErrorChatroomList.setText("단체를 선택하세요.");
@@ -86,22 +83,22 @@ public class ChatCreateChatroomActivity extends AppCompatActivity {
             }
             else if(validation == Validation.VALID_ALL) {
                 int i = 0;
-                for(Group group : groups)
-                    groupNameList[i] = group.getGroupName();
+                for(Team team : teams)
+                    teamNameList[i] = team.getTeamName();
 
                 /*group 스피너 Adapter 연결*/
                 Spinner groupSpinner = binding.spinnerChatroomList;
-                ArrayAdapter<String> groupAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, groupNameList);
+                ArrayAdapter<String> groupAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, teamNameList);
                 groupAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 groupSpinner.setAdapter(groupAdapter);
 
                 groupSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        String selectedGroupName = groupNameList[position];
-                        for(Group group : groups)
-                            if(group.getGroupName().equals(selectedGroupName)){
-                                chatCreateChatroomViewModel.setSelectedGroup(group);
+                        String selectedGroupName = teamNameList[position];
+                        for(Team team : teams)
+                            if(team.getTeamName().equals(selectedGroupName)){
+                                chatCreateChatroomViewModel.setSelectedGroup(team);
                                 binding.signupErrorChatroomList.setText("");
                             }
                     }
@@ -121,11 +118,11 @@ public class ChatCreateChatroomActivity extends AppCompatActivity {
         binding.buttonChatCreateChatroomNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Group group = chatCreateChatroomViewModel.getSelectedGroup();
-                if (group != null){
+                Team team = chatCreateChatroomViewModel.getSelectedGroup();
+                if (team != null){
                     Intent intent = new Intent(ChatCreateChatroomActivity.this, ChatCreateChatroomOnwardActivity.class);
-                    intent.putExtra("groupName", group.getGroupName());
-                    intent.putExtra("groupId", group.getGroupId());
+                    intent.putExtra("teamName", team.getTeamName());
+                    intent.putExtra("teamId", team.getTeamId());
                     startActivity(intent);
                 }
                 else{

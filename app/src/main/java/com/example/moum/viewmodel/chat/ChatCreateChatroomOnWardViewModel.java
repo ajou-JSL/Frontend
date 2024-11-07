@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.moum.data.entity.Chatroom;
 import com.example.moum.data.entity.Result;
+import com.example.moum.data.entity.Team;
 import com.example.moum.data.entity.User;
 import com.example.moum.repository.ChatRepository;
 import com.example.moum.repository.ChatroomRepository;
@@ -25,10 +26,10 @@ public class ChatCreateChatroomOnWardViewModel extends AndroidViewModel {
     private ChatroomRepository chatroomRepository;
     private TeamRepository teamRepository;
     private Chatroom chatroom;
-    private ArrayList<User> members;
+    private ArrayList<Team.Member> members;
     private ArrayList<Boolean> isParticipates;
     private final MutableLiveData<Uri> chatroomProfile = new MutableLiveData<>();
-    private final MutableLiveData<Result<List<User>>> isloadMembersOfGroupSuccess = new MutableLiveData<>();
+    private final MutableLiveData<Result<Team>> isLoadTeamSuccess = new MutableLiveData<>();
     private final MutableLiveData<Validation> isCreateChatroomSuccess = new MutableLiveData<>();
 
 
@@ -38,7 +39,7 @@ public class ChatCreateChatroomOnWardViewModel extends AndroidViewModel {
         teamRepository = TeamRepository.getInstance(application);
     }
 
-    public List<User> getMembers() {
+    public List<Team.Member> getMembers() {
         return members;
     }
 
@@ -46,8 +47,8 @@ public class ChatCreateChatroomOnWardViewModel extends AndroidViewModel {
         return chatroomProfile;
     }
 
-    public MutableLiveData<Result<List<User>>> getIsloadMembersOfGroupSuccess() {
-        return isloadMembersOfGroupSuccess;
+    public MutableLiveData<Result<Team>> getIsLoadTeamSuccess() {
+        return isLoadTeamSuccess;
     }
 
     public MutableLiveData<Validation> getIsCreateChatroomSuccess() {
@@ -58,35 +59,35 @@ public class ChatCreateChatroomOnWardViewModel extends AndroidViewModel {
         chatroomProfile.setValue(uri);
     }
 
-    private void setIsloadMembersOfGroupSuccess(Result<List<User>> isloadMembersOfGroupSuccess){
-        this.isloadMembersOfGroupSuccess.setValue(isloadMembersOfGroupSuccess);
+    private void setIsLoadTeamSuccess(Result<Team> isLoadTeamSuccess){
+        this.isLoadTeamSuccess.setValue(isLoadTeamSuccess);
     }
 
     private void setIsCreateChatroomSuccess(Validation validation){
         this.isCreateChatroomSuccess.setValue(validation);
     }
 
-    public void setInfo(String memberId, Integer groupId, String chatroomName, ArrayList<User> members, ArrayList<Boolean> isParticipates){
+    public void setInfo(String memberId, Integer groupId, String chatroomName, ArrayList<Team.Member> members, ArrayList<Boolean> isParticipates){
         this.chatroom = new Chatroom(groupId, null, null, chatroomName, Chatroom.ChatroomType.MULTI_CHAT, memberId);
         this.members = members;
         this.isParticipates = isParticipates;
     }
 
-    public void loadMembersOfGroup(Integer groupId){
+    public void loadTeam(Integer teamId){
         /*valid check*/
-        if(groupId == -1){
-            Result<List<User>> result = new Result<>(Validation.CHATROOM_GROUP_NOT_FOUND);
-            setIsloadMembersOfGroupSuccess(result);
+        if(teamId == -1){
+            Result<Team> result = new Result<>(Validation.CHATROOM_GROUP_NOT_FOUND);
+            setIsLoadTeamSuccess(result);
             return;
         }
 
         /*goto repository*/
-        teamRepository.loadMembersOfGroup(groupId, this::setIsloadMembersOfGroupSuccess);
+        teamRepository.loadTeam(teamId, this::setIsLoadTeamSuccess);
     }
 
     public void createChatroom(Context context){
         /*valid check*/
-        Result<List<User>> isLoadMembersOfGroupSuccessVal = isloadMembersOfGroupSuccess.getValue();
+        Result<Team> isLoadMembersOfGroupSuccessVal = isLoadTeamSuccess.getValue();
         if(isLoadMembersOfGroupSuccessVal == null || isLoadMembersOfGroupSuccessVal.getValidation() != Validation.VALID_ALL){
             setIsCreateChatroomSuccess(Validation.CHATROOM_NOT_LOADED);
             return;
@@ -101,7 +102,7 @@ public class ChatCreateChatroomOnWardViewModel extends AndroidViewModel {
         }
 
         /*processing*/
-        ArrayList<User> participants = new ArrayList<>();
+        ArrayList<Team.Member> participants = new ArrayList<>();
         File chatroomProfileFile = null;
         for (int i = 0; i < members.size(); i++) {
             if (isParticipates.get(i))

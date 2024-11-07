@@ -9,7 +9,7 @@ import androidx.annotation.RequiresApi;
 import com.example.moum.data.api.TeamApi;
 import com.example.moum.data.dto.ChatErrorResponse;
 import com.example.moum.data.dto.SuccessResponse;
-import com.example.moum.data.entity.Group;
+import com.example.moum.data.entity.Team;
 import com.example.moum.data.entity.Result;
 import com.example.moum.data.entity.User;
 import com.example.moum.repository.client.BaseUrl;
@@ -52,20 +52,20 @@ public class TeamRepository {
         return instance;
     }
 
-    public void loadGroups(String memberId, com.example.moum.utils.Callback<Result<List<Group>>> callback){
-        Call<SuccessResponse<List<Group>>> result = teamApi.loadGroups(memberId);
-        result.enqueue(new retrofit2.Callback<SuccessResponse<List<Group>>>() {
+    public void loadTeam(Integer teamId, com.example.moum.utils.Callback<Result<Team>> callback){
+        Call<SuccessResponse<Team>> result = teamApi.loadTeam(teamId);
+        result.enqueue(new retrofit2.Callback<SuccessResponse<Team>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
-            public void onResponse(Call<SuccessResponse<List<Group>>> call, Response<SuccessResponse<List<Group>>> response) {
+            public void onResponse(Call<SuccessResponse<Team>> call, Response<SuccessResponse<Team>> response) {
                 if (response.isSuccessful()) {
                     /*성공적으로 응답을 받았을 때*/
-                    SuccessResponse<List<Group>> responseBody = response.body();
+                    SuccessResponse<Team> responseBody = response.body();
                     Log.e(TAG, responseBody.toString());
-                    List<Group> groups = responseBody.getData();
+                    Team team = responseBody.getData();
 
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
-                    Result<List<Group>> result = new Result<>(validation, groups);
+                    Result<Team> result = new Result<>(validation, team);
                     callback.onResult(result);
                 }
                 else {
@@ -75,7 +75,7 @@ public class TeamRepository {
                         if (errorResponse != null) {
                             Log.e(TAG, errorResponse.toString());
                             Validation validation = ValueMap.getCodeToVal(errorResponse.getCode());
-                            Result<List<Group>> result = new Result<>(validation);
+                            Result<Team> result = new Result<>(validation);
                             callback.onResult(result);
                         }
                     } catch (Exception e) {
@@ -84,27 +84,27 @@ public class TeamRepository {
                 }
             }
             @Override
-            public void onFailure(Call<SuccessResponse<List<Group>>> call, Throwable t) {
-                Result<List<Group>> result = new Result<>(Validation.NETWORK_FAILED);
+            public void onFailure(Call<SuccessResponse<Team>> call, Throwable t) {
+                Result<Team> result = new Result<>(Validation.NETWORK_FAILED);
                 callback.onResult(result);
             }
         });
     }
 
-    public void loadMembersOfGroup(Integer groupId, com.example.moum.utils.Callback<Result<List<User>>> callback){
-        Call<SuccessResponse<List<User>>> result = teamApi.loadMembersOfGroup(groupId);
-        result.enqueue(new retrofit2.Callback<SuccessResponse<List<User>>>() {
+    public void loadTeams(com.example.moum.utils.Callback<Result<List<Team>>> callback){
+        Call<SuccessResponse<List<Team>>> result = teamApi.loadTeams();
+        result.enqueue(new retrofit2.Callback<SuccessResponse<List<Team>>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
-            public void onResponse(Call<SuccessResponse<List<User>>> call, Response<SuccessResponse<List<User>>> response) {
+            public void onResponse(Call<SuccessResponse<List<Team>>> call, Response<SuccessResponse<List<Team>>> response) {
                 if (response.isSuccessful()) {
                     /*성공적으로 응답을 받았을 때*/
-                    SuccessResponse<List<User>> responseBody = response.body();
+                    SuccessResponse<List<Team>> responseBody = response.body();
                     Log.e(TAG, responseBody.toString());
-                    List<User> members = responseBody.getData();
+                    List<Team> teams = responseBody.getData();
 
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
-                    Result<List<User>> result = new Result<>(validation, members);
+                    Result<List<Team>> result = new Result<>(validation, teams);
                     callback.onResult(result);
                 }
                 else {
@@ -114,7 +114,7 @@ public class TeamRepository {
                         if (errorResponse != null) {
                             Log.e(TAG, errorResponse.toString());
                             Validation validation = ValueMap.getCodeToVal(errorResponse.getCode());
-                            Result<List<User>> result = new Result<>(validation);
+                            Result<List<Team>> result = new Result<>(validation);
                             callback.onResult(result);
                         }
                     } catch (Exception e) {
@@ -123,8 +123,47 @@ public class TeamRepository {
                 }
             }
             @Override
-            public void onFailure(Call<SuccessResponse<List<User>>> call, Throwable t) {
-                Result<List<User>> result = new Result<>(Validation.NETWORK_FAILED);
+            public void onFailure(Call<SuccessResponse<List<Team>>> call, Throwable t) {
+                Result<List<Team>> result = new Result<>(Validation.NETWORK_FAILED);
+                callback.onResult(result);
+            }
+        });
+    }
+
+    public void loadTeamsAsLeader(String memberId, com.example.moum.utils.Callback<Result<List<Team>>> callback){
+        Call<SuccessResponse<List<Team>>> result = teamApi.loadTeamsAsLeader(memberId);
+        result.enqueue(new retrofit2.Callback<SuccessResponse<List<Team>>>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onResponse(Call<SuccessResponse<List<Team>>> call, Response<SuccessResponse<List<Team>>> response) {
+                if (response.isSuccessful()) {
+                    /*성공적으로 응답을 받았을 때*/
+                    SuccessResponse<List<Team>> responseBody = response.body();
+                    Log.e(TAG, responseBody.toString());
+                    List<Team> teams = responseBody.getData();
+
+                    Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
+                    Result<List<Team>> result = new Result<>(validation, teams);
+                    callback.onResult(result);
+                }
+                else {
+                    /*응답은 받았으나 문제 발생 시*/
+                    try {
+                        ChatErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ChatErrorResponse.class);
+                        if (errorResponse != null) {
+                            Log.e(TAG, errorResponse.toString());
+                            Validation validation = ValueMap.getCodeToVal(errorResponse.getCode());
+                            Result<List<Team>> result = new Result<>(validation);
+                            callback.onResult(result);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<SuccessResponse<List<Team>>> call, Throwable t) {
+                Result<List<Team>> result = new Result<>(Validation.NETWORK_FAILED);
                 callback.onResult(result);
             }
         });

@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.moum.R;
+import com.example.moum.data.entity.Team;
 import com.example.moum.data.entity.User;
 import com.example.moum.databinding.ActivityChatCreateChatroomOnwardBinding;
 import com.example.moum.utils.SharedPreferenceManager;
@@ -36,7 +37,7 @@ public class ChatCreateChatroomOnwardActivity extends AppCompatActivity {
     private SharedPreferenceManager sharedPreferenceManager;
     private String accessToken;
     private String memberId;
-    private ArrayList<User> members = new ArrayList<>();
+    private ArrayList<Team.Member> members = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,8 +61,8 @@ public class ChatCreateChatroomOnwardActivity extends AppCompatActivity {
 
         /*Intent로부터 전달된 데이터 받기*/
         Intent prevIntent = getIntent();
-        String groupName = prevIntent.getStringExtra("groupName");
-        Integer groupId = prevIntent.getIntExtra("groupId", -1);
+        String teamName = prevIntent.getStringExtra("teamName");
+        Integer teamId = prevIntent.getIntExtra("teamId", -1);
 
         /*이전 버튼 클릭 이벤트*/
         binding.buttonReturn.setOnClickListener(new View.OnClickListener() {
@@ -103,12 +104,12 @@ public class ChatCreateChatroomOnwardActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setAdapter(chatroomParticipantAdapter);
 
-        /*그룹의 멤버 리스트 조회 요청*/
-        viewModel.loadMembersOfGroup(groupId);
+        /*단체 정보 가져오기*/
+        viewModel.loadTeam(teamId);
 
-        /*그룹의 멤버 리스트 조회 요청 결과 감시*/
-        viewModel.getIsloadMembersOfGroupSuccess().observe(this, isLoadMembersOfGroupSuccess -> {
-            Validation validation = isLoadMembersOfGroupSuccess.getValidation();
+        /*단체 정보 가져오기 결과 감시*/
+        viewModel.getIsLoadTeamSuccess().observe(this, isLoadTeamSuccess -> {
+            Validation validation = isLoadTeamSuccess.getValidation();
             //TODO: validation 추가도면 if절 더 추가
             if(validation == Validation.CHATROOM_GROUP_NOT_FOUND){
                 Toast.makeText(context, "단체 설정 정보가 없습니다.", Toast.LENGTH_SHORT).show();
@@ -118,13 +119,13 @@ public class ChatCreateChatroomOnwardActivity extends AppCompatActivity {
                 Log.e(TAG, "호출 실패 from loadGroups()");
             }
             else if(validation == Validation.VALID_ALL) {
-                members.addAll(isLoadMembersOfGroupSuccess.getData());
+                members.addAll(isLoadTeamSuccess.getData().getMembers());
                 chatroomParticipantAdapter.notifyItemInserted(members.size()-1);
                 recyclerView.scrollToPosition(0);
             }
             else{
                 Toast.makeText(context, "알 수 없는 validation", Toast.LENGTH_SHORT).show();
-                Log.e(TAG, "알 수 없는 validation: " + validation.toString());
+                Log.e(TAG, "알 수 없는 validation");
             }
         });
 
@@ -135,7 +136,7 @@ public class ChatCreateChatroomOnwardActivity extends AppCompatActivity {
 
                 String chatroomName = binding.edittextMoumtalkName.getText().toString();
                 ArrayList<Boolean> isParticipates = ChatroomParticipantAdapter.getIsParticipates();
-                viewModel.setInfo(memberId, groupId, chatroomName, members, isParticipates);
+                viewModel.setInfo(memberId, teamId, chatroomName, members, isParticipates);
                 viewModel.createChatroom(context);
             }
         });

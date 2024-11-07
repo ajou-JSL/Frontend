@@ -34,6 +34,9 @@ public enum Validation {
     PARTICIPATE_AT_LEAST_TWO,
     GROUP_NOT_SELECTED,
 
+    // 팀
+
+
     //이외 에러 처리
     NOT_VALID_ANYWAY,
     NETWORK_FAILED,

@@ -18,6 +18,7 @@ import com.example.moum.data.dto.SuccessResponse;
 import com.example.moum.data.entity.Chat;
 import com.example.moum.data.entity.Chatroom;
 import com.example.moum.data.entity.Result;
+import com.example.moum.data.entity.Team;
 import com.example.moum.data.entity.User;
 import com.example.moum.repository.client.BaseUrl;
 import com.example.moum.repository.client.RetrofitClientManager;
@@ -110,7 +111,7 @@ public class ChatroomRepository {
         });
     }
 
-    public void createChatroom(Chatroom chatroom, File chatroomProfileFile, ArrayList<User> participants, com.example.moum.utils.Callback<Result<String>> callback){
+    public void createChatroom(Chatroom chatroom, File chatroomProfileFile, ArrayList<Team.Member> participants, com.example.moum.utils.Callback<Result<String>> callback){
         /*processing into DTO*/
         MultipartBody.Part profileImage = null;
         if(chatroomProfileFile != null){
@@ -118,8 +119,8 @@ public class ChatroomRepository {
             profileImage = MultipartBody.Part.createFormData("profileImage", chatroomProfileFile.getName(), requestFile);
         }
         ArrayList<ChatroomCreateRequest.Member> members = new ArrayList<>();
-        for(User user : participants){
-            ChatroomCreateRequest.Member member = new ChatroomCreateRequest.Member(user.getName());
+        for(Team.Member participant : participants){
+            ChatroomCreateRequest.Member member = new ChatroomCreateRequest.Member(participant.getUsername());
             members.add(member);
         }
         ChatroomCreateRequest request = new ChatroomCreateRequest(chatroom.getGroupId(), chatroom.getChatroomName(), chatroom.getChatroomType(), chatroom.getChatroomLeader(), members);
