@@ -8,5 +8,11 @@
         <item>추천순</item>
     </string-array>
 
+    <string-array name="board_free_spinner_items">
+        <item>유저</item>
+        <item>단체1</item>
+        <item>단체2</item>
+    </string-array>
+
 
 </resources>

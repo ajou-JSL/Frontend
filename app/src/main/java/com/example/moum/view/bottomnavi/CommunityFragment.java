@@ -66,7 +66,7 @@ public class CommunityFragment extends Fragment {
         binding.searchButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), CommunitySearchActivity.class); // 새로운 액티비티로 이동
+                Intent intent = new Intent(getActivity(), CommunitySearchActivity.class);
                 startActivity(intent);
             }
         });

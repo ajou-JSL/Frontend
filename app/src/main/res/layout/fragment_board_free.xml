@@ -22,25 +22,20 @@
             android:background="@drawable/round_spinner_background" />
     </LinearLayout>
 
-    <ScrollView
-        android:id="@+id/community_scrollview1"
-        android:contentDescription="커뮤니티 게시판 스크롤"
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/board_free_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="1dp"
         android:layout_marginTop="0dp"
         android:layout_marginEnd="1dp"
         android:layout_marginBottom="1dp"
-        android:background="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+
         app:layout_constraintTop_toBottomOf="@id/filter_layout1">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-    </ScrollView>
+
+    </androidx.recyclerview.widget.RecyclerView>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/community_floatingActionButton"
