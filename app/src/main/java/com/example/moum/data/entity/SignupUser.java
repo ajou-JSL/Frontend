@@ -1,11 +1,10 @@
 package com.example.moum.data.entity;
 
-import android.net.Uri;
-
 import java.io.File;
 import java.util.ArrayList;
 
-public class User {
+public class SignupUser {
+    private Integer id;
     private String username;
     private String password;
     private String passwordCheck;
@@ -20,6 +19,9 @@ public class User {
     private String address;
     private ArrayList<Record> records;
 
+    public Integer getId() {
+        return id;
+    }
     public String getUsername() {
         return username;
     }
@@ -58,6 +60,9 @@ public class User {
         return records;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
     public void setUsername(String username) {
         this.username = username;
     }

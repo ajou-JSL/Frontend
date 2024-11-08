@@ -3,7 +3,6 @@ package com.example.moum.view.auth;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,10 +30,6 @@ import com.example.moum.databinding.ActivitySignupProfileBinding;
 import com.example.moum.utils.Validation;
 import com.example.moum.viewmodel.auth.SignupViewModel;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
@@ -159,7 +154,7 @@ public class SignupProfileActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 // inflate
-                View recordChild = LayoutInflater.from(SignupProfileActivity.this).inflate(R.layout.signup_record_form, recordParent, false);
+                View recordChild = LayoutInflater.from(SignupProfileActivity.this).inflate(R.layout.item_signup_record_form, recordParent, false);
 
                 // child 세팅
                 LinearLayout placeholderRecordName = recordChild.findViewById(R.id.signup_placeholder_record_name);

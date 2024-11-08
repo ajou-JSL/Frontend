@@ -12,28 +12,21 @@ import com.example.moum.data.api.ChatApi;
 import com.example.moum.data.dto.ChatErrorResponse;
 import com.example.moum.data.dto.ChatSendRequest;
 import com.example.moum.data.dto.ChatStreamResponse;
-import com.example.moum.data.dto.ChatroomCreateRequest;
 import com.example.moum.data.dto.SuccessResponse;
 import com.example.moum.data.entity.Chat;
-import com.example.moum.data.entity.Chatroom;
+import com.example.moum.data.entity.Member;
 import com.example.moum.data.entity.Result;
-import com.example.moum.data.entity.User;
 import com.example.moum.repository.client.BaseUrl;
 import com.example.moum.repository.client.RetrofitClientManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.utils.ValueMap;
 import com.google.gson.Gson;
 
-import java.io.File;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.HttpUrl;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -68,7 +61,7 @@ public class ChatRepository {
     }
 
     public void chatSend(Chat chat, com.example.moum.utils.Callback<Result<Chat>> callback) {
-        ChatSendRequest chatSendRequest = new ChatSendRequest(chat.getSender(), chat.getReceiver(), chat.getMessage());
+        ChatSendRequest chatSendRequest = new ChatSendRequest(chat.getMessage());
         Call<SuccessResponse<Chat>> result = chatApi.chatSend(chat.getChatroomId(), chatSendRequest);
         result.enqueue(new retrofit2.Callback<SuccessResponse<Chat>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -141,7 +134,7 @@ public class ChatRepository {
                     ChatStreamResponse receivedChat = new Gson().fromJson(message, ChatStreamResponse.class);
                     if (receivedChat != null) {
                         Validation validation = Validation.CHAT_RECEIVE_SUCCESS;
-                        Chat chat = new Chat(receivedChat.getSender(), receivedChat.getReceiver(), receivedChat.getMessage(), receivedChat.getChatroomId(), receivedChat.getTimestamp());
+                        Chat chat = new Chat(receivedChat.getSender(), receivedChat.getMessage(), receivedChat.getChatroomId(), receivedChat.getTimestamp());
                         Result<Chat> result = new Result<Chat>(validation, chat);
                         /*viewModel에 도착하는 순서를 보장하기 위해 handler 사용*/
                         handler.post(() -> {
@@ -222,7 +215,7 @@ public class ChatRepository {
                     ChatStreamResponse receivedChat = new Gson().fromJson(message, ChatStreamResponse.class);
                     if (receivedChat != null) {
                         Validation validation = Validation.CHAT_RECEIVE_SUCCESS;
-                        Chat chat = new Chat(receivedChat.getSender(), receivedChat.getReceiver(), receivedChat.getMessage(), receivedChat.getChatroomId(), receivedChat.getTimestamp());
+                        Chat chat = new Chat(receivedChat.getSender(), receivedChat.getMessage(), receivedChat.getChatroomId(), receivedChat.getTimestamp());
                         Result<Chat> result = new Result<Chat>(validation, chat);
                         /*viewModel에 도착하는 순서를 보장하기 위해 handler 사용*/
                         handler.post(() -> {

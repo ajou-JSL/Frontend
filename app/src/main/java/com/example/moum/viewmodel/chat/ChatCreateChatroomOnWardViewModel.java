@@ -6,13 +6,10 @@ import android.net.Uri;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.example.moum.data.entity.Chatroom;
 import com.example.moum.data.entity.Result;
 import com.example.moum.data.entity.Team;
-import com.example.moum.data.entity.User;
-import com.example.moum.repository.ChatRepository;
 import com.example.moum.repository.ChatroomRepository;
 import com.example.moum.repository.TeamRepository;
 import com.example.moum.utils.ImageManager;
@@ -67,8 +64,8 @@ public class ChatCreateChatroomOnWardViewModel extends AndroidViewModel {
         this.isCreateChatroomSuccess.setValue(validation);
     }
 
-    public void setInfo(String memberId, Integer groupId, String chatroomName, ArrayList<Team.Member> members, ArrayList<Boolean> isParticipates){
-        this.chatroom = new Chatroom(groupId, null, null, chatroomName, Chatroom.ChatroomType.MULTI_CHAT, memberId);
+    public void setInfo(Integer userId, String username, Integer teamId, String chatroomName, ArrayList<Team.Member> members, ArrayList<Boolean> isParticipates){
+        this.chatroom = new Chatroom(chatroomName, Chatroom.ChatroomType.MULTI_CHAT, teamId, userId);
         this.members = members;
         this.isParticipates = isParticipates;
     }
@@ -89,6 +86,7 @@ public class ChatCreateChatroomOnWardViewModel extends AndroidViewModel {
         /*valid check*/
         Result<Team> isLoadMembersOfGroupSuccessVal = isLoadTeamSuccess.getValue();
         if(isLoadMembersOfGroupSuccessVal == null || isLoadMembersOfGroupSuccessVal.getValidation() != Validation.VALID_ALL){
+            //TODO VALID_ALL맞는지 확인할 것
             setIsCreateChatroomSuccess(Validation.CHATROOM_NOT_LOADED);
             return;
         }
@@ -96,7 +94,7 @@ public class ChatCreateChatroomOnWardViewModel extends AndroidViewModel {
             setIsCreateChatroomSuccess(Validation.CHATROOM_NOT_LOADED);
             return;
         }
-        else if(chatroom.getChatroomName() == null || chatroom.getChatroomName().isEmpty()) {
+        else if(chatroom.getName() == null || chatroom.getName().isEmpty()) {
             setIsCreateChatroomSuccess(Validation.CHATROOM_NAME_EMPTY);
             return;
         }

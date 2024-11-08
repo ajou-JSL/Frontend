@@ -137,7 +137,7 @@
                                     android:textColor="@color/gray7"
                                     android:fontFamily="@font/noto_sans_kr_bold"
                                     android:gravity="center_vertical"
-                                    android:text="@={viewModel.user.name}"
+                                    android:text="@={viewModel.signupUser.name}"
                                     android:focusable="true"
                                     android:focusableInTouchMode="true"
                                     />
@@ -262,7 +262,7 @@
                                     android:gravity="center_vertical"
                                     android:focusable="true"
                                     android:focusableInTouchMode="true"
-                                    android:text="@={viewModel.user.profileDescription}"
+                                    android:text="@={viewModel.signupUser.profileDescription}"
                                     />
                             </LinearLayout>
                         </LinearLayout>
@@ -321,7 +321,7 @@
                                     android:gravity="center_vertical"
                                     android:focusable="true"
                                     android:focusableInTouchMode="true"
-                                    android:text="@={viewModel.user.instrument}"
+                                    android:text="@={viewModel.signupUser.instrument}"
                                     />
                             </LinearLayout>
                         </LinearLayout>

@@ -26,6 +26,7 @@ import com.bumptech.glide.Glide;
 import com.example.moum.R;
 import com.example.moum.data.entity.Chat;
 import com.example.moum.data.entity.Chatroom;
+import com.example.moum.data.entity.Member;
 import com.example.moum.databinding.ActivityChatBinding;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
@@ -35,6 +36,7 @@ import com.example.moum.viewmodel.chat.ChatViewModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
@@ -45,12 +47,13 @@ public class ChatActivity extends AppCompatActivity {
     private ChatViewModel chatViewModel;
     private Context context;
     private ArrayList<Chat> chats = new ArrayList<>();
+    private ArrayList<Member> members = new ArrayList<>();
     private InputMethodManager inputMethodManager;
     private final String TAG = getClass().toString();
-    SharedPreferenceManager sharedPreferenceManager;
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private final static int SIZE_OF_STREAM = 5;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -62,7 +65,7 @@ public class ChatActivity extends AppCompatActivity {
         inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
 
         /*자동로그인 정보를 SharedPreference에서 불러오기*/
-        sharedPreferenceManager = new SharedPreferenceManager(context, getString(R.string.preference_file_key));
+        SharedPreferenceManager sharedPreferenceManager = new SharedPreferenceManager(context, getString(R.string.preference_file_key));
         String accessToken = sharedPreferenceManager.getCache(getString(R.string.user_access_token_key), "no-access-token");
         String username = sharedPreferenceManager.getCache(getString(R.string.user_username_key), "no-memberId");
         Integer id = sharedPreferenceManager.getCache(getString(R.string.user_id_key), -1);
@@ -75,25 +78,26 @@ public class ChatActivity extends AppCompatActivity {
 
         /*채팅방 정보 불러오기*/
         Intent prevIntent = getIntent();
-        int groupId = prevIntent.getIntExtra("groupId", 0);
-        String receiverId = prevIntent.getStringExtra("receiverId");
-        int chatroomId = prevIntent.getIntExtra("chatroomId", 0);
+        int chatroomId = prevIntent.getIntExtra("chatroomId", -1);
         String chatroomName = prevIntent.getStringExtra("chatroomName");
-        String chatroomLastTimestamp = prevIntent.getStringExtra("chatroomLastTime");
-        String chatroomProfileStr = prevIntent.getStringExtra("chatroomProfile");
-        int chatroomTypeInt = prevIntent.getIntExtra("chatroomType", 0);
-        String chatroomLeader = prevIntent.getStringExtra("chatroomLeader");
-
+        int chatroomTypeInt = prevIntent.getIntExtra("chatroomType", -1);
+        int teamId = prevIntent.getIntExtra("teamId", -1);
+        int leaderId = prevIntent.getIntExtra("leaderId", -1);
+        String lastChat = prevIntent.getStringExtra("lastChat");
+        String lastTimestamp = prevIntent.getStringExtra("lastTimestamp");
+        String fileUrl = prevIntent.getStringExtra("fileUrl");
         Chatroom.ChatroomType chatroomType = Chatroom.ChatroomType.values()[chatroomTypeInt];
+        Chatroom chatroom = new Chatroom(chatroomId, chatroomName, chatroomType, teamId, leaderId, lastChat, lastTimestamp, fileUrl);
+
         binding.textviewChatUserName.setText(chatroomName);
-        binding.textviewChatMessageTime.setText(chatroomLastTimestamp);
-        chatViewModel.setChatroomInfo(username, groupId, receiverId, chatroomId, chatroomName, chatroomType, chatroomLeader);
+        binding.textviewChatMessageTime.setText(lastTimestamp);
+        chatViewModel.setChatroomInfo(username, id, chatroom);
         Uri chatroomProfile;
-        if(chatroomProfileStr != null) {
-            chatroomProfile = Uri.parse(chatroomProfileStr);
+        if(fileUrl != null) {
+            chatroomProfile = Uri.parse(fileUrl);
             Glide.with(this).load(chatroomProfile).into(binding.imageChatProfile);
         }
-        if(chatroomLeader != null && chatroomLeader.equals(username) && chatroomType == Chatroom.ChatroomType.MULTI_CHAT)
+        if(leaderId == id && chatroomType == Chatroom.ChatroomType.MULTI_CHAT)
             binding.buttonChatInvite.setVisibility(View.VISIBLE);
         else
             binding.buttonChatInvite.setVisibility(View.INVISIBLE);
@@ -110,8 +114,8 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 /*다음 Acitivity로 이동*/
+                //TODO 톡방의 멤버 목록 호출 API 한 뒤에 멤버 가져와야 함
                 Intent nextIntent = new Intent(ChatActivity.this, ChatInviteActivity.class);
-                nextIntent.putExtra("receiverId", receiverId);
                 startActivity(nextIntent);
             }
         });
@@ -119,7 +123,7 @@ public class ChatActivity extends AppCompatActivity {
         /*설정 스피너 Adapter 연결*/
         Spinner etcSpinner = binding.spinnerChatEtc;
         String[] etcList = getResources().getStringArray(R.array.chat_etc_list);
-        if(chatroomType != Chatroom.ChatroomType.MULTI_CHAT || chatroomLeader == null || !chatroomLeader.equals(username))
+        if(chatroomType != Chatroom.ChatroomType.MULTI_CHAT || leaderId == id)
             etcList = Arrays.copyOfRange(etcList, 0, 1);
         ArrayAdapter<String> etcAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, etcList);
         etcAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -214,9 +218,10 @@ public class ChatActivity extends AppCompatActivity {
             Validation validation = isChatSendSuccess.getValidation();
             Chat sentChat = isChatSendSuccess.getData();
             if(validation == Validation.CHAT_POST_SUCCESS){
-                chats.add(sentChat);
-                chatAdapter.notifyItemInserted(chats.size()-1);
-                recyclerView.scrollToPosition(chats.size()-1);
+                // 이미 스트리밍 채팅을 받아오므로, 재표시할 필요 없음, 따라서 주석 처리
+//                chats.add(sentChat);
+//                chatAdapter.notifyItemInserted(chats.size()-1);
+//                recyclerView.scrollToPosition(chats.size()-1);
             }
             else if(validation == Validation.CHAT_POST_FAIL){
                 Toast.makeText(context, "채팅 전송에 실패하였습니다.", Toast.LENGTH_SHORT).show();
@@ -265,6 +270,73 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
         compositeDisposable.add(oldChatDisposable);
+
+        /*채팅방의 멤버 리스트 가져오기*/
+        chatViewModel.loadMembersOfChatroom();
+
+        /*채팅방의 멤버 리스트 가져오기 결과 감시*/
+        chatViewModel.getIsLoadMembersOfChatroomSuccess().observe(this, isLoadMembersOfChatroomSuccess -> {
+            Validation validation = isLoadMembersOfChatroomSuccess.getValidation();
+            List<Member> loadedMembers = isLoadMembersOfChatroomSuccess.getData();
+            if(validation == Validation.CHATROOM_MEMBER_LOAD_SUCCESS){
+                members.clear();
+                members.addAll(loadedMembers);
+            }
+            else if(validation == Validation.CHAT_RECEIVE_FAIL){
+                Toast.makeText(context, "채팅방의 멤버 불러오기에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+            }
+            else if(validation == Validation.MEMBER_NOT_EXIST){
+                Toast.makeText(context, "채팅방 내에 멤버가 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
+            }
+            else if(validation == Validation.NETWORK_FAILED){
+                Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Log.e(TAG, "채팅 불러오기 결과를 알 수 없습니다.");
+            }
+        });
+
+        /*멤버 및 프로필 보기 스피너 Adapter 설정*/
+        if(chatroomType == Chatroom.ChatroomType.MULTI_CHAT){
+            Spinner profileSpinner = binding.spinnerChatProfile;
+//            String[] profileList = getResources().getStringArray(R.array.chat_etc_list);
+//            if(chatroomType != Chatroom.ChatroomType.MULTI_CHAT || leaderId == id)
+//                etcList = Arrays.copyOfRange(etcList, 0, 1);
+//            ArrayAdapter<String> etcAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, etcList);
+//            etcAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//            etcSpinner.setAdapter(etcAdapter);
+//
+//            etcSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//                @Override
+//                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                    if(position == 0){
+//                        /*모음톡 나가기*/
+//                        //TODO - 다이얼로그 띄울 것
+//
+//                    }
+//                    else if(position == 1){
+//                        /*수정하기*/
+//                        Intent nextIntent = new Intent(ChatActivity.this, ChatUpdateChatroomActivity.class);
+//                        //TODO - 수정을 위해 필요한 정보 putExtra할 것
+//                        startActivity(nextIntent);
+//
+//                    }
+//                    else if(position == 2){
+//                        /*정산 요청하기*/
+//                        //TODO - 정산 요청 기능 추가해야함
+//                    }
+//                    else{
+//                        Log.e(TAG, "알 수 없는 아이템 선택");
+//                    }
+//                }
+//
+//                @Override
+//                public void onNothingSelected(AdapterView<?> parent) {
+//                    return;
+//                }
+//            });
+        }
+
     }
 
     @Override

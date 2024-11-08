@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.moum.data.entity.Record;
-import com.example.moum.data.entity.User;
+import com.example.moum.data.entity.SignupUser;
 import com.example.moum.repository.SignupRepository;
 import com.example.moum.utils.ImageManager;
 import com.example.moum.utils.Validation;
@@ -22,7 +22,7 @@ public class SignupViewModel extends ViewModel {
 
     private SignupRepository signupRepository;
     public String TAG = getClass().toString();
-    private final MutableLiveData<User> user = new MutableLiveData<>(new User());
+    private final MutableLiveData<SignupUser> user = new MutableLiveData<>(new SignupUser());
     private final MutableLiveData<Validation> isEmailAuthSuccess = new MutableLiveData<>();
     private final MutableLiveData<Validation> isEmailCodeSuccess = new MutableLiveData<>();
     private final MutableLiveData<Validation> isBasicValid = new MutableLiveData<>();
@@ -44,11 +44,11 @@ public class SignupViewModel extends ViewModel {
     }
 
     /*getter, setter*/
-    public LiveData<User> getUser() {
+    public LiveData<SignupUser> getUser() {
         return user;
     }
 
-    public void setUser(User user) { this.user.setValue(user);}
+    public void setUser(SignupUser signupUser) { this.user.setValue(signupUser);}
 
     public void setIsEmailAuthSuccess(Validation validation){
         isEmailAuthSuccess.setValue(validation);
@@ -236,13 +236,13 @@ public class SignupViewModel extends ViewModel {
     public void setBasic(String memberId, String password, String email, String emailCode){
 
         if(user.getValue() == null){
-            user.setValue(new User());
+            user.setValue(new SignupUser());
         }
-        User userValue = user.getValue();
-        userValue.setUsername(memberId);
-        userValue.setPassword(password);
-        userValue.setEmail(email);
-        userValue.setEmailCode(emailCode);
+        SignupUser signupUserValue = user.getValue();
+        signupUserValue.setUsername(memberId);
+        signupUserValue.setPassword(password);
+        signupUserValue.setEmail(email);
+        signupUserValue.setEmailCode(emailCode);
     }
 
     public void validCheckProfile(){
@@ -285,23 +285,23 @@ public class SignupViewModel extends ViewModel {
         }
 
         /*processing for repository*/
-        User userValue = user.getValue();
+        SignupUser signupUserValue = user.getValue();
         if(profileImage.getValue() != null){
 
             Uri uri = profileImage.getValue();
             ImageManager imageManager = new ImageManager(context);
             File file = imageManager.convertUriToFile(uri);
-            userValue.setProfileImage(file);
+            signupUserValue.setProfileImage(file);
         }
         if(!records.isEmpty())
-            userValue.setRecords(records);
+            signupUserValue.setRecords(records);
         if(proficiency.getValue() != null)
-            userValue.setProficiency(proficiency.getValue());
+            signupUserValue.setProficiency(proficiency.getValue());
         if(address.getValue() != null)
-            userValue.setAddress(address.getValue());
+            signupUserValue.setAddress(address.getValue());
 
         /*goto repository*/
-        signupRepository.signup(userValue, result -> {
+        signupRepository.signup(signupUserValue, result -> {
             setIsSignupSuccess(result.getValidation());
         });
     }

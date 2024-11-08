@@ -28,12 +28,26 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:contentInsetStart="0dp">
-
-                <ImageView
-                    android:id="@+id/image_chat_profile"
+                <RelativeLayout
                     android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/background_circle_darkgray"/>
+                    android:layout_height="40dp">
+                    <ImageView
+                        android:id="@+id/image_chat_profile"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/background_circle_darkgray"/>
+
+                    <Spinner
+                        android:id="@+id/spinner_chat_profile"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentTop="true"
+                        android:background="@color/transparent"/>
+                </RelativeLayout>
+
 
                 <LinearLayout
                     android:layout_width="wrap_content"

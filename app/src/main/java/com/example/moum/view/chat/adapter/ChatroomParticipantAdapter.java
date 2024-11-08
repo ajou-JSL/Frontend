@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.moum.R;
 import com.example.moum.data.entity.Team;
-import com.example.moum.data.entity.User;
 
 import java.util.ArrayList;
 import java.util.Collections;

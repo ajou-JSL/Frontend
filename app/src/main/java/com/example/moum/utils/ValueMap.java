@@ -24,7 +24,10 @@ public class ValueMap {
             // 채팅
             put("S-CH001", Validation.CHAT_POST_SUCCESS);
             put("F-CH001", Validation.CHAT_POST_FAIL);
+            put("S-CH002", Validation.CHATROOM_MEMBER_LOAD_SUCCESS);
             put("F-CH002", Validation.CHAT_RECEIVE_FAIL);
+            put("S-CH003", Validation.CHATROOM_CREATE_SUCCESS);
+            put("F-CH003", Validation.CHATROOM_CREATE_FAIL);
 
             // 멤버 관련 성공 응답
             put("S-M003", Validation.REISSUE_SUCCESS);

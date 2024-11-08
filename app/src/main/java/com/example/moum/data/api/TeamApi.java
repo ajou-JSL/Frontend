@@ -2,7 +2,6 @@ package com.example.moum.data.api;
 
 import com.example.moum.data.dto.SuccessResponse;
 import com.example.moum.data.entity.Team;
-import com.example.moum.data.entity.User;
 
 import java.util.List;
 

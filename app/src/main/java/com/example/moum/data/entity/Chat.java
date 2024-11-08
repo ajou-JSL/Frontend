@@ -2,6 +2,7 @@ package com.example.moum.data.entity;
 
 import android.os.Build;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import java.time.LocalDateTime;
@@ -9,25 +10,23 @@ import java.time.format.DateTimeFormatter;
 
 public class Chat {
     private String sender;
-    private String receiver;
     private String message;
     private Integer chatroomId;
     private LocalDateTime timestamp;
+    @Nullable
     private String timestampFormatted;
     private boolean isSentByMe;
 
-    public Chat(String sender, String receiver, String message, Integer chatroomId, LocalDateTime timestamp){
+    public Chat(String sender, String message, Integer chatroomId, LocalDateTime timestamp){
         this.sender = sender;
-        this.receiver = receiver;
         this.message = message;
         this.chatroomId = chatroomId;
         this.timestamp = timestamp;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public Chat(String sender, String receiver, String message, Integer chatroomId, String timestamp){
+    public Chat(String sender, String message, Integer chatroomId, String timestamp){
         this.sender = sender;
-        this.receiver = receiver;
         this.message = message;
         this.chatroomId = chatroomId;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
@@ -40,10 +39,6 @@ public class Chat {
 
     public void setChatroomId(Integer chatroomId) {
         this.chatroomId = chatroomId;
-    }
-
-    public void setReceiver(String receiver) {
-        this.receiver = receiver;
     }
 
     public void setSender(String sender) {
@@ -74,9 +69,6 @@ public class Chat {
         return timestamp;
     }
 
-    public String getReceiver() {
-        return receiver;
-    }
 
     public String getSender() {
         return sender;
@@ -94,7 +86,6 @@ public class Chat {
     public String toString() {
         return "Chat{" +
                 "sender='" + sender + '\'' +
-                ", receiver='" + receiver + '\'' +
                 ", message='" + message + '\'' +
                 ", chatroomId=" + chatroomId +
                 ", timestamp=" + timestamp +

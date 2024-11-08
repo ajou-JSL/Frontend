@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.moum.R;
 import com.example.moum.data.entity.Team;
-import com.example.moum.data.entity.User;
 import com.example.moum.databinding.ActivityChatCreateChatroomOnwardBinding;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
@@ -132,10 +131,9 @@ public class ChatCreateChatroomOnwardActivity extends AppCompatActivity {
         binding.buttonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 String chatroomName = binding.edittextMoumtalkName.getText().toString();
                 ArrayList<Boolean> isParticipates = ChatroomParticipantAdapter.getIsParticipates();
-                viewModel.setInfo(username, teamId, chatroomName, members, isParticipates);
+                viewModel.setInfo(id, username, teamId, chatroomName, members, isParticipates);
                 viewModel.createChatroom(context);
             }
         });
@@ -152,6 +150,13 @@ public class ChatCreateChatroomOnwardActivity extends AppCompatActivity {
             else if(result == Validation.PARTICIPATE_AT_LEAST_TWO){
                 binding.signupErrorMoumtalkParticipants.setText("멤버를 1명 이상 선택하세요.");
                 binding.recyclerMoumtalkParticipants.requestFocus();
+            }
+            else if(result == Validation.CHATROOM_CREATE_FAIL){
+                Toast.makeText(context, "채팅방 생성에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+            }
+            else if(result == Validation.CHATROOM_CREATE_SUCCESS){
+                Toast.makeText(context, "채팅방 생성에 성공하였습니다.", Toast.LENGTH_SHORT).show();
+                finish();
             }
             else if(result == Validation.NETWORK_FAILED){
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();

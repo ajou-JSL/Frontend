@@ -1,24 +1,36 @@
 package com.example.moum.data.entity;
 
 import android.net.Uri;
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import retrofit2.http.Url;
 
 public class Chatroom {
-    private Integer groupId;
-    private String receiverId;
-    private Integer chatroomId;
-    private String chatroomName;
-    private ChatroomType chatroomType;
-    private String chatroomLeader;
-    private String chatroomContent;
-    private LocalDateTime chatroomLastTimestamp;
-    private Uri chatroomProfile;
+    private Integer id;
+    private String name;
+    private ChatroomType type;
+    private Integer teamId;
+    private Integer leaderId;
+    private String lastChat;
+    private LocalDateTime lastTimestamp;
+    private URL fileUrl;
 
+    public Chatroom(String name, ChatroomType type, Integer teamId, Integer leaderId) {
+        this.name = name;
+        this.type = type;
+        this.teamId = teamId;
+        this.leaderId = leaderId;
+    }
 
     public enum ChatroomType{
         PERSONAL_CHAT(0),
@@ -36,109 +48,109 @@ public class Chatroom {
 
     }
 
-    public Chatroom(Integer groupId, String receiverId, Integer chatroomId, String chatroomName, ChatroomType chatroomType, String chatroomLeader){
-        this.groupId = groupId;
-        this.receiverId = receiverId;
-        this.chatroomId = chatroomId;
-        this.chatroomType = chatroomType;
-        this.chatroomLeader = chatroomLeader;
+    public Chatroom(Integer id, String name, ChatroomType type, Integer teamId, Integer leaderId, String lastChat, LocalDateTime lastTimestamp, URL fileUrl){
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.teamId = teamId;
+        this.leaderId = leaderId;
+        this.lastChat = lastChat;
+        this.lastTimestamp = lastTimestamp;
+        this.fileUrl = fileUrl;
     }
 
-    public Chatroom(Integer groupId, String receiverId, Integer chatroomId, String chatroomName, String chatroomContent, LocalDateTime chatroomLastTimestamp, Uri chatroomProfile, ChatroomType chatroomType, String chatroomLeader){
-        this.groupId = groupId;
-        this.receiverId = receiverId;
-        this.chatroomId = chatroomId;
-        this.chatroomName = chatroomName;
-        this.chatroomContent = chatroomContent;
-        this.chatroomLastTimestamp = chatroomLastTimestamp;
-        this.chatroomProfile = chatroomProfile;
-        this.chatroomType = chatroomType;
-        this.chatroomLeader = chatroomLeader;
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public Chatroom(Integer id, String name, ChatroomType type, Integer teamId, Integer leaderId, String lastChat, String lastTimestamp, String fileUrl){
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.teamId = teamId;
+        this.leaderId = leaderId;
+        this.lastChat = lastChat;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
+        this.lastTimestamp = LocalDateTime.parse(lastTimestamp, formatter);
+        try {
+            this.fileUrl = new URL(fileUrl);
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public Integer getGroupId() {
-        return groupId;
+    public Integer getId() {
+        return id;
     }
 
-    public String getReceiverId() {
-        return receiverId;
+    public String getName() {
+        return name;
     }
 
-    public Integer getChatroomId() {
-        return chatroomId;
+    public Integer getTeamId() {
+        return teamId;
     }
 
-    public LocalDateTime getChatroomLastTimestamp() {
-        return chatroomLastTimestamp;
+    public ChatroomType getType() {
+        return type;
     }
 
-    public String getChatroomName() {
-        return chatroomName;
+    public Integer getLeaderId() {
+        return leaderId;
     }
 
-    public Uri getChatroomProfile() {
-        return chatroomProfile;
+    public LocalDateTime getLastTimestamp() {
+        return lastTimestamp;
     }
 
-    public String getChatroomContent() {
-        return chatroomContent;
+    public String getLastChat() {
+        return lastChat;
     }
 
-    public ChatroomType getChatroomType() {
-        return chatroomType;
+    public URL getFileUrl() {
+        return fileUrl;
     }
 
-    public String getChatroomLeader() {
-        return chatroomLeader;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-
-    public void setReceiverId(String receiverId) {
-        this.receiverId = receiverId;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setChatroomLeader(String chatroomLeader) {
-        this.chatroomLeader = chatroomLeader;
+    public void setTeamId(Integer teamId) {
+        this.teamId = teamId;
     }
 
-    public void setChatroomType(ChatroomType chatroomType) {
-        this.chatroomType = chatroomType;
+    public void setLeaderId(Integer leaderId) {
+        this.leaderId = leaderId;
     }
 
-    public void setChatroomName(String chatroomName) {
-        this.chatroomName = chatroomName;
+    public void setFileUrl(URL fileUrl) {
+        this.fileUrl = fileUrl;
     }
 
-    public void setChatroomId(Integer chatroomId) {
-        this.chatroomId = chatroomId;
+    public void setLastChat(String lastChat) {
+        this.lastChat = lastChat;
     }
 
-    public void setGroupId(Integer groupId) {
-        this.groupId = groupId;
+    public void setLastTimestamp(LocalDateTime lastTimestamp) {
+        this.lastTimestamp = lastTimestamp;
     }
 
-    public void setChatroomContent(String chatroomContent) {
-        this.chatroomContent = chatroomContent;
-    }
-
-    public void setChatroomLastTimestamp(LocalDateTime chatroomLastTimestamp) {
-        this.chatroomLastTimestamp = chatroomLastTimestamp;
-    }
-
-    public void setChatroomProfile(Uri chatroomProfile) {
-        this.chatroomProfile = chatroomProfile;
+    public void setType(ChatroomType type) {
+        this.type = type;
     }
 
     @Override
     public String toString() {
         return "Chatroom{" +
-                "groupId=" + groupId +
-                ", chatroomId=" + chatroomId +
-                ", chatroomName='" + chatroomName + '\'' +
-                ", chatroomContent='" + chatroomContent + '\'' +
-                ", chatroomLastTimestamp=" + chatroomLastTimestamp + '\'' +
-                ", chatroomProfile=" + chatroomProfile +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", type=" + type +
+                ", teamId=" + teamId +
+                ", leaderId=" + leaderId +
+                ", lastChat='" + lastChat + '\'' +
+                ", lastTimestamp=" + lastTimestamp +
+                ", fileUrl=" + fileUrl +
                 '}';
     }
-
 }

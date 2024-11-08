@@ -6,49 +6,58 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChatroomCreateRequest {
-    private Integer groupId;
-    private String chatroomName;
-    private Chatroom.ChatroomType chatroomType;
-    private String chatroomLeader;
+    private String name;
+    private Chatroom.ChatroomType type;
+    private Integer teamId;
+    private Integer leaderId;
     private ArrayList<Member> members;
 
-    public ChatroomCreateRequest(Integer groupId, String chatroomName, Chatroom.ChatroomType chatroomType, String chatroomLeader, ArrayList<Member> members){
-        this.groupId = groupId;
-        this.chatroomName = chatroomName;
-        this.chatroomType = chatroomType;
-        this.chatroomLeader = chatroomLeader;
+    public ChatroomCreateRequest(String name, Chatroom.ChatroomType type, Integer teamId, Integer leaderId, ArrayList<Member> members){
+        this.name = name;
+        this.type = type;
+        this.teamId = teamId;
+        this.leaderId = leaderId;
         this.members = members;
     }
-    public void setGroupId(Integer groupId) {
-        this.groupId = groupId;
+
+    public void setLeaderId(Integer leaderId) {
+        this.leaderId = leaderId;
     }
 
-    public void setChatroomName(String chatroomName) {
-        this.chatroomName = chatroomName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setChatroomLeader(String chatroomLeader) {
-        this.chatroomLeader = chatroomLeader;
+    public void setTeamId(Integer teamId) {
+        this.teamId = teamId;
     }
 
-    public void setChatroomType(Chatroom.ChatroomType chatroomType) {
-        this.chatroomType = chatroomType;
+    public void setMembers(ArrayList<Member> members) {
+        this.members = members;
     }
 
-    public Integer getGroupId() {
-        return groupId;
+    public void setType(Chatroom.ChatroomType type) {
+        this.type = type;
     }
 
-    public String getChatroomName() {
-        return chatroomName;
+    public Integer getTeamId() {
+        return teamId;
     }
 
-    public String getChatroomLeader() {
-        return chatroomLeader;
+    public String getName() {
+        return name;
     }
 
-    public Chatroom.ChatroomType getChatroomType() {
-        return chatroomType;
+    public ArrayList<Member> getMembers() {
+        return members;
+    }
+
+    public Chatroom.ChatroomType getType() {
+        return type;
+    }
+
+    public Integer getLeaderId() {
+        return leaderId;
     }
 
     public static class Member {

@@ -15,7 +15,7 @@ import java.util.List;
 
 public class ChatroomViewModel extends AndroidViewModel {
     private final ChatroomRepository chatroomRepository;
-    private MutableLiveData<Result<List<Chatroom>>> isLoadChatroomsSuccess = new MutableLiveData<>();
+    private final MutableLiveData<Result<List<Chatroom>>> isLoadChatroomsSuccess = new MutableLiveData<>();
     private String memberId;
 
     public ChatroomViewModel(Application application){

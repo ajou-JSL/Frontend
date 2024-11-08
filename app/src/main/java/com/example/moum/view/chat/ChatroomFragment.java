@@ -102,4 +102,13 @@ public class ChatroomFragment extends Fragment {
 
         return view;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        /*다시 돌아왔을 때, 채팅방 리스트 새로고침*/
+        chatrooms.clear();
+        chatroomViewModel.loadChatrooms();
+    }
 }

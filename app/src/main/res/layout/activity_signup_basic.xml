@@ -120,7 +120,7 @@
                                 android:textColor="@color/gray7"
                                 android:fontFamily="@font/noto_sans_kr_bold"
                                 android:gravity="center_vertical"
-                                android:text="@={viewModel.user.username}"
+                                android:text="@={viewModel.signupUser.username}"
                                 android:focusable="true"
                                 android:focusableInTouchMode="true"/>
                         </LinearLayout>
@@ -179,7 +179,7 @@
                             android:textSize="14sp"
                             android:fontFamily="@font/noto_sans_kr_bold"
                             android:gravity="center_vertical"
-                            android:text="@={viewModel.user.password}"/>
+                            android:text="@={viewModel.signupUser.password}"/>
                         </LinearLayout>
                     </LinearLayout>
                     <LinearLayout
@@ -236,7 +236,7 @@
                                 android:inputType="textPassword"
                                 android:textColor="@color/gray7"
                                 android:textSize="14sp"
-                                android:text="@={viewModel.user.passwordCheck}"/>
+                                android:text="@={viewModel.signupUser.passwordCheck}"/>
                         </LinearLayout>
                     </LinearLayout>
                     <LinearLayout
@@ -294,7 +294,7 @@
                                 android:inputType="text"
                                 android:textColor="@color/gray7"
                                 android:textSize="14sp"
-                                android:text="@={viewModel.user.email}"/>
+                                android:text="@={viewModel.signupUser.email}"/>
                         </LinearLayout>
                     </LinearLayout>
                     <LinearLayout
@@ -357,7 +357,7 @@
                                     android:inputType="text"
                                     android:textColor="@color/gray7"
                                     android:textSize="14sp"
-                                    android:text="@={viewModel.user.emailCode}"/>
+                                    android:text="@={viewModel.signupUser.emailCode}"/>
                             </LinearLayout>
                             <androidx.appcompat.widget.AppCompatButton
                                 android:id="@+id/button_email_auth"

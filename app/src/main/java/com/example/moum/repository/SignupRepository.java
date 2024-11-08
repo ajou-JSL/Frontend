@@ -5,12 +5,11 @@ import android.util.Log;
 import com.example.moum.data.api.SignupApi;
 import com.example.moum.data.dto.EmailAuthRequest;
 import com.example.moum.data.dto.EmailCodeRequest;
-import com.example.moum.data.dto.ErrorDetail;
 import com.example.moum.data.dto.ErrorResponse;
 import com.example.moum.data.dto.SignupRequest;
 import com.example.moum.data.dto.SuccessResponse;
 import com.example.moum.data.entity.Result;
-import com.example.moum.data.entity.User;
+import com.example.moum.data.entity.SignupUser;
 import com.example.moum.repository.client.BaseUrl;
 import com.example.moum.repository.client.RetrofitClientManager;
 import com.example.moum.utils.ValueMap;
@@ -128,26 +127,26 @@ public class SignupRepository {
         });
     }
 
-    public void signup(User user, com.example.moum.utils.Callback<Result<Object>> callback) {
+    public void signup(SignupUser signupUser, com.example.moum.utils.Callback<Result<Object>> callback) {
 
         SignupRequest signupRequest = new SignupRequest(
-            user.getUsername(),
-            user.getPassword(),
-            user.getEmail(),
-            user.getName(),
-            user.getProfileDescription(),
-            user.getInstrument(),
-            user.getProficiency(),
-            user.getAddress(),
-            user.getEmailCode()
+            signupUser.getUsername(),
+            signupUser.getPassword(),
+            signupUser.getEmail(),
+            signupUser.getName(),
+            signupUser.getProfileDescription(),
+            signupUser.getInstrument(),
+            signupUser.getProficiency(),
+            signupUser.getAddress(),
+            signupUser.getEmailCode()
         );
                 //TODO 백엔드에서의 이력 추가 완료 시, 주석 제거 필요
 //            user.getRecords()
 
         MultipartBody.Part profileImage = null;
-        if(user.getProfileImage() != null){
-            RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpg"), user.getProfileImage());
-            profileImage = MultipartBody.Part.createFormData("profileImage", user.getProfileImage().getName(), requestFile);
+        if(signupUser.getProfileImage() != null){
+            RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpg"), signupUser.getProfileImage());
+            profileImage = MultipartBody.Part.createFormData("profileImage", signupUser.getProfileImage().getName(), requestFile);
         }
 
         Call<SuccessResponse<String>> result = signupApi.signup(signupRequest, profileImage);

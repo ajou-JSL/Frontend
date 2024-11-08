@@ -34,7 +34,7 @@ public class ChatroomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chatroom, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chatroom, parent, false);
         return new ChatroomAdapter.ChatroomViewHolder(view, context);
     }
 
@@ -74,14 +74,14 @@ public class ChatroomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     int pos = getAdapterPosition();
                     if (pos != RecyclerView.NO_POSITION) {
                         Intent intent = new Intent(context, ChatActivity.class);
-                        intent.putExtra("groupId", chatroom.getGroupId());
-                        intent.putExtra("receiverId", chatroom.getReceiverId());
-                        intent.putExtra("chatroomId", chatroom.getChatroomId());
-                        intent.putExtra("chatroomName", chatroom.getChatroomName());
-                        intent.putExtra("chatroomLastTime", chatroomLastTime.getText());
-                        intent.putExtra("chatroomProfile", chatroom.getChatroomProfile());
-                        intent.putExtra("chatroomType", chatroom.getChatroomType().getValue());
-                        intent.putExtra("chatroomLeader", chatroom.getChatroomLeader());
+                        intent.putExtra("chatroomId", chatroom.getId());
+                        intent.putExtra("chatroomName", chatroom.getName());
+                        intent.putExtra("chatroomType", chatroom.getType().getValue());
+                        intent.putExtra("teamId", chatroom.getTeamId());
+                        intent.putExtra("leaderId", chatroom.getLeaderId());
+                        intent.putExtra("lastChat", chatroom.getLastChat());
+                        intent.putExtra("lastTimestamp", chatroom.getLastTimestamp().toString());
+                        intent.putExtra("fileUrl", chatroom.getFileUrl().toString());
                         context.startActivity(intent);
                     }
                 }
@@ -91,11 +91,11 @@ public class ChatroomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         @RequiresApi(api = Build.VERSION_CODES.O)
         public void bind(Chatroom chatroom){
             this.chatroom = chatroom;
-            chatroomName.setText(chatroom.getChatroomName());
-            chatroomContent.setText(chatroom.getChatroomContent());
-            String formatTime = chatroom.getChatroomLastTimestamp().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+            chatroomName.setText(chatroom.getName());
+            chatroomContent.setText(chatroom.getLastChat());
+            String formatTime = chatroom.getLastTimestamp().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
             chatroomLastTime.setText(formatTime);
-            Uri profileUri = chatroom.getChatroomProfile();
+            Uri profileUri =Uri.parse(chatroom.getFileUrl().toString());
             if(profileUri != null)
                 Glide.with(context).load(profileUri).into(chatroomProfile);
         }
