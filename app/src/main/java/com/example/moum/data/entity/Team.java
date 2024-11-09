@@ -14,6 +14,7 @@ public class Team {
     private String createdAt;
     private String fileUrl;
     private ArrayList<Member> members;
+    private ArrayList<Record> records;
 
     public void setMembers(ArrayList<Member> members) {
         this.members = members;
@@ -43,6 +44,10 @@ public class Team {
         this.teamName = teamName;
     }
 
+    public void setRecords(ArrayList<Record> records) {
+        this.records = records;
+    }
+
     public ArrayList<Member> getMembers() {
         return members;
     }
@@ -69,6 +74,10 @@ public class Team {
 
     public String getFileUrl() {
         return fileUrl;
+    }
+
+    public ArrayList<Record> getRecords() {
+        return records;
     }
 
     @Override

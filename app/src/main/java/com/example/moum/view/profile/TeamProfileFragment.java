@@ -25,35 +25,31 @@ import com.example.moum.data.entity.Chatroom;
 import com.example.moum.data.entity.Member;
 import com.example.moum.data.entity.Record;
 import com.example.moum.data.entity.Team;
-import com.example.moum.databinding.FragmentChatroomBinding;
 import com.example.moum.databinding.FragmentMemberProfileBinding;
+import com.example.moum.databinding.FragmentTeamProfileBinding;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.view.chat.ChatActivity;
-import com.example.moum.view.chat.ChatCreateChatroomActivity;
-import com.example.moum.view.chat.ChatUpdateChatroomActivity;
-import com.example.moum.view.chat.adapter.ChatroomAdapter;
+import com.example.moum.view.profile.adapter.ProfileMemberAdapter;
 import com.example.moum.view.profile.adapter.ProfileRecordAdapter;
 import com.example.moum.view.profile.adapter.ProfileTeamAdapter;
-import com.example.moum.viewmodel.chat.ChatroomViewModel;
 import com.example.moum.viewmodel.profile.MemberProfileViewModel;
+import com.example.moum.viewmodel.profile.TeamProfileViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
-public class MemberProfileFragment extends BottomSheetDialogFragment {
-    private FragmentMemberProfileBinding binding;
-    private MemberProfileViewModel viewModel;
+public class TeamProfileFragment extends BottomSheetDialogFragment {
+    private FragmentTeamProfileBinding binding;
+    private TeamProfileViewModel viewModel;
     private Context context;
     private final String TAG = getClass().toString();
     private SharedPreferenceManager sharedPreferenceManager;
-    private Member targetMember;
+    private Team targetTeam;
     private final ArrayList<Record> records = new ArrayList<>();
-    private final ArrayList<Team> teams = new ArrayList<>();
-    public MemberProfileFragment(Context context){
+    private final ArrayList<Member> members = new ArrayList<>();
+    public TeamProfileFragment(Context context){
         this.context = context;
     }
 
@@ -61,11 +57,10 @@ public class MemberProfileFragment extends BottomSheetDialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = FragmentMemberProfileBinding.inflate(inflater,container, false);
-        viewModel = new ViewModelProvider(requireActivity()).get(MemberProfileViewModel.class);
+        binding = FragmentTeamProfileBinding.inflate(inflater,container, false);
+        viewModel = new ViewModelProvider(requireActivity()).get(TeamProfileViewModel.class);
         context = getContext();
         View view = binding.getRoot();
-        view.setBackground(context.getDrawable(R.drawable.background_top_rounded_white));
 
         /*자동로그인 정보를 SharedPreference에서 불러오기*/
         sharedPreferenceManager = new SharedPreferenceManager(context, getString(R.string.preference_file_key));
@@ -80,13 +75,13 @@ public class MemberProfileFragment extends BottomSheetDialogFragment {
         }
 
         /*이전 액티비티로부터의 값 가져오기*/
-        int targetMemberId;
+        int targetTeamId;
         Bundle bundle = getArguments();
-        if(bundle == null || bundle.getInt("targetMemberId") < 0){
-            Toast.makeText(context, "조회하고자 하는 멤버를 알 수 없습니다.", Toast.LENGTH_SHORT).show();
+        if(bundle == null || bundle.getInt("targetTeamId") < 0){
+            Toast.makeText(context, "조회하고자 하는 단체를 알 수 없습니다.", Toast.LENGTH_SHORT).show();
             dismiss();
         }
-        targetMemberId = bundle.getInt("targetMemberId");
+        targetTeamId = bundle.getInt("targetTeamId");
 
         /*이력 리사이클러뷰 설정*/
         RecyclerView recordsRecyclerView = binding.recyclerRecords;
@@ -96,37 +91,38 @@ public class MemberProfileFragment extends BottomSheetDialogFragment {
         recordsRecyclerView.setAdapter(recordsAdapter);
         recordsRecyclerView.suppressLayout(true);
 
-        /*단체 리사이클러뷰 설정*/
-        RecyclerView teamsRecyclerView = binding.recyclerTeams;
-        ProfileTeamAdapter teamsAdapter = new ProfileTeamAdapter();
-        teamsAdapter.setTeams(teams, context);
-        teamsRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-        teamsRecyclerView.setAdapter(teamsAdapter);
+        /*멤버 리사이클러뷰 설정*/
+        RecyclerView mebersRecyclerView = binding.recyclerMembers;
+        ProfileMemberAdapter membersAdapter = new ProfileMemberAdapter();
+        membersAdapter.setMembers(members, context);
+        mebersRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+        mebersRecyclerView.setAdapter(membersAdapter);
 
-        /*개인 프로필 정보 불러오기*/
-        viewModel.loadMemberProfile(targetMemberId);
+        /*단체 프로필 정보 불러오기*/
+        viewModel.loadTeamProfile(targetTeamId);
 
-        /*개인 프로필 정보 불러오기 결과 감시*/
-        //TODO 불러오지 못했을 경우의 validation 추가하기
-        viewModel.getIsLoadMemberProfileSuccess().observe(getViewLifecycleOwner(), isLoadMemberProfileSuccess -> {
-            Validation validation = isLoadMemberProfileSuccess.getValidation();
-            Member tMember = isLoadMemberProfileSuccess.getData();
-            if(validation == Validation.GET_PROFILE_SUCCESS){
-                targetMember = tMember;
-                if(targetMember.getRecords() != null && !targetMember.getRecords().isEmpty()){
-                    records.addAll(targetMember.getRecords());
+        /*단체 프로필 정보 불러오기 결과 감시*/
+        viewModel.getIsLoadTeamProfileSuccess().observe(getViewLifecycleOwner(), isLoadTeamProfileSuccess -> {
+            Validation validation = isLoadTeamProfileSuccess.getValidation();
+            Team team = isLoadTeamProfileSuccess.getData();
+            if(validation == Validation.GET_TEAM_SUCCESS){
+                targetTeam = team;
+                if(targetTeam.getRecords() != null && !targetTeam.getRecords().isEmpty()){
+                    records.addAll(targetTeam.getRecords());
                     recordsRecyclerView.suppressLayout(false);
                     recordsAdapter.notifyItemInserted(records.size()-1);
                     recordsRecyclerView.suppressLayout(true);
                 }
-                if(targetMember.getTeams() != null && !targetMember.getTeams().isEmpty()){
-                    teams.addAll(targetMember.getTeams());
-                    teamsAdapter.notifyItemInserted(teams.size()-1);
+                if(targetTeam.getMembers() != null && !targetTeam.getMembers().isEmpty()){
+                    members.addAll(targetTeam.getMembers());
+                    membersAdapter.notifyItemInserted(members.size()-1);
                 }
-                binding.textviewNickname.setText(targetMember.getName());
-                binding.textviewDescription.setText(targetMember.getProfileDescription());
-                binding.textviewLocation.setText(String.format("%s(%s) | %s", targetMember.getInstrument(), targetMember.getProficiency(), targetMember.getAddress()));
-                Glide.with(context).load(targetMember.getProfileImageUrl()).into(binding.imageviewProfile);
+                binding.textviewTeamName.setText(targetTeam.getTeamName());
+                binding.textviewDescription.setText(targetTeam.getDescription());
+                Glide.with(context).load(targetTeam.getFileUrl()).into(binding.imageviewProfile);
+            }
+            else if(validation == Validation.TEAM_NOT_FOUND){
+                Toast.makeText(context, "단체를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
             }
             else if(validation == Validation.NETWORK_FAILED){
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
@@ -137,11 +133,18 @@ public class MemberProfileFragment extends BottomSheetDialogFragment {
             }
         });
 
-        /*개인톡 시작하기 버튼 이벤트*/
+        /*단체장과의 톡 시작하기 버튼 이벤트*/
         binding.buttonChatStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                viewModel.createChatroom(targetMember, id, context);
+
+                if(targetTeam != null){
+                    for(Member member : members){
+                        if(member.getId() == targetTeam.getLeaderId()){
+                            viewModel.createChatroom(member, id, context);
+                        }
+                    }
+                }
             }
         });
 
@@ -180,10 +183,9 @@ public class MemberProfileFragment extends BottomSheetDialogFragment {
             }
         });
 
-
         /*설정 스피너 설정*/
         Spinner etcSpinner = binding.spinnerProfileEtc;
-        String[] etcList = getResources().getStringArray(R.array.member_profile_etc_list);
+        String[] etcList = getResources().getStringArray(R.array.team_profile_etc_list);
         ArrayAdapter<String> etcAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, etcList);
         etcAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         etcSpinner.setAdapter(etcAdapter);
@@ -191,7 +193,7 @@ public class MemberProfileFragment extends BottomSheetDialogFragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(position == 0){
-                    //TODO - 유저 신고하기 fragment 띄우기
+                    //TODO - 단체 신고하기 fragment 띄우기
                 }
                 else{
                     Log.e(TAG, "알 수 없는 아이템 선택");
@@ -203,17 +205,14 @@ public class MemberProfileFragment extends BottomSheetDialogFragment {
             }
         });
 
-        /*엠블럼 리사이클러뷰 설정*/
-        //TODO 후순위
-
         return view;
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        targetMember = null;
+        targetTeam = null;
         records.clear();
-        teams.clear();
+        members.clear();
     }
 }
