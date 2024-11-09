@@ -22,8 +22,8 @@ public class Chatroom {
     private Integer teamId;
     private Integer leaderId;
     private String lastChat;
-    private LocalDateTime lastTimestamp;
-    private URL fileUrl;
+    private String lastTimestamp;
+    private String fileUrl;
 
     public Chatroom(String name, ChatroomType type, Integer teamId, Integer leaderId) {
         this.name = name;
@@ -48,7 +48,7 @@ public class Chatroom {
 
     }
 
-    public Chatroom(Integer id, String name, ChatroomType type, Integer teamId, Integer leaderId, String lastChat, LocalDateTime lastTimestamp, URL fileUrl){
+    public Chatroom(Integer id, String name, ChatroomType type, Integer teamId, Integer leaderId, String lastChat, String lastTimestamp, String fileUrl){
         this.id = id;
         this.name = name;
         this.type = type;
@@ -57,23 +57,6 @@ public class Chatroom {
         this.lastChat = lastChat;
         this.lastTimestamp = lastTimestamp;
         this.fileUrl = fileUrl;
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public Chatroom(Integer id, String name, ChatroomType type, Integer teamId, Integer leaderId, String lastChat, String lastTimestamp, String fileUrl){
-        this.id = id;
-        this.name = name;
-        this.type = type;
-        this.teamId = teamId;
-        this.leaderId = leaderId;
-        this.lastChat = lastChat;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
-        this.lastTimestamp = LocalDateTime.parse(lastTimestamp, formatter);
-        try {
-            this.fileUrl = new URL(fileUrl);
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public Integer getId() {
@@ -96,7 +79,7 @@ public class Chatroom {
         return leaderId;
     }
 
-    public LocalDateTime getLastTimestamp() {
+    public String getLastTimestamp() {
         return lastTimestamp;
     }
 
@@ -104,7 +87,7 @@ public class Chatroom {
         return lastChat;
     }
 
-    public URL getFileUrl() {
+    public String getFileUrl() {
         return fileUrl;
     }
 
@@ -124,7 +107,7 @@ public class Chatroom {
         this.leaderId = leaderId;
     }
 
-    public void setFileUrl(URL fileUrl) {
+    public void setFileUrl(String fileUrl) {
         this.fileUrl = fileUrl;
     }
 
@@ -132,7 +115,7 @@ public class Chatroom {
         this.lastChat = lastChat;
     }
 
-    public void setLastTimestamp(LocalDateTime lastTimestamp) {
+    public void setLastTimestamp(String lastTimestamp) {
         this.lastTimestamp = lastTimestamp;
     }
 

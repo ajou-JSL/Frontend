@@ -22,7 +22,7 @@ public class SignupViewModel extends ViewModel {
 
     private SignupRepository signupRepository;
     public String TAG = getClass().toString();
-    private final MutableLiveData<SignupUser> user = new MutableLiveData<>(new SignupUser());
+    private final MutableLiveData<SignupUser> signupUser = new MutableLiveData<>(new SignupUser());
     private final MutableLiveData<Validation> isEmailAuthSuccess = new MutableLiveData<>();
     private final MutableLiveData<Validation> isEmailCodeSuccess = new MutableLiveData<>();
     private final MutableLiveData<Validation> isBasicValid = new MutableLiveData<>();
@@ -44,11 +44,11 @@ public class SignupViewModel extends ViewModel {
     }
 
     /*getter, setter*/
-    public LiveData<SignupUser> getUser() {
-        return user;
+    public LiveData<SignupUser> getSignupUser() {
+        return signupUser;
     }
 
-    public void setUser(SignupUser signupUser) { this.user.setValue(signupUser);}
+    public void setSignupUser(SignupUser signupUser) { this.signupUser.setValue(signupUser);}
 
     public void setIsEmailAuthSuccess(Validation validation){
         isEmailAuthSuccess.setValue(validation);
@@ -107,13 +107,13 @@ public class SignupViewModel extends ViewModel {
     public void emailAuth(){
 
         /*null check*/
-        if (user.getValue() == null || user.getValue().getEmail() == null || user.getValue().getEmail().isEmpty()) {
+        if (signupUser.getValue() == null || signupUser.getValue().getEmail() == null || signupUser.getValue().getEmail().isEmpty()) {
             setIsEmailAuthSuccess(Validation.EMAIL_NOT_WRITTEN);
             return;
         }
 
         /*validation check*/
-        String email = user.getValue().getEmail();
+        String email = signupUser.getValue().getEmail();
         String emailFormat = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
         Pattern emailPattern = Pattern.compile(emailFormat);
         if(!emailPattern.matcher(email).matches()){
@@ -130,27 +130,27 @@ public class SignupViewModel extends ViewModel {
     public void validCheckBasic(){
 
         /*null or empty check*/
-        if(user.getValue() == null){
+        if(signupUser.getValue() == null){
             setIsBasicValid(Validation.NOT_VALID_ANYWAY);
             return;
         }
-        else if(user.getValue().getUsername() == null || user.getValue().getUsername().isEmpty()) {
+        else if(signupUser.getValue().getUsername() == null || signupUser.getValue().getUsername().isEmpty()) {
             setIsBasicValid(Validation.ID_NOT_WRITTEN);
             return;
         }
-        else if(user.getValue().getPassword() == null || user.getValue().getPassword().isEmpty()) {
+        else if(signupUser.getValue().getPassword() == null || signupUser.getValue().getPassword().isEmpty()) {
             setIsBasicValid(Validation.PASSWORD_NOT_WRITTEN);
             return;
         }
-        else if(user.getValue().getPasswordCheck() == null || user.getValue().getPasswordCheck().isEmpty()) {
+        else if(signupUser.getValue().getPasswordCheck() == null || signupUser.getValue().getPasswordCheck().isEmpty()) {
             setIsBasicValid(Validation.PASSWORD_CHECK_NOT_WRITTEN);
             return;
         }
-        else if(user.getValue().getEmail() == null || user.getValue().getEmail().isEmpty()) {
+        else if(signupUser.getValue().getEmail() == null || signupUser.getValue().getEmail().isEmpty()) {
             setIsBasicValid(Validation.EMAIL_NOT_WRITTEN);
             return;
         }
-        else if(user.getValue().getEmailCode() == null || user.getValue().getEmailCode().isEmpty()) {
+        else if(signupUser.getValue().getEmailCode() == null || signupUser.getValue().getEmailCode().isEmpty()) {
             setIsBasicValid(Validation.EMAIL_CODE_NOT_WRITTEN);
             return;
         }
@@ -164,19 +164,19 @@ public class SignupViewModel extends ViewModel {
         Pattern passwordPattern = Pattern.compile(passwordFormat);
         Pattern emailPattern = Pattern.compile(emailFormat);
         Pattern emailCodePattern = Pattern.compile(emailCodeFormat);
-        if(!idPattern.matcher(user.getValue().getUsername()).matches()){
+        if(!idPattern.matcher(signupUser.getValue().getUsername()).matches()){
             setIsBasicValid(Validation.ID_NOT_FORMAL);
             return;
         }
-        else if(!passwordPattern.matcher(user.getValue().getPassword()).matches()){
+        else if(!passwordPattern.matcher(signupUser.getValue().getPassword()).matches()){
             setIsBasicValid(Validation.PASSWORD_NOT_FORMAL);
             return;
         }
-        else if(!emailPattern.matcher(user.getValue().getEmail()).matches()){
+        else if(!emailPattern.matcher(signupUser.getValue().getEmail()).matches()){
             setIsBasicValid(Validation.EMAIL_NOT_FORMAL);
             return;
         }
-        else if(!emailCodePattern.matcher(user.getValue().getEmailCode()).matches()){
+        else if(!emailCodePattern.matcher(signupUser.getValue().getEmailCode()).matches()){
             setIsBasicValid(Validation.EMAIL_CODE_NOT_FORMAL);
             return;
         }
@@ -194,7 +194,7 @@ public class SignupViewModel extends ViewModel {
         }
 
         /*other check*/
-        if(!user.getValue().getPassword().equals(user.getValue().getPasswordCheck())){
+        if(!signupUser.getValue().getPassword().equals(signupUser.getValue().getPasswordCheck())){
             setIsBasicValid(Validation.PASSWORD_NOT_EQUAL);
             return;
         }
@@ -207,13 +207,13 @@ public class SignupViewModel extends ViewModel {
     public void validCheckEmailCode(){
 
         /*null check*/
-        if (user.getValue() == null || user.getValue().getEmailCode() == null || user.getValue().getEmailCode().isEmpty()) {
+        if (signupUser.getValue() == null || signupUser.getValue().getEmailCode() == null || signupUser.getValue().getEmailCode().isEmpty()) {
             setIsEmailCodeSuccess(Validation.EMAIL_CODE_NOT_WRITTEN);
             return;
         }
 
         /*validation check*/
-        String emailCode = user.getValue().getEmailCode();
+        String emailCode = signupUser.getValue().getEmailCode();
         String emailCodeFormat = "^[0-9a-zA-Z]{6}$";
         Pattern emailCodePattern = Pattern.compile(emailCodeFormat);
         if(!emailCodePattern.matcher(emailCode).matches()){
@@ -225,7 +225,7 @@ public class SignupViewModel extends ViewModel {
         if(getIsEmailAuthSuccess().getValue() == null || getIsEmailAuthSuccess().getValue() != Validation.EMAIL_AUTH_SUCCESS){
             setIsEmailCodeSuccess(Validation.EMAIL_AUTH_NOT_TRIED);
         }
-        String email = user.getValue().getEmail();
+        String email = signupUser.getValue().getEmail();
 
         /*goto repository*/
         signupRepository.checkEmailCode(email, emailCode, result -> {
@@ -235,10 +235,10 @@ public class SignupViewModel extends ViewModel {
 
     public void setBasic(String memberId, String password, String email, String emailCode){
 
-        if(user.getValue() == null){
-            user.setValue(new SignupUser());
+        if(signupUser.getValue() == null){
+            signupUser.setValue(new SignupUser());
         }
-        SignupUser signupUserValue = user.getValue();
+        SignupUser signupUserValue = signupUser.getValue();
         signupUserValue.setUsername(memberId);
         signupUserValue.setPassword(password);
         signupUserValue.setEmail(email);
@@ -248,15 +248,15 @@ public class SignupViewModel extends ViewModel {
     public void validCheckProfile(){
 
         /*null check*/
-        if(user.getValue() == null){
+        if(signupUser.getValue() == null){
             setIsProfileValid(Validation.NOT_VALID_ANYWAY);
             return;
         }
-        else if(user.getValue().getName() == null || user.getValue().getName().isEmpty()) {
+        else if(signupUser.getValue().getName() == null || signupUser.getValue().getName().isEmpty()) {
             setIsProfileValid(Validation.NICKNAME_NOT_WRITTEN);
             return;
         }
-        else if(user.getValue().getInstrument() == null || user.getValue().getInstrument().isEmpty()) {
+        else if(signupUser.getValue().getInstrument() == null || signupUser.getValue().getInstrument().isEmpty()) {
             setIsProfileValid(Validation.INSTRUMENT_NOT_WRITTEN);
             return;
         }
@@ -285,7 +285,7 @@ public class SignupViewModel extends ViewModel {
         }
 
         /*processing for repository*/
-        SignupUser signupUserValue = user.getValue();
+        SignupUser signupUserValue = signupUser.getValue();
         if(profileImage.getValue() != null){
 
             Uri uri = profileImage.getValue();

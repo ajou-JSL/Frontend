@@ -71,6 +71,10 @@ public class SignupBasicActivity extends AppCompatActivity {
                 binding.signupEdittextEmail.requestFocus();
                 binding.signupErrorEmail.setText("이메일이 유효하지 않습니다.");
             }
+            else if ( isEmailAuthSuccess == Validation.EMAIL_AUTH_ALREADY){
+                binding.signupEdittextEmail.requestFocus();
+                binding.signupErrorEmail.setText("이미 가입된 이메일입니다.");
+            }
             else if(isEmailAuthSuccess == Validation.EMAIL_AUTH_SUCCESS){
                 binding.signupEdittextEmail.setEnabled(false);
                 binding.signupEdittextEmail.setTextColor(Color.GRAY);
@@ -211,10 +215,10 @@ public class SignupBasicActivity extends AppCompatActivity {
 
                 /*SignupProfile로 이동*/
                 Intent intent = new Intent(SignupBasicActivity.this, SignupProfileActivity.class);
-                intent.putExtra("memberId", signupViewModel.getUser().getValue().getUsername());
-                intent.putExtra("password", signupViewModel.getUser().getValue().getPassword());
-                intent.putExtra("email", signupViewModel.getUser().getValue().getEmail());
-                intent.putExtra("emailCode", signupViewModel.getUser().getValue().getEmailCode());
+                intent.putExtra("memberId", signupViewModel.getSignupUser().getValue().getUsername());
+                intent.putExtra("password", signupViewModel.getSignupUser().getValue().getPassword());
+                intent.putExtra("email", signupViewModel.getSignupUser().getValue().getEmail());
+                intent.putExtra("emailCode", signupViewModel.getSignupUser().getValue().getEmailCode());
                 startActivity(intent);
             }
             else{

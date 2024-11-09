@@ -95,7 +95,6 @@
                     android:layout_marginBottom="100dp">
 
                     <LinearLayout
-                        android:id="@+id/placeholder_moumtalk_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
@@ -116,7 +115,7 @@
                                 android:fontFamily="@font/noto_sans_kr_regular"
                                 />
                             <TextView
-                                android:id="@+id/signup_error_moumtalk_name"
+                                android:id="@+id/error_moumtalk_name"
                                 android:textColor="@color/red"
                                 android:textSize="9sp"
                                 android:fontFamily="@font/noto_sans_kr_regular"
@@ -127,7 +126,7 @@
                                 />
                         </LinearLayout>
                         <LinearLayout
-                            android:id="@+id/signup_placeholder_moumtalk_name"
+                            android:id="@+id/placeholder_moumtalk_name"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
                             android:background="@drawable/background_rounded_gray_stroke"
@@ -161,7 +160,6 @@
 
 
                         <LinearLayout
-                            android:id="@+id/placeholder_moumtalk_profile"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
@@ -177,7 +175,7 @@
                                 android:fontFamily="@font/noto_sans_kr_regular"
                                 />
                             <TextView
-                                android:id="@+id/signup_error_profile_image"
+                                android:id="@+id/error_profile_image"
                                 android:textColor="@color/red"
                                 android:textSize="9sp"
                                 android:fontFamily="@font/noto_sans_kr_regular"
@@ -215,7 +213,6 @@
                         </LinearLayout>
                     </LinearLayout>
                     <LinearLayout
-                        android:id="@+id/placeholder_moumtalk_participants"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
@@ -236,7 +233,7 @@
                                 android:fontFamily="@font/noto_sans_kr_regular"
                                 />
                             <TextView
-                                android:id="@+id/signup_error_moumtalk_participants"
+                                android:id="@+id/error_moumtalk_participants"
                                 android:textColor="@color/red"
                                 android:textSize="9sp"
                                 android:fontFamily="@font/noto_sans_kr_regular"

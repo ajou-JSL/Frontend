@@ -66,7 +66,6 @@ public class ChatCreateChatroomActivity extends AppCompatActivity {
         });
 
         /*단체 리스트 받아오기*/
-        //groupList = getResources().getStringArray(R.array.proficiency_list);
         chatCreateChatroomViewModel.loadTeamsAsLeader(id);
 
         /*단체 리스트 받아오기 결과 감시*/
@@ -82,8 +81,12 @@ public class ChatCreateChatroomActivity extends AppCompatActivity {
                 Toast.makeText(context, "호출에 실패했습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "호출 실패 from loadGroups()");
             }
-            else if(validation == Validation.VALID_ALL) {
+            else if(validation == Validation.GET_TEAM_LIST_SUCCESS && teams.isEmpty()) {
+                Toast.makeText(context, "리더로 속한 단체가 없습니다. 단체장만이 모음톡을 생성할 수 있습니다.", Toast.LENGTH_SHORT).show();
+            }
+            else if(validation == Validation.GET_TEAM_LIST_SUCCESS) {
                 int i = 0;
+                teamNameList = new String[teams.size()];
                 for(Team team : teams)
                     teamNameList[i] = team.getTeamName();
 
@@ -92,16 +95,14 @@ public class ChatCreateChatroomActivity extends AppCompatActivity {
                 ArrayAdapter<String> groupAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, teamNameList);
                 groupAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 groupSpinner.setAdapter(groupAdapter);
+                chatCreateChatroomViewModel.setSelectedGroup(teams.get(0));
 
                 groupSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         String selectedGroupName = teamNameList[position];
-                        for(Team team : teams)
-                            if(team.getTeamName().equals(selectedGroupName)){
-                                chatCreateChatroomViewModel.setSelectedGroup(team);
-                                binding.signupErrorChatroomList.setText("");
-                            }
+                        chatCreateChatroomViewModel.setSelectedGroup(teams.get(position));
+                        binding.signupErrorChatroomList.setText("");
                     }
                     @Override
                     public void onNothingSelected(AdapterView<?> parent) {

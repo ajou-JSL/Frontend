@@ -66,7 +66,7 @@ public class ChatroomFragment extends Fragment {
         recyclerView.setAdapter(chatroomAdapter);
 
         /*채팅방 리스트 정보 불러오기*/
-        chatroomViewModel.setMemberId(username);
+        chatroomViewModel.setMemberId(id);
         chatroomViewModel.loadChatrooms();
 
         /*채팅방 리스트 불러오기 결과 감시*/
@@ -79,13 +79,14 @@ public class ChatroomFragment extends Fragment {
                 recyclerView.scrollToPosition(0);
             }
             else if(validation == Validation.CHAT_POST_FAIL){
-                Toast.makeText(context, "채팅방 리스트 불러오기에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                binding.textviewNoChatrooms.setVisibility(View.VISIBLE);
             }
             else if(validation == Validation.NETWORK_FAILED){
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
             }
             else{
                 Log.e(TAG, "채팅방 리스트 불러오기 결과를 알 수 없습니다.");
+                Toast.makeText(context, "결과를 알 수 없습니다.", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -93,8 +94,6 @@ public class ChatroomFragment extends Fragment {
         binding.buttonAddChatroom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "새 모음톡 플로팅 버튼 클릭", Toast.LENGTH_SHORT).show();
-                // TODO 플로팅 버튼 클릭 시 모음톡 생성 액티비티로 전환
                 Intent intent = new Intent(context, ChatCreateChatroomActivity.class);
                 context.startActivity(intent);
             }
@@ -108,7 +107,7 @@ public class ChatroomFragment extends Fragment {
         super.onResume();
 
         /*다시 돌아왔을 때, 채팅방 리스트 새로고침*/
-        chatrooms.clear();
-        chatroomViewModel.loadChatrooms();
+//        chatrooms.clear();
+//        chatroomViewModel.loadChatrooms();
     }
 }

@@ -93,11 +93,9 @@ public class ChatroomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             this.chatroom = chatroom;
             chatroomName.setText(chatroom.getName());
             chatroomContent.setText(chatroom.getLastChat());
-            String formatTime = chatroom.getLastTimestamp().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-            chatroomLastTime.setText(formatTime);
-            Uri profileUri =Uri.parse(chatroom.getFileUrl().toString());
-            if(profileUri != null)
-                Glide.with(context).load(profileUri).into(chatroomProfile);
+            chatroomLastTime.setText(chatroom.getLastTimestamp());
+            if(chatroom.getFileUrl() != null)
+                Glide.with(context).load(chatroom.getFileUrl()).into(chatroomProfile);
         }
     }
 }

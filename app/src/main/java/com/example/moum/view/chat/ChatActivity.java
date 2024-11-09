@@ -32,6 +32,7 @@ import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.view.chat.adapter.ChatAdapter;
+import com.example.moum.view.profile.MemberProfileFragment;
 import com.example.moum.viewmodel.chat.ChatViewModel;
 
 import java.util.ArrayList;
@@ -335,6 +336,15 @@ public class ChatActivity extends AppCompatActivity {
 //                    return;
 //                }
 //            });
+        }/*개인채팅이라면 프로필 클릭 시 프로필 fragment 띄움*/
+        else if(chatroomType == Chatroom.ChatroomType.PERSONAL_CHAT){
+            binding.imageChatProfile.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    final MemberProfileFragment memberProfileFragment = new MemberProfileFragment(context);
+                    memberProfileFragment.show(getSupportFragmentManager(), memberProfileFragment.getTag());
+                }
+            });
         }
 
     }

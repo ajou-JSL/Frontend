@@ -21,7 +21,7 @@ import retrofit2.http.Path;
 public interface ChatroomApi {
     @GET("/api/chatroom/member/{memberId}")
     Call<SuccessResponse<List<Chatroom>>> loadChatrooms(
-            @Path("memberId") String memberId
+            @Path("memberId") Integer memberId
     );
 
     @GET("/api/chatroom/{chatroomId}")

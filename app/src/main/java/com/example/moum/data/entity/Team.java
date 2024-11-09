@@ -8,18 +8,18 @@ import java.util.ArrayList;
 
 public class Team {
     private Integer teamId;
-    private String leaderId;
+    private Integer leaderId;
     private String teamName;
     private String description;
-    private LocalDateTime createdAt;
-    private Uri fileUrl;
+    private String createdAt;
+    private String fileUrl;
     private ArrayList<Member> members;
 
     public void setMembers(ArrayList<Member> members) {
         this.members = members;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -27,11 +27,11 @@ public class Team {
         this.description = description;
     }
 
-    public void setFileUrl(Uri fileUrl) {
+    public void setFileUrl(String fileUrl) {
         this.fileUrl = fileUrl;
     }
 
-    public void setLeaderId(String leaderId) {
+    public void setLeaderId(Integer leaderId) {
         this.leaderId = leaderId;
     }
 
@@ -51,7 +51,7 @@ public class Team {
         return teamId;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public String getCreatedAt() {
         return createdAt;
     }
 
@@ -59,7 +59,7 @@ public class Team {
         return description;
     }
 
-    public String getLeaderId() {
+    public Integer getLeaderId() {
         return leaderId;
     }
 
@@ -67,55 +67,20 @@ public class Team {
         return teamName;
     }
 
-    public Uri getFileUrl() {
+    public String getFileUrl() {
         return fileUrl;
     }
 
-    public static class Member{
-        private Integer id;
-        private String name;
-        private String username;
-        private String profileDescription;
-        private Uri profileImageUrl;
-
-        public void setProfileDescription(String profileDescription) {
-            this.profileDescription = profileDescription;
-        }
-
-        public void setId(Integer id) {
-            this.id = id;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public void setProfileImageUrl(Uri profileImageUrl) {
-            this.profileImageUrl = profileImageUrl;
-        }
-
-        public void setUsername(String username) {
-            this.username = username;
-        }
-
-        public String getProfileDescription() {
-            return profileDescription;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public Integer getId() {
-            return id;
-        }
-
-        public String getUsername() {
-            return username;
-        }
-
-        public Uri getProfileImageUrl() {
-            return profileImageUrl;
-        }
+    @Override
+    public String toString() {
+        return "Team{" +
+                "teamId=" + teamId +
+                ", leaderId=" + leaderId +
+                ", teamName='" + teamName + '\'' +
+                ", description='" + description + '\'' +
+                ", createdAt='" + createdAt + '\'' +
+                ", fileUrl='" + fileUrl + '\'' +
+                ", members=" + members +
+                '}';
     }
 }

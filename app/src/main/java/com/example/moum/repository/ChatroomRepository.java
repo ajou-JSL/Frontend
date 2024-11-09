@@ -61,7 +61,7 @@ public class ChatroomRepository {
         return instance;
     }
 
-    public void loadChatrooms(String memberId, com.example.moum.utils.Callback<Result<List<Chatroom>>> callback){
+    public void loadChatrooms(Integer memberId, com.example.moum.utils.Callback<Result<List<Chatroom>>> callback){
         Call<SuccessResponse<List<Chatroom>>> result = chatroomApi.loadChatrooms(memberId);
         result.enqueue(new retrofit2.Callback<SuccessResponse<List<Chatroom>>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -100,7 +100,7 @@ public class ChatroomRepository {
         });
     }
 
-    public void createChatroom(Chatroom chatroom, File chatroomProfileFile, ArrayList<Team.Member> participants, com.example.moum.utils.Callback<Result<Chatroom>> callback){
+    public void createChatroom(Chatroom chatroom, File chatroomProfileFile, ArrayList<Member> participants, com.example.moum.utils.Callback<Result<Chatroom>> callback){
         /*processing into DTO*/
         MultipartBody.Part profileImage = null;
         if(chatroomProfileFile != null){
@@ -108,11 +108,11 @@ public class ChatroomRepository {
             profileImage = MultipartBody.Part.createFormData("profileImage", chatroomProfileFile.getName(), requestFile);
         }
         ArrayList<ChatroomCreateRequest.Member> members = new ArrayList<>();
-        for(Team.Member participant : participants){
-            ChatroomCreateRequest.Member member = new ChatroomCreateRequest.Member(participant.getUsername());
+        for(Member participant : participants){
+            ChatroomCreateRequest.Member member = new ChatroomCreateRequest.Member(participant.getId());
             members.add(member);
         }
-        ChatroomCreateRequest request = new ChatroomCreateRequest(chatroom.getName(), chatroom.getType(), chatroom.getTeamId(), chatroom.getLeaderId(), members);
+        ChatroomCreateRequest request = new ChatroomCreateRequest(chatroom.getName(), chatroom.getType().getValue(), chatroom.getTeamId(), chatroom.getLeaderId(), members);
 
         /*client 요청 보냄*/
         Call<SuccessResponse<Chatroom>> result = chatroomApi.createChatroom(profileImage, request);

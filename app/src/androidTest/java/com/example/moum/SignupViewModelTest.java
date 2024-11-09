@@ -208,7 +208,7 @@ public class SignupViewModelTest {
         SignupUser expectedSignupUser = new SignupUser();
         expectedSignupUser.setName("소지섭사촌");
         expectedSignupUser.setInstrument("트럼펫");
-        signupViewModel.setUser(expectedSignupUser);
+        signupViewModel.setSignupUser(expectedSignupUser);
         signupViewModel.setProficiency("하");
 
         // When

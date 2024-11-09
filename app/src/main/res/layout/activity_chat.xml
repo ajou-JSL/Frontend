@@ -59,6 +59,8 @@
                         android:id="@+id/textview_chat_user_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/noto_sans_kr_regular"
+                        android:includeFontPadding="false"
                         android:text="홍길동"
                         android:textColor="@color/gray7"
                         android:textSize="13sp" />
@@ -67,6 +69,8 @@
                         android:id="@+id/textview_chat_message_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/noto_sans_kr_regular"
+                        android:includeFontPadding="false"
                         android:text="3일 전"
                         android:textColor="@color/gray7"
                         android:textSize="12sp" />

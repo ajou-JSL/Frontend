@@ -7,12 +7,12 @@ import java.util.List;
 
 public class ChatroomCreateRequest {
     private String name;
-    private Chatroom.ChatroomType type;
+    private Integer type;
     private Integer teamId;
     private Integer leaderId;
     private ArrayList<Member> members;
 
-    public ChatroomCreateRequest(String name, Chatroom.ChatroomType type, Integer teamId, Integer leaderId, ArrayList<Member> members){
+    public ChatroomCreateRequest(String name, Integer type, Integer teamId, Integer leaderId, ArrayList<Member> members){
         this.name = name;
         this.type = type;
         this.teamId = teamId;
@@ -36,7 +36,7 @@ public class ChatroomCreateRequest {
         this.members = members;
     }
 
-    public void setType(Chatroom.ChatroomType type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 
@@ -52,7 +52,7 @@ public class ChatroomCreateRequest {
         return members;
     }
 
-    public Chatroom.ChatroomType getType() {
+    public Integer getType() {
         return type;
     }
 
@@ -61,17 +61,17 @@ public class ChatroomCreateRequest {
     }
 
     public static class Member {
-        private String memberId;
+        private Integer memberId;
 
-        public Member(String memberId){
+        public Member(Integer memberId){
             this.memberId = memberId;
         }
 
-        public void setMemberId(String memberId) {
+        public void setMemberId(Integer memberId) {
             this.memberId = memberId;
         }
 
-        public String getMemberId() {
+        public Integer getMemberId() {
             return memberId;
         }
     }

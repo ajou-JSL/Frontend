@@ -11,7 +11,7 @@ public class Member {
     private String profileDescription;
     private String email;
     private ArrayList<Team> teams;
-    private Uri profileImageUrl;
+    private String profileImageUrl;
     private String proficiency;
     private ArrayList<Record> records;
     private String instrument;
@@ -25,7 +25,7 @@ public class Member {
         this.username = username;
     }
 
-    public void setProfileImageUrl(Uri profileImageUrl) {
+    public void setProfileImageUrl(String profileImageUrl) {
         this.profileImageUrl = profileImageUrl;
     }
 
@@ -59,6 +59,50 @@ public class Member {
 
     public void setTeams(ArrayList<Team> teams) {
         this.teams = teams;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public String getProfileDescription() {
+        return profileDescription;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getProficiency() {
+        return proficiency;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getInstrument() {
+        return instrument;
+    }
+
+    public ArrayList<Record> getRecords() {
+        return records;
+    }
+
+    public ArrayList<Team> getTeams() {
+        return teams;
+    }
+
+    public String getProfileImageUrl() {
+        return profileImageUrl;
     }
 
     @Override
