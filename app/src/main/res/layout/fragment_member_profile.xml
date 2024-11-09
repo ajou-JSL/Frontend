@@ -16,7 +16,7 @@
         android:paddingLeft="25dp"
         android:paddingRight="25dp"
         android:paddingBottom="100dp"
-        android:background="@color/gray0">
+        android:background="@drawable/background_white">
 
         <LinearLayout
             android:id="@+id/headerLayout"
@@ -50,7 +50,7 @@
                     android:alpha="0.7"/>
 
                 <Spinner
-                    android:id="@+id/spinner_chat_etc"
+                    android:id="@+id/spinner_profile_etc"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_alignParentStart="true"
@@ -91,7 +91,7 @@
             android:id="@+id/textview_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="드름산(산지 제주시 공수구)"
+            android:text="악기 | 활동 지역"
             android:textSize="12sp"
             android:textColor="@color/gray7"
             android:fontFamily="@font/noto_sans_kr_regular"
@@ -105,7 +105,7 @@
             android:id="@+id/textview_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="드름요원 시작할 준비 완료입니다."
+            android:text="소개"
             android:textSize="12sp"
             android:textColor="@color/gray7"
             android:fontFamily="@font/noto_sans_kr_regular"
@@ -134,6 +134,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@id/button_chat_start"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
@@ -230,7 +231,8 @@
                 android:layout_width="match_parent"
                 android:layout_weight="1"
                 android:layout_height="0dp"
-                android:background="@color/gray0"/>
+                android:background="@color/gray0"
+                android:orientation="horizontal"/>
 
         </LinearLayout>
 

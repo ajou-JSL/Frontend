@@ -15,7 +15,7 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface ProfileApi {
-    @POST("/api/profiles/{memberId}")
+    @GET("/api/profiles/{memberId}")
     Call<SuccessResponse<Member>> loadMemberProfile(
             @Path("memberId") Integer memberId
     );

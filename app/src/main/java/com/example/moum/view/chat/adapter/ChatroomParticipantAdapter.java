@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.moum.R;
 import com.example.moum.data.entity.Member;
-import com.example.moum.data.entity.Team;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -63,7 +62,7 @@ public class ChatroomParticipantAdapter extends RecyclerView.Adapter<RecyclerVie
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if(isParticipates == null) isParticipates = new ArrayList<>(Collections.nCopies(participants.size(), false));
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chatroom_participant, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chatroom_participant, parent, false);
         return new ChatroomParticipantAdapter.ChatroomParticipantViewHolder(view, context, this);
     }
 

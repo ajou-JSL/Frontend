@@ -80,8 +80,8 @@ public class ChatroomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         intent.putExtra("teamId", chatroom.getTeamId());
                         intent.putExtra("leaderId", chatroom.getLeaderId());
                         intent.putExtra("lastChat", chatroom.getLastChat());
-                        intent.putExtra("lastTimestamp", chatroom.getLastTimestamp().toString());
-                        intent.putExtra("fileUrl", chatroom.getFileUrl().toString());
+                        intent.putExtra("lastTimestamp", chatroom.getLastTimestamp());
+                        intent.putExtra("fileUrl", chatroom.getFileUrl());
                         context.startActivity(intent);
                     }
                 }

@@ -271,7 +271,7 @@ public class SignupViewModel extends ViewModel {
 
     public void addRecord(String name, LocalDate startDate, LocalDate endDate){
 
-        Record newRecord = new Record(name, startDate, endDate);
+        Record newRecord = new Record(name, startDate.toString(), endDate.toString());
         records.add(newRecord);
 
     }

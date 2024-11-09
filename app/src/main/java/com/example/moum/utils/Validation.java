@@ -35,9 +35,13 @@ public enum Validation {
     CHATROOM_CREATE_SUCCESS,
     CHATROOM_CREATE_FAIL,
     CHATROOM_MEMBER_LOAD_SUCCESS,
+    CHATROOM_ALREADY_EXIST,
+    CHATROOM_WITH_ME,
 
     // 팀
 
+    // 프로필
+    PROFILE_NOT_LOADED,
 
     //이외 에러 처리
     NOT_VALID_ANYWAY,
