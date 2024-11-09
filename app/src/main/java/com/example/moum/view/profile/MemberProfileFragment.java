@@ -33,7 +33,7 @@ import java.util.List;
 
 public class MemberProfileFragment extends BottomSheetDialogFragment {
     private FragmentMemberProfileBinding binding;
-    private MemberProfileViewModel memberProfileViewModel;
+    private MemberProfileViewModel viewModel;
     private Context context;
     private final String TAG = getClass().toString();
     SharedPreferenceManager sharedPreferenceManager;
@@ -46,9 +46,35 @@ public class MemberProfileFragment extends BottomSheetDialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentMemberProfileBinding.inflate(inflater,container, false);
-        memberProfileViewModel = new ViewModelProvider(requireActivity()).get(MemberProfileViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity()).get(MemberProfileViewModel.class);
         context = getContext();
         View view = binding.getRoot();
+
+        /*이전 액티비티로부터의 값 가져오기*/
+        int targetMemberId;
+        Bundle bundle = getArguments();
+        if(bundle == null || bundle.getInt("targetMemberId") < 0){
+            Toast.makeText(context, "조회하고자 하는 멤버를 알 수 없습니다.", Toast.LENGTH_SHORT).show();
+            dismiss();
+        }
+        targetMemberId = bundle.getInt("targetMemberId");
+
+        /*개인 프로필 정보 불러오기*/
+        viewModel.loadMemberProfile(targetMemberId);
+
+        /*개인 프로필 정보 불러오기 결과 감시*/
+
+        /*개인톡 시작하기 버튼 이벤트*/
+
+        /*개인톡 시작하기 버튼 결과 감시*/
+
+        /*설정 스피너 설정*/
+
+        /*엠블럼 리사이클러뷰 설정*/
+
+        /*이력 리사이클러뷰 설정*/
+
+        /*단체 리사이클러뷰 설정*/
 
 
         return view;

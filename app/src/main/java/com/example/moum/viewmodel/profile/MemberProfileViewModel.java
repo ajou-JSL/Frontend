@@ -9,4 +9,8 @@ public class MemberProfileViewModel extends AndroidViewModel {
     public MemberProfileViewModel(Application application){
         super(application);
     }
+
+    public void loadMemberProfile(Integer targetMemberId){
+
+    }
 }
