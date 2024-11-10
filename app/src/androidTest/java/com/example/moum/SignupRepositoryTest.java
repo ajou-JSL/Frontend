@@ -3,16 +3,13 @@ package com.example.moum;
 import static org.junit.Assert.assertEquals;
 
 import android.content.Context;
-import android.net.Uri;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import com.example.moum.data.api.LoginApi;
 import com.example.moum.data.api.SignupApi;
-import com.example.moum.data.entity.User;
-import com.example.moum.repository.LoginRepository;
-import com.example.moum.repository.RetrofitClientManager;
+import com.example.moum.data.entity.SignupUser;
+import com.example.moum.repository.client.RetrofitClientManager;
 import com.example.moum.repository.SignupRepository;
 import com.example.moum.utils.Validation;
 
@@ -37,6 +34,7 @@ import retrofit2.Retrofit;
 public class SignupRepositoryTest {
 
     private MockWebServer mockWebServer;
+    private  RetrofitClientManager retrofitClientManager;
     private Retrofit retrofitClient;
     private SignupRepository signupRepository;
     private SignupApi signupApi;
@@ -48,8 +46,9 @@ public class SignupRepositoryTest {
         mockWebServer = new MockWebServer();
         mockWebServer.start(0);
 
-        RetrofitClientManager.setBaseUrl(mockWebServer.url("/").toString());
-        retrofitClient = new RetrofitClientManager().getClient();
+        retrofitClientManager = new RetrofitClientManager();
+        retrofitClientManager.setBaseUrl(mockWebServer.url("/").toString());
+        retrofitClient = retrofitClientManager.getClient();
         signupApi = retrofitClient.create(SignupApi.class);
         signupRepository = new SignupRepository(retrofitClient, signupApi);
 
@@ -190,7 +189,7 @@ public class SignupRepositoryTest {
         signupRepository.checkEmailCode("test@gmail.com", "123456", result -> {
 
             try {
-                assertEquals(Validation.EMAIL_CODE_FAILED, result.getValidation());
+                assertEquals(Validation.EMAIL_AUTH_FAILED, result.getValidation());
             } finally {
                 latch.countDown();
             }
@@ -213,10 +212,10 @@ public class SignupRepositoryTest {
         mockWebServer.enqueue(new MockResponse()
                 .setResponseCode(200)
                 .setBody(mockResponse));
-        User user = new User();
+        SignupUser signupUser = new SignupUser();
 
         // When
-        signupRepository.signup(user, result -> {
+        signupRepository.signup(signupUser, result -> {
 
             try {
                 assertEquals(Validation.VALID_ALL, result.getValidation());
@@ -242,15 +241,15 @@ public class SignupRepositoryTest {
         mockWebServer.enqueue(new MockResponse()
                 .setResponseCode(200)
                 .setBody(mockResponse));
-        User user = new User();
+        SignupUser signupUser = new SignupUser();
         File mockFile = new File(context.getCacheDir(), "mock_image.jpg");
         try (FileOutputStream fos = new FileOutputStream(mockFile)) {
             fos.write("Test content".getBytes());
         }
-        user.setProfileImage(mockFile);
+        signupUser.setProfileImage(mockFile);
 
         // When
-        signupRepository.signup(user, result -> {
+        signupRepository.signup(signupUser, result -> {
 
             try {
                 assertEquals(Validation.VALID_ALL, result.getValidation());

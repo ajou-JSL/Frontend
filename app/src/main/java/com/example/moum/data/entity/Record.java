@@ -4,10 +4,10 @@ import java.time.LocalDate;
 
 public class Record {
     private String recordName;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private String startDate;
+    private String endDate;
 
-    public Record(String recordName, LocalDate startDate, LocalDate endDate){
+    public Record(String recordName, String startDate, String endDate){
         this.recordName = recordName;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -16,20 +16,20 @@ public class Record {
     public String getRecordName() {
         return recordName;
     }
-    public LocalDate getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
-    public LocalDate getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
     public void setRecordName(String recordName) {
         this.recordName = recordName;
     }
-    public void setStartDate(LocalDate startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
-    public void setEndDate(LocalDate endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 }

@@ -17,7 +17,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".view.SplashActivity"
+            android:name=".view.auth.SplashActivity"
             android:exported="true"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -26,19 +26,41 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.InitialActivity"
+            android:name=".view.chat.ChatActivity"
             android:exported="true">
         </activity>
         <activity
-            android:name=".view.SignupBasicActivity"
+            android:name=".view.auth.InitialActivity"
             android:exported="true">
         </activity>
         <activity
-            android:name=".view.SignupProfileActivity"
+            android:name=".view.auth.SignupBasicActivity"
             android:exported="true">
         </activity>
         <activity
-            android:name=".view.LoginActivity"
+            android:name=".view.auth.SignupProfileActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".view.auth.LoginActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".MainActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".view.community.CommunitySearchActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MOUM" />
+        <activity
+            android:name=".view.chat.ChatCreateChatroomActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".view.chat.ChatCreateChatroomOnwardActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".view.chat.TestActivity"
             android:exported="true">
         </activity>
     </application>

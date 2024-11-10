@@ -1,35 +1,67 @@
 package com.example.moum.data.dto;
 
 import com.example.moum.data.entity.Record;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
 public class SignupRequest {
-    private String name;
+    @SerializedName("username")
+    private String memberId;
+
+    @SerializedName("password")
     private String password;
+
+    @SerializedName("email")
     private String email;
 
-    private String username;
-    private String profileDescription;
-    private String instrument;
-    private String proficiency;
-    private String address;
-    private ArrayList<Record> records;
+    @SerializedName("name")
+    private String nickname;
 
-    public SignupRequest(String name, String password, String email, String userName, String profileDescription, String instrument, String proficiency, String address, ArrayList<Record> records){
-        this.name = name;
+    @SerializedName("profileDescription")
+    private String profileDescription;
+
+    @SerializedName("instrument")
+    private String instrument;
+
+    @SerializedName("proficiency")
+    private String proficiency;
+
+    @SerializedName("verifyCode")
+    private String verifyCode;
+
+    @SerializedName("address")
+    private String address;
+
+    //TODO 백엔드에서의 이력 추가 기능 완료 시, 아래 주석 제거 + SignupRepository에서도 주석 제거
+//    @SerializedName("records")
+//    private ArrayList<Record> records;
+
+//    public SignupRequest(String memberId, String password, String email, String nickname, String profileDescription, String instrument, String proficiency, String address, ArrayList<Record> records){
+//        this.memberId = memberId;
+//        this.password = password;
+//        this.email = email;
+//        this.nickname = nickname;
+//        this.profileDescription = profileDescription;
+//        this.instrument = instrument;
+//        this.proficiency = proficiency;
+//        this.address = address;
+//        this.records = records;
+//    }
+    public SignupRequest(String memberId, String password, String email, String nickname, String profileDescription, String instrument, String proficiency, String address, String verifyCode){
+        this.memberId = memberId;
         this.password = password;
         this.email = email;
-        this.username = userName;
+        this.nickname = nickname;
         this.profileDescription = profileDescription;
         this.instrument = instrument;
         this.proficiency = proficiency;
         this.address = address;
-        this.records = records;
+        this.verifyCode = verifyCode;
     }
 
-    public String getName() {
-        return name;
+    public String getMemberId() {
+        return memberId;
     }
     public String getPassword() {
         return password;
@@ -38,8 +70,8 @@ public class SignupRequest {
         return email;
     }
 
-    public String getUsername() {
-        return username;
+    public String getNickname() {
+        return nickname;
     }
     public String getProfileDescription() {
         return profileDescription;
@@ -53,12 +85,16 @@ public class SignupRequest {
     public String getAddress() {
         return address;
     }
-    public ArrayList<Record> getRecords() {
-        return records;
-    }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getVerifyCode() {
+        return verifyCode;
+    }
+    //    public ArrayList<Record> getRecords() {
+//        return records;
+//    }
+
+    public void setMemberId(String name) {
+        this.memberId = memberId;
     }
     public void setPassword(String password) {
         this.password = password;
@@ -67,8 +103,8 @@ public class SignupRequest {
         this.email = email;
     }
 
-    public void setUsername(String userName) {
-        this.username = userName;
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public void setProfileDescription(String profileDescription) {
@@ -83,7 +119,11 @@ public class SignupRequest {
     public void setAddress(String address) {
         this.address = address;
     }
-    public void setRecords(ArrayList<Record> records) {
-        this.records = records;
+
+    public void setVerifyCode(String verifyCode) {
+        this.verifyCode = verifyCode;
     }
+    //    public void setRecords(ArrayList<Record> records) {
+//        this.records = records;
+//    }
 }

@@ -2,13 +2,11 @@ package com.example.moum;
 
 import static org.junit.Assert.assertEquals;
 
-import android.util.Log;
-
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.moum.data.api.LoginApi;
 import com.example.moum.repository.LoginRepository;
-import com.example.moum.repository.RetrofitClientManager;
+import com.example.moum.repository.client.RetrofitClientManager;
 import com.example.moum.utils.Validation;
 
 import org.junit.Before;
@@ -30,6 +28,7 @@ import retrofit2.Retrofit;
 public class LoginRepositoryTest {
 
     private MockWebServer mockWebServer;
+    private RetrofitClientManager retrofitClientManager;
     private Retrofit retrofitClient;
     private LoginRepository loginRepository;
     private LoginApi loginApi;
@@ -40,8 +39,9 @@ public class LoginRepositoryTest {
         mockWebServer = new MockWebServer();
         mockWebServer.start(0);
 
-        RetrofitClientManager.setBaseUrl(mockWebServer.url("/").toString());
-        retrofitClient = new RetrofitClientManager().getClient();
+        retrofitClientManager = new RetrofitClientManager();
+        retrofitClientManager.setBaseUrl(mockWebServer.url("/").toString());
+        retrofitClient = retrofitClientManager.getClient();
         loginApi = retrofitClient.create(LoginApi.class);
 
         loginRepository = new LoginRepository(retrofitClient, loginApi);

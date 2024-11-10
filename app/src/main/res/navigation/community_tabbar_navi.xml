@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/menu_board_free">
+
+    <fragment
+        android:id="@+id/menu_board_free"
+        android:name="com.example.moum.view.community.BoardFreeFragment"
+        android:label="home"
+        tools:layout="@layout/fragment_board_free" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/menu_board_recruit"
+        android:name="com.example.moum.view.community.BoardRecruitFragment"
+        android:label="moum talk"
+        tools:layout="@layout/fragment_board_recruit" />
+
+    <fragment
+        android:id="@+id/menu_board_group"
+        android:name="com.example.moum.view.community.BoardGroupFragment"
+        android:label="community"
+        tools:layout="@layout/fragment_board_group" />
+
+    <fragment
+        android:id="@+id/menu_board_performance"
+        android:name="com.example.moum.view.community.BoardRecruitFragment"
+        android:label="my moum"
+        tools:layout="@layout/fragment_board_performance" />
+
+
+</navigation>

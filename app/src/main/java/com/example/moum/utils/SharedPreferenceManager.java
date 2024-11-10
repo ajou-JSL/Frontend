@@ -19,15 +19,23 @@ public class SharedPreferenceManager {
     }
 
     public void setCache(String key, String value){
-
         editor.putString(key, value);
         editor.apply();
         Log.e("SharedPReferenceManager", "setCache: " + sharedPreferences.getString(key, null));
     }
 
-    public String getCache(String key, String defaultValue){
+    public void setCache(String key, Integer value){
+        editor.putInt(key, value);
+        editor.apply();
+        Log.e("SharedPReferenceManager", "setCache: " + sharedPreferences.getInt(key, -1));
+    }
 
+    public String getCache(String key, String defaultValue){
         return sharedPreferences.getString(key, defaultValue);
+    }
+
+    public Integer getCache(String key, Integer defaultValue){
+        return  sharedPreferences.getInt(key, defaultValue);
     }
 
     public void removeCache(String key){

@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/SignupProfileActivity"
-    tools:context=".view.SignupProfileActivity">
+    tools:context=".view.auth.SignupProfileActivity">
     <data>
         <!-- ViewModel을 위한 variable 정의 -->
         <variable
             name="viewModel"
-            type="com.example.moum.viewmodel.SignupViewModel" />
+            type="com.example.moum.viewmodel.auth.SignupViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -49,8 +49,7 @@
                             android:id="@+id/button_return"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
-                            android:src="@drawable/button_rounded_left"
-                            android:visibility="invisible" />
+                            android:src="@drawable/button_rounded_left"/>
 
                     </LinearLayout>
                     <TextView
@@ -138,7 +137,7 @@
                                     android:textColor="@color/gray7"
                                     android:fontFamily="@font/noto_sans_kr_bold"
                                     android:gravity="center_vertical"
-                                    android:text="@={viewModel.user.nickname}"
+                                    android:text="@={viewModel.signupUser.name}"
                                     android:focusable="true"
                                     android:focusableInTouchMode="true"
                                     />
@@ -263,7 +262,7 @@
                                     android:gravity="center_vertical"
                                     android:focusable="true"
                                     android:focusableInTouchMode="true"
-                                    android:text="@={viewModel.user.profileDescription}"
+                                    android:text="@={viewModel.signupUser.profileDescription}"
                                     />
                             </LinearLayout>
                         </LinearLayout>
@@ -322,7 +321,7 @@
                                     android:gravity="center_vertical"
                                     android:focusable="true"
                                     android:focusableInTouchMode="true"
-                                    android:text="@={viewModel.user.instrument}"
+                                    android:text="@={viewModel.signupUser.instrument}"
                                     />
                             </LinearLayout>
                         </LinearLayout>
@@ -442,7 +441,7 @@
                         android:id="@+id/button_add_record"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/background_rounded_gray"
+                        android:background="@drawable/button_gray_ripple"
                         android:layout_weight="1"
                         android:text="추가하기"
                         android:textColor="@color/gray0"
@@ -473,7 +472,7 @@
                 android:id="@+id/button_signup_submit"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@drawable/background_rounded_neon_mint_bold"
+                android:background="@drawable/button_neon_mint_bold_ripple"
                 android:text="다음"
                 android:textColor="@color/gray0"
                 android:textSize="14sp"
