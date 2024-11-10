@@ -11,6 +11,8 @@ public class Team {
     private Integer leaderId;
     private String teamName;
     private String description;
+    private String genre;
+    private String location;
     private String createdAt;
     private String fileUrl;
     private ArrayList<Member> members;
@@ -44,6 +46,14 @@ public class Team {
         this.teamName = teamName;
     }
 
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
     public void setRecords(ArrayList<Record> records) {
         this.records = records;
     }
@@ -72,6 +82,14 @@ public class Team {
         return teamName;
     }
 
+    public String getGenre() {
+        return genre;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
     public String getFileUrl() {
         return fileUrl;
     }
@@ -87,9 +105,12 @@ public class Team {
                 ", leaderId=" + leaderId +
                 ", teamName='" + teamName + '\'' +
                 ", description='" + description + '\'' +
+                ", genre='" + genre + '\'' +
+                ", location='" + location + '\'' +
                 ", createdAt='" + createdAt + '\'' +
                 ", fileUrl='" + fileUrl + '\'' +
                 ", members=" + members +
+                ", records=" + records +
                 '}';
     }
 }

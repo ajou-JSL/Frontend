@@ -3,6 +3,7 @@ package com.example.moum.data.entity;
 import java.time.LocalDate;
 
 public class Record {
+    private Integer recordId;
     private String recordName;
     private String startDate;
     private String endDate;
@@ -13,6 +14,9 @@ public class Record {
         this.endDate = endDate;
     }
 
+    public Integer getRecordId() {
+        return recordId;
+    }
     public String getRecordName() {
         return recordName;
     }
@@ -22,7 +26,9 @@ public class Record {
     public String getEndDate() {
         return endDate;
     }
-
+    public void setRecordId(Integer recordId) {
+        this.recordId = recordId;
+    }
     public void setRecordName(String recordName) {
         this.recordName = recordName;
     }
@@ -31,5 +37,15 @@ public class Record {
     }
     public void setEndDate(String endDate) {
         this.endDate = endDate;
+    }
+
+    @Override
+    public String toString() {
+        return "Record{" +
+                "recordId=" + recordId +
+                ", recordName='" + recordName + '\'' +
+                ", startDate='" + startDate + '\'' +
+                ", endDate='" + endDate + '\'' +
+                '}';
     }
 }
