@@ -4,24 +4,22 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.util.List;
+
 public class BoardFreeWriteViewModel extends ViewModel{
 
-    private final MutableLiveData<String> mText;
 
     private final MutableLiveData<String> writer = new MutableLiveData<>();
     private final MutableLiveData<String> title = new MutableLiveData<>();
     private final MutableLiveData<String> content = new MutableLiveData<>();
-
+    private final MutableLiveData<List<String>> spinnerData = new MutableLiveData<>();
 
 
     public BoardFreeWriteViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is Boardfreewrite Activity");
+
+
     }
 
-    public LiveData<String> getText() {
-        return mText;
-    }
 
     public LiveData<String> getWriter() {
         return writer;
@@ -33,6 +31,10 @@ public class BoardFreeWriteViewModel extends ViewModel{
 
     public LiveData<String> getContent() {
         return content;
+    }
+
+    public LiveData<List<String>> getSpinnerData() {
+        return spinnerData;
     }
 
     public void setWriter(String writer) {
