@@ -52,12 +52,6 @@ public interface TeamApi {
             @Path("memberId") Integer memberId
     );
 
-    //TODO 추후 삭제 및 리팩토링 예정
-    @GET("/api/teams-all/{memberId}")
-    Call<SuccessResponse<List<Team>>> loadTeamsAsLeader(
-            @Path("memberId") Integer memberId
-    );
-
     @DELETE("/api/teams/{teamId}/kick/{memberId}")
     Call<SuccessResponse<Team>> kickMemberFromTeam(
             @Path("teamId") Integer teamId,

@@ -22,6 +22,7 @@ import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.viewmodel.chat.ChatCreateChatroomViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ChatCreateChatroomActivity extends AppCompatActivity {
@@ -31,6 +32,7 @@ public class ChatCreateChatroomActivity extends AppCompatActivity {
     public String TAG = getClass().toString();
     private String[] teamNameList;
     private List<Team> teams;
+    private ArrayList<Team> teamsAsLeader;
     private SharedPreferenceManager sharedPreferenceManager;
     private String accessToken;
     private String memberId;
@@ -66,10 +68,10 @@ public class ChatCreateChatroomActivity extends AppCompatActivity {
         });
 
         /*단체 리스트 받아오기*/
-        chatCreateChatroomViewModel.loadTeamsAsLeader(id);
+        chatCreateChatroomViewModel.loadTeamsAsMember(id);
 
         /*단체 리스트 받아오기 결과 감시*/
-        chatCreateChatroomViewModel.getIsLoadTeamsAsLeaderSuccess().observe(this, result -> {
+        chatCreateChatroomViewModel.getIsLoadTeamsAsMemberSuccess().observe(this, result -> {
 
             //TODO validation 더 추가해야함
             teams = result.getData();
@@ -82,33 +84,40 @@ public class ChatCreateChatroomActivity extends AppCompatActivity {
                 Log.e(TAG, "호출 실패 from loadGroups()");
             }
             else if(validation == Validation.GET_TEAM_LIST_SUCCESS && teams.isEmpty()) {
-                Toast.makeText(context, "리더로 속한 단체가 없습니다. 단체장만이 모음톡을 생성할 수 있습니다.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "속한 단체가 없습니다.", Toast.LENGTH_SHORT).show();
             }
             else if(validation == Validation.GET_TEAM_LIST_SUCCESS) {
                 int i = 0;
                 teamNameList = new String[teams.size()];
                 for(Team team : teams)
-                    teamNameList[i] = team.getTeamName();
-
-                /*group 스피너 Adapter 연결*/
-                Spinner groupSpinner = binding.spinnerChatroomList;
-                ArrayAdapter<String> groupAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, teamNameList);
-                groupAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                groupSpinner.setAdapter(groupAdapter);
-                chatCreateChatroomViewModel.setSelectedGroup(teams.get(0));
-
-                groupSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        String selectedGroupName = teamNameList[position];
-                        chatCreateChatroomViewModel.setSelectedGroup(teams.get(position));
-                        binding.signupErrorChatroomList.setText("");
+                    if(team.getLeaderId() == id){
+                        teamNameList[i++] = team.getTeamName();
+                        teamsAsLeader.add(team);
                     }
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-                        return;
-                    }
-                });
+
+                if(teamsAsLeader.isEmpty()){
+                    Toast.makeText(context, "리더로 속한 단체가 없습니다.", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    /*group 스피너 Adapter 연결*/
+                    Spinner groupSpinner = binding.spinnerChatroomList;
+                    ArrayAdapter<String> groupAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, teamNameList);
+                    groupAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    groupSpinner.setAdapter(groupAdapter);
+                    chatCreateChatroomViewModel.setSelectedGroup(teams.get(0));
+
+                    groupSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            chatCreateChatroomViewModel.setSelectedGroup(teamsAsLeader.get(position));
+                            binding.signupErrorChatroomList.setText("");
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+                            return;
+                        }
+                    });
+                }
             }
             else{
                 Toast.makeText(context, "알 수 없는 validation", Toast.LENGTH_SHORT).show();

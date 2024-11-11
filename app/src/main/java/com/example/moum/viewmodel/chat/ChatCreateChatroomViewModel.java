@@ -14,19 +14,19 @@ import java.util.List;
 
 public class ChatCreateChatroomViewModel extends AndroidViewModel {
     private TeamRepository teamRepository;
-    private MutableLiveData<Result<List<Team>>> isLoadTeamsAsLeaderSuccess = new MutableLiveData<>();
+    private MutableLiveData<Result<List<Team>>> isLoadTeamsAsMemberSuccess = new MutableLiveData<>();
     private Team selectedTeam;
 
-    public MutableLiveData<Result<List<Team>>> getIsLoadTeamsAsLeaderSuccess() {
-        return isLoadTeamsAsLeaderSuccess;
+    public MutableLiveData<Result<List<Team>>> getIsLoadTeamsAsMemberSuccess() {
+        return isLoadTeamsAsMemberSuccess;
     }
 
     public Team getSelectedGroup() {
         return selectedTeam;
     }
 
-    public void setIsLoadTeamsAsLeaderSuccess(Result<List<Team>> isLoadTeamsAsLeaderSuccess) {
-        this.isLoadTeamsAsLeaderSuccess.setValue(isLoadTeamsAsLeaderSuccess);
+    public void setIsLoadTeamsAsMemberSuccess(Result<List<Team>> isLoadTeamsAsLeaderSuccess) {
+        this.isLoadTeamsAsMemberSuccess.setValue(isLoadTeamsAsLeaderSuccess);
     }
 
     public void setSelectedGroup(Team team) {
@@ -38,8 +38,8 @@ public class ChatCreateChatroomViewModel extends AndroidViewModel {
         this.teamRepository = TeamRepository.getInstance(application);
     }
 
-    public void loadTeamsAsLeader(Integer id){
-        teamRepository.loadTeamsAsLeader(id, this::setIsLoadTeamsAsLeaderSuccess);
+    public void loadTeamsAsMember(Integer id){
+        teamRepository.loadTeamsAsMember(id, this::setIsLoadTeamsAsMemberSuccess);
     }
 
 }

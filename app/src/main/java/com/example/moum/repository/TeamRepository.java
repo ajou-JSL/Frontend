@@ -308,45 +308,6 @@ public class TeamRepository {
         });
     }
 
-    public void loadTeamsAsLeader(Integer memberId, com.example.moum.utils.Callback<Result<List<Team>>> callback){
-        Call<SuccessResponse<List<Team>>> result = teamApi.loadTeamsAsLeader(memberId);
-        result.enqueue(new retrofit2.Callback<SuccessResponse<List<Team>>>() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onResponse(Call<SuccessResponse<List<Team>>> call, Response<SuccessResponse<List<Team>>> response) {
-                if (response.isSuccessful()) {
-                    /*성공적으로 응답을 받았을 때*/
-                    SuccessResponse<List<Team>> responseBody = response.body();
-                    Log.e(TAG, responseBody.toString());
-                    List<Team> teams = responseBody.getData();
-
-                    Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
-                    Result<List<Team>> result = new Result<>(validation, teams);
-                    callback.onResult(result);
-                }
-                else {
-                    /*응답은 받았으나 문제 발생 시*/
-                    try {
-                        ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
-                        if (errorResponse != null) {
-                            Log.e(TAG, errorResponse.toString());
-                            Validation validation = ValueMap.getCodeToVal(errorResponse.getCode());
-                            Result<List<Team>> result = new Result<>(validation);
-                            callback.onResult(result);
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-            @Override
-            public void onFailure(Call<SuccessResponse<List<Team>>> call, Throwable t) {
-                Result<List<Team>> result = new Result<>(Validation.NETWORK_FAILED);
-                callback.onResult(result);
-            }
-        });
-    }
-
     public void kickMemberFromTeam(Integer teamId, Integer memberId, com.example.moum.utils.Callback<Result<Team>> callback){
         Call<SuccessResponse<Team>> result = teamApi.kickMemberFromTeam(teamId, memberId);
         result.enqueue(new retrofit2.Callback<SuccessResponse<Team>>() {

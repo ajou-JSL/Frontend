@@ -146,6 +146,7 @@ public class MyMoumFragment extends Fragment {
                     viewpagerTeam.setCurrentItem(currentItem-1, true);
             }
         });
+
         binding.imageviewRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
