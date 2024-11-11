@@ -14,9 +14,9 @@
 
     <fragment
         android:id="@+id/menu_moumtalk"
-        android:name="com.example.moum.view.bottomnavi.MoumtalkFragment"
+        android:name="com.example.moum.view.chat.ChatroomFragment"
         android:label="moum talk"
-        tools:layout="@layout/fragment_moumtalk" />
+        tools:layout="@layout/fragment_chatroom" />
 
     <fragment
         android:id="@+id/menu_community"
@@ -26,9 +26,9 @@
 
     <fragment
         android:id="@+id/menu_mymoum"
-        android:name="com.example.moum.view.bottomnavi.MymoumFragment"
+        android:name="com.example.moum.view.bottomnavi.MyMoumFragment"
         android:label="my moum"
-        tools:layout="@layout/fragment_mymoum" />
+        tools:layout="@layout/fragment_my_moum" />
 
     <fragment
         android:id="@+id/menu_my_information"

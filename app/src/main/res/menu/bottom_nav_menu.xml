@@ -4,27 +4,27 @@
     <item
         android:id="@+id/menu_home"
         android:title="홈"
-        android:icon="@drawable/ic_home"
+        android:icon="@drawable/icon_house"
         android:enabled="true"/>
     <item
         android:id="@+id/menu_moumtalk"
         android:title="모음톡"
-        android:icon="@drawable/ic_moumtalk"
+        android:icon="@drawable/icon_chat"
         android:enabled="true"/>
     <item
         android:id="@+id/menu_community"
         android:title="커뮤니티"
-        android:icon="@drawable/ic_community"
+        android:icon="@drawable/icon_list"
         android:enabled="true"/>
     <item
         android:id="@+id/menu_mymoum"
         android:title="나의 모음"
-        android:icon="@drawable/ic_mymoum"
+        android:icon="@drawable/icon_layer_group"
         android:enabled="true"/>
     <item
         android:id="@+id/menu_my_information"
         android:title="내정보"
-        android:icon="@drawable/ic_person"
+        android:icon="@drawable/icon_user"
         android:enabled="true"/>
 
 </menu>
