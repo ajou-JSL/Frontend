@@ -2,7 +2,9 @@ package com.example.moum.view.moum;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -75,16 +78,27 @@ public class MyMoumFragment extends Fragment {
         viewModel.getIsLoadTeamsAsMemberSuccess().observe(getViewLifecycleOwner(), isLoadTeamsAsMemberSuccess -> {
             Validation validation = isLoadTeamsAsMemberSuccess.getValidation();
             List<Team> loadedTeams = isLoadTeamsAsMemberSuccess.getData();
-            if(validation == Validation.GET_MY_TEAM_LIST_SUCCESS && !loadedTeams.isEmpty()){
+            if(validation == Validation.GET_TEAM_LIST_SUCCESS && !loadedTeams.isEmpty()){
+                teams.clear();
                 teams.addAll(loadedTeams);
                 Team emptyTeam = new Team();
                 teams.add(emptyTeam);
-                teamAdapter.notifyItemInserted(teams.size()-1);
+                ArrayList<ArrayList<Moum>> tMoums = new ArrayList<>();
+                for(Team team : teams){
+                    ArrayList<Moum> tMoum = new ArrayList<>();
+                    tMoums.add(tMoum);
+                }
+                moums.clear();
+                moums.addAll(tMoums);
+                teamAdapter.notifyDataSetChanged();
             }
-            else if(validation == Validation.GET_MY_TEAM_LIST_SUCCESS){
+            else if(validation == Validation.GET_TEAM_LIST_SUCCESS){
+                teams.clear();
                 Team emptyTeam = new Team();
                 teams.add(emptyTeam);
-                teamAdapter.notifyItemInserted(teams.size()-1);
+                moums.clear();
+                moums.add(new ArrayList<>());
+                teamAdapter.notifyDataSetChanged();
             }
             else if(validation == Validation.NETWORK_FAILED){
                 Toast.makeText(context, "호출에 실패했습니다.", Toast.LENGTH_SHORT).show();
@@ -101,24 +115,42 @@ public class MyMoumFragment extends Fragment {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-                int pos = viewpagerTeam.getCurrentItem();
-                if(pos != teams.size()-1)
-                    viewModel.loadMoumsOfTeam(teams.get(pos).getTeamId());
+                new Handler().postDelayed(() -> {
+                    if(!teams.isEmpty() && position != teams.size()-1) {
+                        viewModel.loadMoumsOfTeam(teams.get(position).getTeamId());
+                    }
+                }, 50);
+
+                /*왼쪽, 오른쪽 버튼 visibility*/
+                if(position == 0){
+                    binding.imageviewLeft.setVisibility(View.INVISIBLE);
+                    binding.imageviewRight.setVisibility(View.VISIBLE);
+                }
+                else if(position == teams.size()-1){
+                    binding.imageviewLeft.setVisibility(View.VISIBLE);
+                    binding.imageviewRight.setVisibility(View.INVISIBLE);
+                }
+                else{
+                    binding.imageviewLeft.setVisibility(View.VISIBLE);
+                    binding.imageviewRight.setVisibility(View.VISIBLE);
+                }
             }
         });
 
-        /*팀의 모음 리스트 가져오기 결과 감시*/
+        /*viewPager 페이지 전환 시, 팀의 모음 리스트 가져오기 결과 감시*/
         viewModel.getIsLoadMoumsOfTeamSuccess().observe(getViewLifecycleOwner(), isLoadMoumsOfTeamSuccess -> {
             Validation validation = isLoadMoumsOfTeamSuccess.getValidation();
             List<Moum> loadedMoums = isLoadMoumsOfTeamSuccess.getData();
             int pos = viewpagerTeam.getCurrentItem();
             if(validation == Validation.GET_MOUM_SUCCESS && !loadedMoums.isEmpty()){
+                moums.get(pos).clear();
                 moums.get(pos).addAll(loadedMoums);
                 Moum emptyMoum = new Moum();
                 moums.get(pos).add(emptyMoum);
                 teamAdapter.notifyItemChanged(pos);
             }
             else if(validation == Validation.GET_MOUM_SUCCESS){
+                moums.get(pos).clear();
                 Moum emptyMoum = new Moum();
                 moums.get(pos).add(emptyMoum);
                 teamAdapter.notifyItemChanged(pos);
@@ -161,7 +193,7 @@ public class MyMoumFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
         binding = null;
+        super.onDestroyView();
     }
 }

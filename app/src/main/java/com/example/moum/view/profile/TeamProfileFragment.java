@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.moum.R;
 import com.example.moum.data.entity.Chatroom;
 import com.example.moum.data.entity.Member;
@@ -119,7 +120,11 @@ public class TeamProfileFragment extends BottomSheetDialogFragment {
                 }
                 binding.textviewTeamName.setText(targetTeam.getTeamName());
                 binding.textviewDescription.setText(targetTeam.getDescription());
-                Glide.with(context).load(targetTeam.getFileUrl()).into(binding.imageviewProfile);
+                Glide.with(context)
+                        .applyDefaultRequestOptions(new RequestOptions()
+                        .placeholder(R.drawable.background_more_rounded_gray)
+                        .error(R.drawable.background_more_rounded_gray))
+                        .load(targetTeam.getFileUrl()).into(binding.imageviewProfile);
             }
             else if(validation == Validation.TEAM_NOT_FOUND){
                 Toast.makeText(context, "단체를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();

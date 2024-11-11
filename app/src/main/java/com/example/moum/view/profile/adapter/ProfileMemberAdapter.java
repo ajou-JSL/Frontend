@@ -12,6 +12,7 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.moum.R;
 import com.example.moum.data.entity.Member;
 import com.example.moum.data.entity.Team;
@@ -66,7 +67,11 @@ public class ProfileMemberAdapter extends RecyclerView.Adapter<RecyclerView.View
         public void bind(Member member){
             this.member = member;
             memberName.setText(member.getName());
-            Glide.with(context).load(member.getProfileImageUrl()).into(memberProfile);
+            Glide.with(context)
+                    .applyDefaultRequestOptions(new RequestOptions()
+                    .placeholder(R.drawable.background_circle_gray)
+                    .error(R.drawable.background_circle_gray))
+                    .load(member.getProfileImageUrl()).into(memberProfile);
         }
     }
 }

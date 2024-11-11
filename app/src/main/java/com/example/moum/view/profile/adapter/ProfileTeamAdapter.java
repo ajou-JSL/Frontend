@@ -16,6 +16,7 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.moum.R;
 import com.example.moum.data.entity.Member;
 import com.example.moum.data.entity.Team;
@@ -72,7 +73,11 @@ public class ProfileTeamAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         public void bind(Team team){
             this.team = team;
             teamName.setText(team.getTeamName());
-            Glide.with(context).load(team.getFileUrl()).into(teamProfile);
+            Glide.with(context)
+                    .applyDefaultRequestOptions(new RequestOptions()
+                    .placeholder(R.drawable.background_more_rounded_gray)
+                    .error(R.drawable.background_more_rounded_gray))
+                    .load(team.getFileUrl()).into(teamProfile);
         }
     }
 }

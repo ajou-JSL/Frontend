@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.moum.R;
 import com.example.moum.data.entity.Chat;
 import com.example.moum.data.entity.Chatroom;
@@ -96,7 +97,11 @@ public class ChatActivity extends AppCompatActivity {
         Uri chatroomProfile;
         if(fileUrl != null) {
             chatroomProfile = Uri.parse(fileUrl);
-            Glide.with(this).load(chatroomProfile).into(binding.imageChatProfile);
+            Glide.with(this)
+                    .applyDefaultRequestOptions(new RequestOptions()
+                    .placeholder(R.drawable.background_circle_gray)
+                    .error(R.drawable.background_circle_gray))
+                    .load(chatroomProfile).into(binding.imageChatProfile);
         }
         if(leaderId == id && chatroomType == Chatroom.ChatroomType.MULTI_CHAT)
             binding.buttonChatInvite.setVisibility(View.VISIBLE);

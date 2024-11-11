@@ -32,7 +32,7 @@ public class ChatCreateChatroomActivity extends AppCompatActivity {
     public String TAG = getClass().toString();
     private String[] teamNameList;
     private List<Team> teams;
-    private ArrayList<Team> teamsAsLeader;
+    private ArrayList<Team> teamsAsLeader = new ArrayList<>();
     private SharedPreferenceManager sharedPreferenceManager;
     private String accessToken;
     private String memberId;

@@ -15,6 +15,7 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.moum.R;
 import com.example.moum.data.entity.Chatroom;
 import com.example.moum.view.chat.ChatActivity;
@@ -95,7 +96,11 @@ public class ChatroomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             chatroomContent.setText(chatroom.getLastChat());
             chatroomLastTime.setText(chatroom.getLastTimestamp());
             if(chatroom.getFileUrl() != null)
-                Glide.with(context).load(chatroom.getFileUrl()).into(chatroomProfile);
+                Glide.with(context)
+                        .applyDefaultRequestOptions(new RequestOptions()
+                        .placeholder(R.drawable.background_circle_gray)
+                        .error(R.drawable.background_circle_gray))
+                        .load(chatroom.getFileUrl()).into(chatroomProfile);
         }
     }
 }

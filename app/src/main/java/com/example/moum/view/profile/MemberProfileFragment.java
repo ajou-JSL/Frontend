@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.moum.R;
 import com.example.moum.data.entity.Chatroom;
 import com.example.moum.data.entity.Member;
@@ -126,7 +127,12 @@ public class MemberProfileFragment extends BottomSheetDialogFragment {
                 binding.textviewNickname.setText(targetMember.getName());
                 binding.textviewDescription.setText(targetMember.getProfileDescription());
                 binding.textviewLocation.setText(String.format("%s(%s) | %s", targetMember.getInstrument(), targetMember.getProficiency(), targetMember.getAddress()));
-                Glide.with(context).load(targetMember.getProfileImageUrl()).into(binding.imageviewProfile);
+                Glide.with(context)
+                        .applyDefaultRequestOptions(new RequestOptions()
+                        .placeholder(R.drawable.background_circle_gray)
+                        .error(R.drawable.background_circle_gray))
+                        .load(targetMember.getProfileImageUrl())
+                        .into(binding.imageviewProfile);
             }
             else if(validation == Validation.NETWORK_FAILED){
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();

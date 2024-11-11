@@ -17,6 +17,58 @@ public class Moum {
     private ArrayList<Member> members;
     private ArrayList<Record> records;
 
+    public void setRecords(ArrayList<Record> records) {
+        this.records = records;
+    }
+
+    public void setMembers(ArrayList<Member> members) {
+        this.members = members;
+    }
+
+    public void setTeamId(Integer teamId) {
+        this.teamId = teamId;
+    }
+
+    public void setLeaderId(Integer leaderId) {
+        this.leaderId = leaderId;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public void setLeaderName(String leaderName) {
+        this.leaderName = leaderName;
+    }
+
+    public void setMoumDescription(String moumDescription) {
+        this.moumDescription = moumDescription;
+    }
+
+    public void setMoumId(Integer moumId) {
+        this.moumId = moumId;
+    }
+
+    public void setMoumName(String moumName) {
+        this.moumName = moumName;
+    }
+
+    public void setPerformLocation(String performLocation) {
+        this.performLocation = performLocation;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
+
     public ArrayList<Record> getRecords() {
         return records;
     }

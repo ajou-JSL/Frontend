@@ -16,6 +16,7 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.moum.R;
 import com.example.moum.data.entity.Member;
 
@@ -105,7 +106,11 @@ public class ChatroomParticipantAdapter extends RecyclerView.Adapter<RecyclerVie
             if(participant.getId() == adapter.leaderId){
                 participantName.setText(participant.getName());
                 participantName.setTextColor(Color.rgb(42, 200, 189));
-                Glide.with(context).load(participant.getProfileImageUrl()).into(participantProfile);
+                Glide.with(context)
+                        .applyDefaultRequestOptions(new RequestOptions()
+                        .placeholder(R.drawable.background_circle_gray)
+                        .error(R.drawable.background_circle_gray))
+                        .load(participant.getProfileImageUrl()).into(participantProfile);
                 participantProfile.setBorderWidth(3);
                 participantProfile.setBorderColor(Color.rgb(167, 209, 206));
                 if (pos != RecyclerView.NO_POSITION) {
@@ -115,7 +120,11 @@ public class ChatroomParticipantAdapter extends RecyclerView.Adapter<RecyclerVie
             //리더가 아닌 경우
             else{
                 participantName.setText(participant.getName());
-                Glide.with(context).load(participant.getProfileImageUrl()).into(participantProfile);
+                Glide.with(context)
+                        .applyDefaultRequestOptions(new RequestOptions()
+                        .placeholder(R.drawable.background_circle_gray)
+                        .error(R.drawable.background_circle_gray))
+                        .load(participant.getProfileImageUrl()).into(participantProfile);
 
                 participantProfile.setOnClickListener(new View.OnClickListener() {
                     @Override

@@ -243,15 +243,11 @@
                                 android:layout_gravity="center_vertical"
                                 />
                         </LinearLayout>
-                        <ScrollView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
                             <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/recycler_moumtalk_participants"
                                 android:layout_width="match_parent"
                                 android:layout_height="70dp"
                                 android:background="@color/gray0"/>
-                        </ScrollView>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
