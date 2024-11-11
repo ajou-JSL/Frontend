@@ -32,13 +32,13 @@ public interface MoumApi {
             @Path("moumId") Integer moumId
     );
 
-    @GET("/api/moum/{teamId}")
+    @GET("/api/moum-all/team/{teamId}")
     Call<SuccessResponse<List<Moum>>> loadMoumsOfTeam(
             @Path("teamId") Integer teamId
     );
 
-    @GET("/api/moum/mylist")
-    Call<SuccessResponse<List<Moum>>> loadMoumsAll(
+    @GET("/api/moum-all/my")
+    Call<SuccessResponse<List<Moum>>> loadMoumsOfMe(
     );
 
 

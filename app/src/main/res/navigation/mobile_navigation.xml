@@ -26,7 +26,7 @@
 
     <fragment
         android:id="@+id/menu_mymoum"
-        android:name="com.example.moum.view.bottomnavi.MyMoumFragment"
+        android:name="com.example.moum.view.moum.MyMoumFragment"
         android:label="my moum"
         tools:layout="@layout/fragment_my_moum" />
 

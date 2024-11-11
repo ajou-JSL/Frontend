@@ -185,7 +185,7 @@ public class MoumRepository {
     }
 
     public void loadMoumsAll(com.example.moum.utils.Callback<Result<List<Moum>>> callback){
-        Call<SuccessResponse<List<Moum>>> result = moumApi.loadMoumsAll();
+        Call<SuccessResponse<List<Moum>>> result = moumApi.loadMoumsOfMe();
         result.enqueue(new retrofit2.Callback<SuccessResponse<List<Moum>>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
