@@ -1,39 +1,43 @@
 package com.example.moum.viewmodel.community;
 
-import androidx.lifecycle.LiveData;
+import android.app.Application;
+
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.moum.repository.UserboardRepository;
+
 import java.util.List;
 
-public class BoardFreeWriteViewModel extends ViewModel{
+public class BoardFreeWriteViewModel extends AndroidViewModel {
 
-
+    private final UserboardRepository userboardRepository;
     private final MutableLiveData<String> writer = new MutableLiveData<>();
     private final MutableLiveData<String> title = new MutableLiveData<>();
     private final MutableLiveData<String> content = new MutableLiveData<>();
     private final MutableLiveData<List<String>> spinnerData = new MutableLiveData<>();
 
 
-    public BoardFreeWriteViewModel() {
-
-
+    public BoardFreeWriteViewModel(Application application) {
+        super(application);
+        userboardRepository = UserboardRepository.getInstance(application);
     }
 
 
-    public LiveData<String> getWriter() {
+    public MutableLiveData<String> getWriter() {
         return writer;
     }
 
-    public LiveData<String> getTitle() {
+    public MutableLiveData<String> getTitle() {
         return title;
     }
 
-    public LiveData<String> getContent() {
+    public MutableLiveData<String> getContent() {
         return content;
     }
 
-    public LiveData<List<String>> getSpinnerData() {
+    public MutableLiveData<List<String>> getSpinnerData() {
         return spinnerData;
     }
 

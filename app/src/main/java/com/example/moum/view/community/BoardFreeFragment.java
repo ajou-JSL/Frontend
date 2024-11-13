@@ -28,9 +28,6 @@ import java.util.ArrayList;
 public class BoardFreeFragment extends Fragment {
 
     private FragmentBoardFreeBinding binding;
-    private RecyclerView recyclerView;
-    private BoardFreeItemAdapter adapter;
-    private ArrayList<BoardFreeItem> itemList;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         BoardFreeViewModel BoardfreeViewModel = new ViewModelProvider(this).get(BoardFreeViewModel.class);
@@ -73,7 +70,7 @@ public class BoardFreeFragment extends Fragment {
 
     private void initRecyclerView() {
         // RecyclerView 초기화
-        recyclerView = binding.boardFreeRecyclerView;
+        RecyclerView recyclerView = binding.boardFreeRecyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         //item 구분선 추가
@@ -81,17 +78,17 @@ public class BoardFreeFragment extends Fragment {
         recyclerView.addItemDecoration(dividerItemDecoration);
 
         // 데이터 준비
-        itemList = new ArrayList<BoardFreeItem>();
+        ArrayList<BoardFreeItem> itemList = new ArrayList<>();
 
         // 데이터 추가
         for (int i = 0; i < 10; i++) {
             BoardFreeItem item = new BoardFreeItem();
             item.setBoardFreeItem("제목" + i, "내용 짧은 글" + i, "작성자" + i, "시간" + i);
-            itemList.add(item); // itemList에 추가
+            itemList.add(item);
         }
 
         // RecyclerView 어댑터 설정
-        adapter = new BoardFreeItemAdapter(itemList);
+        BoardFreeItemAdapter adapter = new BoardFreeItemAdapter(itemList);
         recyclerView.setAdapter(adapter);
     }
 

@@ -184,7 +184,7 @@ public class MemberProfileFragment extends BottomSheetDialogFragment {
         /*설정 스피너 설정*/
         Spinner etcSpinner = binding.spinnerProfileEtc;
         String[] etcList = getResources().getStringArray(R.array.member_profile_etc_list);
-        ArrayAdapter<String> etcAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, etcList);
+       ArrayAdapter<String> etcAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, etcList);
         etcAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         etcSpinner.setAdapter(etcAdapter);
         etcSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
