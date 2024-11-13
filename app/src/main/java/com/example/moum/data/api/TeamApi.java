@@ -21,7 +21,7 @@ public interface TeamApi {
     @Multipart
     @POST("/api/teams")
     Call<SuccessResponse<Team>> createTeam(
-            @Part("file") MultipartBody.Part file,
+            @Part MultipartBody.Part file,
             @Part("teamRequestDto") TeamRequest teamRequest
     );
 
@@ -29,7 +29,7 @@ public interface TeamApi {
     @PATCH("/api/teams/{teamId}")
     Call<SuccessResponse<Team>> updateTeam(
             @Path("teamId") Integer teamId,
-            @Part("file") MultipartBody.Part file,
+            @Part MultipartBody.Part file,
             @Part("teamRequestDto") TeamRequest teamRequest
     );
 

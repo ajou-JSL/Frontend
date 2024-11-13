@@ -96,7 +96,7 @@ public class TeamProfileFragment extends BottomSheetDialogFragment {
         RecyclerView mebersRecyclerView = binding.recyclerMembers;
         ProfileMemberAdapter membersAdapter = new ProfileMemberAdapter();
         membersAdapter.setMembers(members, context);
-        mebersRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+        mebersRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
         mebersRecyclerView.setAdapter(membersAdapter);
 
         /*단체 프로필 정보 불러오기*/

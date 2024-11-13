@@ -174,8 +174,6 @@
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
                                 android:layout_marginBottom="15dp">
-
-
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -188,7 +186,7 @@
                                         android:layout_marginEnd="17dp"
                                         android:layout_height="wrap_content"
                                         android:layout_width="wrap_content"
-                                        android:text="프로필 사진"
+                                        android:text="설명 사진"
                                         android:fontFamily="@font/noto_sans_kr_regular"
                                         />
                                     <TextView
@@ -207,26 +205,11 @@
                                     android:layout_height="match_parent"
                                     android:orientation="horizontal">
 
-                                    <de.hdodenhof.circleimageview.CircleImageView
-                                        android:id="@+id/imageview_team_profile"
-                                        android:layout_width="50dp"
-                                        android:layout_height="50dp"
-                                        android:background="@drawable/background_more_rounded_gray"
-                                        android:layout_marginEnd="10dp"/>
-                                    <androidx.appcompat.widget.AppCompatButton
-                                        android:id="@+id/button_image_upload"
-                                        android:layout_width="0dp"
-                                        android:layout_height="match_parent"
-                                        android:background="@drawable/background_rounded_gray_stroke"
-                                        android:layout_weight="1"
-                                        android:text="사진 업로드하기"
-                                        android:textAlignment="textStart"
-                                        android:paddingLeft="10dp"
-                                        android:textColor="@color/gray3"
-                                        android:textSize="14sp"
-                                        android:fontFamily="@font/noto_sans_kr_bold"
-                                        android:drawableLeft="@drawable/icon_image_alpha"
-                                        android:drawablePadding="5dp"/>
+                                    <androidx.recyclerview.widget.RecyclerView
+                                        android:id="@+id/recycler_moum_images"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:background="@color/transparent" />
                                 </LinearLayout>
                             </LinearLayout>
                             <LinearLayout
@@ -469,6 +452,7 @@
                                         android:gravity="center_vertical"
                                         android:focusable="true"
                                         android:focusableInTouchMode="true"
+                                        android:text="@={viewModel.moum.price}"
                                         />
                                 </LinearLayout>
                             </LinearLayout>
@@ -476,7 +460,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
-                                android:layout_marginBottom="15dp">
+                                android:layout_marginBottom="15dp"
+                                android:visibility="gone">
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"

@@ -23,7 +23,7 @@ public interface MoumApi {
     @Multipart
     @POST("/api/moum")
     Call<SuccessResponse<Moum>> createMoum(
-            @Part("file") MultipartBody.Part file,
+            @Part List<MultipartBody.Part> file,
             @Part("lifecycleRequestDto") MoumRequest moumRequest
     );
 

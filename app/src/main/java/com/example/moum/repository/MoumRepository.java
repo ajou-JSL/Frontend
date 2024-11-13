@@ -22,6 +22,7 @@ import com.example.moum.utils.ValueMap;
 import com.google.gson.Gson;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.MediaType;
@@ -59,15 +60,18 @@ public class MoumRepository {
         return instance;
     }
 
-    public void createMoum(Moum moum, File moumProfile, com.example.moum.utils.Callback<Result<Moum>> callback){
+    public void createMoum(Moum moum, ArrayList<File> moumProfiles, com.example.moum.utils.Callback<Result<Moum>> callback){
         /*processing into DTO*/
-        MultipartBody.Part profileImage = null;
-        if(moumProfile != null){
-            RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpg"), moumProfile);
-            profileImage = MultipartBody.Part.createFormData("file", moumProfile.getName(), requestFile);
+        List<MultipartBody.Part> profileImages = new ArrayList<>();
+        if(moumProfiles != null && !moumProfiles.isEmpty()){
+            for(File moumProfile : moumProfiles){
+                RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpg"), moumProfile);
+                MultipartBody.Part profileImage = MultipartBody.Part.createFormData("file", moumProfile.getName(), requestFile);
+                profileImages.add(profileImage);
+            }
         }
         MoumRequest moumRequest = new MoumRequest(moum.getMoumName(), moum.getMoumDescription(), moum.getPerformLocation(), moum.getStartDate(), moum.getEndDate(), moum.getPrice(), moum.getLeaderId(), moum.getTeamId(), moum.getMembers(), moum.getRecords());
-        Call<SuccessResponse<Moum>> result = moumApi.createMoum(profileImage, moumRequest);
+        Call<SuccessResponse<Moum>> result = moumApi.createMoum(profileImages, moumRequest);
 
         result.enqueue(new retrofit2.Callback<SuccessResponse<Moum>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)

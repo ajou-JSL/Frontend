@@ -366,7 +366,7 @@
                                         android:fontFamily="@font/noto_sans_kr_regular"
                                         />
                                     <TextView
-                                        android:id="@+id/signup_error_address"
+                                        android:id="@+id/team_error_address"
                                         android:textColor="@color/red"
                                         android:textSize="9sp"
                                         android:fontFamily="@font/noto_sans_kr_regular"
@@ -403,13 +403,24 @@
                                 android:layout_marginBottom="20dp"/>
 
                             <LinearLayout
-                                android:id="@+id/signup_record_parent"
+                                android:id="@+id/team_record_parent"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:orientation="vertical">
                                 <!--여기에 자식 view가 동적으로 추가됨-->
 
                             </LinearLayout>
+
+                            <androidx.appcompat.widget.AppCompatButton
+                                android:id="@+id/button_add_record"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/button_gray_ripple"
+                                android:layout_weight="1"
+                                android:text="추가하기"
+                                android:textColor="@color/gray0"
+                                android:textSize="14sp"
+                                android:fontFamily="@font/noto_sans_kr_semibold"/>
                         </LinearLayout>
                     </LinearLayout>
                 </ScrollView>

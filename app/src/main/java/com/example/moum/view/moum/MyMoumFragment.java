@@ -122,7 +122,11 @@ public class MyMoumFragment extends Fragment {
                 }, 50);
 
                 /*왼쪽, 오른쪽 버튼 visibility*/
-                if(position == 0){
+                if(position == 0 && teamAdapter.getItemCount() < 1){
+                    binding.imageviewLeft.setVisibility(View.INVISIBLE);
+                    binding.imageviewRight.setVisibility(View.INVISIBLE);
+                }
+                else if(position == 0){
                     binding.imageviewLeft.setVisibility(View.INVISIBLE);
                     binding.imageviewRight.setVisibility(View.VISIBLE);
                 }

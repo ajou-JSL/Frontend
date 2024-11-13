@@ -1,5 +1,8 @@
 package com.example.moum.data.entity;
 
+import androidx.databinding.BindingConversion;
+import androidx.databinding.InverseMethod;
+
 import java.util.ArrayList;
 
 public class Moum {
@@ -10,13 +13,102 @@ public class Moum {
     private String startDate;
     private String endDate;
     private Integer price;
-    private String imageUrl;
+    private ArrayList<String> imageUrls;
     private Integer leaderId;
     private String leaderName;
     private Integer teamId;
+    private Process process;
     private ArrayList<Member> members;
     private ArrayList<Record> records;
 
+    public class Process {
+        private Boolean recruitStatus;
+        private Boolean chatroomStatus;
+        private Boolean practiceroomStatus;
+        private Boolean performLocationStatus;
+        private Boolean promoteStatus;
+        private Boolean paymentStatus;
+        private Boolean finishStatus;
+        private Integer processPercentage;
+
+        public Boolean getChatroomStatus() {
+            return chatroomStatus;
+        }
+
+        public Boolean getFinishStatus() {
+            return finishStatus;
+        }
+
+        public Boolean getPaymentStatus() {
+            return paymentStatus;
+        }
+
+        public Boolean getPerformLocationStatus() {
+            return performLocationStatus;
+        }
+
+        public Boolean getPracticeroomStatus() {
+            return practiceroomStatus;
+        }
+
+        public Boolean getPromoteStatus() {
+            return promoteStatus;
+        }
+
+        public Boolean getRecruitStatus() {
+            return recruitStatus;
+        }
+
+        public Integer getProcessPercentage() {
+            return processPercentage;
+        }
+
+        public void setChatroomStatus(Boolean chatroomStatus) {
+            this.chatroomStatus = chatroomStatus;
+        }
+
+        public void setFinishStatus(Boolean finishStatus) {
+            this.finishStatus = finishStatus;
+        }
+
+        public void setPerformLocationStatus(Boolean performLocationStatus) {
+            this.performLocationStatus = performLocationStatus;
+        }
+
+        public void setPaymentStatus(Boolean paymentStatus) {
+            this.paymentStatus = paymentStatus;
+        }
+
+        public void setPracticeroomStatus(Boolean practiceroomStatus) {
+            this.practiceroomStatus = practiceroomStatus;
+        }
+
+        public void setPromoteStatus(Boolean promoteStatus) {
+            this.promoteStatus = promoteStatus;
+        }
+
+        public void setProcessPercentage(Integer processPercentage) {
+            this.processPercentage = processPercentage;
+        }
+
+        public void setRecruitStatus(Boolean recruitStatus) {
+            this.recruitStatus = recruitStatus;
+        }
+
+        @Override
+        public String toString() {
+            return "Process{" +
+                    "recruitStatus=" + recruitStatus +
+                    ", chatroomStatus=" + chatroomStatus +
+                    ", practiceroomStatus=" + practiceroomStatus +
+                    ", performLocationStatus=" + performLocationStatus +
+                    ", promoteStatus=" + promoteStatus +
+                    ", paymentStatus=" + paymentStatus +
+                    ", finishStatus=" + finishStatus +
+                    ", processPercentage=" + processPercentage +
+                    '}';
+        }
+    }
     public void setRecords(ArrayList<Record> records) {
         this.records = records;
     }
@@ -41,10 +133,6 @@ public class Moum {
         this.startDate = startDate;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
     public void setLeaderName(String leaderName) {
         this.leaderName = leaderName;
     }
@@ -63,6 +151,14 @@ public class Moum {
 
     public void setPerformLocation(String performLocation) {
         this.performLocation = performLocation;
+    }
+
+    public void setImageUrls(ArrayList<String> imageUrls) {
+        this.imageUrls = imageUrls;
+    }
+
+    public void setProcess(Process process) {
+        this.process = process;
     }
 
     public void setPrice(Integer price) {
@@ -101,10 +197,6 @@ public class Moum {
         return price;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
     public String getLeaderName() {
         return leaderName;
     }
@@ -121,6 +213,14 @@ public class Moum {
         return performLocation;
     }
 
+    public ArrayList<String> getImageUrls() {
+        return imageUrls;
+    }
+
+    public Process getProcess() {
+        return process;
+    }
+
     @Override
     public String toString() {
         return "Moum{" +
@@ -131,10 +231,11 @@ public class Moum {
                 ", startDate='" + startDate + '\'' +
                 ", endDate='" + endDate + '\'' +
                 ", price=" + price +
-                ", imageUrl='" + imageUrl + '\'' +
+                ", imageUrls=" + imageUrls +
                 ", leaderId=" + leaderId +
                 ", leaderName='" + leaderName + '\'' +
                 ", teamId=" + teamId +
+                ", process=" + process +
                 ", members=" + members +
                 ", records=" + records +
                 '}';

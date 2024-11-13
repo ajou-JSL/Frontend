@@ -2,6 +2,7 @@ package com.example.moum.view.moum.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.media.Image;
 import android.os.Build;
 import android.util.Log;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,6 +27,7 @@ import com.example.moum.data.entity.Moum;
 import com.example.moum.data.entity.Team;
 import com.example.moum.view.chat.adapter.ChatAdapter;
 import com.example.moum.view.chat.adapter.ChatroomAdapter;
+import com.example.moum.view.moum.TeamCreateActivity;
 import com.example.moum.view.profile.adapter.ProfileTeamAdapter;
 
 import java.util.ArrayList;
@@ -120,13 +123,16 @@ public class TeamAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     .placeholder(R.drawable.background_circle_gray)
                     .error(R.drawable.background_circle_gray))
                     .load(team.getMembers().get(0).getProfileImageUrl()).into(teamMembersProfile);
-            teamMembers.setText(String.format("%s 외 %d명", team.getMembers().get(0).getName(), team.getMembers().size()));
+            if(team.getMembers().size() < 2)
+                teamMembers.setText(team.getMembers().get(0).getName());
+            else
+                teamMembers.setText(String.format("%s 외 %d명", team.getMembers().get(0).getName(), team.getMembers().size()-1));
             teamName.setText(team.getTeamName());
             teamDescription.setText(team.getDescription());
 
             /*모음 리사이클러뷰 연결*/
             MoumAdapter moumAdapter = new MoumAdapter();
-            moumAdapter.setMoums(moums, context);
+            moumAdapter.setMoums(moums, team.getTeamId(), context);
             moumRecycler.setLayoutManager(new LinearLayoutManager(context));
             moumRecycler.setAdapter(moumAdapter);
         }
@@ -137,16 +143,26 @@ public class TeamAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private Team team;
         private ArrayList<Moum> moums;
         private Context context;
+        private ConstraintLayout teamCreateButton;
 
         public TeamEmptyViewHolder(@NonNull View itemView, Context context) {
             super(itemView);
             this.context = context;
+            teamCreateButton = itemView.findViewById(R.id.constraint_my_moum_header);
         }
 
         @RequiresApi(api = Build.VERSION_CODES.O)
         public void bind(Team team, ArrayList<Moum> moums){
             this.team = team;
             this.moums = moums;
+            teamCreateButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, TeamCreateActivity.class);
+                    context.startActivity(intent);
+                }
+            });
+
         }
     }
 }

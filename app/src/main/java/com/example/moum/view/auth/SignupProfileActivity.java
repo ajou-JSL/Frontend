@@ -243,8 +243,10 @@ public class SignupProfileActivity extends AppCompatActivity {
                             .appendLiteral('-')
                             .appendValue(ChronoField.DAY_OF_MONTH, 1, 2, SignStyle.NOT_NEGATIVE)
                             .toFormatter();
-                    LocalDate startDate = LocalDate.parse(startDateString, formatter);
-                    LocalDate endDate = LocalDate.parse(endDateString, formatter);
+                    LocalDate startDate = null;
+                    LocalDate endDate = null;
+                    if(!startDateString.isEmpty()) startDate = LocalDate.parse(startDateString, formatter);
+                    if(!endDateString.isEmpty()) endDate = LocalDate.parse(endDateString, formatter);
 
                     signupViewModel.addRecord(recordName, startDate, endDate);
                 }

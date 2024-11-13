@@ -123,6 +123,7 @@ public class ValueMap {
             put("F-T002", Validation.TEAM_NOT_FOUND);
             put("F-T003", Validation.NOT_TEAM_MEMBER);
             put("F-T004", Validation.LEADER_CANNOT_LEAVE);
+            put("F-T005", Validation.MUST_JOIN_TEAM_FIRST);
         }
     };
 
