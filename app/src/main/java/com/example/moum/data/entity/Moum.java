@@ -21,7 +21,7 @@ public class Moum {
     private ArrayList<Member> members;
     private ArrayList<Record> records;
 
-    public class Process {
+    public static class Process {
         private Boolean recruitStatus;
         private Boolean chatroomStatus;
         private Boolean practiceroomStatus;

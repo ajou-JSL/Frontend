@@ -25,7 +25,7 @@ import retrofit2.Retrofit;
 
 public class AuthInterceptor implements Interceptor {
 
-    private static final int CODE_TOKEN_EXPIRATION = 410; //TODO 수정 필요
+    private static final int CODE_TOKEN_EXPIRATION = 401; //TODO 수정 필요
     private String accessToken;
     private String refreshToken;
     public String TAG = getClass().toString();
@@ -39,6 +39,7 @@ public class AuthInterceptor implements Interceptor {
         this.accessToken = sharedPreferenceManager.getCache(context.getString(R.string.user_access_token_key), "no-access-token");
         this.refreshToken = sharedPreferenceManager.getCache(context.getString(R.string.user_refresh_token_key), "no-refresh-token");
         this.retrofitClientManager = new RetrofitClientManager();
+        retrofitClientManager.setBaseUrl(BaseUrl.BASIC_SERVER_PATH.getUrl());
     }
 
     @NonNull
@@ -93,7 +94,7 @@ public class AuthInterceptor implements Interceptor {
                     accessToken = newAccessToken;
                     refreshToken = newRefreshToken;
 
-                    builder.header("Authorization", newAccessToken);
+                    builder.header("access", newAccessToken);
                     response = chain.proceed(builder.build());
 
                 } else {

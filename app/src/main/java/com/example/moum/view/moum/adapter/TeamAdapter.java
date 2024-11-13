@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -38,14 +39,16 @@ public class TeamAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<Team> teams;
     private ArrayList<ArrayList<Moum>> moumsOfTeams;
     private Context context;
+    private ActivityResultLauncher<Intent> launcher;
     private static final int VIEW_TYPE_EXIST = 1;
     private static final int VIEW_TYPE_EMPTY = 2;
     private final String TAG = getClass().toString();
 
-    public void setTeamsNMoums(ArrayList<Team> teams, ArrayList<ArrayList<Moum>> moumsOfTeams, Context context) {
+    public void setTeamsNMoums(ArrayList<Team> teams, ArrayList<ArrayList<Moum>> moumsOfTeams, Context context, ActivityResultLauncher<Intent> launcher) {
         this.teams = teams;
         this.moumsOfTeams = moumsOfTeams;
         this.context = context;
+        this.launcher = launcher;
     }
 
     @Override
@@ -75,7 +78,7 @@ public class TeamAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (holder instanceof TeamAdapter.TeamEmptyViewHolder) {
             ((TeamAdapter.TeamEmptyViewHolder) holder).bind(team, moums);
         } else if (holder instanceof TeamAdapter.TeamExistViewHolder) {
-            ((TeamAdapter.TeamExistViewHolder) holder).bind(team, moums);
+            ((TeamAdapter.TeamExistViewHolder) holder).bind(team, moums, launcher);
         }
     }
 
@@ -110,7 +113,7 @@ public class TeamAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         @SuppressLint("DefaultLocale")
         @RequiresApi(api = Build.VERSION_CODES.O)
-        public void bind(Team team, ArrayList<Moum> moums) {
+        public void bind(Team team, ArrayList<Moum> moums, ActivityResultLauncher<Intent> launcher) {
             this.team = team;
             this.moums = moums;
             Glide.with(context)
@@ -132,7 +135,7 @@ public class TeamAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             /*모음 리사이클러뷰 연결*/
             MoumAdapter moumAdapter = new MoumAdapter();
-            moumAdapter.setMoums(moums, team.getTeamId(), context);
+            moumAdapter.setMoums(moums, team.getTeamId(), context, launcher);
             moumRecycler.setLayoutManager(new LinearLayoutManager(context));
             moumRecycler.setAdapter(moumAdapter);
         }

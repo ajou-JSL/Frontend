@@ -63,7 +63,7 @@ public class ChatroomParticipantAdapter extends RecyclerView.Adapter<RecyclerVie
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if(isParticipates == null) isParticipates = new ArrayList<>(Collections.nCopies(participants.size(), false));
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chatroom_participant, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_member, parent, false);
         return new ChatroomParticipantAdapter.ChatroomParticipantViewHolder(view, context, this);
     }
 

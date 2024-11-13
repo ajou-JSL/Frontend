@@ -1,5 +1,6 @@
 package com.example.moum.view.moum;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -11,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
@@ -32,6 +35,7 @@ import com.example.moum.view.chat.adapter.ChatroomAdapter;
 import com.example.moum.view.moum.adapter.TeamAdapter;
 import com.example.moum.viewmodel.moum.MyMoumViewModel;
 import com.example.moum.viewmodel.chat.ChatroomViewModel;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,10 +68,30 @@ public class MyMoumFragment extends Fragment {
             getActivity().finish();
         }
 
+        // MainActivity의 BottomNavigationView를 가져오기
+        BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.nav_view);
+
+        // lancher를 통해 이후 생성될 액티비티 종료 시, 받아오는 fragment_index에 따라 이벤트
+        ActivityResultLauncher<Intent> launcher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = result.getData();
+                        if (data != null) {
+                            int fragmentIndex = data.getIntExtra("fragment_index", -1);
+                            if (fragmentIndex == 1) {
+                                // 두 번째 Fragment로 이동
+                                bottomNavigationView.setSelectedItemId(R.id.menu_moumtalk);
+                            }
+                        }
+                    }
+                }
+        );
+
         /*단체 viewPager 연결*/
         ViewPager2 viewpagerTeam = binding.viewpagerTeam;
         TeamAdapter teamAdapter = new TeamAdapter();
-        teamAdapter.setTeamsNMoums(teams, moums, context);
+        teamAdapter.setTeamsNMoums(teams, moums, context, launcher);
         viewpagerTeam.setAdapter(teamAdapter);
 
         /*속한 단체 리스트 불러오기*/

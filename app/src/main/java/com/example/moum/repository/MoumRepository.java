@@ -9,6 +9,7 @@ import androidx.annotation.RequiresApi;
 import com.example.moum.data.api.MoumApi;
 import com.example.moum.data.api.TeamApi;
 import com.example.moum.data.dto.ErrorResponse;
+import com.example.moum.data.dto.MoumProcessRequest;
 import com.example.moum.data.dto.MoumRequest;
 import com.example.moum.data.dto.SuccessResponse;
 import com.example.moum.data.dto.TeamRequest;
@@ -226,4 +227,212 @@ public class MoumRepository {
             }
         });
     }
+
+    public void updateMoum(Integer moumId, Moum moum, ArrayList<File> moumProfiles, com.example.moum.utils.Callback<Result<Moum>> callback){
+        /*processing into DTO*/
+        List<MultipartBody.Part> profileImages = new ArrayList<>();
+        if(moumProfiles != null && !moumProfiles.isEmpty()){
+            for(File moumProfile : moumProfiles){
+                RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpg"), moumProfile);
+                MultipartBody.Part profileImage = MultipartBody.Part.createFormData("file", moumProfile.getName(), requestFile);
+                profileImages.add(profileImage);
+            }
+        }
+        MoumRequest moumRequest = new MoumRequest(moum.getMoumName(), moum.getMoumDescription(), moum.getPerformLocation(), moum.getStartDate(), moum.getEndDate(), moum.getPrice(), moum.getLeaderId(), moum.getTeamId(), moum.getMembers(), moum.getRecords());
+        Call<SuccessResponse<Moum>> result = moumApi.updateMoum(moumId, profileImages, moumRequest);
+
+        result.enqueue(new retrofit2.Callback<SuccessResponse<Moum>>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onResponse(Call<SuccessResponse<Moum>> call, Response<SuccessResponse<Moum>> response) {
+                if (response.isSuccessful()) {
+                    /*성공적으로 응답을 받았을 때*/
+                    SuccessResponse<Moum> responseBody = response.body();
+                    Log.e(TAG, responseBody.toString());
+                    Moum moum = responseBody.getData();
+
+                    Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
+                    Result<Moum> result = new Result<>(validation, moum);
+                    callback.onResult(result);
+                }
+                else {
+                    /*응답은 받았으나 문제 발생 시*/
+                    try {
+                        ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
+                        if (errorResponse != null) {
+                            Log.e(TAG, errorResponse.toString());
+                            Validation validation = ValueMap.getCodeToVal(errorResponse.getCode());
+                            Result<Moum> result = new Result<>(validation);
+                            callback.onResult(result);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<SuccessResponse<Moum>> call, Throwable t) {
+                Result<Moum> result = new Result<>(Validation.NETWORK_FAILED);
+                callback.onResult(result);
+            }
+        });
+    }
+
+    public void deleteMoum(Integer moumId, com.example.moum.utils.Callback<Result<Moum>> callback){
+        Call<SuccessResponse<Moum>> result = moumApi.deleteMoum(moumId);
+        result.enqueue(new retrofit2.Callback<SuccessResponse<Moum>>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onResponse(Call<SuccessResponse<Moum>> call, Response<SuccessResponse<Moum>> response) {
+                if (response.isSuccessful()) {
+                    /*성공적으로 응답을 받았을 때*/
+                    SuccessResponse<Moum> responseBody = response.body();
+                    Log.e(TAG, responseBody.toString());
+                    Moum moum = responseBody.getData();
+
+                    Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
+                    Result<Moum> result = new Result<>(validation, moum);
+                    callback.onResult(result);
+                }
+                else {
+                    /*응답은 받았으나 문제 발생 시*/
+                    try {
+                        ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
+                        if (errorResponse != null) {
+                            Log.e(TAG, errorResponse.toString());
+                            Validation validation = ValueMap.getCodeToVal(errorResponse.getCode());
+                            Result<Moum> result = new Result<>(validation);
+                            callback.onResult(result);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<SuccessResponse<Moum>> call, Throwable t) {
+                Result<Moum> result = new Result<>(Validation.NETWORK_FAILED);
+                callback.onResult(result);
+            }
+        });
+    }
+
+    public void finishMoum(Integer moumId, com.example.moum.utils.Callback<Result<Moum>> callback){
+        Call<SuccessResponse<Moum>> result = moumApi.finishMoum(moumId);
+        result.enqueue(new retrofit2.Callback<SuccessResponse<Moum>>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onResponse(Call<SuccessResponse<Moum>> call, Response<SuccessResponse<Moum>> response) {
+                if (response.isSuccessful()) {
+                    /*성공적으로 응답을 받았을 때*/
+                    SuccessResponse<Moum> responseBody = response.body();
+                    Log.e(TAG, responseBody.toString());
+                    Moum moum = responseBody.getData();
+
+                    Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
+                    Result<Moum> result = new Result<>(validation, moum);
+                    callback.onResult(result);
+                }
+                else {
+                    /*응답은 받았으나 문제 발생 시*/
+                    try {
+                        ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
+                        if (errorResponse != null) {
+                            Log.e(TAG, errorResponse.toString());
+                            Validation validation = ValueMap.getCodeToVal(errorResponse.getCode());
+                            Result<Moum> result = new Result<>(validation);
+                            callback.onResult(result);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<SuccessResponse<Moum>> call, Throwable t) {
+                Result<Moum> result = new Result<>(Validation.NETWORK_FAILED);
+                callback.onResult(result);
+            }
+        });
+    }
+
+    public void reopenMoum(Integer moumId, com.example.moum.utils.Callback<Result<Moum>> callback){
+        Call<SuccessResponse<Moum>> result = moumApi.reopenMoum(moumId);
+        result.enqueue(new retrofit2.Callback<SuccessResponse<Moum>>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onResponse(Call<SuccessResponse<Moum>> call, Response<SuccessResponse<Moum>> response) {
+                if (response.isSuccessful()) {
+                    /*성공적으로 응답을 받았을 때*/
+                    SuccessResponse<Moum> responseBody = response.body();
+                    Log.e(TAG, responseBody.toString());
+                    Moum moum = responseBody.getData();
+
+                    Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
+                    Result<Moum> result = new Result<>(validation, moum);
+                    callback.onResult(result);
+                }
+                else {
+                    /*응답은 받았으나 문제 발생 시*/
+                    try {
+                        ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
+                        if (errorResponse != null) {
+                            Log.e(TAG, errorResponse.toString());
+                            Validation validation = ValueMap.getCodeToVal(errorResponse.getCode());
+                            Result<Moum> result = new Result<>(validation);
+                            callback.onResult(result);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<SuccessResponse<Moum>> call, Throwable t) {
+                Result<Moum> result = new Result<>(Validation.NETWORK_FAILED);
+                callback.onResult(result);
+            }
+        });
+    }
+
+    public void updateProcessMoum(Integer moumId, Moum.Process process, com.example.moum.utils.Callback<Result<Moum>> callback){
+        MoumProcessRequest request = new MoumProcessRequest(process.getRecruitStatus(), process.getChatroomStatus(), process.getPracticeroomStatus(), process.getPerformLocationStatus(), process.getPromoteStatus(), process.getPaymentStatus());
+        Call<SuccessResponse<Moum>> result = moumApi.updateProcessMoum(moumId, request);
+        result.enqueue(new retrofit2.Callback<SuccessResponse<Moum>>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onResponse(Call<SuccessResponse<Moum>> call, Response<SuccessResponse<Moum>> response) {
+                if (response.isSuccessful()) {
+                    /*성공적으로 응답을 받았을 때*/
+                    SuccessResponse<Moum> responseBody = response.body();
+                    Log.e(TAG, responseBody.toString());
+                    Moum moum = responseBody.getData();
+
+                    Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
+                    Result<Moum> result = new Result<>(validation, moum);
+                    callback.onResult(result);
+                }
+                else {
+                    /*응답은 받았으나 문제 발생 시*/
+                    try {
+                        ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
+                        if (errorResponse != null) {
+                            Log.e(TAG, errorResponse.toString());
+                            Validation validation = ValueMap.getCodeToVal(errorResponse.getCode());
+                            Result<Moum> result = new Result<>(validation);
+                            callback.onResult(result);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<SuccessResponse<Moum>> call, Throwable t) {
+                Result<Moum> result = new Result<>(Validation.NETWORK_FAILED);
+                callback.onResult(result);
+            }
+        });
+    }
+
 }

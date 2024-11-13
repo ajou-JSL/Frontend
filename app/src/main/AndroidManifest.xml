@@ -72,6 +72,10 @@
             android:name=".view.moum.MoumCreateActivity"
             android:exported="true">
         </activity>
+        <activity
+            android:name=".view.moum.MoumManageActivity"
+            android:exported="true">
+        </activity>
     </application>
 
 </manifest>

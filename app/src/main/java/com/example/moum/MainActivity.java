@@ -1,5 +1,6 @@
 package com.example.moum;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -53,4 +54,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        /*activity로 리턴 시, result와 함께 리턴된다면 fragment_index 값에 따라 해당 프래그먼트로 즉시 이동*/
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && data != null) {
+            int fragmentIndex = data.getIntExtra("fragment_index", -1);
+            if (fragmentIndex != -1) {
+                bottomNavigationView.setSelectedItemId(R.id.menu_moumtalk);
+            }
+        }
+    }
 }
