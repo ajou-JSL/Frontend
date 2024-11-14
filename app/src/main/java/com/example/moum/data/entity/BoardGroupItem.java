@@ -5,10 +5,10 @@ public class BoardGroupItem {
     private String writer;
     private String image;
 
-    public void setBoardGroupItem(String writer, String content) {
+    public void setBoardGroupItem(String writer, String content,String image) {
         this.writer = writer;
         this.content = content;
-        this.image = null;
+        this.image = image;
     }
 
     // Getters
@@ -22,10 +22,6 @@ public class BoardGroupItem {
 
     public String getImage() {
         return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
     }
 
     public boolean hasImage() {

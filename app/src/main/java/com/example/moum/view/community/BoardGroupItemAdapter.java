@@ -40,7 +40,12 @@ public class BoardGroupItemAdapter extends RecyclerView.Adapter<BoardGroupItemAd
 
     @Override
     public int getItemCount() {
-        return itemList.size();
+        return itemList != null ? itemList.size() : 0;
+    }
+
+    public void updateItemList(ArrayList<BoardGroupItem> boarditemList) {
+        this.itemList = boarditemList;
+        notifyDataSetChanged();
     }
 
     static class CustomViewHolder extends RecyclerView.ViewHolder {

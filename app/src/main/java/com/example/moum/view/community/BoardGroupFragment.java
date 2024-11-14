@@ -12,64 +12,148 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import com.example.moum.R;
 import com.example.moum.data.entity.BoardFreeItem;
 import com.example.moum.data.entity.BoardGroupItem;
+import com.example.moum.data.entity.Team;
 import com.example.moum.databinding.FragmentBoardFreeBinding;
 import com.example.moum.databinding.FragmentBoardGroupBinding;
 import com.example.moum.viewmodel.community.BoardFreeViewModel;
 import com.example.moum.viewmodel.community.BoardGroupViewModel;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 public class BoardGroupFragment extends Fragment {
-
-
     private FragmentBoardGroupBinding binding;
-
-    public static BoardGroupFragment newInstance() {
-        return new BoardGroupFragment();
-    }
+    private BoardGroupViewModel boardGroupViewModel;
+    private BoardGroupItemAdapter adapter;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        BoardGroupViewModel boardgroupViewModel = new ViewModelProvider(this).get(BoardGroupViewModel.class);
+        boardGroupViewModel = new ViewModelProvider(this).get(BoardGroupViewModel.class);
 
         binding = FragmentBoardGroupBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        initSpinner1();
+        initSpinner2();
         initRecyclerView();
 
         return root;
     }
 
+    private void initSpinner1() {
+        // 스피너 어댑터 설정
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                requireContext(),
+                R.array.community_board_spinner1_items,
+                android.R.layout.simple_spinner_item
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.boardGroupSpinner1.setAdapter(adapter);
+
+        // 항목 선택 리스너 설정
+        binding.boardGroupSpinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (parent != null) {
+                    Toast.makeText(requireContext(), parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    private void initSpinner2() {
+        // 스피너 어댑터 설정
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                requireContext(),
+                R.array.community_board_spinner2_items,
+                android.R.layout.simple_spinner_item
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.boardGroupSpinner2.setAdapter(adapter);
+
+        // 항목 선택 리스너 설정
+        binding.boardGroupSpinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (parent != null) {
+                    Toast.makeText(requireContext(), parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
 
     private void initRecyclerView() {
         // RecyclerView 초기화
         RecyclerView recyclerView = binding.boardGroupRecyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        //item 구분선 추가
+        // Item 구분선 추가
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), LinearLayoutManager.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
 
-        // 데이터 준비
-        ArrayList<BoardGroupItem> itemList = new ArrayList<>();
-
-        // 데이터 추가
-        for (int i = 0; i < 10; i++) {
+        // 초기 빈 데이터로 어댑터 설정
+        ArrayList<BoardGroupItem> initialItemList = new ArrayList<>();
+        for (int i = 0; i < 2; i++) {
             BoardGroupItem item = new BoardGroupItem();
-            item.setBoardGroupItem("단체 이름" + i, "짧은 소개" + i);
-            itemList.add(item); // itemList에 추가
+            item.setBoardGroupItem("제목 " + i, "내용 짧은 글 " + i, "https://example.com/file.jpg");
+            initialItemList.add(item);
         }
-
-        // RecyclerView 어댑터 설정
-        BoardGroupItemAdapter adapter = new BoardGroupItemAdapter(itemList);
+        adapter = new BoardGroupItemAdapter(initialItemList);
         recyclerView.setAdapter(adapter);
+
+        Log.d("BoardGroupFragment", "test");
+
+        // LiveData 관찰 및 데이터 로딩
+        boardGroupViewModel.getBoardGroupList().observe(getViewLifecycleOwner(), teamList -> {
+            ArrayList<BoardGroupItem> itemList = new ArrayList<>();
+
+            if (teamList != null && !teamList.isEmpty()) {
+                // 실제 데이터가 있을 경우 변환하여 추가
+                for (Team team : teamList) {
+                    BoardGroupItem item = new BoardGroupItem();
+                    item.setBoardGroupItem(team.getTeamName(), team.getDescription(), team.getFileUrl());
+                    itemList.add(item);
+                }
+            } else {
+                // 데이터가 없으면 임시 데이터로 대체
+                for (int i = 5; i < 6; i++) {
+                    BoardGroupItem tempItem = new BoardGroupItem();
+                    tempItem.setBoardGroupItem("임시 단체 이름 " + i, "임시 설명 " + i, "https://example.com/file.jpg");
+                    itemList.add(tempItem);
+                }
+            }
+
+            // Adapter에 데이터 설정
+            adapter.updateItemList(itemList);
+        });
+
+        // 데이터 로딩 호출
+        boardGroupViewModel.LoadBoardTeamList();
     }
+
+
+
 
 }

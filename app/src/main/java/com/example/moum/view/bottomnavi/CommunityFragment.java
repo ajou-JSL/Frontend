@@ -56,7 +56,7 @@ public class CommunityFragment extends Fragment {
                 }
             }
         }).attach();
-
+        pager.setCurrentItem(2);
 
         return root;
     }
