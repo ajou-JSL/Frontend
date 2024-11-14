@@ -113,11 +113,9 @@ public class MemberProfileFragment extends BottomSheetDialogFragment {
             Member tMember = isLoadMemberProfileSuccess.getData();
             if(validation == Validation.GET_PROFILE_SUCCESS){
                 targetMember = tMember;
-                Log.e(TAG, "targetMember records size: " + targetMember.getRecords().size());
                 if(targetMember.getRecords() != null && !targetMember.getRecords().isEmpty()){
                     records.clear();
                     records.addAll(targetMember.getRecords());
-                    Log.e(TAG, "records size: " + records.size());
                     recordsAdapter.notifyItemInserted(records.size()-1);
                 }
                 if(targetMember.getTeams() != null && !targetMember.getTeams().isEmpty()){

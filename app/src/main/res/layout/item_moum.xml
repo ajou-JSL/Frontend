@@ -56,7 +56,7 @@
         android:layout_height="wrap_content"
         android:paddingRight="100dp"
         style="?android:attr/progressBarStyleHorizontal"
-        android:max="7"
+        android:max="100"
         android:progress="0"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -107,11 +107,12 @@ public class HomeFragment extends Fragment {
             Validation validation = isLoadMoumsSuccess.getValidation();
             List<Moum> loadedMoums = isLoadMoumsSuccess.getData();
             List<Moum> ingMoums = new ArrayList<>();
-            for(Moum loadedMoum : loadedMoums){
-                if(!loadedMoum.getProcess().getFinishStatus())
-                    ingMoums.add(loadedMoum);
-            }
-            if(validation == Validation.GET_MOUM_SUCCESS && !ingMoums.isEmpty()){
+            if(loadedMoums != null)
+                for(Moum loadedMoum : loadedMoums){
+                    if(!loadedMoum.getProcess().getFinishStatus())
+                        ingMoums.add(loadedMoum);
+                }
+            if(validation == Validation.GET_MOUM_SUCCESS && ingMoums.isEmpty()){
                 moums.clear();
             }
             else if(validation == Validation.GET_MOUM_SUCCESS){

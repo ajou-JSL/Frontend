@@ -16,6 +16,8 @@ public class Member {
     private ArrayList<Record> records;
     private String instrument;
     private String address;
+    private String tier;
+    private Integer exp;
 
     public void setName(String name) {
         this.name = name;

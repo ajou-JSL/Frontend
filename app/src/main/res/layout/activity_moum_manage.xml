@@ -65,22 +65,12 @@
                     android:layout_marginStart="20dp">
 
                     <ImageView
-                        android:id="@+id/spinner_icon"
+                        android:id="@+id/dropdown_menu"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:src="@drawable/icon_ellipsis_vertical"
                         android:scaleType="fitCenter"
                         android:alpha="0.7"/>
-
-                    <Spinner
-                        android:id="@+id/spinner_moum_manage_etc"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignParentTop="true"
-                        android:background="@color/transparent"/>
                 </RelativeLayout>
             </LinearLayout>
 
@@ -305,20 +295,12 @@
                                         app:layout_constraintEnd_toEndOf="parent"
                                         app:layout_constraintTop_toTopOf="parent">
                                         <ImageView
+                                            android:id="@+id/dropdown_recruit"
                                             android:layout_width="match_parent"
                                             android:layout_height="match_parent"
                                             android:src="@drawable/icon_ellipsis_vertical"
                                             android:scaleType="fitCenter"
                                             android:alpha="0.7"/>
-                                        <Spinner
-                                            android:id="@+id/spinner_moum_manage_recruit"
-                                            android:layout_width="25dp"
-                                            android:layout_height="25dp"
-                                            android:layout_alignParentStart="true"
-                                            android:layout_alignParentEnd="true"
-                                            android:layout_alignParentBottom="true"
-                                            android:layout_alignParentTop="true"
-                                            android:background="@color/transparent"/>
                                     </RelativeLayout>
                                 </androidx.constraintlayout.widget.ConstraintLayout>
                                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -398,20 +380,12 @@
                                         app:layout_constraintEnd_toEndOf="parent"
                                         app:layout_constraintTop_toTopOf="parent">
                                         <ImageView
+                                            android:id="@+id/dropdown_moumtalk"
                                             android:layout_width="match_parent"
                                             android:layout_height="match_parent"
                                             android:src="@drawable/icon_ellipsis_vertical"
                                             android:scaleType="fitCenter"
                                             android:alpha="0.7"/>
-                                        <Spinner
-                                            android:id="@+id/spinner_moum_manage_moumtalk"
-                                            android:layout_width="25dp"
-                                            android:layout_height="25dp"
-                                            android:layout_alignParentStart="true"
-                                            android:layout_alignParentEnd="true"
-                                            android:layout_alignParentBottom="true"
-                                            android:layout_alignParentTop="true"
-                                            android:background="@color/transparent"/>
                                     </RelativeLayout>
                                 </androidx.constraintlayout.widget.ConstraintLayout>
                                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -491,20 +465,12 @@
                                         app:layout_constraintEnd_toEndOf="parent"
                                         app:layout_constraintTop_toTopOf="parent">
                                         <ImageView
+                                            android:id="@+id/dropdown_practiceroom"
                                             android:layout_width="match_parent"
                                             android:layout_height="match_parent"
                                             android:src="@drawable/icon_ellipsis_vertical"
                                             android:scaleType="fitCenter"
                                             android:alpha="0.7"/>
-                                        <Spinner
-                                            android:id="@+id/spinner_moum_manage_practice_room"
-                                            android:layout_width="25dp"
-                                            android:layout_height="25dp"
-                                            android:layout_alignParentStart="true"
-                                            android:layout_alignParentEnd="true"
-                                            android:layout_alignParentBottom="true"
-                                            android:layout_alignParentTop="true"
-                                            android:background="@color/transparent"/>
                                     </RelativeLayout>
                                 </androidx.constraintlayout.widget.ConstraintLayout>
                                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -584,20 +550,12 @@
                                         app:layout_constraintEnd_toEndOf="parent"
                                         app:layout_constraintTop_toTopOf="parent">
                                         <ImageView
+                                            android:id="@+id/dropdown_perform_location"
                                             android:layout_width="match_parent"
                                             android:layout_height="match_parent"
                                             android:src="@drawable/icon_ellipsis_vertical"
                                             android:scaleType="fitCenter"
                                             android:alpha="0.7"/>
-                                        <Spinner
-                                            android:id="@+id/spinner_moum_manage_perform_location"
-                                            android:layout_width="25dp"
-                                            android:layout_height="25dp"
-                                            android:layout_alignParentStart="true"
-                                            android:layout_alignParentEnd="true"
-                                            android:layout_alignParentBottom="true"
-                                            android:layout_alignParentTop="true"
-                                            android:background="@color/transparent"/>
                                     </RelativeLayout>
                                 </androidx.constraintlayout.widget.ConstraintLayout>
                                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -677,20 +635,12 @@
                                         app:layout_constraintEnd_toEndOf="parent"
                                         app:layout_constraintTop_toTopOf="parent">
                                         <ImageView
+                                            android:id="@+id/dropdown_promote"
                                             android:layout_width="match_parent"
                                             android:layout_height="match_parent"
                                             android:src="@drawable/icon_ellipsis_vertical"
                                             android:scaleType="fitCenter"
                                             android:alpha="0.7"/>
-                                        <Spinner
-                                            android:id="@+id/spinner_moum_manage_promote"
-                                            android:layout_width="25dp"
-                                            android:layout_height="25dp"
-                                            android:layout_alignParentStart="true"
-                                            android:layout_alignParentEnd="true"
-                                            android:layout_alignParentBottom="true"
-                                            android:layout_alignParentTop="true"
-                                            android:background="@color/transparent"/>
                                     </RelativeLayout>
                                 </androidx.constraintlayout.widget.ConstraintLayout>
                                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -770,20 +720,12 @@
                                         app:layout_constraintEnd_toEndOf="parent"
                                         app:layout_constraintTop_toTopOf="parent">
                                         <ImageView
+                                            android:id="@+id/dropdown_payment"
                                             android:layout_width="match_parent"
                                             android:layout_height="match_parent"
                                             android:src="@drawable/icon_ellipsis_vertical"
                                             android:scaleType="fitCenter"
                                             android:alpha="0.7"/>
-                                        <Spinner
-                                            android:id="@+id/spinner_moum_manage_payment"
-                                            android:layout_width="25dp"
-                                            android:layout_height="25dp"
-                                            android:layout_alignParentStart="true"
-                                            android:layout_alignParentEnd="true"
-                                            android:layout_alignParentBottom="true"
-                                            android:layout_alignParentTop="true"
-                                            android:background="@color/transparent"/>
                                     </RelativeLayout>
                                 </androidx.constraintlayout.widget.ConstraintLayout>
                                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -875,20 +817,12 @@
                                         app:layout_constraintEnd_toEndOf="parent"
                                         app:layout_constraintTop_toTopOf="parent">
                                         <ImageView
+                                            android:id="@+id/dropdown_finish"
                                             android:layout_width="match_parent"
                                             android:layout_height="match_parent"
                                             android:src="@drawable/icon_ellipsis_vertical"
                                             android:scaleType="fitCenter"
                                             android:alpha="0.7"/>
-                                        <Spinner
-                                            android:id="@+id/spinner_moum_manage_finish"
-                                            android:layout_width="25dp"
-                                            android:layout_height="25dp"
-                                            android:layout_alignParentStart="true"
-                                            android:layout_alignParentEnd="true"
-                                            android:layout_alignParentBottom="true"
-                                            android:layout_alignParentTop="true"
-                                            android:background="@color/transparent"/>
                                     </RelativeLayout>
                                 </androidx.constraintlayout.widget.ConstraintLayout>
 
