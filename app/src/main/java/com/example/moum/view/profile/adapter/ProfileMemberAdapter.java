@@ -33,7 +33,7 @@ public class ProfileMemberAdapter extends RecyclerView.Adapter<RecyclerView.View
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_profile_team, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_profile_member, parent, false);
         return new ProfileMemberAdapter.ProfileMemberViewHolder(view, context);
     }
 

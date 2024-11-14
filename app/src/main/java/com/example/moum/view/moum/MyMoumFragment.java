@@ -49,6 +49,9 @@ public class MyMoumFragment extends Fragment {
     SharedPreferenceManager sharedPreferenceManager;
     private ArrayList<Team> teams = new ArrayList<>();
     private ArrayList<ArrayList<Moum>> moums = new ArrayList<>(); //팀별 모음 리스트를 관리하는 이중 리스트
+    private Integer pagePos;
+    private Integer id;
+    private Boolean isOnCreateViewEnd = false;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         MyMoumViewModel viewModel = new ViewModelProvider(this).get(MyMoumViewModel.class);
@@ -60,7 +63,7 @@ public class MyMoumFragment extends Fragment {
         sharedPreferenceManager = new SharedPreferenceManager(context, getString(R.string.preference_file_key));
         String accessToken = sharedPreferenceManager.getCache(getString(R.string.user_access_token_key), "no-access-token");
         String username = sharedPreferenceManager.getCache(getString(R.string.user_username_key), "no-memberId");
-        Integer id = sharedPreferenceManager.getCache(getString(R.string.user_id_key), -1);
+        id = sharedPreferenceManager.getCache(getString(R.string.user_id_key), -1);
         if(accessToken.isEmpty() || accessToken.equals("no-access-token")){
             Toast.makeText(context, "로그인 정보가 없어 초기 페이지로 돌아갑니다.", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(context, InitialActivity.class);
@@ -139,6 +142,7 @@ public class MyMoumFragment extends Fragment {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
+                pagePos = position;
                 new Handler().postDelayed(() -> {
                     if(!teams.isEmpty() && position != teams.size()-1) {
                         viewModel.loadMoumsOfTeam(teams.get(position).getTeamId());
@@ -216,6 +220,7 @@ public class MyMoumFragment extends Fragment {
             }
         });
 
+        isOnCreateViewEnd = true;
         return root;
     }
 
@@ -224,4 +229,5 @@ public class MyMoumFragment extends Fragment {
         binding = null;
         super.onDestroyView();
     }
+
 }

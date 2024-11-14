@@ -116,12 +116,12 @@ public class MemberProfileFragment extends BottomSheetDialogFragment {
                 if(targetMember.getRecords() != null && !targetMember.getRecords().isEmpty()){
                     records.clear();
                     records.addAll(targetMember.getRecords());
-                    recordsAdapter.notifyItemInserted(records.size()-1);
+                    recordsAdapter.notifyDataSetChanged();
                 }
                 if(targetMember.getTeams() != null && !targetMember.getTeams().isEmpty()){
                     teams.clear();
                     teams.addAll(targetMember.getTeams());
-                    teamsAdapter.notifyItemInserted(teams.size()-1);
+                    teamsAdapter.notifyDataSetChanged();
                 }
                 binding.textviewNickname.setText(targetMember.getName());
                 binding.textviewDescription.setText(targetMember.getProfileDescription());
@@ -213,11 +213,11 @@ public class MemberProfileFragment extends BottomSheetDialogFragment {
         return view;
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        targetMember = null;
-        records.clear();
-        teams.clear();
-    }
+//    @Override
+//    public void onDetach() {
+//        super.onDetach();
+//        targetMember = null;
+//        records.clear();
+//        teams.clear();
+//    }
 }

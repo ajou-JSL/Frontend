@@ -37,8 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
-
-    private FragmentHomeBinding binding;
+  private FragmentHomeBinding binding;
     private SharedPreferenceManager sharedPreferenceManager;
     private HomeViewModel viewModel;
     private Context context;
@@ -129,16 +128,6 @@ public class HomeFragment extends Fragment {
                 Log.e(TAG, "알 수 없는 validation");
             }
         });
-
-        /*로그아웃 버튼*/
-//        binding.buttonLogout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(requireActivity(), InitialActivity.class);
-//                startActivity(intent);
-//                requireActivity().finish();
-//            }
-//        });
 
         /*내 프로필 띄우기*/
         final MemberProfileFragment memberProfileFragment = new MemberProfileFragment(getContext());
