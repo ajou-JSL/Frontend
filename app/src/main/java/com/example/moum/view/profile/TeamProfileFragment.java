@@ -109,12 +109,14 @@ public class TeamProfileFragment extends BottomSheetDialogFragment {
             if(validation == Validation.GET_TEAM_SUCCESS){
                 targetTeam = team;
                 if(targetTeam.getRecords() != null && !targetTeam.getRecords().isEmpty()){
+                    records.clear();
                     records.addAll(targetTeam.getRecords());
                     recordsRecyclerView.suppressLayout(false);
                     recordsAdapter.notifyItemInserted(records.size()-1);
                     recordsRecyclerView.suppressLayout(true);
                 }
                 if(targetTeam.getMembers() != null && !targetTeam.getMembers().isEmpty()){
+                    members.clear();
                     members.addAll(targetTeam.getMembers());
                     membersAdapter.notifyItemInserted(members.size()-1);
                 }

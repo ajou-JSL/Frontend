@@ -115,12 +115,14 @@ public class MemberProfileFragment extends BottomSheetDialogFragment {
             if(validation == Validation.GET_PROFILE_SUCCESS){
                 targetMember = tMember;
                 if(targetMember.getRecords() != null && !targetMember.getRecords().isEmpty()){
+                    records.clear();
                     records.addAll(targetMember.getRecords());
                     recordsRecyclerView.suppressLayout(false);
                     recordsAdapter.notifyItemInserted(records.size()-1);
                     recordsRecyclerView.suppressLayout(true);
                 }
                 if(targetMember.getTeams() != null && !targetMember.getTeams().isEmpty()){
+                    teams.clear();
                     teams.addAll(targetMember.getTeams());
                     teamsAdapter.notifyItemInserted(teams.size()-1);
                 }
@@ -185,7 +187,6 @@ public class MemberProfileFragment extends BottomSheetDialogFragment {
                 Log.e(TAG, "알 수 없는 감시 결과");
             }
         });
-
 
         /*설정 스피너 설정*/
         Spinner etcSpinner = binding.spinnerProfileEtc;
