@@ -15,6 +15,7 @@ public class MoumManageViewModel extends AndroidViewModel {
     private final MutableLiveData<Result<Moum>> isLoadMoumSuccess = new MutableLiveData<>();
     private final MutableLiveData<Result<Moum>> isFinishMoumSuccess = new MutableLiveData<>();
     private final MutableLiveData<Result<Moum>> isReopenMoumSuccess = new MutableLiveData<>();
+    private final MutableLiveData<Result<Moum>> isUpdateMoumSuccess = new MutableLiveData<>();
 
     public MoumManageViewModel(Application application){
         super(application);
@@ -33,6 +34,10 @@ public class MoumManageViewModel extends AndroidViewModel {
         return isReopenMoumSuccess;
     }
 
+    public MutableLiveData<Result<Moum>> getIsUpdateMoumSuccess() {
+        return isUpdateMoumSuccess;
+    }
+
     public void setIsLoadMoumSuccess(Result<Moum> isLoadMoumSuccess){
         this.isLoadMoumSuccess.setValue(isLoadMoumSuccess);
     }
@@ -45,6 +50,10 @@ public class MoumManageViewModel extends AndroidViewModel {
         this.isReopenMoumSuccess.setValue(isReopenMoumSuccess);
     }
 
+    public void setIsUpdateMoumSuccess(Result<Moum> isUpdateMoumSuccess){
+        this.isUpdateMoumSuccess.setValue(isUpdateMoumSuccess);
+    }
+
     public void loadMoum(Integer moumId){
         moumRepository.loadMoum(moumId, this::setIsLoadMoumSuccess);
     }
@@ -55,5 +64,9 @@ public class MoumManageViewModel extends AndroidViewModel {
 
     public void reopenMoum(Integer moumId){
         moumRepository.reopenMoum(moumId, this::setIsReopenMoumSuccess);
+    }
+
+    public void updateProcessMoum(Integer moumId, Moum.Process process){
+        moumRepository.updateProcessMoum(moumId, process, this::setIsUpdateMoumSuccess);
     }
 }

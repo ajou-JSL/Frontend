@@ -75,7 +75,7 @@ public class LoginRepository {
                     SuccessResponse<Integer> responseBody = response.body();
                     assert responseBody != null;
                     Integer id = responseBody.getData();
-                    Token token = new Token(header, cookies.get(0), id);
+                    Token token = new Token(header, cookies.get(0).substring(8), id);
 
                     Log.e(TAG, responseBody.toString());
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());

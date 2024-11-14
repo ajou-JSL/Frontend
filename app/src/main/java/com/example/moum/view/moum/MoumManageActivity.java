@@ -1,5 +1,7 @@
 package com.example.moum.view.moum;
 
+import static android.util.Log.e;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -50,7 +53,7 @@ public class MoumManageActivity extends AppCompatActivity {
     private Integer moumId;
     private ArrayList<String> uris = new ArrayList<>();
     private ArrayList<Member> members = new ArrayList<>();
-
+    private Moum recentMoum;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -108,6 +111,266 @@ public class MoumManageActivity extends AppCompatActivity {
         memberRecyclerView.setLayoutManager(new WrapContentLinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
         memberRecyclerView.setAdapter(moumManageMemberAdapter);
 
+        /*각 단계별 설정 스피너 설정*/
+        Spinner recruitSpinner = binding.spinnerMoumManageRecruit;
+        Spinner moumtalkSpinner = binding.spinnerMoumManageMoumtalk;
+        Spinner practiceRoomSpinner = binding.spinnerMoumManagePracticeRoom;
+        Spinner performLocationSpinner = binding.spinnerMoumManagePerformLocation;
+        Spinner promoteSpinner = binding.spinnerMoumManagePromote;
+        Spinner paymentSpinner = binding.spinnerMoumManagePayment;
+        String[] processList1 = getResources().getStringArray(R.array.moum_manange_process_etc_list);
+        String[] processList2 = getResources().getStringArray(R.array.moum_manange_process_etc_list);
+        String[] processList3 = getResources().getStringArray(R.array.moum_manange_process_etc_list);
+        String[] processList4 = getResources().getStringArray(R.array.moum_manange_process_etc_list);
+        String[] processList5 = getResources().getStringArray(R.array.moum_manange_process_etc_list);
+        String[] processList6 = getResources().getStringArray(R.array.moum_manange_process_etc_list);
+        ArrayAdapter<String> recruitAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, processList1);
+        ArrayAdapter<String> moumtalkAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, processList2);
+        ArrayAdapter<String> practiceRoomAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, processList3);
+        ArrayAdapter<String> performLocationAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, processList4);
+        ArrayAdapter<String> promoteAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, processList5);
+        ArrayAdapter<String> paymentAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, processList6);
+        recruitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        moumtalkAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        practiceRoomAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        performLocationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        promoteAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        paymentAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        recruitSpinner.setAdapter(recruitAdapter);
+        moumtalkSpinner.setAdapter(moumtalkAdapter);
+        practiceRoomSpinner.setAdapter(practiceRoomAdapter);
+        performLocationSpinner.setAdapter(performLocationAdapter);
+        promoteSpinner.setAdapter(promoteAdapter);
+        paymentSpinner.setAdapter(paymentAdapter);
+//        recruitSpinner.setSelection(0, true);
+//        moumtalkSpinner.setSelection(0, true);
+//        practiceRoomSpinner.setSelection(0, true);
+//        performLocationSpinner.setSelection(0, true);
+//        promoteSpinner.setSelection(0, true);
+//        paymentSpinner.setSelection(0, true);
+
+        /*각 단계별 설정 스피너 이벤트*/
+        recruitSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e(TAG, "아이템 선택됨");
+                if(position == 0){
+                    Log.e(TAG, "스피너 눌림");
+                    if(recentMoum == null || recentMoum.getProcess() == null) return;
+                    Log.e(TAG, "모음 비어있지 않음: " + recentMoum.getProcess().getRecruitStatus());
+                    Moum.Process process = recentMoum.getProcess();
+                    if(process.getRecruitStatus()){
+                        Log.e(TAG, "상태 true");
+                        process.setRecruitStatus(false);
+                        viewModel.updateProcessMoum(moumId, process);
+                    }
+                    else{
+                        Log.e(TAG, "상태 false");
+                        process.setRecruitStatus(true);
+                        viewModel.updateProcessMoum(moumId, process);
+                    }
+                }
+                else{
+                    e(TAG, "알 수 없는 아이템 선택");
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                return;
+            }
+        });
+        moumtalkSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position == 0){
+                    if(recentMoum == null || recentMoum.getProcess() == null) return;
+                    Moum.Process process = recentMoum.getProcess();
+                    if(process.getChatroomStatus()){
+                        process.setChatroomStatus(false);
+                        viewModel.updateProcessMoum(moumId, process);
+                    }
+                    else{
+                        process.setChatroomStatus(true);
+                        viewModel.updateProcessMoum(moumId, process);
+                    }
+                }
+                else{
+                    e(TAG, "알 수 없는 아이템 선택");
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                return;
+            }
+        });
+        practiceRoomSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position == 0){
+                    if(recentMoum == null || recentMoum.getProcess() == null) return;
+                    Moum.Process process = recentMoum.getProcess();
+                    if(process.getPracticeroomStatus()){
+                        process.setPracticeroomStatus(false);
+                        viewModel.updateProcessMoum(moumId, process);
+                    }
+                    else{
+                        process.setPracticeroomStatus(true);
+                        viewModel.updateProcessMoum(moumId, process);
+                    }
+                }
+                else{
+                    e(TAG, "알 수 없는 아이템 선택");
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                return;
+            }
+        });
+        performLocationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position == 0){
+                    if(recentMoum == null || recentMoum.getProcess() == null) return;
+                    Moum.Process process = recentMoum.getProcess();
+                    if(process.getPerformLocationStatus()){
+                        process.setPerformLocationStatus(false);
+                        viewModel.updateProcessMoum(moumId, process);
+                    }
+                    else{
+                        process.setPerformLocationStatus(true);
+                        viewModel.updateProcessMoum(moumId, process);
+                    }
+                }
+                else{
+                    e(TAG, "알 수 없는 아이템 선택");
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                return;
+            }
+        });
+        promoteSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position == 0){
+                    if(recentMoum == null || recentMoum.getProcess() == null) return;
+                    Moum.Process process = recentMoum.getProcess();
+                    if(process.getPromoteStatus()){
+                        process.setPromoteStatus(false);
+                        viewModel.updateProcessMoum(moumId, process);
+                    }
+                    else{
+                        process.setPromoteStatus(true);
+                        viewModel.updateProcessMoum(moumId, process);
+                    }
+                }
+                else{
+                    e(TAG, "알 수 없는 아이템 선택");
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                return;
+            }
+        });
+        paymentSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position == 0){
+                    if(recentMoum == null || recentMoum.getProcess() == null) return;
+                    Moum.Process process = recentMoum.getProcess();
+                    if(process.getPaymentStatus()){
+                        process.setPaymentStatus(false);
+                        viewModel.updateProcessMoum(moumId, process);
+                    }
+                    else{
+                        process.setPaymentStatus(true);
+                        viewModel.updateProcessMoum(moumId, process);
+                    }
+                }
+                else{
+                    e(TAG, "알 수 없는 아이템 선택");
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                return;
+            }
+        });
+
+        /*모음 진척도 업데이트 감시 결과*/
+        viewModel.getIsUpdateMoumSuccess().observe(this, isUpdateMoumSuccess -> {
+            Validation validation = isUpdateMoumSuccess.getValidation();
+            Moum.Process updatedProcess = isUpdateMoumSuccess.getData().getProcess();
+            recentMoum = isUpdateMoumSuccess.getData();
+            if(validation == Validation.UPDATE_PROCESS_MOUM_SUCCESS){
+                Toast.makeText(context, "진척도를 업데이트하였습니다.", Toast.LENGTH_SHORT).show();
+                if(updatedProcess.getRecruitStatus()){
+                    binding.buttonRecruit.setBackground(ContextCompat.getDrawable(context, R.drawable.button_gray_ripple));
+                    binding.buttonRecruit.setEnabled(false);
+                }
+                else{
+                    binding.buttonRecruit.setBackground(ContextCompat.getDrawable(context, R.drawable.button_neon_mint_angular_ripple));
+                    binding.buttonRecruit.setEnabled(true);
+                }
+                if(updatedProcess.getChatroomStatus()){
+                    binding.buttonMoumtalk.setBackground(ContextCompat.getDrawable(context, R.drawable.button_gray_ripple));
+                    binding.buttonMoumtalk.setEnabled(false);
+                }
+                else{
+                    binding.buttonMoumtalk.setBackground(ContextCompat.getDrawable(context, R.drawable.button_neon_mint_angular_ripple));
+                    binding.buttonMoumtalk.setEnabled(true);
+                }
+                if(updatedProcess.getPracticeroomStatus()){
+                    binding.buttonPracticeRoom.setBackground(ContextCompat.getDrawable(context, R.drawable.button_gray_ripple));
+                    binding.buttonPracticeRoom.setEnabled(false);
+                }
+                else{
+                    binding.buttonPracticeRoom.setBackground(ContextCompat.getDrawable(context, R.drawable.button_neon_mint_angular_ripple));
+                    binding.buttonPracticeRoom.setEnabled(true);
+                }
+                if(updatedProcess.getPerformLocationStatus()){
+                    binding.buttonPerformLocation.setBackground(ContextCompat.getDrawable(context, R.drawable.button_gray_ripple));
+                    binding.buttonPerformLocation.setEnabled(false);
+                }
+                else{
+                    binding.buttonPerformLocation.setBackground(ContextCompat.getDrawable(context, R.drawable.button_neon_mint_angular_ripple));
+                    binding.buttonPerformLocation.setEnabled(true);
+                }
+                if(updatedProcess.getPromoteStatus()){
+                    binding.buttonPromote.setBackground(ContextCompat.getDrawable(context, R.drawable.button_gray_ripple));
+                    binding.buttonPromote.setEnabled(false);
+                }
+                else{
+                    binding.buttonPromote.setBackground(ContextCompat.getDrawable(context, R.drawable.button_neon_mint_angular_ripple));
+                    binding.buttonPromote.setEnabled(true);
+                }
+                if(updatedProcess.getPaymentStatus()){
+                    binding.buttonPayment.setBackground(ContextCompat.getDrawable(context, R.drawable.button_gray_ripple));
+                    binding.buttonPayment.setEnabled(false);
+                }
+                else{
+                    binding.buttonPayment.setBackground(ContextCompat.getDrawable(context, R.drawable.button_neon_mint_angular_ripple));
+                    binding.buttonPayment.setEnabled(true);
+                }
+            }
+            else if(validation == Validation.NETWORK_FAILED) {
+                Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+            }
+            else if(validation == Validation.ILLEGAL_ARGUMENT){
+                Toast.makeText(context, "유효하지 않은 데이터입니다.", Toast.LENGTH_SHORT).show();
+            }
+            else if(validation == Validation.NO_AUTHORITY){
+                Toast.makeText(context, "업데이트 권한이 없습니다.", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Toast.makeText(context, "진척도 업데이트에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                e(TAG, "감시 결과를 알 수 없습니다.");
+            }
+        });
+
         /*모음 내용 조회하기*/
         viewModel.loadMoum(moumId);
 
@@ -115,6 +378,7 @@ public class MoumManageActivity extends AppCompatActivity {
         viewModel.getIsLoadMoumSuccess().observe(this, isLoadMoumSuccess -> {
             Validation validation = isLoadMoumSuccess.getValidation();
             Moum loadedMoum = isLoadMoumSuccess.getData();
+            recentMoum = loadedMoum;
             if(validation == Validation.GET_MOUM_SUCCESS){
                if(loadedMoum.getImageUrls() != null && !loadedMoum.getImageUrls().isEmpty()) {
                    uris.addAll(loadedMoum.getImageUrls());
@@ -139,16 +403,22 @@ public class MoumManageActivity extends AppCompatActivity {
                 if(process.getFinishStatus()){
                     binding.buttonRecruit.setBackground(ContextCompat.getDrawable(context, R.drawable.button_gray_ripple));
                     binding.buttonRecruit.setEnabled(false);
+                    recruitSpinner.setEnabled(false);
                     binding.buttonMoumtalk.setBackground(ContextCompat.getDrawable(context, R.drawable.button_gray_ripple));
                     binding.buttonMoumtalk.setEnabled(false);
+                    moumtalkSpinner.setEnabled(false);
                     binding.buttonPracticeRoom.setBackground(ContextCompat.getDrawable(context, R.drawable.button_gray_ripple));
                     binding.buttonPracticeRoom.setEnabled(false);
+                    practiceRoomSpinner.setEnabled(false);
                     binding.buttonPerformLocation.setBackground(ContextCompat.getDrawable(context, R.drawable.button_gray_ripple));
                     binding.buttonPerformLocation.setEnabled(false);
+                    performLocationSpinner.setEnabled(false);
                     binding.buttonPromote.setBackground(ContextCompat.getDrawable(context, R.drawable.button_gray_ripple));
                     binding.buttonPromote.setEnabled(false);
+                    promoteSpinner.setEnabled(false);
                     binding.buttonPayment.setBackground(ContextCompat.getDrawable(context, R.drawable.button_gray_ripple));
                     binding.buttonPayment.setEnabled(false);
+                    paymentSpinner.setEnabled(false);
                     binding.buttonFinish.setVisibility(View.GONE);
                     binding.buttonReopen.setVisibility(View.VISIBLE);
                 }
@@ -187,7 +457,7 @@ public class MoumManageActivity extends AppCompatActivity {
             }
             else{
                 Toast.makeText(context, "모음 조회에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-                Log.e(TAG, "감시 결과를 알 수 없습니다.");
+                e(TAG, "감시 결과를 알 수 없습니다.");
             }
         });
 
@@ -253,39 +523,31 @@ public class MoumManageActivity extends AppCompatActivity {
             }
         });
 
-        /*각 단계별 설정 스피너 설정*/
-        Spinner recruitSpinner = binding.spinnerMoumManageRecruit;
-        Spinner moumtalkSpinner = binding.spinnerMoumManageMoumtalk;
-        Spinner practiceRoomSpinner = binding.spinnerMoumManagePracticeRoom;
-        Spinner performLocationSpinner = binding.spinnerMoumManagePerformLocation;
-        Spinner promoteSpinner = binding.spinnerMoumManagePromote;
-        Spinner paymentSpinner = binding.spinnerMoumManagePayment;
-        String[] processList = getResources().getStringArray(R.array.moum_manange_process_etc_list);
-        ArrayAdapter<String> recruitAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, processList);
-        ArrayAdapter<String> moumtalkAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, processList);
-        ArrayAdapter<String> practiceRoomAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, processList);
-        ArrayAdapter<String> performLocationAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, processList);
-        ArrayAdapter<String> promoteAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, processList);
-        ArrayAdapter<String> paymentAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, processList);
-        recruitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        moumtalkAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        practiceRoomAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        performLocationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        promoteAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        paymentAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        recruitSpinner.setAdapter(recruitAdapter);
-        moumtalkSpinner.setAdapter(moumtalkAdapter);
-        practiceRoomSpinner.setAdapter(practiceRoomAdapter);
-        performLocationSpinner.setAdapter(performLocationAdapter);
-        promoteSpinner.setAdapter(promoteAdapter);
-        paymentSpinner.setAdapter(paymentAdapter);
-
         /*모음 종료하기, 되살리기 감시 결과*/
         viewModel.getIsFinishMoumSuccess().observe(this, isFinishMoumSuccess -> {
             Validation validation = isFinishMoumSuccess.getValidation();
             Moum loadedMoum = isFinishMoumSuccess.getData();
+            recentMoum = loadedMoum;
             if(validation == Validation.FINISH_MOUM_SUCCESS){
                 Toast.makeText(context, "모음을 마감하였습니다.", Toast.LENGTH_SHORT).show();
+                binding.buttonRecruit.setBackground(ContextCompat.getDrawable(context, R.drawable.button_gray_ripple));
+                binding.buttonRecruit.setEnabled(false);
+                recruitSpinner.setEnabled(false);
+                binding.buttonMoumtalk.setBackground(ContextCompat.getDrawable(context, R.drawable.button_gray_ripple));
+                binding.buttonMoumtalk.setEnabled(false);
+                moumtalkSpinner.setEnabled(false);
+                binding.buttonPracticeRoom.setBackground(ContextCompat.getDrawable(context, R.drawable.button_gray_ripple));
+                binding.buttonPracticeRoom.setEnabled(false);
+                practiceRoomSpinner.setEnabled(false);
+                binding.buttonPerformLocation.setBackground(ContextCompat.getDrawable(context, R.drawable.button_gray_ripple));
+                binding.buttonPerformLocation.setEnabled(false);
+                performLocationSpinner.setEnabled(false);
+                binding.buttonPromote.setBackground(ContextCompat.getDrawable(context, R.drawable.button_gray_ripple));
+                binding.buttonPromote.setEnabled(false);
+                promoteSpinner.setEnabled(false);
+                binding.buttonPayment.setBackground(ContextCompat.getDrawable(context, R.drawable.button_gray_ripple));
+                binding.buttonPayment.setEnabled(false);
+                paymentSpinner.setEnabled(false);
                 binding.buttonFinish.setVisibility(View.GONE);
                 binding.buttonReopen.setVisibility(View.VISIBLE);
             }
@@ -300,14 +562,69 @@ public class MoumManageActivity extends AppCompatActivity {
             }
             else{
                 Toast.makeText(context, "모음 마감에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-                Log.e(TAG, "감시 결과를 알 수 없습니다.");
+                e(TAG, "감시 결과를 알 수 없습니다.");
             }
         });
         viewModel.getIsReopenMoumSuccess().observe(this, isReopenMoumSuccess -> {
             Validation validation = isReopenMoumSuccess.getValidation();
-            Moum loadedMoum = isReopenMoumSuccess.getData();
+            Moum.Process updatedProcess = isReopenMoumSuccess.getData().getProcess();
+            recentMoum = isReopenMoumSuccess.getData();
             if(validation == Validation.REOPEN_MOUM_SUCCESS){
                 Toast.makeText(context, "모음을 되살렸습니다.", Toast.LENGTH_SHORT).show();
+                recruitSpinner.setEnabled(true);
+                moumtalkSpinner.setEnabled(true);
+                practiceRoomSpinner.setEnabled(true);
+                performLocationSpinner.setEnabled(true);
+                promoteSpinner.setEnabled(true);
+                paymentSpinner.setEnabled(true);
+                if(updatedProcess.getRecruitStatus()){
+                    binding.buttonRecruit.setBackground(ContextCompat.getDrawable(context, R.drawable.button_gray_ripple));
+                    binding.buttonRecruit.setEnabled(false);
+                }
+                else{
+                    binding.buttonRecruit.setBackground(ContextCompat.getDrawable(context, R.drawable.button_neon_mint_angular_ripple));
+                    binding.buttonRecruit.setEnabled(true);
+                }
+                if(updatedProcess.getChatroomStatus()){
+                    binding.buttonMoumtalk.setBackground(ContextCompat.getDrawable(context, R.drawable.button_gray_ripple));
+                    binding.buttonMoumtalk.setEnabled(false);
+                }
+                else{
+                    binding.buttonMoumtalk.setBackground(ContextCompat.getDrawable(context, R.drawable.button_neon_mint_angular_ripple));
+                    binding.buttonMoumtalk.setEnabled(true);
+                }
+                if(updatedProcess.getPracticeroomStatus()){
+                    binding.buttonPracticeRoom.setBackground(ContextCompat.getDrawable(context, R.drawable.button_gray_ripple));
+                    binding.buttonPracticeRoom.setEnabled(false);
+                }
+                else{
+                    binding.buttonPracticeRoom.setBackground(ContextCompat.getDrawable(context, R.drawable.button_neon_mint_angular_ripple));
+                    binding.buttonPracticeRoom.setEnabled(true);
+                }
+                if(updatedProcess.getPerformLocationStatus()){
+                    binding.buttonPerformLocation.setBackground(ContextCompat.getDrawable(context, R.drawable.button_gray_ripple));
+                    binding.buttonPerformLocation.setEnabled(false);
+                }
+                else{
+                    binding.buttonPerformLocation.setBackground(ContextCompat.getDrawable(context, R.drawable.button_neon_mint_angular_ripple));
+                    binding.buttonPerformLocation.setEnabled(true);
+                }
+                if(updatedProcess.getPromoteStatus()){
+                    binding.buttonPromote.setBackground(ContextCompat.getDrawable(context, R.drawable.button_gray_ripple));
+                    binding.buttonPromote.setEnabled(false);
+                }
+                else{
+                    binding.buttonPromote.setBackground(ContextCompat.getDrawable(context, R.drawable.button_neon_mint_angular_ripple));
+                    binding.buttonPromote.setEnabled(true);
+                }
+                if(updatedProcess.getPaymentStatus()){
+                    binding.buttonPayment.setBackground(ContextCompat.getDrawable(context, R.drawable.button_gray_ripple));
+                    binding.buttonPayment.setEnabled(false);
+                }
+                else{
+                    binding.buttonPayment.setBackground(ContextCompat.getDrawable(context, R.drawable.button_neon_mint_angular_ripple));
+                    binding.buttonPayment.setEnabled(true);
+                }
                 binding.buttonFinish.setVisibility(View.VISIBLE);
                 binding.buttonReopen.setVisibility(View.GONE);
             }
@@ -322,7 +639,7 @@ public class MoumManageActivity extends AppCompatActivity {
             }
             else{
                 Toast.makeText(context, "모음 마감에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-                Log.e(TAG, "감시 결과를 알 수 없습니다.");
+                e(TAG, "감시 결과를 알 수 없습니다.");
             }
         });
     }

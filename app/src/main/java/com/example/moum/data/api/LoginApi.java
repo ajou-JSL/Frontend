@@ -25,7 +25,7 @@ public interface LoginApi {
     Call<SuccessResponse<Object>> logout(
     );
 
-    @POST("/refresh")
+    @POST("/reissue")
     Call<SuccessResponse<String>> refresh(
             @Body RefreshRequest refreshRequest
     );

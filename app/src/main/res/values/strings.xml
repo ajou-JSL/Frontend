@@ -337,7 +337,6 @@
         <item>삭제하기</item>
     </string-array>
     <string-array name="moum_manange_process_etc_list">
-        <item>완료하기</item>
-        <item>완료 취소하기</item>
+        <item>업데이트 상태 토글하기</item>
     </string-array>
 </resources>

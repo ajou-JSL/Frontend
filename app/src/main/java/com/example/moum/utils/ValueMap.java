@@ -80,6 +80,7 @@ public class ValueMap {
             put("S-MM004", Validation.DELETE_MOUM_SUCCESS);
             put("S-MM005", Validation.FINISH_MOUM_SUCCESS);
             put("S-MM006", Validation.REOPEN_MOUM_SUCCESS);
+            put("S-MM007", Validation.UPDATE_PROCESS_MOUM_SUCCESS);
 
             // 공통 오류 코드
             put("F-C001", Validation.INTERNAL_SERVER_ERROR);
