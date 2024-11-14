@@ -262,8 +262,7 @@ public class ChatActivity extends AppCompatActivity {
             Chat receivedChat = isReceiveOldChatSuccess.getData();
             if(validation == Validation.CHAT_RECEIVE_SUCCESS){
                 chats.add(0, receivedChat); // 맨 앞에 add
-                chatAdapter.notifyItemInserted(chats.size()-1);
-                recyclerView.scrollToPosition(SIZE_OF_STREAM - 1);
+                chatAdapter.notifyItemInserted(0);
             }
             else if(validation == Validation.CHAT_RECEIVE_FAIL){
                 Toast.makeText(context, "채팅 불러오기에 실패하였습니다.", Toast.LENGTH_SHORT).show();

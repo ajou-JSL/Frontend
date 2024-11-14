@@ -19,7 +19,6 @@ public class Moum {
     private Integer teamId;
     private Process process;
     private ArrayList<Member> members;
-    private ArrayList<Record> records;
 
     public static class Process {
         private Boolean recruitStatus;
@@ -109,10 +108,6 @@ public class Moum {
                     '}';
         }
     }
-    public void setRecords(ArrayList<Record> records) {
-        this.records = records;
-    }
-
     public void setMembers(ArrayList<Member> members) {
         this.members = members;
     }
@@ -163,10 +158,6 @@ public class Moum {
 
     public void setPrice(Integer price) {
         this.price = price;
-    }
-
-    public ArrayList<Record> getRecords() {
-        return records;
     }
 
     public Integer getLeaderId() {
@@ -237,7 +228,6 @@ public class Moum {
                 ", teamId=" + teamId +
                 ", process=" + process +
                 ", members=" + members +
-                ", records=" + records +
                 '}';
     }
 }

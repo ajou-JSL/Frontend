@@ -25,6 +25,7 @@ import com.example.moum.utils.ValueMap;
 import com.google.gson.Gson;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import okhttp3.HttpUrl;
@@ -199,7 +200,7 @@ public class ChatRepository {
                 .addPathSegment("chat")
                 .addPathSegment(String.valueOf(chatroomId))
                 .addPathSegment("before-timestamp")
-                .addQueryParameter("beforeTimestamp", beforeTimestamp.toString())
+                .addQueryParameter("timestamp", beforeTimestamp.toString())
                 .build();
 
         /*GET 요청 생성*/
@@ -251,7 +252,6 @@ public class ChatRepository {
             @Override
             public boolean onRetryError(ServerSentEvent sse, Throwable throwable, okhttp3.Response response) {
                 Log.e(TAG, "onRetryError - old");
-                Log.e(TAG, response.toString());
                 return false;
             }
 

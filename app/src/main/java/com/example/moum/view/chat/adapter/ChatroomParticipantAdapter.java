@@ -102,8 +102,11 @@ public class ChatroomParticipantAdapter extends RecyclerView.Adapter<RecyclerVie
             this.participant = participant;
             int pos = getAbsoluteAdapterPosition();
 
+            //TODO 삭제 각
+            Log.e(TAG, "participant.getId(): " + participant.getId() + " adapter.leaderId: " + adapter.leaderId + "비교결과: " + participant.getId().equals(adapter.leaderId));
+
             // 리더인 경우
-            if(participant.getId() == adapter.leaderId){
+            if(participant.getId().equals(adapter.leaderId)){
                 participantName.setText(participant.getName());
                 participantName.setTextColor(Color.rgb(42, 200, 189));
                 Glide.with(context)

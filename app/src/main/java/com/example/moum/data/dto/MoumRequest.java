@@ -15,9 +15,8 @@ public class MoumRequest {
     private Integer leaderId;
     private Integer teamId;
     private ArrayList<Member> members;
-    private ArrayList<Record> records;
 
-    public MoumRequest(String moumName, String moumDescription, String performLocation, String startDate, String endDate, Integer price, Integer leaderId, Integer teamId, ArrayList<Member> members, ArrayList<Record> records){
+    public MoumRequest(String moumName, String moumDescription, String performLocation, String startDate, String endDate, Integer price, Integer leaderId, Integer teamId, ArrayList<Member> members){
         this.moumName = moumName;
         this.moumDescription = moumDescription;
         this.performLocation = performLocation;
@@ -27,6 +26,5 @@ public class MoumRequest {
         this.leaderId = leaderId;
         this.teamId = teamId;
         this.members = members;
-        this.records = records;
     }
 }

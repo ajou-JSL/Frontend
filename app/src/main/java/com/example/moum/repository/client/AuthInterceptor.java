@@ -77,17 +77,17 @@ public class AuthInterceptor implements Interceptor {
                 if (refreshResponse.isSuccessful()) {
                     //만약 새 access token 발급이 성공이라면, 이전 요청을 다시 실행
                     SuccessResponse<String> refreshBody = refreshResponse.body();
-                    String header = response.headers().get("access");
+                    String header = refreshResponse.headers().get("access");
                     Log.e(TAG, "Header: " + header);
 
-                    List<String> cookies = response.headers().values("Set-Cookie");
+                    List<String> cookies = refreshResponse.headers().values("Set-Cookie");
                     for (String cookie : cookies) {
                         Log.e(TAG, "Cookie: " + cookie);
                     }
                     String newAccessToken = header;
-                    String newRefreshToken = cookies.get(0);
+                    String newRefreshToken = cookies.get(0).substring(8);
                     Log.e(TAG, refreshBody.getData().toString());
-                    Log.e(TAG, "NewAccessToken :" + newAccessToken + " NewRefreshToken: " + newRefreshToken);
+                    Log.e(TAG, "NewAccessToken :" + newAccessToken + " \nNewRefreshToken: " + newRefreshToken);
 
                     sharedPreferenceManager.setCache(context.getString(R.string.user_access_token_key), newAccessToken);
                     sharedPreferenceManager.setCache(context.getString(R.string.user_refresh_token_key), newRefreshToken);
