@@ -95,7 +95,6 @@ public class MemberProfileFragment extends BottomSheetDialogFragment {
         recordsAdapter.setRecords(records);
         recordsRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         recordsRecyclerView.setAdapter(recordsAdapter);
-        recordsRecyclerView.suppressLayout(true);
 
         /*단체 리사이클러뷰 설정*/
         RecyclerView teamsRecyclerView = binding.recyclerTeams;
@@ -114,12 +113,12 @@ public class MemberProfileFragment extends BottomSheetDialogFragment {
             Member tMember = isLoadMemberProfileSuccess.getData();
             if(validation == Validation.GET_PROFILE_SUCCESS){
                 targetMember = tMember;
+                Log.e(TAG, "targetMember records size: " + targetMember.getRecords().size());
                 if(targetMember.getRecords() != null && !targetMember.getRecords().isEmpty()){
                     records.clear();
                     records.addAll(targetMember.getRecords());
-                    recordsRecyclerView.suppressLayout(false);
+                    Log.e(TAG, "records size: " + records.size());
                     recordsAdapter.notifyItemInserted(records.size()-1);
-                    recordsRecyclerView.suppressLayout(true);
                 }
                 if(targetMember.getTeams() != null && !targetMember.getTeams().isEmpty()){
                     teams.clear();

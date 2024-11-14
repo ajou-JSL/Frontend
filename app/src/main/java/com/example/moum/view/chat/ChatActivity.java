@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -54,6 +56,7 @@ public class ChatActivity extends AppCompatActivity {
     private final String TAG = getClass().toString();
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private final static int SIZE_OF_STREAM = 5;
+    private Boolean isLoading = false;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -241,12 +244,17 @@ public class ChatActivity extends AppCompatActivity {
         });
 
         /*최상단에서 스크롤 시 이전 채팅 불러오기*/
+        long DEBOUNCE_DELAY = 0;
+        Handler handler = new Handler(Looper.getMainLooper()); // 여러번 호출되는 것을 막기 위한 디바운싱
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if(!recyclerView.canScrollVertically(-1) && newState == RecyclerView.SCROLL_STATE_IDLE && !chats.isEmpty()){
+                if(!recyclerView.canScrollVertically(-1) && newState == RecyclerView.SCROLL_STATE_IDLE && !chats.isEmpty() &&  !isLoading){
+                    isLoading = true;
+                    Log.e(TAG, chats.get(0).getTimestamp() + chats.get(0).getMessage());
                     chatViewModel.receiveOldChat(chats.get(0).getTimestamp());
+                    handler.postDelayed(() -> isLoading = false, DEBOUNCE_DELAY);
                 }
             }
 
