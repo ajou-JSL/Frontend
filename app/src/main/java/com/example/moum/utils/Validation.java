@@ -119,6 +119,9 @@ public enum Validation {
     GET_PROFILE_SUCCESS,
     UPDATE_PROFILE_SUCCESS,
 
+    // 공연 게시글 관련 성공 응답
+    PERFORMANCE_LIST_GET_SUCCESS,
+
     // 모음 관련 성공 응답
     CREATE_MOUM_SUCCESS,
     GET_MOUM_SUCCESS,

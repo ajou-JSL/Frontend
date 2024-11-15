@@ -73,6 +73,9 @@ public class ValueMap {
             put("S-P001", Validation.GET_PROFILE_SUCCESS);
             put("S-P002", Validation.UPDATE_PROFILE_SUCCESS);
 
+            // 공연 게시글 성공 응답
+            put("S-P004", Validation.PERFORMANCE_LIST_GET_SUCCESS);
+
             // 모음 관련 성공 응답
             put("S-MM001", Validation.CREATE_MOUM_SUCCESS);
             put("S-MM002", Validation.GET_MOUM_SUCCESS);

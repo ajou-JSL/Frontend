@@ -28,8 +28,8 @@ import com.example.moum.utils.WrapContentLinearLayoutManager;
 import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.view.home.adapter.HomeBannerAdapter;
 import com.example.moum.view.home.adapter.HomeMoumAdapter;
-import com.example.moum.view.home.adapter.HomePerformanceAdapter;
-import com.example.moum.view.home.adapter.HomePopularPostAdapter;
+import com.example.moum.view.home.adapter.HomeArticleHotAdapter;
+import com.example.moum.view.home.adapter.HomePerformHotAdapter;
 import com.example.moum.view.profile.MemberProfileFragment;
 import com.example.moum.viewmodel.home.HomeViewModel;
 
@@ -76,11 +76,11 @@ public class HomeFragment extends Fragment {
         bannerAdapter.notifyItemInserted(0);
 
         /*실시간 인기글 리사이클러뷰 연결*/
-//        RecyclerView popularPostRecyclerView = binding.recyclerMainPopularPost;
-//        HomePopularPostAdapter popularPostAdapter = new HomePopularPostAdapter();
-//        popularPostAdapter.setArticles(articles, context);
-//        popularPostRecyclerView.setLayoutManager(new WrapContentLinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-//        popularPostRecyclerView.setAdapter(popularPostAdapter);
+        RecyclerView articleHotRecyclerView = binding.recyclerMainPopularPost;
+        HomeArticleHotAdapter articleHotAdapter = new HomeArticleHotAdapter();
+        articleHotAdapter.setArticles(articles, context, this);
+        articleHotRecyclerView.setLayoutManager(new WrapContentLinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+        articleHotRecyclerView.setAdapter(articleHotAdapter);
 
         /*모음 리사이클러뷰 연결*/
         RecyclerView moumRecyclerView = binding.recyclerMainMoum;
@@ -90,16 +90,38 @@ public class HomeFragment extends Fragment {
         moumRecyclerView.setAdapter(moumAdapter);
 
         /*공연 리사이클러뷰 연결*/
-//        RecyclerView performanceRecyclerView = binding.recyclerMainPerformance;
-//        HomePerformanceAdapter performanceAdapter = new HomePerformanceAdapter();
-//        performanceAdapter.setPerformances(performances, context);
-//        performanceRecyclerView.setLayoutManager(new WrapContentLinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-//        performanceRecyclerView.setAdapter(performanceAdapter);
+        RecyclerView performanceHotRecyclerView = binding.recyclerMainPerformance;
+        HomePerformHotAdapter performanceHotAdapter = new HomePerformHotAdapter();
+        performanceHotAdapter.setPerformances(performances, context, this);
+        performanceHotRecyclerView.setLayoutManager(new WrapContentLinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+        performanceHotRecyclerView.setAdapter(performanceHotAdapter);
 
         /*정보들 불러오기*/
-        viewModel.loadPosts(memberId);
+        viewModel.loadArticlesHot();
         viewModel.loadMoums(memberId);
-        viewModel.loadPerformances(memberId);
+        viewModel.loadPerformsHot();
+
+        /*실시간 인기글 가져오기 감시 결과*/
+        viewModel.getIsLoadArticlesHotSuccess().observe(getViewLifecycleOwner(), isLoadArticlesHotSuccess -> {
+            Validation validation = isLoadArticlesHotSuccess.getValidation();
+            List<Article> loadedArticles = isLoadArticlesHotSuccess.getData();
+            if(validation == Validation.ARTICLE_LIST_GET_SUCCESS && loadedArticles.isEmpty()){
+                articles.clear();
+            }
+            else if(validation == Validation.ARTICLE_LIST_GET_SUCCESS){
+                articles.clear();
+                articles.addAll(loadedArticles);
+                articleHotAdapter.notifyItemInserted(articles.size()-1);
+            }
+            else if(validation == Validation.NETWORK_FAILED){
+                Toast.makeText(context, "호출에 실패했습니다.", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "호출 실패");
+            }
+            else{
+                Toast.makeText(context, "실시간 인기글을 불러올 수 없습니다.", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "알 수 없는 validation");
+            }
+        });
 
         /*모음 정보 가져오기 감시 결과*/
         viewModel.getIsLoadMoumsSuccess().observe(getViewLifecycleOwner(), isLoadMoumsSuccess -> {
@@ -129,6 +151,28 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        /*공연 게시글 가져오기 감시 결과*/
+        viewModel.getIsLoadPerformsHotSuccess().observe(getViewLifecycleOwner(), isLoadPerformsHotSuccess -> {
+            Validation validation = isLoadPerformsHotSuccess.getValidation();
+            List<Performance> loadedPerforms = isLoadPerformsHotSuccess.getData();
+            if(validation == Validation.PERFORMANCE_LIST_GET_SUCCESS && loadedPerforms.isEmpty()){
+                performances.clear();
+            }
+            else if(validation == Validation.PERFORMANCE_LIST_GET_SUCCESS){
+                performances.clear();
+                performances.addAll(loadedPerforms);
+                performanceHotAdapter.notifyItemInserted(performances.size()-1);
+            }
+            else if(validation == Validation.NETWORK_FAILED){
+                Toast.makeText(context, "호출에 실패했습니다.", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "호출 실패");
+            }
+            else{
+                Toast.makeText(context, "공연 게시글을 불러올 수 없습니다.", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "알 수 없는 validation");
+            }
+        });
+
         /*내 프로필 띄우기*/
         final MemberProfileFragment memberProfileFragment = new MemberProfileFragment(getContext());
         binding.imageProfile.setOnClickListener(new View.OnClickListener() {
@@ -148,5 +192,15 @@ public class HomeFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    public void onArticleClicked(Integer articleId){
+        Toast.makeText(context, "아티클 보러가기 클릭", Toast.LENGTH_SHORT).show();
+        //TODO 실제 이동해야함
+    }
+
+    public void onPerformClicked(Integer performId){
+        Toast.makeText(context, "공연 보러가기 클릭", Toast.LENGTH_SHORT).show();
+        //TODO 실제 이동해야함
     }
 }
