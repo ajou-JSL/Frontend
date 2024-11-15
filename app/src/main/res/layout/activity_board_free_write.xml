@@ -14,13 +14,14 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        background="@color/gray0">
 
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_board_free_write"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="90dp"
             android:layout_marginStart="1dp"
             android:layout_marginTop="1dp"
             android:layout_marginEnd="1dp"
@@ -78,6 +79,7 @@
             android:orientation="vertical"
             android:layout_marginStart="1dp"
             android:layout_marginEnd="1dp"
+            android:background="@color/gray0"
 
             app:layout_constraintTop_toBottomOf="@id/toolbar_board_free_write"
             app:layout_constraintBottom_toBottomOf="parent">
