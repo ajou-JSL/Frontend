@@ -106,7 +106,7 @@ public class ChatActivity extends AppCompatActivity {
                     .error(R.drawable.background_circle_gray))
                     .load(chatroomProfile).into(binding.imageChatProfile);
         }
-        if(leaderId == id && chatroomType == Chatroom.ChatroomType.MULTI_CHAT)
+        if(chatroomType == Chatroom.ChatroomType.PERSONAL_CHAT)
             binding.buttonChatInvite.setVisibility(View.VISIBLE);
         else
             binding.buttonChatInvite.setVisibility(View.INVISIBLE);
@@ -123,8 +123,22 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 /*다음 Acitivity로 이동*/
-                //TODO 톡방의 멤버 목록 호출 API 한 뒤에 멤버 가져와야 함
-                Intent nextIntent = new Intent(ChatActivity.this, ChatInviteActivity.class);
+                if(members == null || members.size() != 2) {
+                    Toast.makeText(ChatActivity.this, "초대할 멤버를 알 수 없습니다.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Member targetMember = null;
+                for(Member member : members){
+                    if(!member.getId().equals(id))
+                        targetMember = member;
+                }
+                if(targetMember == null){
+                    Toast.makeText(ChatActivity.this, "초대할 멤버를 알 수 없습니다.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Intent nextIntent = new Intent(ChatActivity.this, InviteActivity.class);
+                nextIntent.putExtra("targetMemberId", targetMember.getId());
+                nextIntent.putExtra("targetMemberName", targetMember.getName());
                 startActivity(nextIntent);
             }
         });

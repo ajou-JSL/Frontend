@@ -43,13 +43,13 @@ public class InitialActivity extends AppCompatActivity {
             }
         });
 
-        autoLogin();
+        //autoLogin();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        autoLogin();
+        //autoLogin();
 
     }
 
