@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f2f2f2">
+    android:background="@color/gray0">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_search"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="90dp"
         android:layout_marginStart="1dp"
         android:layout_marginTop="1dp"
         android:layout_marginEnd="1dp"
-        android:background="#FFFFFF"
+        android:background="@drawable/background_white_underline"
         android:minHeight="?attr/actionBarSize"
         app:contentInsetStart="0dp"
 
@@ -64,11 +63,18 @@
             app:layout_constraintBottom_toBottomOf="@+id/search_button2"
             >
 
-            <com.google.android.material.textfield.TextInputEditText
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/search_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="검색어를 입력하세요"
-                android:background="@drawable/round_spinner_background" />
+                android:layout_marginTop="5dp"
+
+                app:queryBackground="@null"
+                app:searchIcon="@null"
+                app:iconifiedByDefault="false"
+                app:queryHint="검색어를 입력하세요"
+
+                android:background="@drawable/background_search_view" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

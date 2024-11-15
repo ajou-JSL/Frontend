@@ -273,12 +273,4 @@ public class MemberProfileFragment extends BottomSheetDialogFragment {
         teamProfileFragment.setArguments(bundle);
         teamProfileFragment.show(getParentFragmentManager(), teamProfileFragment.getTag());
     }
-
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-//        targetMember = null;
-//        records.clear();
-//        teams.clear();
-//    }
 }

@@ -5,15 +5,13 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 public class CommunityViewModel extends ViewModel {
+    private final MutableLiveData<Integer> selectedTabIndex = new MutableLiveData<>(2);
 
-    private final MutableLiveData<String> mText;
-
-    public CommunityViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is community fragment");
+    public LiveData<Integer> getSelectedTabIndex() {
+        return selectedTabIndex;
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public void setSelectedTabIndex(int index) {
+        selectedTabIndex.setValue(index);
     }
 }
