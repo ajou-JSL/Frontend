@@ -1,10 +1,14 @@
 package com.example.moum.view.community;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +18,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.example.moum.R;
+import com.example.moum.data.entity.BoardFreeItem;
 import com.example.moum.databinding.FragmentBoardFreeBinding;
-import com.example.moum.viewmodel.community.BoardfreeViewModel;
+import com.example.moum.view.community.adapter.BoardFreeItemAdapter;
+import com.example.moum.viewmodel.community.BoardFreeViewModel;
+
+import java.util.ArrayList;
 
 
 public class BoardFreeFragment extends Fragment {
@@ -23,12 +31,14 @@ public class BoardFreeFragment extends Fragment {
     private FragmentBoardFreeBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        BoardfreeViewModel BoardfreeViewModel = new ViewModelProvider(this).get(BoardfreeViewModel.class);
+        BoardFreeViewModel BoardfreeViewModel = new ViewModelProvider(this).get(BoardFreeViewModel.class);
 
         binding = FragmentBoardFreeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         initSpinner();
+        initRecyclerView();
+        initFloatingActionButton();
 
         return root;
     }
@@ -58,6 +68,41 @@ public class BoardFreeFragment extends Fragment {
             }
         });
     }
+
+    private void initRecyclerView() {
+        // RecyclerView 초기화
+        RecyclerView recyclerView = binding.boardFreeRecyclerView;
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        //item 구분선 추가
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), LinearLayoutManager.VERTICAL);
+        recyclerView.addItemDecoration(dividerItemDecoration);
+
+        // 데이터 준비
+        ArrayList<BoardFreeItem> itemList = new ArrayList<>();
+
+        // 데이터 추가
+        for (int i = 0; i < 10; i++) {
+            BoardFreeItem item = new BoardFreeItem();
+            item.setBoardFreeItem("제목" + i, "내용 짧은 글" + i, "작성자" + i, "시간" + i);
+            itemList.add(item);
+        }
+
+        // RecyclerView 어댑터 설정
+        BoardFreeItemAdapter adapter = new BoardFreeItemAdapter(itemList);
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void initFloatingActionButton() {
+        binding.communityFloatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), BoardFreeWriteActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
 
     @Override
     public void onDestroyView() {

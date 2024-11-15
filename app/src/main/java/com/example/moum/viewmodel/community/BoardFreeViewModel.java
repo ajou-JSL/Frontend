@@ -4,11 +4,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class BoardfreeViewModel extends ViewModel {
+public class BoardFreeViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
 
-    public BoardfreeViewModel() {
+    public BoardFreeViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("This is Boardfree fragment");
     }

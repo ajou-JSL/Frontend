@@ -326,10 +326,30 @@
         <item>댓글순</item>
         <item>추천순</item>
     </string-array>
+
+    <string-array name="community_board_spinner1_items">
+        <item>최신순</item>
+        <item>멤버순</item>
+        <item>추천순</item>
+    </string-array>
+
+    <string-array name="community_board_spinner2_items">
+        <item>클래식</item>
+        <item>밴드</item>
+    </string-array>
+
+    <string-array name="board_free_spinner_items">
+        <item>유저</item>
+        <item>단체1</item>
+        <item>단체2</item>
+    </string-array>
+
     <string-array name="member_profile_etc_list">
         <item>유저 신고하기</item>
     </string-array>
     <string-array name="team_profile_etc_list">
         <item>단체 신고하기</item>
     </string-array>
+
+
 </resources>
