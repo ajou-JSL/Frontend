@@ -43,7 +43,8 @@ public class TeamInviteDialog extends Dialog {
         buttonYes = findViewById(R.id.button_dialog_yes);
 
         textviewMain.setText(String.format("'%s'를\n'%s'에 초대할까요?", memberName, teamName));
-        textViewSub.setText("");
+        textViewSub.setText("상대방을 단체에 즉시 초대할 수 있어요!");
+        buttonYes.setText("초대");
         buttonNo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -18,6 +18,8 @@ public class Member {
     private String address;
     private String tier;
     private Integer exp;
+    private ArrayList<Record> moumRecords;
+    private String videoUrl;
 
     public void setName(String name) {
         this.name = name;
@@ -61,6 +63,22 @@ public class Member {
 
     public void setTeams(ArrayList<Team> teams) {
         this.teams = teams;
+    }
+
+    public void setExp(Integer exp) {
+        this.exp = exp;
+    }
+
+    public void setMoumRecords(ArrayList<Record> moumRecords) {
+        this.moumRecords = moumRecords;
+    }
+
+    public void setTier(String tier) {
+        this.tier = tier;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
     }
 
     public String getName() {
@@ -107,6 +125,22 @@ public class Member {
         return profileImageUrl;
     }
 
+    public ArrayList<Record> getMoumRecords() {
+        return moumRecords;
+    }
+
+    public Integer getExp() {
+        return exp;
+    }
+
+    public String getTier() {
+        return tier;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
     @Override
     public String toString() {
         return "Member{" +
@@ -116,11 +150,15 @@ public class Member {
                 ", profileDescription='" + profileDescription + '\'' +
                 ", email='" + email + '\'' +
                 ", teams=" + teams +
-                ", profileImageUrl=" + profileImageUrl +
+                ", profileImageUrl='" + profileImageUrl + '\'' +
                 ", proficiency='" + proficiency + '\'' +
                 ", records=" + records +
                 ", instrument='" + instrument + '\'' +
                 ", address='" + address + '\'' +
+                ", tier='" + tier + '\'' +
+                ", exp=" + exp +
+                ", moumRecords=" + moumRecords +
+                ", videoUrl='" + videoUrl + '\'' +
                 '}';
     }
 }

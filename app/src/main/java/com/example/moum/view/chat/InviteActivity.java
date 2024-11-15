@@ -162,6 +162,7 @@ public class InviteActivity extends AppCompatActivity {
             Member invitedMember = isInviteMemberToTeamSuccess.getData();
             if(validation == Validation.INVITE_MEMBER_SUCCESS){
                 Toast.makeText(context, invitedMember.getName() + "을 " + selectedTeam.getTeamName() + "에 초대 완료하였습니다.", Toast.LENGTH_SHORT).show();
+                finish();
             }
             else if(validation == Validation.MEMBER_NOT_EXIST){
                 Toast.makeText(context, "잘못된 멤버입니다.", Toast.LENGTH_SHORT).show();

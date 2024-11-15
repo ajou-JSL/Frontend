@@ -8,11 +8,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.PopupMenu;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -30,11 +32,13 @@ import com.example.moum.R;
 import com.example.moum.data.entity.Chat;
 import com.example.moum.data.entity.Chatroom;
 import com.example.moum.data.entity.Member;
+import com.example.moum.data.entity.Moum;
 import com.example.moum.databinding.ActivityChatBinding;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.view.chat.adapter.ChatAdapter;
+import com.example.moum.view.moum.MoumManageActivity;
 import com.example.moum.view.profile.MemberProfileFragment;
 import com.example.moum.viewmodel.chat.ChatViewModel;
 
@@ -143,42 +147,32 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-        /*설정 스피너 Adapter 연결*/
-        Spinner etcSpinner = binding.spinnerChatEtc;
+        /*설정 드롭다운 연결*/
         String[] etcList = getResources().getStringArray(R.array.chat_etc_list);
-        if(chatroomType != Chatroom.ChatroomType.MULTI_CHAT || leaderId == id)
-            etcList = Arrays.copyOfRange(etcList, 0, 1);
-        ArrayAdapter<String> etcAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, etcList);
-        etcAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        etcSpinner.setAdapter(etcAdapter);
-
-        etcSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        binding.dropdownChatEtc.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position == 0){
-                    /*모음톡 나가기*/
-                    //TODO - 다이얼로그 띄울 것
-
+            public void onClick(View view) {
+                PopupMenu popupMenu = new PopupMenu(ChatActivity.this, binding.dropdownChatEtc);
+                for (int i = 0; i < etcList.length; i++) {
+                    popupMenu.getMenu().add(etcList[i]);
                 }
-                else if(position == 1){
-                    /*수정하기*/
-                    Intent nextIntent = new Intent(ChatActivity.this, ChatUpdateChatroomActivity.class);
-                    //TODO - 수정을 위해 필요한 정보 putExtra할 것
-                    startActivity(nextIntent);
-
-                }
-                else if(position == 2){
-                    /*정산 요청하기*/
-                    //TODO - 정산 요청 기능 추가해야함
-                }
-                else{
-                    Log.e(TAG, "알 수 없는 아이템 선택");
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                return;
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        String selectedItem = menuItem.getTitle().toString();
+                        if (selectedItem.equals("모음톡 나가기")) {
+                            //TODO
+                        }
+                        else if (selectedItem.equals("수정하기")) {
+                            //TODO
+                        }
+                        else if (selectedItem.equals("정산 요청하기")) {
+                            //TODO
+                        }
+                        return true;
+                    }
+                });
+                popupMenu.show();
             }
         });
 
@@ -323,55 +317,35 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-        /*멤버 및 프로필 보기 스피너 Adapter 설정*/
-        if(chatroomType == Chatroom.ChatroomType.MULTI_CHAT){
-            Spinner profileSpinner = binding.spinnerChatProfile;
-//            String[] profileList = getResources().getStringArray(R.array.chat_etc_list);
-//            if(chatroomType != Chatroom.ChatroomType.MULTI_CHAT || leaderId == id)
-//                etcList = Arrays.copyOfRange(etcList, 0, 1);
-//            ArrayAdapter<String> etcAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, etcList);
-//            etcAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//            etcSpinner.setAdapter(etcAdapter);
-//
-//            etcSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//                @Override
-//                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                    if(position == 0){
-//                        /*모음톡 나가기*/
-//                        //TODO - 다이얼로그 띄울 것
-//
-//                    }
-//                    else if(position == 1){
-//                        /*수정하기*/
-//                        Intent nextIntent = new Intent(ChatActivity.this, ChatUpdateChatroomActivity.class);
-//                        //TODO - 수정을 위해 필요한 정보 putExtra할 것
-//                        startActivity(nextIntent);
-//
-//                    }
-//                    else if(position == 2){
-//                        /*정산 요청하기*/
-//                        //TODO - 정산 요청 기능 추가해야함
-//                    }
-//                    else{
-//                        Log.e(TAG, "알 수 없는 아이템 선택");
-//                    }
-//                }
-//
-//                @Override
-//                public void onNothingSelected(AdapterView<?> parent) {
-//                    return;
-//                }
-//            });
-        }/*개인채팅이라면 프로필 클릭 시 프로필 fragment 띄움*/
+        /*멀티채팅이라면 프로필 클릭 시 멤버 드롭다운 띄움*/
+        final MemberProfileFragment memberProfileFragment = new MemberProfileFragment(context);
+        if(chatroomType == Chatroom.ChatroomType.MULTI_CHAT) {
+           //TODO
+
+        }
+
+        /*개인채팅이라면 프로필 클릭 시 프로필 fragment 띄움*/
         else if(chatroomType == Chatroom.ChatroomType.PERSONAL_CHAT){
             binding.imageChatProfile.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    final MemberProfileFragment memberProfileFragment = new MemberProfileFragment(context);
+                    Member targetMember = null;
+                    for(Member member : members){
+                        if(!member.getId().equals(id))
+                            targetMember = member;
+                    }
+                    if(targetMember == null){
+                        Toast.makeText(ChatActivity.this, "멤버를 알 수 없습니다.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("targetMemberId", targetMember.getId());
+                    memberProfileFragment.setArguments(bundle);
                     memberProfileFragment.show(getSupportFragmentManager(), memberProfileFragment.getTag());
                 }
             });
         }
+
 
     }
 
