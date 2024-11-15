@@ -1,4 +1,4 @@
-package com.example.moum.view.community;
+package com.example.moum.view.community.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;

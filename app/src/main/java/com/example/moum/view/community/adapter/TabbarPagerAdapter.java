@@ -1,10 +1,15 @@
-package com.example.moum.view.community;
+package com.example.moum.view.community.adapter;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
+
+import com.example.moum.view.community.BoardFreeFragment;
+import com.example.moum.view.community.BoardGroupFragment;
+import com.example.moum.view.community.BoardPerformanceFragment;
+import com.example.moum.view.community.BoardRecruitFragment;
 
 public class TabbarPagerAdapter extends FragmentStateAdapter {
 

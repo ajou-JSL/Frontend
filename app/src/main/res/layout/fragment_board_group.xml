@@ -22,15 +22,6 @@
             android:layout_marginBottom="5dp"
             android:background="@drawable/round_spinner_background" />
 
-        <Spinner
-            android:id="@+id/board_group_spinner2"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:layout_marginStart="10dp"
-            android:paddingEnd="30dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/round_spinner_background" />
     </LinearLayout>
 
 

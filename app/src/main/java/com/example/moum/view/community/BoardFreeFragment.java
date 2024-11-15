@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.example.moum.R;
 import com.example.moum.data.entity.BoardFreeItem;
 import com.example.moum.databinding.FragmentBoardFreeBinding;
+import com.example.moum.view.community.adapter.BoardFreeItemAdapter;
 import com.example.moum.viewmodel.community.BoardFreeViewModel;
 
 import java.util.ArrayList;

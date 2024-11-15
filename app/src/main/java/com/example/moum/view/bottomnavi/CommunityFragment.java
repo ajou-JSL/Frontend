@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.moum.databinding.FragmentCommunityBinding;
-import com.example.moum.view.community.TabbarPagerAdapter;
+import com.example.moum.view.community.adapter.TabbarPagerAdapter;
 import com.example.moum.viewmodel.bottomnavi.CommunityViewModel;
 import com.example.moum.view.community.CommunitySearchActivity;
 import com.google.android.material.tabs.TabLayout;

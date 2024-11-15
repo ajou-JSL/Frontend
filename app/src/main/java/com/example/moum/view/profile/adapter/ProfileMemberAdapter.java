@@ -2,6 +2,7 @@ package com.example.moum.view.profile.adapter;
 
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,11 +55,13 @@ public class ProfileMemberAdapter extends RecyclerView.Adapter<RecyclerView.View
         private TextView memberName;
         private CircleImageView memberProfile;
         private Context context;
+        private final String TAG = getClass().toString();
+
 
         public ProfileMemberViewHolder(@NonNull View itemView, Context context) {
             super(itemView);
-            memberName = itemView.findViewById(R.id.member_name);
-            memberProfile = itemView.findViewById(R.id.member_profile);
+            memberName = itemView.findViewById(R.id.team_name);
+            memberProfile = itemView.findViewById(R.id.team_profile);
             this.context = context;
         }
 
