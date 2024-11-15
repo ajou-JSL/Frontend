@@ -22,14 +22,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/team_profile"/>
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <ImageView
         android:id="@+id/team_profile"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:background="@drawable/background_more_rounded_gray"
+        android:scaleType="fitXY"
+        android:background="@drawable/background_more_rounded_gray_size_fit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/background_circle_gray" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

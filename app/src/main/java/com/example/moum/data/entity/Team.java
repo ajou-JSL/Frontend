@@ -17,6 +17,9 @@ public class Team {
     private String fileUrl;
     private ArrayList<Member> members;
     private ArrayList<Record> records;
+    private String tier;
+    private Integer exp;
+    private String videoUrl;
 
     public void setMembers(ArrayList<Member> members) {
         this.members = members;
@@ -56,6 +59,19 @@ public class Team {
 
     public void setRecords(ArrayList<Record> records) {
         this.records = records;
+    }
+
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
+    }
+
+    public void setExp(Integer exp) {
+        this.exp = exp;
+    }
+
+    public void setTier(String tier) {
+        this.tier = tier;
     }
 
     public ArrayList<Member> getMembers() {
@@ -98,6 +114,18 @@ public class Team {
         return records;
     }
 
+    public String getTier() {
+        return tier;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public Integer getExp() {
+        return exp;
+    }
+
     @Override
     public String toString() {
         return "Team{" +
@@ -111,6 +139,9 @@ public class Team {
                 ", fileUrl='" + fileUrl + '\'' +
                 ", members=" + members +
                 ", records=" + records +
+                ", tier='" + tier + '\'' +
+                ", exp=" + exp +
+                ", videoUrl='" + videoUrl + '\'' +
                 '}';
     }
 }

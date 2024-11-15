@@ -3,13 +3,16 @@ package com.example.moum.view.profile;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.PopupMenu;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -28,8 +31,10 @@ import com.example.moum.data.entity.Record;
 import com.example.moum.data.entity.Team;
 import com.example.moum.databinding.FragmentChatroomBinding;
 import com.example.moum.databinding.FragmentMemberProfileBinding;
+import com.example.moum.utils.ImageManager;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
+import com.example.moum.utils.YoutubeManager;
 import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.view.chat.ChatActivity;
 import com.example.moum.view.chat.ChatCreateChatroomActivity;
@@ -40,6 +45,9 @@ import com.example.moum.view.profile.adapter.ProfileTeamAdapter;
 import com.example.moum.viewmodel.chat.ChatroomViewModel;
 import com.example.moum.viewmodel.profile.MemberProfileViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -99,7 +107,7 @@ public class MemberProfileFragment extends BottomSheetDialogFragment {
         /*단체 리사이클러뷰 설정*/
         RecyclerView teamsRecyclerView = binding.recyclerTeams;
         ProfileTeamAdapter teamsAdapter = new ProfileTeamAdapter();
-        teamsAdapter.setTeams(teams, context);
+        teamsAdapter.setTeams(teams, context, this);
         teamsRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
         teamsRecyclerView.setAdapter(teamsAdapter);
 
@@ -107,15 +115,19 @@ public class MemberProfileFragment extends BottomSheetDialogFragment {
         viewModel.loadMemberProfile(targetMemberId);
 
         /*개인 프로필 정보 불러오기 결과 감시*/
-        //TODO 불러오지 못했을 경우의 validation 추가하기
         viewModel.getIsLoadMemberProfileSuccess().observe(getViewLifecycleOwner(), isLoadMemberProfileSuccess -> {
             Validation validation = isLoadMemberProfileSuccess.getValidation();
             Member tMember = isLoadMemberProfileSuccess.getData();
             if(validation == Validation.GET_PROFILE_SUCCESS){
                 targetMember = tMember;
-                if(targetMember.getRecords() != null && !targetMember.getRecords().isEmpty()){
+                ArrayList<Record> sumRecords = new ArrayList<>();
+                if(targetMember.getRecords() != null && !targetMember.getRecords().isEmpty())
+                    sumRecords.addAll(targetMember.getRecords());
+                if(targetMember.getMoumRecords() != null && !targetMember.getMoumRecords().isEmpty())
+                    sumRecords.addAll(targetMember.getRecords());
+                if(!sumRecords.isEmpty()){
                     records.clear();
-                    records.addAll(targetMember.getRecords());
+                    records.addAll(sumRecords);
                     recordsAdapter.notifyDataSetChanged();
                 }
                 if(targetMember.getTeams() != null && !targetMember.getTeams().isEmpty()){
@@ -126,12 +138,32 @@ public class MemberProfileFragment extends BottomSheetDialogFragment {
                 binding.textviewNickname.setText(targetMember.getName());
                 binding.textviewDescription.setText(targetMember.getProfileDescription());
                 binding.textviewLocation.setText(String.format("%s(%s) | %s", targetMember.getInstrument(), targetMember.getProficiency(), targetMember.getAddress()));
-                Glide.with(context)
+                if(ImageManager.isUrlValid(targetMember.getProfileImageUrl()))
+                    Glide.with(context)
                         .applyDefaultRequestOptions(new RequestOptions()
-                        .placeholder(R.drawable.background_circle_gray)
-                        .error(R.drawable.background_circle_gray))
+                        .placeholder(R.drawable.background_circle_gray_size_fit)
+                        .error(R.drawable.background_circle_gray_size_fit))
                         .load(targetMember.getProfileImageUrl())
                         .into(binding.imageviewProfile);
+                int color = context.getColor(R.color.bronze);
+                if(targetMember.getTier().equals("BRONZE")){
+                    color = context.getColor(R.color.bronze);
+                }
+                else if(targetMember.getTier().equals("SILVER")){
+                    color = context.getColor(R.color.silver);
+                }
+                else if(targetMember.getTier().equals("GOLD")){
+                    color = context.getColor(R.color.gold);
+                }
+                else if(targetMember.getTier().equals("PLATINUM")){
+                    color = context.getColor(R.color.platinum);
+                }
+                else if(targetMember.getTier().equals("DIAMOND")){
+                    color = context.getColor(R.color.diamond);
+                }
+                binding.imageviewProfile.setBorderWidth(8);
+                binding.imageviewProfile.setBorderColor(color);
+                binding.imageviewTier.setColorFilter(color);
             }
             else if(validation == Validation.NETWORK_FAILED){
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
@@ -185,32 +217,61 @@ public class MemberProfileFragment extends BottomSheetDialogFragment {
             }
         });
 
-        /*설정 스피너 설정*/
-        Spinner etcSpinner = binding.spinnerProfileEtc;
+        /*설정 드롭다운 추가*/
         String[] etcList = getResources().getStringArray(R.array.member_profile_etc_list);
-        ArrayAdapter<String> etcAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, etcList);
-        etcAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        etcSpinner.setAdapter(etcAdapter);
-        etcSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        binding.dropdownProfile.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position == 0){
-                    //TODO - 유저 신고하기 fragment 띄우기
+            public void onClick(View view) {
+                PopupMenu popupMenu = new PopupMenu(context, binding.dropdownProfile);
+                for (int i = 0; i < etcList.length; i++) {
+                    popupMenu.getMenu().add(etcList[i]);
                 }
-                else{
-                    Log.e(TAG, "알 수 없는 아이템 선택");
-                }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                return;
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        String selectedItem = menuItem.getTitle().toString();
+                        if (selectedItem.equals("유저 신고하기")) {
+                            //TODO
+                        }
+                        return true;
+                    }
+                });
+                popupMenu.show();
             }
         });
 
         /*엠블럼 리사이클러뷰 설정*/
         //TODO 후순위
 
+        /*유튜브 플레이어 연결*/
+        YouTubePlayerView youTubePlayerView = binding.youtubePlayerView;
+        getLifecycle().addObserver(youTubePlayerView);
+        youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
+            @Override
+            public void onReady(@NonNull YouTubePlayer youTubePlayer) {
+                super.onReady(youTubePlayer);
+                if(targetMember == null || targetMember.getVideoUrl() == null || targetMember.getVideoUrl().isEmpty()){
+                    binding.layoutYoutube.setVisibility(View.GONE);
+                    return;
+                }
+                String videoId = YoutubeManager.getVideoId(targetMember.getVideoUrl());
+                if(videoId == null){
+                    binding.layoutYoutube.setVisibility(View.GONE);
+                    return;
+                }
+                youTubePlayer.loadVideo(videoId, 0);
+            }
+        });
+
         return view;
+    }
+
+    public void onProfileTeamClicked(Integer teamId){
+        final TeamProfileFragment teamProfileFragment = new TeamProfileFragment(context);
+        Bundle bundle = new Bundle();
+        bundle.putInt("targetTeamId", teamId);
+        teamProfileFragment.setArguments(bundle);
+        teamProfileFragment.show(getParentFragmentManager(), teamProfileFragment.getTag());
     }
 
 //    @Override
