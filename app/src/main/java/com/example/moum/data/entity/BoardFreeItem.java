@@ -5,7 +5,7 @@ public class BoardFreeItem {
     private String content;
     private String writer;
     private String time;
-    private int image;
+    private String image;
 
     public void setBoardFreeItem(String title, String content, String writer, String time){
         this.title = title;
@@ -14,7 +14,7 @@ public class BoardFreeItem {
         this.time = time;
     }
 
-    public void setImage(int image){
+    public void setImage(String image){
         this.image = image;
     }
 
@@ -34,11 +34,11 @@ public class BoardFreeItem {
         return time;
     }
 
-    public int getImage(){
+    public String getImage() {
         return image;
     }
 
     public boolean hasImage() {
-        return image != 0;
+        return image != null && !image.isEmpty();
     }
 }

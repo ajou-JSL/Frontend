@@ -7,6 +7,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 import com.example.moum.data.entity.BoardFreeItem;
 import com.example.moum.R;
 import java.util.ArrayList;
@@ -60,7 +62,11 @@ public class BoardFreeItemAdapter extends RecyclerView.Adapter<BoardFreeItemAdap
             time.setText(item.getTime());
 
             if (item.hasImage() && image != null) {
-                image.setImageResource(item.getImage());
+                Glide.with(itemView.getContext())
+                        .load(item.getImage())
+                        .into(image);
+            } else {
+                image.setVisibility(View.GONE);
             }
         }
     }
