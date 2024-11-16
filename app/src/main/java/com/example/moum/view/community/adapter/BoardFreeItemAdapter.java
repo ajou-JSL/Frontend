@@ -91,8 +91,6 @@ public class BoardFreeItemAdapter extends RecyclerView.Adapter<BoardFreeItemAdap
                 Glide.with(itemView.getContext())
                         .load(item.getImage())
                         .into(image);
-            } else {
-                image.setVisibility(View.GONE);
             }
         }
     }
