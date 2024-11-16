@@ -92,7 +92,8 @@
                                 <androidx.recyclerview.widget.RecyclerView
                                     android:id="@+id/recycler_main_popular_post"
                                     android:layout_width="match_parent"
-                                    android:layout_height="200dp"/>
+                                    android:layout_height="300dp"
+                                    android:nestedScrollingEnabled="false"/>
                             </LinearLayout>
                             <LinearLayout
                                 android:layout_width="match_parent"

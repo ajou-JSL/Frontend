@@ -274,6 +274,7 @@ public class SignupProfileActivity extends AppCompatActivity {
             }
             else if(isSignupSuccess == Validation.SIGNUP_SUCCESS) {
                 /*다음 Acitivity로 이동*/
+                Toast.makeText(context, "회원가입이 완료되었습니다. 환영합니다:)", Toast.LENGTH_SHORT).show();
                 Intent nextIntent = new Intent(SignupProfileActivity.this, InitialActivity.class);
                 startActivity(nextIntent);
             }

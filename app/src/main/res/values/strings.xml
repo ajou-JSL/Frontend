@@ -5,6 +5,7 @@
     <string name="user_refresh_token_key">user_refresh_token</string>
     <string name="user_username_key">user_username</string>
     <string name="user_id_key">user_id</string>
+    <string name="user_name_key">user_name</string>
     <string name="server_url">http://192.168.0.127:8080/</string>
     <string-array name="proficiency_list">
         <item>하</item>

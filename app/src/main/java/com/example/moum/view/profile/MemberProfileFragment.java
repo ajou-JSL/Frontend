@@ -81,6 +81,7 @@ public class MemberProfileFragment extends BottomSheetDialogFragment {
         String accessToken = sharedPreferenceManager.getCache(getString(R.string.user_access_token_key), "no-access-token");
         String username = sharedPreferenceManager.getCache(getString(R.string.user_username_key), "no-memberId");
         Integer id = sharedPreferenceManager.getCache(getString(R.string.user_id_key), -1);
+        String name = sharedPreferenceManager.getCache(getString(R.string.user_name_key), "no-memberName");
         if(accessToken.isEmpty() || accessToken.equals("no-access-token")){
             Toast.makeText(context, "로그인 정보가 없어 초기 페이지로 돌아갑니다.", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(context, InitialActivity.class);
@@ -164,6 +165,10 @@ public class MemberProfileFragment extends BottomSheetDialogFragment {
                 binding.imageviewProfile.setBorderWidth(8);
                 binding.imageviewProfile.setBorderColor(color);
                 binding.imageviewTier.setColorFilter(color);
+
+                if(targetMember.getVideoUrl() != null){
+                    onVideoValid();
+                }
             }
             else if(validation == Validation.NETWORK_FAILED){
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
@@ -178,7 +183,7 @@ public class MemberProfileFragment extends BottomSheetDialogFragment {
         binding.buttonChatStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                viewModel.createChatroom(targetMember, id, context);
+                viewModel.createChatroom(targetMember, id, name, context);
             }
         });
 
@@ -243,6 +248,12 @@ public class MemberProfileFragment extends BottomSheetDialogFragment {
         /*엠블럼 리사이클러뷰 설정*/
         //TODO 후순위
 
+
+
+        return view;
+    }
+
+    public void onVideoValid(){
         /*유튜브 플레이어 연결*/
         YouTubePlayerView youTubePlayerView = binding.youtubePlayerView;
         getLifecycle().addObserver(youTubePlayerView);
@@ -259,11 +270,10 @@ public class MemberProfileFragment extends BottomSheetDialogFragment {
                     binding.layoutYoutube.setVisibility(View.GONE);
                     return;
                 }
+                binding.layoutYoutube.setVisibility(View.VISIBLE);
                 youTubePlayer.loadVideo(videoId, 0);
             }
         });
-
-        return view;
     }
 
     public void onProfileTeamClicked(Integer teamId){

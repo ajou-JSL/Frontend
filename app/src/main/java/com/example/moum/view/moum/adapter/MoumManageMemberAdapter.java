@@ -68,7 +68,11 @@ public class MoumManageMemberAdapter extends RecyclerView.Adapter<RecyclerView.V
         public void bind(Member member){
             this.member = member;
             memberName.setText(member.getName());
-            if(member.getProfileImageUrl() != null) Glide.with(context).load(member.getProfileImageUrl()).into(memberProfile);
+            if(member.getProfileImageUrl() != null) Glide.with(context)
+                    .applyDefaultRequestOptions(new RequestOptions()
+                    .placeholder(R.drawable.background_circle_gray)
+                    .error(R.drawable.background_circle_gray))
+                    .load(member.getProfileImageUrl()).into(memberProfile);
         }
     }
 }

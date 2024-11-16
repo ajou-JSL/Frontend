@@ -123,8 +123,8 @@ public class TeamAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     .load(team.getFileUrl()).into(teamProfile);
             Glide.with(context)
                     .applyDefaultRequestOptions(new RequestOptions()
-                    .placeholder(R.drawable.background_circle_gray)
-                    .error(R.drawable.background_circle_gray))
+                    .placeholder(R.drawable.background_circle_gray_size_fit)
+                    .error(R.drawable.background_circle_gray_size_fit))
                     .load(team.getMembers().get(0).getProfileImageUrl()).into(teamMembersProfile);
             if(team.getMembers().size() < 2)
                 teamMembers.setText(team.getMembers().get(0).getName());

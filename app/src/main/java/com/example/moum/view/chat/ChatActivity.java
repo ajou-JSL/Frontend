@@ -42,6 +42,8 @@ import com.example.moum.view.moum.MoumManageActivity;
 import com.example.moum.view.profile.MemberProfileFragment;
 import com.example.moum.viewmodel.chat.ChatViewModel;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -99,7 +101,12 @@ public class ChatActivity extends AppCompatActivity {
         Chatroom chatroom = new Chatroom(chatroomId, chatroomName, chatroomType, teamId, leaderId, lastChat, lastTimestamp, fileUrl);
 
         binding.textviewChatUserName.setText(chatroomName);
-        binding.textviewChatMessageTime.setText(lastTimestamp);
+        if(lastTimestamp != null && !lastTimestamp.isEmpty()){
+            LocalDateTime dateTime = LocalDateTime.parse(lastTimestamp);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            String formattedDate = dateTime.format(formatter);
+            binding.textviewChatMessageTime.setText(formattedDate);
+        }
         chatViewModel.setChatroomInfo(username, id, chatroom);
         Uri chatroomProfile;
         if(fileUrl != null) {
@@ -206,6 +213,11 @@ public class ChatActivity extends AppCompatActivity {
                 chats.add(receivedChat);
                 chatAdapter.notifyItemInserted(chats.size()-1);
                 recyclerView.scrollToPosition(chats.size()-1);
+
+                DateTimeFormatter recievedFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                String recievedFormattedDate = receivedChat.getTimestamp().format(recievedFormatter);
+                binding.textviewChatMessageTime.setText(recievedFormattedDate);
+
             }
             else if(validation == Validation.CHAT_RECEIVE_FAIL){
                 Toast.makeText(context, "채팅 불러오기에 실패하였습니다.", Toast.LENGTH_SHORT).show();
@@ -244,7 +256,8 @@ public class ChatActivity extends AppCompatActivity {
                 Toast.makeText(context, "채팅 전송에 실패하였습니다.", Toast.LENGTH_SHORT).show();
             }
             else if(validation == Validation.NETWORK_FAILED){
-                Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                //TODO 현재 잘 보내졌는데도 불구하고, 이미 연결된 스트리밍 연결 때문에 chatSend()가 네트워크 에러 처리되므로 주석 처리함
+                //Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
             }
             else{
                 Log.e(TAG, "채팅 전송 결과를 알 수 없습니다.");
@@ -281,7 +294,8 @@ public class ChatActivity extends AppCompatActivity {
                 chatAdapter.notifyItemInserted(0);
             }
             else if(validation == Validation.CHAT_RECEIVE_FAIL){
-                Toast.makeText(context, "채팅 불러오기에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                //TODO 채팅을 다 불러올 때 불리는 상태이므로 주석처리
+                //Toast.makeText(context, "채팅 불러오기에 실패하였습니다.", Toast.LENGTH_SHORT).show();
             }
             else if(validation == Validation.NETWORK_FAILED){
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();

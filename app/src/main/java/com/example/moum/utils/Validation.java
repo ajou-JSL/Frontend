@@ -29,6 +29,7 @@ public enum Validation {
 
     //회원가입
     BASIC_SIGNUP_NOT_TRIED,
+    RECORD_NOT_VALID,
 
     // 채팅방
     CHATROOM_NOT_LOADED,

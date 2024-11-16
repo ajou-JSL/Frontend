@@ -40,6 +40,7 @@ public class AuthInterceptor implements Interceptor {
         this.refreshToken = sharedPreferenceManager.getCache(context.getString(R.string.user_refresh_token_key), "no-refresh-token");
         this.retrofitClientManager = new RetrofitClientManager();
         retrofitClientManager.setBaseUrl(BaseUrl.BASIC_SERVER_PATH.getUrl());
+        Log.e(TAG, "AuthInterceptor 초기화 시 acccessToken값: " + sharedPreferenceManager.getCache(context.getString(R.string.user_access_token_key), "no-access-token"));
     }
 
     @NonNull
@@ -55,7 +56,7 @@ public class AuthInterceptor implements Interceptor {
         Request.Builder builder = originalRequest.newBuilder()
                 .header("access", accessToken)
                 .header("Accept-Encoding", "gzip");
-
+        Log.e(TAG, "헤더 붙임(access: " + accessToken);
         Request newRequest = builder.build();
 
         //return chain.proceed(newRequest);

@@ -2,6 +2,7 @@ package com.example.moum.utils;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -13,7 +14,8 @@ import java.util.regex.Pattern;
 public class YoutubeManager {
 
     public static String getVideoId(String url){
-        String urlFormat = "^https://www\\.youtube\\.com/watch/?v=([a-zA-Z0-9_-]+)$";
+        Log.e("youtubeManager", url);
+        String urlFormat = "(?:https?://)?(?:www\\.)?youtube\\.com/watch\\?v=([a-zA-Z0-9_-]+)";
         Pattern urlPattern = Pattern.compile(urlFormat);
         Matcher matcher = urlPattern.matcher(url);
 

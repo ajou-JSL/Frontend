@@ -74,6 +74,7 @@ public class TeamProfileFragment extends BottomSheetDialogFragment {
         String accessToken = sharedPreferenceManager.getCache(getString(R.string.user_access_token_key), "no-access-token");
         String username = sharedPreferenceManager.getCache(getString(R.string.user_username_key), "no-memberId");
         Integer id = sharedPreferenceManager.getCache(getString(R.string.user_id_key), -1);
+        String name = sharedPreferenceManager.getCache(getString(R.string.user_name_key), "no-memberName");
         if(accessToken.isEmpty() || accessToken.equals("no-access-token")){
             Toast.makeText(context, "로그인 정보가 없어 초기 페이지로 돌아갑니다.", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(context, InitialActivity.class);
@@ -132,7 +133,9 @@ public class TeamProfileFragment extends BottomSheetDialogFragment {
                         .load(targetTeam.getFileUrl()).into(binding.imageviewProfile);
                 binding.imageviewProfile.setClipToOutline(true);
                 int color = context.getColor(R.color.bronze);
-                if(team.getTier().equals("BRONZE")){
+                if(targetTeam.getVideoUrl() != null)
+                    onVideoValid();
+                if(team.getTier() == null || team.getTier().equals("BRONZE")){
                     color = context.getColor(R.color.bronze);
                 }
                 else if(team.getTier().equals("SILVER")){
@@ -170,7 +173,7 @@ public class TeamProfileFragment extends BottomSheetDialogFragment {
                 if(targetTeam != null){
                     for(Member member : members){
                         if(member.getId() == targetTeam.getLeaderId()){
-                            viewModel.createChatroom(member, id, context);
+                            viewModel.createChatroom(member, id, name, context);
                         }
                     }
                 }
@@ -235,6 +238,9 @@ public class TeamProfileFragment extends BottomSheetDialogFragment {
             }
         });
 
+        return view;
+    }
+    public void onVideoValid(){
         /*유튜브 플레이어 연결*/
         YouTubePlayerView youTubePlayerView = binding.youtubePlayerView;
         getLifecycle().addObserver(youTubePlayerView);
@@ -251,11 +257,10 @@ public class TeamProfileFragment extends BottomSheetDialogFragment {
                     binding.layoutYoutube.setVisibility(View.GONE);
                     return;
                 }
+                binding.layoutYoutube.setVisibility(View.VISIBLE);
                 youTubePlayer.loadVideo(videoId, 0);
             }
         });
-
-        return view;
     }
 
     public void onProfileMemberClicked(Integer memberId){

@@ -8,23 +8,24 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.moum.data.api.LoginApi;
+import com.example.moum.data.entity.Member;
 import com.example.moum.data.entity.Result;
 import com.example.moum.repository.LoginRepository;
 
 public class MyInformationModel extends AndroidViewModel {
     private LoginRepository loginRepository;
-    private final MutableLiveData<Result<Object>> isLogoutSuccess = new MutableLiveData<>();
+    private final MutableLiveData<Result<Member>> isLogoutSuccess = new MutableLiveData<>();
 
     public MyInformationModel(Application application) {
         super(application);
-        loginRepository = LoginRepository.getInstance(application);
+        loginRepository = new LoginRepository(application);
     }
 
-    public MutableLiveData<Result<Object>> getIsLogoutSuccess() {
+    public MutableLiveData<Result<Member>> getIsLogoutSuccess() {
         return isLogoutSuccess;
     }
 
-    public void setIsLogoutSuccess(Result<Object> isLogoutSuccess){
+    public void setIsLogoutSuccess(Result<Member> isLogoutSuccess){
         this.isLogoutSuccess.setValue(isLogoutSuccess);
     }
 

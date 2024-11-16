@@ -101,15 +101,7 @@ public class BoardGroupFragment extends Fragment {
                     item.setBoardGroupItem(team.getTeamId(), team.getTeamName(), team.getDescription(), team.getFileUrl());
                     itemList.add(item);
                 }
-            } else {
-                // 데이터가 없으면 임시 데이터로 대체
-                for (int i = 5; i < 6; i++) {
-                    BoardGroupItem tempItem = new BoardGroupItem();
-                    tempItem.setBoardGroupItem(i,"임시 단체 이름 " + i, "임시 설명 " + i, "https://example.com/file.jpg");
-                    itemList.add(tempItem);
-                }
             }
-
             // Adapter에 데이터 설정
             adapter.updateItemList(itemList);
         });

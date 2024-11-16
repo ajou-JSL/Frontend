@@ -52,7 +52,7 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_margin="15dp"
-                        android:src="@drawable/background_circle_gray"
+                        android:src="@drawable/background_circle_gray_size_fit"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"/>
 

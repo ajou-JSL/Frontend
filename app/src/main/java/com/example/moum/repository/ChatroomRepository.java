@@ -100,19 +100,14 @@ public class ChatroomRepository {
         });
     }
 
-    public void createChatroom(Chatroom chatroom, File chatroomProfileFile, ArrayList<Member> participants, com.example.moum.utils.Callback<Result<Chatroom>> callback){
+    public void createChatroom(Chatroom chatroom, File chatroomProfileFile, ArrayList<Integer> participants, com.example.moum.utils.Callback<Result<Chatroom>> callback){
         /*processing into DTO*/
         MultipartBody.Part profileImage = null;
         if(chatroomProfileFile != null){
             RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpg"), chatroomProfileFile);
-            profileImage = MultipartBody.Part.createFormData("profileImage", chatroomProfileFile.getName(), requestFile);
+            profileImage = MultipartBody.Part.createFormData("chatroomProfile", chatroomProfileFile.getName(), requestFile);
         }
-        ArrayList<ChatroomCreateRequest.Member> members = new ArrayList<>();
-        for(Member participant : participants){
-            ChatroomCreateRequest.Member member = new ChatroomCreateRequest.Member(participant.getId());
-            members.add(member);
-        }
-        ChatroomCreateRequest request = new ChatroomCreateRequest(chatroom.getName(), chatroom.getType().getValue(), chatroom.getTeamId(), chatroom.getLeaderId(), members);
+        ChatroomCreateRequest request = new ChatroomCreateRequest(chatroom.getName(), chatroom.getType().getValue(), chatroom.getTeamId(), chatroom.getLeaderId(), participants);
 
         /*client 요청 보냄*/
         Call<SuccessResponse<Chatroom>> result = chatroomApi.createChatroom(profileImage, request);

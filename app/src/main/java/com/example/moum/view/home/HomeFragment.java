@@ -79,7 +79,7 @@ public class HomeFragment extends Fragment {
         RecyclerView articleHotRecyclerView = binding.recyclerMainPopularPost;
         HomeArticleHotAdapter articleHotAdapter = new HomeArticleHotAdapter();
         articleHotAdapter.setArticles(articles, context, this);
-        articleHotRecyclerView.setLayoutManager(new WrapContentLinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+        articleHotRecyclerView.setLayoutManager(new WrapContentLinearLayoutManager(context));
         articleHotRecyclerView.setAdapter(articleHotAdapter);
 
         /*모음 리사이클러뷰 연결*/

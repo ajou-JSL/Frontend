@@ -100,11 +100,11 @@ public class ChatCreateChatroomOnWardViewModel extends AndroidViewModel {
         }
 
         /*processing*/
-        ArrayList<Member> participants = new ArrayList<>();
+        ArrayList<Integer> participants = new ArrayList<>();
         File chatroomProfileFile = null;
         for (int i = 0; i < members.size(); i++) {
             if (isParticipates.get(i))
-                participants.add(members.get(i));
+                participants.add(members.get(i).getId());
         }
         if(chatroomProfile.getValue() != null){
             Uri uri = chatroomProfile.getValue();
