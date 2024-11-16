@@ -27,11 +27,11 @@ import java.util.ArrayList;
 
 
 public class BoardFreeFragment extends Fragment {
-
     private FragmentBoardFreeBinding binding;
+    private BoardFreeViewModel boardFreeViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        BoardFreeViewModel BoardfreeViewModel = new ViewModelProvider(this).get(BoardFreeViewModel.class);
+        boardFreeViewModel = new ViewModelProvider(this).get(BoardFreeViewModel.class);
 
         binding = FragmentBoardFreeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -82,7 +82,7 @@ public class BoardFreeFragment extends Fragment {
         ArrayList<BoardFreeItem> itemList = new ArrayList<>();
 
         // 데이터 추가
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 4; i++) {
             BoardFreeItem item = new BoardFreeItem();
             item.setBoardFreeItem(i, "제목" + i, "내용 짧은 글" + i, "작성자" + i, "시간" + i);
             itemList.add(item);
