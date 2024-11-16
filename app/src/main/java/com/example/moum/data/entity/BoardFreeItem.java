@@ -1,13 +1,15 @@
 package com.example.moum.data.entity;
 
 public class BoardFreeItem {
+    private Integer boardId;
     private String title;
     private String content;
     private String writer;
     private String time;
     private String image;
 
-    public void setBoardFreeItem(String title, String content, String writer, String time){
+    public void setBoardFreeItem(Integer boardId, String title, String content, String writer, String time){
+        this.boardId = boardId;
         this.title = title;
         this.content = content;
         this.writer = writer;
@@ -17,6 +19,8 @@ public class BoardFreeItem {
     public void setImage(String image){
         this.image = image;
     }
+
+    public Integer getBoardId(){ return boardId; }
 
     public String getTitle(){
         return title;

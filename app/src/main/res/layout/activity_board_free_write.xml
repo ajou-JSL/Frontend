@@ -15,7 +15,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        background="@color/gray0">
+        android:background="@color/gray0">
 
 
         <androidx.appcompat.widget.Toolbar
@@ -96,7 +96,7 @@
                 android:paddingStart="10dp"
                 android:background="@drawable/background_spinner_line" />
 
-            <androidx.appcompat.widget.AppCompatEditText
+            <EditText
                 android:id="@+id/board_free_write_title"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
@@ -111,7 +111,7 @@
                 android:textSize="18sp"
                 android:text="@{viewModel.title}"/>
 
-            <androidx.appcompat.widget.AppCompatEditText
+            <EditText
                 android:id="@+id/board_free_write_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

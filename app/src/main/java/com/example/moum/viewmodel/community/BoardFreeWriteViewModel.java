@@ -4,15 +4,14 @@ import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
-import com.example.moum.repository.UserboardRepository;
+import com.example.moum.repository.boardRepository;
 
 import java.util.List;
 
 public class BoardFreeWriteViewModel extends AndroidViewModel {
 
-    private final UserboardRepository userboardRepository;
+    private final boardRepository userboardRepository;
     private final MutableLiveData<String> writer = new MutableLiveData<>();
     private final MutableLiveData<String> title = new MutableLiveData<>();
     private final MutableLiveData<String> content = new MutableLiveData<>();
@@ -21,7 +20,7 @@ public class BoardFreeWriteViewModel extends AndroidViewModel {
 
     public BoardFreeWriteViewModel(Application application) {
         super(application);
-        userboardRepository = UserboardRepository.getInstance(application);
+        userboardRepository = boardRepository.getInstance(application);
     }
 
 

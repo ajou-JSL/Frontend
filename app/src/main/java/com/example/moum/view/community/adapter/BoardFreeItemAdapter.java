@@ -1,28 +1,53 @@
 package com.example.moum.view.community.adapter;
 
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.AdapterView;
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.moum.data.entity.BoardFreeItem;
 import com.example.moum.R;
+import com.example.moum.view.profile.TeamProfileFragment;
+
 import java.util.ArrayList;
 
 public class BoardFreeItemAdapter extends RecyclerView.Adapter<BoardFreeItemAdapter.CustomViewHolder> {
     private ArrayList<BoardFreeItem> itemList;
+    private ItemClickListener itemClickListener;
 
     public BoardFreeItemAdapter(ArrayList<BoardFreeItem> itemList) {
         this.itemList = itemList;
     }
 
+    public void setItemClickListener(ItemClickListener listener) {
+        this.itemClickListener = listener;
+    }
+
     @Override
     public int getItemViewType(int position) {
         return itemList.get(position).hasImage() ? R.layout.item_board_free_image : R.layout.item_board_free_image_no;
+    }
+
+    @Override
+    public int getItemCount() {
+        return itemList.size();
+    }
+
+    public void updateItemList(ArrayList<BoardFreeItem> boarditemList) {
+        this.itemList = boarditemList;
+        notifyDataSetChanged();
+    }
+
+    public interface ItemClickListener {
+        void onItemClick(View v, int position);
     }
 
     @NonNull
@@ -35,11 +60,12 @@ public class BoardFreeItemAdapter extends RecyclerView.Adapter<BoardFreeItemAdap
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
         holder.bind(itemList.get(position));
-    }
 
-    @Override
-    public int getItemCount() {
-        return itemList.size();
+        holder.itemView.setOnClickListener(v -> {
+            if (itemClickListener != null) {
+                itemClickListener.onItemClick(v, position);
+            }
+        });
     }
 
     static class CustomViewHolder extends RecyclerView.ViewHolder {

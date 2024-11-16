@@ -80,27 +80,50 @@
                 android:layout_gravity="center"
                 android:src="@drawable/ic_star_toggle" />
         </FrameLayout>
-
-
     </androidx.appcompat.widget.Toolbar>
 
-    <ScrollView
-        android:id="@+id/board_free_scrollView"
-        android:contentDescription="게시판 글 상세"
-        android:layout_width="0dp"
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/board_free_detail_recycler_view"
+        android:contentDescription="게시판 글"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="1dp"
 
         android:layout_marginEnd="1dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar_post">
+        app:layout_constraintTop_toBottomOf="@id/toolbar_post"
+        app:layout_constraintStart_toStartOf="parent">
+    </androidx.recyclerview.widget.RecyclerView>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
+    <LinearLayout
+        android:id="@+id/board_free_detail_input_layout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:background="@drawable/background_top_line"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-    </ScrollView>
+
+            <EditText
+                android:id="@+id/board_free_detail_input_box"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="15dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:textSize="20sp"
+                android:hint="입력"/>
+
+        <ImageButton
+            android:id="@+id/board_free_detail_input_button"
+            android:contentDescription="입력 버튼"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:padding="15dp"
+            android:scaleType="centerInside"
+            app:srcCompat="@drawable/icon_paper_plane_alpha"/>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

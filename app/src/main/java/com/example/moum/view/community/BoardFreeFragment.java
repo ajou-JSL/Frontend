@@ -84,7 +84,7 @@ public class BoardFreeFragment extends Fragment {
         // 데이터 추가
         for (int i = 0; i < 10; i++) {
             BoardFreeItem item = new BoardFreeItem();
-            item.setBoardFreeItem("제목" + i, "내용 짧은 글" + i, "작성자" + i, "시간" + i);
+            item.setBoardFreeItem(i, "제목" + i, "내용 짧은 글" + i, "작성자" + i, "시간" + i);
             itemList.add(item);
         }
 
