@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.moum.R;
 import com.example.moum.data.entity.Member;
 import com.example.moum.data.entity.Team;
@@ -94,7 +95,11 @@ public class ChatCreateChatroomOnwardActivity extends AppCompatActivity {
         });
         viewModel.getChatroomProfile().observe(this, uri -> {
             Log.e(TAG, "Uri: " + uri.toString());
-            Glide.with(this).load(uri).into(binding.imageviewMoumtalkProfile);
+            Glide.with(this)
+                    .applyDefaultRequestOptions(new RequestOptions()
+                    .placeholder(R.drawable.background_circle_gray)
+                    .error(R.drawable.background_circle_gray))
+                    .load(uri).into(binding.imageviewMoumtalkProfile);
         });
 
        /*참여 멤버 리사이클러뷰 표시*/

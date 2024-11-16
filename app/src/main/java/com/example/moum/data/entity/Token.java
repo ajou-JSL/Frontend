@@ -5,11 +5,13 @@ public class Token {
     private String refresh;
     private String uesrname;
     private Integer id;
+    private Member member;
 
-    public Token(String access, String refresh, Integer id){
+    public Token(String access, String refresh, Integer id, Member member){
         this.access = access;
         this.refresh = refresh;
         this.id = id;
+        this.member = member;
     }
 
     public void setAccess(String access) {
@@ -28,6 +30,10 @@ public class Token {
         this.id = id;
     }
 
+    public void setMember(Member member) {
+        this.member = member;
+    }
+
     public String getAccess() {
         return access;
     }
@@ -42,6 +48,10 @@ public class Token {
 
     public Integer getId() {
         return id;
+    }
+
+    public Member getMember() {
+        return member;
     }
 
     @Override

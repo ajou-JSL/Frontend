@@ -15,10 +15,12 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.moum.R;
 import com.example.moum.data.entity.Chatroom;
 import com.example.moum.view.chat.ChatActivity;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
@@ -92,10 +94,23 @@ public class ChatroomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         public void bind(Chatroom chatroom){
             this.chatroom = chatroom;
             chatroomName.setText(chatroom.getName());
-            chatroomContent.setText(chatroom.getLastChat());
-            chatroomLastTime.setText(chatroom.getLastTimestamp());
+            if(chatroom.getLastChat() != null) chatroomContent.setText(chatroom.getLastChat());
+            else chatroomContent.setText(" ");
+            if(chatroom.getLastTimestamp() != null && !chatroom.getLastTimestamp().isEmpty()) {
+                LocalDateTime dateTime = LocalDateTime.parse(chatroom.getLastTimestamp());
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                String formattedDate = dateTime.format(formatter);
+                chatroomLastTime.setText(formattedDate);
+            }
+            else{
+                chatroomLastTime.setText(" ");
+            }
             if(chatroom.getFileUrl() != null)
-                Glide.with(context).load(chatroom.getFileUrl()).into(chatroomProfile);
+                Glide.with(context)
+                        .applyDefaultRequestOptions(new RequestOptions()
+                        .placeholder(R.drawable.background_circle_gray)
+                        .error(R.drawable.background_circle_gray))
+                        .load(chatroom.getFileUrl()).into(chatroomProfile);
         }
     }
 }

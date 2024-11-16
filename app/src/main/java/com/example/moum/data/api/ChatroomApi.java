@@ -24,7 +24,7 @@ public interface ChatroomApi {
             @Path("memberId") Integer memberId
     );
 
-    @GET("/api/chatroom/{chatroomId}")
+    @GET("/api/chatroom/{chatroomId}/member")
     Call<SuccessResponse<List<Member>>> loadMembersOfChatroom(
             @Path("chatroomId") Integer chatroomId
     );

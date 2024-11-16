@@ -138,10 +138,9 @@ public class SignupRepository {
             signupUser.getInstrument(),
             signupUser.getProficiency(),
             signupUser.getAddress(),
-            signupUser.getEmailCode()
+            signupUser.getEmailCode(),
+            signupUser.getRecords()
         );
-                //TODO 백엔드에서의 이력 추가 완료 시, 주석 제거 필요
-//            user.getRecords()
 
         MultipartBody.Part profileImage = null;
         if(signupUser.getProfileImage() != null){

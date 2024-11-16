@@ -243,8 +243,10 @@ public class SignupProfileActivity extends AppCompatActivity {
                             .appendLiteral('-')
                             .appendValue(ChronoField.DAY_OF_MONTH, 1, 2, SignStyle.NOT_NEGATIVE)
                             .toFormatter();
-                    LocalDate startDate = LocalDate.parse(startDateString, formatter);
-                    LocalDate endDate = LocalDate.parse(endDateString, formatter);
+                    LocalDate startDate = null;
+                    LocalDate endDate = null;
+                    if(!startDateString.isEmpty()) startDate = LocalDate.parse(startDateString, formatter);
+                    if(!endDateString.isEmpty()) endDate = LocalDate.parse(endDateString, formatter);
 
                     signupViewModel.addRecord(recordName, startDate, endDate);
                 }
@@ -272,6 +274,7 @@ public class SignupProfileActivity extends AppCompatActivity {
             }
             else if(isSignupSuccess == Validation.SIGNUP_SUCCESS) {
                 /*다음 Acitivity로 이동*/
+                Toast.makeText(context, "회원가입이 완료되었습니다. 환영합니다:)", Toast.LENGTH_SHORT).show();
                 Intent nextIntent = new Intent(SignupProfileActivity.this, InitialActivity.class);
                 startActivity(nextIntent);
             }

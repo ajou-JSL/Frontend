@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.regex.Pattern;
 
 public class ImageManager {
 
@@ -36,5 +37,11 @@ public class ImageManager {
             e.printStackTrace();
         }
         return file;
+    }
+
+    public static Boolean isUrlValid(String url){
+        String urlFormat = "^https://kr\\.object\\.ncloudstorage\\.com/moumstorage/([\\w가-힣\\s-]+/)*[\\w가-힣\\s-]+\\.jpg$";
+        Pattern urlPattern = Pattern.compile(urlFormat);
+        return urlPattern.matcher(url).matches();
     }
 }

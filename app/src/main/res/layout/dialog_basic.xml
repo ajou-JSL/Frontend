@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/transparent"
+    android:gravity="center"
+    android:minWidth="300dp"
+    android:orientation="vertical"
+    android:padding="30dp">
+
+    <TextView
+        android:id="@+id/textview_dialog_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:minHeight="50dp"
+        android:textSize="18sp"
+        android:includeFontPadding="false"
+        android:fontFamily="@font/noto_sans_kr_medium"
+        android:textColor="@color/gray7"
+        tools:text="단체를 생성할까요?" />
+
+    <TextView
+        android:id="@+id/textview_dialog_sub"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:minHeight="50dp"
+        android:textSize="12sp"
+        android:textColor="@color/gray7"
+        android:fontFamily="@font/noto_sans_kr_regular"
+        android:includeFontPadding="false"
+        tools:text="기본 이용자는 최대 3개까지의 단체를 생성할 수 있어요!" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_dialog_no"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="7dp"
+            android:layout_weight="1"
+            android:text="취소"
+            android:textColor="@color/gray0"
+            android:fontFamily="@font/noto_sans_kr_regular"
+            android:background="@drawable/button_gray_ripple"
+            android:textSize="14sp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_dialog_yes"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:text="생성"
+            android:textColor="@color/gray0"
+            android:fontFamily="@font/noto_sans_kr_regular"
+            android:background="@drawable/button_darkgray_ripple"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -73,6 +73,9 @@ public class ValueMap {
             put("S-P001", Validation.GET_PROFILE_SUCCESS);
             put("S-P002", Validation.UPDATE_PROFILE_SUCCESS);
 
+            // 공연 게시글 성공 응답
+            put("S-P004", Validation.PERFORMANCE_LIST_GET_SUCCESS);
+
             // 모음 관련 성공 응답
             put("S-MM001", Validation.CREATE_MOUM_SUCCESS);
             put("S-MM002", Validation.GET_MOUM_SUCCESS);
@@ -80,6 +83,7 @@ public class ValueMap {
             put("S-MM004", Validation.DELETE_MOUM_SUCCESS);
             put("S-MM005", Validation.FINISH_MOUM_SUCCESS);
             put("S-MM006", Validation.REOPEN_MOUM_SUCCESS);
+            put("S-MM007", Validation.UPDATE_PROCESS_MOUM_SUCCESS);
 
             // 공통 오류 코드
             put("F-C001", Validation.INTERNAL_SERVER_ERROR);
@@ -123,6 +127,7 @@ public class ValueMap {
             put("F-T002", Validation.TEAM_NOT_FOUND);
             put("F-T003", Validation.NOT_TEAM_MEMBER);
             put("F-T004", Validation.LEADER_CANNOT_LEAVE);
+            put("F-T005", Validation.MUST_JOIN_TEAM_FIRST);
         }
     };
 

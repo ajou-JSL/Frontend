@@ -51,7 +51,7 @@ public class MemberProfileViewModel extends AndroidViewModel {
         profileRepository.loadMemberProfile(targetMemberId, this::setIsLoadMemberProfileSuccess);
     }
 
-    public void createChatroom(Member targetMember, Integer myId, Context context){
+    public void createChatroom(Member targetMember, Integer myId, String myName, Context context){
         // valid check
         if(isLoadMemberProfileSuccess.getValue() == null || isLoadMemberProfileSuccess.getValue().getValidation() != Validation.GET_PROFILE_SUCCESS){
             Result<Chatroom> result = new Result<>(Validation.PROFILE_NOT_LOADED);
@@ -71,14 +71,13 @@ public class MemberProfileViewModel extends AndroidViewModel {
             ImageManager imageManager = new ImageManager(context);
             chatroomProfileFile = imageManager.convertUriToFile(uri);
         }
-        ArrayList<Member> participants = new ArrayList<>();
-        Member me = new Member();
-        me.setId(myId);
-        participants.add(targetMember);
-        participants.add(me);
+        ArrayList<Integer> participants = new ArrayList<>();
+        participants.add(targetMember.getId());
+        participants.add(myId);
+        String chatroomName = targetMember.getName() + ", " + myName;
 
         // goto repository
-        Chatroom chatroom = new Chatroom(targetMember.getName(), Chatroom.ChatroomType.PERSONAL_CHAT, null, null);
+        Chatroom chatroom = new Chatroom(chatroomName, Chatroom.ChatroomType.PERSONAL_CHAT, null, null);
         chatroomRepository.createChatroom(chatroom, chatroomProfileFile, participants, this::setIsCreateChatroomSuccess);
     }
 }

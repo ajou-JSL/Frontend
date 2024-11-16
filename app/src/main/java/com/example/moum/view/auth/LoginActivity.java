@@ -89,6 +89,7 @@ public class LoginActivity extends AppCompatActivity {
                     sharedPreferenceManager.setCache(getString(R.string.user_refresh_token_key), token.getRefresh());
                     sharedPreferenceManager.setCache(getString(R.string.user_username_key), token.getUesrname());
                     sharedPreferenceManager.setCache(getString(R.string.user_id_key), token.getId());
+                    sharedPreferenceManager.setCache(getString(R.string.user_name_key), token.getMember().getName());
                     Log.e(TAG, "access: " + token.getAccess() + " \nrefresh: " + token.getRefresh() + "\nusername: " + token.getUesrname() + "\nid: " + token.getId());
                 });
 

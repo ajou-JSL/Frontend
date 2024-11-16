@@ -11,10 +11,15 @@ public class Team {
     private Integer leaderId;
     private String teamName;
     private String description;
+    private String genre;
+    private String location;
     private String createdAt;
     private String fileUrl;
     private ArrayList<Member> members;
     private ArrayList<Record> records;
+    private String tier;
+    private Integer exp;
+    private String videoUrl;
 
     public void setMembers(ArrayList<Member> members) {
         this.members = members;
@@ -44,8 +49,29 @@ public class Team {
         this.teamName = teamName;
     }
 
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
     public void setRecords(ArrayList<Record> records) {
         this.records = records;
+    }
+
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
+    }
+
+    public void setExp(Integer exp) {
+        this.exp = exp;
+    }
+
+    public void setTier(String tier) {
+        this.tier = tier;
     }
 
     public ArrayList<Member> getMembers() {
@@ -72,12 +98,32 @@ public class Team {
         return teamName;
     }
 
+    public String getGenre() {
+        return genre;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
     public String getFileUrl() {
         return fileUrl;
     }
 
     public ArrayList<Record> getRecords() {
         return records;
+    }
+
+    public String getTier() {
+        return tier;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public Integer getExp() {
+        return exp;
     }
 
     @Override
@@ -87,9 +133,15 @@ public class Team {
                 ", leaderId=" + leaderId +
                 ", teamName='" + teamName + '\'' +
                 ", description='" + description + '\'' +
+                ", genre='" + genre + '\'' +
+                ", location='" + location + '\'' +
                 ", createdAt='" + createdAt + '\'' +
                 ", fileUrl='" + fileUrl + '\'' +
                 ", members=" + members +
+                ", records=" + records +
+                ", tier='" + tier + '\'' +
+                ", exp=" + exp +
+                ", videoUrl='" + videoUrl + '\'' +
                 '}';
     }
 }

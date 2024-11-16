@@ -8,6 +8,7 @@ import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
+import com.example.moum.R;
 import com.example.moum.data.api.ChatApi;
 import com.example.moum.data.dto.ChatErrorResponse;
 import com.example.moum.data.dto.ChatSendRequest;
@@ -18,11 +19,13 @@ import com.example.moum.data.entity.Member;
 import com.example.moum.data.entity.Result;
 import com.example.moum.repository.client.BaseUrl;
 import com.example.moum.repository.client.RetrofitClientManager;
+import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.utils.ValueMap;
 import com.google.gson.Gson;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import okhttp3.HttpUrl;
@@ -39,18 +42,26 @@ public class ChatRepository {
     private final RetrofitClientManager retrofitClientManager;
     private final Retrofit retrofitClient;
     private final String TAG = getClass().toString();
+    private final SharedPreferenceManager sharedPreferenceManager;
+    private final String accessToken;
 
     private ChatRepository(Application application) {
         retrofitClientManager = new RetrofitClientManager();
         retrofitClientManager.setBaseUrl(BaseUrl.CHAT_SERVER_PATH.getUrl());
         retrofitClient = retrofitClientManager.getAuthClient(application);
         chatApi = retrofitClient.create(ChatApi.class);
+
+        this.sharedPreferenceManager = new SharedPreferenceManager(application, application.getString(R.string.preference_file_key));
+        this.accessToken = sharedPreferenceManager.getCache(application.getString(R.string.user_access_token_key), "no-access-token");
     }
 
     public ChatRepository(Application application, RetrofitClientManager retrofitClientManager){
         this.retrofitClientManager = retrofitClientManager;
         this.retrofitClient = retrofitClientManager.getAuthClient(application);
         this.chatApi = retrofitClient.create(ChatApi.class);
+
+        this.sharedPreferenceManager = new SharedPreferenceManager(application, application.getString(R.string.preference_file_key));
+        this.accessToken = sharedPreferenceManager.getCache(application.getString(R.string.user_access_token_key), "no-access-token");
     }
 
     public static ChatRepository getInstance(Application application) {
@@ -115,6 +126,7 @@ public class ChatRepository {
                 .url(url)
                 .get()
                 .addHeader("Accept", "text/event-stream")
+                .addHeader("access", accessToken)
                 .build();
 
         /*OkSse로 SSE 통신 스트림 연결*/
@@ -159,7 +171,6 @@ public class ChatRepository {
             @Override
             public boolean onRetryError(ServerSentEvent sse, Throwable throwable, okhttp3.Response response) {
                 Log.e(TAG, "onRetryError - recent");
-                Log.e(TAG, response.toString());
                 return false;
             }
 
@@ -189,13 +200,14 @@ public class ChatRepository {
                 .addPathSegment("chat")
                 .addPathSegment(String.valueOf(chatroomId))
                 .addPathSegment("before-timestamp")
-                .addQueryParameter("beforeTimestamp", beforeTimestamp.toString())
+                .addQueryParameter("timestamp", beforeTimestamp.toString())
                 .build();
 
         /*GET 요청 생성*/
         Request request = new Request.Builder()
                 .url(url)
                 .get()
+                .addHeader("access", accessToken)
                 .build();
 
         /*OkSse로 SSE 통신 스트림 연결*/
@@ -240,7 +252,6 @@ public class ChatRepository {
             @Override
             public boolean onRetryError(ServerSentEvent sse, Throwable throwable, okhttp3.Response response) {
                 Log.e(TAG, "onRetryError - old");
-                Log.e(TAG, response.toString());
                 return false;
             }
 

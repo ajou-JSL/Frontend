@@ -22,7 +22,7 @@ public class LoginViewModel extends AndroidViewModel {
 
     public LoginViewModel(Application application){
         super(application);
-        loginRepository = LoginRepository.getInstance(application);
+        loginRepository = new LoginRepository(application);
     }
 
     public LoginViewModel(Application application, LoginRepository loginRepository){

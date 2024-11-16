@@ -98,6 +98,7 @@ public class BoardGroupItemAdapter extends RecyclerView.Adapter<BoardGroupItemAd
                 Glide.with(itemView.getContext())
                         .load(item.getImage())
                         .into(image);
+                image.setCropToPadding(true);
             } else {
                 image.setVisibility(View.GONE);
             }

@@ -13,6 +13,9 @@ public enum Validation {
     NICKNAME_NOT_WRITTEN,
     INSTRUMENT_NOT_WRITTEN,
     PROFICIENCY_NOT_WRITTEN,
+    TEAM_NAME_NOT_WRITTEN,
+    TEAM_GENRE_NOT_WRITTEN,
+    MOUM_NAME_NOT_WRITTEN,
 
     //NOT FORMAL
     ID_NOT_FORMAL,
@@ -26,6 +29,7 @@ public enum Validation {
 
     //회원가입
     BASIC_SIGNUP_NOT_TRIED,
+    RECORD_NOT_VALID,
 
     // 채팅방
     CHATROOM_NOT_LOADED,
@@ -116,6 +120,9 @@ public enum Validation {
     GET_PROFILE_SUCCESS,
     UPDATE_PROFILE_SUCCESS,
 
+    // 공연 게시글 관련 성공 응답
+    PERFORMANCE_LIST_GET_SUCCESS,
+
     // 모음 관련 성공 응답
     CREATE_MOUM_SUCCESS,
     GET_MOUM_SUCCESS,
@@ -123,6 +130,7 @@ public enum Validation {
     DELETE_MOUM_SUCCESS,
     FINISH_MOUM_SUCCESS,
     REOPEN_MOUM_SUCCESS,
+    UPDATE_PROCESS_MOUM_SUCCESS,
 
     // 공통 오류 코드
     INTERNAL_SERVER_ERROR,
@@ -167,6 +175,7 @@ public enum Validation {
     MEMBER_ALREADY_INVITED,
     TEAM_NOT_FOUND,
     NOT_TEAM_MEMBER,
-    LEADER_CANNOT_LEAVE
+    LEADER_CANNOT_LEAVE,
+    MUST_JOIN_TEAM_FIRST
 
     }

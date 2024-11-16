@@ -15,4 +15,9 @@
     <color name="neon_pink">#E0A0DA</color>
     <color name="transparent">#00FFFFFF</color>
     <color name="red">#FF0000</color>
+    <color name="bronze">#AD6B23</color>
+    <color name="silver">#CDD5CE</color>
+    <color name="gold">#EDCA1C</color>
+    <color name="platinum">#1EEB4B</color>
+    <color name="diamond">#0CDFFA</color>
 </resources>
