@@ -216,12 +216,12 @@ public class MoumCreateActivity extends AppCompatActivity {
             else if(validation == Validation.TEAM_NOT_FOUND){
                 Toast.makeText(context, "팀을 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
             }
-            else if(validation == Validation.CREATE_TEAM_SUCCESS){
+            else if(validation == Validation.CREATE_MOUM_SUCCESS){
                 Toast.makeText(context, "모음 생성에 성공하였습니다.", Toast.LENGTH_SHORT).show();
                 finish();
             }
             else{
-                Toast.makeText(context, "단체 생성에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "모음 생성에 실패하였습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "감시 결과를 알 수 없습니다.");
             }
         });

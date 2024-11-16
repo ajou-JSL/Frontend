@@ -72,7 +72,7 @@ public class MemberProfileFragment extends BottomSheetDialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentMemberProfileBinding.inflate(inflater,container, false);
         viewModel = new ViewModelProvider(requireActivity()).get(MemberProfileViewModel.class);
-        context = getContext();
+        context = requireContext();
         View view = binding.getRoot();
         view.setBackground(context.getDrawable(R.drawable.background_top_rounded_white));
 
@@ -200,7 +200,11 @@ public class MemberProfileFragment extends BottomSheetDialogFragment {
             else if(validation == Validation.CHATROOM_WITH_ME){
                 Toast.makeText(context, "나 자신과의 개인톡은 시작할 수 없습니다.", Toast.LENGTH_SHORT).show();
             }
-            else if(validation == Validation.CHATROOM_ALREADY_EXIST || validation == Validation.CHATROOM_CREATE_SUCCESS){
+            else if(validation == Validation.CHATROOM_ALREADY_EXIST){
+                Toast.makeText(context, "채팅방이 이미 생성되어 있습니다.", Toast.LENGTH_SHORT).show();
+            }
+            else if(validation == Validation.CHATROOM_CREATE_SUCCESS){
+                Toast.makeText(context, "채팅방을 생성하였습니다.", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(context, ChatActivity.class);
                 intent.putExtra("chatroomId", chatroom.getId());
                 intent.putExtra("chatroomName", chatroom.getName());
@@ -210,7 +214,7 @@ public class MemberProfileFragment extends BottomSheetDialogFragment {
                 intent.putExtra("lastChat", chatroom.getLastChat());
                 intent.putExtra("lastTimestamp", chatroom.getLastTimestamp());
                 intent.putExtra("fileUrl", chatroom.getFileUrl());
-                context.startActivity(intent);
+                startActivity(intent);
                 dismiss();
             }
             else if(validation == Validation.NETWORK_FAILED){

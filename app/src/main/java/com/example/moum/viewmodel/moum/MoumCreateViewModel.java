@@ -113,6 +113,7 @@ public class MoumCreateViewModel extends AndroidViewModel {
         }
         ArrayList<Member> members = new ArrayList<>();
         moumToCreate.setMembers(members);
+        moumToCreate.setRecords(new ArrayList<>());
 
         /*goto repository*/
         moumRepository.createMoum(moumToCreate, profileFiles, this::setIsCreateMoumSuccess);

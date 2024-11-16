@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 public class ImageManager {
 
     private Context context;
-
+    private static int num = 0;
     public ImageManager(Context context){
         this.context = context;
     }
@@ -23,7 +23,7 @@ public class ImageManager {
             InputStream inputStream = context.getContentResolver().openInputStream(uri);
             if (inputStream != null) {
                 // 임시 파일 생성
-                file = new File(context.getCacheDir(), "temp_image.jpg");
+                file = new File(context.getCacheDir(), "temp_image" + num++ + ".jpg");
                 FileOutputStream outputStream = new FileOutputStream(file);
                 byte[] buffer = new byte[1024];
                 int bytesRead;
