@@ -35,6 +35,7 @@ import com.example.moum.data.entity.Member;
 import com.example.moum.data.entity.Moum;
 import com.example.moum.databinding.ActivityChatBinding;
 import com.example.moum.utils.SharedPreferenceManager;
+import com.example.moum.utils.TimeManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.view.chat.adapter.ChatAdapter;
@@ -102,10 +103,8 @@ public class ChatActivity extends AppCompatActivity {
 
         binding.textviewChatUserName.setText(chatroomName);
         if(lastTimestamp != null && !lastTimestamp.isEmpty()){
-            LocalDateTime dateTime = LocalDateTime.parse(lastTimestamp);
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-            String formattedDate = dateTime.format(formatter);
-            binding.textviewChatMessageTime.setText(formattedDate);
+            String prettyTime = TimeManager.strToPrettyTime(lastTimestamp);
+            binding.textviewChatMessageTime.setText(prettyTime);
         }
         chatViewModel.setChatroomInfo(username, id, chatroom);
         Uri chatroomProfile;
@@ -213,10 +212,8 @@ public class ChatActivity extends AppCompatActivity {
                 chats.add(receivedChat);
                 chatAdapter.notifyItemInserted(chats.size()-1);
                 recyclerView.scrollToPosition(chats.size()-1);
-
-                DateTimeFormatter recievedFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-                String recievedFormattedDate = receivedChat.getTimestamp().format(recievedFormatter);
-                binding.textviewChatMessageTime.setText(recievedFormattedDate);
+                String prettyTime = TimeManager.strToPrettyTime(receivedChat.getTimestamp().toString());
+                binding.textviewChatMessageTime.setText(prettyTime);
 
             }
             else if(validation == Validation.CHAT_RECEIVE_FAIL){

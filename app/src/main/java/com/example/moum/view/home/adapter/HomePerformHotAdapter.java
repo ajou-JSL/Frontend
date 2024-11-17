@@ -19,6 +19,7 @@ import com.example.moum.R;
 import com.example.moum.data.entity.Article;
 import com.example.moum.data.entity.Performance;
 import com.example.moum.utils.ImageManager;
+import com.example.moum.utils.TimeManager;
 import com.example.moum.view.home.HomeFragment;
 
 import java.util.ArrayList;
@@ -75,6 +76,7 @@ public class HomePerformHotAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             this.homeFragment = homeFragment;
         }
 
+        @RequiresApi(api = Build.VERSION_CODES.O)
         public void bind(Performance performance) {
             this.performance = performance;
             if(ImageManager.isUrlValid(performance.getPerformanceImageUrl()))
@@ -88,8 +90,10 @@ public class HomePerformHotAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             performName.setText(performance.getPerformanceName());
             performPlace.setText(performance.getPerformanceLocation());
             String performTimeStr = "";
-            if(performance.getPerformanceStartDate() != null) performTimeStr = performTimeStr.concat(performance.getPerformanceStartDate());
-            if(performance.getPerformanceEndDate() != null) performTimeStr = performTimeStr.concat(" + " + performance.getPerformanceEndDate());
+            if(performance.getPerformanceStartDate() != null)
+                performTimeStr = performTimeStr.concat(TimeManager.strToDate(performance.getPerformanceStartDate()));
+            if(performance.getPerformanceEndDate() != null)
+                performTimeStr = performTimeStr.concat(" ~\n" + performTimeStr.concat(TimeManager.strToDate(performance.getPerformanceEndDate())));
             performTime.setText(performTimeStr);
             performTop.setOnClickListener(new View.OnClickListener() {
                 @Override
