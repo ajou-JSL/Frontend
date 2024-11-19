@@ -42,6 +42,7 @@ public class MoumUpdateDialog extends Dialog {
 
         textviewMain.setText(String.format("'%s'\n모음을 수정할까요?", moumName));
         textViewSub.setText("수정사항을 저장할 수 있어요.");
+        buttonYes.setText("수정");
         buttonNo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -92,6 +92,10 @@ public class MoumUpdateViewModel extends AndroidViewModel {
         this.isUpdateMoumSuccess.setValue(isUpdateMoumSuccess);
     }
 
+    public void setIsProfileUpdated(Boolean isProfileUpdated){
+        this.isProfileUpdated = isProfileUpdated;
+    }
+
     public void loadMoum(Integer moumId){
         moumRepository.loadMoum(moumId, this::setIsLoadMoumSuccess);
     }
@@ -113,7 +117,7 @@ public class MoumUpdateViewModel extends AndroidViewModel {
         setIsValidCheckSuccess(Validation.VALID_ALL);
     }
 
-    public void updateMoum(Integer moumId, Context context){
+    public void updateMoum(Integer moumId, Integer teamId, Integer leaderId, Context context){
         /*valid check*/
         if(isValidCheckSuccess.getValue() == null || isValidCheckSuccess.getValue() != Validation.VALID_ALL){
             Result<Moum> result = new Result<>(Validation.NOT_VALID_ANYWAY);
@@ -124,6 +128,8 @@ public class MoumUpdateViewModel extends AndroidViewModel {
         /*processing for repository*/
         Moum moumToUpdate = moum.getValue();
         moumToUpdate.setMoumId(moumId);
+        moumToUpdate.setTeamId(teamId);
+        moumToUpdate.setLeaderId(leaderId);
         if(startDate != null) moumToUpdate.setStartDate(startDate.toString());
         if(endDate != null) moumToUpdate.setEndDate(endDate.toString());
         ArrayList<File> profileFiles = new ArrayList<>();
@@ -134,7 +140,6 @@ public class MoumUpdateViewModel extends AndroidViewModel {
                 profileFiles.add(profileFile);
             }
         }
-
         moumToUpdate.setMembers( new ArrayList<>());
         moumToUpdate.setRecords(new ArrayList<>());
         moumToUpdate.setMusic(music);

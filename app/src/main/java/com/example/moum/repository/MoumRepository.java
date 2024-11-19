@@ -230,14 +230,22 @@ public class MoumRepository {
 
     public void updateMoum(Integer moumId, Moum moum, ArrayList<File> moumProfiles, com.example.moum.utils.Callback<Result<Moum>> callback){
         /*processing into DTO*/
-        List<MultipartBody.Part> profileImages = new ArrayList<>();
+        Log.e(TAG, "moumProfiles: " +  moumProfiles.toString() + " moumProfiles size: " + moumProfiles.size());
+        List<MultipartBody.Part> profileImages = new ArrayList<>();;
         if(moumProfiles != null && !moumProfiles.isEmpty()){
+            Log.e(TAG, "if문 들어옴");
             for(File moumProfile : moumProfiles){
                 RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpg"), moumProfile);
                 MultipartBody.Part profileImage = MultipartBody.Part.createFormData("file", moumProfile.getName(), requestFile);
                 profileImages.add(profileImage);
             }
         }
+
+        if(profileImages.isEmpty()){
+            MultipartBody.Part profileImage = MultipartBody.Part.createFormData("file", null, RequestBody.create(null, new byte[0]));
+            profileImages.add(profileImage);
+        }
+        //Log.e(TAG, "profileImages: " +  profileImages.toString() + " profileImages size: " + profileImages.size());
         MoumRequest moumRequest = new MoumRequest(moum.getMoumName(), moum.getMoumDescription(), moum.getPerformLocation(), moum.getStartDate(), moum.getEndDate(), moum.getPrice(), moum.getLeaderId(), moum.getTeamId(), moum.getMembers(), moum.getRecords(), moum.getMusic());
         Call<SuccessResponse<Moum>> result = moumApi.updateMoum(moumId, profileImages, moumRequest);
 

@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -162,10 +163,10 @@ public class MoumCreateActivity extends AppCompatActivity {
                 // child 세팅
                 LinearLayout placeholderMusicName = songChild.findViewById(R.id.placeholder_music_name);
                 EditText editTextMusicName = songChild.findViewById(R.id.edittext_music_name);
-                EditText errorMusicName = songChild.findViewById(R.id.error_music_name);
+                TextView errorMusicName = songChild.findViewById(R.id.error_music_name);
                 LinearLayout placeholderArtistName = songChild.findViewById(R.id.placeholder_artist_name);
                 EditText editTextArtistName = songChild.findViewById(R.id.edittext_artist_name);
-                EditText errorArtistName = songChild.findViewById(R.id.error_artist_name);
+                TextView errorArtistName = songChild.findViewById(R.id.error_artist_name);
 
 
                 editTextMusicName.setOnFocusChangeListener(new View.OnFocusChangeListener() {

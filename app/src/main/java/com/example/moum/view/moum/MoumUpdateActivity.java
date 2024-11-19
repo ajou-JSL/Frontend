@@ -2,6 +2,7 @@ package com.example.moum.view.moum;
 
 import static android.util.Log.e;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -37,9 +38,13 @@ import com.example.moum.utils.Validation;
 import com.example.moum.utils.WrapContentLinearLayoutManager;
 import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.view.dialog.MoumCreateDialog;
+import com.example.moum.view.dialog.MoumUpdateDialog;
 import com.example.moum.view.moum.adapter.MoumCreateImageAdapter;
+import com.example.moum.view.moum.adapter.MoumUpdateImageAdapter;
 import com.example.moum.viewmodel.moum.MoumCreateViewModel;
 import com.example.moum.viewmodel.moum.MoumUpdateViewModel;
+
+import org.w3c.dom.Text;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -57,9 +62,12 @@ public class MoumUpdateActivity extends AppCompatActivity {
     private SharedPreferenceManager sharedPreferenceManager;
     private Integer id;
     private Integer moumId;
+    private Integer teamId;
+    private Integer leaderId;
     private ActivityResultLauncher<PickVisualMediaRequest> pickMultipleMedia;
     private ArrayList<Uri> uris = new ArrayList<>();
 
+    @SuppressLint("DefaultLocale")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +81,12 @@ public class MoumUpdateActivity extends AppCompatActivity {
         /*모음 id 정보 불러오기*/
         Intent prevIntent = getIntent();
         moumId = prevIntent.getIntExtra("moumId", -1);
+        teamId = prevIntent.getIntExtra("teamId", -1);
+        leaderId = prevIntent.getIntExtra("leaderId", -1);
+        if(moumId == -1 || teamId == -1 || leaderId == -1){
+            Toast.makeText(context, "잘못된 접근입니다.", Toast.LENGTH_SHORT).show();
+            finish();
+        }
 
         /*자동로그인 정보를 SharedPreference에서 불러오기*/
         sharedPreferenceManager = new SharedPreferenceManager(context, getString(R.string.preference_file_key));
@@ -96,12 +110,12 @@ public class MoumUpdateActivity extends AppCompatActivity {
 
         /*이미지 리사이클러뷰 연결*/
         RecyclerView recyclerView = binding.recyclerMoumImages;
-        MoumCreateImageAdapter moumCreateImageAdapter = new MoumCreateImageAdapter();
-        moumCreateImageAdapter.setUris(uris, context);
+        MoumUpdateImageAdapter moumUpdateImageAdapter = new MoumUpdateImageAdapter();
+        moumUpdateImageAdapter.setUris(uris, context);
         recyclerView.setLayoutManager(new WrapContentLinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-        recyclerView.setAdapter(moumCreateImageAdapter);
+        recyclerView.setAdapter(moumUpdateImageAdapter);
         uris.add(null); //for image selector
-        moumCreateImageAdapter.notifyItemInserted(uris.size()-1);
+        moumUpdateImageAdapter.notifyItemInserted(uris.size()-1);
 
         /*Photo picker 선택 후 콜백*/
         pickMultipleMedia =
@@ -122,8 +136,9 @@ public class MoumUpdateActivity extends AppCompatActivity {
             uris.clear();
             uris.addAll(addedUris);
             uris.add(null); //for image selector
-            moumCreateImageAdapter.notifyItemInserted(uris.size()-1);
+            moumUpdateImageAdapter.notifyItemInserted(uris.size()-1);
             recyclerView.scrollToPosition(uris.size()-1);
+            viewModel.setIsProfileUpdated(true);
         });
 
         /*날짜 선택 이벤트*/
@@ -177,8 +192,18 @@ public class MoumUpdateActivity extends AppCompatActivity {
                 if(loadedMoum.getPerformLocation() != null) binding.edittextMoumPlace.setText(loadedMoum.getPerformLocation());
                 if(loadedMoum.getStartDate() != null) binding.buttonMoumDateStart.setText(loadedMoum.getStartDate());
                 if(loadedMoum.getEndDate() != null) binding.buttonMoumDateEnd.setText(loadedMoum.getEndDate());
-                if(loadedMoum.getPrice() != null) binding.edittextMoumPrice.setText(loadedMoum.getPrice());
-                if(loadedMoum.getImageUrls() != null && !loadedMoum.getImageUrls().isEmpty()) viewModel.setProfileImages(loadedMoum.getImageUrls());
+                if(loadedMoum.getPrice() != null) binding.edittextMoumPrice.setText(String.format("%d", loadedMoum.getPrice()));
+                if(loadedMoum.getImageUrls() != null && !loadedMoum.getImageUrls().isEmpty()){
+                    ArrayList<Uri> uriArrayList = new ArrayList<>();
+                    for(String url : loadedMoum.getImageUrls())
+                        uriArrayList.add(Uri.parse(url));
+                    uris.clear();
+                    uris.addAll(uriArrayList);
+                    uris.add(null); //for image selector
+                    moumUpdateImageAdapter.notifyItemInserted(uris.size()-1);
+                    recyclerView.scrollToPosition(uris.size()-1);
+                    viewModel.setIsProfileUpdated(false);
+                }
                 if(loadedMoum.getMusic() != null &&!loadedMoum.getMusic().isEmpty()){
                     for(Music music : loadedMoum.getMusic()){
                         View songChild = addSongLayout(songParent);
@@ -244,8 +269,8 @@ public class MoumUpdateActivity extends AppCompatActivity {
             }
             else if(isValidCheckSuccess == Validation.VALID_ALL){
                 // valid check 유효하다면, 최종 다이얼로그 띄우기
-                MoumCreateDialog moumCreateDialog = new MoumCreateDialog(this, binding.edittextMoumName.getText().toString());
-                moumCreateDialog.show();
+                MoumUpdateDialog moumUpdateDialog = new MoumUpdateDialog(this, binding.edittextMoumName.getText().toString());
+                moumUpdateDialog.show();
             }
             else{
                 Toast.makeText(context, "모음 수정에 실패하였습니다.", Toast.LENGTH_SHORT).show();
@@ -274,7 +299,7 @@ public class MoumUpdateActivity extends AppCompatActivity {
                 finish();
             }
             else{
-                Toast.makeText(context, "모음 생성에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "모음 수정에 실패하였습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "감시 결과를 알 수 없습니다.");
             }
         });
@@ -329,7 +354,7 @@ public class MoumUpdateActivity extends AppCompatActivity {
 
     public void onDialogYesClicked(){
         /*다이얼로그에서 Yes 버튼 클릭 시, updateMoum() 호출*/
-        viewModel.updateMoum(moumId, context);
+        viewModel.updateMoum(moumId, teamId, leaderId, context);
     }
 
     public void onImageSelectorClicked(){
@@ -346,10 +371,10 @@ public class MoumUpdateActivity extends AppCompatActivity {
         // child 세팅
         LinearLayout placeholderMusicName = songChild.findViewById(R.id.placeholder_music_name);
         EditText editTextMusicName = songChild.findViewById(R.id.edittext_music_name);
-        EditText errorMusicName = songChild.findViewById(R.id.error_music_name);
+        TextView errorMusicName = songChild.findViewById(R.id.error_music_name);
         LinearLayout placeholderArtistName = songChild.findViewById(R.id.placeholder_artist_name);
         EditText editTextArtistName = songChild.findViewById(R.id.edittext_artist_name);
-        EditText errorArtistName = songChild.findViewById(R.id.error_artist_name);
+        TextView errorArtistName = songChild.findViewById(R.id.error_artist_name);
 
 
         editTextMusicName.setOnFocusChangeListener(new View.OnFocusChangeListener() {

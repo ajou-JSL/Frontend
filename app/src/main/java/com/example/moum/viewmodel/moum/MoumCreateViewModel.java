@@ -118,6 +118,7 @@ public class MoumCreateViewModel extends AndroidViewModel {
                 profileFiles.add(profileFile);
             }
         }
+        if(profileFiles.isEmpty()) profileFiles = null;
         ArrayList<Member> members = new ArrayList<>();
         moumToCreate.setMembers(members);
         moumToCreate.setRecords(new ArrayList<>());

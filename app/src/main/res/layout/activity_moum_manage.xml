@@ -93,6 +93,8 @@
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recycler_moum_manage_image"
                             android:layout_width="match_parent"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginLeft="15dp"
                             android:layout_height="200dp"/>
 
                         <LinearLayout
@@ -240,6 +242,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
+                                android:layout_marginLeft="25dp"
+                                android:layout_marginRight="25dp"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent">
                                 

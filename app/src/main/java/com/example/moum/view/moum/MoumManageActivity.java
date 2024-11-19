@@ -120,6 +120,8 @@ public class MoumManageActivity extends AppCompatActivity {
                         if (selectedItem.equals("수정하기")) {
                             Intent intent = new Intent(MoumManageActivity.this, MoumUpdateActivity.class);
                             intent.putExtra("moumId", moumId);
+                            intent.putExtra("teamId", recentMoum.getTeamId());
+                            intent.putExtra("leaderId", recentMoum.getLeaderId());
                             startActivity(intent);
                         } else if (selectedItem.equals("삭제하기")) {
                             MoumDeleteDialog moumDeleteDialog = new MoumDeleteDialog(context, recentMoum.getMoumName());
@@ -513,8 +515,12 @@ public class MoumManageActivity extends AppCompatActivity {
         binding.buttonPracticeRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO
-                Toast.makeText(context, "연습실 찾기 페이지 이동", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MoumManageActivity.this, MoumFindPracticeroomActivity.class);
+                intent.putExtra("teamId", recentMoum.getTeamId());
+                intent.putExtra("moumId", recentMoum.getMoumId());
+                intent.putExtra("leaderId", recentMoum.getLeaderId());
+                startActivity(intent);
+
             }
         });
         binding.buttonPerformLocation.setOnClickListener(new View.OnClickListener() {

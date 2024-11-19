@@ -1,30 +1,25 @@
 package com.example.moum.view.moum.adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.moum.R;
-import com.example.moum.data.entity.Moum;
 import com.example.moum.view.moum.MoumCreateActivity;
+import com.example.moum.view.moum.MoumUpdateActivity;
 
 import java.util.ArrayList;
 
-public class MoumCreateImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class MoumUpdateImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<Uri> uris;
     private Context context;
     private static final int VIEW_TYPE_IMAGE_HOLDER = 1;
@@ -45,10 +40,10 @@ public class MoumCreateImageAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_IMAGE_SELECTOR) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_moum_create_image, parent, false);
-            return new MoumCreateImageAdapter.ImageSelectorViewHolder(view, context);
+            return new MoumUpdateImageAdapter.ImageSelectorViewHolder(view, context);
         } else {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_moum_create_image, parent, false);
-            return new MoumCreateImageAdapter.ImageHolderViewHolder(view, context);
+            return new MoumUpdateImageAdapter.ImageHolderViewHolder(view, context);
         }
     }
 
@@ -56,10 +51,10 @@ public class MoumCreateImageAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Uri uri = uris.get(position);
-        if (holder instanceof MoumCreateImageAdapter.ImageSelectorViewHolder) {
-            ((MoumCreateImageAdapter.ImageSelectorViewHolder) holder).bind(uri);
-        } else if (holder instanceof MoumCreateImageAdapter.ImageHolderViewHolder) {
-            ((MoumCreateImageAdapter.ImageHolderViewHolder) holder).bind(uri);
+        if (holder instanceof MoumUpdateImageAdapter.ImageSelectorViewHolder) {
+            ((MoumUpdateImageAdapter.ImageSelectorViewHolder) holder).bind(uri);
+        } else if (holder instanceof MoumUpdateImageAdapter.ImageHolderViewHolder) {
+            ((MoumUpdateImageAdapter.ImageHolderViewHolder) holder).bind(uri);
         }
     }
 
@@ -70,23 +65,23 @@ public class MoumCreateImageAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     static class ImageSelectorViewHolder extends RecyclerView.ViewHolder{
         private Uri uri;
-        private ImageView moumCreateImageview;
+        private ImageView moumUpdateImageview;
         private Context context;
-        private MoumCreateActivity moumCreateActivity;
+        private MoumUpdateActivity moumUpdateActivity;
 
         public ImageSelectorViewHolder(@NonNull View itemView, Context context) {
             super(itemView);
-            moumCreateImageview = itemView.findViewById(R.id.imageview_moum_create);
+            moumUpdateImageview = itemView.findViewById(R.id.imageview_moum_create);
             this.context = context;
-            moumCreateActivity = (MoumCreateActivity) context;
+            moumUpdateActivity = (MoumUpdateActivity) context;
         }
 
         public void bind(Uri uri) {
             this.uri = uri;
-            moumCreateImageview.setOnClickListener(new View.OnClickListener() {
+            moumUpdateImageview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    moumCreateActivity.onImageSelectorClicked();
+                    moumUpdateActivity.onImageSelectorClicked();
                 }
             });
         }
@@ -95,22 +90,21 @@ public class MoumCreateImageAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     static class ImageHolderViewHolder extends RecyclerView.ViewHolder{
         private Uri uri;
-        private ImageView moumCreateImageview;
+        private ImageView moumUpdateImageview;
         private Context context;
-        private MoumCreateActivity moumCreateActivity;
+        private MoumUpdateActivity moumUpdateActivity;
 
         public ImageHolderViewHolder(@NonNull View itemView, Context context) {
             super(itemView);
-            moumCreateImageview = itemView.findViewById(R.id.imageview_moum_create);
+            moumUpdateImageview = itemView.findViewById(R.id.imageview_moum_create);
             this.context = context;
-            moumCreateActivity = (MoumCreateActivity) context;
+            moumUpdateActivity = (MoumUpdateActivity) context;
         }
 
         public void bind(Uri uri){
             this.uri = uri;
-            Glide.with(context).load(uri).into(moumCreateImageview);
-            moumCreateImageview.setClipToOutline(true);
+            Glide.with(context).load(uri).into(moumUpdateImageview);
+            moumUpdateImageview.setClipToOutline(true);
         }
     }
-
 }
