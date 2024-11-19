@@ -1,6 +1,8 @@
 package com.example.moum.view.moum;
 
 import static android.util.Log.e;
+import static android.util.Log.i;
+import static android.util.Log.v;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -31,6 +33,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.moum.R;
 import com.example.moum.data.entity.Member;
 import com.example.moum.data.entity.Moum;
+import com.example.moum.data.entity.Music;
 import com.example.moum.databinding.ActivityMoumCreateBinding;
 import com.example.moum.databinding.ActivityMoumManageBinding;
 import com.example.moum.utils.SharedPreferenceManager;
@@ -38,11 +41,13 @@ import com.example.moum.utils.Validation;
 import com.example.moum.utils.WrapContentLinearLayoutManager;
 import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.view.dialog.MoumCreateDialog;
+import com.example.moum.view.dialog.MoumDeleteDialog;
 import com.example.moum.view.dialog.MoumFinishDialog;
 import com.example.moum.view.dialog.MoumReopenDialog;
 import com.example.moum.view.moum.adapter.MoumCreateImageAdapter;
 import com.example.moum.view.moum.adapter.MoumManageImageAdapter;
 import com.example.moum.view.moum.adapter.MoumManageMemberAdapter;
+import com.example.moum.view.moum.adapter.MoumManageMusicAdapter;
 import com.example.moum.viewmodel.moum.MoumCreateViewModel;
 import com.example.moum.viewmodel.moum.MoumManageViewModel;
 
@@ -59,6 +64,7 @@ public class MoumManageActivity extends AppCompatActivity {
     private Integer moumId;
     private ArrayList<String> uris = new ArrayList<>();
     private ArrayList<Member> members = new ArrayList<>();
+    private ArrayList<Music> musics = new ArrayList<>();
     private Moum recentMoum;
     private boolean isSpinnerInitialized = false;
 
@@ -112,9 +118,12 @@ public class MoumManageActivity extends AppCompatActivity {
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         String selectedItem = menuItem.getTitle().toString();
                         if (selectedItem.equals("수정하기")) {
-                            Toast.makeText(MoumManageActivity.this, "수정하기 선택", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(MoumManageActivity.this, MoumUpdateActivity.class);
+                            intent.putExtra("moumId", moumId);
+                            startActivity(intent);
                         } else if (selectedItem.equals("삭제하기")) {
-                            Toast.makeText(MoumManageActivity.this, "삭제하기 선택", Toast.LENGTH_SHORT).show();
+                            MoumDeleteDialog moumDeleteDialog = new MoumDeleteDialog(context, recentMoum.getMoumName());
+                            moumDeleteDialog.show();
                         }
                         return true;
                     }
@@ -136,6 +145,13 @@ public class MoumManageActivity extends AppCompatActivity {
         moumManageMemberAdapter.setMembers(members, context);
         memberRecyclerView.setLayoutManager(new WrapContentLinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
         memberRecyclerView.setAdapter(moumManageMemberAdapter);
+
+        /*곡 리사이클러뷰 연결*/
+        RecyclerView musicRecyclerView = binding.recyclerMoumManageMusic;
+        MoumManageMusicAdapter moumManageMusicAdapter = new MoumManageMusicAdapter();
+        moumManageMusicAdapter.setMusics(musics, context);
+        musicRecyclerView.setLayoutManager(new WrapContentLinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+        musicRecyclerView.setAdapter(moumManageMusicAdapter);
 
         /*각 단계별 설정 드롭다운 설정*/
         String[] processList = getResources().getStringArray(R.array.moum_manange_process_etc_list);
@@ -400,9 +416,11 @@ public class MoumManageActivity extends AppCompatActivity {
                }
                members.addAll(loadedMoum.getMembers());
                moumManageMemberAdapter.notifyItemInserted(members.size()-1);
-                if(loadedMoum.getPerformLocation() != null) binding.textviewMoumManagePlace.setText(loadedMoum.getPerformLocation());
+               musics.addAll(loadedMoum.getMusic());
+               moumManageMusicAdapter.notifyItemInserted(musics.size()-1);
+               if(loadedMoum.getPerformLocation() != null) binding.textviewMoumManagePlace.setText(loadedMoum.getPerformLocation());
 
-                if(loadedMoum.getStartDate() != null && !loadedMoum.getStartDate().isEmpty() && loadedMoum.getEndDate() != null && !loadedMoum.getEndDate().isEmpty())
+               if(loadedMoum.getStartDate() != null && !loadedMoum.getStartDate().isEmpty() && loadedMoum.getEndDate() != null && !loadedMoum.getEndDate().isEmpty())
                     binding.textviewMoumManageDate.setText(String.format("%s ~ %s", loadedMoum.getStartDate(), loadedMoum.getEndDate()));
                 else if(loadedMoum.getStartDate() != null && !loadedMoum.getStartDate().isEmpty() && (loadedMoum.getEndDate() == null || loadedMoum.getEndDate().isEmpty()))
                     binding.textviewMoumManageDate.setText(String.format("%s", loadedMoum.getStartDate()));
@@ -656,6 +674,29 @@ public class MoumManageActivity extends AppCompatActivity {
                 e(TAG, "감시 결과를 알 수 없습니다.");
             }
         });
+
+        /*삭제 결과 감시*/
+        viewModel.getIsDeleteMoumSuccess().observe(this, isDeleteMoumSuccess -> {
+            Validation validation = isDeleteMoumSuccess.getValidation();
+            Moum deletedMoum = isDeleteMoumSuccess.getData();
+            if(validation == Validation.DELETE_MOUM_SUCCESS){
+                Toast.makeText(context, "'" + deletedMoum.getMoumName() + "'\n모음을 삭제하였습니다.", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+            else if(validation == Validation.NETWORK_FAILED) {
+                Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+            }
+            else if(validation == Validation.ILLEGAL_ARGUMENT){
+                Toast.makeText(context, "유효하지 않은 데이터입니다.", Toast.LENGTH_SHORT).show();
+            }
+            else if(validation == Validation.NO_AUTHORITY){
+                Toast.makeText(context, "마감 권한이 없습니다.", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Toast.makeText(context, "모음 삭제에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                e(TAG, "감시 결과를 알 수 없습니다.");
+            }
+        });
     }
 
     public void onMoumFinishDialogYesClicked(){
@@ -665,6 +706,8 @@ public class MoumManageActivity extends AppCompatActivity {
     public void onMoumReopenDialogYesClicked(){
         viewModel.reopenMoum(moumId);
     }
+
+    public void onMoumDeleteDialogYesClicked() { viewModel.deleteMoum(moumId); }
 
 
 }

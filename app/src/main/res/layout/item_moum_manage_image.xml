@@ -10,7 +10,7 @@
         android:id="@+id/imageview_moum_manage"
         android:layout_width="240dp"
         android:layout_height="180dp"
-        android:background="@drawable/background_rounded_gray"
+        android:background="@drawable/background_more_rounded_gray_size_fit"
         android:scaleType="fitXY"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
