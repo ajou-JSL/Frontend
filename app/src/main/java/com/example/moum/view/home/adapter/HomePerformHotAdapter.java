@@ -93,7 +93,7 @@ public class HomePerformHotAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             if(performance.getPerformanceStartDate() != null)
                 performTimeStr = performTimeStr.concat(TimeManager.strToDate(performance.getPerformanceStartDate()));
             if(performance.getPerformanceEndDate() != null)
-                performTimeStr = performTimeStr.concat(" ~\n" + performTimeStr.concat(TimeManager.strToDate(performance.getPerformanceEndDate())));
+                performTimeStr = performTimeStr.concat("\n~ " + TimeManager.strToDate(performance.getPerformanceEndDate()));
             performTime.setText(performTimeStr);
             performTop.setOnClickListener(new View.OnClickListener() {
                 @Override

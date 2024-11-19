@@ -31,7 +31,7 @@ public class ChatCreateChatroomActivity extends AppCompatActivity {
     private Context context;
     public String TAG = getClass().toString();
     private String[] teamNameList;
-    private List<Team> teams;
+    private List<Team> teams = new ArrayList<>();
     private ArrayList<Team> teamsAsLeader = new ArrayList<>();
     private SharedPreferenceManager sharedPreferenceManager;
     private String accessToken;
@@ -74,6 +74,7 @@ public class ChatCreateChatroomActivity extends AppCompatActivity {
         chatCreateChatroomViewModel.getIsLoadTeamsAsMemberSuccess().observe(this, result -> {
 
             //TODO validation 더 추가해야함
+            teams.clear();
             teams = result.getData();
             Validation validation = result.getValidation();
             if(validation == Validation.GROUP_NOT_SELECTED){

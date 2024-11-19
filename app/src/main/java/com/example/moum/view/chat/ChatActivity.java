@@ -112,8 +112,8 @@ public class ChatActivity extends AppCompatActivity {
             chatroomProfile = Uri.parse(fileUrl);
             Glide.with(this)
                     .applyDefaultRequestOptions(new RequestOptions()
-                    .placeholder(R.drawable.background_circle_gray)
-                    .error(R.drawable.background_circle_gray))
+                    .placeholder(R.drawable.background_circle_gray_size_fit)
+                    .error(R.drawable.background_circle_gray_size_fit))
                     .load(chatroomProfile).into(binding.imageChatProfile);
         }
         if(chatroomType == Chatroom.ChatroomType.PERSONAL_CHAT)

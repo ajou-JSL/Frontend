@@ -7,6 +7,7 @@ import androidx.annotation.RequiresApi;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
@@ -23,15 +24,22 @@ public class TimeManager {
 
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
+        DateTimeFormatter isoFormatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
+
         try {
             LocalDateTime dateTime = LocalDateTime.parse(input, dateTimeFormatter);
             return dateTime.toLocalDate().format(dateFormatter);
         } catch (DateTimeParseException e) {
             try {
-                LocalDate date = LocalDate.parse(input, dateFormatter);
-                return date.format(dateFormatter);
+                OffsetDateTime offsetDateTime = OffsetDateTime.parse(input, isoFormatter);
+                return offsetDateTime.format(dateFormatter);
             } catch (DateTimeParseException ex) {
-                return "";
+                try {
+                    LocalDate date = LocalDate.parse(input, dateFormatter);
+                    return date.format(dateFormatter);
+                } catch (DateTimeParseException exc) {
+                    return "";
+                }
             }
         }
     }
@@ -43,11 +51,18 @@ public class TimeManager {
         }
 
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
+        DateTimeFormatter isoFormatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
+
         try {
-            LocalDateTime dateTime = LocalDateTime.parse(input, dateTimeFormatter);
-            return dateTime.toString();
+            OffsetDateTime offsetDateTime = OffsetDateTime.parse(input, isoFormatter);
+            return offsetDateTime.toLocalDate().toString();
         } catch (DateTimeParseException e) {
-            return "";
+            try {
+                LocalDateTime dateTime = LocalDateTime.parse(input, dateTimeFormatter);
+                return dateTime.toLocalDate().toString();
+            } catch (DateTimeParseException ex) {
+                return "";
+            }
         }
     }
 

@@ -125,7 +125,7 @@ public class MemberProfileFragment extends BottomSheetDialogFragment {
                 if(targetMember.getRecords() != null && !targetMember.getRecords().isEmpty())
                     sumRecords.addAll(targetMember.getRecords());
                 if(targetMember.getMoumRecords() != null && !targetMember.getMoumRecords().isEmpty())
-                    sumRecords.addAll(targetMember.getRecords());
+                    sumRecords.addAll(targetMember.getMoumRecords());
                 if(!sumRecords.isEmpty()){
                     records.clear();
                     records.addAll(sumRecords);
@@ -252,7 +252,8 @@ public class MemberProfileFragment extends BottomSheetDialogFragment {
         /*엠블럼 리사이클러뷰 설정*/
         //TODO 후순위
 
-
+        /*위가 둥근 형태로 만들기*/
+        setStyle(STYLE_NORMAL, R.style.BottomSheetDialogTheme);
 
         return view;
     }
@@ -276,6 +277,7 @@ public class MemberProfileFragment extends BottomSheetDialogFragment {
                 }
                 binding.layoutYoutube.setVisibility(View.VISIBLE);
                 youTubePlayer.loadVideo(videoId, 0);
+                youTubePlayer.pause();
             }
         });
     }

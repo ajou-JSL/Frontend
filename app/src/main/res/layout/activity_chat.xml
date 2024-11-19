@@ -31,11 +31,11 @@
                 <RelativeLayout
                     android:layout_width="40dp"
                     android:layout_height="40dp">
-                    <ImageView
+                    <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/image_chat_profile"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/background_circle_darkgray"/>
+                        android:src="@drawable/background_circle_gray_size_fit"/>
                 </RelativeLayout>
 
 
