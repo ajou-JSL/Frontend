@@ -27,7 +27,7 @@ import java.util.Collections;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class PerformanceParticipantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ParticipantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<Member> participants;
     private ArrayList<Boolean> isParticipates;
     private Context context;
@@ -66,14 +66,14 @@ public class PerformanceParticipantAdapter extends RecyclerView.Adapter<Recycler
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if(isParticipates == null) isParticipates = new ArrayList<>(Collections.nCopies(participants.size(), false));
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_member, parent, false);
-        return new PerformanceParticipantAdapter.ChatroomParticipantViewHolder(view, context, this);
+        return new ParticipantAdapter.ChatroomParticipantViewHolder(view, context, this);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Member participant = participants.get(position);
-        ((PerformanceParticipantAdapter.ChatroomParticipantViewHolder) holder).bind(participant);
+        ((ParticipantAdapter.ChatroomParticipantViewHolder) holder).bind(participant);
 
     }
 
@@ -83,13 +83,13 @@ public class PerformanceParticipantAdapter extends RecyclerView.Adapter<Recycler
     }
 
     static class ChatroomParticipantViewHolder extends RecyclerView.ViewHolder{
-        private PerformanceParticipantAdapter adapter;
+        private ParticipantAdapter adapter;
         private Member participant;
         private TextView participantName;
         private CircleImageView participantProfile;
         private Context context;
 
-        public ChatroomParticipantViewHolder(@NonNull View itemView, Context context, PerformanceParticipantAdapter adapter) {
+        public ChatroomParticipantViewHolder(@NonNull View itemView, Context context, ParticipantAdapter adapter) {
             super(itemView);
             this.adapter = adapter;
             participantName = itemView.findViewById(R.id.participant_name);

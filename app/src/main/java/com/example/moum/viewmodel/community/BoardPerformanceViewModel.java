@@ -40,6 +40,10 @@ public class BoardPerformanceViewModel extends AndroidViewModel {
         this.isLoadNextPerformancesSuccess.setValue(isLoadNextPerformancesSuccess);
     }
 
+    public void clearPage(){
+        page = 0;
+    }
+
     public void loadPerformances(){
         performRepository.loadPerforms(page, LOAD_PERFORM_NUMBER, this::setIsLoadPerformancesSuccess);
         page = page + 1;

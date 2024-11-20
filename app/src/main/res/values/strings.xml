@@ -354,4 +354,10 @@
     <string-array name="moum_manange_process_etc_list">
         <item>업데이트 상태 토글하기</item>
     </string-array>
+    <string-array name="perform_etc_list">
+        <item>신고하기</item>
+        <item>URL 복사하기</item>
+        <item>수정하기</item>
+        <item>삭제하기</item>
+    </string-array>
 </resources>

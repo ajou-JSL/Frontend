@@ -153,6 +153,45 @@ public class PerformRepository {
         });
     }
 
+    public void deletePerform(Integer performId, com.example.moum.utils.Callback<Result<Performance>> callback){
+        Call<SuccessResponse<Performance>> result = performApi.deletePerform(performId);
+        result.enqueue(new retrofit2.Callback<SuccessResponse<Performance>>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onResponse(Call<SuccessResponse<Performance>> call, Response<SuccessResponse<Performance>> response) {
+                if (response.isSuccessful()) {
+                    /*성공적으로 응답을 받았을 때*/
+                    SuccessResponse<Performance> responseBody = response.body();
+                    Log.e(TAG, responseBody.toString());
+                    Performance performance = responseBody.getData();
+
+                    Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
+                    Result<Performance> result = new Result<>(validation, performance);
+                    callback.onResult(result);
+                }
+                else {
+                    /*응답은 받았으나 문제 발생 시*/
+                    try {
+                        ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
+                        if (errorResponse != null) {
+                            Log.e(TAG, errorResponse.toString());
+                            Validation validation = ValueMap.getCodeToVal(errorResponse.getCode());
+                            Result<Performance> result = new Result<>(validation);
+                            callback.onResult(result);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<SuccessResponse<Performance>> call, Throwable t) {
+                Result<Performance> result = new Result<>(Validation.NETWORK_FAILED);
+                callback.onResult(result);
+            }
+        });
+    }
+
     public void loadPerform(Integer performId, com.example.moum.utils.Callback<Result<Performance>> callback){
         Call<SuccessResponse<Performance>> result = performApi.loadPerform(performId);
         result.enqueue(new retrofit2.Callback<SuccessResponse<Performance>>() {

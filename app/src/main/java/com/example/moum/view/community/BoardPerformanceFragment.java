@@ -182,4 +182,10 @@ public class BoardPerformanceFragment extends Fragment {
         intent.putExtra("performId", performId);
         context.startActivity(intent);
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        viewModel.clearPage();
+    }
 }

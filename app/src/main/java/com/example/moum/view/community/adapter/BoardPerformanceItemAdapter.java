@@ -75,6 +75,7 @@ public class BoardPerformanceItemAdapter extends RecyclerView.Adapter<RecyclerVi
             performanceTeam = itemView.findViewById(R.id.performance_team);
             performanceTime = itemView.findViewById(R.id.performance_time);
             performanceImage = itemView.findViewById(R.id.performance_image);
+            this.boardPerformanceFragment = boardPerformanceFragment;
             this.context = context;
         }
 

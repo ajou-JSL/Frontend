@@ -12,8 +12,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,13 +38,20 @@ import com.example.moum.data.entity.Member;
 import com.example.moum.data.entity.Moum;
 import com.example.moum.data.entity.Music;
 import com.example.moum.data.entity.Performance;
+import com.example.moum.data.entity.Team;
+import com.example.moum.databinding.ActivityPerformanceCreateBinding;
 import com.example.moum.databinding.ActivityPerformanceCreateOnwardBinding;
+import com.example.moum.databinding.ActivityPerformanceUpdateBinding;
 import com.example.moum.utils.SharedPreferenceManager;
+import com.example.moum.utils.TimeManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.view.community.adapter.ParticipantAdapter;
 import com.example.moum.view.dialog.PerformCreateDialog;
+import com.example.moum.view.dialog.PerformUpdateDialog;
 import com.example.moum.viewmodel.community.PerformanceCreateOnwardViewModel;
+import com.example.moum.viewmodel.community.PerformanceCreateViewModel;
+import com.example.moum.viewmodel.community.PerformanceUpdateViewModel;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -50,37 +60,39 @@ import java.time.format.SignStyle;
 import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
-public class PerformanceCreateOnwardActivity extends AppCompatActivity {
-    private PerformanceCreateOnwardViewModel viewModel;
-    private ActivityPerformanceCreateOnwardBinding binding;
+public class PerformanceUpdateActivity extends AppCompatActivity {
+    private PerformanceUpdateViewModel viewModel;
+    private ActivityPerformanceUpdateBinding binding;
     private Context context;
     public String TAG = getClass().toString();
     private SharedPreferenceManager sharedPreferenceManager;
     private Integer id;
-    private Integer moumId;
+    private Integer performId;
     private Integer teamId;
     private ActivityResultLauncher<PickVisualMediaRequest> pickMultipleMedia;
     private ArrayList<Uri> uris = new ArrayList<>();
     private ArrayList<Member> members = new ArrayList<>();
     private ParticipantAdapter performanceParticipantAdapter;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("DefaultLocale")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityPerformanceCreateOnwardBinding.inflate(getLayoutInflater());
-        viewModel = new ViewModelProvider(this).get(PerformanceCreateOnwardViewModel.class);
+        binding = ActivityPerformanceUpdateBinding.inflate(getLayoutInflater());
+        viewModel = new ViewModelProvider(this).get(PerformanceUpdateViewModel.class);
         binding.setViewModel(viewModel);
         View view = binding.getRoot();
         setContentView(view);
         context = this;
 
-        /*모음 id 정보 불러오기*/
+        /*정보 불러오기*/
         Intent prevIntent = getIntent();
-        moumId = prevIntent.getIntExtra("moumId", -1);
+        performId = prevIntent.getIntExtra("performId", -1);
         teamId = prevIntent.getIntExtra("teamId", -1);
-        if(teamId == -1){
+        if(performId == -1 || teamId == -1){
             Toast.makeText(context, "잘못된 접근입니다.", Toast.LENGTH_SHORT).show();
             finish();
         }
@@ -142,7 +154,7 @@ public class PerformanceCreateOnwardActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(PerformanceCreateOnwardActivity.this,
+                DatePickerDialog datePickerDialog = new DatePickerDialog(PerformanceUpdateActivity.this,
                         (mView, mYear, mMonth, mDay) -> {
                             String selectedDate = mYear + "-" + (mMonth + 1) + "-" + mDay;
                             binding.buttonDateStart.setText(selectedDate);
@@ -153,7 +165,7 @@ public class PerformanceCreateOnwardActivity extends AppCompatActivity {
         binding.buttonDateEnd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(PerformanceCreateOnwardActivity.this,
+                DatePickerDialog datePickerDialog = new DatePickerDialog(PerformanceUpdateActivity.this,
                         (mView, mYear, mMonth, mDay) -> {
                             String selectedDate = mYear + "-" + (mMonth + 1) + "-" + mDay;
                             binding.buttonDateEnd.setText(selectedDate);
@@ -178,32 +190,55 @@ public class PerformanceCreateOnwardActivity extends AppCompatActivity {
             }
         });
 
-        /*모음 정보 불러오기*/
-        if(moumId != -1)
-            viewModel.loadMoum(moumId);
+        /*단체 정보 불러오기*/
+        viewModel.loadTeam(teamId);
 
-        /*모음 정보 불러오기 결과 감시 후 폼 채우기*/
-        viewModel.getIsLoadMoumSuccess().observe(this, isLoadMoumSuccess -> {
-            Validation validation = isLoadMoumSuccess.getValidation();
-            Moum loadedMoum = isLoadMoumSuccess.getData();
-            if(validation == Validation.GET_MOUM_SUCCESS){
-                if(loadedMoum.getMoumName() != null) binding.edittextPerformName.setText(loadedMoum.getMoumName());
-                if(loadedMoum.getMoumDescription() != null) binding.edittextPerformDescription.setText(loadedMoum.getMoumDescription());
-                if(loadedMoum.getPerformLocation() != null) binding.edittextPerformPlace.setText(loadedMoum.getPerformLocation());
-                if(loadedMoum.getStartDate() != null) binding.buttonDateStart.setText(loadedMoum.getStartDate());
-                if(loadedMoum.getEndDate() != null) binding.buttonDateEnd.setText(loadedMoum.getEndDate());
-                if(loadedMoum.getPrice() != null) binding.edittextPerformPrice.setText(String.format("%d", loadedMoum.getPrice()));
-                if(loadedMoum.getImageUrls() != null && !loadedMoum.getImageUrls().isEmpty()){
+        /*단체 정보 불러오기 감시 결과*/
+        viewModel.getIsLoadTeamSuccess().observe(this, isLoadTeamSuccess -> {
+            Validation validation = isLoadTeamSuccess.getValidation();
+            Team loadedTeam = isLoadTeamSuccess.getData();
+            if(validation == Validation.GET_TEAM_SUCCESS){
+                members.addAll(loadedTeam.getMembers());
+                performanceParticipantAdapter.notifyItemInserted(members.size()-1);
+                recyclerView.scrollToPosition(0);
+            }
+            else if(validation == Validation.NETWORK_FAILED) {
+                Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+            }
+            else if(validation == Validation.TEAM_NOT_FOUND){
+                Toast.makeText(context, "팀을 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Toast.makeText(context, "단체 조회에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                e(TAG, "감시 결과를 알 수 없습니다.");
+            }
+        });
+
+        /*공연 정보 불러오기*/
+        viewModel.loadPerformance(performId);
+
+        /*공연 정보 불러오기 결과 감시 후 폼 채우기*/
+        viewModel.getIsLoadPerformanceSuccess().observe(this, isLoadPerformanceSuccess -> {
+            Validation validation = isLoadPerformanceSuccess.getValidation();
+            Performance loadedPerform = isLoadPerformanceSuccess.getData();
+            if(validation == Validation.PERFORMANCE_GET_SUCCESS){
+                if(loadedPerform.getPerformanceName() != null) binding.edittextPerformName.setText(loadedPerform.getPerformanceName());
+                if(loadedPerform.getPerformanceDescription() != null) binding.edittextPerformDescription.setText(loadedPerform.getPerformanceDescription());
+                if(loadedPerform.getPerformanceLocation() != null) binding.edittextPerformPlace.setText(loadedPerform.getPerformanceLocation());
+                if(loadedPerform.getPerformanceStartDate() != null) binding.buttonDateStart.setText(TimeManager.strToDate(loadedPerform.getPerformanceStartDate()));
+                if(loadedPerform.getPerformanceEndDate() != null) binding.buttonDateEnd.setText(TimeManager.strToDate(loadedPerform.getPerformanceEndDate()));
+                if(loadedPerform.getPerformancePrice() != null) binding.edittextPerformPrice.setText(String.format("%d", loadedPerform.getPerformancePrice()));
+                if(loadedPerform.getPerformanceImageUrl() != null && !loadedPerform.getPerformanceImageUrl().isEmpty()){
                     Glide.with(context)
                             .applyDefaultRequestOptions(new RequestOptions()
-                            .placeholder(R.drawable.background_more_rounded_gray_size_fit)
-                            .error(R.drawable.background_more_rounded_gray_size_fit))
-                            .load(loadedMoum.getImageUrls().get(0)).into(binding.imageviewPerformProfile);
+                                    .placeholder(R.drawable.background_more_rounded_gray_size_fit)
+                                    .error(R.drawable.background_more_rounded_gray_size_fit))
+                            .load(loadedPerform.getPerformanceImageUrl()).into(binding.imageviewPerformProfile);
                     binding.imageviewPerformProfile.setClipToOutline(true);
-                    viewModel.setProfileImage(Uri.parse(loadedMoum.getImageUrls().get(0)), true);
+                    viewModel.setProfileImage(Uri.parse(loadedPerform.getPerformanceImageUrl()), true);
                 }
-                if(loadedMoum.getMusic() != null &&!loadedMoum.getMusic().isEmpty()){
-                    for(Music music : loadedMoum.getMusic()){
+                if(loadedPerform.getMusics() != null &&!loadedPerform.getMusics().isEmpty()){
+                    for(Music music : loadedPerform.getMusics()){
                         View songChild = addSongLayout(songParent);
                         EditText edittextSingName = songChild.findViewById(R.id.edittext_music_name);
                         EditText edittextArtistName = songChild.findViewById(R.id.edittext_artist_name);
@@ -211,10 +246,12 @@ public class PerformanceCreateOnwardActivity extends AppCompatActivity {
                         edittextArtistName.setText(music.getArtistName());
                     }
                 }
-                if(loadedMoum.getMembers() != null && !loadedMoum.getMembers().isEmpty()){
-                    members.addAll(loadedMoum.getMembers());
-                    performanceParticipantAdapter.notifyItemInserted(members.size()-1);
-                    recyclerView.scrollToPosition(0);
+                if(loadedPerform.getMembersId() != null && !loadedPerform.getMembersId().isEmpty()){
+                    for(Member member : members){
+                        for(Integer participateId : loadedPerform.getMembersId())
+                            if(member.getId().equals(participateId))
+                                performanceParticipantAdapter.setIsParticipate(members.indexOf(member), true);
+                    }
                 }
             }
             else if(validation == Validation.NETWORK_FAILED) {
@@ -224,7 +261,7 @@ public class PerformanceCreateOnwardActivity extends AppCompatActivity {
                 Toast.makeText(context, "유효하지 않은 데이터입니다.", Toast.LENGTH_SHORT).show();
             }
             else{
-                Toast.makeText(context, "모음 조회에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "공연 조회에 실패하였습니다.", Toast.LENGTH_SHORT).show();
                 e(TAG, "감시 결과를 알 수 없습니다.");
             }
         });
@@ -272,34 +309,34 @@ public class PerformanceCreateOnwardActivity extends AppCompatActivity {
             }
             else if(isValidCheckSuccess == Validation.VALID_ALL){
                 // valid check 유효하다면, 최종 다이얼로그 띄우기
-                PerformCreateDialog performCreateDialog = new PerformCreateDialog(this, binding.edittextPerformName.getText().toString());
-                performCreateDialog.show();
+                PerformUpdateDialog performUpdateDialog = new PerformUpdateDialog(this, binding.edittextPerformName.getText().toString());
+                performUpdateDialog.show();
             }
             else{
-                Toast.makeText(context, "모음 수정에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "공연게시글 수정에 실패하였습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "감시 결과를 알 수 없습니다.");
             }
         });
 
-        /*createPerformance 결과 감시*/
-        viewModel.getIsPerformanceCreateSuccess().observe(this, isPerformanceCreateSuccess -> {
-            Validation validation = isPerformanceCreateSuccess.getValidation();
-            Performance performance = isPerformanceCreateSuccess.getData();
-            if(validation == Validation.PERFORMANCE_CREATE_SUCCESS){
-                Toast.makeText(context, "공연게시판 글 생성에 성공하였습니다.", Toast.LENGTH_SHORT).show();
+        /*updatePerformance 결과 감시*/
+        viewModel.getIsPerformanceUpdateSuccess().observe(this, isPerformanceUpdateSuccess -> {
+            Validation validation = isPerformanceUpdateSuccess.getValidation();
+            Performance performance = isPerformanceUpdateSuccess.getData();
+            if(validation == Validation.PERFORMANCE_UPDATE_SUCCESS){
+                Toast.makeText(context, "공연게시글 수정에 성공하였습니다.", Toast.LENGTH_SHORT).show();
                 finish();
             }
             else if(validation == Validation.NOT_VALID_ANYWAY){
                 Toast.makeText(context, "잘못 입력된 값이 있습니다.", Toast.LENGTH_SHORT).show();
             }
-            else if(validation == Validation.ILLEGAL_ARGUMENT) {
-                Toast.makeText(context, "유효하지 않은 데이터입니다.", Toast.LENGTH_SHORT).show();
+            else if(validation == Validation.TEAM_NOT_FOUND) {
+                Toast.makeText(context, "팀을 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
             }
             else if(validation == Validation.NO_AUTHORITY){
                 Toast.makeText(context, "권한이 없습니다.", Toast.LENGTH_SHORT).show();
             }
             else{
-                Toast.makeText(context, "공연게시판 글 생성에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "공연게시글 수정에 실패하였습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "감시 결과를 알 수 없습니다.");
             }
         });
@@ -353,14 +390,14 @@ public class PerformanceCreateOnwardActivity extends AppCompatActivity {
     }
 
     public void onDialogYesClicked(){
-        /*다이얼로그에서 Yes 버튼 클릭 시, createPerformance() 호출*/
+        /*다이얼로그에서 Yes 버튼 클릭 시, updatePerformance() 호출*/
         viewModel.setMembers(members, performanceParticipantAdapter.getIsParticipates());
-        viewModel.createPerformance(moumId, teamId, context);
+        viewModel.updatePerformance(performId, teamId, context);
     }
 
     public View addSongLayout(LinearLayout songParent){
         // inflate
-        View songChild = LayoutInflater.from(PerformanceCreateOnwardActivity.this).inflate(R.layout.item_moum_music_form, songParent, false);
+        View songChild = LayoutInflater.from(PerformanceUpdateActivity.this).inflate(R.layout.item_moum_music_form, songParent, false);
 
         // child 세팅
         LinearLayout placeholderMusicName = songChild.findViewById(R.id.placeholder_music_name);
