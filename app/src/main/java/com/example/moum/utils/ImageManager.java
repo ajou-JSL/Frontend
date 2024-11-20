@@ -3,10 +3,15 @@ package com.example.moum.utils;
 import android.content.Context;
 import android.net.Uri;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.Target;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
 import java.util.regex.Pattern;
 
 public class ImageManager {
@@ -43,5 +48,18 @@ public class ImageManager {
         String urlFormat = "^https://kr\\.object\\.ncloudstorage\\.com/moumstorage/([\\w가-힣\\s-]+/)*[\\w가-힣\\s-]+\\.jpg$";
         Pattern urlPattern = Pattern.compile(urlFormat);
         return urlPattern.matcher(url).matches();
+    }
+
+    public File downloadImageToFile(String imageUrl) {
+        try{
+            return Glide.with(context)
+                    .downloadOnly()
+                    .load(imageUrl)
+                    .submit(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                    .get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

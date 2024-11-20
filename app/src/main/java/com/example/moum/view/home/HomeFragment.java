@@ -155,10 +155,10 @@ public class HomeFragment extends Fragment {
         viewModel.getIsLoadPerformsHotSuccess().observe(getViewLifecycleOwner(), isLoadPerformsHotSuccess -> {
             Validation validation = isLoadPerformsHotSuccess.getValidation();
             List<Performance> loadedPerforms = isLoadPerformsHotSuccess.getData();
-            if(validation == Validation.PERFORMANCE_LIST_GET_SUCCESS && loadedPerforms.isEmpty()){
+            if(validation == Validation.PERFORMANCE_HOT_LIST_GET_SUCCESS && loadedPerforms.isEmpty()){
                 performances.clear();
             }
-            else if(validation == Validation.PERFORMANCE_LIST_GET_SUCCESS){
+            else if(validation == Validation.PERFORMANCE_HOT_LIST_GET_SUCCESS){
                 performances.clear();
                 performances.addAll(loadedPerforms);
                 performanceHotAdapter.notifyItemInserted(performances.size()-1);

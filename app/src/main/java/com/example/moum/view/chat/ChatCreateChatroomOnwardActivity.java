@@ -97,9 +97,10 @@ public class ChatCreateChatroomOnwardActivity extends AppCompatActivity {
             Log.e(TAG, "Uri: " + uri.toString());
             Glide.with(this)
                     .applyDefaultRequestOptions(new RequestOptions()
-                    .placeholder(R.drawable.background_circle_gray)
-                    .error(R.drawable.background_circle_gray))
+                    .placeholder(R.drawable.background_more_rounded_gray_size_fit)
+                    .error(R.drawable.background_more_rounded_gray_size_fit))
                     .load(uri).into(binding.imageviewMoumtalkProfile);
+            binding.imageviewMoumtalkProfile.setClipToOutline(true);
         });
 
        /*참여 멤버 리사이클러뷰 표시*/

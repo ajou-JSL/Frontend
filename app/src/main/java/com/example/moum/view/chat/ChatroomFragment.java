@@ -30,7 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChatroomFragment extends Fragment {
-
     private FragmentChatroomBinding binding;
     private ChatroomViewModel chatroomViewModel;
     private Context context;
