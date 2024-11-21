@@ -26,9 +26,10 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="15dp"
 
+                android:fontFamily="@font/noto_sans_kr_bold"
+                android:includeFontPadding="false"
                 android:text="제목"
-                android:textSize="20dp"
-                android:textStyle="bold" />
+                android:textSize="20dp" />
 
             <TextView
                 android:id="@+id/item_board_free_content"
@@ -37,16 +38,21 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
 
+                android:fontFamily="@font/noto_sans_kr_regular"
+                android:includeFontPadding="false"
                 android:text="내용 짧은 글"
                 android:textSize="14sp" />
 
             <TextView
+
                 android:id="@+id/item_board_free_writer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
 
+                android:fontFamily="@font/noto_sans_kr_regular"
+                android:includeFontPadding="false"
                 android:text="작성자"
                 android:textSize="14sp" />
 
@@ -55,9 +61,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="5dp"
                 android:layout_marginBottom="15dp"
 
+                android:fontFamily="@font/noto_sans_kr_regular"
+                android:includeFontPadding="false"
                 android:text="시간"
                 android:textSize="14sp" />
         </LinearLayout>

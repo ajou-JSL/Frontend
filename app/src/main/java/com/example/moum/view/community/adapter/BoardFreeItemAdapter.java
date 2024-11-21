@@ -1,21 +1,16 @@
 package com.example.moum.view.community.adapter;
 
-import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.AdapterView;
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.moum.data.entity.BoardFreeItem;
 import com.example.moum.R;
-import com.example.moum.view.profile.TeamProfileFragment;
 
 import java.util.ArrayList;
 

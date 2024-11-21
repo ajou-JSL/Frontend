@@ -1,5 +1,6 @@
 package com.example.moum.view.community;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -18,23 +19,45 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.example.moum.R;
+import com.example.moum.data.entity.Article;
 import com.example.moum.data.entity.BoardFreeItem;
+import com.example.moum.data.entity.BoardGroupItem;
+import com.example.moum.data.entity.Team;
 import com.example.moum.databinding.FragmentBoardFreeBinding;
+import com.example.moum.utils.SharedPreferenceManager;
+import com.example.moum.utils.Validation;
+import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.view.community.adapter.BoardFreeItemAdapter;
 import com.example.moum.viewmodel.community.BoardFreeViewModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class BoardFreeFragment extends Fragment {
     private FragmentBoardFreeBinding binding;
+    private SharedPreferenceManager sharedPreferenceManager;
     private BoardFreeViewModel boardFreeViewModel;
+    private final ArrayList<Article> articles = new ArrayList<>();
+    private Context context;
+    private Integer memberId;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         boardFreeViewModel = new ViewModelProvider(this).get(BoardFreeViewModel.class);
-
         binding = FragmentBoardFreeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        context = getContext();
+
+        /*자동로그인 정보를 SharedPreference에서 불러오기*/
+        sharedPreferenceManager = new SharedPreferenceManager(context, getString(R.string.preference_file_key));
+        String accessToken = sharedPreferenceManager.getCache(getString(R.string.user_access_token_key), "no-access-token");
+        String username = sharedPreferenceManager.getCache(getString(R.string.user_username_key), "no-memberId");
+        memberId = sharedPreferenceManager.getCache(getString(R.string.user_id_key), -1);
+        if(accessToken.isEmpty() || accessToken.equals("no-access-token")){
+            Toast.makeText(context, "로그인 정보가 없어 초기 페이지로 돌아갑니다.", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(context, InitialActivity.class);
+            startActivity(intent);
+        }
 
         initSpinner();
         initRecyclerView();
@@ -74,24 +97,52 @@ public class BoardFreeFragment extends Fragment {
         RecyclerView recyclerView = binding.boardFreeRecyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        //item 구분선 추가
+        // item 구분선 추가
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), LinearLayoutManager.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
 
-        // 데이터 준비
-        ArrayList<BoardFreeItem> itemList = new ArrayList<>();
-
-        // 데이터 추가
-        for (int i = 0; i < 4; i++) {
-            BoardFreeItem item = new BoardFreeItem();
-            item.setBoardFreeItem(i, "제목" + i, "내용 짧은 글" + i, "작성자" + i, "시간" + i);
-            itemList.add(item);
-        }
-
         // RecyclerView 어댑터 설정
+        ArrayList<BoardFreeItem> itemList = new ArrayList<>();
         BoardFreeItemAdapter adapter = new BoardFreeItemAdapter(itemList);
         recyclerView.setAdapter(adapter);
+
+        // LiveData 관찰 및 데이터 로딩
+        BoardFreeViewModel viewModel = new ViewModelProvider(requireActivity()).get(BoardFreeViewModel.class);
+        viewModel.getIsLoadArticlesCategorySuccess().observe(getViewLifecycleOwner(), result -> {
+            if (result != null) {
+                Validation validation = result.getValidation();
+                List<Article> loadedArticles = result.getData();
+
+                if (validation == Validation.ARTICLE_LIST_GET_SUCCESS && loadedArticles != null) {
+                    // 데이터 업데이트
+                    itemList.clear();
+                    for (Article article : loadedArticles) {
+                        BoardFreeItem item = new BoardFreeItem();
+                        item.setBoardFreeItem(
+                                article.getId(),
+                                article.getTitle(),
+                                article.getContent(),
+                                article.getAuthor(),
+                                article.getCreateAt()
+                        );
+                        itemList.add(item);
+                    }
+                    adapter.notifyDataSetChanged();
+                } else {
+                    // 에러 처리
+                    Toast.makeText(getContext(), "데이터를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                // result가 null일 경우 에러 처리
+                Toast.makeText(getContext(), "응답이 없습니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        viewModel.loadArticleCategoryList();
+//        viewModel.loadArticlesDetail();
     }
+
 
     private void initFloatingActionButton() {
         binding.communityFloatingActionButton.setOnClickListener(new View.OnClickListener() {

@@ -176,6 +176,6 @@ public enum Validation {
     TEAM_NOT_FOUND,
     NOT_TEAM_MEMBER,
     LEADER_CANNOT_LEAVE,
-    MUST_JOIN_TEAM_FIRST
+    MUST_JOIN_TEAM_FIRST;
 
-    }
+}

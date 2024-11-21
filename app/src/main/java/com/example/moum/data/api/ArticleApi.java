@@ -20,4 +20,18 @@ public interface ArticleApi {
         @Query("page") Integer page,
         @Query("size") Integer size
     );
+
+    // API 추가 한 부분
+    @GET("/api/articles/category")
+    Call<SuccessResponse<List<Article>>> loadArticlesCategory(
+        @Query("keyword") String keyword,
+        @Query("category") String category,
+        @Query("page") Integer page,
+        @Query("size") Integer size
+    );
+
+    @GET("/api/articles/{articleId}")
+    Call<SuccessResponse<Article>> loadArticleDetail(
+        @Path("articleId") Integer articleId
+    );
 }

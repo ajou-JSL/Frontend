@@ -81,14 +81,8 @@ public class BoardGroupFragment extends Fragment {
         recyclerView.addItemDecoration(dividerItemDecoration);
 
         ArrayList<BoardGroupItem> initialItemList = new ArrayList<>();
-        for (int i = 0; i < 2; i++) {
-            BoardGroupItem item = new BoardGroupItem();
-            item.setBoardGroupItem( i,"제목 " + i, "내용 짧은 글 " + i, "https://example.com/file.jpg");
-            initialItemList.add(item);
-        }
         adapter = new BoardGroupItemAdapter(initialItemList);
         recyclerView.setAdapter(adapter);
-
 
         // LiveData 관찰 및 데이터 로딩
         boardGroupViewModel.getBoardGroupList().observe(getViewLifecycleOwner(), teamList -> {
