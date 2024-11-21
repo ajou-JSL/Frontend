@@ -124,7 +124,7 @@ public class MyInformationFragment extends Fragment {
         binding.buttonMyActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, MyActivityActivity.class);
+                Intent intent = new Intent(context, MyInfoActivityActivity.class);
                 context.startActivity(intent);
             }
         });
@@ -133,7 +133,7 @@ public class MyInformationFragment extends Fragment {
         binding.buttonReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, ReportAndQuestionActivity.class);
+                Intent intent = new Intent(context, MyInfoReportNQuestionActivity.class);
                 context.startActivity(intent);
             }
         });
@@ -142,7 +142,7 @@ public class MyInformationFragment extends Fragment {
         binding.buttonLogoutSignout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, LogoutAndSignoutActivity.class);
+                Intent intent = new Intent(context, MyInfoLogoutNSignoutActivity.class);
                 context.startActivity(intent);
             }
         });
