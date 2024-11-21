@@ -155,27 +155,27 @@ public class MyInformationUpdateViewModel extends AndroidViewModel {
         memberToUpdate.setUsername(username);
         if(email != null) memberToUpdate.setEmail(email);
         File profileFile = null;
-//        if (profileImage.getValue() != null && fromExisting) {
-//            Callable<File> callable = () -> {
-//                ImageManager imageManager = new ImageManager(context);
-//                return imageManager.downloadImageToFile(profileImage.getValue().toString());
-//            };
-//            FutureTask<File> futureTask = new FutureTask<>(callable);
-//            Thread thread = new Thread(futureTask);
-//            thread.start();
-//            try {
-//                profileFile = futureTask.get();
-//                if (profileFile != null) {
-//                    Log.d("ProfileFile", "File downloaded: " + profileFile.getAbsolutePath());
-//                } else {
-//                    Log.e("ProfileFile", "Failed to download profile image");
-//                }
-//            } catch (ExecutionException | InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        else if(profileImage.getValue() != null && !fromExisting)
-//            profileFile = new ImageManager(context).convertUriToFile(profileImage.getValue());
+        if (profileImage.getValue() != null && fromExisting) {
+            Callable<File> callable = () -> {
+                ImageManager imageManager = new ImageManager(context);
+                return imageManager.downloadImageToFile(profileImage.getValue().toString());
+            };
+            FutureTask<File> futureTask = new FutureTask<>(callable);
+            Thread thread = new Thread(futureTask);
+            thread.start();
+            try {
+                profileFile = futureTask.get();
+                if (profileFile != null) {
+                    Log.d("ProfileFile", "File downloaded: " + profileFile.getAbsolutePath());
+                } else {
+                    Log.e("ProfileFile", "Failed to download profile image");
+                }
+            } catch (ExecutionException | InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        else if(profileImage.getValue() != null && !fromExisting)
+            profileFile = new ImageManager(context).convertUriToFile(profileImage.getValue());
         if(!records.isEmpty()){
             for(Record record : records)
                 if(TimeManager.strToDate(record.getEndDate()).isEmpty() && !TimeManager.strToDate(record.getStartDate()).isEmpty()){

@@ -118,6 +118,7 @@ public class BoardPerformanceFragment extends Fragment {
                 performances.addAll(loadPerforms);
                 boardPerformanceItemAdapter.notifyItemInserted(performances.size()-1);
                 recyclerView.scrollToPosition(0);
+                viewModel.setRecentPageNumber(loadPerforms.size());
             }
             else if(validation == Validation.NETWORK_FAILED){
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
@@ -164,6 +165,7 @@ public class BoardPerformanceFragment extends Fragment {
             if(validation == Validation.PERFORMANCE_LIST_GET_SUCCESS){
                 performances.addAll(loadPerforms);
                 boardPerformanceItemAdapter.notifyItemInserted(performances.size()-1);
+                viewModel.setRecentPageNumber(loadPerforms.size());
             }
             else if(validation == Validation.NETWORK_FAILED){
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
