@@ -10,9 +10,9 @@ public class ChatroomCreateRequest {
     private Integer type;
     private Integer teamId;
     private Integer leaderId;
-    private ArrayList<Member> members;
+    private ArrayList<Integer> members;
 
-    public ChatroomCreateRequest(String name, Integer type, Integer teamId, Integer leaderId, ArrayList<Member> members){
+    public ChatroomCreateRequest(String name, Integer type, Integer teamId, Integer leaderId, ArrayList<Integer> members){
         this.name = name;
         this.type = type;
         this.teamId = teamId;
@@ -32,7 +32,7 @@ public class ChatroomCreateRequest {
         this.teamId = teamId;
     }
 
-    public void setMembers(ArrayList<Member> members) {
+    public void setMembers(ArrayList<Integer> members) {
         this.members = members;
     }
 
@@ -48,7 +48,7 @@ public class ChatroomCreateRequest {
         return name;
     }
 
-    public ArrayList<Member> getMembers() {
+    public ArrayList<Integer> getMembers() {
         return members;
     }
 

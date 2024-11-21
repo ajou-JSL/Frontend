@@ -68,7 +68,7 @@ public class ProfileRecordAdapter extends RecyclerView.Adapter<RecyclerView.View
         public void bind(Record record){
             this.record = record;
             recordName.setText(record.getRecordName());
-            recordStartDate.setText(record.getStartDate());
+            if(record.getStartDate() != null && !record.getStartDate().isEmpty()) recordStartDate.setText(record.getStartDate());
             if(record.getEndDate() == null || record.getEndDate().isEmpty()){
                 recordCenterWave.setText("");
                 recordEndDate.setText("");

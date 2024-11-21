@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.moum.R;
 import com.example.moum.data.entity.BoardGroupItem;
 import com.example.moum.view.profile.TeamProfileFragment;
@@ -97,8 +98,12 @@ public class BoardGroupItemAdapter extends RecyclerView.Adapter<BoardGroupItemAd
 
             if (item.hasImage() && image != null) {
                 Glide.with(itemView.getContext())
+                        .applyDefaultRequestOptions(new RequestOptions()
+                            .placeholder(R.drawable.background_more_rounded_gray_size_fit)
+                            .error(R.drawable.background_more_rounded_gray_size_fit))
                         .load(item.getImage())
                         .into(image);
+                image.setClipToOutline(true);
             } else {
                 image.setVisibility(View.GONE);
             }

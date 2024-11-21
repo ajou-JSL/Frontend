@@ -52,7 +52,7 @@ public class TeamProfileViewModel extends AndroidViewModel {
         teamRepository.loadTeam(targetTeamId, this::setIsLoadTeamProfileSuccess);
     }
 
-    public void createChatroom(Member targetMember, Integer myId, Context context){
+    public void createChatroom(Member targetMember, Integer myId, String myName, Context context){
         // valid check
         if(isLoadTeamProfileSuccess.getValue() == null || isLoadTeamProfileSuccess.getValue().getValidation() != Validation.GET_TEAM_SUCCESS){
             Result<Chatroom> result = new Result<>(Validation.PROFILE_NOT_LOADED);
@@ -72,14 +72,13 @@ public class TeamProfileViewModel extends AndroidViewModel {
             ImageManager imageManager = new ImageManager(context);
             chatroomProfileFile = imageManager.convertUriToFile(uri);
         }
-        ArrayList<Member> participants = new ArrayList<>();
-        Member me = new Member();
-        me.setId(myId);
-        participants.add(targetMember);
-        participants.add(me);
+        ArrayList<Integer> participants = new ArrayList<>();
+        participants.add(targetMember.getId());
+        participants.add(myId);
+        String chatroomName = targetMember.getName() + ", " + myName;
 
         // goto repository
-        Chatroom chatroom = new Chatroom(targetMember.getName(), Chatroom.ChatroomType.PERSONAL_CHAT, null, null);
+        Chatroom chatroom = new Chatroom(chatroomName, Chatroom.ChatroomType.PERSONAL_CHAT, null, null);
         chatroomRepository.createChatroom(chatroom, chatroomProfileFile, participants, this::setIsCreateChatroomSuccess);
     }
 }

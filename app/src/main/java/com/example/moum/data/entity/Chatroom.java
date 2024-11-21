@@ -8,6 +8,12 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -18,6 +24,7 @@ import retrofit2.http.Url;
 public class Chatroom {
     private Integer id;
     private String name;
+    @JsonAdapter(ChatroomTypeAdapter.class)
     private ChatroomType type;
     private Integer teamId;
     private Integer leaderId;
@@ -46,6 +53,29 @@ public class Chatroom {
             return value;
         }
 
+        public static ChatroomType fromValue(int value) {
+            for (ChatroomType type : ChatroomType.values()) {
+                if (type.value == value) {
+                    return type;
+                }
+            }
+            throw new IllegalArgumentException("Unknown enum value: " + value);
+        }
+
+    }
+
+    public class ChatroomTypeAdapter extends TypeAdapter<ChatroomType> {
+
+        @Override
+        public void write(JsonWriter out, ChatroomType value) throws IOException {
+            out.value(value.getValue());
+        }
+
+        @Override
+        public ChatroomType read(JsonReader in) throws IOException {
+            int value = in.nextInt();
+            return ChatroomType.fromValue(value);
+        }
     }
 
     public Chatroom(Integer id, String name, ChatroomType type, Integer teamId, Integer leaderId, String lastChat, String lastTimestamp, String fileUrl){

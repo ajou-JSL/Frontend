@@ -5,6 +5,7 @@
     <string name="user_refresh_token_key">user_refresh_token</string>
     <string name="user_username_key">user_username</string>
     <string name="user_id_key">user_id</string>
+    <string name="user_name_key">user_name</string>
     <string name="server_url">http://192.168.0.127:8080/</string>
     <string-array name="proficiency_list">
         <item>하</item>
@@ -326,30 +327,37 @@
         <item>댓글순</item>
         <item>추천순</item>
     </string-array>
-
     <string-array name="community_board_spinner1_items">
         <item>최신순</item>
         <item>멤버순</item>
         <item>추천순</item>
     </string-array>
-
     <string-array name="community_board_spinner2_items">
         <item>클래식</item>
         <item>밴드</item>
     </string-array>
-
     <string-array name="board_free_spinner_items">
         <item>유저</item>
         <item>단체1</item>
         <item>단체2</item>
     </string-array>
-
     <string-array name="member_profile_etc_list">
         <item>유저 신고하기</item>
     </string-array>
     <string-array name="team_profile_etc_list">
         <item>단체 신고하기</item>
     </string-array>
-
-
+    <string-array name="moum_manange_etc_list">
+        <item>수정하기</item>
+        <item>삭제하기</item>
+    </string-array>
+    <string-array name="moum_manange_process_etc_list">
+        <item>업데이트 상태 토글하기</item>
+    </string-array>
+    <string-array name="perform_etc_list">
+        <item>신고하기</item>
+        <item>URL 복사하기</item>
+        <item>수정하기</item>
+        <item>삭제하기</item>
+    </string-array>
 </resources>

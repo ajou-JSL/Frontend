@@ -5,12 +5,16 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.PopupMenu;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -23,18 +27,24 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.moum.R;
 import com.example.moum.data.entity.Chat;
 import com.example.moum.data.entity.Chatroom;
 import com.example.moum.data.entity.Member;
+import com.example.moum.data.entity.Moum;
 import com.example.moum.databinding.ActivityChatBinding;
 import com.example.moum.utils.SharedPreferenceManager;
+import com.example.moum.utils.TimeManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.view.chat.adapter.ChatAdapter;
+import com.example.moum.view.moum.MoumManageActivity;
 import com.example.moum.view.profile.MemberProfileFragment;
 import com.example.moum.viewmodel.chat.ChatViewModel;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -53,6 +63,7 @@ public class ChatActivity extends AppCompatActivity {
     private final String TAG = getClass().toString();
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private final static int SIZE_OF_STREAM = 5;
+    private Boolean isLoading = false;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -91,14 +102,21 @@ public class ChatActivity extends AppCompatActivity {
         Chatroom chatroom = new Chatroom(chatroomId, chatroomName, chatroomType, teamId, leaderId, lastChat, lastTimestamp, fileUrl);
 
         binding.textviewChatUserName.setText(chatroomName);
-        binding.textviewChatMessageTime.setText(lastTimestamp);
+        if(lastTimestamp != null && !lastTimestamp.isEmpty()){
+            String prettyTime = TimeManager.strToPrettyTime(lastTimestamp);
+            binding.textviewChatMessageTime.setText(prettyTime);
+        }
         chatViewModel.setChatroomInfo(username, id, chatroom);
         Uri chatroomProfile;
         if(fileUrl != null) {
             chatroomProfile = Uri.parse(fileUrl);
-            Glide.with(this).load(chatroomProfile).into(binding.imageChatProfile);
+            Glide.with(this)
+                    .applyDefaultRequestOptions(new RequestOptions()
+                    .placeholder(R.drawable.background_circle_gray_size_fit)
+                    .error(R.drawable.background_circle_gray_size_fit))
+                    .load(chatroomProfile).into(binding.imageChatProfile);
         }
-        if(leaderId == id && chatroomType == Chatroom.ChatroomType.MULTI_CHAT)
+        if(chatroomType == Chatroom.ChatroomType.PERSONAL_CHAT)
             binding.buttonChatInvite.setVisibility(View.VISIBLE);
         else
             binding.buttonChatInvite.setVisibility(View.INVISIBLE);
@@ -115,48 +133,52 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 /*다음 Acitivity로 이동*/
-                //TODO 톡방의 멤버 목록 호출 API 한 뒤에 멤버 가져와야 함
-                Intent nextIntent = new Intent(ChatActivity.this, ChatInviteActivity.class);
+                if(members == null || members.size() != 2) {
+                    Toast.makeText(ChatActivity.this, "초대할 멤버를 알 수 없습니다.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Member targetMember = null;
+                for(Member member : members){
+                    if(!member.getId().equals(id))
+                        targetMember = member;
+                }
+                if(targetMember == null){
+                    Toast.makeText(ChatActivity.this, "초대할 멤버를 알 수 없습니다.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Intent nextIntent = new Intent(ChatActivity.this, InviteActivity.class);
+                nextIntent.putExtra("targetMemberId", targetMember.getId());
+                nextIntent.putExtra("targetMemberName", targetMember.getName());
                 startActivity(nextIntent);
             }
         });
 
-        /*설정 스피너 Adapter 연결*/
-        Spinner etcSpinner = binding.spinnerChatEtc;
+        /*설정 드롭다운 연결*/
         String[] etcList = getResources().getStringArray(R.array.chat_etc_list);
-        if(chatroomType != Chatroom.ChatroomType.MULTI_CHAT || leaderId == id)
-            etcList = Arrays.copyOfRange(etcList, 0, 1);
-        ArrayAdapter<String> etcAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, etcList);
-        etcAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        etcSpinner.setAdapter(etcAdapter);
-
-        etcSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        binding.dropdownChatEtc.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position == 0){
-                    /*모음톡 나가기*/
-                    //TODO - 다이얼로그 띄울 것
-
+            public void onClick(View view) {
+                PopupMenu popupMenu = new PopupMenu(ChatActivity.this, binding.dropdownChatEtc);
+                for (int i = 0; i < etcList.length; i++) {
+                    popupMenu.getMenu().add(etcList[i]);
                 }
-                else if(position == 1){
-                    /*수정하기*/
-                    Intent nextIntent = new Intent(ChatActivity.this, ChatUpdateChatroomActivity.class);
-                    //TODO - 수정을 위해 필요한 정보 putExtra할 것
-                    startActivity(nextIntent);
-
-                }
-                else if(position == 2){
-                    /*정산 요청하기*/
-                    //TODO - 정산 요청 기능 추가해야함
-                }
-                else{
-                    Log.e(TAG, "알 수 없는 아이템 선택");
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                return;
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        String selectedItem = menuItem.getTitle().toString();
+                        if (selectedItem.equals("모음톡 나가기")) {
+                            //TODO
+                        }
+                        else if (selectedItem.equals("수정하기")) {
+                            //TODO
+                        }
+                        else if (selectedItem.equals("정산 요청하기")) {
+                            //TODO
+                        }
+                        return true;
+                    }
+                });
+                popupMenu.show();
             }
         });
 
@@ -190,6 +212,9 @@ public class ChatActivity extends AppCompatActivity {
                 chats.add(receivedChat);
                 chatAdapter.notifyItemInserted(chats.size()-1);
                 recyclerView.scrollToPosition(chats.size()-1);
+                String prettyTime = TimeManager.strToPrettyTime(receivedChat.getTimestamp().toString());
+                binding.textviewChatMessageTime.setText(prettyTime);
+
             }
             else if(validation == Validation.CHAT_RECEIVE_FAIL){
                 Toast.makeText(context, "채팅 불러오기에 실패하였습니다.", Toast.LENGTH_SHORT).show();
@@ -228,7 +253,8 @@ public class ChatActivity extends AppCompatActivity {
                 Toast.makeText(context, "채팅 전송에 실패하였습니다.", Toast.LENGTH_SHORT).show();
             }
             else if(validation == Validation.NETWORK_FAILED){
-                Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                //TODO 현재 잘 보내졌는데도 불구하고, 이미 연결된 스트리밍 연결 때문에 chatSend()가 네트워크 에러 처리되므로 주석 처리함
+                //Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
             }
             else{
                 Log.e(TAG, "채팅 전송 결과를 알 수 없습니다.");
@@ -236,12 +262,17 @@ public class ChatActivity extends AppCompatActivity {
         });
 
         /*최상단에서 스크롤 시 이전 채팅 불러오기*/
+        long DEBOUNCE_DELAY = 0;
+        Handler handler = new Handler(Looper.getMainLooper()); // 여러번 호출되는 것을 막기 위한 디바운싱
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if(!recyclerView.canScrollVertically(-1) && newState == RecyclerView.SCROLL_STATE_IDLE && !chats.isEmpty()){
+                if(!recyclerView.canScrollVertically(-1) && newState == RecyclerView.SCROLL_STATE_IDLE && !chats.isEmpty() &&  !isLoading){
+                    isLoading = true;
+                    Log.e(TAG, chats.get(0).getTimestamp() + chats.get(0).getMessage());
                     chatViewModel.receiveOldChat(chats.get(0).getTimestamp());
+                    handler.postDelayed(() -> isLoading = false, DEBOUNCE_DELAY);
                 }
             }
 
@@ -257,11 +288,11 @@ public class ChatActivity extends AppCompatActivity {
             Chat receivedChat = isReceiveOldChatSuccess.getData();
             if(validation == Validation.CHAT_RECEIVE_SUCCESS){
                 chats.add(0, receivedChat); // 맨 앞에 add
-                chatAdapter.notifyItemInserted(chats.size()-1);
-                recyclerView.scrollToPosition(SIZE_OF_STREAM - 1);
+                chatAdapter.notifyItemInserted(0);
             }
             else if(validation == Validation.CHAT_RECEIVE_FAIL){
-                Toast.makeText(context, "채팅 불러오기에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                //TODO 채팅을 다 불러올 때 불리는 상태이므로 주석처리
+                //Toast.makeText(context, "채팅 불러오기에 실패하였습니다.", Toast.LENGTH_SHORT).show();
             }
             else if(validation == Validation.NETWORK_FAILED){
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
@@ -297,55 +328,35 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-        /*멤버 및 프로필 보기 스피너 Adapter 설정*/
-        if(chatroomType == Chatroom.ChatroomType.MULTI_CHAT){
-            Spinner profileSpinner = binding.spinnerChatProfile;
-//            String[] profileList = getResources().getStringArray(R.array.chat_etc_list);
-//            if(chatroomType != Chatroom.ChatroomType.MULTI_CHAT || leaderId == id)
-//                etcList = Arrays.copyOfRange(etcList, 0, 1);
-//            ArrayAdapter<String> etcAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, etcList);
-//            etcAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//            etcSpinner.setAdapter(etcAdapter);
-//
-//            etcSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//                @Override
-//                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                    if(position == 0){
-//                        /*모음톡 나가기*/
-//                        //TODO - 다이얼로그 띄울 것
-//
-//                    }
-//                    else if(position == 1){
-//                        /*수정하기*/
-//                        Intent nextIntent = new Intent(ChatActivity.this, ChatUpdateChatroomActivity.class);
-//                        //TODO - 수정을 위해 필요한 정보 putExtra할 것
-//                        startActivity(nextIntent);
-//
-//                    }
-//                    else if(position == 2){
-//                        /*정산 요청하기*/
-//                        //TODO - 정산 요청 기능 추가해야함
-//                    }
-//                    else{
-//                        Log.e(TAG, "알 수 없는 아이템 선택");
-//                    }
-//                }
-//
-//                @Override
-//                public void onNothingSelected(AdapterView<?> parent) {
-//                    return;
-//                }
-//            });
-        }/*개인채팅이라면 프로필 클릭 시 프로필 fragment 띄움*/
+        /*멀티채팅이라면 프로필 클릭 시 멤버 드롭다운 띄움*/
+        final MemberProfileFragment memberProfileFragment = new MemberProfileFragment(context);
+        if(chatroomType == Chatroom.ChatroomType.MULTI_CHAT) {
+           //TODO
+
+        }
+
+        /*개인채팅이라면 프로필 클릭 시 프로필 fragment 띄움*/
         else if(chatroomType == Chatroom.ChatroomType.PERSONAL_CHAT){
             binding.imageChatProfile.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    final MemberProfileFragment memberProfileFragment = new MemberProfileFragment(context);
+                    Member targetMember = null;
+                    for(Member member : members){
+                        if(!member.getId().equals(id))
+                            targetMember = member;
+                    }
+                    if(targetMember == null){
+                        Toast.makeText(ChatActivity.this, "멤버를 알 수 없습니다.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("targetMemberId", targetMember.getId());
+                    memberProfileFragment.setArguments(bundle);
                     memberProfileFragment.show(getSupportFragmentManager(), memberProfileFragment.getTag());
                 }
             });
         }
+
 
     }
 

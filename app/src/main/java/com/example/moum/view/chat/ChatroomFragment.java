@@ -21,6 +21,7 @@ import com.example.moum.data.entity.Chatroom;
 import com.example.moum.databinding.FragmentChatroomBinding;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
+import com.example.moum.utils.WrapContentLinearLayoutManager;
 import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.view.chat.adapter.ChatroomAdapter;
 import com.example.moum.viewmodel.chat.ChatroomViewModel;
@@ -29,7 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChatroomFragment extends Fragment {
-
     private FragmentChatroomBinding binding;
     private ChatroomViewModel chatroomViewModel;
     private Context context;
@@ -51,6 +51,7 @@ public class ChatroomFragment extends Fragment {
         String accessToken = sharedPreferenceManager.getCache(getString(R.string.user_access_token_key), "no-access-token");
         String username = sharedPreferenceManager.getCache(getString(R.string.user_username_key), "no-memberId");
         Integer id = sharedPreferenceManager.getCache(getString(R.string.user_id_key), -1);
+        String name = sharedPreferenceManager.getCache(getString(R.string.user_name_key), "no-memberName");
         if(accessToken.isEmpty() || accessToken.equals("no-access-token")){
             Toast.makeText(context, "로그인 정보가 없어 초기 페이지로 돌아갑니다.", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(context, InitialActivity.class);
@@ -62,7 +63,7 @@ public class ChatroomFragment extends Fragment {
         RecyclerView recyclerView = binding.recyclerChatroom;
         ChatroomAdapter chatroomAdapter = new ChatroomAdapter();
         chatroomAdapter.setChatrooms(chatrooms, context);
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        recyclerView.setLayoutManager(new WrapContentLinearLayoutManager(context));
         recyclerView.setAdapter(chatroomAdapter);
 
         /*채팅방 리스트 정보 불러오기*/
@@ -74,6 +75,7 @@ public class ChatroomFragment extends Fragment {
             Validation validation = isLoadChatroomsSuccess.getValidation();
             List<Chatroom> loadChatrooms = isLoadChatroomsSuccess.getData();
             if(validation == Validation.CHAT_POST_SUCCESS){
+                chatrooms.clear();
                 chatrooms.addAll(loadChatrooms);
                 chatroomAdapter.notifyItemInserted(chatrooms.size()-1);
                 recyclerView.scrollToPosition(0);
@@ -103,11 +105,7 @@ public class ChatroomFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-
-        /*다시 돌아왔을 때, 채팅방 리스트 새로고침*/
-//        chatrooms.clear();
-//        chatroomViewModel.loadChatrooms();
+    public void onDestroyView() {
+        super.onDestroyView();
     }
 }

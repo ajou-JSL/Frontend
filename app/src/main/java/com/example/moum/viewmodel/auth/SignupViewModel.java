@@ -156,7 +156,7 @@ public class SignupViewModel extends ViewModel {
         }
 
         /*formal check*/
-        String idFormat = "^[a-z0-9]{4,20}$";
+        String idFormat = "^[a-z0-9]{3,20}$";
         String passwordFormat = "^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,20}$";
         String emailFormat = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
         String emailCodeFormat = "^[0-9a-zA-Z]{6}$";
@@ -271,30 +271,38 @@ public class SignupViewModel extends ViewModel {
 
     public void addRecord(String name, LocalDate startDate, LocalDate endDate){
 
-        Record newRecord = new Record(name, startDate.toString(), endDate.toString());
+        Record newRecord = new Record(name, startDate.toString().concat("T00:00:00"), endDate.toString().concat("T00:00:00"));
         records.add(newRecord);
 
     }
 
     public void signup(Context context){
-
-
         /*isProfileValid check*/
         if(getIsProfileValid().getValue() == null || getIsProfileValid().getValue() != Validation.VALID_ALL){
             setIsSignupSuccess(Validation.NOT_VALID_ANYWAY);
+            return;
         }
 
         /*processing for repository*/
         SignupUser signupUserValue = signupUser.getValue();
         if(profileImage.getValue() != null){
-
             Uri uri = profileImage.getValue();
             ImageManager imageManager = new ImageManager(context);
             File file = imageManager.convertUriToFile(uri);
             signupUserValue.setProfileImage(file);
         }
-        if(!records.isEmpty())
+        if(!records.isEmpty()){
+            for(Record record : records){
+                if(record.getEndDate() == null && record.getStartDate() != null){
+                    setIsSignupSuccess(Validation.RECORD_NOT_VALID);
+                    return;
+                }
+            }
             signupUserValue.setRecords(records);
+        }
+        else{
+            signupUserValue.setRecords(new ArrayList<Record>());
+        }
         if(proficiency.getValue() != null)
             signupUserValue.setProficiency(proficiency.getValue());
         if(address.getValue() != null)

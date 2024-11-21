@@ -2,6 +2,7 @@ package com.example.moum.view.chat.adapter;
 
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
@@ -16,8 +17,10 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.moum.R;
 import com.example.moum.data.entity.Member;
+import com.example.moum.utils.ImageManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -62,7 +65,7 @@ public class ChatroomParticipantAdapter extends RecyclerView.Adapter<RecyclerVie
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if(isParticipates == null) isParticipates = new ArrayList<>(Collections.nCopies(participants.size(), false));
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chatroom_participant, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_member, parent, false);
         return new ChatroomParticipantAdapter.ChatroomParticipantViewHolder(view, context, this);
     }
 
@@ -84,7 +87,6 @@ public class ChatroomParticipantAdapter extends RecyclerView.Adapter<RecyclerVie
         private Member participant;
         private TextView participantName;
         private CircleImageView participantProfile;
-        private TextView errorParticipants;
         private Context context;
 
         public ChatroomParticipantViewHolder(@NonNull View itemView, Context context, ChatroomParticipantAdapter adapter) {
@@ -92,22 +94,28 @@ public class ChatroomParticipantAdapter extends RecyclerView.Adapter<RecyclerVie
             this.adapter = adapter;
             participantName = itemView.findViewById(R.id.participant_name);
             participantProfile = itemView.findViewById(R.id.participant_profile);
-            errorParticipants = itemView.findViewById(R.id.error_moumtalk_participants);
             this.context = context;
         }
 
+        @SuppressLint("UseCompatLoadingForDrawables")
         @RequiresApi(api = Build.VERSION_CODES.O)
         public void bind(Member participant){
             this.participant = participant;
             int pos = getAbsoluteAdapterPosition();
 
             // 리더인 경우
-            if(participant.getId() == adapter.leaderId){
+            if(participant.getId().equals(adapter.leaderId)){
                 participantName.setText(participant.getName());
                 participantName.setTextColor(Color.rgb(42, 200, 189));
-                Glide.with(context).load(participant.getProfileImageUrl()).into(participantProfile);
-                participantProfile.setBorderWidth(3);
+                participantProfile.setBorderWidth(8);
                 participantProfile.setBorderColor(Color.rgb(167, 209, 206));
+                if(ImageManager.isUrlValid(participant.getProfileImageUrl()))
+                    Glide.with(context)
+                            .load(participant.getProfileImageUrl())
+                            .apply(new RequestOptions()
+                                    .placeholder(R.drawable.background_circle_gray_size_fit)
+                                    .error(R.drawable.background_circle_gray_size_fit))
+                            .into(participantProfile);
                 if (pos != RecyclerView.NO_POSITION) {
                     adapter.setIsParticipate(pos, true);
                 }
@@ -115,7 +123,13 @@ public class ChatroomParticipantAdapter extends RecyclerView.Adapter<RecyclerVie
             //리더가 아닌 경우
             else{
                 participantName.setText(participant.getName());
-                Glide.with(context).load(participant.getProfileImageUrl()).into(participantProfile);
+                if(ImageManager.isUrlValid(participant.getProfileImageUrl()))
+                    Glide.with(context)
+                            .load(participant.getProfileImageUrl())
+                            .apply(new RequestOptions()
+                                    .placeholder(R.drawable.background_circle_gray_size_fit)
+                                    .error(R.drawable.background_circle_gray_size_fit))
+                            .into(participantProfile);
 
                 participantProfile.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -127,16 +141,14 @@ public class ChatroomParticipantAdapter extends RecyclerView.Adapter<RecyclerVie
                                 adapter.setIsParticipate(pos, false);
                             }
                             else{
-                                participantProfile.setBorderWidth(3);
-                                participantProfile.setBorderColor(Color.rgb(42, 200, 189));
+                                participantProfile.setBorderWidth(8);
+                                participantProfile.setBorderColor(Color.rgb(167, 209, 206));
                                 adapter.setIsParticipate(pos, true);
                             }
-                            errorParticipants.setText("");
                         }
                     }
                 });
             }
-
         }
     }
 }

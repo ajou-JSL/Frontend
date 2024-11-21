@@ -187,15 +187,19 @@ public class SignupBasicActivity extends AppCompatActivity {
             }
             else if(isBasicValid == Validation.ID_NOT_FORMAL) {
                 binding.signupEdittextMemberId.requestFocus();
-                binding.signupErrorName.setText("아이디는 영문, 한글, 숫자로 구성된 4~20자입니다.");
+                binding.signupErrorName.setText("아이디는 영문, 한글, 숫자로 구성된 3~20자입니다.");
             }
             else if(isBasicValid == Validation.PASSWORD_NOT_FORMAL) {
                 binding.signupEdittextPassword.requestFocus();
                 binding.signupErrorPassword.setText("비밀번호는 영문 대소문자, 숫자, 특수문자가 포함된 8~20자입니다.");
             }
-            else if(isBasicValid == Validation.EMAIL_CODE_NOT_FORMAL) {
+            else if(isBasicValid == Validation.EMAIL_NOT_FORMAL) {
                 binding.signupEdittextEmail.requestFocus();
                 binding.signupErrorEmail.setText("이메일이 유효하지 않습니다.");
+            }
+            else if(isBasicValid == Validation.EMAIL_CODE_NOT_FORMAL) {
+                binding.signupEdittextEmail.requestFocus();
+                binding.signupErrorEmail.setText("이메일 코드가 유효하지 않습니다.");
             }
             else if(isBasicValid == Validation.EMAIL_AUTH_NOT_TRIED) {
                 binding.signupEdittextEmail.requestFocus();
@@ -222,11 +226,10 @@ public class SignupBasicActivity extends AppCompatActivity {
                 startActivity(intent);
             }
             else{
-                Toast.makeText(context, "알수 없는 감시 결과(Code: " + isBasicValid.toString() + ")", Toast.LENGTH_SHORT).show();
-                Log.e(TAG, "이메일 인증 버튼 감시 결과를 알 수 없습니다.");
+                Toast.makeText(context, "감시 결과를 알 수 없습니다.", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "감시 결과를 알 수 없습니다.");
             }
         });
-
 
         /*각 placeholder 포커스 시 이벤트*/
         binding.signupEdittextMemberId.setOnFocusChangeListener(new View.OnFocusChangeListener() {
