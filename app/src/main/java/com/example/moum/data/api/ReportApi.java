@@ -29,24 +29,24 @@ public interface ReportApi {
             @Path("reportId") Integer reportId
     );
 
-    @POST("/api/report/member/{teamId}")
+    @POST("/api/report/team/{teamId}")
     Call<SuccessResponse<ReportTeam>> reportTeam(
             @Path("teamId") Integer teamId,
             @Body ReportRequest reportRequest
     );
 
-    @GET("/api/report/member/view/{reportId}")
+    @GET("/api/report/team/view/{reportId}")
     Call<SuccessResponse<ReportTeam>> loadReportTeam(
             @Path("reportId") Integer reportId
     );
 
-    @POST("/api/report/member/{articleId}")
+    @POST("/api/report/article/{articleId}")
     Call<SuccessResponse<ReportArticle>> reportArticle(
             @Path("articleId") Integer articleId,
             @Body ReportRequest reportRequest
     );
 
-    @GET("/api/report/member/view/{reportId}")
+    @GET("/api/report/article/view/{reportId}")
     Call<SuccessResponse<ReportArticle>> loadReportArticle(
             @Path("reportId") Integer reportId
     );

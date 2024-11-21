@@ -133,6 +133,21 @@ public class ValueMap {
             put("F-T003", Validation.NOT_TEAM_MEMBER);
             put("F-T004", Validation.LEADER_CANNOT_LEAVE);
             put("F-T005", Validation.MUST_JOIN_TEAM_FIRST);
+
+            // 신고 관련 성공 & 오류 코드
+            put("F-RP001", Validation.REPORT_NOT_FOUND);
+            put("S-RP002", Validation.REPORT_MEMBER_SUCCESS);
+            put("F-RP002", Validation.REPORT_MEMBER_FAIL);
+            put("F-RP012", Validation.REPORT_MEMBER_ALREADY);
+            put("S-RP022", Validation.REPORT_MEMBER_GET_SUCCESS);
+            put("S-RP003", Validation.REPORT_TEAM_SUCCESS);
+            put("F-RP003", Validation.REPORT_TEAM_FAIL);
+            put("F-RP013", Validation.REPORT_TEAM_ALREADY);
+            put("S-RP023", Validation.REPORT_TEAM_GET_SUCCESS);
+            put("S-RP004", Validation.REPORT_ARTICLE_SUCCESS);
+            put("F-RP004", Validation.REPORT_ARTICLE_FAIL);
+            put("F-RP014", Validation.REPORT_ARTICLE_ALREADY);
+            put("S-RP024", Validation.REPORT_ARTICLE_GET_SUCCESS);
         }
     };
 

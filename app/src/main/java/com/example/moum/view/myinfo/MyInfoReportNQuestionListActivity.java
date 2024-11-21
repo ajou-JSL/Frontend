@@ -53,14 +53,11 @@ public class MyInfoReportNQuestionListActivity extends AppCompatActivity {
             }
         });
 
-        /*내 신고 및 문의 리스트 버튼 클릭*/
-        binding.buttonReportList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        /*신고 리사이클러뷰 세팅*/
 
-            }
-        });
+        /*나의 신고 및 문의 리스트 가져오기*/
 
-        /*신고 및 문의하기 버튼 클릭*/
+        /*나의 신고 및 문의 리스트 가져오기 감시 결과*/
+
     }
 }
