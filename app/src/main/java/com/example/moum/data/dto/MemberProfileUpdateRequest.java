@@ -1,5 +1,6 @@
 package com.example.moum.data.dto;
 
+import com.example.moum.data.entity.Genre;
 import com.example.moum.data.entity.Record;
 import com.example.moum.data.entity.Team;
 
@@ -10,20 +11,22 @@ public class MemberProfileUpdateRequest {
     private String username;
     private String profileDescription;
     private String email;
-    private String profileImageUrl;
     private String proficiency;
     private String instrument;
     private String address;
+    private ArrayList<Record> records;
+    private ArrayList<Genre> genres;
 
-    public MemberProfileUpdateRequest(String name, String username, String profileDescription, String email, String profileImageUrl, String proficiency, String instrument, String address) {
+    public MemberProfileUpdateRequest(String name, String username, String profileDescription, String email, String proficiency, String instrument, String address, ArrayList<Record> records, ArrayList<Genre> genres) {
         this.name = name;
         this.username = username;
         this.profileDescription = profileDescription;
         this.email = email;
-        this.profileImageUrl = profileImageUrl;
         this.proficiency = proficiency;
         this.instrument = instrument;
         this.address = address;
+        this.records = records;
+        this.genres = genres;
     }
 
 }

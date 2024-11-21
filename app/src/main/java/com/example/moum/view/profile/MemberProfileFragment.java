@@ -122,8 +122,8 @@ public class MemberProfileFragment extends BottomSheetDialogFragment {
             if(validation == Validation.GET_PROFILE_SUCCESS){
                 targetMember = tMember;
                 ArrayList<Record> sumRecords = new ArrayList<>();
-                if(targetMember.getRecords() != null && !targetMember.getRecords().isEmpty())
-                    sumRecords.addAll(targetMember.getRecords());
+                if(targetMember.getMemberRecords() != null && !targetMember.getMemberRecords().isEmpty())
+                    sumRecords.addAll(targetMember.getMemberRecords());
                 if(targetMember.getMoumRecords() != null && !targetMember.getMoumRecords().isEmpty())
                     sumRecords.addAll(targetMember.getMoumRecords());
                 if(!sumRecords.isEmpty()){

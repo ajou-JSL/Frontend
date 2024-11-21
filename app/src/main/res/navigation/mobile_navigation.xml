@@ -32,7 +32,7 @@
 
     <fragment
         android:id="@+id/menu_my_information"
-        android:name="com.example.moum.view.bottomnavi.MyInformationFragment"
+        android:name="com.example.moum.view.myinfo.MyInformationFragment"
         android:label="my information"
         tools:layout="@layout/fragment_my_information" />
 
