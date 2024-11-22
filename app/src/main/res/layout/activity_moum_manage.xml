@@ -29,7 +29,7 @@
                 android:paddingRight="30dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:background="@drawable/background_white_underline"
+                android:background="@drawable/background_white"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -77,7 +77,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:background="@color/gray0"
+                android:background="@color/gray1"
                 app:layout_constraintTop_toBottomOf="@id/headerLayout"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:orientation="vertical">
@@ -89,7 +89,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:background="@color/gray1">
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recycler_moum_manage_image"
@@ -103,8 +104,8 @@
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:layout_marginTop="0dp"
-                            android:layout_marginBottom="20dp"
-                            android:background="@drawable/background_white_underline"
+                            android:paddingBottom="20dp"
+                            android:background="@drawable/background_top_extramore_rounded_white"
                             >
                             <LinearLayout
                                 android:id="@+id/moum_manage_info"
@@ -234,10 +235,9 @@
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="20dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginBottom="100dp">
+                            android:paddingTop="20dp"
+                            android:background="@color/gray0"
+                            android:paddingBottom="100dp">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -253,8 +253,8 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="20dp"
                                     android:layout_marginBottom="15dp"
-                                    android:layout_marginLeft="15dp"
-                                    android:layout_marginRight="15dp"
+                                    android:layout_marginLeft="25dp"
+                                    android:layout_marginRight="25dp"
                                     android:padding="10dp"
                                     android:elevation="5dp"
                                     android:background="@drawable/button_mint_pink_0_ripple">
@@ -333,8 +333,8 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="10dp"
                                     android:layout_marginBottom="15dp"
-                                    android:layout_marginLeft="15dp"
-                                    android:layout_marginRight="15dp"
+                                    android:layout_marginLeft="25dp"
+                                    android:layout_marginRight="25dp"
                                     android:padding="10dp"
                                     android:elevation="5dp"
                                     android:background="@drawable/button_mint_pink_1_ripple">
@@ -414,8 +414,8 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="10dp"
                                     android:layout_marginBottom="15dp"
-                                    android:layout_marginLeft="15dp"
-                                    android:layout_marginRight="15dp"
+                                    android:layout_marginLeft="25dp"
+                                    android:layout_marginRight="25dp"
                                     android:padding="10dp"
                                     android:elevation="5dp"
                                     android:background="@drawable/button_mint_pink_2_ripple">
@@ -494,8 +494,8 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="10dp"
                                     android:layout_marginBottom="15dp"
-                                    android:layout_marginLeft="15dp"
-                                    android:layout_marginRight="15dp"
+                                    android:layout_marginLeft="25dp"
+                                    android:layout_marginRight="25dp"
                                     android:padding="10dp"
                                     android:elevation="5dp"
                                     android:background="@drawable/button_mint_pink_3_ripple">
@@ -574,8 +574,8 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="10dp"
                                     android:layout_marginBottom="15dp"
-                                    android:layout_marginLeft="15dp"
-                                    android:layout_marginRight="15dp"
+                                    android:layout_marginLeft="25dp"
+                                    android:layout_marginRight="25dp"
                                     android:padding="10dp"
                                     android:elevation="5dp"
                                     android:background="@drawable/button_mint_pink_4_ripple">
@@ -654,8 +654,8 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="10dp"
                                     android:layout_marginBottom="15dp"
-                                    android:layout_marginLeft="15dp"
-                                    android:layout_marginRight="15dp"
+                                    android:layout_marginLeft="25dp"
+                                    android:layout_marginRight="25dp"
                                     android:padding="10dp"
                                     android:elevation="5dp"
                                     android:background="@drawable/button_mint_pink_5_ripple">
@@ -733,8 +733,8 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="10dp"
                                     android:layout_marginBottom="10dp"
-                                    android:layout_marginLeft="15dp"
-                                    android:layout_marginRight="15dp"
+                                    android:layout_marginLeft="25dp"
+                                    android:layout_marginRight="25dp"
                                     android:padding="10dp"
                                     android:elevation="5dp"
                                     android:background="@drawable/button_mint_pink_6_ripple">

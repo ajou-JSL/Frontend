@@ -134,6 +134,15 @@
         <activity android:name=".view.moum.MoumPromote1Activity"
             android:exported="true">
         </activity>
+        <activity android:name=".view.moum.MoumPaymentChatroomActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".view.moum.MoumPaymentActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".view.moum.MoumPaymentAddActivity"
+            android:exported="true">
+        </activity>
     </application>
 
 </manifest>

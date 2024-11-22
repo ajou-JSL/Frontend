@@ -546,8 +546,10 @@ public class MoumManageActivity extends AppCompatActivity {
         binding.buttonPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO
-                Toast.makeText(context, "정산하기 페이지로 이동", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MoumManageActivity.this, MoumPaymentActivity.class);
+                intent.putExtra("teamId", recentMoum.getTeamId());
+                intent.putExtra("moumId", recentMoum.getMoumId());
+                startActivity(intent);
             }
         });
         binding.buttonFinish.setOnClickListener(new View.OnClickListener() {
