@@ -6,7 +6,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+import android.window.OnBackInvokedDispatcher;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
@@ -16,7 +19,6 @@ import com.example.moum.R;
 import com.example.moum.databinding.ActivityLoginBinding;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
-import com.example.moum.view.chat.ChatActivity;
 import com.example.moum.viewmodel.auth.LoginViewModel;
 
 
@@ -125,5 +127,26 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
+        /*back pressed 이벤트*/
+//        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+//            @Override
+//            public void handleOnBackPressed() {
+//                overridePendingTransition(R.anim.none, R.anim.exit_right);
+//            }
+//        });
     }
+
+    @Override
+    public void finish() {
+        super.finish();
+        //overridePendingTransition(R.anim.none,R.anim.exit_right);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        overridePendingTransition(R.anim.enter_left, R.anim.none);
+    }
+
 }

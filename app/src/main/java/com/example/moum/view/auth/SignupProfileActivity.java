@@ -70,6 +70,7 @@ public class SignupProfileActivity extends AppCompatActivity {
             public void onClick(View view) {
                 finish();
             }
+
         });
 
         /*Photo picker 선택 후 콜백*/
@@ -320,4 +321,9 @@ public class SignupProfileActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        overridePendingTransition(R.anim.enter_left, R.anim.none);
+    }
 }

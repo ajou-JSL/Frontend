@@ -287,8 +287,11 @@ public class SignupBasicActivity extends AppCompatActivity {
                 }
             }
         });
-
-
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        overridePendingTransition(R.anim.enter_left, R.anim.none);
+    }
 }
