@@ -28,6 +28,15 @@ public class ValueMap {
             put("F-CH002", Validation.CHAT_RECEIVE_FAIL);
             put("S-CH003", Validation.CHATROOM_CREATE_SUCCESS);
             put("F-CH003", Validation.CHATROOM_CREATE_FAIL);
+            put("S-CH004", Validation.CHATROOM_UPDATE_SUCCESS);
+            put("F-CH004", Validation.CHATROOM_UPDATE_FAIL);
+            put("S-CH005", Validation.CHATROOM_INVITE_SUCCESS);
+            put("F-CH005", Validation.CHATROOM_INVITE_FAIL);
+            put("S-CH006", Validation.CHATROOM_DELETE_SUCCESS);
+            put("F-CH006", Validation.CHATROOM_DELETE_FAIL);
+            put("S-CH007", Validation.CHATROOM_GET_SUCCESS);
+            put("F-CH007", Validation.CHATROOM_GET_FAIL);
+
 
             // 멤버 관련 성공 응답
             put("S-M003", Validation.REISSUE_SUCCESS);

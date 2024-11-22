@@ -3,13 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ChatCreateChatroomOnwardActivity"
-    tools:context=".view.chat.ChatCreateChatroomOnwardActivity">
+    android:id="@+id/ChatUpdateChatroomActivity"
+    tools:context=".view.chat.ChatUpdateChatroomActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraint_chat_top"
+            android:id="@+id/constraint_top"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/gray0">
@@ -30,7 +30,7 @@
                 app:contentInsetStart="0dp">
 
                 <ImageView
-                    android:id="@+id/button_login_return"
+                    android:id="@+id/button_return"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@drawable/button_rounded_left"
@@ -95,7 +95,6 @@
                     android:layout_marginBottom="100dp">
 
                     <LinearLayout
-                        android:id="@+id/placeholder_moumtalk_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
@@ -116,7 +115,7 @@
                                 android:fontFamily="@font/noto_sans_kr_regular"
                                 />
                             <TextView
-                                android:id="@+id/signup_error_moumtalk_name"
+                                android:id="@+id/error_name"
                                 android:textColor="@color/red"
                                 android:textSize="9sp"
                                 android:fontFamily="@font/noto_sans_kr_regular"
@@ -127,7 +126,7 @@
                                 />
                         </LinearLayout>
                         <LinearLayout
-                            android:id="@+id/signup_placeholder_moumtalk_name"
+                            android:id="@+id/placeholder_name"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
                             android:background="@drawable/background_rounded_gray_stroke"
@@ -137,7 +136,7 @@
                             android:paddingBottom="5dp"
                             >
                             <EditText
-                                android:id="@+id/signup_edittext_nickname"
+                                android:id="@+id/edittext_name"
                                 android:layout_width="match_parent"
                                 android:layout_height="33dp"
                                 android:background="@color/transparent"
@@ -153,7 +152,6 @@
                         </LinearLayout>
                     </LinearLayout>
                     <LinearLayout
-                        android:id="@+id/placeholder_profile_image"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
@@ -176,7 +174,7 @@
                                 android:fontFamily="@font/noto_sans_kr_regular"
                                 />
                             <TextView
-                                android:id="@+id/signup_error_profile_image"
+                                android:id="@+id/error_image"
                                 android:textColor="@color/red"
                                 android:textSize="9sp"
                                 android:fontFamily="@font/noto_sans_kr_regular"
@@ -192,7 +190,7 @@
                             android:orientation="horizontal">
 
                             <de.hdodenhof.circleimageview.CircleImageView
-                                android:id="@+id/imageview_signup_profile"
+                                android:id="@+id/imageview_profile"
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
                                 android:background="@drawable/background_circle_gray"
@@ -212,48 +210,6 @@
                                 android:drawableLeft="@drawable/icon_image_alpha"
                                 android:drawablePadding="5dp"/>
                         </LinearLayout>
-                    </LinearLayout>
-                    <LinearLayout
-                        android:id="@+id/placeholder_moumtalk_participants"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginBottom="15dp">
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal"
-                            android:layout_gravity="bottom">
-                            <TextView
-                                android:textColor="@color/gray4"
-                                android:textSize="14sp"
-                                android:layout_marginEnd="17dp"
-                                android:layout_height="wrap_content"
-                                android:layout_width="wrap_content"
-                                android:text="참여 멤버"
-                                android:fontFamily="@font/noto_sans_kr_regular"
-                                />
-                            <TextView
-                                android:id="@+id/signup_error_moumtalk_participants"
-                                android:textColor="@color/red"
-                                android:textSize="9sp"
-                                android:fontFamily="@font/noto_sans_kr_regular"
-                                android:layout_height="wrap_content"
-                                android:layout_width="match_parent"
-                                android:text=""
-                                android:layout_gravity="center_vertical"
-                                />
-                        </LinearLayout>
-                        <ScrollView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/recycler_moumtalk_participants"
-                                android:layout_width="match_parent"
-                                android:layout_height="70dp"
-                                android:background="@color/gray0"/>
-                        </ScrollView>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>

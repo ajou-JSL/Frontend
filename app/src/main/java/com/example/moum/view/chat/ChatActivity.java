@@ -19,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -39,6 +40,7 @@ import com.example.moum.utils.TimeManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.view.chat.adapter.ChatAdapter;
+import com.example.moum.view.dialog.ChatroomLeaveDialog;
 import com.example.moum.view.moum.MoumManageActivity;
 import com.example.moum.view.profile.MemberProfileFragment;
 import com.example.moum.viewmodel.chat.ChatViewModel;
@@ -53,7 +55,6 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 
 public class ChatActivity extends AppCompatActivity {
-
     private ActivityChatBinding binding;
     private ChatViewModel chatViewModel;
     private Context context;
@@ -64,6 +65,10 @@ public class ChatActivity extends AppCompatActivity {
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private final static int SIZE_OF_STREAM = 5;
     private Boolean isLoading = false;
+    private final int REQUEST_CODE = 100;
+    private Integer chatroomId;
+    private Integer id;
+    Chatroom.ChatroomType chatroomType;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -80,7 +85,7 @@ public class ChatActivity extends AppCompatActivity {
         SharedPreferenceManager sharedPreferenceManager = new SharedPreferenceManager(context, getString(R.string.preference_file_key));
         String accessToken = sharedPreferenceManager.getCache(getString(R.string.user_access_token_key), "no-access-token");
         String username = sharedPreferenceManager.getCache(getString(R.string.user_username_key), "no-memberId");
-        Integer id = sharedPreferenceManager.getCache(getString(R.string.user_id_key), -1);
+        id = sharedPreferenceManager.getCache(getString(R.string.user_id_key), -1);
         if(accessToken.isEmpty() || accessToken.equals("no-access-token")){
             Toast.makeText(context, "로그인 정보가 없어 초기 페이지로 돌아갑니다.", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(context, InitialActivity.class);
@@ -90,7 +95,7 @@ public class ChatActivity extends AppCompatActivity {
 
         /*채팅방 정보 불러오기*/
         Intent prevIntent = getIntent();
-        int chatroomId = prevIntent.getIntExtra("chatroomId", -1);
+        chatroomId = prevIntent.getIntExtra("chatroomId", -1);
         String chatroomName = prevIntent.getStringExtra("chatroomName");
         int chatroomTypeInt = prevIntent.getIntExtra("chatroomType", -1);
         int teamId = prevIntent.getIntExtra("teamId", -1);
@@ -98,7 +103,7 @@ public class ChatActivity extends AppCompatActivity {
         String lastChat = prevIntent.getStringExtra("lastChat");
         String lastTimestamp = prevIntent.getStringExtra("lastTimestamp");
         String fileUrl = prevIntent.getStringExtra("fileUrl");
-        Chatroom.ChatroomType chatroomType = Chatroom.ChatroomType.values()[chatroomTypeInt];
+        chatroomType = Chatroom.ChatroomType.values()[chatroomTypeInt];
         Chatroom chatroom = new Chatroom(chatroomId, chatroomName, chatroomType, teamId, leaderId, lastChat, lastTimestamp, fileUrl);
 
         binding.textviewChatUserName.setText(chatroomName);
@@ -159,21 +164,26 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 PopupMenu popupMenu = new PopupMenu(ChatActivity.this, binding.dropdownChatEtc);
-                for (int i = 0; i < etcList.length; i++) {
-                    popupMenu.getMenu().add(etcList[i]);
-                }
+                if(chatroomType == Chatroom.ChatroomType.PERSONAL_CHAT)
+                    for (int i = 0; i < etcList.length-1; i++) {
+                        popupMenu.getMenu().add(etcList[i]);
+                    }
+                else if(chatroomType == Chatroom.ChatroomType.MULTI_CHAT && leaderId == id)
+                    for (int i = 0; i < etcList.length; i++) {
+                        popupMenu.getMenu().add(etcList[i]);
+                    }
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         String selectedItem = menuItem.getTitle().toString();
                         if (selectedItem.equals("모음톡 나가기")) {
-                            //TODO
+                            ChatroomLeaveDialog chatroomLeaveDialog = new ChatroomLeaveDialog(context, chatroomName);
+                            chatroomLeaveDialog.show();
                         }
                         else if (selectedItem.equals("수정하기")) {
-                            //TODO
-                        }
-                        else if (selectedItem.equals("정산 요청하기")) {
-                            //TODO
+                            Intent intent = new Intent(context, ChatUpdateChatroomActivity.class);
+                            intent.putExtra("chatroomId", chatroomId);
+                            startActivityForResult(intent, REQUEST_CODE);
                         }
                         return true;
                     }
@@ -313,6 +323,26 @@ public class ChatActivity extends AppCompatActivity {
             if(validation == Validation.CHATROOM_MEMBER_LOAD_SUCCESS){
                 members.clear();
                 members.addAll(loadedMembers);
+
+                if(chatroomType == Chatroom.ChatroomType.PERSONAL_CHAT) {
+                    Member targetMember = null;
+                    for(Member member : members){
+                        if(!member.getId().equals(id))
+                            targetMember = member;
+                    }
+                    Glide.with(context)
+                            .applyDefaultRequestOptions(new RequestOptions()
+                            .placeholder(R.drawable.background_circle_gray_size_fit)
+                            .error(R.drawable.background_circle_gray_size_fit))
+                            .load(targetMember.getProfileImageUrl()).into(binding.imageChatProfile);
+                }
+                else if(chatroomType == Chatroom.ChatroomType.MULTI_CHAT && chatroom.getFileUrl() != null && !chatroom.getFileUrl().isEmpty()){
+                    Glide.with(context)
+                            .applyDefaultRequestOptions(new RequestOptions()
+                            .placeholder(R.drawable.background_circle_gray_size_fit)
+                            .error(R.drawable.background_circle_gray_size_fit))
+                            .load(chatroom.getFileUrl()).into(binding.imageChatProfile);
+                }
             }
             else if(validation == Validation.CHAT_RECEIVE_FAIL){
                 Toast.makeText(context, "채팅방의 멤버 불러오기에 실패하였습니다.", Toast.LENGTH_SHORT).show();
@@ -332,7 +362,6 @@ public class ChatActivity extends AppCompatActivity {
         final MemberProfileFragment memberProfileFragment = new MemberProfileFragment(context);
         if(chatroomType == Chatroom.ChatroomType.MULTI_CHAT) {
            //TODO
-
         }
 
         /*개인채팅이라면 프로필 클릭 시 프로필 fragment 띄움*/
@@ -355,19 +384,50 @@ public class ChatActivity extends AppCompatActivity {
                     memberProfileFragment.show(getSupportFragmentManager(), memberProfileFragment.getTag());
                 }
             });
+
         }
 
+        /*채팅방 나가기 결과 감시*/
+        chatViewModel.getIsDeleteMembersSuccess().observe(this, isDeleteMembersSuccess -> {
+            Validation validation = isDeleteMembersSuccess.getValidation();
+            Chatroom loadedChatroom = isDeleteMembersSuccess.getData();
+            if(validation == Validation.CHATROOM_DELETE_SUCCESS){
+                Toast.makeText(context, "채팅방 나가기에 성공하였습니다.", Toast.LENGTH_SHORT).show();
+            }
+            else if(validation == Validation.CHATROOM_DELETE_FAIL){
+                Toast.makeText(context, "채팅방 나가기에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+            }
+            else if(validation == Validation.NETWORK_FAILED){
+                Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Toast.makeText(context, "채팅방 나가기에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "채팅 불러오기 결과를 알 수 없습니다.");
+            }
+        });
 
-    }
-
-    @Override
-    protected void onStart(){
-        super.onStart();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         compositeDisposable.clear();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
+            if (data != null) {
+                int modified = data.getIntExtra("modified", -1);
+                if(modified == 1){
+                    //TODO refresh
+                }
+            }
+        }
+    }
+
+    public void onChatroomLeaveDialogYesClicked(){
+        chatViewModel.deleteMembers(chatroomId, id, chatroomType);
     }
 }
