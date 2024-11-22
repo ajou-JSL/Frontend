@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.moum.data.entity.Article;
 import com.example.moum.data.entity.Result;
+import com.example.moum.utils.Callback;
 import com.example.moum.utils.Validation;
 import com.example.moum.repository.ArticleRepository;
 
@@ -17,6 +18,9 @@ public class BoardFreeViewModel extends AndroidViewModel {
     private final MutableLiveData<Result<List<Article>>> isLoadArticlesCategorySuccess = new MutableLiveData<>();
     private final MutableLiveData<Result<Article>> isLoadArticleSuccess = new MutableLiveData<>();
     private ArticleRepository articleRepository;
+    private boolean isLoading = false;
+    private Integer currentPage = 0;
+    private final Integer currentSize = 10;
 
     public BoardFreeViewModel(Application application) {
         super(application);
@@ -37,18 +41,32 @@ public class BoardFreeViewModel extends AndroidViewModel {
 
     public MutableLiveData<Result<List<Article>>> getIsLoadArticlesCategorySuccess() { return isLoadArticlesCategorySuccess; }
 
-    public void loadArticleCategoryList() {
-        articleRepository.loadArticlesCategory(null, "FREE_TALKING_BOARD", 0, 10,this::setIsLoadArticlesCategorySuccess);
+    public boolean isLoading() {return isLoading; }
+
+    public void resetPagination() {
+        currentPage = 0;   // 페이지 초기화
+        isLoading = false; // 로딩 상태 초기화
     }
 
-    public void loadArticlesDetail(Integer positionId) {
+    public void loadArticleCategoryList() {
+        articleRepository.loadArticlesCategory(null, "FREE_TALKING_BOARD", currentPage, currentSize,this::setIsLoadArticlesCategorySuccess);
+    }
+
+    public void loadArticlesDetail(Integer positionId, Callback<Result<Article>> callback) {
         Result<List<Article>> previousResult = isLoadArticlesCategorySuccess.getValue();
+
         if (previousResult != null && previousResult.getData() != null && !previousResult.getData().isEmpty()) {
-            // 특정 ID 데이터 호출
-            Integer articleId = previousResult.getData().get(positionId).getId();
-            articleRepository.loadArticleDetail(articleId, this::setIsLoadArticleSuccess);
+            // 특정 positionId에 해당하는 Article 찾기
+            Article article = previousResult.getData().get(positionId);
+
+            if (article != null) {
+                Integer articleId = article.getId();
+                articleRepository.loadArticleDetail(articleId, callback);
+            } else {
+                callback.onResult(new Result<>(Validation.ARTICLE_NOT_FOUND));
+            }
         } else {
-            setIsLoadArticleSuccess(new Result<>(Validation.ARTICLE_NOT_FOUND));
+            callback.onResult(new Result<>(Validation.ARTICLE_NOT_FOUND));
         }
     }
 }

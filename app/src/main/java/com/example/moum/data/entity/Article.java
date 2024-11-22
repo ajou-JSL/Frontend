@@ -10,9 +10,11 @@ public class Article {
     private Integer viewCounts;
     private Integer commentCounts;
     private Integer likeCounts;
+    private String imageURL;
     private String author;
     private ArrayList<Comment> comments;
     private String createAt;
+    private String updateAt;
 
     public Integer getId() {
         return id;
@@ -54,6 +56,10 @@ public class Article {
         return createAt;
     }
 
+    public String getUpdateAt() { return updateAt; }
+
+    public String getImageURL() { return imageURL; }
+
     public void setId(Integer id) {
         this.id = id;
     }
@@ -94,6 +100,10 @@ public class Article {
         this.createAt = createAt;
     }
 
+    public void setUpdateAt(String updateAt) { this.updateAt = updateAt; }
+
+    public void setImageURL(String imageURL) { this.imageURL = imageURL; }
+
     @Override
     public String toString() {
         return "Article{" +
@@ -104,9 +114,11 @@ public class Article {
                 ", viewCounts=" + viewCounts +
                 ", commentCounts=" + commentCounts +
                 ", likeCounts=" + likeCounts +
+                ", imageURL=" + imageURL + '\'' +
                 ", author='" + author + '\'' +
                 ", comments=" + comments +
                 ", createAt='" + createAt + '\'' +
+                ", viewCounts=" + updateAt +
                 '}';
     }
 }

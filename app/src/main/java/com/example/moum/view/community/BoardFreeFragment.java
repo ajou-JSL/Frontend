@@ -95,7 +95,7 @@ public class BoardFreeFragment extends Fragment {
     private void initRecyclerView() {
         // RecyclerView 초기화
         RecyclerView recyclerView = binding.boardFreeRecyclerView;
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
         // item 구분선 추가
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), LinearLayoutManager.VERTICAL);
@@ -105,6 +105,27 @@ public class BoardFreeFragment extends Fragment {
         ArrayList<BoardFreeItem> itemList = new ArrayList<>();
         BoardFreeItemAdapter adapter = new BoardFreeItemAdapter(itemList);
         recyclerView.setAdapter(adapter);
+
+        //스크롤 리스너 추가
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                // 아래스크롤 동작 확인
+                if (layoutManager != null && dy > 0) {
+                    int visibleItemCount = layoutManager.getChildCount();
+                    int totalItemCount = layoutManager.getItemCount();
+                    int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
+
+                    if (!boardFreeViewModel.isLoading() && (visibleItemCount + firstVisibleItemPosition) >= totalItemCount) {
+                        // ViewModel을 통해 추가 데이터 요청
+                        boardFreeViewModel.loadArticleCategoryList();
+                    }
+                }
+            }
+        });
 
         // LiveData 관찰 및 데이터 로딩
         BoardFreeViewModel viewModel = new ViewModelProvider(requireActivity()).get(BoardFreeViewModel.class);
@@ -137,10 +158,7 @@ public class BoardFreeFragment extends Fragment {
                 Toast.makeText(getContext(), "응답이 없습니다.", Toast.LENGTH_SHORT).show();
             }
         });
-
-
         viewModel.loadArticleCategoryList();
-//        viewModel.loadArticlesDetail();
     }
 
 
