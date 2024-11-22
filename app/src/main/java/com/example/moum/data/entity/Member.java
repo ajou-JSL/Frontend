@@ -13,13 +13,14 @@ public class Member {
     private ArrayList<Team> teams;
     private String profileImageUrl;
     private String proficiency;
-    private ArrayList<Record> records;
+    private ArrayList<Record> memberRecords;
     private String instrument;
     private String address;
     private String tier;
     private Integer exp;
     private ArrayList<Record> moumRecords;
     private String videoUrl;
+    private ArrayList<Genre> genres;
 
     public void setName(String name) {
         this.name = name;
@@ -45,8 +46,8 @@ public class Member {
         this.email = email;
     }
 
-    public void setRecords(ArrayList<Record> records) {
-        this.records = records;
+    public void setMemberRecords(ArrayList<Record> memberRecords) {
+        this.memberRecords = memberRecords;
     }
 
     public void setAddress(String address) {
@@ -81,6 +82,10 @@ public class Member {
         this.videoUrl = videoUrl;
     }
 
+    public void setGenres(ArrayList<Genre> genres) {
+        this.genres = genres;
+    }
+
     public String getName() {
         return name;
     }
@@ -113,8 +118,8 @@ public class Member {
         return instrument;
     }
 
-    public ArrayList<Record> getRecords() {
-        return records;
+    public ArrayList<Record> getMemberRecords() {
+        return memberRecords;
     }
 
     public ArrayList<Team> getTeams() {
@@ -141,6 +146,10 @@ public class Member {
         return videoUrl;
     }
 
+    public ArrayList<Genre> getGenres() {
+        return genres;
+    }
+
     @Override
     public String toString() {
         return "Member{" +
@@ -152,13 +161,14 @@ public class Member {
                 ", teams=" + teams +
                 ", profileImageUrl='" + profileImageUrl + '\'' +
                 ", proficiency='" + proficiency + '\'' +
-                ", records=" + records +
+                ", memberRecords=" + memberRecords +
                 ", instrument='" + instrument + '\'' +
                 ", address='" + address + '\'' +
                 ", tier='" + tier + '\'' +
                 ", exp=" + exp +
                 ", moumRecords=" + moumRecords +
                 ", videoUrl='" + videoUrl + '\'' +
+                ", genres=" + genres +
                 '}';
     }
 }

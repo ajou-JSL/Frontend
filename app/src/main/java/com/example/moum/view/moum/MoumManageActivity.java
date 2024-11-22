@@ -344,7 +344,7 @@ public class MoumManageActivity extends AppCompatActivity {
                     binding.buttonRecruit.setEnabled(false);
                 }
                 else{
-                    binding.buttonRecruit.setBackground(ContextCompat.getDrawable(context, R.drawable.button_neon_mint_angular_ripple));
+                    binding.buttonRecruit.setBackground(ContextCompat.getDrawable(context, R.drawable.button_mint_pink_0_ripple));
                     binding.buttonRecruit.setEnabled(true);
                 }
                 if(updatedProcess.getChatroomStatus()){
@@ -352,7 +352,7 @@ public class MoumManageActivity extends AppCompatActivity {
                     binding.buttonMoumtalk.setEnabled(false);
                 }
                 else{
-                    binding.buttonMoumtalk.setBackground(ContextCompat.getDrawable(context, R.drawable.button_neon_mint_angular_ripple));
+                    binding.buttonMoumtalk.setBackground(ContextCompat.getDrawable(context, R.drawable.button_mint_pink_1_ripple));
                     binding.buttonMoumtalk.setEnabled(true);
                 }
                 if(updatedProcess.getPracticeroomStatus()){
@@ -360,7 +360,7 @@ public class MoumManageActivity extends AppCompatActivity {
                     binding.buttonPracticeRoom.setEnabled(false);
                 }
                 else{
-                    binding.buttonPracticeRoom.setBackground(ContextCompat.getDrawable(context, R.drawable.button_neon_mint_angular_ripple));
+                    binding.buttonPracticeRoom.setBackground(ContextCompat.getDrawable(context, R.drawable.button_mint_pink_2_ripple));
                     binding.buttonPracticeRoom.setEnabled(true);
                 }
                 if(updatedProcess.getPerformLocationStatus()){
@@ -368,7 +368,7 @@ public class MoumManageActivity extends AppCompatActivity {
                     binding.buttonPerformLocation.setEnabled(false);
                 }
                 else{
-                    binding.buttonPerformLocation.setBackground(ContextCompat.getDrawable(context, R.drawable.button_neon_mint_angular_ripple));
+                    binding.buttonPerformLocation.setBackground(ContextCompat.getDrawable(context, R.drawable.button_mint_pink_3_ripple));
                     binding.buttonPerformLocation.setEnabled(true);
                 }
                 if(updatedProcess.getPromoteStatus()){
@@ -376,7 +376,7 @@ public class MoumManageActivity extends AppCompatActivity {
                     binding.buttonPromote.setEnabled(false);
                 }
                 else{
-                    binding.buttonPromote.setBackground(ContextCompat.getDrawable(context, R.drawable.button_neon_mint_angular_ripple));
+                    binding.buttonPromote.setBackground(ContextCompat.getDrawable(context, R.drawable.button_mint_pink_4_ripple));
                     binding.buttonPromote.setEnabled(true);
                 }
                 if(updatedProcess.getPaymentStatus()){
@@ -384,7 +384,7 @@ public class MoumManageActivity extends AppCompatActivity {
                     binding.buttonPayment.setEnabled(false);
                 }
                 else{
-                    binding.buttonPayment.setBackground(ContextCompat.getDrawable(context, R.drawable.button_neon_mint_angular_ripple));
+                    binding.buttonPayment.setBackground(ContextCompat.getDrawable(context, R.drawable.button_mint_pink_5_ripple));
                     binding.buttonPayment.setEnabled(true);
                 }
             }
@@ -620,7 +620,7 @@ public class MoumManageActivity extends AppCompatActivity {
                     binding.buttonRecruit.setEnabled(false);
                 }
                 else{
-                    binding.buttonRecruit.setBackground(ContextCompat.getDrawable(context, R.drawable.button_neon_mint_angular_ripple));
+                    binding.buttonRecruit.setBackground(ContextCompat.getDrawable(context, R.drawable.button_mint_pink_0_ripple));
                     binding.buttonRecruit.setEnabled(true);
                 }
                 if(updatedProcess.getChatroomStatus()){
@@ -628,7 +628,7 @@ public class MoumManageActivity extends AppCompatActivity {
                     binding.buttonMoumtalk.setEnabled(false);
                 }
                 else{
-                    binding.buttonMoumtalk.setBackground(ContextCompat.getDrawable(context, R.drawable.button_neon_mint_angular_ripple));
+                    binding.buttonMoumtalk.setBackground(ContextCompat.getDrawable(context, R.drawable.button_mint_pink_1_ripple));
                     binding.buttonMoumtalk.setEnabled(true);
                 }
                 if(updatedProcess.getPracticeroomStatus()){
@@ -636,7 +636,7 @@ public class MoumManageActivity extends AppCompatActivity {
                     binding.buttonPracticeRoom.setEnabled(false);
                 }
                 else{
-                    binding.buttonPracticeRoom.setBackground(ContextCompat.getDrawable(context, R.drawable.button_neon_mint_angular_ripple));
+                    binding.buttonPracticeRoom.setBackground(ContextCompat.getDrawable(context, R.drawable.button_mint_pink_2_ripple));
                     binding.buttonPracticeRoom.setEnabled(true);
                 }
                 if(updatedProcess.getPerformLocationStatus()){
@@ -644,7 +644,7 @@ public class MoumManageActivity extends AppCompatActivity {
                     binding.buttonPerformLocation.setEnabled(false);
                 }
                 else{
-                    binding.buttonPerformLocation.setBackground(ContextCompat.getDrawable(context, R.drawable.button_neon_mint_angular_ripple));
+                    binding.buttonPerformLocation.setBackground(ContextCompat.getDrawable(context, R.drawable.button_mint_pink_3_ripple));
                     binding.buttonPerformLocation.setEnabled(true);
                 }
                 if(updatedProcess.getPromoteStatus()){
@@ -652,7 +652,7 @@ public class MoumManageActivity extends AppCompatActivity {
                     binding.buttonPromote.setEnabled(false);
                 }
                 else{
-                    binding.buttonPromote.setBackground(ContextCompat.getDrawable(context, R.drawable.button_neon_mint_angular_ripple));
+                    binding.buttonPromote.setBackground(ContextCompat.getDrawable(context, R.drawable.button_mint_pink_4_ripple));
                     binding.buttonPromote.setEnabled(true);
                 }
                 if(updatedProcess.getPaymentStatus()){
@@ -660,7 +660,7 @@ public class MoumManageActivity extends AppCompatActivity {
                     binding.buttonPayment.setEnabled(false);
                 }
                 else{
-                    binding.buttonPayment.setBackground(ContextCompat.getDrawable(context, R.drawable.button_neon_mint_angular_ripple));
+                    binding.buttonPayment.setBackground(ContextCompat.getDrawable(context, R.drawable.button_mint_pink_5_ripple));
                     binding.buttonPayment.setEnabled(true);
                 }
                 binding.buttonFinish.setVisibility(View.VISIBLE);

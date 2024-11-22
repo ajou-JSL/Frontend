@@ -42,6 +42,8 @@ import com.example.moum.view.chat.ChatUpdateChatroomActivity;
 import com.example.moum.view.chat.adapter.ChatroomAdapter;
 import com.example.moum.view.profile.adapter.ProfileRecordAdapter;
 import com.example.moum.view.profile.adapter.ProfileTeamAdapter;
+import com.example.moum.view.report.ReportFragment;
+import com.example.moum.view.report.ReportMemberFragment;
 import com.example.moum.viewmodel.chat.ChatroomViewModel;
 import com.example.moum.viewmodel.profile.MemberProfileViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -122,8 +124,8 @@ public class MemberProfileFragment extends BottomSheetDialogFragment {
             if(validation == Validation.GET_PROFILE_SUCCESS){
                 targetMember = tMember;
                 ArrayList<Record> sumRecords = new ArrayList<>();
-                if(targetMember.getRecords() != null && !targetMember.getRecords().isEmpty())
-                    sumRecords.addAll(targetMember.getRecords());
+                if(targetMember.getMemberRecords() != null && !targetMember.getMemberRecords().isEmpty())
+                    sumRecords.addAll(targetMember.getMemberRecords());
                 if(targetMember.getMoumRecords() != null && !targetMember.getMoumRecords().isEmpty())
                     sumRecords.addAll(targetMember.getMoumRecords());
                 if(!sumRecords.isEmpty()){
@@ -240,7 +242,11 @@ public class MemberProfileFragment extends BottomSheetDialogFragment {
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         String selectedItem = menuItem.getTitle().toString();
                         if (selectedItem.equals("유저 신고하기")) {
-                            //TODO
+                            ReportMemberFragment reportMemberFragment = new ReportMemberFragment(context);
+                            Bundle bundle = new Bundle();
+                            bundle.putInt("targetMemberId", targetMemberId);
+                            reportMemberFragment.setArguments(bundle);
+                            reportMemberFragment.show(getParentFragmentManager(), reportMemberFragment.getTag());
                         }
                         return true;
                     }

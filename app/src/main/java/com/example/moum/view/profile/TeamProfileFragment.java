@@ -38,6 +38,8 @@ import com.example.moum.view.chat.ChatActivity;
 import com.example.moum.view.profile.adapter.ProfileMemberAdapter;
 import com.example.moum.view.profile.adapter.ProfileRecordAdapter;
 import com.example.moum.view.profile.adapter.ProfileTeamAdapter;
+import com.example.moum.view.report.ReportMemberFragment;
+import com.example.moum.view.report.ReportTeamFragment;
 import com.example.moum.viewmodel.profile.MemberProfileViewModel;
 import com.example.moum.viewmodel.profile.TeamProfileViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -230,7 +232,11 @@ public class TeamProfileFragment extends BottomSheetDialogFragment {
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         String selectedItem = menuItem.getTitle().toString();
                         if (selectedItem.equals("단체 신고하기")) {
-                            //TODO
+                            ReportTeamFragment reportTeamFragment = new ReportTeamFragment(context);
+                            Bundle bundle = new Bundle();
+                            bundle.putInt("targetTeamId", targetTeamId);
+                            reportTeamFragment.setArguments(bundle);
+                            reportTeamFragment.show(getParentFragmentManager(), reportTeamFragment.getTag());
                         }
                         return true;
                     }

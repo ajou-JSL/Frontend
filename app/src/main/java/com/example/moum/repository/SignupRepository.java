@@ -1,5 +1,6 @@
 package com.example.moum.repository;
 
+import android.app.Application;
 import android.util.Log;
 
 import com.example.moum.data.api.SignupApi;
@@ -28,14 +29,18 @@ public class SignupRepository {
     private static SignupRepository instance;
     private RetrofitClientManager retrofitClientManager;
     private SignupApi signupApi;
+    private SignupApi authSignupApi;
     private Retrofit retrofitClient;
+    private Retrofit authRetrofitClient;
     private String TAG = getClass().toString();
 
-    private SignupRepository() {
+    public SignupRepository(Application application) {
         retrofitClientManager = new RetrofitClientManager();
         retrofitClientManager.setBaseUrl(BaseUrl.BASIC_SERVER_PATH.getUrl());
         retrofitClient = retrofitClientManager.getClient();
+        authRetrofitClient = retrofitClientManager.getAuthClient(application);
         signupApi = retrofitClient.create(SignupApi.class);
+        authSignupApi = authRetrofitClient.create(SignupApi.class);
     }
     public SignupRepository(Retrofit retrofitClient, SignupApi signupApi){
         //TODO 테스트용
@@ -43,9 +48,9 @@ public class SignupRepository {
         retrofitClientManager.setBaseUrl(BaseUrl.BASIC_SERVER_PATH.getUrl());
         this.signupApi = signupApi;
     }
-    public static SignupRepository getInstance() {
+    public static SignupRepository getInstance(Application application) {
         if (instance == null) {
-            instance = new SignupRepository();
+            instance = new SignupRepository(application);
         }
         return instance;
     }
