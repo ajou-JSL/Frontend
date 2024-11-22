@@ -3,8 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/MemberProfileFragment"
-    tools:context=".view.profile.MemberProfileFragment">
+    android:id="@+id/ReportArticleFragment"
+    tools:context=".view.profile.ReportArticleFragment">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -75,14 +75,15 @@
                             android:layout_height="40dp"
                             android:orientation="horizontal"
                             android:gravity="center_vertical">
+
                             <TextView
                                 android:id="@+id/textview_report_1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="개인정보 노출 및 불법 정보 게시"
                                 android:fontFamily="@font/noto_sans_kr_regular"
+                                android:text="개인정보 노출 및 불법 정보 게시"
                                 android:textColor="@color/gray4"
-                                android:textSize="12sp"/>
+                                android:textSize="12sp" />
                         </LinearLayout>
                         <LinearLayout
                             android:layout_width="match_parent"

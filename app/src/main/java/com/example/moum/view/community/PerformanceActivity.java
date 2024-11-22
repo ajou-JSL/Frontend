@@ -245,7 +245,7 @@ public class PerformanceActivity extends AppCompatActivity {
     }
 
     public void onParticipantClicked(Integer memberId){
-        final MemberProfileFragment memberProfileFragment = new MemberProfileFragment(context);
+        MemberProfileFragment memberProfileFragment = new MemberProfileFragment(context);
         Bundle bundle = new Bundle();
         bundle.putInt("targetMemberId", memberId);
         memberProfileFragment.setArguments(bundle);
@@ -253,7 +253,7 @@ public class PerformanceActivity extends AppCompatActivity {
     }
 
     public void onTeamClicked(Integer teamId){
-        final TeamProfileFragment teamProfileFragment = new TeamProfileFragment(context);
+        TeamProfileFragment teamProfileFragment = new TeamProfileFragment(context);
         Bundle bundle = new Bundle();
         bundle.putInt("targetTeamId", teamId);
         teamProfileFragment.setArguments(bundle);

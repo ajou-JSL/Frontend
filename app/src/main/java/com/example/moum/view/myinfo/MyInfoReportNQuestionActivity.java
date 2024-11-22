@@ -49,11 +49,34 @@ public class MyInfoReportNQuestionActivity extends AppCompatActivity {
             }
         });
 
-        /*내 신고 및 문의 리스트 버튼 클릭*/
-        binding.buttonReportList.setOnClickListener(new View.OnClickListener() {
+        /*멤버 신고 리스트 버튼 클릭*/
+        binding.buttonMemberReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MyInfoReportNQuestionActivity.this, MyInfoReportNQuestionListActivity.class);
+                intent.putExtra("reportType", "member");
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        /*단체 신고 리스트 버튼 클릭*/
+        binding.buttonTeamReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MyInfoReportNQuestionActivity.this, MyInfoReportNQuestionListActivity.class);
+                intent.putExtra("reportType", "team");
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        /*게시글 신고 리스트 버튼 클릭*/
+        binding.buttonArticleReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MyInfoReportNQuestionActivity.this, MyInfoReportNQuestionListActivity.class);
+                intent.putExtra("reportType", "article");
                 startActivity(intent);
                 finish();
             }

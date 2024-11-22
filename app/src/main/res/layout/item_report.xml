@@ -46,7 +46,8 @@
             android:textSize="10sp"
             android:fontFamily="@font/noto_sans_kr_regular"
             android:textColor="@color/gray4"
-            android:includeFontPadding="false"/>
+            android:includeFontPadding="false"
+            android:visibility="gone"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

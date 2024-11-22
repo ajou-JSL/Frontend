@@ -43,10 +43,11 @@
                     android:layout_marginStart="15dp">
 
                     <TextView
+                        android:id="@+id/report_list_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/noto_sans_kr_semibold"
-                        android:text="내 신고 및 문의 리스트"
+                        android:text="__ 신고 리스트"
                         android:textColor="@color/gray7"
                         android:textSize="14sp" />
                 </LinearLayout>

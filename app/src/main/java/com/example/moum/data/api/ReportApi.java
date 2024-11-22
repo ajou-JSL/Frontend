@@ -24,6 +24,13 @@ public interface ReportApi {
             @Body ReportRequest reportRequest
     );
 
+    @GET("/api/report/member/{reporterId}/sent-member")
+    Call<SuccessResponse<List<ReportMember>>> loadReportMembers(
+            @Path("reporterId") Integer reporterId,
+            @Query("page") Integer page,
+            @Query("size") Integer size
+    );
+
     @GET("/api/report/member/view/{reportId}")
     Call<SuccessResponse<ReportMember>> loadReportMember(
             @Path("reportId") Integer reportId
@@ -40,6 +47,13 @@ public interface ReportApi {
             @Path("reportId") Integer reportId
     );
 
+    @GET("/api/report/member/{reporterId}/sent-team")
+    Call<SuccessResponse<List<ReportTeam>>> loadReportTeams(
+            @Path("reporterId") Integer reporterId,
+            @Query("page") Integer page,
+            @Query("size") Integer size
+    );
+
     @POST("/api/report/article/{articleId}")
     Call<SuccessResponse<ReportArticle>> reportArticle(
             @Path("articleId") Integer articleId,
@@ -51,4 +65,10 @@ public interface ReportApi {
             @Path("reportId") Integer reportId
     );
 
+    @GET("/api/report/member/{reporterId}/sent-article")
+    Call<SuccessResponse<List<ReportArticle>>> loadReportArticles(
+            @Path("reporterId") Integer reporterId,
+            @Query("page") Integer page,
+            @Query("size") Integer size
+    );
 }

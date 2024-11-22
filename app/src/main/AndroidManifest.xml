@@ -125,6 +125,9 @@
         <activity android:name=".view.myinfo.MyInfoSignoutActivity"
             android:exported="true">
         </activity>
+        <activity android:name=".view.myinfo.MyInformationUpdateActivity"
+            android:exported="true">
+        </activity>
     </application>
 
 </manifest>

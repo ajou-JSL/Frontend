@@ -3,8 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ReportTeamFragment"
-    tools:context=".view.profile.ReportTeamFragment">
+    android:id="@+id/ReportTeamReplyFragment"
+    tools:context=".view.profile.ReportTeamReplyFragment">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -32,20 +32,40 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingTop="30dp"
+                android:paddingBottom="100dp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="단체 신고"
-                    android:fontFamily="@font/noto_sans_kr_bold"
-                    android:textColor="@color/gray4"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="24dp"/>
-
+                    android:orientation="horizontal"
+                    android:layout_marginTop="24dp"
+                    android:gravity="center_vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="단체 신고"
+                        android:fontFamily="@font/noto_sans_kr_bold"
+                        android:textColor="@color/gray4"
+                        android:textSize="18sp"
+                        android:textStyle="bold"/>
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
+                    <TextView
+                        android:id="@+id/button_goto_reported"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="단체 프로필 보기"
+                        android:background="@drawable/background_white_underline"
+                        android:fontFamily="@font/noto_sans_kr_semibold"
+                        android:textColor="@color/gray4"
+                        android:includeFontPadding="false"
+                        android:textSize="12sp"/>
+                </LinearLayout>
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="3dp"
@@ -157,7 +177,7 @@
                         android:layout_height="match_parent"
                         android:background="@color/transparent"
                         android:inputType="text"
-                        android:hint="단체 신고 사유"
+                        android:hint="유저 신고 사유"
                         android:textSize="12sp"
                         android:includeFontPadding="false"
                         android:textColor="@color/gray7"
@@ -168,16 +188,44 @@
                         android:focusableInTouchMode="true"
                         />
                 </LinearLayout>
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/button_submit"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/button_gray_ripple"
-                    android:text="제출"
-                    android:textColor="@color/gray0"
-                    android:textSize="14sp"
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="- 답변"
                     android:fontFamily="@font/noto_sans_kr_semibold"
-                    android:layout_marginTop="200dp"/>
+                    android:textColor="@color/gray4"
+                    android:layout_marginTop="15dp"
+                    android:textSize="12sp"/>
+
+                <LinearLayout
+                    android:id="@+id/placeholder_reply"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="@drawable/background_rounded_gray_stroke"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    >
+                    <EditText
+                        android:id="@+id/edittext_reply"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/transparent"
+                        android:inputType="text"
+                        android:enabled="false"
+                        android:hint="답변을 기다리는 중입니다."
+                        android:textSize="12sp"
+                        android:includeFontPadding="false"
+                        android:textColor="@color/gray7"
+                        android:fontFamily="@font/noto_sans_kr_regular"
+                        android:gravity="top"
+                        android:focusable="true"
+                        android:breakStrategy="high_quality"
+                        android:focusableInTouchMode="true"
+                        />
+                </LinearLayout>
 
             </LinearLayout>
 

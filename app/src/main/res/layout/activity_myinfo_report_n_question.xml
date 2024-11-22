@@ -75,7 +75,7 @@
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
                             <LinearLayout
-                                android:id="@+id/button_report_list"
+                                android:id="@+id/button_member_report"
                                 android:layout_width="match_parent"
                                 android:layout_height="70dp"
                                 android:orientation="horizontal"
@@ -85,7 +85,59 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="내 신고 및 문의 리스트"
+                                    android:text="멤버 신고 리스트"
+                                    android:textSize="15sp"
+                                    android:fontFamily="@font/noto_sans_kr_bold"
+                                    android:textColor="@color/gray4"
+                                    android:includeFontPadding="false"/>
+                                <View
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"/>
+                                <ImageView
+                                    android:layout_width="15dp"
+                                    android:layout_height="20dp"
+                                    android:background="@drawable/icon_angle_right"
+                                    android:alpha="0.3"/>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:id="@+id/button_team_report"
+                                android:layout_width="match_parent"
+                                android:layout_height="70dp"
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical"
+                                android:paddingRight="25dp"
+                                android:paddingLeft="25dp">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="단체 신고 리스트"
+                                    android:textSize="15sp"
+                                    android:fontFamily="@font/noto_sans_kr_bold"
+                                    android:textColor="@color/gray4"
+                                    android:includeFontPadding="false"/>
+                                <View
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"/>
+                                <ImageView
+                                    android:layout_width="15dp"
+                                    android:layout_height="20dp"
+                                    android:background="@drawable/icon_angle_right"
+                                    android:alpha="0.3"/>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:id="@+id/button_article_report"
+                                android:layout_width="match_parent"
+                                android:layout_height="70dp"
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical"
+                                android:paddingRight="25dp"
+                                android:paddingLeft="25dp">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="게시글 신고 리스트"
                                     android:textSize="15sp"
                                     android:fontFamily="@font/noto_sans_kr_bold"
                                     android:textColor="@color/gray4"
