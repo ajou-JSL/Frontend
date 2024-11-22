@@ -1,8 +1,10 @@
 package com.example.moum.viewmodel.auth;
 
+import android.app.Application;
 import android.content.Context;
 import android.net.Uri;
 
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -18,7 +20,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
-public class SignupViewModel extends ViewModel {
+public class SignupViewModel extends AndroidViewModel {
 
     private SignupRepository signupRepository;
     public String TAG = getClass().toString();
@@ -35,11 +37,13 @@ public class SignupViewModel extends ViewModel {
     private final MutableLiveData<Uri> profileImage = new MutableLiveData<>();
     private ArrayList<Record> records = new ArrayList<>();
 
-    public SignupViewModel() {
-        signupRepository = SignupRepository.getInstance();
+    public SignupViewModel(Application application) {
+        super(application);
+        signupRepository = SignupRepository.getInstance(application);
     }
 
-    public SignupViewModel(SignupRepository signupRepository){
+    public SignupViewModel(Application application, SignupRepository signupRepository){
+        super(application);
         this.signupRepository = signupRepository;
     }
 

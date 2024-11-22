@@ -23,6 +23,7 @@ public enum Validation {
     EMAIL_NOT_FORMAL,
     EMAIL_CODE_NOT_FORMAL,
     PASSWORD_NOT_EQUAL,
+    ID_NOT_EQUAL,
 
     //개인정보 동의
     PERSONAL_NOT_AGREE,

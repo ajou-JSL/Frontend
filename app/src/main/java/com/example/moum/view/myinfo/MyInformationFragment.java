@@ -147,40 +147,6 @@ public class MyInformationFragment extends Fragment {
             }
         });
 
-        /*로그아웃 버튼*/
-//        binding.buttonLogout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                viewModel.logout();
-//            }
-//        });
-//
-//        /*로그아웃 결과 감시*/
-//        viewModel.getIsLogoutSuccess().observe(getViewLifecycleOwner(), isLoginSuccess -> {
-//            Validation validation = isLoginSuccess.getValidation();
-//            if(validation == Validation.LOGOUT_SUCCESS){
-//                Toast.makeText(context, "성공적으로 로그아웃하였습니다.", Toast.LENGTH_SHORT).show();
-//
-//                sharedPreferenceManager.removeCache(getString(R.string.user_id_key));
-//                sharedPreferenceManager.removeCache(getString(R.string.user_username_key));
-//                sharedPreferenceManager.removeCache(getString(R.string.user_access_token_key));
-//                sharedPreferenceManager.removeCache(getString(R.string.user_refresh_token_key));
-//
-//                Intent intent = new Intent(requireActivity(), InitialActivity.class);
-//                startActivity(intent);
-//                requireActivity().finish();
-//            }
-//            else if(validation == Validation.LOGOUT_ALREADY){
-//                Toast.makeText(context, "이미 로그아웃 하였습니다.", Toast.LENGTH_SHORT).show();
-//            }
-//            else if(validation == Validation.NETWORK_FAILED){
-//                Toast.makeText(context, "호출할 수 없습니다.", Toast.LENGTH_SHORT).show();
-//            }
-//            else{
-//                Toast.makeText(context, "로그아웃할 수 없습니다.", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-
         return root;
     }
 

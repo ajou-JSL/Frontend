@@ -113,7 +113,16 @@
         <activity android:name=".view.community.PerformanceUpdateActivity"
             android:exported="true">
         </activity>
-        <activity android:name=".view.myinfo.MyInformationUpdateActivity"
+        <activity android:name=".view.myinfo.MyInfoReportNQuestionActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".view.myinfo.MyInfoLogoutNSignoutActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".view.myinfo.MyInfoReportNQuestionListActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".view.myinfo.MyInfoSignoutActivity"
             android:exported="true">
         </activity>
     </application>
