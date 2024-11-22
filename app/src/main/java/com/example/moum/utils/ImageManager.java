@@ -1,7 +1,10 @@
 package com.example.moum.utils;
 
+import android.app.DownloadManager;
 import android.content.Context;
 import android.net.Uri;
+import android.os.Environment;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.Target;
@@ -60,6 +63,25 @@ public class ImageManager {
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public static void downloadImageToGallery(Context context, String imageUrl, String fileName) {
+        try {
+            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(imageUrl));
+            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+
+            request.setTitle("Downloading Image");
+            request.setDescription("Downloading " + fileName);
+            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_PICTURES, fileName);
+
+            DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+            if (downloadManager != null) {
+                downloadManager.enqueue(request);
+                Toast.makeText(context, "다운로드 시작", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            Toast.makeText(context, "다운로드 실패: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 }

@@ -138,7 +138,7 @@
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/noto_sans_kr_regular"
                                         android:includeFontPadding="false"
-                                        android:text="🚩 위치: "
+                                        android:text="위치: "
                                         android:textColor="@color/gray7"
                                         android:textSize="14sp"
                                        />
@@ -163,7 +163,7 @@
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/noto_sans_kr_regular"
                                         android:includeFontPadding="false"
-                                        android:text="📅 날짜: "
+                                        android:text="날짜: "
                                         android:textColor="@color/gray7"
                                         android:textSize="14sp"/>
                                     <TextView
@@ -188,7 +188,7 @@
                                         android:layout_height="match_parent"
                                         android:fontFamily="@font/noto_sans_kr_regular"
                                         android:includeFontPadding="false"
-                                        android:text="🪙 가격: "
+                                        android:text="가격: "
                                         android:textColor="@color/gray7"
                                         android:textSize="14sp" />
                                     <TextView
@@ -207,7 +207,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/noto_sans_kr_regular"
                                     android:includeFontPadding="false"
-                                    android:text="👥 멤버"
+                                    android:text="멤버"
                                     android:textColor="@color/gray7"
                                     android:textSize="16sp"
                                     android:layout_marginBottom="10dp"/>
@@ -221,7 +221,7 @@
                                     android:layout_marginTop="50dp"
                                     android:fontFamily="@font/noto_sans_kr_regular"
                                     android:includeFontPadding="false"
-                                    android:text="🎹 곡 리스트"
+                                    android:text="곡 리스트"
                                     android:textColor="@color/gray7"
                                     android:textSize="16sp"
                                     android:layout_marginBottom="10dp"/>
@@ -625,7 +625,7 @@
                                             android:layout_height="wrap_content"
                                             android:fontFamily="@font/noto_sans_kr_regular"
                                             android:includeFontPadding="false"
-                                            android:text="공연을 홍보하기 위해 모音 커뮤니티의 공연 게시판을 활용하세요!"
+                                            android:text="공연을 홍보하기 위해 모音 커뮤니티의 공연 게시판을 활용하세요!\n\n 그리고 공연 홍보 QR을 생성하세요!"
                                             android:breakStrategy="simple"
                                             android:textColor="@color/gray7"
                                             android:layout_marginTop="5dp"

@@ -67,6 +67,7 @@ public class MoumManageActivity extends AppCompatActivity {
     private ArrayList<Music> musics = new ArrayList<>();
     private Moum recentMoum;
     private boolean isSpinnerInitialized = false;
+    private static final int REQUEST_CODE = 200;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -82,6 +83,10 @@ public class MoumManageActivity extends AppCompatActivity {
         /*모음 id 정보 불러오기*/
         Intent prevIntent = getIntent();
         moumId = prevIntent.getIntExtra("moumId", -1);
+        if(moumId == -1){
+            Toast.makeText(context, "잘못된 접근입니다.", Toast.LENGTH_SHORT).show();
+            finish();
+        }
 
         /*자동로그인 정보를 SharedPreference에서 불러오기*/
         sharedPreferenceManager = new SharedPreferenceManager(context, getString(R.string.preference_file_key));
@@ -533,8 +538,9 @@ public class MoumManageActivity extends AppCompatActivity {
         binding.buttonPromote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO
-                Toast.makeText(context, "공연 게시판으로 이동", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MoumManageActivity.this, MoumPromote1Activity.class);
+                intent.putExtra("moumId", recentMoum.getMoumId());
+                startActivityForResult(intent, REQUEST_CODE);
             }
         });
         binding.buttonPayment.setOnClickListener(new View.OnClickListener() {
@@ -705,6 +711,25 @@ public class MoumManageActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        /*activity로 리턴 시, result와 함께 리턴된다면 activity 종료*/
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.e(TAG, "onActivityResult");
+        if (resultCode == RESULT_OK && data != null) {
+            Log.e(TAG, "onActivityResult RESULT_OK!");
+            int fragmentIndex = data.getIntExtra("fragment_index", -1);
+            int finish = data.getIntExtra("finish", -1);
+            Log.e(TAG, "finish: " + finish);
+            if(finish == 1){
+                Intent intent = new Intent();
+                intent.putExtra("fragment_index", fragmentIndex);
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        }
+    }
+
     public void onMoumFinishDialogYesClicked(){
         viewModel.finishMoum(moumId);
     }
@@ -714,6 +739,5 @@ public class MoumManageActivity extends AppCompatActivity {
     }
 
     public void onMoumDeleteDialogYesClicked() { viewModel.deleteMoum(moumId); }
-
 
 }

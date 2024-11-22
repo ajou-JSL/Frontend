@@ -196,6 +196,10 @@ public enum Validation {
     TEAM_NOT_FOUND,
     NOT_TEAM_MEMBER,
     LEADER_CANNOT_LEAVE,
-    MUST_JOIN_TEAM_FIRST
+    MUST_JOIN_TEAM_FIRST,
+
+    // 공연 게시글 관련 오류 코드
+    PERFORMANCE_NOT_FOUNT,
+    PERFORMANCE_ALREADY_MADE
 
     }

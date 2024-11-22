@@ -80,6 +80,7 @@ public class ValueMap {
             put("S-PF004", Validation.PERFORMANCE_GET_SUCCESS);
             put("S-PF005", Validation.PERFORMANCE_LIST_GET_SUCCESS);
             put("S-PF006", Validation.PERFORMANCE_HOT_LIST_GET_SUCCESS);
+            put("F=PAT003", Validation.PERFORMANCE_ALREADY_MADE);
 
             // 모음 관련 성공 응답
             put("S-MM001", Validation.CREATE_MOUM_SUCCESS);
