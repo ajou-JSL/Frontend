@@ -4,6 +4,8 @@ package com.example.moum.repository.client;
 import android.content.Context;
 
 
+import com.example.moum.data.entity.Genre;
+import com.example.moum.utils.GenreTypeAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -40,7 +42,9 @@ public class RetrofitClientManager {
                     .writeTimeout(5,TimeUnit.MINUTES)
                     .addInterceptor(loggingInterceptor)
                     .build();
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            Gson gson = new GsonBuilder()
+                    .registerTypeAdapter(Genre.class, new GenreTypeAdapter()) // Genre 어댑터 등록
+                    .setPrettyPrinting().create();
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .client(okHttpClient)
@@ -62,7 +66,9 @@ public class RetrofitClientManager {
                 .addInterceptor(loggingInterceptor)
                 .addInterceptor(new AuthInterceptor(context)) //이 요청에는 특별히 Auth가 이루어지도록 붙임
                 .build();
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Genre.class, new GenreTypeAdapter()) // Genre 어댑터 등록
+                .setPrettyPrinting().create();
         authRetrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(okHttpClient)

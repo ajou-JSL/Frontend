@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.moum.data.entity.Member;
 import com.example.moum.data.entity.Moum;
+import com.example.moum.data.entity.Music;
 import com.example.moum.data.entity.Record;
 import com.example.moum.data.entity.Result;
 import com.example.moum.data.entity.SignupUser;
@@ -31,6 +32,7 @@ public class MoumCreateViewModel extends AndroidViewModel {
     private final MutableLiveData<ArrayList<Uri>> profileImages = new MutableLiveData<>();
     private final MutableLiveData<Validation> isValidCheckSuccess = new MutableLiveData<>();
     private final MutableLiveData<Result<Moum>> isCreateMoumSuccess = new MutableLiveData<>();
+    private ArrayList<Music> music = new ArrayList<>();
 
     private LocalDate startDate;
     private LocalDate endDate;
@@ -76,6 +78,11 @@ public class MoumCreateViewModel extends AndroidViewModel {
     public void setIsCreateMoumSuccess(Result<Moum> isCreateMoumSuccess){
         this.isCreateMoumSuccess.setValue(isCreateMoumSuccess);
     }
+
+    public void addMusic(String musicName, String artistName){
+        this.music.add(new Music(musicName, artistName));
+    }
+
     public void validCheck(){
         /*null check*/
         if(moum.getValue() == null){
@@ -111,8 +118,11 @@ public class MoumCreateViewModel extends AndroidViewModel {
                 profileFiles.add(profileFile);
             }
         }
+        if(profileFiles.isEmpty()) profileFiles = null;
         ArrayList<Member> members = new ArrayList<>();
         moumToCreate.setMembers(members);
+        moumToCreate.setRecords(new ArrayList<>());
+        moumToCreate.setMusic(music);
 
         /*goto repository*/
         moumRepository.createMoum(moumToCreate, profileFiles, this::setIsCreateMoumSuccess);

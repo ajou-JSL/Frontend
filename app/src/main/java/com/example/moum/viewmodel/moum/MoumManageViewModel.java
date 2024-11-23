@@ -16,6 +16,7 @@ public class MoumManageViewModel extends AndroidViewModel {
     private final MutableLiveData<Result<Moum>> isFinishMoumSuccess = new MutableLiveData<>();
     private final MutableLiveData<Result<Moum>> isReopenMoumSuccess = new MutableLiveData<>();
     private final MutableLiveData<Result<Moum>> isUpdateMoumSuccess = new MutableLiveData<>();
+    private final MutableLiveData<Result<Moum>> isDeleteMoumSuccess = new MutableLiveData<>();
 
     public MoumManageViewModel(Application application){
         super(application);
@@ -38,6 +39,10 @@ public class MoumManageViewModel extends AndroidViewModel {
         return isUpdateMoumSuccess;
     }
 
+    public MutableLiveData<Result<Moum>> getIsDeleteMoumSuccess() {
+        return isDeleteMoumSuccess;
+    }
+
     public void setIsLoadMoumSuccess(Result<Moum> isLoadMoumSuccess){
         this.isLoadMoumSuccess.setValue(isLoadMoumSuccess);
     }
@@ -54,6 +59,10 @@ public class MoumManageViewModel extends AndroidViewModel {
         this.isUpdateMoumSuccess.setValue(isUpdateMoumSuccess);
     }
 
+    public void setIsDeleteMoumSuccess(Result<Moum> isDeleteMoumSuccess){
+        this.isDeleteMoumSuccess.setValue(isDeleteMoumSuccess);
+    }
+
     public void loadMoum(Integer moumId){
         moumRepository.loadMoum(moumId, this::setIsLoadMoumSuccess);
     }
@@ -68,5 +77,9 @@ public class MoumManageViewModel extends AndroidViewModel {
 
     public void updateProcessMoum(Integer moumId, Moum.Process process){
         moumRepository.updateProcessMoum(moumId, process, this::setIsUpdateMoumSuccess);
+    }
+
+    public void deleteMoum(Integer moumId){
+        moumRepository.deleteMoum(moumId, this::setIsDeleteMoumSuccess);
     }
 }

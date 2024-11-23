@@ -9,6 +9,8 @@ import androidx.annotation.RequiresApi;
 import com.example.moum.data.api.ChatroomApi;
 import com.example.moum.data.dto.ChatErrorResponse;
 import com.example.moum.data.dto.ChatroomCreateRequest;
+import com.example.moum.data.dto.ChatroomDeleteRequest;
+import com.example.moum.data.dto.ChatroomUpdateRequest;
 import com.example.moum.data.dto.SuccessResponse;
 import com.example.moum.data.entity.Chatroom;
 import com.example.moum.data.entity.Member;
@@ -59,6 +61,44 @@ public class ChatroomRepository {
             instance = new ChatroomRepository(application);
         }
         return instance;
+    }
+
+    public void loadChatroom(Integer chatroomId, com.example.moum.utils.Callback<Result<Chatroom>> callback){
+        Call<SuccessResponse<Chatroom>> result = chatroomApi.loadChatroom(chatroomId);
+        result.enqueue(new retrofit2.Callback<SuccessResponse<Chatroom>>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onResponse(Call<SuccessResponse<Chatroom>> call, Response<SuccessResponse<Chatroom>> response) {
+                if (response.isSuccessful()) {
+                    /*성공적으로 응답을 받았을 때*/
+                    SuccessResponse<Chatroom> responseBody = response.body();
+                    Log.e(TAG, responseBody.toString());
+                    Chatroom createdChatroom = responseBody.getData();
+                    Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
+                    Result<Chatroom> result = new Result<>(validation, createdChatroom);
+                    callback.onResult(result);
+                }
+                else {
+                    /*응답은 받았으나 문제 발생 시*/
+                    try {
+                        ChatErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ChatErrorResponse.class);
+                        if (errorResponse != null) {
+                            Log.e(TAG, errorResponse.toString());
+                            Validation validation = ValueMap.getCodeToVal(errorResponse.getCode());
+                            Result<Chatroom> result = new Result<>(validation);
+                            callback.onResult(result);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<SuccessResponse<Chatroom>> call, Throwable t) {
+                Result<Chatroom> result = new Result<>(Validation.NETWORK_FAILED);
+                callback.onResult(result);
+            }
+        });
     }
 
     public void loadChatrooms(Integer memberId, com.example.moum.utils.Callback<Result<List<Chatroom>>> callback){
@@ -184,5 +224,94 @@ public class ChatroomRepository {
             }
         });
     }
+
+    public void updateChatroom(Integer chatroomId, Chatroom chatroom, File chatroomProfileFile, com.example.moum.utils.Callback<Result<Chatroom>> callback){
+        /*processing into DTO*/
+        MultipartBody.Part profileImage = null;
+        if(chatroomProfileFile != null){
+            RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpg"), chatroomProfileFile);
+            profileImage = MultipartBody.Part.createFormData("chatroomProfile", chatroomProfileFile.getName(), requestFile);
+        }
+        ChatroomUpdateRequest request = new ChatroomUpdateRequest(chatroom.getName());
+
+        /*client 요청 보냄*/
+        Call<SuccessResponse<Chatroom>> result = chatroomApi.updateChatroom(chatroomId, profileImage, request);
+        result.enqueue(new retrofit2.Callback<SuccessResponse<Chatroom>>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onResponse(Call<SuccessResponse<Chatroom>> call, Response<SuccessResponse<Chatroom>> response) {
+                if (response.isSuccessful()) {
+                    /*성공적으로 응답을 받았을 때*/
+                    SuccessResponse<Chatroom> responseBody = response.body();
+                    Log.e(TAG, responseBody.toString());
+                    Chatroom createdChatroom = responseBody.getData();
+                    Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
+                    Result<Chatroom> result = new Result<>(validation, createdChatroom);
+                    callback.onResult(result);
+                }
+                else {
+                    /*응답은 받았으나 문제 발생 시*/
+                    try {
+                        ChatErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ChatErrorResponse.class);
+                        if (errorResponse != null) {
+                            Log.e(TAG, errorResponse.toString());
+                            Validation validation = ValueMap.getCodeToVal(errorResponse.getCode());
+                            Result<Chatroom> result = new Result<>(validation);
+                            callback.onResult(result);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<SuccessResponse<Chatroom>> call, Throwable t) {
+                Result<Chatroom> result = new Result<>(Validation.NETWORK_FAILED);
+                callback.onResult(result);
+            }
+        });
+    }
+
+    public void deleteMembers(Integer chatroomId, Chatroom chatroom, ArrayList<Integer> membersToDelete, com.example.moum.utils.Callback<Result<Chatroom>> callback){
+        ChatroomDeleteRequest request = new ChatroomDeleteRequest(chatroom.getType().getValue(), membersToDelete);
+
+        /*client 요청 보냄*/
+        Call<SuccessResponse<Chatroom>> result = chatroomApi.deleteMembers(chatroomId, request);
+        result.enqueue(new retrofit2.Callback<SuccessResponse<Chatroom>>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onResponse(Call<SuccessResponse<Chatroom>> call, Response<SuccessResponse<Chatroom>> response) {
+                if (response.isSuccessful()) {
+                    /*성공적으로 응답을 받았을 때*/
+                    SuccessResponse<Chatroom> responseBody = response.body();
+                    Log.e(TAG, responseBody.toString());
+                    Chatroom createdChatroom = responseBody.getData();
+                    Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
+                    Result<Chatroom> result = new Result<>(validation, createdChatroom);
+                    callback.onResult(result);
+                }
+                else {
+                    /*응답은 받았으나 문제 발생 시*/
+                    try {
+                        ChatErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ChatErrorResponse.class);
+                        if (errorResponse != null) {
+                            Log.e(TAG, errorResponse.toString());
+                            Validation validation = ValueMap.getCodeToVal(errorResponse.getCode());
+                            Result<Chatroom> result = new Result<>(validation);
+                            callback.onResult(result);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<SuccessResponse<Chatroom>> call, Throwable t) {
+                Result<Chatroom> result = new Result<>(Validation.NETWORK_FAILED);
+                callback.onResult(result);
+            }
+        });
+    }
+
 
 }

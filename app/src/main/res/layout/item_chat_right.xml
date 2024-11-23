@@ -22,7 +22,7 @@
         android:text="내가 보낸 메세지"
         android:textColor="@color/gray7"
         android:textSize="14sp"
-        android:background="@drawable/background_rounded_gray_chat"
+        android:background="@drawable/background_rounded_darkgray_chat"
         android:fontFamily="@font/noto_sans_kr_regular"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

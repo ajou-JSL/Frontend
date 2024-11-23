@@ -19,6 +19,8 @@ public class Moum {
     private Integer teamId;
     private Process process;
     private ArrayList<Member> members;
+    private ArrayList<Record> records;
+    private ArrayList<Music> music;
 
     public static class Process {
         private Boolean recruitStatus;
@@ -148,6 +150,10 @@ public class Moum {
         this.performLocation = performLocation;
     }
 
+    public void setRecords(ArrayList<Record> records) {
+        this.records = records;
+    }
+
     public void setImageUrls(ArrayList<String> imageUrls) {
         this.imageUrls = imageUrls;
     }
@@ -158,6 +164,10 @@ public class Moum {
 
     public void setPrice(Integer price) {
         this.price = price;
+    }
+
+    public void setMusic(ArrayList<Music> music) {
+        this.music = music;
     }
 
     public Integer getLeaderId() {
@@ -212,6 +222,14 @@ public class Moum {
         return process;
     }
 
+    public ArrayList<Record> getRecords() {
+        return records;
+    }
+
+    public ArrayList<Music> getMusic() {
+        return music;
+    }
+
     @Override
     public String toString() {
         return "Moum{" +
@@ -228,6 +246,8 @@ public class Moum {
                 ", teamId=" + teamId +
                 ", process=" + process +
                 ", members=" + members +
+                ", records=" + records +
+                ", musics =" + music +
                 '}';
     }
 }

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 원래 드로어블 (배경) -->
+    <item>
+        <shape android:shape="rectangle">
+
+            <!-- 각 모서리에 다른 반경 값을 설정 -->
+            <corners
+                android:topLeftRadius="30dp"
+                android:topRightRadius="30dp"
+                android:bottomLeftRadius="30dp"
+                android:bottomRightRadius="30dp"/>
+
+            <solid android:color="@color/gray1"/>
+
+            <stroke
+                android:width="1dp"
+                android:color="@color/gray4"/>
+        </shape>
+    </item>
+
+
+
+</layer-list>

@@ -15,9 +15,9 @@
         <Spinner
             android:id="@+id/board_group_spinner1"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:layout_margin="10dp"
-            android:paddingEnd="30dp"
+            android:paddingEnd="25dp"
             android:background="@drawable/round_spinner_background" />
 
     </LinearLayout>

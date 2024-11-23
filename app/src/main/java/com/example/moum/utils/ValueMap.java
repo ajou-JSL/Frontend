@@ -28,6 +28,15 @@ public class ValueMap {
             put("F-CH002", Validation.CHAT_RECEIVE_FAIL);
             put("S-CH003", Validation.CHATROOM_CREATE_SUCCESS);
             put("F-CH003", Validation.CHATROOM_CREATE_FAIL);
+            put("S-CH004", Validation.CHATROOM_UPDATE_SUCCESS);
+            put("F-CH004", Validation.CHATROOM_UPDATE_FAIL);
+            put("S-CH005", Validation.CHATROOM_INVITE_SUCCESS);
+            put("F-CH005", Validation.CHATROOM_INVITE_FAIL);
+            put("S-CH006", Validation.CHATROOM_DELETE_SUCCESS);
+            put("F-CH006", Validation.CHATROOM_DELETE_FAIL);
+            put("S-CH007", Validation.CHATROOM_GET_SUCCESS);
+            put("F-CH007", Validation.CHATROOM_GET_FAIL);
+
 
             // 멤버 관련 성공 응답
             put("S-M003", Validation.REISSUE_SUCCESS);
@@ -74,7 +83,12 @@ public class ValueMap {
             put("S-P002", Validation.UPDATE_PROFILE_SUCCESS);
 
             // 공연 게시글 성공 응답
-            put("S-P004", Validation.PERFORMANCE_LIST_GET_SUCCESS);
+            put("S-PF001", Validation.PERFORMANCE_CREATE_SUCCESS);
+            put("S-PF002", Validation.PERFORMANCE_UPDATE_SUCCESS);
+            put("S-PF003", Validation.PERFORMANCE_DELETE_SUCCESS);
+            put("S-PF004", Validation.PERFORMANCE_GET_SUCCESS);
+            put("S-PF005", Validation.PERFORMANCE_LIST_GET_SUCCESS);
+            put("S-PF006", Validation.PERFORMANCE_HOT_LIST_GET_SUCCESS);
 
             // 모음 관련 성공 응답
             put("S-MM001", Validation.CREATE_MOUM_SUCCESS);
@@ -128,6 +142,21 @@ public class ValueMap {
             put("F-T003", Validation.NOT_TEAM_MEMBER);
             put("F-T004", Validation.LEADER_CANNOT_LEAVE);
             put("F-T005", Validation.MUST_JOIN_TEAM_FIRST);
+
+            // 신고 관련 성공 & 오류 코드
+            put("F-RP001", Validation.REPORT_NOT_FOUND);
+            put("S-RP002", Validation.REPORT_MEMBER_SUCCESS);
+            put("F-RP002", Validation.REPORT_MEMBER_FAIL);
+            put("F-RP012", Validation.REPORT_MEMBER_ALREADY);
+            put("S-RP022", Validation.REPORT_MEMBER_GET_SUCCESS);
+            put("S-RP003", Validation.REPORT_TEAM_SUCCESS);
+            put("F-RP003", Validation.REPORT_TEAM_FAIL);
+            put("F-RP013", Validation.REPORT_TEAM_ALREADY);
+            put("S-RP023", Validation.REPORT_TEAM_GET_SUCCESS);
+            put("S-RP004", Validation.REPORT_ARTICLE_SUCCESS);
+            put("F-RP004", Validation.REPORT_ARTICLE_FAIL);
+            put("F-RP014", Validation.REPORT_ARTICLE_ALREADY);
+            put("S-RP024", Validation.REPORT_ARTICLE_GET_SUCCESS);
         }
     };
 

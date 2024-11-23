@@ -26,6 +26,7 @@ import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.utils.WrapContentLinearLayoutManager;
 import com.example.moum.view.auth.InitialActivity;
+import com.example.moum.view.community.PerformanceActivity;
 import com.example.moum.view.home.adapter.HomeBannerAdapter;
 import com.example.moum.view.home.adapter.HomeMoumAdapter;
 import com.example.moum.view.home.adapter.HomeArticleHotAdapter;
@@ -155,10 +156,10 @@ public class HomeFragment extends Fragment {
         viewModel.getIsLoadPerformsHotSuccess().observe(getViewLifecycleOwner(), isLoadPerformsHotSuccess -> {
             Validation validation = isLoadPerformsHotSuccess.getValidation();
             List<Performance> loadedPerforms = isLoadPerformsHotSuccess.getData();
-            if(validation == Validation.PERFORMANCE_LIST_GET_SUCCESS && loadedPerforms.isEmpty()){
+            if(validation == Validation.PERFORMANCE_HOT_LIST_GET_SUCCESS && loadedPerforms.isEmpty()){
                 performances.clear();
             }
-            else if(validation == Validation.PERFORMANCE_LIST_GET_SUCCESS){
+            else if(validation == Validation.PERFORMANCE_HOT_LIST_GET_SUCCESS){
                 performances.clear();
                 performances.addAll(loadedPerforms);
                 performanceHotAdapter.notifyItemInserted(performances.size()-1);
@@ -200,7 +201,8 @@ public class HomeFragment extends Fragment {
     }
 
     public void onPerformClicked(Integer performId){
-        Toast.makeText(context, "공연 보러가기 클릭", Toast.LENGTH_SHORT).show();
-        //TODO 실제 이동해야함
+        Intent intent = new Intent(context, PerformanceActivity.class);
+        intent.putExtra("performId", performId);
+        context.startActivity(intent);
     }
 }

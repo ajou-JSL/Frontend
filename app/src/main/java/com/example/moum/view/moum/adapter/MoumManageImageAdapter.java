@@ -13,6 +13,7 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.moum.R;
 import com.example.moum.view.moum.MoumCreateActivity;
 import com.example.moum.view.moum.MoumManageActivity;
@@ -63,8 +64,13 @@ public class MoumManageImageAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         public void bind(String uri) {
             this.uri = uri;
-            Glide.with(context).load(uri).into(moumManageImageview);
-            moumManageImageview.getClipToOutline();
+            Glide.with(context)
+                    .load(uri)
+                    .apply(new RequestOptions()
+                    .placeholder(R.drawable.background_more_rounded_gray_size_fit)
+                    .error(R.drawable.background_more_rounded_gray_size_fit))
+                    .into(moumManageImageview);
+            moumManageImageview.setClipToOutline(true);
         }
     }
 }

@@ -55,8 +55,10 @@ public class AuthInterceptor implements Interceptor {
 
         Request.Builder builder = originalRequest.newBuilder()
                 .header("access", accessToken)
-                .header("Accept-Encoding", "gzip");
+                .header("Accept-Encoding", "gzip")
+                .header("Cookie", "refresh=" + refreshToken + ";");
         Log.e(TAG, "헤더 붙임(access: " + accessToken);
+        Log.e(TAG, "헤더 붙임(Cookie: " + refreshToken);
         Request newRequest = builder.build();
 
         //return chain.proceed(newRequest);

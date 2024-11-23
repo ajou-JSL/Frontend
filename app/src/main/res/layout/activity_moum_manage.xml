@@ -77,6 +77,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:background="@color/gray0"
                 app:layout_constraintTop_toBottomOf="@id/headerLayout"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:orientation="vertical">
@@ -88,141 +89,175 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginLeft="25dp"
-                        android:layout_marginRight="25dp"
-                        android:layout_marginTop="25dp">
+                        android:orientation="vertical">
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recycler_moum_manage_image"
                             android:layout_width="match_parent"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginLeft="15dp"
                             android:layout_height="200dp"/>
 
                         <LinearLayout
-                            android:id="@+id/moum_manage_info"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="30dp"
-                            android:layout_marginBottom="30dp"
-                            android:paddingBottom="30dp"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/textview_moum_manage_name"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/noto_sans_kr_medium"
-                                android:includeFontPadding="false"
-                                android:text="모음 이름"
-                                android:textColor="@color/gray7"
-                                android:textSize="18sp"
-                                android:layout_marginBottom="10dp"/>
-
+                            android:orientation="vertical"
+                            android:layout_marginTop="0dp"
+                            android:layout_marginBottom="20dp"
+                            android:background="@drawable/background_white_underline"
+                            >
                             <LinearLayout
+                                android:id="@+id/moum_manage_info"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:layout_marginBottom="10dp">
+                                android:layout_marginTop="30dp"
+                                android:layout_marginBottom="30dp"
+                                android:paddingBottom="30dp"
+                                android:orientation="vertical"
+                                android:layout_marginLeft="25dp"
+                                android:layout_marginRight="25dp">
+
+                                <TextView
+                                    android:id="@+id/textview_moum_manage_name"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/noto_sans_kr_medium"
+                                    android:includeFontPadding="false"
+                                    android:text="모음 이름"
+                                    android:textColor="@color/gray7"
+                                    android:textSize="18sp"
+                                    android:layout_marginBottom="10dp"/>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:layout_marginBottom="10dp">
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/noto_sans_kr_regular"
+                                        android:includeFontPadding="false"
+                                        android:text="🚩 위치: "
+                                        android:textColor="@color/gray7"
+                                        android:textSize="14sp"
+                                       />
+                                    <TextView
+                                        android:id="@+id/textview_moum_manage_place"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/noto_sans_kr_light"
+                                        android:includeFontPadding="false"
+                                        android:layout_marginLeft="5dp"
+                                        android:text="위치"
+                                        android:textColor="@color/gray7"
+                                        android:textSize="14sp"/>
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:layout_marginBottom="10dp">
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/noto_sans_kr_regular"
+                                        android:includeFontPadding="false"
+                                        android:text="📅 날짜: "
+                                        android:textColor="@color/gray7"
+                                        android:textSize="14sp"/>
+                                    <TextView
+                                        android:id="@+id/textview_moum_manage_date"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/noto_sans_kr_light"
+                                        android:includeFontPadding="false"
+                                        android:layout_marginLeft="5dp"
+                                        android:text="날짜"
+                                        android:textColor="@color/gray7"
+                                        android:textSize="14sp"/>
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:layout_marginBottom="50dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:fontFamily="@font/noto_sans_kr_regular"
+                                        android:includeFontPadding="false"
+                                        android:text="🪙 가격: "
+                                        android:textColor="@color/gray7"
+                                        android:textSize="14sp" />
+                                    <TextView
+                                        android:id="@+id/textview_moum_manage_price"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/noto_sans_kr_light"
+                                        android:includeFontPadding="false"
+                                        android:layout_marginLeft="5dp"
+                                        android:text="가격"
+                                        android:textColor="@color/gray7"
+                                        android:textSize="14sp"/>
+                                </LinearLayout>
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/noto_sans_kr_regular"
                                     android:includeFontPadding="false"
-                                    android:text="🚩 위치: "
+                                    android:text="👥 멤버"
                                     android:textColor="@color/gray7"
-                                    android:textSize="14sp"
-                                   />
-                                <TextView
-                                    android:id="@+id/textview_moum_manage_place"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/noto_sans_kr_light"
-                                    android:includeFontPadding="false"
-                                    android:layout_marginLeft="5dp"
-                                    android:text="위치"
-                                    android:textColor="@color/gray7"
-                                    android:textSize="14sp"/>
-                            </LinearLayout>
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:layout_marginBottom="10dp">
+                                    android:textSize="16sp"
+                                    android:layout_marginBottom="10dp"/>
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/recycler_moum_manage_member"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"/>
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginTop="50dp"
                                     android:fontFamily="@font/noto_sans_kr_regular"
                                     android:includeFontPadding="false"
-                                    android:text="📅 날짜: "
+                                    android:text="🎹 곡 리스트"
                                     android:textColor="@color/gray7"
-                                    android:textSize="14sp"/>
-                                <TextView
-                                    android:id="@+id/textview_moum_manage_date"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/noto_sans_kr_light"
-                                    android:includeFontPadding="false"
-                                    android:layout_marginLeft="5dp"
-                                    android:text="날짜"
-                                    android:textColor="@color/gray7"
-                                    android:textSize="14sp"/>
+                                    android:textSize="16sp"
+                                    android:layout_marginBottom="10dp"/>
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/recycler_moum_manage_music"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"/>
                             </LinearLayout>
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:layout_marginBottom="50dp">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:fontFamily="@font/noto_sans_kr_regular"
-                                    android:includeFontPadding="false"
-                                    android:text="🪙 가격: "
-                                    android:textColor="@color/gray7"
-                                    android:textSize="14sp" />
-                                <TextView
-                                    android:id="@+id/textview_moum_manage_price"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/noto_sans_kr_light"
-                                    android:includeFontPadding="false"
-                                    android:layout_marginLeft="5dp"
-                                    android:text="가격"
-                                    android:textColor="@color/gray7"
-                                    android:textSize="14sp"/>
-                            </LinearLayout>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/noto_sans_kr_regular"
-                                android:includeFontPadding="false"
-                                android:text="멤버"
-                                android:textColor="@color/gray7"
-                                android:textSize="16sp"
-                                android:layout_marginBottom="10dp"/>
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/recycler_moum_manage_member"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"/>
                         </LinearLayout>
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
                             android:layout_marginBottom="100dp">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
+                                android:background="@color/gray0"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent">
                                 
                                 <androidx.constraintlayout.widget.ConstraintLayout
+                                    android:id="@+id/button_recruit"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="10dp"
-                                    android:layout_marginBottom="50dp">
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginBottom="15dp"
+                                    android:layout_marginLeft="15dp"
+                                    android:layout_marginRight="15dp"
+                                    android:padding="10dp"
+                                    android:elevation="5dp"
+                                    android:background="@drawable/button_mint_pink_0_ripple">
 
                                     <ImageView
                                         android:layout_width="30dp"
@@ -275,17 +310,6 @@
                                             android:layout_marginTop="5dp"
                                             android:layout_marginBottom="5dp"
                                             android:textSize="11sp"/>
-                                        <androidx.appcompat.widget.AppCompatButton
-                                            android:id="@+id/button_recruit"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="40dp"
-                                            android:background="@drawable/button_neon_mint_angular_ripple"
-                                            android:fontFamily="@font/noto_sans_kr_semibold"
-                                            android:text="구인게시판으로 이동"
-                                            android:textColor="@color/gray0"
-                                            android:textSize="14sp"
-                                            android:elevation="5dp"
-                                            android:layout_margin="5dp"/>
                                     </LinearLayout>
                                     <RelativeLayout
                                         android:layout_width="25dp"
@@ -300,14 +324,21 @@
                                             android:layout_height="match_parent"
                                             android:src="@drawable/icon_ellipsis_vertical"
                                             android:scaleType="fitCenter"
-                                            android:alpha="0.7"/>
+                                            />
                                     </RelativeLayout>
                                 </androidx.constraintlayout.widget.ConstraintLayout>
                                 <androidx.constraintlayout.widget.ConstraintLayout
+                                    android:id="@+id/button_moumtalk"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="10dp"
-                                    android:layout_marginBottom="50dp">
+                                    android:layout_marginBottom="15dp"
+                                    android:layout_marginLeft="15dp"
+                                    android:layout_marginRight="15dp"
+                                    android:padding="10dp"
+                                    android:elevation="5dp"
+                                    android:background="@drawable/button_mint_pink_1_ripple">
+
 
                                     <ImageView
                                         android:layout_width="30dp"
@@ -360,17 +391,6 @@
                                             android:layout_marginTop="5dp"
                                             android:layout_marginBottom="5dp"
                                             android:textSize="11sp"/>
-                                        <androidx.appcompat.widget.AppCompatButton
-                                            android:id="@+id/button_moumtalk"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="40dp"
-                                            android:background="@drawable/button_neon_mint_angular_ripple"
-                                            android:fontFamily="@font/noto_sans_kr_semibold"
-                                            android:text="모음톡 만들기"
-                                            android:textColor="@color/gray0"
-                                            android:textSize="14sp"
-                                            android:elevation="5dp"
-                                            android:layout_margin="5dp"/>
                                     </LinearLayout>
                                     <RelativeLayout
                                         android:layout_width="25dp"
@@ -385,14 +405,20 @@
                                             android:layout_height="match_parent"
                                             android:src="@drawable/icon_ellipsis_vertical"
                                             android:scaleType="fitCenter"
-                                            android:alpha="0.7"/>
+                                           />
                                     </RelativeLayout>
                                 </androidx.constraintlayout.widget.ConstraintLayout>
                                 <androidx.constraintlayout.widget.ConstraintLayout
+                                    android:id="@+id/button_practice_room"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="10dp"
-                                    android:layout_marginBottom="50dp">
+                                    android:layout_marginBottom="15dp"
+                                    android:layout_marginLeft="15dp"
+                                    android:layout_marginRight="15dp"
+                                    android:padding="10dp"
+                                    android:elevation="5dp"
+                                    android:background="@drawable/button_mint_pink_2_ripple">
 
                                     <ImageView
                                         android:layout_width="30dp"
@@ -445,17 +471,6 @@
                                             android:layout_marginTop="5dp"
                                             android:layout_marginBottom="5dp"
                                             android:textSize="11sp"/>
-                                        <androidx.appcompat.widget.AppCompatButton
-                                            android:id="@+id/button_practice_room"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="40dp"
-                                            android:background="@drawable/button_neon_mint_angular_ripple"
-                                            android:fontFamily="@font/noto_sans_kr_semibold"
-                                            android:text="연습실 찾기"
-                                            android:textColor="@color/gray0"
-                                            android:textSize="14sp"
-                                            android:elevation="5dp"
-                                            android:layout_margin="5dp"/>
                                     </LinearLayout>
                                     <RelativeLayout
                                         android:layout_width="25dp"
@@ -470,14 +485,20 @@
                                             android:layout_height="match_parent"
                                             android:src="@drawable/icon_ellipsis_vertical"
                                             android:scaleType="fitCenter"
-                                            android:alpha="0.7"/>
+                                            />
                                     </RelativeLayout>
                                 </androidx.constraintlayout.widget.ConstraintLayout>
                                 <androidx.constraintlayout.widget.ConstraintLayout
+                                    android:id="@+id/button_perform_location"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="10dp"
-                                    android:layout_marginBottom="50dp">
+                                    android:layout_marginBottom="15dp"
+                                    android:layout_marginLeft="15dp"
+                                    android:layout_marginRight="15dp"
+                                    android:padding="10dp"
+                                    android:elevation="5dp"
+                                    android:background="@drawable/button_mint_pink_3_ripple">
 
                                     <ImageView
                                         android:layout_width="30dp"
@@ -530,17 +551,6 @@
                                             android:layout_marginTop="5dp"
                                             android:layout_marginBottom="5dp"
                                             android:textSize="11sp"/>
-                                        <androidx.appcompat.widget.AppCompatButton
-                                            android:id="@+id/button_perform_location"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="40dp"
-                                            android:background="@drawable/button_neon_mint_angular_ripple"
-                                            android:fontFamily="@font/noto_sans_kr_semibold"
-                                            android:text="공연장 찾기"
-                                            android:textColor="@color/gray0"
-                                            android:textSize="14sp"
-                                            android:elevation="5dp"
-                                            android:layout_margin="5dp"/>
                                     </LinearLayout>
                                     <RelativeLayout
                                         android:layout_width="25dp"
@@ -555,14 +565,20 @@
                                             android:layout_height="match_parent"
                                             android:src="@drawable/icon_ellipsis_vertical"
                                             android:scaleType="fitCenter"
-                                            android:alpha="0.7"/>
+                                            />
                                     </RelativeLayout>
                                 </androidx.constraintlayout.widget.ConstraintLayout>
                                 <androidx.constraintlayout.widget.ConstraintLayout
+                                    android:id="@+id/button_promote"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="10dp"
-                                    android:layout_marginBottom="50dp">
+                                    android:layout_marginBottom="15dp"
+                                    android:layout_marginLeft="15dp"
+                                    android:layout_marginRight="15dp"
+                                    android:padding="10dp"
+                                    android:elevation="5dp"
+                                    android:background="@drawable/button_mint_pink_4_ripple">
 
                                     <ImageView
                                         android:layout_width="30dp"
@@ -615,17 +631,6 @@
                                             android:layout_marginTop="5dp"
                                             android:layout_marginBottom="5dp"
                                             android:textSize="11sp"/>
-                                        <androidx.appcompat.widget.AppCompatButton
-                                            android:id="@+id/button_promote"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="40dp"
-                                            android:background="@drawable/button_neon_mint_angular_ripple"
-                                            android:fontFamily="@font/noto_sans_kr_semibold"
-                                            android:text="공연 게시판으로 이동"
-                                            android:textColor="@color/gray0"
-                                            android:textSize="14sp"
-                                            android:elevation="5dp"
-                                            android:layout_margin="5dp"/>
                                     </LinearLayout>
                                     <RelativeLayout
                                         android:layout_width="25dp"
@@ -640,14 +645,20 @@
                                             android:layout_height="match_parent"
                                             android:src="@drawable/icon_ellipsis_vertical"
                                             android:scaleType="fitCenter"
-                                            android:alpha="0.7"/>
+                                           />
                                     </RelativeLayout>
                                 </androidx.constraintlayout.widget.ConstraintLayout>
                                 <androidx.constraintlayout.widget.ConstraintLayout
+                                    android:id="@+id/button_payment"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="10dp"
-                                    android:layout_marginBottom="50dp">
+                                    android:layout_marginBottom="15dp"
+                                    android:layout_marginLeft="15dp"
+                                    android:layout_marginRight="15dp"
+                                    android:padding="10dp"
+                                    android:elevation="5dp"
+                                    android:background="@drawable/button_mint_pink_5_ripple">
 
                                     <ImageView
                                         android:layout_width="30dp"
@@ -685,7 +696,7 @@
                                             android:layout_height="wrap_content"
                                             android:fontFamily="@font/noto_sans_kr_medium"
                                             android:includeFontPadding="false"
-                                            android:text="정산하기"
+                                            android:text="정산현황 확인하기"
                                             android:textColor="@color/gray7"
                                             android:textSize="14sp"
                                             android:gravity="center_vertical"/>
@@ -694,23 +705,12 @@
                                             android:layout_height="wrap_content"
                                             android:fontFamily="@font/noto_sans_kr_regular"
                                             android:includeFontPadding="false"
-                                            android:text="공연에 든 비용을 정산하세요!\n카카오페이로 링크로 연결하여 정산할 수 있어요."
+                                            android:text="공연에 든 총 비용을 관리하세요.\n그리고 정산 톡방을 만들어 정산해보세요!"
                                             android:breakStrategy="simple"
                                             android:textColor="@color/gray7"
                                             android:layout_marginTop="5dp"
                                             android:layout_marginBottom="5dp"
                                             android:textSize="11sp"/>
-                                        <androidx.appcompat.widget.AppCompatButton
-                                            android:id="@+id/button_payment"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="40dp"
-                                            android:background="@drawable/button_neon_mint_angular_ripple"
-                                            android:fontFamily="@font/noto_sans_kr_semibold"
-                                            android:text="정산하기"
-                                            android:textColor="@color/gray0"
-                                            android:textSize="14sp"
-                                            android:elevation="5dp"
-                                            android:layout_margin="5dp"/>
                                     </LinearLayout>
                                     <RelativeLayout
                                         android:layout_width="25dp"
@@ -725,14 +725,19 @@
                                             android:layout_height="match_parent"
                                             android:src="@drawable/icon_ellipsis_vertical"
                                             android:scaleType="fitCenter"
-                                            android:alpha="0.7"/>
+                                            />
                                     </RelativeLayout>
                                 </androidx.constraintlayout.widget.ConstraintLayout>
                                 <androidx.constraintlayout.widget.ConstraintLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="10dp"
-                                    android:layout_marginBottom="10dp">
+                                    android:layout_marginBottom="10dp"
+                                    android:layout_marginLeft="15dp"
+                                    android:layout_marginRight="15dp"
+                                    android:padding="10dp"
+                                    android:elevation="5dp"
+                                    android:background="@drawable/button_mint_pink_6_ripple">
 
                                     <ImageView
                                         android:layout_width="30dp"
@@ -779,20 +784,19 @@
                                             android:layout_height="wrap_content"
                                             android:fontFamily="@font/noto_sans_kr_regular"
                                             android:includeFontPadding="false"
-                                            android:text="공연을 모두 마치셨나요?\n이 모음을 마감하여 이력을 단체 프로필에 자동으로 추가하세요."
+                                            android:text="공연을 모두 마치셨나요?\n이 모음을 마감하여 이력을 단체 프로필에 자동으로 추가할 수 있어요."
                                             android:breakStrategy="simple"
                                             android:textColor="@color/gray7"
                                             android:layout_marginTop="5dp"
                                             android:layout_marginBottom="5dp"
                                             android:textSize="11sp"/>
                                         <androidx.appcompat.widget.AppCompatButton
-                                            android:id="@+id/button_finish"
-                                            android:layout_width="match_parent"
+                                            android:id="@+id/button_finish"                                            android:layout_width="match_parent"
                                             android:layout_height="40dp"
-                                            android:background="@drawable/button_neon_mint_angular_ripple"
+                                            android:background="@drawable/button_gray2_ripple"
                                             android:fontFamily="@font/noto_sans_kr_semibold"
                                             android:text="모음 마감하기"
-                                            android:textColor="@color/gray0"
+                                            android:textColor="@color/gray5"
                                             android:textSize="14sp"
                                             android:elevation="5dp"
                                             android:layout_margin="5dp"/>
@@ -800,10 +804,10 @@
                                             android:id="@+id/button_reopen"
                                             android:layout_width="match_parent"
                                             android:layout_height="40dp"
-                                            android:background="@drawable/button_neon_mint_angular_ripple"
+                                            android:background="@drawable/button_gray2_ripple"
                                             android:fontFamily="@font/noto_sans_kr_semibold"
                                             android:text="모음 되살리기"
-                                            android:textColor="@color/gray0"
+                                            android:textColor="@color/gray5"
                                             android:textSize="14sp"
                                             android:elevation="5dp"
                                             android:layout_margin="5dp"
@@ -816,13 +820,14 @@
                                         android:layout_marginTop="10dp"
                                         app:layout_constraintEnd_toEndOf="parent"
                                         app:layout_constraintTop_toTopOf="parent">
+
                                         <ImageView
                                             android:id="@+id/dropdown_finish"
                                             android:layout_width="match_parent"
                                             android:layout_height="match_parent"
-                                            android:src="@drawable/icon_ellipsis_vertical"
                                             android:scaleType="fitCenter"
-                                            android:alpha="0.7"/>
+                                            android:src="@drawable/icon_ellipsis_vertical"
+                                         />
                                     </RelativeLayout>
                                 </androidx.constraintlayout.widget.ConstraintLayout>
 

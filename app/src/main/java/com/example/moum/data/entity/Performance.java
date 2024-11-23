@@ -9,11 +9,15 @@ public class Performance {
     private String performanceLocation;
     private String performanceStartDate;
     private String performanceEndDate;
-    private String performancePrice;
+    private Integer performancePrice;
     private String performanceImageUrl;
     private ArrayList<Integer> membersId;
     private Integer teamId;
+    private String teamName;
     private Integer moumId;
+    private String moumName;
+    private ArrayList<String> genres;
+    private ArrayList<Music> musics;
 
     public Integer getId() {
         return id;
@@ -29,6 +33,14 @@ public class Performance {
 
     public Integer getTeamId() {
         return teamId;
+    }
+
+    public String getMoumName() {
+        return moumName;
+    }
+
+    public ArrayList<Music> getMusics() {
+        return musics;
     }
 
     public String getPerformanceDescription() {
@@ -51,12 +63,20 @@ public class Performance {
         return performanceName;
     }
 
-    public String getPerformancePrice() {
+    public Integer getPerformancePrice() {
         return performancePrice;
     }
 
     public String getPerformanceStartDate() {
         return performanceStartDate;
+    }
+
+    public String getTeamName() {
+        return teamName;
+    }
+
+    public ArrayList<String> getGenres() {
+        return genres;
     }
 
     public void setId(Integer id) {
@@ -69,6 +89,18 @@ public class Performance {
 
     public void setTeamId(Integer teamId) {
         this.teamId = teamId;
+    }
+
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
+    }
+
+    public void setMoumName(String moumName) {
+        this.moumName = moumName;
+    }
+
+    public void setMusics(ArrayList<Music> musics) {
+        this.musics = musics;
     }
 
     public void setMembersId(ArrayList<Integer> membersId) {
@@ -95,7 +127,7 @@ public class Performance {
         this.performanceName = performanceName;
     }
 
-    public void setPerformancePrice(String performancePrice) {
+    public void setPerformancePrice(Integer performancePrice) {
         this.performancePrice = performancePrice;
     }
 
@@ -103,19 +135,28 @@ public class Performance {
         this.performanceStartDate = performanceStartDate;
     }
 
+    public void setGenres(ArrayList<String> genres) {
+        this.genres = genres;
+    }
+
     @Override
     public String toString() {
         return "Performance{" +
-                "performanceName='" + performanceName + '\'' +
+                "id=" + id +
+                ", performanceName='" + performanceName + '\'' +
                 ", performanceDescription='" + performanceDescription + '\'' +
                 ", performanceLocation='" + performanceLocation + '\'' +
                 ", performanceStartDate='" + performanceStartDate + '\'' +
                 ", performanceEndDate='" + performanceEndDate + '\'' +
-                ", performancePrice='" + performancePrice + '\'' +
+                ", performancePrice=" + performancePrice +
                 ", performanceImageUrl='" + performanceImageUrl + '\'' +
                 ", membersId=" + membersId +
                 ", teamId=" + teamId +
+                ", teamName='" + teamName + '\'' +
                 ", moumId=" + moumId +
+                ", moumName='" + moumName + '\'' +
+                ", genres=" + genres +
+                ", musics=" + musics +
                 '}';
     }
 }

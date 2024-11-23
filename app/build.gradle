@@ -153,4 +153,6 @@ dependencies {
     // youtube player view
     implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.1'
 
+    // naver map
+    implementation 'com.naver.maps:map-sdk:3.19.1'
 }

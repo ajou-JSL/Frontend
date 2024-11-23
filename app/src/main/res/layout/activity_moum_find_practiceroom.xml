@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/MoumFindPracticeroomActivity"
+    tools:context=".view.moum.MoumFindPracticeroomActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_chat_top"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/gray0">
+
+            <LinearLayout
+                android:id="@+id/headerLayout"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:paddingTop="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="30dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@drawable/background_white"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:contentInsetStart="0dp">
+
+                <ImageView
+                    android:id="@+id/button_return"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/button_rounded_left"
+                    />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginStart="15dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="연습실 찾기"
+                        android:fontFamily="@font/noto_sans_kr_semibold"
+                        android:textColor="@color/gray7"
+                        android:textSize="14sp" />
+                </LinearLayout>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/searchLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                app:layout_constraintTop_toBottomOf="@id/headerLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <androidx.appcompat.widget.SearchView
+                    android:id="@+id/searchview_practiceroom"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/background_more_rounded_gray_stroke"
+                    android:focusable="true"
+                    android:layout_margin="15dp"
+                    app:iconifiedByDefault="false"
+                    app:queryHint="검색어를 입력하세요"
+                    app:queryBackground="@null"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@color/gray1"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/searchLayout"
+                app:layout_constraintBottom_toBottomOf="parent">
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <Spinner
+                            android:id="@+id/spinner_filter"
+                            android:background="@drawable/spinner_filter"
+                            android:layout_width="100dp"
+                            android:layout_height="40dp"
+                            android:padding="5dp"
+                            android:layout_marginLeft="7dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"/>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recycler_practiceroom"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                    </LinearLayout>
+                </ScrollView>
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</layout>

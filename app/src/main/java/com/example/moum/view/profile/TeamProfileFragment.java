@@ -38,6 +38,8 @@ import com.example.moum.view.chat.ChatActivity;
 import com.example.moum.view.profile.adapter.ProfileMemberAdapter;
 import com.example.moum.view.profile.adapter.ProfileRecordAdapter;
 import com.example.moum.view.profile.adapter.ProfileTeamAdapter;
+import com.example.moum.view.report.ReportMemberFragment;
+import com.example.moum.view.report.ReportTeamFragment;
 import com.example.moum.viewmodel.profile.MemberProfileViewModel;
 import com.example.moum.viewmodel.profile.TeamProfileViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -194,6 +196,7 @@ public class TeamProfileFragment extends BottomSheetDialogFragment {
                 Toast.makeText(context, "나 자신과의 개인톡은 시작할 수 없습니다.", Toast.LENGTH_SHORT).show();
             }
             else if(validation == Validation.CHATROOM_ALREADY_EXIST || validation == Validation.CHATROOM_CREATE_SUCCESS){
+                Toast.makeText(context, "채팅방을 생성하였습니다.", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(context, ChatActivity.class);
                 intent.putExtra("chatroomId", chatroom.getId());
                 intent.putExtra("chatroomName", chatroom.getName());
@@ -229,7 +232,11 @@ public class TeamProfileFragment extends BottomSheetDialogFragment {
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         String selectedItem = menuItem.getTitle().toString();
                         if (selectedItem.equals("단체 신고하기")) {
-                            //TODO
+                            ReportTeamFragment reportTeamFragment = new ReportTeamFragment(context);
+                            Bundle bundle = new Bundle();
+                            bundle.putInt("targetTeamId", targetTeamId);
+                            reportTeamFragment.setArguments(bundle);
+                            reportTeamFragment.show(getParentFragmentManager(), reportTeamFragment.getTag());
                         }
                         return true;
                     }
@@ -259,8 +266,12 @@ public class TeamProfileFragment extends BottomSheetDialogFragment {
                 }
                 binding.layoutYoutube.setVisibility(View.VISIBLE);
                 youTubePlayer.loadVideo(videoId, 0);
+                youTubePlayer.pause();
             }
         });
+
+        /*위가 둥근 형태로 만들기*/
+        setStyle(STYLE_NORMAL, R.style.BottomSheetDialogTheme);
     }
 
     public void onProfileMemberClicked(Integer memberId){

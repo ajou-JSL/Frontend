@@ -21,8 +21,12 @@ import com.example.moum.utils.Validation;
 import com.example.moum.utils.ValueMap;
 import com.google.gson.Gson;
 
+import java.io.File;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -94,9 +98,15 @@ public class ProfileRepository {
         });
     }
 
-    public void updateMemberProfile(Integer memberId, Member updatedMember, com.example.moum.utils.Callback<Result<Member>> callback){
-        MemberProfileUpdateRequest request = new MemberProfileUpdateRequest(updatedMember.getName(), updatedMember.getUsername(), updatedMember.getProfileDescription(), updatedMember.getEmail(), updatedMember.getProfileImageUrl(), updatedMember.getProficiency(), updatedMember.getInstrument(), updatedMember.getAddress());
-        Call<SuccessResponse<Member>> result = profileApi.updateMemberProfile(memberId, request);
+    public void updateMemberProfile(Integer memberId, File file, Member updatedMember, com.example.moum.utils.Callback<Result<Member>> callback){
+        /*processing into DTO*/
+        MultipartBody.Part profileImage = null;
+        if(file != null){
+            RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpg"), file);
+            profileImage = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+        }
+        MemberProfileUpdateRequest request = new MemberProfileUpdateRequest(updatedMember.getName(), updatedMember.getUsername(), updatedMember.getProfileDescription(), updatedMember.getEmail(), updatedMember.getProficiency(), updatedMember.getInstrument(), updatedMember.getAddress(), updatedMember.getMemberRecords(), updatedMember.getGenres());
+        Call<SuccessResponse<Member>> result = profileApi.updateMemberProfile(memberId, profileImage, request);
         result.enqueue(new retrofit2.Callback<SuccessResponse<Member>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override

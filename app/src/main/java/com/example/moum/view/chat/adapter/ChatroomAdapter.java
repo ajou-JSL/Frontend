@@ -108,8 +108,8 @@ public class ChatroomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             if(chatroom.getFileUrl() != null)
                 Glide.with(context)
                         .applyDefaultRequestOptions(new RequestOptions()
-                        .placeholder(R.drawable.background_circle_gray)
-                        .error(R.drawable.background_circle_gray))
+                        .placeholder(R.drawable.background_circle_gray_size_fit)
+                        .error(R.drawable.background_circle_gray_size_fit))
                         .load(chatroom.getFileUrl()).into(chatroomProfile);
         }
     }

@@ -109,7 +109,7 @@ public class MoumCreateImageAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         public void bind(Uri uri){
             this.uri = uri;
             Glide.with(context).load(uri).into(moumCreateImageview);
-            moumCreateImageview.getClipToOutline();
+            moumCreateImageview.setClipToOutline(true);
         }
     }
 

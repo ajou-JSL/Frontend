@@ -41,7 +41,7 @@ public class MoumCreateDialog extends Dialog {
         buttonYes = findViewById(R.id.button_dialog_yes);
 
         textviewMain.setText(String.format("'%s'\n모음을 생성할까요?", moumName));
-        textViewSub.setText("기본 이용자는 최대 5개까지의\n모음을 생성할 수 있어요!");
+        textViewSub.setText("기본 이용자는 최대 3개까지의\n모음을 생성할 수 있어요!");
         buttonNo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

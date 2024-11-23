@@ -319,7 +319,6 @@
     <string-array name="chat_etc_list">
         <item>모음톡 나가기</item>
         <item>수정하기</item>
-        <item>정산 요청하기</item>
     </string-array>
     <string-array name="community_spinner1_items">
         <item>조회순</item>
@@ -353,5 +352,11 @@
     </string-array>
     <string-array name="moum_manange_process_etc_list">
         <item>업데이트 상태 토글하기</item>
+    </string-array>
+    <string-array name="perform_etc_list">
+        <item>신고하기</item>
+        <item>URL 복사하기</item>
+        <item>수정하기</item>
+        <item>삭제하기</item>
     </string-array>
 </resources>
