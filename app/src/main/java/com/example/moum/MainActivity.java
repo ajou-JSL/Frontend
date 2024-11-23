@@ -20,6 +20,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
+    private int bottomNavHeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +53,17 @@ public class MainActivity extends AppCompatActivity {
             // navHostFragment가 null인 경우에 대한 처리
             Log.e("MainActivity", "NavHostFragment not found");
         }
+
+        bottomNavigationView.post(new Runnable() {
+            @Override
+            public void run() {
+                bottomNavHeight = bottomNavigationView.getHeight();
+            }
+        });
+    }
+
+    public int getBottomNavHeight() {
+        return bottomNavHeight;
     }
 
     @Override

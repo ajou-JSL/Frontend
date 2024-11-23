@@ -28,6 +28,7 @@ public class BoardFreeViewModel extends AndroidViewModel {
     }
 
     private void setIsLoadArticlesCategorySuccess(Result<List<Article>> isLoadArticlesCategorySuccess) {
+        isLoading = false;
         this.isLoadArticlesCategorySuccess.setValue(isLoadArticlesCategorySuccess);
     }
 
@@ -49,7 +50,11 @@ public class BoardFreeViewModel extends AndroidViewModel {
     }
 
     public void loadArticleCategoryList() {
-        articleRepository.loadArticlesCategory(null, "FREE_TALKING_BOARD", currentPage, currentSize,this::setIsLoadArticlesCategorySuccess);
+        if (!isLoading) {
+            isLoading = true;
+            articleRepository.loadArticlesCategory(null, "FREE_TALKING_BOARD", currentPage, currentSize, this::setIsLoadArticlesCategorySuccess);
+            currentPage++;
+        }
     }
 
     public void loadArticlesDetail(Integer positionId, Callback<Result<Article>> callback) {

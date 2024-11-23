@@ -20,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import com.example.moum.MainActivity;
 import com.example.moum.R;
 import com.example.moum.data.entity.Article;
 import com.example.moum.data.entity.BoardFreeItem;
@@ -43,6 +44,8 @@ public class BoardFreeFragment extends Fragment {
     private final ArrayList<Article> articles = new ArrayList<>();
     private Context context;
     private Integer memberId;
+    private int bottomNavHeight;
+    private boolean isLoading = false;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         boardFreeViewModel = new ViewModelProvider(this).get(BoardFreeViewModel.class);
@@ -108,6 +111,12 @@ public class BoardFreeFragment extends Fragment {
         BoardFreeItemAdapter adapter = new BoardFreeItemAdapter(itemList);
         recyclerView.setAdapter(adapter);
 
+        // Activity에서 BottomNavigationView 높이를 가져오기
+        if (getActivity() != null) {
+            MainActivity mainActivity = (MainActivity) getActivity();
+            bottomNavHeight = mainActivity.getBottomNavHeight();
+        }
+
         //스크롤 리스너 추가
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -138,14 +147,15 @@ public class BoardFreeFragment extends Fragment {
 
                 if (validation == Validation.ARTICLE_LIST_GET_SUCCESS && loadedArticles != null) {
                     // 데이터 업데이트
-                    itemList.clear();
                     for (Article article : loadedArticles) {
                         BoardFreeItem item = new BoardFreeItem();
                         item.setBoardFreeItem(
                                 article.getId(),
                                 article.getTitle(),
                                 article.getAuthor(),
-                                getTimeAgo(article.getCreateAt())
+                                getTimeAgo(article.getCreateAt()),
+                                article.getCommentsCounts(),
+                                article.getViewCounts()
                         );
                         itemList.add(item);
                     }
@@ -177,6 +187,7 @@ public class BoardFreeFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        boardFreeViewModel.resetPagination();
         binding = null;
     }
 }

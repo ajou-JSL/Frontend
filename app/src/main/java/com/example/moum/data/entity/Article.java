@@ -8,7 +8,7 @@ public class Article {
     private String category; //TODO enum으로 리팩토링
     private String content;
     private Integer viewCounts;
-    private Integer commentCounts;
+    private Integer commentsCounts;
     private String genre;
     private Integer likeCounts;
     private String fileURL;
@@ -25,8 +25,8 @@ public class Article {
         return comments;
     }
 
-    public Integer getCommentCounts() {
-        return commentCounts;
+    public Integer getCommentsCounts() {
+        return commentsCounts;
     }
 
     public Integer getLikeCounts() {
@@ -59,7 +59,7 @@ public class Article {
 
     public void setCategory(String category) {this.category = category;}
 
-    public void setCommentCounts(Integer commentCounts) {this.commentCounts = commentCounts;}
+    public void setCommentsCounts(Integer commentCounts) {this.commentsCounts = commentCounts;}
 
     public void setComments(ArrayList<Comment> comments) {this.comments = comments;}
 
@@ -85,7 +85,7 @@ public class Article {
                 ", category='" + category + '\'' +
                 ", content='" + content + '\'' +
                 ", viewCounts=" + viewCounts +
-                ", commentCounts=" + commentCounts +
+                ", commentCounts=" + commentsCounts +
                 ", likeCounts=" + likeCounts +
                 ", imageURL=" + fileURL + '\'' +
                 ", author='" + author + '\'' +

@@ -70,7 +70,7 @@ public class BoardFreeItemAdapter extends RecyclerView.Adapter<BoardFreeItemAdap
     }
 
     static class CustomViewHolder extends RecyclerView.ViewHolder {
-        private TextView title, writer, time;
+        private TextView title, writer, time, counts;
         private ImageView image;
 
         public CustomViewHolder(View itemView) {
@@ -78,6 +78,7 @@ public class BoardFreeItemAdapter extends RecyclerView.Adapter<BoardFreeItemAdap
             title = itemView.findViewById(R.id.item_board_free_title);
             writer = itemView.findViewById(R.id.item_board_free_writer);
             time = itemView.findViewById(R.id.item_board_free_time);
+            counts = itemView.findViewById(R.id.item_board_free_comments_and_views);
             image = itemView.findViewById(R.id.item_board_free_image_view);
         }
 
@@ -85,6 +86,7 @@ public class BoardFreeItemAdapter extends RecyclerView.Adapter<BoardFreeItemAdap
             title.setText(item.getTitle());
             writer.setText(item.getWriter());
             time.setText(item.getTime());
+            counts.setText("[" + item.getCommentsCounts() + "] / " + item.getViewCounts() + " 회");
 
             if (item.hasImage()) {
                 // 이미지가 있을 때만 보이게 설정
