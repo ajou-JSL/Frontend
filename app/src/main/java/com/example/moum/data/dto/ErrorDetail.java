@@ -29,4 +29,13 @@ public class ErrorDetail {
     public void setReason(String reason) {
         this.reason = reason;
     }
+
+    @Override
+    public String toString() {
+        return "ErrorDetail{" +
+                "field='" + field + '\'' +
+                ", value='" + value + '\'' +
+                ", reason='" + reason + '\'' +
+                '}';
+    }
 }

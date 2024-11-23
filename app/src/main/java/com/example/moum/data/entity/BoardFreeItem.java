@@ -8,10 +8,9 @@ public class BoardFreeItem {
     private String time;
     private String image;
 
-    public void setBoardFreeItem(Integer postId, String title, String content, String writer, String time){
+    public void setBoardFreeItem(Integer postId, String title, String writer, String time){
         this.postId = postId;
         this.title = title;
-        this.content = content;
         this.writer = writer;
         this.time = time;
     }

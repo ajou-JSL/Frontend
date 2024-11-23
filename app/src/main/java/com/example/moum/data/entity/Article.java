@@ -9,12 +9,13 @@ public class Article {
     private String content;
     private Integer viewCounts;
     private Integer commentCounts;
+    private String genre;
     private Integer likeCounts;
-    private String imageURL;
+    private String fileURL;
     private String author;
     private ArrayList<Comment> comments;
-    private String createAt;
-    private String updateAt;
+    private String createdAt;
+    private String updatedAt;
 
     public Integer getId() {
         return id;
@@ -36,73 +37,45 @@ public class Article {
         return viewCounts;
     }
 
-    public String getAuthor() {
-        return author;
-    }
+    public String getGenre() { return genre; }
 
-    public String getCategory() {
-        return category;
-    }
+    public String getAuthor() {return author;}
 
-    public String getContent() {
-        return content;
-    }
+    public String getCategory() {return category;}
 
-    public String getTitle() {
-        return title;
-    }
+    public String getContent() {return content;}
 
-    public String getCreateAt() {
-        return createAt;
-    }
+    public String getTitle() {return title;}
 
-    public String getUpdateAt() { return updateAt; }
+    public String getCreateAt() {return createdAt;}
 
-    public String getImageURL() { return imageURL; }
+    public String getUpdateAt() { return updatedAt; }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    public String getFileURL() { return fileURL; }
 
-    public void setAuthor(String author) {
-        this.author = author;
-    }
+    public void setId(Integer id) {this.id = id;}
 
-    public void setCategory(String category) {
-        this.category = category;
-    }
+    public void setAuthor(String author) {this.author = author;}
 
-    public void setCommentCounts(Integer commentCounts) {
-        this.commentCounts = commentCounts;
-    }
+    public void setCategory(String category) {this.category = category;}
 
-    public void setComments(ArrayList<Comment> comments) {
-        this.comments = comments;
-    }
+    public void setCommentCounts(Integer commentCounts) {this.commentCounts = commentCounts;}
 
-    public void setContent(String content) {
-        this.content = content;
-    }
+    public void setComments(ArrayList<Comment> comments) {this.comments = comments;}
 
-    public void setLikeCounts(Integer likeCounts) {
-        this.likeCounts = likeCounts;
-    }
+    public void setContent(String content) {this.content = content;}
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    public void setLikeCounts(Integer likeCounts) {this.likeCounts = likeCounts;}
 
-    public void setViewCounts(Integer viewCounts) {
-        this.viewCounts = viewCounts;
-    }
+    public void setTitle(String title) {this.title = title;}
 
-    public void setCreateAt(String createAt) {
-        this.createAt = createAt;
-    }
+    public void setViewCounts(Integer viewCounts) {this.viewCounts = viewCounts;}
 
-    public void setUpdateAt(String updateAt) { this.updateAt = updateAt; }
+    public void setCreateAt(String createAt) {this.createdAt = createAt;}
 
-    public void setImageURL(String imageURL) { this.imageURL = imageURL; }
+    public void setUpdateAt(String updateAt) { this.updatedAt = updateAt; }
+
+    public void setFileURL(String fileURL) { this.fileURL = fileURL; }
 
     @Override
     public String toString() {
@@ -114,11 +87,11 @@ public class Article {
                 ", viewCounts=" + viewCounts +
                 ", commentCounts=" + commentCounts +
                 ", likeCounts=" + likeCounts +
-                ", imageURL=" + imageURL + '\'' +
+                ", imageURL=" + fileURL + '\'' +
                 ", author='" + author + '\'' +
                 ", comments=" + comments +
-                ", createAt='" + createAt + '\'' +
-                ", viewCounts=" + updateAt +
+                ", createAt='" + createdAt + '\'' +
+                ", viewCounts=" + updatedAt +
                 '}';
     }
 }

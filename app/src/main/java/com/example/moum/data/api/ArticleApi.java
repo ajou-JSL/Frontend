@@ -21,8 +21,7 @@ public interface ArticleApi {
         @Query("size") Integer size
     );
 
-    // API 추가 한 부분
-    @GET("/api/articles/category")
+    @GET("/api/articles/category-legacy")
     Call<SuccessResponse<List<Article>>> loadArticlesCategory(
         @Query("keyword") String keyword,
         @Query("category") String category,

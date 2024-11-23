@@ -1,5 +1,7 @@
 package com.example.moum.view.community;
 
+import static com.example.moum.view.community.adapter.TimeAgo.getTimeAgo;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -74,10 +76,10 @@ public class BoardFreeFragment extends Fragment {
                 android.R.layout.simple_spinner_item
         );
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.communitySpinner1.setAdapter(adapter);
+        binding.boardFreeSpinner1.setAdapter(adapter);
 
         // 항목 선택 리스너 설정
-        binding.communitySpinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        binding.boardFreeSpinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (parent != null) {
@@ -142,9 +144,8 @@ public class BoardFreeFragment extends Fragment {
                         item.setBoardFreeItem(
                                 article.getId(),
                                 article.getTitle(),
-                                article.getContent(),
                                 article.getAuthor(),
-                                article.getCreateAt()
+                                getTimeAgo(article.getCreateAt())
                         );
                         itemList.add(item);
                     }
