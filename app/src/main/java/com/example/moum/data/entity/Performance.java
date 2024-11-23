@@ -16,8 +16,10 @@ public class Performance {
     private String teamName;
     private Integer moumId;
     private String moumName;
-    private ArrayList<String> genres;
+    private Genre genre;
     private ArrayList<Music> musics;
+    private Integer likesCount;
+    private Integer viewCount;
 
     public Integer getId() {
         return id;
@@ -75,8 +77,16 @@ public class Performance {
         return teamName;
     }
 
-    public ArrayList<String> getGenres() {
-        return genres;
+    public Genre getGenre() {
+        return genre;
+    }
+
+    public Integer getLikesCount() {
+        return likesCount;
+    }
+
+    public Integer getViewCount() {
+        return viewCount;
     }
 
     public void setId(Integer id) {
@@ -135,8 +145,16 @@ public class Performance {
         this.performanceStartDate = performanceStartDate;
     }
 
-    public void setGenres(ArrayList<String> genres) {
-        this.genres = genres;
+    public void setGenre(Genre genre) {
+        this.genre = genre;
+    }
+
+    public void setLikesCount(Integer likesCount) {
+        this.likesCount = likesCount;
+    }
+
+    public void setViewCount(Integer viewCount) {
+        this.viewCount = viewCount;
     }
 
     @Override
@@ -155,8 +173,10 @@ public class Performance {
                 ", teamName='" + teamName + '\'' +
                 ", moumId=" + moumId +
                 ", moumName='" + moumName + '\'' +
-                ", genres=" + genres +
+                ", genre=" + genre +
                 ", musics=" + musics +
+                ", likesCount=" + likesCount +
+                ", viewCount=" + viewCount +
                 '}';
     }
 }

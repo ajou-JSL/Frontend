@@ -68,7 +68,7 @@ public class PerformRepository {
             RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpg"), file);
             profileImage = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
         }
-        PerformRequest performRequest = new PerformRequest(perform.getPerformanceName(), perform.getPerformanceDescription(), perform.getPerformanceLocation(), perform.getPerformanceStartDate(), perform.getPerformanceEndDate(), perform.getPerformancePrice(), perform.getMembersId(), perform.getTeamId(), perform.getMoumId(), perform.getMusics());
+        PerformRequest performRequest = new PerformRequest(perform.getPerformanceName(), perform.getPerformanceDescription(), perform.getPerformanceLocation(), perform.getPerformanceStartDate(), perform.getPerformanceEndDate(), perform.getPerformancePrice(), perform.getMembersId(), perform.getTeamId(), perform.getMoumId(), perform.getMusics(), perform.getGenre());
         Call<SuccessResponse<Performance>> result = performApi.createPerform(profileImage, performRequest);
         result.enqueue(new retrofit2.Callback<SuccessResponse<Performance>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -114,7 +114,7 @@ public class PerformRepository {
             RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpg"), file);
             profileImage = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
         }
-        PerformRequest performRequest = new PerformRequest(perform.getPerformanceName(), perform.getPerformanceDescription(), perform.getPerformanceLocation(), perform.getPerformanceStartDate(), perform.getPerformanceEndDate(), perform.getPerformancePrice(), perform.getMembersId(), perform.getTeamId(), perform.getMoumId(), perform.getMusics());
+        PerformRequest performRequest = new PerformRequest(perform.getPerformanceName(), perform.getPerformanceDescription(), perform.getPerformanceLocation(), perform.getPerformanceStartDate(), perform.getPerformanceEndDate(), perform.getPerformancePrice(), perform.getMembersId(), perform.getTeamId(), perform.getMoumId(), perform.getMusics(), perform.getGenre());
         Call<SuccessResponse<Performance>> result = performApi.updatePerform(performId, profileImage, performRequest);
         result.enqueue(new retrofit2.Callback<SuccessResponse<Performance>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)

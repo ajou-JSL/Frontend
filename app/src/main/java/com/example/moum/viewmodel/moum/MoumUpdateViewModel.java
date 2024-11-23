@@ -7,6 +7,7 @@ import android.net.Uri;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.moum.data.entity.Genre;
 import com.example.moum.data.entity.Member;
 import com.example.moum.data.entity.Moum;
 import com.example.moum.data.entity.Music;
@@ -33,6 +34,7 @@ public class MoumUpdateViewModel extends AndroidViewModel {
     private Boolean isProfileUpdated = false;
     private LocalDate startDate;
     private LocalDate endDate;
+    private Genre genre;
 
     public MoumUpdateViewModel(Application application){
         super(application);
@@ -62,6 +64,9 @@ public class MoumUpdateViewModel extends AndroidViewModel {
 
     public void setMoum(Moum moum) { this.moum.setValue(moum);}
 
+    public void setGenre(String genreStr) {
+        this.genre = Genre.fromString(genreStr);
+    }
     public void setProfileImages(List<Uri> uris) {
         ArrayList<Uri> uriArrayList = new ArrayList<>(uris);
         this.profileImages.setValue(uriArrayList);
@@ -127,6 +132,7 @@ public class MoumUpdateViewModel extends AndroidViewModel {
 
         /*processing for repository*/
         Moum moumToUpdate = moum.getValue();
+        moumToUpdate.setGenre(genre);
         moumToUpdate.setMoumId(moumId);
         moumToUpdate.setTeamId(teamId);
         moumToUpdate.setLeaderId(leaderId);

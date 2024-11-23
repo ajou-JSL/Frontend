@@ -26,7 +26,9 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.moum.R;
+import com.example.moum.data.entity.Genre;
 import com.example.moum.data.entity.Team;
 import com.example.moum.databinding.ActivitySignupProfileBinding;
 import com.example.moum.databinding.ActivityTeamCreateBinding;
@@ -109,7 +111,12 @@ public class TeamCreateActivity extends AppCompatActivity {
         /*사진 업로드 감시*/
         viewModel.getProfileImage().observe(this, uri -> {
             Log.e(TAG, "Uri: " + uri.toString());
-            Glide.with(this).load(uri).into(binding.imageviewTeamProfile);
+            Glide.with(this)
+                    .applyDefaultRequestOptions(new RequestOptions()
+                    .placeholder(R.drawable.background_more_rounded_gray_size_fit)
+                    .error(R.drawable.background_more_rounded_gray_size_fit))
+                    .load(uri).into(binding.imageviewTeamProfile);
+            binding.imageviewTeamProfile.setClipToOutline(true);
         });
 
         /*address 스피너 Adapter 연결*/
@@ -125,6 +132,27 @@ public class TeamCreateActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 viewModel.setAddress(addressList[position]);
                 binding.teamErrorAddress.setText("");
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                return;
+            }
+        });
+
+        /*genre 스피너 Adapter 연결*/
+        Spinner genreSpinner = binding.spinnerGenre;
+        String[] genreList = Genre.toStringArray();
+        ArrayAdapter<String> genreAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, genreList);
+        genreAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        genreSpinner.setAdapter(genreAdapter);
+
+        viewModel.setGenre(genreList[0]);
+        genreSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                viewModel.setGenre(genreList[position]);
+                binding.errorTeamGenre.setText("");
             }
 
             @Override
@@ -214,10 +242,10 @@ public class TeamCreateActivity extends AppCompatActivity {
                             .toFormatter();
                     LocalDate startDate = null;
                     LocalDate endDate = null;
-                    if(!startDateString.isEmpty()){
+                    if(!startDateString.isEmpty() && !startDateString.equals("시작 날짜"))
                         startDate = LocalDate.parse(startDateString, formatter);
-                    }
-                    if(!endDateString.isEmpty()) endDate = LocalDate.parse(endDateString, formatter);
+                    if(!endDateString.isEmpty() && !startDateString.equals("종료 날짜"))
+                        endDate = LocalDate.parse(endDateString, formatter);
 
                     viewModel.addRecord(recordName, startDate, endDate);
                 }
@@ -235,7 +263,7 @@ public class TeamCreateActivity extends AppCompatActivity {
                 binding.errorTeamName.requestFocus();
             }
             else if(isValidCheckSuccess == Validation.TEAM_GENRE_NOT_WRITTEN){
-                binding.errorTeamGenre.setText("단체의 분야를 입력하세요.");
+                binding.errorTeamGenre.setText("단체의 분야를 선택하세요.");
                 binding.errorTeamGenre.requestFocus();
             }
             else if(isValidCheckSuccess == Validation.VALID_ALL){
@@ -292,14 +320,21 @@ public class TeamCreateActivity extends AppCompatActivity {
                 }
             }
         });
-        binding.edittextTeamGenre.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        binding.spinnerAddress.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(hasFocus){
+                    binding.teamErrorAddress.setText("");
+                }else{
+                }
+            }
+        });
+        binding.spinnerGenre.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
                 if(hasFocus){
                     binding.errorTeamGenre.setText("");
-                    binding.placeholderTeamGenre.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_mint_stroke));
                 }else{
-                    binding.placeholderTeamGenre.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_gray_stroke));
                 }
             }
         });

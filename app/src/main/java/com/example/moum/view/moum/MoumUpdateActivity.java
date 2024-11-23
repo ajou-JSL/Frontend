@@ -12,8 +12,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +32,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moum.R;
+import com.example.moum.data.entity.Genre;
 import com.example.moum.data.entity.Moum;
 import com.example.moum.data.entity.Music;
 import com.example.moum.databinding.ActivityMoumCreateBinding;
@@ -170,6 +174,27 @@ public class MoumUpdateActivity extends AppCompatActivity {
             }
         });
 
+        /*genre 스피너 Adapter 연결*/
+        Spinner genreSpinner = binding.spinnerGenre;
+        String[] genreList = Genre.toStringArray();
+        ArrayAdapter<String> genreAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, genreList);
+        genreAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        genreSpinner.setAdapter(genreAdapter);
+
+        viewModel.setGenre(genreList[0]);
+        genreSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                viewModel.setGenre(genreList[position]);
+                binding.errorMoumGenre.setText("");
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                return;
+            }
+        });
+
+
         /*song 레이아웃 동적 생성*/
         LinearLayout songParent = binding.moumMusicParent;
         binding.buttonAddSong.setOnClickListener(new View.OnClickListener() {
@@ -193,6 +218,7 @@ public class MoumUpdateActivity extends AppCompatActivity {
                 if(loadedMoum.getStartDate() != null) binding.buttonMoumDateStart.setText(loadedMoum.getStartDate());
                 if(loadedMoum.getEndDate() != null) binding.buttonMoumDateEnd.setText(loadedMoum.getEndDate());
                 if(loadedMoum.getPrice() != null) binding.edittextMoumPrice.setText(String.format("%d", loadedMoum.getPrice()));
+                if(loadedMoum.getGenre() != null) genreSpinner.setSelection(loadedMoum.getGenre().getValue());
                 if(loadedMoum.getImageUrls() != null && !loadedMoum.getImageUrls().isEmpty()){
                     ArrayList<Uri> uriArrayList = new ArrayList<>();
                     for(String url : loadedMoum.getImageUrls())

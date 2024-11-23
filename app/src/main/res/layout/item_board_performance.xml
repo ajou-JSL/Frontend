@@ -8,7 +8,7 @@
     android:paddingRight="25dp"
     android:paddingTop="15dp"
     android:paddingBottom="15dp"
-    android:background="@color/gray0">
+    android:background="@drawable/background_white_underline">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/top_performance"
         android:layout_width="match_parent"
@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:text="공연 이름"
                 android:textColor="@color/gray7"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:fontFamily="@font/noto_sans_kr_regular"
                 android:includeFontPadding="false"
                 android:maxLines="1"
@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:text="짧은 소개 글"
-                android:textSize="12sp"
+                android:textSize="9sp"
                 android:textColor="@color/gray4"
                 android:fontFamily="@font/noto_sans_kr_light"
                 android:includeFontPadding="false"
@@ -65,7 +65,7 @@
                 android:includeFontPadding="false"
                 android:maxLines="1"
                 android:text="단체"
-                android:textSize="12sp" />
+                android:textSize="9sp" />
 
             <TextView
                 android:id="@+id/performance_time"
@@ -73,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:text="공연 날짜 및 시간"
-                android:textSize="12sp"
+                android:textSize="9sp"
                 android:textColor="@color/gray4"
                 android:fontFamily="@font/noto_sans_kr_light"
                 android:includeFontPadding="false"
@@ -84,9 +84,9 @@
         <ImageView
             android:id="@+id/performance_image"
             android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
             android:scaleType="fitXY"
-            android:background="@drawable/background_more_rounded_gray"
+            android:background="@drawable/background_more_rounded_gray_size_fit"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
