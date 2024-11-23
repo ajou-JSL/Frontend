@@ -100,7 +100,6 @@ public class ChatCreateChatroomOnwardActivity extends AppCompatActivity {
                     .placeholder(R.drawable.background_more_rounded_gray_size_fit)
                     .error(R.drawable.background_more_rounded_gray_size_fit))
                     .load(uri).into(binding.imageviewMoumtalkProfile);
-            binding.imageviewMoumtalkProfile.setClipToOutline(true);
         });
 
        /*참여 멤버 리사이클러뷰 표시*/

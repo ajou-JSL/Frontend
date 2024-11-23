@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -23,6 +24,8 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.view.GravityCompat;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -67,6 +70,7 @@ public class ChatActivity extends AppCompatActivity {
     private Boolean isLoading = false;
     private final int REQUEST_CODE = 100;
     private Integer chatroomId;
+    private Integer leaderId;
     private Integer id;
     Chatroom.ChatroomType chatroomType;
 
@@ -99,7 +103,7 @@ public class ChatActivity extends AppCompatActivity {
         String chatroomName = prevIntent.getStringExtra("chatroomName");
         int chatroomTypeInt = prevIntent.getIntExtra("chatroomType", -1);
         int teamId = prevIntent.getIntExtra("teamId", -1);
-        int leaderId = prevIntent.getIntExtra("leaderId", -1);
+        leaderId = prevIntent.getIntExtra("leaderId", -1);
         String lastChat = prevIntent.getStringExtra("lastChat");
         String lastTimestamp = prevIntent.getStringExtra("lastTimestamp");
         String fileUrl = prevIntent.getStringExtra("fileUrl");
@@ -361,7 +365,12 @@ public class ChatActivity extends AppCompatActivity {
         /*멀티채팅이라면 프로필 클릭 시 멤버 드롭다운 띄움*/
         final MemberProfileFragment memberProfileFragment = new MemberProfileFragment(context);
         if(chatroomType == Chatroom.ChatroomType.MULTI_CHAT) {
-           //TODO
+           binding.imageChatProfile.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View view) {
+                   openLeftMenuWithMemberList();
+               }
+           });
         }
 
         /*개인채팅이라면 프로필 클릭 시 프로필 fragment 띄움*/
@@ -429,5 +438,27 @@ public class ChatActivity extends AppCompatActivity {
 
     public void onChatroomLeaveDialogYesClicked(){
         chatViewModel.deleteMembers(chatroomId, id, chatroomType);
+    }
+
+    private void openLeftMenuWithMemberList(){
+        binding.drawerLayout.openDrawer(GravityCompat.START);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        ChatMemberListFragment fragment = new ChatMemberListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("chatroomId", chatroomId);
+        bundle.putInt("leaderId", leaderId);
+        fragment.setArguments(bundle);
+        fragmentManager.beginTransaction()
+                .replace(R.id.left_menu, fragment)
+                .commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            binding.drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 }
