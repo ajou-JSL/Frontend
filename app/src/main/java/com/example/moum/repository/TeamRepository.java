@@ -105,7 +105,7 @@ public class TeamRepository {
         });
     }
 
-    public void updateTeam(Team team, File teamProfile, com.example.moum.utils.Callback<Result<Team>> callback){
+    public void updateTeam(Integer teamId, Team team, File teamProfile, com.example.moum.utils.Callback<Result<Team>> callback){
         /*processing into DTO*/
         MultipartBody.Part profileImage = null;
         if(teamProfile != null){
@@ -113,7 +113,7 @@ public class TeamRepository {
             profileImage = MultipartBody.Part.createFormData("file", teamProfile.getName(), requestFile);
         }
         TeamRequest teamRequest = new TeamRequest(null, team.getTeamName(), team.getDescription(), team.getGenre(), team.getLocation(), team.getRecords());
-        Call<SuccessResponse<Team>> result = teamApi.createTeam(profileImage, teamRequest);
+        Call<SuccessResponse<Team>> result = teamApi.updateTeam(teamId, profileImage, teamRequest);
 
         result.enqueue(new retrofit2.Callback<SuccessResponse<Team>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)

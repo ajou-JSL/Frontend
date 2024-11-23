@@ -110,8 +110,8 @@ public class PerformanceActivity extends AppCompatActivity {
                 if (loadedPerform.getPerformanceImageUrl() != null)
                     Glide.with(context)
                             .applyDefaultRequestOptions(new RequestOptions()
-                                    .placeholder(R.drawable.background_gray)
-                                    .error(R.drawable.background_gray))
+                            .placeholder(R.drawable.background_gray)
+                            .error(R.drawable.background_gray))
                             .load(loadedPerform.getPerformanceImageUrl()).into(binding.imageviewPerform);
                 if (loadedPerform.getPerformanceName() != null)
                     binding.textviewPerformName.setText(loadedPerform.getPerformanceName());
@@ -129,6 +129,10 @@ public class PerformanceActivity extends AppCompatActivity {
                     binding.textviewPerformTime.setText(String.format("%s", TimeManager.strToDate(loadedPerform.getPerformanceStartDate())));
                 else
                     binding.textviewPerformTime.setText("");
+                if(loadedPerform.getLikesCount() != null)
+                    binding.textviewLikes.setText(String.format("%d", loadedPerform.getLikesCount()));
+                if(loadedPerform.getViewCount() != null)
+                    binding.textviewViews.setText(String.format("%d", loadedPerform.getViewCount()));
 
                 /*단체 정보 불러오기*/
                 viewModel.loadTeam(performance.getTeamId());
@@ -150,8 +154,8 @@ public class PerformanceActivity extends AppCompatActivity {
                 if (loadedTeam.getFileUrl() != null)
                     Glide.with(context)
                             .applyDefaultRequestOptions(new RequestOptions()
-                                    .placeholder(R.drawable.background_more_rounded_gray_size_fit)
-                                    .error(R.drawable.background_more_rounded_gray_size_fit))
+                            .placeholder(R.drawable.background_more_rounded_gray_size_fit)
+                            .error(R.drawable.background_more_rounded_gray_size_fit))
                             .load(loadedTeam.getFileUrl()).into(binding.imageviewPerformTeamProfile);
                 binding.imageviewPerformTeamProfile.setClipToOutline(true);
                 if (loadedTeam.getTeamName() != null)

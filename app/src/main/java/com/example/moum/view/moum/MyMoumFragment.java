@@ -94,7 +94,7 @@ public class MyMoumFragment extends Fragment {
         /*단체 viewPager 연결*/
         ViewPager2 viewpagerTeam = binding.viewpagerTeam;
         TeamAdapter teamAdapter = new TeamAdapter();
-        teamAdapter.setTeamsNMoums(teams, moums, context, launcher);
+        teamAdapter.setTeamsNMoums(teams, moums, id, context, launcher);
         viewpagerTeam.setAdapter(teamAdapter);
 
         /*속한 단체 리스트 불러오기*/

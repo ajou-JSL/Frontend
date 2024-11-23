@@ -249,7 +249,10 @@ public class PerformanceUpdateActivity extends AppCompatActivity {
                 if(loadedPerform.getPerformanceStartDate() != null) binding.buttonDateStart.setText(TimeManager.strToDate(loadedPerform.getPerformanceStartDate()));
                 if(loadedPerform.getPerformanceEndDate() != null) binding.buttonDateEnd.setText(TimeManager.strToDate(loadedPerform.getPerformanceEndDate()));
                 if(loadedPerform.getPerformancePrice() != null) binding.edittextPerformPrice.setText(String.format("%d", loadedPerform.getPerformancePrice()));
-                if(loadedPerform.getGenre() != null) binding.spinnerGenre.setSelection(loadedPerform.getGenre().getValue());
+                if(loadedPerform.getGenre() != null) {
+                    binding.spinnerGenre.setSelection(loadedPerform.getGenre().getValue());
+                    viewModel.setGenre(genreList[loadedPerform.getGenre().getValue()]);
+                }
                 if(loadedPerform.getPerformanceImageUrl() != null && !loadedPerform.getPerformanceImageUrl().isEmpty()){
                     Glide.with(context)
                             .applyDefaultRequestOptions(new RequestOptions()

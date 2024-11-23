@@ -83,10 +83,10 @@ public class HomePerformHotAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 Glide.with(context)
                         .load(performance.getPerformanceImageUrl())
                         .apply(new RequestOptions()
-                                .placeholder(R.drawable.background_gray)
-                                .error(R.drawable.background_gray))
+                        .placeholder(R.drawable.background_top_more_rounded_gray_size_fit)
+                        .error(R.drawable.background_top_more_rounded_gray_size_fit))
                         .into(performImage);
-            performImage.setCropToPadding(true);
+            performImage.setClipToOutline(true);
             performName.setText(performance.getPerformanceName());
             performPlace.setText(performance.getPerformanceLocation());
             String performTimeStr = "";

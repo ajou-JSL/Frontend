@@ -228,7 +228,7 @@ public class MoumUpdateActivity extends AppCompatActivity {
                     uris.add(null); //for image selector
                     moumUpdateImageAdapter.notifyItemInserted(uris.size()-1);
                     recyclerView.scrollToPosition(uris.size()-1);
-                    viewModel.setIsProfileUpdated(false);
+                    viewModel.setProfileImages(loadedMoum.getImageUrls());
                 }
                 if(loadedMoum.getMusic() != null &&!loadedMoum.getMusic().isEmpty()){
                     for(Music music : loadedMoum.getMusic()){

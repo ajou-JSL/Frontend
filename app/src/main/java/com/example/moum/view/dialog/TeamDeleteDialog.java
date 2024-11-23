@@ -3,7 +3,6 @@ package com.example.moum.view.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
@@ -13,9 +12,10 @@ import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.moum.R;
 import com.example.moum.view.moum.TeamCreateActivity;
+import com.example.moum.view.moum.TeamUpdateActivity;
 
-public class TeamCreateDialog extends Dialog {
-    private TeamCreateActivity teamCreateActivity;
+public class TeamDeleteDialog extends Dialog {
+    private TeamUpdateActivity teamUpdateActivity;
     private TextView textviewMain;
     private TextView textViewSub;
     private AppCompatButton buttonNo;
@@ -23,9 +23,9 @@ public class TeamCreateDialog extends Dialog {
     private String teamName;
     private final String TAG = getClass().toString();
 
-    public TeamCreateDialog(@NonNull Context context, String teamName){
+    public TeamDeleteDialog(@NonNull Context context, String teamName){
         super(context);
-        this.teamCreateActivity = (TeamCreateActivity) context;
+        this.teamUpdateActivity = (TeamUpdateActivity) context;
         this.teamName = teamName;
     }
 
@@ -40,9 +40,10 @@ public class TeamCreateDialog extends Dialog {
         buttonNo = findViewById(R.id.button_dialog_no);
         buttonYes = findViewById(R.id.button_dialog_yes);
 
-        textviewMain.setText(String.format("'%s'\n단체를 생성할까요?", teamName));
-        textViewSub.setText("기본 이용자는 최대 3개까지의\n단체를 생성할 수 있어요!");
-        buttonYes.setText("생성");
+        textviewMain.setText(String.format("'%s'\n단체를 삭제할까요?", teamName));
+        textViewSub.setText("※ 삭제된 단체는 다시 복구할 수 없습니다.");
+        textViewSub.setTextColor(getContext().getResources().getColor(R.color.red));
+        buttonYes.setText("삭제");
         buttonNo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -52,7 +53,7 @@ public class TeamCreateDialog extends Dialog {
         buttonYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                teamCreateActivity.onDialogYesClicked();
+                teamUpdateActivity.onTeamDeleteDialogYesClicked();
                 dismiss();
             }
         });

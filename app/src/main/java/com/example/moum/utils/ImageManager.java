@@ -4,6 +4,7 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -18,9 +19,10 @@ import java.util.concurrent.Executors;
 import java.util.regex.Pattern;
 
 public class ImageManager {
-
     private Context context;
     private static int num = 0;
+    private final String TAG = getClass().toString();
+
     public ImageManager(Context context){
         this.context = context;
     }
@@ -62,6 +64,7 @@ public class ImageManager {
                     .get();
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
+            Log.e(TAG, "downloadImageToFile fail");
             return null;
         }
     }

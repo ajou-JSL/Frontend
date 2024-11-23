@@ -3,13 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/TeamCreateActivity"
-    tools:context=".view.moum.TeamCreateActivity">
+    android:id="@+id/TeamUpdateActivity"
+    tools:context=".view.moum.TeamUpdateActivity">
     <data>
         <!-- ViewModel을 위한 variable 정의 -->
         <variable
             name="viewModel"
-            type="com.example.moum.viewmodel.moum.TeamCreateViewModel" />
+            type="com.example.moum.viewmodel.moum.TeamUpdateViewModel" />
     </data>
     <LinearLayout
         android:layout_width="match_parent"
@@ -50,7 +50,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="단체 생성하기"
+                        android:text="단체 수정하기"
                         android:fontFamily="@font/noto_sans_kr_semibold"
                         android:textColor="@color/gray7"
                         android:textSize="14sp" />
@@ -59,6 +59,16 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"/>
+                <TextView
+                    android:id="@+id/button_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="삭제"
+                    android:layout_marginRight="40dp"
+                    android:fontFamily="@font/noto_sans_kr_semibold"
+                    android:textColor="@color/gray7"
+                    android:textSize="14sp"
+                    android:clickable="true"/>
                 <TextView
                     android:id="@+id/button_next"
                     android:layout_width="wrap_content"

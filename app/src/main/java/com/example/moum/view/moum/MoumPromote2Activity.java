@@ -90,7 +90,7 @@ public class MoumPromote2Activity extends AppCompatActivity {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
             }
             else if(validation == Validation.ILLEGAL_ARGUMENT){
-                Toast.makeText(context, "유효하지 않은 데이터입니다.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "음과 연관된 공연 게시글을 먼저 생성하세요.", Toast.LENGTH_SHORT).show();
             }
             else{
                 Toast.makeText(context, "모음과 연관된 공연 게시글 찾기에 실패했습니다.", Toast.LENGTH_SHORT).show();

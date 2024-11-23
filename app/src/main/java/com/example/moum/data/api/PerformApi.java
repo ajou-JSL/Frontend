@@ -58,8 +58,8 @@ public interface PerformApi {
             @Query("size") Integer size
     );
 
-    @GET("/api/perform-of-moum/{moumId}")
+    @GET("/api/performs")
     Call<SuccessResponse<Performance>> loadPerformOfMoum(
-            @Path("moumId") Integer moumId
+            @Query("moumId") Integer moumId
     );
 }
