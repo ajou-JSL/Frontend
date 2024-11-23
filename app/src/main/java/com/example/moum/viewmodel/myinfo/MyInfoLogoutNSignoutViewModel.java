@@ -1,6 +1,7 @@
 package com.example.moum.viewmodel.myinfo;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
@@ -12,6 +13,7 @@ import com.example.moum.repository.LoginRepository;
 public class MyInfoLogoutNSignoutViewModel extends AndroidViewModel {
     private LoginRepository loginRepository;
     private final MutableLiveData<Result<Member>> isLoginSuccess = new MutableLiveData<>();
+    private String TAG = getClass().toString();
 
     public MyInfoLogoutNSignoutViewModel(Application application){
         super(application);
