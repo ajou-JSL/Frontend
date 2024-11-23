@@ -39,6 +39,10 @@ public class Chatroom {
         this.leaderId = leaderId;
     }
 
+    public Chatroom() {
+
+    }
+
     public enum ChatroomType{
         PERSONAL_CHAT(0),
         MULTI_CHAT(1),

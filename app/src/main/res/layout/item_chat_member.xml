@@ -21,11 +21,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/chat_member_profile"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:visibility="visible"
+        android:src="@drawable/background_circle_gray_size_fit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"

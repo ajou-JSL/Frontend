@@ -18,6 +18,7 @@ import com.example.moum.repository.ChatroomRepository;
 import com.example.moum.utils.Validation;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.rxjava3.core.Observable;
@@ -30,6 +31,7 @@ public class ChatViewModel extends AndroidViewModel {
     private final PublishSubject<Result<Chat>> isReceiveRecentChatSuccess = PublishSubject.create();
     private final PublishSubject<Result<Chat>> isReceiveOldChatSuccess = PublishSubject.create();
     private final MutableLiveData<Result<List<Member>>> isLoadMembersOfChatroomSuccess = new MutableLiveData<>();
+    private final MutableLiveData<Result<Chatroom>> isDeleteMembersSuccess = new MutableLiveData<>();
     private String senderUsername;
     private Integer senderId;
     private Chatroom chatroom;
@@ -62,6 +64,11 @@ public class ChatViewModel extends AndroidViewModel {
     public void setIsLoadMembersOfChatroomSuccess(Result<List<Member>> isLoadMembersOfChatroomSuccess){
         this.isLoadMembersOfChatroomSuccess.setValue(isLoadMembersOfChatroomSuccess);
     }
+
+    public void setIsDeleteMembersSuccess(Result<Chatroom> isDeleteMembersSuccess){
+        this.isDeleteMembersSuccess.setValue(isDeleteMembersSuccess);
+    }
+
     public MutableLiveData<Result<Chat>> getIsChatSendSuccess() {
         return isChatSendSuccess;
     }
@@ -76,6 +83,10 @@ public class ChatViewModel extends AndroidViewModel {
 
     public MutableLiveData<Result<List<Member>>> getIsLoadMembersOfChatroomSuccess() {
         return isLoadMembersOfChatroomSuccess;
+    }
+
+    public MutableLiveData<Result<Chatroom>> getIsDeleteMembersSuccess() {
+        return isDeleteMembersSuccess;
     }
 
     public String getSenderUsername() {
@@ -132,5 +143,16 @@ public class ChatViewModel extends AndroidViewModel {
 
     public void loadMembersOfChatroom(){
         chatroomRepository.loadMembersOfChatroom(chatroom.getId(), this::setIsLoadMembersOfChatroomSuccess);
+    }
+
+    public void deleteMembers(Integer chatroomId, Integer memberId, Chatroom.ChatroomType chatroomType){
+        /*processing*/
+        Chatroom tChatroom = new Chatroom();
+        chatroom.setType(chatroomType);
+        ArrayList<Integer> membersToDelete = new ArrayList<>();
+        membersToDelete.add(memberId);
+
+        /*goto repository*/
+        chatroomRepository.deleteMembers(chatroomId, tChatroom, membersToDelete, this::setIsDeleteMembersSuccess);
     }
 }
