@@ -79,7 +79,7 @@ public class HomePerformHotAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         @RequiresApi(api = Build.VERSION_CODES.O)
         public void bind(Performance performance) {
             this.performance = performance;
-            if(ImageManager.isUrlValid(performance.getPerformanceImageUrl()))
+            if(performance.getPerformanceImageUrl() != null)
                 Glide.with(context)
                         .load(performance.getPerformanceImageUrl())
                         .apply(new RequestOptions()

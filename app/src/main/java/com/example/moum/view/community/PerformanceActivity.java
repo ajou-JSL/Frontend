@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -163,10 +164,13 @@ public class PerformanceActivity extends AppCompatActivity {
                 if (loadedTeam.getDescription() != null)
                     binding.textviewPerformTeamDescription.setText(loadedTeam.getDescription());
                 if (loadedTeam.getMembers() != null && !loadedTeam.getMembers().isEmpty()) {
-                    for (Member member : members)
-                        for (Integer participantId : performance.getMembersId())
-                            if (member.getId().equals(participantId))
+                    for (Member member : loadedTeam.getMembers()) {
+                        for (Integer participantId : performance.getMembersId()) {
+                            if (member.getId().equals(participantId)) {
                                 members.add(member);
+                            }
+                        }
+                    }
                     participantAdapter.notifyItemInserted(members.size() - 1);
                 }
                 binding.imageviewPerformTeamProfile.setOnClickListener(new View.OnClickListener() {
