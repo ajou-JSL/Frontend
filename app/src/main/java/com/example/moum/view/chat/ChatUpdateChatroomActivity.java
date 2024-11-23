@@ -28,6 +28,7 @@ import com.example.moum.utils.TimeManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.view.community.adapter.ParticipantAdapter;
+import com.example.moum.view.dialog.ChatroomUpdateDialog;
 import com.example.moum.viewmodel.chat.ChatUpdateChatroomViewModel;
 import com.example.moum.viewmodel.chat.ChatViewModel;
 
@@ -36,6 +37,7 @@ public class ChatUpdateChatroomActivity extends AppCompatActivity {
     private ChatUpdateChatroomViewModel viewModel;
     private Context context;
     private final String TAG = getClass().toString();
+    private Integer chatroomId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,7 +62,7 @@ public class ChatUpdateChatroomActivity extends AppCompatActivity {
 
         /*채팅방 정보 이전 액티비티로부터 불러오기*/
         Intent prevIntent = getIntent();
-        int chatroomId = prevIntent.getIntExtra("chatroomId", -1);
+        chatroomId = prevIntent.getIntExtra("chatroomId", -1);
         if(chatroomId == -1){
             Toast.makeText(context, "잘못된 접근입니다.", Toast.LENGTH_SHORT).show();
             finish();
@@ -134,7 +136,14 @@ public class ChatUpdateChatroomActivity extends AppCompatActivity {
         });
 
         /*수정 버튼 이벤트*/
-        viewModel.updateChatroom(chatroomId, binding.edittextName.getText().toString(), context);
+        binding.buttonNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ChatroomUpdateDialog chatroomUpdateDialog = new ChatroomUpdateDialog(context, binding.edittextName.getText().toString());
+                chatroomUpdateDialog.show();
+            }
+        });
+
 
         /*채팅방 수정 결과 감시*/
         viewModel.getIsUpdateChatroomSuccess().observe(this, isUpdateChatroomSuccess -> {
@@ -159,5 +168,10 @@ public class ChatUpdateChatroomActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void onChatroomUpdateDialogYesClicked(){
+        viewModel.updateChatroom(chatroomId, binding.edittextName.getText().toString(), context);
+    }
+
 }
 
