@@ -94,4 +94,5 @@ public class Article {
                 ", viewCounts=" + updatedAt +
                 '}';
     }
+
 }

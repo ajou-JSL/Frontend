@@ -183,6 +183,7 @@ public enum Validation {
 
     // 게시글 관련 오류 코드
     ARTICLE_NOT_FOUND,
+    ARTICLE_GET_FAILED,
     ARTICLE_ALREADY_DELETED,
 
     // 위시리스트 관련 오류 코드

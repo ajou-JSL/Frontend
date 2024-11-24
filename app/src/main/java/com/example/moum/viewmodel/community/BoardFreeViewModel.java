@@ -45,8 +45,8 @@ public class BoardFreeViewModel extends AndroidViewModel {
     public boolean isLoading() {return isLoading; }
 
     public void resetPagination() {
-        currentPage = 0;   // 페이지 초기화
-        isLoading = false; // 로딩 상태 초기화
+        currentPage = 0;
+        isLoading = false;
     }
 
     public void loadArticleCategoryList() {
@@ -54,24 +54,6 @@ public class BoardFreeViewModel extends AndroidViewModel {
             isLoading = true;
             articleRepository.loadArticlesCategory(null, "FREE_TALKING_BOARD", currentPage, currentSize, this::setIsLoadArticlesCategorySuccess);
             currentPage++;
-        }
-    }
-
-    public void loadArticlesDetail(Integer positionId, Callback<Result<Article>> callback) {
-        Result<List<Article>> previousResult = isLoadArticlesCategorySuccess.getValue();
-
-        if (previousResult != null && previousResult.getData() != null && !previousResult.getData().isEmpty()) {
-            // 특정 positionId에 해당하는 Article 찾기
-            Article article = previousResult.getData().get(positionId);
-
-            if (article != null) {
-                Integer articleId = article.getId();
-                articleRepository.loadArticleDetail(articleId, callback);
-            } else {
-                callback.onResult(new Result<>(Validation.ARTICLE_NOT_FOUND));
-            }
-        } else {
-            callback.onResult(new Result<>(Validation.ARTICLE_NOT_FOUND));
         }
     }
 }

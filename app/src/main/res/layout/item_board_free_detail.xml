@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="15dp"
     android:background="@color/gray0">
 
     <LinearLayout
@@ -53,7 +54,8 @@
 
                     android:text="유저 이름"
                     android:textSize="16dp"
-                    android:textStyle="bold" />
+                    android:fontFamily="@font/noto_sans_kr_bold"
+                    android:includeFontPadding="false" />
 
                 <TextView
                     android:id="@+id/item_board_free_detail_time"
@@ -61,6 +63,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
 
+                    android:fontFamily="@font/noto_sans_kr_medium"
+                    android:includeFontPadding="false"
+                    android:textColor="@color/gray4"
                     android:text="몇 분 전"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -74,9 +79,11 @@
             android:layout_marginStart="25dp"
             android:layout_marginEnd="25dp"
             android:layout_marginTop="5dp"
+
+            android:fontFamily="@font/noto_sans_kr_bold"
+            android:includeFontPadding="false"
             android:text="제목"
-            android:textSize="18sp"
-            android:textStyle="bold"/>
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/item_board_free_detail_content"
@@ -85,9 +92,11 @@
             android:layout_marginStart="25dp"
             android:layout_marginEnd="25dp"
             android:layout_marginTop="10dp"
+
+            android:fontFamily="@font/noto_sans_kr_regular"
+            android:includeFontPadding="false"
             android:text="내용"
-            android:textSize="16sp"
-            android:textColor="@color/gray4"/>
+            android:textSize="16sp" />
         
         <LinearLayout
             android:layout_width="wrap_content"
@@ -99,6 +108,7 @@
             android:background="@drawable/background_like_button">
 
             <ImageView
+                android:id="@+id/item_board_free_detail_like"
                 android:layout_width="35dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -109,12 +119,16 @@
                 app:srcCompat="@drawable/icon_heart_toggle"/>
 
             <TextView
+                android:id="@+id/item_board_free_detail_like_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:paddingEnd="5dp"
                 android:layout_gravity="center|start"
                 android:text="15"
+
+                android:fontFamily="@font/noto_sans_kr_regular"
+                android:includeFontPadding="false"
                 android:textSize="16sp"/>
         </LinearLayout>
 

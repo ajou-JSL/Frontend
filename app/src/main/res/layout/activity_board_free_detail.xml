@@ -87,32 +87,18 @@
         android:layout_height="0dp"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/toolbar_post"
-        app:layout_constraintBottom_toTopOf="@id/board_free_detail_input_layout"
-        >
+        app:layout_constraintBottom_toTopOf="@id/board_free_detail_input_layout">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/board_free_detail_recycler_write"
+            android:id="@+id/board_free_detail_recycler_view"
             android:contentDescription="게시판 글"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="match_parent"
             android:layout_marginTop="1dp"
             android:layout_marginStart="1dp"
 
             android:layout_marginEnd="1dp">
         </androidx.recyclerview.widget.RecyclerView>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/board_free_detail_recycler_comment"
-            android:contentDescription="댓글"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginStart="1dp"
-
-
-            android:layout_marginEnd="1dp">
-        </androidx.recyclerview.widget.RecyclerView>
-
 
     </LinearLayout>
 
