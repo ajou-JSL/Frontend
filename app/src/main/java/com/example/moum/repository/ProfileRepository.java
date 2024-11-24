@@ -105,7 +105,7 @@ public class ProfileRepository {
             RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpg"), file);
             profileImage = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
         }
-        MemberProfileUpdateRequest request = new MemberProfileUpdateRequest(updatedMember.getName(), updatedMember.getUsername(), updatedMember.getProfileDescription(), updatedMember.getEmail(), updatedMember.getProficiency(), updatedMember.getInstrument(), updatedMember.getAddress(), updatedMember.getMemberRecords(), updatedMember.getGenres());
+        MemberProfileUpdateRequest request = new MemberProfileUpdateRequest(updatedMember.getName(), updatedMember.getUsername(), updatedMember.getProfileDescription(), updatedMember.getEmail(), updatedMember.getProficiency(), updatedMember.getInstrument(), updatedMember.getAddress(), updatedMember.getMemberRecords(), updatedMember.getGenres(), updatedMember.getVideoUrl());
         Call<SuccessResponse<Member>> result = profileApi.updateMemberProfile(memberId, profileImage, request);
         result.enqueue(new retrofit2.Callback<SuccessResponse<Member>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)

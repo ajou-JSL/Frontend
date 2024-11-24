@@ -16,6 +16,7 @@ import com.example.moum.repository.MoumRepository;
 import com.example.moum.repository.TeamRepository;
 import com.example.moum.utils.ImageManager;
 import com.example.moum.utils.Validation;
+import com.example.moum.utils.YoutubeManager;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -127,6 +128,10 @@ public class TeamUpdateViewModel extends AndroidViewModel {
         }
         else if(genre == null) {
             setIsValidCheckSuccess(Validation.TEAM_GENRE_NOT_WRITTEN);
+            return;
+        }
+        else if(team.getValue().getVideoUrl() != null && !YoutubeManager.isUrlValid(team.getValue().getVideoUrl())){
+            setIsValidCheckSuccess(Validation.VIDEO_URL_NOT_FORMAL);
             return;
         }
         setIsValidCheckSuccess(Validation.VALID_ALL);

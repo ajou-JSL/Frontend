@@ -2,6 +2,7 @@ package com.example.moum.view.moum;
 
 import static android.util.Log.e;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -205,6 +206,7 @@ public class TeamUpdateActivity extends AppCompatActivity {
             if(validation == Validation.GET_TEAM_SUCCESS){
                 if(loadedTeam.getTeamName() != null) binding.edittextTeamName.setText(loadedTeam.getTeamName());
                 if(loadedTeam.getDescription() != null) binding.edittextTeamDescription.setText(loadedTeam.getDescription());
+                if(loadedTeam.getVideoUrl() != null) binding.edittextVideo.setText(loadedTeam.getVideoUrl());
                 if(loadedTeam.getFileUrl() != null){
                     viewModel.setProfileImage(Uri.parse(loadedTeam.getFileUrl()), true);
                 }
@@ -284,6 +286,11 @@ public class TeamUpdateActivity extends AppCompatActivity {
             else if(isValidCheckSuccess == Validation.TEAM_GENRE_NOT_WRITTEN){
                 binding.errorTeamGenre.setText("단체의 분야를 선택하세요.");
                 binding.errorTeamGenre.requestFocus();
+            }
+            else if(isValidCheckSuccess == Validation.VIDEO_URL_NOT_FORMAL){
+                binding.errorVideo.setText("형식이 올바르지 않습니다.");
+                binding.errorVideo.setTextColor(getColor(R.color.red));
+                binding.edittextVideo.requestFocus();
             }
             else if(isValidCheckSuccess == Validation.VALID_ALL){
                 // valid check 유효하다면, 최종 다이얼로그 띄우기
@@ -393,6 +400,19 @@ public class TeamUpdateActivity extends AppCompatActivity {
                 if(hasFocus){
                     binding.errorTeamGenre.setText("");
                 }else{
+                }
+            }
+        });
+        binding.edittextVideo.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(hasFocus){
+                    binding.errorVideo.setText("");
+                    binding.placeholderVideo.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_mint_stroke));
+                }else{
+                    binding.errorVideo.setText("");
+                    binding.placeholderVideo.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_gray_stroke));
                 }
             }
         });

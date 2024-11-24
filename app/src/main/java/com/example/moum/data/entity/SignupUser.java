@@ -18,6 +18,8 @@ public class SignupUser {
     private String proficiency;
     private String address;
     private ArrayList<Record> records;
+    private String videoUrl;
+    private ArrayList<Genre> genres;
 
     public Integer getId() {
         return id;
@@ -60,6 +62,14 @@ public class SignupUser {
         return records;
     }
 
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public ArrayList<Genre> getGenres() {
+        return genres;
+    }
+
     public void setId(Integer id) {
         this.id = id;
     }
@@ -99,5 +109,13 @@ public class SignupUser {
     }
     public void setRecords(ArrayList<Record> records) {
         this.records = records;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
+    }
+
+    public void setGenres(ArrayList<Genre> genres) {
+        this.genres = genres;
     }
 }

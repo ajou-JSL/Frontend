@@ -144,7 +144,9 @@ public class SignupRepository {
             signupUser.getProficiency(),
             signupUser.getAddress(),
             signupUser.getEmailCode(),
-            signupUser.getRecords()
+            signupUser.getRecords(),
+            signupUser.getVideoUrl(),
+            signupUser.getGenres()
         );
 
         MultipartBody.Part profileImage = null;

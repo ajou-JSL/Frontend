@@ -65,7 +65,7 @@ public class TeamRepository {
             RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpg"), teamProfile);
             profileImage = MultipartBody.Part.createFormData("file", teamProfile.getName(), requestFile);
         }
-        TeamRequest teamRequest = new TeamRequest(team.getLeaderId(), team.getTeamName(), team.getDescription(), team.getGenre(), team.getLocation(), team.getRecords());
+        TeamRequest teamRequest = new TeamRequest(team.getLeaderId(), team.getTeamName(), team.getDescription(), team.getGenre(), team.getLocation(), team.getRecords(), team.getVideoUrl());
         Call<SuccessResponse<Team>> result = teamApi.createTeam(profileImage, teamRequest);
 
         result.enqueue(new retrofit2.Callback<SuccessResponse<Team>>() {
@@ -112,7 +112,7 @@ public class TeamRepository {
             RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpg"), teamProfile);
             profileImage = MultipartBody.Part.createFormData("file", teamProfile.getName(), requestFile);
         }
-        TeamRequest teamRequest = new TeamRequest(null, team.getTeamName(), team.getDescription(), team.getGenre(), team.getLocation(), team.getRecords());
+        TeamRequest teamRequest = new TeamRequest(null, team.getTeamName(), team.getDescription(), team.getGenre(), team.getLocation(), team.getRecords(), team.getVideoUrl());
         Call<SuccessResponse<Team>> result = teamApi.updateTeam(teamId, profileImage, teamRequest);
 
         result.enqueue(new retrofit2.Callback<SuccessResponse<Team>>() {

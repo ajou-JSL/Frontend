@@ -1,5 +1,6 @@
 package com.example.moum.view.moum;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -260,11 +261,16 @@ public class TeamCreateActivity extends AppCompatActivity {
             }
             else if(isValidCheckSuccess == Validation.TEAM_NAME_NOT_WRITTEN){
                 binding.errorTeamName.setText("단체 이름을 입력하세요.");
-                binding.errorTeamName.requestFocus();
+                binding.edittextTeamName.requestFocus();
             }
             else if(isValidCheckSuccess == Validation.TEAM_GENRE_NOT_WRITTEN){
                 binding.errorTeamGenre.setText("단체의 분야를 선택하세요.");
-                binding.errorTeamGenre.requestFocus();
+                binding.spinnerGenre.requestFocus();
+            }
+            else if(isValidCheckSuccess == Validation.VIDEO_URL_NOT_FORMAL){
+                binding.errorVideo.setText("형식이 올바르지 않습니다.");
+                binding.errorVideo.setTextColor(getColor(R.color.red));
+                binding.edittextVideo.requestFocus();
             }
             else if(isValidCheckSuccess == Validation.VALID_ALL){
                 // valid check 유효하다면, 최종 다이얼로그 띄우기
@@ -335,6 +341,19 @@ public class TeamCreateActivity extends AppCompatActivity {
                 if(hasFocus){
                     binding.errorTeamGenre.setText("");
                 }else{
+                }
+            }
+        });
+        binding.edittextVideo.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(hasFocus){
+                    binding.errorVideo.setText("");
+                    binding.placeholderVideo.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_mint_stroke));
+                }else{
+                    binding.errorVideo.setText("");
+                    binding.placeholderVideo.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_gray_stroke));
                 }
             }
         });

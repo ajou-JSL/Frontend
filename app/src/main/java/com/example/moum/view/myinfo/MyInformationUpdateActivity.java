@@ -1,5 +1,6 @@
 package com.example.moum.view.myinfo;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -26,10 +27,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.moum.R;
+import com.example.moum.data.entity.Genre;
 import com.example.moum.data.entity.Member;
 import com.example.moum.data.entity.Music;
 import com.example.moum.data.entity.Record;
@@ -41,11 +44,16 @@ import com.example.moum.utils.TimeManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.view.auth.SignupProfileActivity;
+import com.example.moum.view.auth.adapter.GenreAdapter;
 import com.example.moum.view.community.PerformanceUpdateActivity;
 import com.example.moum.view.community.adapter.ParticipantAdapter;
 import com.example.moum.view.dialog.ProfileUpdateDialog;
 import com.example.moum.viewmodel.community.PerformanceUpdateViewModel;
 import com.example.moum.viewmodel.myinfo.MyInformationUpdateViewModel;
+import com.google.android.flexbox.AlignItems;
+import com.google.android.flexbox.FlexWrap;
+import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.android.flexbox.JustifyContent;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -175,6 +183,17 @@ public class MyInformationUpdateActivity extends AppCompatActivity {
             }
         });
 
+        /*장르 선택 리사이클러뷰 연결*/
+        RecyclerView recyclerView = binding.recyclerGenres;
+        FlexboxLayoutManager flexboxLayoutManager = new FlexboxLayoutManager(this); //자연스러운 줄넘김을 위한 Flexbox 사용
+        flexboxLayoutManager.setFlexWrap(FlexWrap.WRAP);
+        flexboxLayoutManager.setJustifyContent(JustifyContent.FLEX_START);
+        flexboxLayoutManager.setAlignItems(AlignItems.STRETCH);
+        GenreAdapter genreAdapter = new GenreAdapter();
+        genreAdapter.setGenres(Genre.values(), context);
+        recyclerView.setLayoutManager(flexboxLayoutManager);
+        recyclerView.setAdapter(genreAdapter);
+
         /*내 정보 불러오기*/
         viewModel.loadMemberProfile(id);
 
@@ -184,9 +203,10 @@ public class MyInformationUpdateActivity extends AppCompatActivity {
             Member tMember = isLoadMemberProfileSuccess.getData();
             if(validation == Validation.GET_PROFILE_SUCCESS){
                 member = tMember;
-                binding.edittextNickname.setText(tMember.getName());
-                binding.edittextProfileDescription.setText(tMember.getProfileDescription());
-                binding.edittextInstrument.setText(tMember.getInstrument());
+                if(tMember.getName() != null) binding.edittextNickname.setText(tMember.getName());
+                if(tMember.getProfileDescription() != null) binding.edittextProfileDescription.setText(tMember.getProfileDescription());
+                if(tMember.getInstrument() != null) binding.edittextInstrument.setText(tMember.getInstrument());
+                if(tMember.getVideoUrl() != null) binding.edittextInstrument.setText(tMember.getVideoUrl());
                 if(ImageManager.isUrlValid(tMember.getProfileImageUrl()))
                     Glide.with(context)
                             .applyDefaultRequestOptions(new RequestOptions()
@@ -206,6 +226,12 @@ public class MyInformationUpdateActivity extends AppCompatActivity {
                         buttonRecordStart.setText(record.getStartDate());
                         buttonRecordEnd.setText(record.getEndDate());
                     }
+                }
+                if(tMember.getGenres() != null && !tMember.getGenres().isEmpty()){
+                    for(Genre genre : tMember.getGenres()){
+                        genreAdapter.setIsSelected(genre.getValue(), true);
+                    }
+                    genreAdapter.notifyDataSetChanged();
                 }
             }
             else if(validation == Validation.NETWORK_FAILED){
@@ -241,6 +267,10 @@ public class MyInformationUpdateActivity extends AppCompatActivity {
             else if(isProfileValid == Validation.MEMBER_NOT_EXIST) {
                 Toast.makeText(context, "내 정보를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
             }
+            else if(isProfileValid == Validation.VIDEO_URL_NOT_FORMAL){
+                binding.errorVideo.setTextColor(getColor(R.color.red));
+                binding.errorVideo.setText("유효하지 않은 형식입니다.");
+            }
             else if(isProfileValid == Validation.VALID_ALL) {
                 viewModel.clearRecord();
                 for (int i = 0; i < recordParent.getChildCount(); i++) {
@@ -265,6 +295,7 @@ public class MyInformationUpdateActivity extends AppCompatActivity {
                     viewModel.addRecord(recordName, startDate, endDate);
                 }
                 viewModel.setEmail(member.getEmail());
+                viewModel.setGenres(Genre.values(), genreAdapter.getIsSelecteds());
 
                 /*최종 확인 다이얼로그 띄우기*/
                 ProfileUpdateDialog profileUpdateDialog = new ProfileUpdateDialog(context, binding.edittextNickname.getText().toString());
@@ -299,6 +330,54 @@ public class MyInformationUpdateActivity extends AppCompatActivity {
             else{
                 Toast.makeText(context, "내 정보를 수정할 수 없습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "다음 버튼 감시 결과를 알 수 없습니다.");
+            }
+        });
+
+        /*각 placeholder 포커스 시 이벤트*/
+        binding.edittextNickname.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(hasFocus){
+                    binding.errorNickname.setText("");
+                    binding.placeholderNickname.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_mint_stroke));
+                }else{
+                    binding.placeholderNickname.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_gray_stroke));
+                }
+            }
+        });
+        binding.edittextProfileDescription.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(hasFocus){
+                    binding.errorProfileDescription.setText("");
+                    binding.placeholderProfileDescription.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_mint_stroke));
+                }else{
+                    binding.placeholderProfileDescription.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_gray_stroke));
+                }
+            }
+        });
+        binding.edittextInstrument.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(hasFocus){
+                    binding.errorInstrument.setText("");
+                    binding.placeholderInstrument.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_mint_stroke));
+                }else{
+                    binding.placeholderInstrument.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_gray_stroke));
+                }
+            }
+        });
+        binding.edittextVideo.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(hasFocus){
+                    binding.errorVideo.setText("");
+                    binding.placeholderVideo.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_mint_stroke));
+                }else{
+                    binding.errorVideo.setText("");
+                    binding.placeholderVideo.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_gray_stroke));
+                }
             }
         });
     }

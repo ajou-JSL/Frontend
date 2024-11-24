@@ -12,13 +12,15 @@ public class TeamRequest {
     private Genre genre;
     private String location;
     private ArrayList<Record> records;
+    private String videoUrl;
 
-    public TeamRequest(Integer leaderId, String teamName, String description, Genre genre, String location, ArrayList<Record> records){
+    public TeamRequest(Integer leaderId, String teamName, String description, Genre genre, String location, ArrayList<Record> records, String videoUrl){
         this.leaderId = leaderId;
         this.teamName = teamName;
         this.description = description;
         this.genre = genre;
         this.location = location;
         this.records = records;
+        this.videoUrl = videoUrl;
     }
 }
