@@ -52,8 +52,6 @@ public enum Validation {
     CHATROOM_GET_SUCCESS,
     CHATROOM_GET_FAIL,
 
-    // 팀
-
     // 프로필
     PROFILE_NOT_LOADED,
 
@@ -160,6 +158,13 @@ public enum Validation {
     FINISH_MOUM_SUCCESS,
     REOPEN_MOUM_SUCCESS,
     UPDATE_PROCESS_MOUM_SUCCESS,
+
+    // 연습실, 공연장 응답
+    PRACTICE_ROOM_GET_SUCCESS,
+    PERFORMANCE_HALL_GET_SUCCESS,
+    PRACTICE_ROOM_NOT_FOUND,
+    PERFORMANCE_HALL_NOT_FOUND,
+    PARAMETER_NOT_VALID,
 
     // 공통 오류 코드
     INTERNAL_SERVER_ERROR,

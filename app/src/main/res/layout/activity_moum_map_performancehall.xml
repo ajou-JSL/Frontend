@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/MoumMapPracticeroomActivity"
+    android:id="@+id/MoumMapPerformanceHallActivity"
     tools:context=".view.moum.MoumMapPracticeroomActivity">
 
     <LinearLayout
@@ -45,7 +45,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="연습실 찾기"
+                        android:text="공연장 찾기"
                         android:fontFamily="@font/noto_sans_kr_semibold"
                         android:textColor="@color/gray7"
                         android:textSize="14sp" />
@@ -100,7 +100,7 @@
                             android:layout_gravity="center_vertical">
 
                             <TextView
-                                android:id="@+id/textview_practiceroom_name"
+                                android:id="@+id/textview_performance_hall_name"
                                 android:textColor="@color/gray6"
                                 android:textSize="18sp"
                                 android:layout_height="wrap_content"
@@ -142,7 +142,7 @@
                         </LinearLayout>
 
                         <ImageView
-                            android:id="@+id/imageview_practiceroom"
+                            android:id="@+id/imageview_performance_hall"
                             android:layout_width="300dp"
                             android:layout_height="200dp"
                             android:layout_marginLeft="25dp"
@@ -203,7 +203,7 @@
                                     android:fontFamily="@font/noto_sans_kr_bold"
                                     android:includeFontPadding="false"/>
                                 <TextView
-                                    android:id="@+id/textview_practiceroom_price"
+                                    android:id="@+id/textview_performance_hall_price"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="가격"
@@ -228,7 +228,7 @@
                                     android:fontFamily="@font/noto_sans_kr_bold"
                                     android:includeFontPadding="false"/>
                                 <TextView
-                                    android:id="@+id/textview_practiceroom_capacity"
+                                    android:id="@+id/textview_performance_hall_capacity"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="가격"
@@ -253,7 +253,7 @@
                                     android:fontFamily="@font/noto_sans_kr_bold"
                                     android:includeFontPadding="false"/>
                                 <TextView
-                                    android:id="@+id/textview_practiceroom_address"
+                                    android:id="@+id/textview_performance_hall_address"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="가격"
@@ -279,7 +279,7 @@
                                     android:includeFontPadding="false"/>
 
                                 <TextView
-                                    android:id="@+id/textview_practiceroom_owner"
+                                    android:id="@+id/textview_performance_hall_owner"
                                     android:layout_width="wrap_content"
                                     android:layout_height="18dp"
                                     android:layout_marginLeft="5dp"
@@ -304,7 +304,7 @@
                                     android:fontFamily="@font/noto_sans_kr_bold"
                                     android:includeFontPadding="false"/>
                                 <TextView
-                                    android:id="@+id/textview_practiceroom_phone"
+                                    android:id="@+id/textview_performance_hall_phone"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="가격"
@@ -329,7 +329,7 @@
                                     android:fontFamily="@font/noto_sans_kr_bold"
                                     android:includeFontPadding="false"/>
                                 <TextView
-                                    android:id="@+id/textview_practiceroom_email"
+                                    android:id="@+id/textview_performance_hall_email"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="가격"
@@ -381,7 +381,7 @@
                                     android:fontFamily="@font/noto_sans_kr_bold"
                                     android:includeFontPadding="false"/>
                                 <TextView
-                                    android:id="@+id/textview_practiceroom_stand"
+                                    android:id="@+id/textview_performance_hall_stand"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="0"
@@ -406,7 +406,7 @@
                                     android:fontFamily="@font/noto_sans_kr_bold"
                                     android:includeFontPadding="false"/>
                                 <CheckBox
-                                    android:id="@+id/checkbox_practiceroom_piano"
+                                    android:id="@+id/checkbox_performance_hall_piano"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="없음"
@@ -432,7 +432,7 @@
                                     android:fontFamily="@font/noto_sans_kr_bold"
                                     android:includeFontPadding="false"/>
                                 <CheckBox
-                                    android:id="@+id/checkbox_practiceroom_amp"
+                                    android:id="@+id/checkbox_performance_hall_amp"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="없음"
@@ -462,7 +462,7 @@
                                     android:textSize="14sp" />
 
                                 <CheckBox
-                                    android:id="@+id/checkbox_practiceroom_speaker"
+                                    android:id="@+id/checkbox_performance_hall_speaker"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="5dp"
@@ -489,7 +489,7 @@
                                     android:fontFamily="@font/noto_sans_kr_bold"
                                     android:includeFontPadding="false"/>
                                 <CheckBox
-                                    android:id="@+id/checkbox_practiceroom_drum"
+                                    android:id="@+id/checkbox_performance_hall_drum"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="없음"

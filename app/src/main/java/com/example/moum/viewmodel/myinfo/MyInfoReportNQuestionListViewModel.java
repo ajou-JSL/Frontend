@@ -71,6 +71,6 @@ public class MyInfoReportNQuestionListViewModel extends AndroidViewModel {
 
     public void loadNextReports(String reportType, Integer reporterId){
         if(recentPageNumber < LOAD_PAGE_NUMBER) return; //이전에 불러온 신고들이 LOAD_PAGE_NUMBER 적다면, 그만 불러오기
-            loadReports(reportType, reporterId);
+        loadReports(reportType, reporterId);
     }
 }

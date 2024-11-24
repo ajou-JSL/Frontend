@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="125dp"
+    android:paddingLeft="25dp"
+    android:paddingRight="25dp"
+    android:paddingTop="15dp"
+    android:paddingBottom="15dp">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/top_performance_hall"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        >
+        <LinearLayout
+            android:id="@+id/performance_hall_left"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginRight="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/performance_hall_image">
+
+            <TextView
+                android:id="@+id/performance_hall_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="공연장 이름"
+                android:textColor="@color/gray7"
+                android:textSize="16sp"
+                android:fontFamily="@font/noto_sans_kr_regular"
+                android:includeFontPadding="false"
+                android:maxLines="1"
+                android:ellipsize="end"/>
+
+            <TextView
+                android:id="@+id/performance_hall_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="짧은 소개 글"
+                android:textSize="12sp"
+                android:textColor="@color/gray4"
+                android:fontFamily="@font/noto_sans_kr_light"
+                android:includeFontPadding="false"
+                android:maxLines="1"
+                android:ellipsize="end"/>
+
+            <TextView
+                android:id="@+id/performance_hall_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:ellipsize="end"
+                android:textColor="@color/gray7"
+                android:fontFamily="@font/noto_sans_kr_light"
+                android:includeFontPadding="false"
+                android:maxLines="1"
+                android:text="주소"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/performance_hall_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="가격"
+                android:textSize="12sp"
+                android:textColor="@color/gray4"
+                android:fontFamily="@font/noto_sans_kr_light"
+                android:includeFontPadding="false"
+                android:maxLines="1"
+                android:ellipsize="end"/>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/performance_hall_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:scaleType="fitXY"
+            android:background="@drawable/background_more_rounded_gray"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+        </ImageView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

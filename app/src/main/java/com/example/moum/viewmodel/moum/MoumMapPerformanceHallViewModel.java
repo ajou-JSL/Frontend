@@ -5,18 +5,19 @@ import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.moum.data.entity.PerformanceHall;
 import com.example.moum.data.entity.Practiceroom;
 import com.example.moum.data.entity.Result;
 import com.example.moum.repository.PracticeNPerformRepository;
 
 import java.util.List;
 
-public class MoumMapPracticeroomViewModel extends AndroidViewModel {
+public class MoumMapPerformanceHallViewModel extends AndroidViewModel {
     private PracticeNPerformRepository practiceNPerformRepository;
     private final MutableLiveData<Boolean> isNaverMapReady = new MutableLiveData<>();
-    private final MutableLiveData<Result<Practiceroom>> isLoadPracticeroomSuccess = new MutableLiveData<>();
+    private final MutableLiveData<Result<PerformanceHall>> isLoadPerformanceHallSuccess = new MutableLiveData<>();
 
-    public MoumMapPracticeroomViewModel(Application application){
+    public MoumMapPerformanceHallViewModel(Application application){
         super(application);
         practiceNPerformRepository = PracticeNPerformRepository.getInstance(application);
     }
@@ -25,19 +26,19 @@ public class MoumMapPracticeroomViewModel extends AndroidViewModel {
         return isNaverMapReady;
     }
 
-    public MutableLiveData<Result<Practiceroom>> getIsLoadPracticeroomSuccess() {
-        return isLoadPracticeroomSuccess;
+    public MutableLiveData<Result<PerformanceHall>> getIsLoadPerformanceHallSuccess() {
+        return isLoadPerformanceHallSuccess;
     }
 
     public void setIsNaverMapReady(Boolean isNaverMapReady){
         this.isNaverMapReady.setValue(isNaverMapReady);
     }
 
-    public void setIsLoadPracticeroomSuccess(Result<Practiceroom> isLoadPracticeroomSuccess){
-        this.isLoadPracticeroomSuccess.setValue(isLoadPracticeroomSuccess);
+    public void setIsLoadPerformanceHallSuccess(Result<PerformanceHall> isLoadPerformanceHallSuccess){
+        this.isLoadPerformanceHallSuccess.setValue(isLoadPerformanceHallSuccess);
     }
 
-    public void loadPracticeroom(Integer practiceroomId){
-        practiceNPerformRepository.getPracticeroom(practiceroomId, this::setIsLoadPracticeroomSuccess);
+    public void loadPerformanceHall(Integer performanceHallId){
+        practiceNPerformRepository.getPerformHall(performanceHallId, this::setIsLoadPerformanceHallSuccess);
     }
 }

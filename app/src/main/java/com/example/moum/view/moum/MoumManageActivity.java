@@ -531,8 +531,11 @@ public class MoumManageActivity extends AppCompatActivity {
         binding.buttonPerformLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO
-                Toast.makeText(context, "공연장 찾기 페이지 이동", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MoumManageActivity.this, MoumFindPerformanceHallActivity.class);
+                intent.putExtra("teamId", recentMoum.getTeamId());
+                intent.putExtra("moumId", recentMoum.getMoumId());
+                intent.putExtra("leaderId", recentMoum.getLeaderId());
+                startActivity(intent);
             }
         });
         binding.buttonPromote.setOnClickListener(new View.OnClickListener() {

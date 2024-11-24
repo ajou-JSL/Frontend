@@ -18,31 +18,29 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moum.R;
-import com.example.moum.data.entity.Member;
-import com.example.moum.data.entity.Moum;
-import com.example.moum.data.entity.Music;
+import com.example.moum.data.entity.PerformanceHall;
 import com.example.moum.data.entity.Practiceroom;
+import com.example.moum.databinding.ActivityMoumFindPerformancehallBinding;
 import com.example.moum.databinding.ActivityMoumFindPracticeroomBinding;
-import com.example.moum.databinding.ActivityMoumManageBinding;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.utils.WrapContentLinearLayoutManager;
 import com.example.moum.view.auth.InitialActivity;
+import com.example.moum.view.moum.adapter.MoumPerformanceHallAdapter;
 import com.example.moum.view.moum.adapter.MoumPracticeroomAdapter;
-import com.example.moum.view.moum.adapter.MoumUpdateImageAdapter;
+import com.example.moum.viewmodel.moum.MoumFindPerformanceHallViewModel;
 import com.example.moum.viewmodel.moum.MoumFindPracticeroomViewModel;
-import com.example.moum.viewmodel.moum.MoumManageViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MoumFindPracticeroomActivity extends AppCompatActivity {
-    private MoumFindPracticeroomViewModel viewModel;
-    private ActivityMoumFindPracticeroomBinding binding;
+public class MoumFindPerformanceHallActivity extends AppCompatActivity {
+    private MoumFindPerformanceHallViewModel viewModel;
+    private ActivityMoumFindPerformancehallBinding binding;
     private Context context;
     public String TAG = getClass().toString();
     private SharedPreferenceManager sharedPreferenceManager;
-    private ArrayList<Practiceroom> practicerooms = new ArrayList<>();
+    private ArrayList<PerformanceHall> performanceHalls = new ArrayList<>();
     private Integer memberId;
     private Integer teamId;
     private Integer moumId;
@@ -52,8 +50,8 @@ public class MoumFindPracticeroomActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityMoumFindPracticeroomBinding.inflate(getLayoutInflater());
-        viewModel = new ViewModelProvider(this).get(MoumFindPracticeroomViewModel.class);
+        binding = ActivityMoumFindPerformancehallBinding.inflate(getLayoutInflater());
+        viewModel = new ViewModelProvider(this).get(MoumFindPerformanceHallViewModel.class);
         View view = binding.getRoot();
         setContentView(view);
         context = this;
@@ -89,33 +87,33 @@ public class MoumFindPracticeroomActivity extends AppCompatActivity {
         });
 
         /*연습실 리사이클러뷰 연결*/
-        RecyclerView recyclerView = binding.recyclerPracticeroom;
-        MoumPracticeroomAdapter moumPracticeroomAdapter = new MoumPracticeroomAdapter();
-        moumPracticeroomAdapter.setPracticerooms(practicerooms, context);
-        recyclerView.setLayoutManager(new WrapContentLinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-        recyclerView.setAdapter(moumPracticeroomAdapter);
+        RecyclerView recyclerView = binding.recyclerPerformanceHall;
+        MoumPerformanceHallAdapter moumPerformanceHallAdapter = new MoumPerformanceHallAdapter();
+        moumPerformanceHallAdapter.setPerformanceHalls(performanceHalls, context);
+        recyclerView.setLayoutManager(new WrapContentLinearLayoutManager(context));
+        recyclerView.setAdapter(moumPerformanceHallAdapter);
 
         /*연습실 불러오기*/
-        viewModel.loadPracticeroom();
+        viewModel.loadPerformanceHall();
 
         /*연습실 불러오기 결과 감시*/
-        viewModel.getIsLoadPracticeroomSuccess().observe(this, isLoadPracticeroomSuccess -> {
-            Validation validation = isLoadPracticeroomSuccess.getValidation();
-            List<Practiceroom> loadedPracticerooms = isLoadPracticeroomSuccess.getData();
-            if(validation == Validation.PRACTICE_ROOM_GET_SUCCESS && !loadedPracticerooms.isEmpty()) {
-                practicerooms.clear();
-                practicerooms.addAll(loadedPracticerooms);
-                moumPracticeroomAdapter.notifyItemInserted(practicerooms.size()-1);
-                viewModel.setRecentPageNumber(loadedPracticerooms.size());
+        viewModel.getIsLoadPerformanceHallSuccess().observe(this, isLoadPerformanceHallSuccess -> {
+            Validation validation = isLoadPerformanceHallSuccess.getValidation();
+            List<PerformanceHall> loadedPerformanceHalls = isLoadPerformanceHallSuccess.getData();
+            if(validation == Validation.PERFORMANCE_HALL_GET_SUCCESS && !loadedPerformanceHalls.isEmpty()) {
+                performanceHalls.clear();
+                performanceHalls.addAll(loadedPerformanceHalls);
+                moumPerformanceHallAdapter.notifyItemInserted(performanceHalls.size()-1);
+                viewModel.setRecentPageNumber(loadedPerformanceHalls.size());
             }
-            else if(validation == Validation.PRACTICE_ROOM_GET_SUCCESS){
-                Toast.makeText(context, "등록된 연습실이 없습니다.", Toast.LENGTH_SHORT).show();
+            else if(validation == Validation.PERFORMANCE_HALL_GET_SUCCESS){
+                Toast.makeText(context, "등록된 공연장이 없습니다.", Toast.LENGTH_SHORT).show();
             }
             else if(validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
             }
             else{
-                Toast.makeText(context, "연습실 불러오기에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "공연장 불러오기에 실패하였습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "감시 결과를 알 수 없습니다.");
             }
         });
@@ -128,10 +126,10 @@ public class MoumFindPracticeroomActivity extends AppCompatActivity {
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if(!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE &&  !isLoading){
-                    if(practicerooms.isEmpty())
+                    if(performanceHalls.isEmpty())
                         return;
                     isLoading = true;
-                    viewModel.loadNextPracticeroom();
+                    viewModel.loadNextPerformanceHall();
                     handler.postDelayed(() -> isLoading = false, DEBOUNCE_DELAY);
                 }
             }
@@ -142,15 +140,15 @@ public class MoumFindPracticeroomActivity extends AppCompatActivity {
         });
 
         /*다음 연습실 리스트 가져오기 감시 결과*/
-        viewModel.getIsLoadNextPracticeroomSuccess().observe(this, isLoadNextPracticeroomSuccess -> {
-            Validation validation = isLoadNextPracticeroomSuccess.getValidation();
-            List<Practiceroom> loadedPracticerooms = isLoadNextPracticeroomSuccess.getData();
-            if(validation == Validation.PRACTICE_ROOM_GET_SUCCESS && !loadedPracticerooms.isEmpty()) {
-                practicerooms.addAll(loadedPracticerooms);
-                moumPracticeroomAdapter.notifyItemInserted(practicerooms.size()-1);
-                viewModel.setRecentPageNumber(loadedPracticerooms.size());
+        viewModel.getIsLoadNextPerformanceHallSuccess().observe(this, isLoadNextPerformanceHallSuccess -> {
+            Validation validation = isLoadNextPerformanceHallSuccess.getValidation();
+            List<PerformanceHall> loadedPerformanceHalls = isLoadNextPerformanceHallSuccess.getData();
+            if(validation == Validation.PERFORMANCE_HALL_GET_SUCCESS && !loadedPerformanceHalls.isEmpty()) {
+                performanceHalls.addAll(loadedPerformanceHalls);
+                moumPerformanceHallAdapter.notifyItemInserted(performanceHalls.size()-1);
+                viewModel.setRecentPageNumber(loadedPerformanceHalls.size());
             }
-            else if(validation == Validation.PRACTICE_ROOM_GET_SUCCESS){
+            else if(validation == Validation.PERFORMANCE_HALL_GET_SUCCESS){
             }
             else if(validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
@@ -162,10 +160,10 @@ public class MoumFindPracticeroomActivity extends AppCompatActivity {
         });
 
         /*검색창 세팅*/
-        binding.searchviewPracticeroom.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        binding.searchviewPerformanceHall.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                viewModel.queryPracticeroom(query);
+                viewModel.queryPerformanceHall(query);
                 return false;
             }
 
@@ -176,13 +174,13 @@ public class MoumFindPracticeroomActivity extends AppCompatActivity {
         });
 
         /*검색 결과 감시*/
-        viewModel.getIsQueryPracticeroomSuccess().observe(this, isQueryPracticeroomSuccess -> {
-            Validation validation = isQueryPracticeroomSuccess.getValidation();
-            List<Practiceroom> loadedPracticerooms = isQueryPracticeroomSuccess.getData();
-            if(validation == Validation.PRACTICE_ROOM_GET_SUCCESS) { //TODO 바꿔야해
-                practicerooms.clear();
-                practicerooms.addAll(loadedPracticerooms);
-                moumPracticeroomAdapter.notifyDataSetChanged();
+        viewModel.getIsQueryPerformanceHallSuccess().observe(this, isQueryPerformanceHallSuccess -> {
+            Validation validation = isQueryPerformanceHallSuccess.getValidation();
+            List<PerformanceHall> loadedPracticerooms = isQueryPerformanceHallSuccess.getData();
+            if(validation == Validation.PERFORMANCE_HALL_GET_SUCCESS) {
+                performanceHalls.clear();
+                performanceHalls.addAll(loadedPracticerooms);
+                moumPerformanceHallAdapter.notifyDataSetChanged();
             }
             else if(validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
@@ -194,9 +192,9 @@ public class MoumFindPracticeroomActivity extends AppCompatActivity {
         });
     }
 
-    public void onPracticeroomClicked(Integer practiceroomId){
-        Intent intent = new Intent(MoumFindPracticeroomActivity.this, MoumMapPracticeroomActivity.class);
-        intent.putExtra("practiceroomId", practiceroomId);
+    public void onPerformanceHallClicked(Integer performanceHallId){
+        Intent intent = new Intent(MoumFindPerformanceHallActivity.this, MoumMapPerformanceHallActivity.class);
+        intent.putExtra("performanceHallId", performanceHallId);
         intent.putExtra("teamId", teamId);
         intent.putExtra("moumId", moumId);
         intent.putExtra("leaderId", leaderId);

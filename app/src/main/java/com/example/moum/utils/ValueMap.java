@@ -100,6 +100,13 @@ public class ValueMap {
             put("S-MM006", Validation.REOPEN_MOUM_SUCCESS);
             put("S-MM007", Validation.UPDATE_PROCESS_MOUM_SUCCESS);
 
+            // 연습실, 공연장 성공 응답
+            put("S-B005", Validation.PRACTICE_ROOM_GET_SUCCESS);
+            put("S-B006", Validation.PERFORMANCE_HALL_GET_SUCCESS);
+            put("F-B004", Validation.PRACTICE_ROOM_NOT_FOUND);
+            put("F-B005", Validation.PERFORMANCE_HALL_NOT_FOUND);
+            put("F-B021", Validation.PARAMETER_NOT_VALID);
+
             // 공통 오류 코드
             put("F-C001", Validation.INTERNAL_SERVER_ERROR);
             put("F-C002", Validation.INVALID_INPUT_VALUE);

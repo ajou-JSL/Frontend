@@ -108,6 +108,12 @@
         <activity android:name=".view.moum.MoumMapPracticeroomActivity"
             android:exported="true">
         </activity>
+        <activity android:name=".view.moum.MoumFindPerformanceHallActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".view.moum.MoumMapPerformanceHallActivity"
+            android:exported="true">
+        </activity>
         <activity android:name=".view.community.PerformanceActivity"
             android:exported="true">
         </activity>
