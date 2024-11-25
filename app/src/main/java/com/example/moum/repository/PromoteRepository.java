@@ -11,8 +11,10 @@ import com.example.moum.data.api.PromoteApi;
 import com.example.moum.data.dto.ErrorResponse;
 import com.example.moum.data.dto.PerformRequest;
 import com.example.moum.data.dto.SuccessResponse;
+import com.example.moum.data.entity.Member;
 import com.example.moum.data.entity.Performance;
 import com.example.moum.data.entity.Result;
+import com.example.moum.data.entity.Token;
 import com.example.moum.repository.client.BaseUrl;
 import com.example.moum.repository.client.RetrofitClientManager;
 import com.example.moum.utils.Validation;
@@ -26,6 +28,7 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
@@ -57,4 +60,114 @@ public class PromoteRepository {
         return instance;
     }
 
+    public void createQr(Integer performId, com.example.moum.utils.Callback<Result<String>> callback) {
+        Call<SuccessResponse<String>> result = promoteApi.createQr(performId);
+        result.enqueue(new Callback<SuccessResponse<String>>() {
+            @Override
+            public void onResponse(Call<SuccessResponse<String>> call, Response<SuccessResponse<String>> response) {
+                if (response.isSuccessful()) {
+                    /*성공적으로 응답을 받았을 때*/
+                    SuccessResponse<String> responseBody = response.body();
+                    assert responseBody != null;
+                    String qrUrl = responseBody.getData();
+                    Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
+                    Result<String> result = new Result<>(validation, qrUrl);
+                    callback.onResult(result);
+
+                } else {
+                    /*응답은 받았으나 문제 발생 시*/
+                    try {
+                        ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
+                        if (errorResponse != null && errorResponse.getErrors() != null) {
+                            Log.e(TAG, errorResponse.toString());
+                            Validation validation = ValueMap.getCodeToVal(errorResponse.getCode());
+                            Result<String> result = new Result<>(validation);
+                            callback.onResult(result);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<SuccessResponse<String>> call, Throwable t) {
+                Result<String> result = new Result<>(Validation.NETWORK_FAILED);
+                callback.onResult(result);
+            }
+        });
+    }
+
+    public void loadQr(Integer performId, com.example.moum.utils.Callback<Result<String>> callback) {
+        Call<SuccessResponse<String>> result = promoteApi.loadQr(performId);
+        result.enqueue(new Callback<SuccessResponse<String>>() {
+            @Override
+            public void onResponse(Call<SuccessResponse<String>> call, Response<SuccessResponse<String>> response) {
+                if (response.isSuccessful()) {
+                    /*성공적으로 응답을 받았을 때*/
+                    SuccessResponse<String> responseBody = response.body();
+                    assert responseBody != null;
+                    String qrUrl = responseBody.getData();
+                    Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
+                    Result<String> result = new Result<>(validation, qrUrl);
+                    callback.onResult(result);
+
+                } else {
+                    /*응답은 받았으나 문제 발생 시*/
+                    try {
+                        ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
+                        if (errorResponse != null && errorResponse.getErrors() != null) {
+                            Log.e(TAG, errorResponse.toString());
+                            Validation validation = ValueMap.getCodeToVal(errorResponse.getCode());
+                            Result<String> result = new Result<>(validation);
+                            callback.onResult(result);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<SuccessResponse<String>> call, Throwable t) {
+                Result<String> result = new Result<>(Validation.NETWORK_FAILED);
+                callback.onResult(result);
+            }
+        });
+    }
+
+    public void deleteQr(Integer performId, com.example.moum.utils.Callback<Result<String>> callback) {
+        Call<SuccessResponse<String>> result = promoteApi.deleteQr(performId);
+        result.enqueue(new Callback<SuccessResponse<String>>() {
+            @Override
+            public void onResponse(Call<SuccessResponse<String>> call, Response<SuccessResponse<String>> response) {
+                if (response.isSuccessful()) {
+                    /*성공적으로 응답을 받았을 때*/
+                    SuccessResponse<String> responseBody = response.body();
+                    assert responseBody != null;
+                    String qrUrl = responseBody.getData();
+                    Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
+                    Result<String> result = new Result<>(validation, qrUrl);
+                    callback.onResult(result);
+
+                } else {
+                    /*응답은 받았으나 문제 발생 시*/
+                    try {
+                        ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
+                        if (errorResponse != null && errorResponse.getErrors() != null) {
+                            Log.e(TAG, errorResponse.toString());
+                            Validation validation = ValueMap.getCodeToVal(errorResponse.getCode());
+                            Result<String> result = new Result<>(validation);
+                            callback.onResult(result);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<SuccessResponse<String>> call, Throwable t) {
+                Result<String> result = new Result<>(Validation.NETWORK_FAILED);
+                callback.onResult(result);
+            }
+        });
+    }
 }

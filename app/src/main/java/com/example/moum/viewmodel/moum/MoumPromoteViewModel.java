@@ -17,8 +17,9 @@ import com.example.moum.utils.Validation;
 public class MoumPromoteViewModel extends AndroidViewModel {
     private PerformRepository performRepository;
     private PromoteRepository promoteRepository;
+    private final MutableLiveData<Result<String>> isLoadQrSuccess = new MutableLiveData<>();
     private final MutableLiveData<Result<Performance>> isLoadPerformOfMoumSuccess = new MutableLiveData<>();
-    private final MutableLiveData<Result<Promote>> isMakeQrSuccess = new MutableLiveData<>();
+    private final MutableLiveData<Result<String>> isMakeQrSuccess = new MutableLiveData<>();
     private final MutableLiveData<Validation> downloadSuccess = new MutableLiveData<>();
 
     public MoumPromoteViewModel(Application application){
@@ -27,11 +28,15 @@ public class MoumPromoteViewModel extends AndroidViewModel {
         promoteRepository = PromoteRepository.getInstance(application);
     }
 
+    public MutableLiveData<Result<String>> getIsLoadQrSuccess() {
+        return isLoadQrSuccess;
+    }
+
     public MutableLiveData<Result<Performance>> getIsLoadPerformOfMoumSuccess() {
         return isLoadPerformOfMoumSuccess;
     }
 
-    public MutableLiveData<Result<Promote>> getIsMakeQrSuccess() {
+    public MutableLiveData<Result<String>> getIsMakeQrSuccess() {
         return isMakeQrSuccess;
     }
 
@@ -39,11 +44,15 @@ public class MoumPromoteViewModel extends AndroidViewModel {
         return downloadSuccess;
     }
 
+    public void setIsLoadQrSuccess(Result<String> isLoadQrSuccess){
+        this.isLoadQrSuccess.setValue(isLoadQrSuccess);
+    }
+
     private void setIsLoadPerformOfMoumSuccess(Result<Performance> isLoadPerformOfMoumSuccess){
         this.isLoadPerformOfMoumSuccess.setValue(isLoadPerformOfMoumSuccess);
     }
 
-    private void setIsMakeQrSuccess(Result<Promote> isMakeQrSuccess){
+    private void setIsMakeQrSuccess(Result<String> isMakeQrSuccess){
         this.isMakeQrSuccess.setValue(isMakeQrSuccess);
     }
 
@@ -55,31 +64,44 @@ public class MoumPromoteViewModel extends AndroidViewModel {
         performRepository.loadPerformOfMoum(moumId, this::setIsLoadPerformOfMoumSuccess);
     }
 
+    public void loadQr(Integer performId){
+        /*valid check*/
+        if(isLoadPerformOfMoumSuccess.getValue() == null || isLoadPerformOfMoumSuccess.getValue().getValidation() != Validation.PERFORMANCE_GET_SUCCESS){
+            Result<String> result = new Result<>(Validation.PERFORMANCE_NOT_FOUNT);
+            setIsLoadQrSuccess(result);
+            return;
+        }
+
+        promoteRepository.loadQr(performId, this::setIsLoadQrSuccess);
+    }
+
     public void makeQr(Integer performId){
         /*valid check*/
         if(isLoadPerformOfMoumSuccess.getValue() == null || isLoadPerformOfMoumSuccess.getValue().getValidation() != Validation.PERFORMANCE_GET_SUCCESS){
-            Result<Promote> result = new Result<Promote>(Validation.PERFORMANCE_NOT_FOUNT);
+            Result<String> result = new Result<>(Validation.PERFORMANCE_NOT_FOUNT);
             setIsMakeQrSuccess(result);
             return;
         }
 
         /*goto repository*/
-        //promoteRepository.makeQr(performId, this::setIsMakeQrSuccess);
+        promoteRepository.createQr(performId, this::setIsMakeQrSuccess);
     }
 
-    public void downloadQr(Context context, Promote promote){
+    public void downloadQr(Context context, String qrUrl){
         /*valid check*/
-//        if(isLoadPerformOfMoumSuccess.getValue() == null || isLoadPerformOfMoumSuccess.getValue().getValidation() != Validation.PERFORMANCE_GET_SUCCESS){
-//            setDownloadSuccess(Validation.PERFORMANCE_NOT_FOUNT);
-//            return;
-//        }
-//        if(isMakeQrSuccess.getValue() == null || isMakeQrSuccess.getValue().getValidation() != Validation.MAKE_QR_SUCCESS){
-//            setDownloadSuccess(Validation.MAKE_QR_FALIL);
-//            return;
-//        }
+        if(isLoadPerformOfMoumSuccess.getValue() == null || isLoadPerformOfMoumSuccess.getValue().getValidation() != Validation.PERFORMANCE_GET_SUCCESS){
+            setDownloadSuccess(Validation.PERFORMANCE_NOT_FOUNT);
+            return;
+        }
+        if((isMakeQrSuccess.getValue() != null && isMakeQrSuccess.getValue().getValidation() == Validation.QR_SUCCESS)
+                || isLoadQrSuccess.getValue() != null && isLoadQrSuccess.getValue().getValidation() == Validation.QR_SUCCESS){
+            /*download qr image into member's gallery*/
+            ImageManager.downloadImageToGallery(context, qrUrl, "moum_qr_code.png");
+            return;
+        }
 
-        /*download qr image into member's gallery*/
-        String imageUrl = "https://www.wikihow.com/images_en/thumb/d/db/Get-the-URL-for-Pictures-Step-2-Version-6.jpg/v4-460px-Get-the-URL-for-Pictures-Step-2-Version-6.jpg";
-        ImageManager.downloadImageToGallery(context, imageUrl, "moum_qr_code");
+        /*if other, fail*/
+        setDownloadSuccess(Validation.QR_FAIL);
+
     }
 }

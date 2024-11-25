@@ -107,6 +107,12 @@ public class ValueMap {
             put("F-B005", Validation.PERFORMANCE_HALL_NOT_FOUND);
             put("F-B021", Validation.PARAMETER_NOT_VALID);
 
+            // QR 관련 응답 코드
+            put("S-QR001", Validation.QR_SUCCESS);
+            put("F-QR001", Validation.QR_FAIL);
+            put("S-QR002", Validation.QR_DELETE_SUCCESS);
+            put("F-PA001", Validation.QR_PERFORM_NOT_FOUND);
+
             // 공통 오류 코드
             put("F-C001", Validation.INTERNAL_SERVER_ERROR);
             put("F-C002", Validation.INVALID_INPUT_VALUE);

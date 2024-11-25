@@ -167,6 +167,12 @@ public enum Validation {
     PERFORMANCE_HALL_NOT_FOUND,
     PARAMETER_NOT_VALID,
 
+    // QR(웹 팜플렛) 관련 응답
+    QR_SUCCESS,
+    QR_FAIL,
+    QR_PERFORM_NOT_FOUND,
+    QR_DELETE_SUCCESS,
+
     // 공통 오류 코드
     INTERNAL_SERVER_ERROR,
     INVALID_INPUT_VALUE,
