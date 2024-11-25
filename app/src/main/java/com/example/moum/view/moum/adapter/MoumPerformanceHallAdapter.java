@@ -87,6 +87,7 @@ public class MoumPerformanceHallAdapter extends RecyclerView.Adapter<RecyclerVie
                         .placeholder(R.drawable.background_more_rounded_gray_size_fit)
                         .error(R.drawable.background_more_rounded_gray_size_fit))
                         .into(performanceHallProfile);
+            performanceHallProfile.setClipToOutline(true);
             performanceHallTop.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

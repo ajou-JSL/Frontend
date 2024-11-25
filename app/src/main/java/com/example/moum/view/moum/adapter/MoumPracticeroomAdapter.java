@@ -90,6 +90,7 @@ public class MoumPracticeroomAdapter extends RecyclerView.Adapter<RecyclerView.V
                         .placeholder(R.drawable.background_more_rounded_gray_size_fit)
                         .error(R.drawable.background_more_rounded_gray_size_fit))
                         .into(practiceromProfile);
+            practiceromProfile.setClipToOutline(true);
             practiceroomTop.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

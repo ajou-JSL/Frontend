@@ -1,7 +1,11 @@
 package com.example.moum.view.moum;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -22,6 +26,7 @@ import com.example.moum.data.entity.PerformanceHall;
 import com.example.moum.data.entity.Practiceroom;
 import com.example.moum.databinding.ActivityMoumFindPerformancehallBinding;
 import com.example.moum.databinding.ActivityMoumFindPracticeroomBinding;
+import com.example.moum.utils.PermissionManager;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.utils.WrapContentLinearLayoutManager;
@@ -30,6 +35,7 @@ import com.example.moum.view.moum.adapter.MoumPerformanceHallAdapter;
 import com.example.moum.view.moum.adapter.MoumPracticeroomAdapter;
 import com.example.moum.viewmodel.moum.MoumFindPerformanceHallViewModel;
 import com.example.moum.viewmodel.moum.MoumFindPracticeroomViewModel;
+import com.naver.maps.geometry.LatLng;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +46,8 @@ public class MoumFindPerformanceHallActivity extends AppCompatActivity {
     private Context context;
     public String TAG = getClass().toString();
     private SharedPreferenceManager sharedPreferenceManager;
+    private PermissionManager permissionManager;
+    private LatLng latLng;
     private ArrayList<PerformanceHall> performanceHalls = new ArrayList<>();
     private Integer memberId;
     private Integer teamId;
@@ -55,6 +63,9 @@ public class MoumFindPerformanceHallActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
         context = this;
+
+        // GPS 관련 권한 체크
+        permissionCheck();
 
         /*모음 id 정보 불러오기*/
         Intent prevIntent = getIntent();
@@ -205,5 +216,36 @@ public class MoumFindPerformanceHallActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         viewModel.clearPage();
+    }
+
+    private void permissionCheck(){
+        if(Build.VERSION.SDK_INT >= 23){
+            permissionManager =  new PermissionManager(this, this);
+            if(!permissionManager.checkPermission()){
+                permissionManager.requestPermission();
+            }
+            else{
+                latLng = getCurrentLatLng();
+                Log.e(TAG, latLng.toString());
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (!permissionManager.permissionResult(requestCode, permissions, grantResults)){
+            permissionManager.requestPermission();
+        }
+        else{
+            latLng = getCurrentLatLng();
+            Log.e(TAG, latLng.toString());
+        }
+    }
+
+    private LatLng getCurrentLatLng(){
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        @SuppressLint("MissingPermission") Location currentLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        return new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
     }
 }
