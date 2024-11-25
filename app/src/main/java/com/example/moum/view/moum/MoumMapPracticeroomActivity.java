@@ -34,6 +34,7 @@ import com.example.moum.view.moum.adapter.MoumPracticeroomAdapter;
 import com.example.moum.viewmodel.moum.MoumFindPracticeroomViewModel;
 import com.example.moum.viewmodel.moum.MoumMapPracticeroomViewModel;
 import com.naver.maps.geometry.LatLng;
+import com.naver.maps.map.CameraUpdate;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
@@ -157,10 +158,16 @@ public class MoumMapPracticeroomActivity extends AppCompatActivity implements On
                     if(Boolean.TRUE.equals(viewModel.getIsNaverMapReady().getValue())){
                         Marker marker = new Marker();
                         marker.setPosition(new LatLng(loadedPracticeroom.getLatitude(), loadedPracticeroom.getLongitude()));
+                        CameraUpdate cameraUpdate = CameraUpdate.scrollTo(new LatLng(loadedPracticeroom.getLatitude(), loadedPracticeroom.getLongitude()));
+                        naverMap.moveCamera(cameraUpdate);
                         marker.setMap(naverMap);
                         marker.setCaptionText(loadedPracticeroom.getName());
                         binding.buttonGotoNaverMap.setEnabled(true);
                     }
+                if(loadedPracticeroom.getMapUrl() != null)
+                    binding.buttonGotoNaverMap.setEnabled(true);
+                else
+                    binding.buttonGotoNaverMap.setEnabled(false);
             }
             else if(validation == Validation.NETWORK_FAILED){
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();

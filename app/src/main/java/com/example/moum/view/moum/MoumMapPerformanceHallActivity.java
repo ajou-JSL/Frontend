@@ -27,6 +27,7 @@ import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.viewmodel.moum.MoumMapPerformanceHallViewModel;
 import com.example.moum.viewmodel.moum.MoumMapPracticeroomViewModel;
 import com.naver.maps.geometry.LatLng;
+import com.naver.maps.map.CameraUpdate;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
@@ -144,14 +145,23 @@ public class MoumMapPerformanceHallActivity extends AppCompatActivity implements
                             .load(loadedPerformanceHall.getImageUrls().get(0)).into(binding.imageviewPerformanceHall);
                     binding.imageviewPerformanceHall.setClipToOutline(true);
                 }
-                if(loadedPerformanceHall.getLatitude() != null && loadedPerformanceHall.getLongitude() != null)
-                    if(Boolean.TRUE.equals(viewModel.getIsNaverMapReady().getValue())){
+                if(loadedPerformanceHall.getLatitude() != null && loadedPerformanceHall.getLongitude() != null) {
+                    Log.e(TAG, "지도 마커");
+                    if (Boolean.TRUE.equals(viewModel.getIsNaverMapReady().getValue())) {
+                        Log.e(TAG, "지도 마커 찍을 준비 완료");
                         Marker marker = new Marker();
                         marker.setPosition(new LatLng(loadedPerformanceHall.getLatitude(), loadedPerformanceHall.getLongitude()));
+                        CameraUpdate cameraUpdate = CameraUpdate.scrollTo(new LatLng(loadedPerformanceHall.getLatitude(), loadedPerformanceHall.getLongitude()));
+                        naverMap.moveCamera(cameraUpdate);
                         marker.setMap(naverMap);
                         marker.setCaptionText(loadedPerformanceHall.getName());
-                        binding.buttonGotoNaverMap.setEnabled(true);
+
                     }
+                }
+                if(loadedPerformanceHall.getMapUrl() != null)
+                    binding.buttonGotoNaverMap.setEnabled(true);
+                else
+                    binding.buttonGotoNaverMap.setEnabled(false);
             }
             else if(validation == Validation.NETWORK_FAILED){
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();

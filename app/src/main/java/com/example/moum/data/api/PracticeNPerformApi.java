@@ -2,6 +2,7 @@ package com.example.moum.data.api;
 
 import com.example.moum.data.dto.PerformRequest;
 import com.example.moum.data.dto.SuccessResponse;
+import com.example.moum.data.entity.Content;
 import com.example.moum.data.entity.PerformanceHall;
 import com.example.moum.data.entity.Practiceroom;
 
@@ -21,7 +22,7 @@ public interface PracticeNPerformApi {
     );
 
     @GET("/api/business/practice-rooms")
-    Call<SuccessResponse<List<Practiceroom>>> getPracticerooms(
+    Call<SuccessResponse<Content<List<Practiceroom>>>> getPracticerooms(
             @Query("page") Integer page,
             @Query("size") Integer size
     );
@@ -33,7 +34,7 @@ public interface PracticeNPerformApi {
     );
 
     @GET("/api/business/performance-halls")
-    Call<SuccessResponse<List<PerformanceHall>>> getPerformHalls(
+    Call<SuccessResponse<Content<List<PerformanceHall>>>> getPerformHalls(
             @Query("page") Integer page,
             @Query("size") Integer size
     );

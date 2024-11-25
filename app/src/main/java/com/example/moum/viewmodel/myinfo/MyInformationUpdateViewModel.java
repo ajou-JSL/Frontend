@@ -43,6 +43,7 @@ public class MyInformationUpdateViewModel extends AndroidViewModel {
     private ArrayList<Genre> selectedGenres = new ArrayList<>();
     private Boolean fromExisting = false;
     private String email;
+    private final String TAG = getClass().toString();
 
     public MyInformationUpdateViewModel(Application application) {
         super(application);
@@ -84,11 +85,14 @@ public class MyInformationUpdateViewModel extends AndroidViewModel {
 
     public void setGenres(Genre[] genres, ArrayList<Boolean> isSelecteds){
         ArrayList<Genre> genresList = new ArrayList<>(Arrays.asList(genres));
-        if(isSelecteds != null)
+        if(isSelecteds != null) {
+            selectedGenres.clear();
             for (int i = 0; i < genresList.size(); i++) {
-                if (isSelecteds.get(i))
+                if (isSelecteds.get(i)) {
                     selectedGenres.add(genresList.get(i));
+                }
             }
+        }
     }
 
     public void setIsLoadMemberProfileSuccess(Result<Member> isLoadMemberProfileSuccess){
@@ -192,7 +196,7 @@ public class MyInformationUpdateViewModel extends AndroidViewModel {
         }
         else if(profileImage.getValue() != null && !fromExisting)
             profileFile = new ImageManager(context).convertUriToFile(profileImage.getValue());
-        if(!records.isEmpty()){
+        if(records != null){
             for(Record record : records)
                 if(TimeManager.strToDate(record.getEndDate()).isEmpty() && !TimeManager.strToDate(record.getStartDate()).isEmpty()){
                     Result<Member> result = new Result<>(Validation.RECORD_NOT_VALID);

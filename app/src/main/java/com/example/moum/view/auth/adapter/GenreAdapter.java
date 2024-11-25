@@ -102,11 +102,9 @@ public class GenreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 if (isSelected) {
                     genreItem.setBackground(context.getDrawable(R.drawable.background_genre_item_mint));
                     genreItem.setTextColor(context.getColor(R.color.gray0));
-                    adapter.setIsSelected(pos, false);
                 } else {
                     genreItem.setBackground(context.getDrawable(R.drawable.background_genre_item));
                     genreItem.setTextColor(context.getColor(R.color.gray7));
-                    adapter.setIsSelected(pos, true);
                 }
             }
             genreItem.setOnClickListener(new View.OnClickListener() {
@@ -115,13 +113,13 @@ public class GenreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     if (pos != RecyclerView.NO_POSITION) {
                         Boolean isSelected = adapter.getIsSelected(pos);
                         if(isSelected){
-                            genreItem.setBackground(context.getDrawable(R.drawable.background_genre_item_mint));
-                            genreItem.setTextColor(context.getColor(R.color.gray0));
+                            genreItem.setBackground(context.getDrawable(R.drawable.background_genre_item));
+                            genreItem.setTextColor(context.getColor(R.color.gray7));
                             adapter.setIsSelected(pos, false);
                         }
                         else{
-                            genreItem.setBackground(context.getDrawable(R.drawable.background_genre_item));
-                            genreItem.setTextColor(context.getColor(R.color.gray7));
+                            genreItem.setBackground(context.getDrawable(R.drawable.background_genre_item_mint));
+                            genreItem.setTextColor(context.getColor(R.color.gray0));
                             adapter.setIsSelected(pos, true);
                         }
                     }

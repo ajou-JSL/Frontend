@@ -64,9 +64,13 @@ public class PerformRepository {
     public void createPerform(Performance perform, File file, com.example.moum.utils.Callback<Result<Performance>> callback){
         /*processing into DTO*/
         MultipartBody.Part profileImage = null;
-        if(file != null){
+        if(file != null) {
             RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpg"), file);
             profileImage = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+        }
+        else{
+            RequestBody emptyRequestBody = RequestBody.create(null, new byte[0]);
+            profileImage = MultipartBody.Part.createFormData("file", null, emptyRequestBody);
         }
         PerformRequest performRequest = new PerformRequest(perform.getPerformanceName(), perform.getPerformanceDescription(), perform.getPerformanceLocation(), perform.getPerformanceStartDate(), perform.getPerformanceEndDate(), perform.getPerformancePrice(), perform.getMembersId(), perform.getTeamId(), perform.getMoumId(), perform.getMusics(), perform.getGenre());
         Call<SuccessResponse<Performance>> result = performApi.createPerform(profileImage, performRequest);
@@ -113,6 +117,10 @@ public class PerformRepository {
         if(file != null){
             RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpg"), file);
             profileImage = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+        }
+        else{
+            RequestBody emptyRequestBody = RequestBody.create(null, new byte[0]);
+            profileImage = MultipartBody.Part.createFormData("file", null, emptyRequestBody);
         }
         PerformRequest performRequest = new PerformRequest(perform.getPerformanceName(), perform.getPerformanceDescription(), perform.getPerformanceLocation(), perform.getPerformanceStartDate(), perform.getPerformanceEndDate(), perform.getPerformancePrice(), perform.getMembersId(), perform.getTeamId(), perform.getMoumId(), perform.getMusics(), perform.getGenre());
         Call<SuccessResponse<Performance>> result = performApi.updatePerform(performId, profileImage, performRequest);

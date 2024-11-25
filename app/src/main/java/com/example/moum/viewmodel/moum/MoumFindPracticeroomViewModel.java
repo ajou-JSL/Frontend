@@ -20,7 +20,7 @@ public class MoumFindPracticeroomViewModel extends AndroidViewModel {
     private final MutableLiveData<Result<List<Practiceroom>>> isLoadPracticeroomSuccess = new MutableLiveData<>();
     private final MutableLiveData<Result<List<Practiceroom>>> isLoadNextPracticeroomSuccess = new MutableLiveData<>();
     private final int LOAD_PRACTICE_ROOM_NUMBER = 10; //한번에 10개 조회
-    private static Integer page = 0;
+    private static Integer page = 1;
     private Integer recentPageNumber = 0;
 
     public MoumFindPracticeroomViewModel(Application application){
@@ -61,7 +61,7 @@ public class MoumFindPracticeroomViewModel extends AndroidViewModel {
     }
 
     public void clearPage(){
-        page = 0;
+        page = 1;
     }
 
     public void loadPracticeroom(){

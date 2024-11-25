@@ -9,6 +9,7 @@ import androidx.annotation.RequiresApi;
 import com.example.moum.data.api.PracticeNPerformApi;
 import com.example.moum.data.dto.ErrorResponse;
 import com.example.moum.data.dto.SuccessResponse;
+import com.example.moum.data.entity.Content;
 import com.example.moum.data.entity.PerformanceHall;
 import com.example.moum.data.entity.Practiceroom;
 import com.example.moum.data.entity.Result;
@@ -92,16 +93,16 @@ public class PracticeNPerformRepository {
     }
 
     public void getPracticerooms(Integer page, Integer size, com.example.moum.utils.Callback<Result<List<Practiceroom>>> callback){
-        Call<SuccessResponse<List<Practiceroom>>> result = practiceNPerformApi.getPracticerooms(page, size);
-        result.enqueue(new retrofit2.Callback<SuccessResponse<List<Practiceroom>>>() {
+        Call<SuccessResponse<Content<List<Practiceroom>>>> result = practiceNPerformApi.getPracticerooms(page, size);
+        result.enqueue(new retrofit2.Callback<SuccessResponse<Content<List<Practiceroom>>>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
-            public void onResponse(Call<SuccessResponse<List<Practiceroom>>> call, Response<SuccessResponse<List<Practiceroom>>> response) {
+            public void onResponse(Call<SuccessResponse<Content<List<Practiceroom>>>> call, Response<SuccessResponse<Content<List<Practiceroom>>>> response) {
                 if (response.isSuccessful()) {
                     /*성공적으로 응답을 받았을 때*/
-                    SuccessResponse<List<Practiceroom>> responseBody = response.body();
+                    SuccessResponse<Content<List<Practiceroom>>> responseBody = response.body();
                     Log.e(TAG, responseBody.toString());
-                    List<Practiceroom> practicerooms = responseBody.getData();
+                    List<Practiceroom> practicerooms = responseBody.getData().getContent();
 
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<List<Practiceroom>> result = new Result<>(validation, practicerooms);
@@ -123,7 +124,7 @@ public class PracticeNPerformRepository {
                 }
             }
             @Override
-            public void onFailure(Call<SuccessResponse<List<Practiceroom>>> call, Throwable t) {
+            public void onFailure(Call<SuccessResponse<Content<List<Practiceroom>>>> call, Throwable t) {
                 Result<List<Practiceroom>> result = new Result<>(Validation.NETWORK_FAILED);
                 callback.onResult(result);
             }
@@ -170,16 +171,16 @@ public class PracticeNPerformRepository {
     }
 
     public void getPerformHalls(Integer page, Integer size, com.example.moum.utils.Callback<Result<List<PerformanceHall>>> callback){
-        Call<SuccessResponse<List<PerformanceHall>>> result = practiceNPerformApi.getPerformHalls(page, size);
-        result.enqueue(new retrofit2.Callback<SuccessResponse<List<PerformanceHall>>>() {
+        Call<SuccessResponse<Content<List<PerformanceHall>>>> result = practiceNPerformApi.getPerformHalls(page, size);
+        result.enqueue(new retrofit2.Callback<SuccessResponse<Content<List<PerformanceHall>>>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
-            public void onResponse(Call<SuccessResponse<List<PerformanceHall>>> call, Response<SuccessResponse<List<PerformanceHall>>> response) {
+            public void onResponse(Call<SuccessResponse<Content<List<PerformanceHall>>>> call, Response<SuccessResponse<Content<List<PerformanceHall>>>> response) {
                 if (response.isSuccessful()) {
                     /*성공적으로 응답을 받았을 때*/
-                    SuccessResponse<List<PerformanceHall>> responseBody = response.body();
+                    SuccessResponse<Content<List<PerformanceHall>>> responseBody = response.body();
                     Log.e(TAG, responseBody.toString());
-                    List<PerformanceHall> performanceHalls = responseBody.getData();
+                    List<PerformanceHall> performanceHalls = responseBody.getData().getContent();
 
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<List<PerformanceHall>> result = new Result<>(validation, performanceHalls);
@@ -201,7 +202,7 @@ public class PracticeNPerformRepository {
                 }
             }
             @Override
-            public void onFailure(Call<SuccessResponse<List<PerformanceHall>>> call, Throwable t) {
+            public void onFailure(Call<SuccessResponse<Content<List<PerformanceHall>>>> call, Throwable t) {
                 Result<List<PerformanceHall>> result = new Result<>(Validation.NETWORK_FAILED);
                 callback.onResult(result);
             }

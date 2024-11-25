@@ -130,10 +130,11 @@ public class TeamCreateViewModel extends AndroidViewModel {
             ImageManager imageManager = new ImageManager(context);
             profileFile = imageManager.convertUriToFile(uri);
         }
-        if(!records.isEmpty())
+        if(records != null)
             teamToCreate.setRecords(records);
         if(address != null)
             teamToCreate.setLocation(address);
+        teamToCreate.setMembers(new ArrayList<>());
 
         /*goto repository*/
         teamRepository.createTeam(teamToCreate, profileFile, this::setIsCreateTeamSuccess);

@@ -312,7 +312,7 @@ public class SignupViewModel extends AndroidViewModel {
             File file = imageManager.convertUriToFile(uri);
             signupUserValue.setProfileImage(file);
         }
-        if(!records.isEmpty()){
+        if(records != null){
             for(Record record : records){
                 if(record.getEndDate() == null && record.getStartDate() != null){
                     setIsSignupSuccess(Validation.RECORD_NOT_VALID);

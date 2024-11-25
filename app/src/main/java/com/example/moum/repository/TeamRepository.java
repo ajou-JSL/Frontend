@@ -65,6 +65,10 @@ public class TeamRepository {
             RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpg"), teamProfile);
             profileImage = MultipartBody.Part.createFormData("file", teamProfile.getName(), requestFile);
         }
+        else{
+            RequestBody emptyRequestBody = RequestBody.create(null, new byte[0]);
+            profileImage = MultipartBody.Part.createFormData("file", null, emptyRequestBody);
+        }
         TeamRequest teamRequest = new TeamRequest(team.getLeaderId(), team.getTeamName(), team.getDescription(), team.getGenre(), team.getLocation(), team.getRecords(), team.getVideoUrl());
         Call<SuccessResponse<Team>> result = teamApi.createTeam(profileImage, teamRequest);
 
@@ -111,6 +115,10 @@ public class TeamRepository {
         if(teamProfile != null){
             RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpg"), teamProfile);
             profileImage = MultipartBody.Part.createFormData("file", teamProfile.getName(), requestFile);
+        }
+        else{
+            RequestBody emptyRequestBody = RequestBody.create(null, new byte[0]);
+            profileImage = MultipartBody.Part.createFormData("file", null, emptyRequestBody);
         }
         TeamRequest teamRequest = new TeamRequest(null, team.getTeamName(), team.getDescription(), team.getGenre(), team.getLocation(), team.getRecords(), team.getVideoUrl());
         Call<SuccessResponse<Team>> result = teamApi.updateTeam(teamId, profileImage, teamRequest);

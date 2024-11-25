@@ -176,7 +176,7 @@ public class TeamUpdateViewModel extends AndroidViewModel {
                 e.printStackTrace();
             }
         }
-        if(!records.isEmpty())
+        if(records != null)
             teamToCreate.setRecords(records);
         if(address != null)
             teamToCreate.setLocation(address);

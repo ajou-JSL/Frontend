@@ -154,6 +154,9 @@ public class SignupRepository {
             RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpg"), signupUser.getProfileImage());
             profileImage = MultipartBody.Part.createFormData("profileImage", signupUser.getProfileImage().getName(), requestFile);
         }
+        else{
+            profileImage = MultipartBody.Part.createFormData("file", null, null);
+        }
 
         Call<SuccessResponse<String>> result = signupApi.signup(signupRequest, profileImage);
         result.enqueue(new Callback<SuccessResponse<String>>() {

@@ -273,12 +273,11 @@ public class SignupProfileActivity extends AppCompatActivity {
                             .toFormatter();
                     LocalDate startDate = null;
                     LocalDate endDate = null;
-                    if(!startDateString.isEmpty()) startDate = LocalDate.parse(startDateString, formatter);
-                    if(!endDateString.isEmpty()) endDate = LocalDate.parse(endDateString, formatter);
+                    if(!startDateString.isEmpty() && !startDateString.equals("시작 날짜")) startDate = LocalDate.parse(startDateString, formatter);
+                    if(!endDateString.isEmpty() && !startDateString.equals("종료 날짜")) endDate = LocalDate.parse(endDateString, formatter);
 
                     signupViewModel.addRecord(recordName, startDate, endDate);
                     signupViewModel.setGenres(Genre.values(), genreAdapter.getIsSelecteds());
-                    genreAdapter.notifyDataSetChanged();
                 }
 
                 signupLoadingDialog.show();

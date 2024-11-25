@@ -18,7 +18,7 @@ public class MoumFindPerformanceHallViewModel extends AndroidViewModel {
     private final MutableLiveData<Result<List<PerformanceHall>>> isLoadPerformanceHallSuccess = new MutableLiveData<>();
     private final MutableLiveData<Result<List<PerformanceHall>>> isLoadNextPerformanceHallSuccess = new MutableLiveData<>();
     private final int LOAD_NUMBER = 10; //한번에 10개 조회
-    private static Integer page = 0;
+    private static Integer page = 1;
     private Integer recentPageNumber = 0;
 
     public MoumFindPerformanceHallViewModel(Application application){
@@ -59,7 +59,7 @@ public class MoumFindPerformanceHallViewModel extends AndroidViewModel {
     }
 
     public void clearPage(){
-        page = 0;
+        page = 1;
     }
 
     public void loadPerformanceHall(){
