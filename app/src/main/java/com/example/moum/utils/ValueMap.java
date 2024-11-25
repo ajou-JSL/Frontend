@@ -171,6 +171,13 @@ public class ValueMap {
             put("F-RP004", Validation.REPORT_ARTICLE_FAIL);
             put("F-RP014", Validation.REPORT_ARTICLE_ALREADY);
             put("S-RP024", Validation.REPORT_ARTICLE_GET_SUCCESS);
+
+            // 정산 관련 성공 & 오류 코드
+            put("S-S001", Validation.SETTLEMENT_CREATE_SUCCESS);
+            put("F-MM003", Validation.MOUM_NOT_FOUND);
+            put("S-S002", Validation.SETTLEMENT_DELETE_SUCCESS);
+            put("S-S003", Validation.SETTLEMENT_GET_SUCCESS);
+
         }
     };
 
