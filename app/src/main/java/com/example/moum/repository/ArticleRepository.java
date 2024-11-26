@@ -8,6 +8,7 @@ import androidx.annotation.RequiresApi;
 
 import com.example.moum.data.api.ArticleApi;
 import com.example.moum.data.api.TeamApi;
+import com.example.moum.data.dto.ArticleRequest;
 import com.example.moum.data.dto.ErrorResponse;
 import com.example.moum.data.dto.SuccessResponse;
 import com.example.moum.data.dto.TeamRequest;
@@ -165,6 +166,57 @@ public class ArticleRepository {
                             Result<Article> result = new Result<>(validation);
                             callback.onResult(result);
                         }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SuccessResponse<Article>> call, Throwable t) {
+                Result<Article> result = new Result<>(Validation.NETWORK_FAILED);
+                callback.onResult(result);
+            }
+        });
+    }
+
+    public void createArticle(Article article, File file, com.example.moum.utils.Callback<Result<Article>> callback) {
+        /* 파일 처리 */
+        MultipartBody.Part fileImage = null;
+        if (file != null) {
+            RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpg"), file);
+            fileImage = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+        }
+
+        /*RequestDto 처리 */
+        ArticleRequest articleRequest = new ArticleRequest(article.getTitle(), article.getCategory(), article.getContent(), article.getGenre());
+
+        /* API 호출 */
+        Call<SuccessResponse<Article>> result = articleApi.createArticle(fileImage, articleRequest);
+        result.enqueue(new retrofit2.Callback<SuccessResponse<Article>>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onResponse(Call<SuccessResponse<Article>> call, Response<SuccessResponse<Article>> response) {
+                if (response.isSuccessful()) {
+                    /*성공적으로 응답을 받았을 때*/
+                    SuccessResponse<Article> responseBody = response.body();
+                    Log.e(TAG, responseBody.toString());
+                    Article article = responseBody.getData();
+
+                    Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
+                    Result<Article> result = new Result<>(validation, article);
+                    callback.onResult(result);
+                } else {
+                    /*응답은 받았으나 문제 발생 시*/
+                    try {
+                        ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
+                        if (errorResponse != null) {
+                            Log.e(TAG, errorResponse.toString());
+                            Validation validation = ValueMap.getCodeToVal(errorResponse.getCode());
+                            Result<Article> result = new Result<>(validation);
+                            callback.onResult(result);
+                        }
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

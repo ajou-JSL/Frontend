@@ -1,6 +1,12 @@
 package com.example.moum.viewmodel.community;
 
-import androidx.lifecycle.ViewModel;
+import android.app.Application;
 
-public class CommunitySearchViewModel {
+import androidx.lifecycle.AndroidViewModel;
+
+public class CommunitySearchViewModel extends AndroidViewModel {
+
+    public CommunitySearchViewModel(Application application) {
+        super(application);
+    }
 }

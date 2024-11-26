@@ -115,9 +115,8 @@ public class CommunityFragment extends Fragment {
             }
         });
 
-        // 기본 선택 탭을 2로 설정 (ViewModel에서 기본값 설정)
         pager.setCurrentItem(communityViewModel.getSelectedTabIndex().getValue(), false);
-        tabLayout.selectTab(tabLayout.getTabAt(communityViewModel.getSelectedTabIndex().getValue()));  // TabLayout에서 선택된 탭도 동기화
+        tabLayout.selectTab(tabLayout.getTabAt(communityViewModel.getSelectedTabIndex().getValue()));
 
     }
 

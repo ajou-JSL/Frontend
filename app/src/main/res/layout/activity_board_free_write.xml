@@ -25,7 +25,7 @@
             android:layout_marginStart="1dp"
             android:layout_marginTop="1dp"
             android:layout_marginEnd="1dp"
-            android:background="#FFFFFF"
+            android:background="@drawable/background_white_underline"
             android:minHeight="?attr/actionBarSize"
             app:contentInsetStart="0dp"
 
@@ -54,7 +54,8 @@
                 android:layout_marginStart="5dp"
                 android:text="자유게시판 글 작성"
                 android:textSize="18sp"
-                android:textStyle="bold"
+                android:fontFamily="@font/noto_sans_kr_black"
+                android:includeFontPadding="false"
 
                 app:layout_constraintBottom_toBottomOf="@+id/toolbar_post"
                 app:layout_constraintStart_toEndOf="@+id/leftarrow"
@@ -67,85 +68,110 @@
                 android:background="?attr/selectableItemBackground"
                 android:layout_gravity="end"
 
+                android:fontFamily="@font/noto_sans_kr_regular"
+                android:includeFontPadding="false"
                 android:text="게시"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
         </androidx.appcompat.widget.Toolbar>
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:orientation="vertical"
-            android:layout_marginStart="1dp"
-            android:layout_marginEnd="1dp"
-            android:background="@color/gray0"
-
+            android:fillViewport="true"
             app:layout_constraintTop_toBottomOf="@id/toolbar_board_free_write"
             app:layout_constraintBottom_toBottomOf="parent">
 
-
-            <Spinner
-                android:id="@+id/board_free_write_spinner"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:paddingStart="10dp"
-                android:background="@drawable/background_spinner_line" />
-
-            <EditText
-                android:id="@+id/board_free_write_title"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:paddingStart="20dp"
-                android:background="@drawable/background_bottom_line"
-
-                android:hint="제목"
-                android:textSize="18sp"
-                android:text="@{viewModel.title}"/>
-
-            <EditText
-                android:id="@+id/board_free_write_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="20dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="30dp"
-                android:background="@android:color/transparent"
-
-                android:hint="내용을 입력하세요"
-                android:textSize="18sp"
-                android:text="@{viewModel.content}"
-                android:gravity="top|start"
-                android:inputType="textMultiLine"
-                android:minLines="15"
-                android:scrollbars="vertical"/>
-
             <LinearLayout
-                android:id="@+id/board_free_image_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center">
+                android:orientation="vertical"
+                android:layout_marginStart="1dp"
+                android:layout_marginEnd="1dp"
+                android:background="@color/gray0">
 
-                <ImageView
-                    android:id="@+id/Board_free_image_upload"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:contentDescription="이미지 업로드 버튼"
-                    app:srcCompat="@drawable/ic_plus" />
+
+                <Spinner
+                    android:id="@+id/board_free_write_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:paddingStart="10dp"
+
+                    android:hint="작성자 선택"
+                    android:fontFamily="@font/noto_sans_kr_regular"
+                    android:includeFontPadding="false"
+                    android:background="@drawable/background_spinner_line" />
+
+                <Spinner
+                    android:id="@+id/board_free_write_genre_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:paddingStart="10dp"
+
+                    android:hint="장르를 선택하세요"
+                    android:fontFamily="@font/noto_sans_kr_regular"
+                    android:includeFontPadding="false"
+                    android:background="@drawable/background_spinner_line" />
+
+                <EditText
+                    android:id="@+id/board_free_write_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:background="@drawable/background_bottom_line"
+
+                    android:fontFamily="@font/noto_sans_kr_bold"
+                    android:includeFontPadding="false"
+                    android:hint="제목을 입력하세요"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/board_free_write_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="30dp"
+                    android:background="@android:color/transparent"
+
+                    android:fontFamily="@font/noto_sans_kr_regular"
+                    android:includeFontPadding="false"
+                    android:hint="내용을 입력하세요"
+                    android:textSize="18sp"
+                    android:gravity="top|start"
+                    android:inputType="textMultiLine"
+                    android:minLines="15"
+                    android:scrollbars="vertical"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/board_free_write_image_recycler_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="20dp"/>
+
             </LinearLayout>
 
-        </LinearLayout>
+
+        </ScrollView>
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

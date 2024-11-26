@@ -1,6 +1,7 @@
 package com.example.moum.data.entity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Article {
     private Integer id;
@@ -9,7 +10,7 @@ public class Article {
     private String content;
     private Integer viewCounts;
     private Integer commentsCounts;
-    private String genre;
+    private Integer genres;
     private Integer likeCounts;
     private String fileURL;
     private String author;
@@ -37,7 +38,7 @@ public class Article {
         return viewCounts;
     }
 
-    public String getGenre() { return genre; }
+    public Integer getGenre() { return genres; }
 
     public String getAuthor() {return author;}
 
@@ -77,6 +78,8 @@ public class Article {
 
     public void setFileURL(String fileURL) { this.fileURL = fileURL; }
 
+    public void setGenre(Integer genres) { this.genres = genres; }
+
     @Override
     public String toString() {
         return "Article{" +
@@ -94,5 +97,6 @@ public class Article {
                 ", viewCounts=" + updatedAt +
                 '}';
     }
+
 
 }

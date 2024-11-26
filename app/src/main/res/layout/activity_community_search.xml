@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray0">
+    android:background="@color/gray1">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_search"
@@ -66,8 +66,8 @@
             <androidx.appcompat.widget.SearchView
                 android:id="@+id/search_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="5dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
 
                 app:queryBackground="@null"
                 app:searchIcon="@null"
@@ -91,33 +91,44 @@
         <Spinner
             android:id="@+id/community_search_spinner1"
             android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
+            android:layout_height="30dp"
+            android:layout_margin="10dp"
+            android:paddingEnd="25dp"
+            android:background="@drawable/round_spinner_background" />
+
+        <Spinner
+            android:id="@+id/community_search_spinner2"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_margin="10dp"
+            android:paddingEnd="25dp"
+            android:background="@drawable/round_spinner_background" />
+
+        <Spinner
+            android:id="@+id/community_search_spinner3"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_margin="10dp"
+            android:paddingEnd="25dp"
             android:background="@drawable/round_spinner_background" />
 
 
     </LinearLayout>
 
-    <ScrollView
-        android:id="@+id/community_search_scrollview1"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/community_search_recycler_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="1dp"
         android:layout_marginTop="0dp"
         android:layout_marginEnd="1dp"
         android:layout_marginBottom="1dp"
-        android:background="#FFFFFF"
+        android:background="@color/gray0"
         android:contentDescription="검색 목록 스크롤"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/filter_layout2">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-    </ScrollView>
+    </androidx.recyclerview.widget.RecyclerView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
