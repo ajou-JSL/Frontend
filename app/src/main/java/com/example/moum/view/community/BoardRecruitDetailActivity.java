@@ -1,7 +1,5 @@
 package com.example.moum.view.community;
 
-import static com.example.moum.view.community.adapter.TimeAgo.getTimeAgo;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +8,6 @@ import android.widget.CompoundButton;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -20,18 +17,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.moum.R;
 import com.example.moum.data.entity.Article;
 import com.example.moum.data.entity.Comment;
-import com.example.moum.databinding.ActivityBoardFreeDetailBinding;
+import com.example.moum.databinding.ActivityBoardRecruitDetailBinding;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.view.community.adapter.BoardFreeDetailAdapter;
 import com.example.moum.viewmodel.community.BoardFreeDetailViewModel;
+import com.example.moum.viewmodel.community.BoardRecruitDetailViewModel;
+import com.example.moum.viewmodel.community.BoardRecruitViewModel;
 
 import java.util.ArrayList;
 
-public class BoardFreeDetailActivity extends AppCompatActivity {
-    private ActivityBoardFreeDetailBinding binding;
-    private BoardFreeDetailViewModel boardFreeDetailViewModel;
+public class BoardRecruitDetailActivity extends AppCompatActivity {
+    private ActivityBoardRecruitDetailBinding binding;
+    private BoardRecruitDetailViewModel boardRecruitDetailViewModel;
     private SharedPreferenceManager sharedPreferenceManager;
     private Integer memberId;
     private int targetBoardId;
@@ -40,9 +39,9 @@ public class BoardFreeDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        boardFreeDetailViewModel = new ViewModelProvider(this).get(BoardFreeDetailViewModel.class);
+        boardRecruitDetailViewModel = new ViewModelProvider(this).get(BoardRecruitDetailViewModel.class);
         super.onCreate(savedInstanceState);
-        binding = ActivityBoardFreeDetailBinding.inflate(getLayoutInflater());
+        binding = ActivityBoardRecruitDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         context = this;
 
@@ -71,7 +70,6 @@ public class BoardFreeDetailActivity extends AppCompatActivity {
         initWishlistButton();
         initMenu();
         initRecyclerviewContent();
-
     }
 
     public void initLeftArrow(){
@@ -103,7 +101,7 @@ public class BoardFreeDetailActivity extends AppCompatActivity {
 
     private void initRecyclerviewContent() {
         // RecyclerView 초기화
-        RecyclerView recyclerView = binding.boardFreeDetailRecyclerView;
+        RecyclerView recyclerView = binding.boardRecruitDetailRecyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
         // RecyclerView 어댑터 설정 (처음에 빈 데이터로 어댑터 설정)
@@ -113,7 +111,7 @@ public class BoardFreeDetailActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         // ViewModel 초기화
-        BoardFreeDetailViewModel viewModel = new ViewModelProvider(this).get(BoardFreeDetailViewModel.class);
+        BoardRecruitDetailViewModel viewModel = new ViewModelProvider(this).get(BoardRecruitDetailViewModel.class);
 
         // 게시글 데이터 관찰
         viewModel.getArticleLiveData().observe(this, articleData -> {
@@ -148,5 +146,4 @@ public class BoardFreeDetailActivity extends AppCompatActivity {
         super.onDestroy();
         binding = null;
     }
-
 }

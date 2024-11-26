@@ -55,11 +55,6 @@ public class BoardFreeItemAdapter extends RecyclerView.Adapter<BoardFreeItemAdap
 
         // 클릭 리스너 설정
         holder.itemView.setOnClickListener(v -> {
-            Log.d("BoardFreeItemAdapter", "Item clicked at position: " + position);
-
-            // 클릭 시 Toast 메시지로 확인
-            Toast.makeText(v.getContext(), "Item clicked at position: " + position, Toast.LENGTH_SHORT).show();
-
             // BoardId를 Intent에 전달
             Intent intent = new Intent(v.getContext(), BoardFreeDetailActivity.class);
             intent.putExtra("targetBoardId", itemList.get(position).getBoardId());

@@ -23,6 +23,7 @@ import com.example.moum.utils.ValueMap;
 import com.google.gson.Gson;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.MediaType;
@@ -180,19 +181,25 @@ public class ArticleRepository {
         });
     }
 
-    public void createArticle(Article article, File file, com.example.moum.utils.Callback<Result<Article>> callback) {
+    public void createArticle(Article article, List<File> files, com.example.moum.utils.Callback<Result<Article>> callback) {
         /* 파일 처리 */
-        MultipartBody.Part fileImage = null;
-        if (file != null) {
-            RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpg"), file);
-            fileImage = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+        // 여러 파일을 처리할 MultipartBody.Part 리스트 준비
+        List<MultipartBody.Part> fileParts = new ArrayList<>();
+
+        // 파일이 null이 아니고 비어 있지 않다면 파일을 하나씩 MultipartBody.Part로 변환하여 리스트에 추가
+        if (files != null && !files.isEmpty()) {
+            for (File file : files) {
+                RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
+                MultipartBody.Part filePart = MultipartBody.Part.createFormData("files", file.getName(), requestFile);
+                fileParts.add(filePart);
+            }
         }
 
         /*RequestDto 처리 */
         ArticleRequest articleRequest = new ArticleRequest(article.getTitle(), article.getCategory(), article.getContent(), article.getGenre());
 
         /* API 호출 */
-        Call<SuccessResponse<Article>> result = articleApi.createArticle(fileImage, articleRequest);
+        Call<SuccessResponse<Article>> result = articleApi.createArticle(fileParts, articleRequest);
         result.enqueue(new retrofit2.Callback<SuccessResponse<Article>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override

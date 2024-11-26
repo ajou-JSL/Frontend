@@ -2,16 +2,23 @@ package com.example.moum.view.community;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.PickVisualMediaRequest;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moum.R;
 import com.example.moum.data.entity.Genre;
@@ -20,6 +27,7 @@ import com.example.moum.databinding.ActivityBoardFreeWriteBinding;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
+import com.example.moum.view.community.adapter.BoardFreeWriteAdapter;
 import com.example.moum.viewmodel.community.BoardFreeWriteViewModel;
 
 import java.util.ArrayList;
@@ -29,6 +37,8 @@ public class BoardFreeWriteActivity extends AppCompatActivity {
     private ActivityBoardFreeWriteBinding binding;
     private BoardFreeWriteViewModel boardFreeWriteViewModel;
     private SharedPreferenceManager sharedPreferenceManager;
+    private BoardFreeWriteAdapter adapter;
+    private ActivityResultLauncher<PickVisualMediaRequest> pickMedia;
     private Context context;
     private Integer memberId;
 
@@ -57,7 +67,25 @@ public class BoardFreeWriteActivity extends AppCompatActivity {
         initWriteButton();
         initSpinnerWriter();
         initSpinnerGenre();
+        initializePickMedia();
+        initImageRecyclerView();
 
+    }
+
+    private void initializePickMedia() {
+        pickMedia = registerForActivityResult(
+                new ActivityResultContracts.PickVisualMedia(),
+                uri -> {
+                    if (uri != null) {
+                        // 선택된 이미지 URI 처리
+                        Log.d("PickMedia", "선택된 이미지 URI: " + uri.toString());
+                        // ViewModel 또는 RecyclerView에 이미지 추가 로직 작성
+                        boardFreeWriteViewModel.setFileImage(uri);
+                    } else {
+                        Log.d("PickMedia", "선택된 이미지 없음");
+                    }
+                }
+        );
     }
 
     private void initBackButton() {
@@ -70,10 +98,11 @@ public class BoardFreeWriteActivity extends AppCompatActivity {
             String author = binding.boardFreeWriteSpinner.getSelectedItem().toString();
             String title = binding.boardFreeWriteTitle.getText().toString();
             String content = binding.boardFreeWriteContent.getText().toString();
-            Integer genre = binding.boardFreeWriteGenreSpinner.getSelectedItemPosition();
+            Integer genre = binding.boardFreeWriteGenreSpinner.getSelectedItemPosition() - 1;
             String category = "FREE_TALKING_BOARD";
+            // 리사이클러뷰에 표시된 이미지 URI 리스트 가져오기
+            List<Uri> imageUris = boardFreeWriteViewModel.getFileImage().getValue();
             // 장르 목록 (빈 리스트로 초기화)
-            List<Integer> genres = new ArrayList<>();
 
             // 제목과 내용이 비어있지 않은지 확인
             if (title.isEmpty() || content.isEmpty()) {
@@ -82,7 +111,7 @@ public class BoardFreeWriteActivity extends AppCompatActivity {
             }
 
             // 게시글 생성 함수 호출
-            boardFreeWriteViewModel.createArticle(title, content, category, genre);
+            boardFreeWriteViewModel.createArticle(title, content, category, genre, imageUris);
 
             // 성공 시 처리
             boardFreeWriteViewModel.getIsArticleCreateSuccess().observe(this, result -> {
@@ -90,10 +119,6 @@ public class BoardFreeWriteActivity extends AppCompatActivity {
                 switch (validation) {
                     case VALID_ALL:
                         Toast.makeText(context, "게시글 작성이 완료되었습니다.", Toast.LENGTH_SHORT).show();
-                        // 게시글 상세 페이지 이동
-                        Intent intent = new Intent(context, BoardFreeDetailActivity.class);
-                        intent.putExtra("targetBoardId", result.getData().getId());
-                        startActivity(intent);
                         finish();
                         break;
 
@@ -170,23 +195,19 @@ public class BoardFreeWriteActivity extends AppCompatActivity {
 
 
     public void initSpinnerGenre() {
-        // 실제 장르 값만 항목 리스트에 추가 (첫 번째 항목으로 "장르를 선택하세요"를 넣지 않음)
         List<String> spinnerItems = new ArrayList<>();
 
-        // Genre enum을 이용하여 실제 장르 리스트만 추가
+        spinnerItems.add("장르를 선택하세요");
+
         for (Genre genre : Genre.values()) {
             spinnerItems.add(genre.name());
         }
 
-        // ArrayAdapter 설정
         ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, spinnerItems);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         // 어댑터 연결
         binding.boardFreeWriteGenreSpinner.setAdapter(adapter);
-
-        // 기본 텍스트 (힌트) 설정: "장르를 선택하세요"는 목록에 포함하지 않고, 선택되지 않은 상태로 힌트로만 표시
-        binding.boardFreeWriteGenreSpinner.setPrompt("장르를 선택하세요");
 
         // 기본 텍스트 색상 설정
         binding.boardFreeWriteGenreSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -212,6 +233,49 @@ public class BoardFreeWriteActivity extends AppCompatActivity {
         binding.boardFreeWriteGenreSpinner.setSelection(0);
     }
 
+    public void initImageRecyclerView() {
+        RecyclerView recyclerView = binding.boardFreeWriteImageRecyclerView;
+        recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+
+        // 초기 이미지 리스트
+        ArrayList<String> imageUris = new ArrayList<>();
+
+        // Adapter 설정
+        adapter = new BoardFreeWriteAdapter(context, imageUris, new BoardFreeWriteAdapter.OnImageClickListener() {
+            @Override
+            public void onAddImageClick() {
+                // 사진 추가 버튼 클릭 시 동작
+                pickMedia.launch(new PickVisualMediaRequest.Builder()
+                        .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+                        .build());
+            }
+
+            @Override
+            public void onImageClick(int position) {
+                // 이미지 클릭 시 동작 (예: 확대)
+                Toast.makeText(context, "이미지 클릭: " + position, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onImageLongClick(int position) {
+                // 이미지 삭제 처리
+                imageUris.remove(position);
+                adapter.notifyItemRemoved(position);
+                adapter.notifyItemRangeChanged(position, imageUris.size());
+                Toast.makeText(context, "이미지가 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        recyclerView.setAdapter(adapter);
+
+        // ViewModel 관찰로 이미지 추가
+        boardFreeWriteViewModel.getFileImage().observe(this, uri -> {
+            if (uri != null && !imageUris.contains(uri.toString())) {
+                imageUris.add(uri.toString());
+                adapter.notifyDataSetChanged();
+            }
+        });
+    }
 
 
 }

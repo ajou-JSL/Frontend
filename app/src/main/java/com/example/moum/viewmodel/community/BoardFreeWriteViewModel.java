@@ -1,8 +1,10 @@
 package com.example.moum.viewmodel.community;
 
 import android.app.Application;
+import android.net.Uri;
 
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.moum.data.entity.Article;
@@ -28,6 +30,7 @@ public class BoardFreeWriteViewModel extends AndroidViewModel {
     private final MutableLiveData<Validation> isValidCheckSuccess = new MutableLiveData<>();
     private final MutableLiveData<Team> teamSelected = new MutableLiveData<>();
     private final MutableLiveData<Member> memberSelected = new MutableLiveData<>();
+    private final MutableLiveData<ArrayList<Uri>> fileImageList = new MutableLiveData<>();
 
 
     public BoardFreeWriteViewModel(Application application) {
@@ -81,6 +84,24 @@ public class BoardFreeWriteViewModel extends AndroidViewModel {
         return memberSelected;
     }
 
+    public void setFileImage(Uri uri) {
+        if (uri != null) {
+            // 기존 리스트 가져오기
+            ArrayList<Uri> currentList = fileImageList.getValue();
+            if (currentList == null) {
+                currentList = new ArrayList<>();
+            }
+            // 새로운 URI 추가
+            currentList.add(uri);
+            // 리스트 업데이트
+            fileImageList.setValue(currentList);
+        }
+    }
+
+
+    public MutableLiveData<ArrayList<Uri>> getFileImage() {
+        return fileImageList;
+    }
 
 
     public void loadTeamsAsLeader(Integer memberId){
@@ -101,7 +122,7 @@ public class BoardFreeWriteViewModel extends AndroidViewModel {
         });
     }
 
-    public void createArticle(String title, String content, String category, Integer genre){
+    public void createArticle(String title, String content, String category, Integer genre, List<Uri> imageList){
         // 제목 검증
         if (title == null || title.trim().isEmpty()) {
             setIsArticleCreateSuccess(new Result<>(Validation.ARTICLE_INVALID_TITLE));
@@ -132,12 +153,22 @@ public class BoardFreeWriteViewModel extends AndroidViewModel {
         articleToCreate.setCategory(category);
         articleToCreate.setGenre(genre);
 
-        File imageURL = null;
+        List<File> imageURL = new ArrayList<>();
+        if (imageList != null) {
+            for (Uri uri : imageList) {
+                File file = new File(getRealPathFromUri(uri));
+                imageURL.add(file);
+            }
+        }
 
         articleRepository.createArticle(articleToCreate, imageURL, this::setIsArticleCreateSuccess);
     }
 
     public void loadMemberProfile(Integer memberId){
         profileRepository.loadMemberProfile(memberId, this::setMemberSelected);
+    }
+
+    private String getRealPathFromUri(Uri uri) {
+        return uri.getPath();
     }
 }
