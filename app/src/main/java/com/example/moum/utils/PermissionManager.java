@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -37,12 +38,14 @@ public class PermissionManager {
 
     // 허용할 권한 요청이 남았는지 체크
     public boolean checkPermission(){
+        Log.e("PermissionManager", "checkPermission start");
         int result;
         permissionList = new ArrayList<>();
 
         // 배열로 저장한 권한 중 허용되지 않은 권한이 있는지 체크
         for (String pm : permissions){
             result = ContextCompat.checkSelfPermission(context, pm);
+            Log.e("PermissionManager", "pm: " + pm + "result: " + result + ", " + PackageManager.PERMISSION_GRANTED);
             if(result != PackageManager.PERMISSION_GRANTED){
                 permissionList.add(pm);
             }
@@ -53,6 +56,7 @@ public class PermissionManager {
 
     // 권한 허용 요청
     public  void requestPermission(){
+        Log.e("PermissionManager", "requestPermission start");
         ActivityCompat.requestPermissions(activity, permissionList.toArray(new String[permissionList.size()]),
                 MULTIPLE_PERMISSIONS);
     }
@@ -60,7 +64,7 @@ public class PermissionManager {
     // 권한 요청에 대한 결과 처리
     public boolean permissionResult(int requestCode , @NonNull String[] permissions, @NonNull int[] grantResults){
 
-
+        Log.e("PermissionManager", "permissionResult start");
         if (requestCode == MULTIPLE_PERMISSIONS && (grantResults.length > 0)){
             for(int i =0; i < grantResults.length ; i ++){
 

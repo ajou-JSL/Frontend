@@ -107,6 +107,16 @@ public class ValueMap {
             put("F-B005", Validation.PERFORMANCE_HALL_NOT_FOUND);
             put("F-B021", Validation.PARAMETER_NOT_VALID);
 
+            // 모음 + 연습실, 공연장 응답
+            put("S-MM010", Validation.MOUM_PRACTICE_ROOM_CREATE_SUCCESS);
+            put("S-MM014", Validation.MOUM_PRACTICE_ROOM_DELETE_SUCCESS);
+            put("S-MM012", Validation.MOUM_PRACTICE_ROOM_GET_SUCCESS);
+            put("S-MM011", Validation.MOUM_PERFORMANCE_HALL_CREATE_SUCCESS);
+            put("S-MM015", Validation.MOUM_PERFORMANCE_HALL_DELETE_SUCCESS);
+            put("S-MM013", Validation.MOUM_PERFORMANCE_HALL_GET_SUCCESS);
+            put("F-MM004", Validation.MOUM_PRACTICE_ROOM_NOT_FOUND);
+            put("F-MM005", Validation.MOUM_PERFORMANCE_HALL_NOT_FOUND);
+
             // QR 관련 응답 코드
             put("S-QR001", Validation.QR_SUCCESS);
             put("F-QR001", Validation.QR_FAIL);

@@ -520,7 +520,7 @@ public class MoumManageActivity extends AppCompatActivity {
         binding.buttonPracticeRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MoumManageActivity.this, MoumFindPracticeroomActivity.class);
+                Intent intent = new Intent(MoumManageActivity.this, MoumListPracticeroomActivity.class);
                 intent.putExtra("teamId", recentMoum.getTeamId());
                 intent.putExtra("moumId", recentMoum.getMoumId());
                 intent.putExtra("leaderId", recentMoum.getLeaderId());
@@ -531,7 +531,7 @@ public class MoumManageActivity extends AppCompatActivity {
         binding.buttonPerformLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MoumManageActivity.this, MoumFindPerformanceHallActivity.class);
+                Intent intent = new Intent(MoumManageActivity.this, MoumListPerformanceHallActivity.class);
                 intent.putExtra("teamId", recentMoum.getTeamId());
                 intent.putExtra("moumId", recentMoum.getMoumId());
                 intent.putExtra("leaderId", recentMoum.getLeaderId());

@@ -216,13 +216,12 @@ public class MoumFindPracticeroomActivity extends AppCompatActivity {
         viewModel.clearPage();
     }
 
-    private void permissionCheck(){
-        if(Build.VERSION.SDK_INT >= 23){
-            permissionManager =  new PermissionManager(this, this);
-            if(!permissionManager.checkPermission()){
+    private void permissionCheck() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            permissionManager = new PermissionManager(this, this);
+            if (!permissionManager.checkPermission()) {
                 permissionManager.requestPermission();
-            }
-            else{
+            } else {
                 latLng = getCurrentLatLng();
                 Log.e(TAG, latLng.toString());
             }
@@ -232,18 +231,24 @@ public class MoumFindPracticeroomActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (!permissionManager.permissionResult(requestCode, permissions, grantResults)){
+        if (!permissionManager.permissionResult(requestCode, permissions, grantResults)) {
             permissionManager.requestPermission();
-        }
-        else{
+        } else {
             latLng = getCurrentLatLng();
             Log.e(TAG, latLng.toString());
         }
     }
 
-    private LatLng getCurrentLatLng(){
+    private LatLng getCurrentLatLng() {
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         @SuppressLint("MissingPermission") Location currentLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        return new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+        if (currentLocation != null) {
+            return new LatLng(currentLocation);
+        }
+        else{
+            // 기본 설정 위치
+            Log.e(TAG, "기본 위치로 설정되었습니다.");
+            return new LatLng(37.279784, 127.043664);
+        }
     }
 }

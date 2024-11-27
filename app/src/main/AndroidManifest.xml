@@ -157,6 +157,12 @@
         <activity android:name=".view.moum.MoumPaymentAddActivity"
             android:exported="true">
         </activity>
+        <activity android:name=".view.moum.MoumListPracticeroomActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".view.moum.MoumListPerformanceHallActivity"
+            android:exported="true">
+        </activity>
     </application>
 
 </manifest>

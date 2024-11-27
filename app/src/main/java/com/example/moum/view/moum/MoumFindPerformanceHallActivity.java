@@ -246,6 +246,13 @@ public class MoumFindPerformanceHallActivity extends AppCompatActivity {
     private LatLng getCurrentLatLng(){
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         @SuppressLint("MissingPermission") Location currentLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        return new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+        if (currentLocation != null) {
+            return new LatLng(currentLocation);
+        }
+        else{
+            // 기본 설정 위치
+            Log.e(TAG, "기본 위치로 설정되었습니다.");
+            return new LatLng(37.279784, 127.043664);
+        }
     }
 }

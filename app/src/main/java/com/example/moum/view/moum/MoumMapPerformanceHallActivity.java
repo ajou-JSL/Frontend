@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.moum.R;
+import com.example.moum.data.entity.MoumPerformHall;
 import com.example.moum.data.entity.PerformanceHall;
 import com.example.moum.data.entity.Practiceroom;
 import com.example.moum.databinding.ActivityMoumMapPerformancehallBinding;
@@ -24,6 +25,7 @@ import com.example.moum.databinding.ActivityMoumMapPracticeroomBinding;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
+import com.example.moum.view.dialog.PerformOfMoumCreateDialog;
 import com.example.moum.viewmodel.moum.MoumMapPerformanceHallViewModel;
 import com.example.moum.viewmodel.moum.MoumMapPracticeroomViewModel;
 import com.naver.maps.geometry.LatLng;
@@ -104,6 +106,7 @@ public class MoumMapPerformanceHallActivity extends AppCompatActivity implements
         viewModel.loadPerformanceHall(performanceHallId);
 
         /*연습실 정보 불러오기 결과 감시*/
+        binding.buttonAddInMoum.setEnabled(false);
         viewModel.getIsLoadPerformanceHallSuccess().observe(this, isLoadPerformanceHallSuccess -> {
             Validation validation = isLoadPerformanceHallSuccess.getValidation();
             PerformanceHall loadedPerformanceHall = isLoadPerformanceHallSuccess.getData();
@@ -146,22 +149,20 @@ public class MoumMapPerformanceHallActivity extends AppCompatActivity implements
                     binding.imageviewPerformanceHall.setClipToOutline(true);
                 }
                 if(loadedPerformanceHall.getLatitude() != null && loadedPerformanceHall.getLongitude() != null) {
-                    Log.e(TAG, "지도 마커");
                     if (Boolean.TRUE.equals(viewModel.getIsNaverMapReady().getValue())) {
-                        Log.e(TAG, "지도 마커 찍을 준비 완료");
                         Marker marker = new Marker();
                         marker.setPosition(new LatLng(loadedPerformanceHall.getLatitude(), loadedPerformanceHall.getLongitude()));
-                        CameraUpdate cameraUpdate = CameraUpdate.scrollTo(new LatLng(loadedPerformanceHall.getLatitude(), loadedPerformanceHall.getLongitude()));
-                        naverMap.moveCamera(cameraUpdate);
                         marker.setMap(naverMap);
                         marker.setCaptionText(loadedPerformanceHall.getName());
-
+                        CameraUpdate cameraUpdate = CameraUpdate.scrollTo(new LatLng(loadedPerformanceHall.getLatitude(), loadedPerformanceHall.getLongitude()));
+                        naverMap.moveCamera(cameraUpdate);
                     }
                 }
                 if(loadedPerformanceHall.getMapUrl() != null)
                     binding.buttonGotoNaverMap.setEnabled(true);
                 else
                     binding.buttonGotoNaverMap.setEnabled(false);
+                binding.buttonAddInMoum.setEnabled(true);
             }
             else if(validation == Validation.NETWORK_FAILED){
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
@@ -188,16 +189,62 @@ public class MoumMapPerformanceHallActivity extends AppCompatActivity implements
         binding.buttonAddInMoum.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO
+                PerformOfMoumCreateDialog performOfMoumCreateDialog = new PerformOfMoumCreateDialog(context, performanceHall.getName());
+                performOfMoumCreateDialog.show();
+            }
+        });
+
+        /*모음에 등록하기 결과 감시*/
+        viewModel.getIsCreatePerformanceHallSuccess().observe(this, isCreatePerformanceHallSuccess -> {
+            Validation validation = isCreatePerformanceHallSuccess.getValidation();
+            MoumPerformHall createdPerformanceHall = isCreatePerformanceHallSuccess.getData();
+            if(validation == Validation.MOUM_PERFORMANCE_HALL_CREATE_SUCCESS){
+                Toast.makeText(context, "모음에 등록을 완료하였습니다.", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+            else if(validation == Validation.MOUM_NOT_FOUND){
+                Toast.makeText(context, "존재하지 않는 모음입니다.", Toast.LENGTH_SHORT).show();
+            }
+            else if(validation == Validation.NETWORK_FAILED){
+                Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Toast.makeText(context, "모음 등록에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "알 수 없는 감시 결과");
+            }
+        });
+
+        /*map ready시 결과 감시*/
+        viewModel.getIsNaverMapReady().observe(this, isNaverMapReady -> {
+            if(isNaverMapReady && performanceHall != null){
+                if (Boolean.TRUE.equals(viewModel.getIsNaverMapReady().getValue())) {
+                    Marker marker = new Marker();
+                    marker.setPosition(new LatLng(performanceHall.getLatitude(), performanceHall.getLongitude()));
+                    marker.setMap(naverMap);
+                    marker.setCaptionText(performanceHall.getName());
+                    CameraUpdate cameraUpdate = CameraUpdate.scrollTo(new LatLng(performanceHall.getLatitude(), performanceHall.getLongitude()));
+                    naverMap.moveCamera(cameraUpdate);
+                }
             }
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        performanceHall = null;
+        naverMap = null;
+    }
 
     @Override
     public void onMapReady(@NonNull NaverMap naverMap) {
         naverMap.setMapType(NaverMap.MapType.Basic);
         viewModel.setIsNaverMapReady(true);
+        this.naverMap = naverMap;
+    }
 
+    public void onPerformOfMoumCreateDialogYesClicked(){
+        if(performanceHall != null)
+            viewModel.createPerformanceHall(moumId, performanceHall.getId());
     }
 }
