@@ -46,6 +46,10 @@ public class MoumMapPerformanceHallViewModel extends AndroidViewModel {
         return isAllReady;
     }
 
+    public void setIsAllReady(Boolean isAllReady){
+        this.isAllReady.setValue(isAllReady);
+    }
+
     public MutableLiveData<Boolean> getIsNaverMapReady() {
         return isNaverMapReady;
     }

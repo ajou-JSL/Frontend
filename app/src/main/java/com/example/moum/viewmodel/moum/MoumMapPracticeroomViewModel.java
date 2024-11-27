@@ -70,6 +70,10 @@ public class MoumMapPracticeroomViewModel extends AndroidViewModel {
         this.isCreatePracticeroomSuccess.setValue(isCreatePracticeroomSuccess);
     }
 
+    public void setIsAllReady(Boolean isAllReady){
+        this.isAllReady.setValue(isAllReady);
+    }
+
     public void loadPracticeroom(Integer practiceroomId){
         practiceNPerformRepository.getPracticeroom(practiceroomId, this::setIsLoadPracticeroomSuccess);
     }

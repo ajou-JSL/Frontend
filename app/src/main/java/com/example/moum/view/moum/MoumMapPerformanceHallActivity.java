@@ -251,8 +251,8 @@ public class MoumMapPerformanceHallActivity extends AppCompatActivity implements
     @Override
     public void onMapReady(@NonNull NaverMap naverMap) {
         naverMap.setMapType(NaverMap.MapType.Basic);
-        viewModel.setIsNaverMapReady(true);
         this.naverMap = naverMap;
+        viewModel.setIsNaverMapReady(true);
     }
 
     public void onPerformOfMoumCreateDialogYesClicked(){
