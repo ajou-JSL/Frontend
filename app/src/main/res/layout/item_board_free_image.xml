@@ -30,10 +30,10 @@
                 android:layout_marginEnd="25dp"
                 android:layout_marginTop="15dp"
 
-                android:fontFamily="@font/noto_sans_kr_bold"
+                android:fontFamily="@font/noto_sans_kr_medium"
                 android:includeFontPadding="false"
                 android:text="제목"
-                android:textSize="20dp" />
+                android:textSize="16dp" />
 
             <TextView
 
@@ -42,11 +42,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="25dp"
                 android:layout_marginTop="20dp"
-
                 android:fontFamily="@font/noto_sans_kr_regular"
                 android:includeFontPadding="false"
                 android:text="작성자"
-                android:textSize="14sp" />
+                android:textSize="12sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -64,7 +63,7 @@
                     android:includeFontPadding="false"
                     android:textColor="@color/gray4"
                     android:text="시간"
-                    android:textSize="14sp" />
+                    android:textSize="12sp" />
 
                 <View
                     android:layout_width="0dp"
@@ -91,7 +90,7 @@
                     android:includeFontPadding="false"
                     android:textColor="@color/gray4"
                     android:text="[3] / 5 회"
-                    android:textSize="14sp" />
+                    android:textSize="12sp" />
 
 
             </LinearLayout>

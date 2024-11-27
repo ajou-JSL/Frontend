@@ -13,6 +13,9 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +49,7 @@ public class BoardFreeFragment extends Fragment {
     private Integer memberId;
     private int bottomNavHeight;
     private boolean isLoading = false;
+    private final String TAG = getClass().toString();
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         boardFreeViewModel = new ViewModelProvider(this).get(BoardFreeViewModel.class);
@@ -63,7 +67,7 @@ public class BoardFreeFragment extends Fragment {
             Intent intent = new Intent(context, InitialActivity.class);
             startActivity(intent);
         }
-
+        Log.e(TAG, "onCreateView start");
         initSpinner();
         initRecyclerView();
         initFloatingActionButton();
@@ -86,7 +90,6 @@ public class BoardFreeFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (parent != null) {
-                    Toast.makeText(requireContext(), parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -98,6 +101,8 @@ public class BoardFreeFragment extends Fragment {
     }
 
     private void initRecyclerView() {
+
+        Log.e(TAG, "initRecyclerView start");
         // RecyclerView 초기화
         RecyclerView recyclerView = binding.boardFreeRecyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -111,36 +116,30 @@ public class BoardFreeFragment extends Fragment {
         BoardFreeItemAdapter adapter = new BoardFreeItemAdapter(initialItemList);
         recyclerView.setAdapter(adapter);
 
-        // Activity에서 BottomNavigationView 높이를 가져오기
-        if (getActivity() != null) {
-            MainActivity mainActivity = (MainActivity) getActivity();
-            bottomNavHeight = mainActivity.getBottomNavHeight();
-        }
-
         // 스크롤 리스너 추가
+        long DEBOUNCE_DELAY = 0;
+        Handler handler = new Handler(Looper.getMainLooper()); // 여러번 호출되는 것을 막기 위한 디바운싱
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if(!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE && adapter.getItemCount() > 0 && !isLoading){
+                    isLoading = true;
+                    boardFreeViewModel.loadNextArticleCategoryList();
+                    handler.postDelayed(() -> isLoading = false, DEBOUNCE_DELAY);
+                }
+            }
+
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-
-                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                // 아래 스크롤 동작 확인
-                if (layoutManager != null && dy > 0) {
-                    int visibleItemCount = layoutManager.getChildCount();
-                    int totalItemCount = layoutManager.getItemCount();
-                    int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
-
-                    if (!boardFreeViewModel.isLoading() && (visibleItemCount + firstVisibleItemPosition) >= totalItemCount) {
-                        // ViewModel을 통해 추가 데이터 요청
-                        boardFreeViewModel.loadArticleCategoryList();
-                    }
-                }
             }
         });
 
+
         // LiveData 관찰 및 데이터 로딩
-        BoardFreeViewModel viewModel = new ViewModelProvider(requireActivity()).get(BoardFreeViewModel.class);
-        viewModel.getIsLoadArticlesCategorySuccess().observe(getViewLifecycleOwner(), result -> {
+        boardFreeViewModel.resetPagination();
+        boardFreeViewModel.getIsLoadArticlesCategorySuccess().observe(getViewLifecycleOwner(), result -> {
             if (result != null) {
                 Validation validation = result.getValidation();
                 List<Article> loadedArticles = result.getData();
@@ -161,6 +160,7 @@ public class BoardFreeFragment extends Fragment {
                         updatedItemList.add(item);
                     }
                     adapter.updateItemList(updatedItemList);
+                    boardFreeViewModel.setRecentSize(updatedItemList.size());
                 } else {
                     // 에러 처리
                     Toast.makeText(getContext(), "데이터를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
@@ -171,7 +171,40 @@ public class BoardFreeFragment extends Fragment {
             }
         });
 
-        viewModel.loadArticleCategoryList();
+        // 다음 리스트 LiveData 관찰 및 데이터 로딩
+        boardFreeViewModel.getIsLoadNextArticlesCategorySuccess().observe(getViewLifecycleOwner(), result -> {
+            if (result != null) {
+                Validation validation = result.getValidation();
+                List<Article> loadedArticles = result.getData();
+
+                if (validation == Validation.ARTICLE_LIST_GET_SUCCESS && loadedArticles != null) {
+                    // 데이터 업데이트
+                    ArrayList<BoardFreeItem> updatedItemList = new ArrayList<>();
+                    for (Article article : loadedArticles) {
+                        BoardFreeItem item = new BoardFreeItem();
+                        item.setBoardFreeItem(
+                                article.getId(),
+                                article.getTitle(),
+                                article.getAuthor(),
+                                getTimeAgo(article.getCreateAt()),
+                                article.getCommentsCounts(),
+                                article.getViewCounts()
+                        );
+                        updatedItemList.add(item);
+                    }
+                    adapter.addItemList(updatedItemList);
+                    boardFreeViewModel.setRecentSize(updatedItemList.size());
+                } else {
+                    // 에러 처리
+                    Toast.makeText(getContext(), "데이터를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                // result가 null일 경우 에러 처리
+                Toast.makeText(getContext(), "응답이 없습니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        boardFreeViewModel.loadArticleCategoryList();
     }
 
 

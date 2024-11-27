@@ -22,33 +22,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageButton
+        <ImageView
             android:id="@+id/leftarrow"
-            android:contentDescription="뒤로가기 버튼"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:background="@null"
-            android:padding="7dp"
-            android:scaleType="centerCrop"
-            app:layout_constraintBottom_toBottomOf="@id/toolbar_post"
-
-            app:layout_constraintStart_toStartOf="@id/toolbar_post"
-            app:layout_constraintTop_toTopOf="@id/toolbar_post"
-            app:srcCompat="@drawable/ic_leftarrow" />
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/button_rounded_left"
+            />
 
         <TextView
-            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
             android:text="자유게시판"
-            android:textSize="18sp"
-            android:fontFamily="@font/noto_sans_kr_black"
-            android:includeFontPadding="false"
-
-            app:layout_constraintBottom_toBottomOf="@id/toolbar_post"
-            app:layout_constraintStart_toEndOf="@id/leftarrow"
-            app:layout_constraintTop_toTopOf="@id/toolbar_post" />
+            android:fontFamily="@font/noto_sans_kr_semibold"
+            android:textColor="@color/gray7"
+            android:textSize="14sp" />
 
 
         <ImageButton

@@ -23,6 +23,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
 
             app:layout_constraintTop_toTopOf="parent">
 
@@ -78,12 +79,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
             android:layout_marginEnd="25dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="20dp"
 
             android:fontFamily="@font/noto_sans_kr_bold"
             android:includeFontPadding="false"
             android:text="제목"
-            android:textSize="20sp" />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/item_board_free_detail_content"
@@ -96,7 +97,7 @@
             android:fontFamily="@font/noto_sans_kr_regular"
             android:includeFontPadding="false"
             android:text="내용"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
         
         <LinearLayout
             android:layout_width="wrap_content"

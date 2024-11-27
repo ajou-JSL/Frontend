@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,7 +95,6 @@ public class BoardRecruitFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (parent != null) {
-                    Toast.makeText(requireContext(), parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -125,29 +126,28 @@ public class BoardRecruitFragment extends Fragment {
         }
 
         // 스크롤 리스너 추가
+        long DEBOUNCE_DELAY = 0;
+        Handler handler = new Handler(Looper.getMainLooper()); // 여러번 호출되는 것을 막기 위한 디바운싱
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if(!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE && adapter.getItemCount() > 0 && !isLoading){
+                    isLoading = true;
+                    boardRecruitViewModel.loadNextArticleCategoryList();
+                    handler.postDelayed(() -> isLoading = false, DEBOUNCE_DELAY);
+                }
+            }
+
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-
-                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                // 아래 스크롤 동작 확인
-                if (layoutManager != null && dy > 0) {
-                    int visibleItemCount = layoutManager.getChildCount();
-                    int totalItemCount = layoutManager.getItemCount();
-                    int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
-
-                    if (!boardRecruitViewModel.isLoading() && (visibleItemCount + firstVisibleItemPosition) >= totalItemCount) {
-                        // ViewModel을 통해 추가 데이터 요청
-                        boardRecruitViewModel.loadArticleCategoryList();
-                    }
-                }
             }
         });
 
         // LiveData 관찰 및 데이터 로딩
-        BoardRecruitViewModel viewModel = new ViewModelProvider(requireActivity()).get(BoardRecruitViewModel.class);
-        viewModel.getIsLoadArticlesCategorySuccess().observe(getViewLifecycleOwner(), result -> {
+        boardRecruitViewModel.resetPagination();
+        boardRecruitViewModel.getIsLoadArticlesCategorySuccess().observe(getViewLifecycleOwner(), result -> {
             if (result != null) {
                 Validation validation = result.getValidation();
                 List<Article> loadedArticles = result.getData();
@@ -169,6 +169,7 @@ public class BoardRecruitFragment extends Fragment {
                     }
                     // updateItemList를 통해 데이터 갱신
                     adapter.updateItemList(updatedItemList);
+                    boardRecruitViewModel.setRecentSize(updatedItemList.size());
                 } else {
                     // 에러 처리
                     Toast.makeText(getContext(), "데이터를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
@@ -179,7 +180,43 @@ public class BoardRecruitFragment extends Fragment {
             }
         });
 
-        viewModel.loadArticleCategoryList();
+        // 다음 리스트 LiveData 관찰 및 데이터 로딩
+        boardRecruitViewModel.resetPagination();
+        boardRecruitViewModel.getIsLoadArticlesCategorySuccess().observe(getViewLifecycleOwner(), result -> {
+            if (result != null) {
+                Validation validation = result.getValidation();
+                List<Article> loadedArticles = result.getData();
+
+                if (validation == Validation.ARTICLE_LIST_GET_SUCCESS && loadedArticles != null) {
+                    // 데이터 업데이트
+                    ArrayList<BoardFreeItem> updatedItemList = new ArrayList<>();
+                    for (Article article : loadedArticles) {
+                        BoardFreeItem item = new BoardFreeItem();
+                        item.setBoardFreeItem(
+                                article.getId(),
+                                article.getTitle(),
+                                article.getAuthor(),
+                                getTimeAgo(article.getCreateAt()),
+                                article.getCommentsCounts(),
+                                article.getViewCounts()
+                        );
+                        updatedItemList.add(item);
+                    }
+                    // updateItemList를 통해 데이터 갱신
+                    adapter.addItemList(updatedItemList);
+                    boardRecruitViewModel.setRecentSize(updatedItemList.size());
+                } else {
+                    // 에러 처리
+                    Toast.makeText(getContext(), "데이터를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                // result가 null일 경우 에러 처리
+                Toast.makeText(getContext(), "응답이 없습니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        boardRecruitViewModel.loadArticleCategoryList();
     }
 
 
