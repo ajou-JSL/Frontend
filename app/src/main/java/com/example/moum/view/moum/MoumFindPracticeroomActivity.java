@@ -125,7 +125,7 @@ public class MoumFindPracticeroomActivity extends AppCompatActivity {
         RecyclerView recyclerView = binding.recyclerPracticeroom;
         MoumPracticeroomAdapter moumPracticeroomAdapter = new MoumPracticeroomAdapter();
         moumPracticeroomAdapter.setPracticerooms(practicerooms, context);
-        recyclerView.setLayoutManager(new WrapContentLinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+        recyclerView.setLayoutManager(new WrapContentLinearLayoutManager(context));
         recyclerView.setAdapter(moumPracticeroomAdapter);
 
         /*연습실 불러오기*/
