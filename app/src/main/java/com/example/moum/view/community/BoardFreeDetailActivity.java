@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moum.R;
 import com.example.moum.data.entity.Comment;
-import com.example.moum.databinding.ActivityBoardFreeDetailTestBinding;
+import com.example.moum.databinding.ActivityBoardFreeDetailBinding;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
@@ -29,7 +29,7 @@ import com.example.moum.viewmodel.community.BoardFreeDetailViewModel;
 import java.util.ArrayList;
 
 public class BoardFreeDetailActivity extends AppCompatActivity {
-    private ActivityBoardFreeDetailTestBinding binding;
+    private ActivityBoardFreeDetailBinding binding;
     private BoardFreeDetailViewModel boardFreeDetailViewModel;
     private SharedPreferenceManager sharedPreferenceManager;
     private Integer memberId;
@@ -41,7 +41,7 @@ public class BoardFreeDetailActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         boardFreeDetailViewModel = new ViewModelProvider(this).get(BoardFreeDetailViewModel.class);
         super.onCreate(savedInstanceState);
-        binding = ActivityBoardFreeDetailTestBinding.inflate(getLayoutInflater());
+        binding = ActivityBoardFreeDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         context = this;
 

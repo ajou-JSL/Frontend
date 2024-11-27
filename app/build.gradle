@@ -96,6 +96,7 @@ dependencies {
     implementation libs.material
     implementation libs.activity
     implementation libs.constraintlayout
+    implementation libs.core
     testImplementation libs.junit
     testImplementation 'org.mockito:mockito-junit-jupiter:5.2.0'
     testImplementation 'android.arch.core:core-testing:1.0.0-alpha3'

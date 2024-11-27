@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray1">
@@ -65,40 +64,176 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="end|center_vertical"
-           app:layout_constraintEnd_toStartOf="@id/menu">
+            app:layout_constraintEnd_toStartOf="@id/menu">
 
-        <ToggleButton
-            android:id="@+id/wishlist"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
-            android:background="@drawable/ic_star_toggle"
-            android:textOff="@null"
-            android:textOn="@null" />
-    </FrameLayout>
+            <ToggleButton
+                android:id="@+id/wishlist"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_star_toggle"
+                android:textOff="@null"
+                android:textOn="@null" />
+        </FrameLayout>
 
     </androidx.appcompat.widget.Toolbar>
 
-
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@id/toolbar_post"
-        app:layout_constraintBottom_toTopOf="@id/board_free_detail_input_layout">
+        android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/board_free_detail_recycler_view"
-            android:contentDescription="게시판 글"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="1dp"
-            android:layout_marginStart="1dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/toolbar_post"
+            app:layout_constraintBottom_toTopOf="@id/board_free_detail_input_layout">
 
-            android:layout_marginEnd="1dp">
-        </androidx.recyclerview.widget.RecyclerView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-    </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_margin="1dp"
+                    android:paddingBottom="25dp"
+                    android:background="@drawable/background_white_underline"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <LinearLayout
+                        android:id="@+id/item_board_free_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginStart="10dp"
+
+                        app:layout_constraintTop_toTopOf="parent">
+
+
+                        <ImageView
+                            android:id="@+id/board_free_detail_image"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_weight="0"
+                            android:padding="8dp"
+                            android:scaleType="centerCrop"
+
+                            app:srcCompat="@drawable/background_circle_darkgray">
+                        </ImageView>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/board_free_detail_writer"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginTop="15dp"
+
+                                android:text="유저 이름"
+                                android:textSize="16dp"
+                                android:fontFamily="@font/noto_sans_kr_bold"
+                                android:includeFontPadding="false" />
+
+                            <TextView
+                                android:id="@+id/board_free_detail_time"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="20dp"
+
+                                android:fontFamily="@font/noto_sans_kr_medium"
+                                android:includeFontPadding="false"
+                                android:textColor="@color/gray4"
+                                android:text="몇 분 전"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/board_free_detail_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="25dp"
+                        android:layout_marginEnd="25dp"
+                        android:layout_marginTop="5dp"
+
+                        android:fontFamily="@font/noto_sans_kr_bold"
+                        android:includeFontPadding="false"
+                        android:text="제목"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/board_free_detail_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="25dp"
+                        android:layout_marginEnd="25dp"
+                        android:layout_marginTop="10dp"
+
+                        android:fontFamily="@font/noto_sans_kr_regular"
+                        android:includeFontPadding="false"
+                        android:text="내용"
+                        android:textSize="16sp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="25dp"
+                        android:layout_marginTop="40dp"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:background="@drawable/background_like_button">
+
+                        <ImageView
+                            android:id="@+id/board_free_detail_like"
+                            android:layout_width="35dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:layout_gravity="center"
+                            android:scaleType="centerCrop"
+                            android:padding="9dp"
+
+                            app:srcCompat="@drawable/icon_heart_toggle"/>
+
+                        <TextView
+                            android:id="@+id/board_free_detail_like_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingEnd="5dp"
+                            android:layout_gravity="center|start"
+                            android:text="15"
+
+                            android:fontFamily="@font/noto_sans_kr_regular"
+                            android:includeFontPadding="false"
+                            android:textSize="16sp"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/board_free_detail_recycler_view"
+                    android:contentDescription="댓글"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="1dp"
+
+                    android:layout_marginEnd="1dp">
+                </androidx.recyclerview.widget.RecyclerView>
+
+            </LinearLayout>
+        </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 
     <LinearLayout
@@ -109,16 +244,15 @@
         android:background="@drawable/background_top_line"
         app:layout_constraintBottom_toBottomOf="parent">
 
-
-            <EditText
-                android:id="@+id/board_free_detail_input_box"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="15dp"
-                android:layout_weight="1"
-                android:background="@null"
-                android:textSize="20sp"
-                android:hint="입력"/>
+        <EditText
+            android:id="@+id/board_free_detail_input_box"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="15dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:textSize="20sp"
+            android:hint="입력"/>
 
         <ImageButton
             android:id="@+id/board_free_detail_input_button"
