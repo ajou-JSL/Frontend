@@ -20,10 +20,12 @@ import com.example.moum.repository.ProfileRepository;
 import com.example.moum.utils.ImageManager;
 import com.example.moum.utils.TimeManager;
 import com.example.moum.utils.Validation;
+import com.example.moum.utils.YoutubeManager;
 
 import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
@@ -38,8 +40,10 @@ public class MyInformationUpdateViewModel extends AndroidViewModel {
     private final MutableLiveData<String> address = new MutableLiveData<>("");
     private final MutableLiveData<Uri> profileImage = new MutableLiveData<>();
     private ArrayList<Record> records = new ArrayList<>();
+    private ArrayList<Genre> selectedGenres = new ArrayList<>();
     private Boolean fromExisting = false;
     private String email;
+    private final String TAG = getClass().toString();
 
     public MyInformationUpdateViewModel(Application application) {
         super(application);
@@ -77,6 +81,18 @@ public class MyInformationUpdateViewModel extends AndroidViewModel {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setGenres(Genre[] genres, ArrayList<Boolean> isSelecteds){
+        ArrayList<Genre> genresList = new ArrayList<>(Arrays.asList(genres));
+        if(isSelecteds != null) {
+            selectedGenres.clear();
+            for (int i = 0; i < genresList.size(); i++) {
+                if (isSelecteds.get(i)) {
+                    selectedGenres.add(genresList.get(i));
+                }
+            }
+        }
     }
 
     public void setIsLoadMemberProfileSuccess(Result<Member> isLoadMemberProfileSuccess){
@@ -134,6 +150,10 @@ public class MyInformationUpdateViewModel extends AndroidViewModel {
             setIsProfileValid(Validation.MEMBER_NOT_EXIST);
             return;
         }
+        else if(member.getValue().getVideoUrl() != null && !YoutubeManager.isUrlValid(member.getValue().getVideoUrl())){
+            setIsProfileValid(Validation.VIDEO_URL_NOT_FORMAL);
+            return;
+        }
 
         /*if above all pass, valid all!*/
         setIsProfileValid(Validation.VALID_ALL);
@@ -176,7 +196,7 @@ public class MyInformationUpdateViewModel extends AndroidViewModel {
         }
         else if(profileImage.getValue() != null && !fromExisting)
             profileFile = new ImageManager(context).convertUriToFile(profileImage.getValue());
-        if(!records.isEmpty()){
+        if(records != null){
             for(Record record : records)
                 if(TimeManager.strToDate(record.getEndDate()).isEmpty() && !TimeManager.strToDate(record.getStartDate()).isEmpty()){
                     Result<Member> result = new Result<>(Validation.RECORD_NOT_VALID);
@@ -191,8 +211,7 @@ public class MyInformationUpdateViewModel extends AndroidViewModel {
             memberToUpdate.setProficiency(proficiency.getValue());
         if(address.getValue() != null)
             memberToUpdate.setAddress(address.getValue());
-        ArrayList<Genre> genres = new ArrayList<>();
-        memberToUpdate.setGenres(genres);
+        memberToUpdate.setGenres(selectedGenres);
 
         /*goto repository*/
         profileRepository.updateMemberProfile(memberId, profileFile, memberToUpdate, this::setIsUpdateProfileSuccess);

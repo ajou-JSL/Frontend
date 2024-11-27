@@ -1,5 +1,7 @@
 package com.example.moum.data.entity;
 
+import androidx.annotation.NonNull;
+
 public enum Genre {
     POP(0),
     ROCK(1),
@@ -33,5 +35,25 @@ public enum Genre {
             }
         }
         throw new IllegalArgumentException("Unknown enum value: " + value);
+    }
+
+    public static String[] toStringArray() {
+        Genre[] genres = Genre.values();
+        String[] genreNames = new String[genres.length];
+        for (int i = 0; i < genres.length; i++) {
+            genreNames[i] = genres[i].name();
+        }
+        return genreNames;
+    }
+
+    public static Genre fromString(String name) {
+        if (name == null || name.isEmpty()) {
+            throw new IllegalArgumentException("Genre name cannot be null or empty");
+        }
+        try {
+            return Genre.valueOf(name.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Unknown Genre name: " + name);
+        }
     }
 }

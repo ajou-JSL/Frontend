@@ -1,5 +1,7 @@
 package com.example.moum.data.entity;
 
+import java.util.ArrayList;
+
 public class Practiceroom {
     private Integer id;
     private String name;
@@ -10,13 +12,13 @@ public class Practiceroom {
     private String phone;
     private String email;
     private String mapUrl;
-    private String imageUrl;
+    private ArrayList<String> imageUrls;
     private Integer type;
     private Integer stand;
-    private Boolean piano;
-    private Boolean amp;
-    private Boolean speaker;
-    private Boolean drums;
+    private Boolean hasPiano;
+    private Boolean hasAmp;
+    private Boolean hasSpeaker;
+    private Boolean hasDrums;
     private String details;
     private Float latitude;
     private Float longitude;
@@ -33,8 +35,24 @@ public class Practiceroom {
         return address;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public Boolean getHasSpeaker() {
+        return hasSpeaker;
+    }
+
+    public Boolean getHasPiano() {
+        return hasPiano;
+    }
+
+    public Boolean getHasAmp() {
+        return hasAmp;
+    }
+
+    public Boolean getHasDrums() {
+        return hasDrums;
+    }
+
+    public ArrayList<String> getImageUrls() {
+        return imageUrls;
     }
 
     public Integer getPrice() {
@@ -43,22 +61,6 @@ public class Practiceroom {
 
     public String getEmail() {
         return email;
-    }
-
-    public Boolean getAmp() {
-        return amp;
-    }
-
-    public Boolean getDrums() {
-        return drums;
-    }
-
-    public Boolean getPiano() {
-        return piano;
-    }
-
-    public Boolean getSpeaker() {
-        return speaker;
     }
 
     public Float getLatitude() {
@@ -113,10 +115,6 @@ public class Practiceroom {
         this.price = price;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
     public void setEmail(String email) {
         this.email = email;
     }
@@ -125,20 +123,12 @@ public class Practiceroom {
         this.type = type;
     }
 
-    public void setAmp(Boolean amp) {
-        this.amp = amp;
-    }
-
     public void setCapacity(Integer capacity) {
         this.capacity = capacity;
     }
 
     public void setDetails(String details) {
         this.details = details;
-    }
-
-    public void setDrums(Boolean drums) {
-        this.drums = drums;
     }
 
     public void setLatitude(Float latitude) {
@@ -161,12 +151,24 @@ public class Practiceroom {
         this.phone = phone;
     }
 
-    public void setPiano(Boolean piano) {
-        this.piano = piano;
+    public void setHasPiano(Boolean hasPiano) {
+        this.hasPiano = hasPiano;
     }
 
-    public void setSpeaker(Boolean speaker) {
-        this.speaker = speaker;
+    public void setHasDrums(Boolean hasDrums) {
+        this.hasDrums = hasDrums;
+    }
+
+    public void setHasSpeaker(Boolean hasSpeaker) {
+        this.hasSpeaker = hasSpeaker;
+    }
+
+    public void setHasAmp(Boolean hasAmp) {
+        this.hasAmp = hasAmp;
+    }
+
+    public void setImageUrls(ArrayList<String> imageUrls) {
+        this.imageUrls = imageUrls;
     }
 
     public void setStand(Integer stand) {
@@ -185,13 +187,13 @@ public class Practiceroom {
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
                 ", mapUrl='" + mapUrl + '\'' +
-                ", imageUrl='" + imageUrl + '\'' +
+                ", imageUrls=" + imageUrls +
                 ", type=" + type +
                 ", stand=" + stand +
-                ", piano=" + piano +
-                ", amp=" + amp +
-                ", speaker=" + speaker +
-                ", drums=" + drums +
+                ", hasPiano=" + hasPiano +
+                ", hasAmp=" + hasAmp +
+                ", hasSpeaker=" + hasSpeaker +
+                ", hasDrums=" + hasDrums +
                 ", details='" + details + '\'' +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +

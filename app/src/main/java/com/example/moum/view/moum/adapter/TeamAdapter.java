@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Build;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,8 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.view.GravityCompat;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,9 +29,11 @@ import com.example.moum.R;
 import com.example.moum.data.entity.Chat;
 import com.example.moum.data.entity.Moum;
 import com.example.moum.data.entity.Team;
+import com.example.moum.view.chat.ChatMemberListFragment;
 import com.example.moum.view.chat.adapter.ChatAdapter;
 import com.example.moum.view.chat.adapter.ChatroomAdapter;
 import com.example.moum.view.moum.TeamCreateActivity;
+import com.example.moum.view.moum.TeamUpdateActivity;
 import com.example.moum.view.profile.adapter.ProfileTeamAdapter;
 
 import java.util.ArrayList;
@@ -38,15 +43,17 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class TeamAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<Team> teams;
     private ArrayList<ArrayList<Moum>> moumsOfTeams;
+    private Integer myId;
     private Context context;
     private ActivityResultLauncher<Intent> launcher;
     private static final int VIEW_TYPE_EXIST = 1;
     private static final int VIEW_TYPE_EMPTY = 2;
     private final String TAG = getClass().toString();
 
-    public void setTeamsNMoums(ArrayList<Team> teams, ArrayList<ArrayList<Moum>> moumsOfTeams, Context context, ActivityResultLauncher<Intent> launcher) {
+    public void setTeamsNMoums(ArrayList<Team> teams, ArrayList<ArrayList<Moum>> moumsOfTeams, Integer myId, Context context, ActivityResultLauncher<Intent> launcher) {
         this.teams = teams;
         this.moumsOfTeams = moumsOfTeams;
+        this.myId = myId;
         this.context = context;
         this.launcher = launcher;
     }
@@ -64,7 +71,7 @@ public class TeamAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             return new TeamAdapter.TeamEmptyViewHolder(view, context);
         } else {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_team, parent, false);
-            return new TeamAdapter.TeamExistViewHolder(view, context);
+            return new TeamAdapter.TeamExistViewHolder(view, context, myId);
         }
     }
 
@@ -90,6 +97,7 @@ public class TeamAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     static class TeamExistViewHolder extends RecyclerView.ViewHolder{
         private Team team;
         private ArrayList<Moum> moums;
+        private Integer myId;
         private ImageView teamProfile;
         private ImageView teamMembersProfile;
         private TextView teamMembers;
@@ -99,8 +107,9 @@ public class TeamAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private RecyclerView moumRecycler;
         private Context context;
 
-        public TeamExistViewHolder(@NonNull View itemView, Context context) {
+        public TeamExistViewHolder(@NonNull View itemView, Context context, Integer myId) {
             super(itemView);
+            this.myId = myId;
             teamProfile = itemView.findViewById(R.id.imageview_team_profile);
             teamMembersProfile = itemView.findViewById(R.id.imageview_members);
             teamMembers = itemView.findViewById(R.id.textview_team_members);
@@ -138,8 +147,24 @@ public class TeamAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             moumAdapter.setMoums(moums, team.getTeamId(), context, launcher);
             moumRecycler.setLayoutManager(new LinearLayoutManager(context));
             moumRecycler.setAdapter(moumAdapter);
-        }
 
+            /*단체장이라면 수정하기 버튼 보이기*/
+            if(team.getLeaderId().equals(myId)){
+                teamUpdate.setVisibility(View.VISIBLE);
+                teamUpdate.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(context, TeamUpdateActivity.class);
+                        intent.putExtra("teamId", team.getTeamId());
+                        intent.putExtra("leaderId", team.getLeaderId());
+                        context.startActivity(intent);
+                    }
+                });
+            }
+            else{
+                teamUpdate.setVisibility(View.GONE);
+            }
+        }
     }
 
     static class TeamEmptyViewHolder extends RecyclerView.ViewHolder{

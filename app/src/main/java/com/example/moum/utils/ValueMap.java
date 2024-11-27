@@ -89,6 +89,7 @@ public class ValueMap {
             put("S-PF004", Validation.PERFORMANCE_GET_SUCCESS);
             put("S-PF005", Validation.PERFORMANCE_LIST_GET_SUCCESS);
             put("S-PF006", Validation.PERFORMANCE_HOT_LIST_GET_SUCCESS);
+            put("F=PAT003", Validation.PERFORMANCE_ALREADY_MADE);
 
             // 모음 관련 성공 응답
             put("S-MM001", Validation.CREATE_MOUM_SUCCESS);
@@ -98,6 +99,29 @@ public class ValueMap {
             put("S-MM005", Validation.FINISH_MOUM_SUCCESS);
             put("S-MM006", Validation.REOPEN_MOUM_SUCCESS);
             put("S-MM007", Validation.UPDATE_PROCESS_MOUM_SUCCESS);
+
+            // 연습실, 공연장 성공 응답
+            put("S-B005", Validation.PRACTICE_ROOM_GET_SUCCESS);
+            put("S-B006", Validation.PERFORMANCE_HALL_GET_SUCCESS);
+            put("F-B004", Validation.PRACTICE_ROOM_NOT_FOUND);
+            put("F-B005", Validation.PERFORMANCE_HALL_NOT_FOUND);
+            put("F-B021", Validation.PARAMETER_NOT_VALID);
+
+            // 모음 + 연습실, 공연장 응답
+            put("S-MM010", Validation.MOUM_PRACTICE_ROOM_CREATE_SUCCESS);
+            put("S-MM014", Validation.MOUM_PRACTICE_ROOM_DELETE_SUCCESS);
+            put("S-MM012", Validation.MOUM_PRACTICE_ROOM_GET_SUCCESS);
+            put("S-MM011", Validation.MOUM_PERFORMANCE_HALL_CREATE_SUCCESS);
+            put("S-MM015", Validation.MOUM_PERFORMANCE_HALL_DELETE_SUCCESS);
+            put("S-MM013", Validation.MOUM_PERFORMANCE_HALL_GET_SUCCESS);
+            put("F-MM004", Validation.MOUM_PRACTICE_ROOM_NOT_FOUND);
+            put("F-MM005", Validation.MOUM_PERFORMANCE_HALL_NOT_FOUND);
+
+            // QR 관련 응답 코드
+            put("S-QR001", Validation.QR_SUCCESS);
+            put("F-QR001", Validation.QR_FAIL);
+            put("S-QR002", Validation.QR_DELETE_SUCCESS);
+            put("F-PA001", Validation.QR_PERFORM_NOT_FOUND);
 
             // 공통 오류 코드
             put("F-C001", Validation.INTERNAL_SERVER_ERROR);
@@ -157,6 +181,13 @@ public class ValueMap {
             put("F-RP004", Validation.REPORT_ARTICLE_FAIL);
             put("F-RP014", Validation.REPORT_ARTICLE_ALREADY);
             put("S-RP024", Validation.REPORT_ARTICLE_GET_SUCCESS);
+
+            // 정산 관련 성공 & 오류 코드
+            put("S-S001", Validation.SETTLEMENT_CREATE_SUCCESS);
+            put("F-MM003", Validation.MOUM_NOT_FOUND);
+            put("S-S002", Validation.SETTLEMENT_DELETE_SUCCESS);
+            put("S-S003", Validation.SETTLEMENT_GET_SUCCESS);
+
         }
     };
 

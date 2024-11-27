@@ -3,10 +3,12 @@ package com.example.moum.viewmodel.moum;
 import android.app.Application;
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.moum.data.entity.Genre;
 import com.example.moum.data.entity.Member;
 import com.example.moum.data.entity.Moum;
 import com.example.moum.data.entity.Music;
@@ -20,6 +22,9 @@ import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
 
 public class MoumUpdateViewModel extends AndroidViewModel {
     private final TeamRepository teamRepository;
@@ -33,6 +38,7 @@ public class MoumUpdateViewModel extends AndroidViewModel {
     private Boolean isProfileUpdated = false;
     private LocalDate startDate;
     private LocalDate endDate;
+    private Genre genre;
 
     public MoumUpdateViewModel(Application application){
         super(application);
@@ -62,6 +68,9 @@ public class MoumUpdateViewModel extends AndroidViewModel {
 
     public void setMoum(Moum moum) { this.moum.setValue(moum);}
 
+    public void setGenre(String genreStr) {
+        this.genre = Genre.fromString(genreStr);
+    }
     public void setProfileImages(List<Uri> uris) {
         ArrayList<Uri> uriArrayList = new ArrayList<>(uris);
         this.profileImages.setValue(uriArrayList);
@@ -73,6 +82,7 @@ public class MoumUpdateViewModel extends AndroidViewModel {
         for(String url : urls)
             uriArrayList.add(Uri.parse(url));
         this.profileImages.setValue(uriArrayList);
+        isProfileUpdated = false;
     }
 
     public void setDates(LocalDate startDate, LocalDate endDate){
@@ -127,6 +137,7 @@ public class MoumUpdateViewModel extends AndroidViewModel {
 
         /*processing for repository*/
         Moum moumToUpdate = moum.getValue();
+        moumToUpdate.setGenre(genre);
         moumToUpdate.setMoumId(moumId);
         moumToUpdate.setTeamId(teamId);
         moumToUpdate.setLeaderId(leaderId);
@@ -138,6 +149,29 @@ public class MoumUpdateViewModel extends AndroidViewModel {
                 ImageManager imageManager = new ImageManager(context);
                 File profileFile = imageManager.convertUriToFile(uri);
                 profileFiles.add(profileFile);
+            }
+        }
+        else if(profileImages.getValue() != null && !profileImages.getValue().isEmpty() && !isProfileUpdated){
+            for(Uri profileImage : profileImages.getValue()) {
+                File profileFile = null;
+                Callable<File> callable = () -> {
+                    ImageManager imageManager = new ImageManager(context);
+                    return imageManager.downloadImageToFile(profileImage.toString());
+                };
+                FutureTask<File> futureTask = new FutureTask<>(callable);
+                Thread thread = new Thread(futureTask);
+                thread.start();
+                try {
+                    profileFile = futureTask.get();
+                    if (profileFile != null) {
+                        Log.e("ProfileFile", "File downloaded: " + profileFile.getAbsolutePath());
+                        profileFiles.add(profileFile);
+                    } else {
+                        Log.e("ProfileFile", "Failed to download profile image");
+                    }
+                } catch (ExecutionException | InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
         moumToUpdate.setMembers( new ArrayList<>());

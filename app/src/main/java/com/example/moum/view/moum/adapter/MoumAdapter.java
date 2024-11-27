@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -113,8 +114,10 @@ public class MoumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 moumDate.setText(String.format("%s", moum.getEndDate()));
             else
                 moumDate.setText("");
-            if(moum.getProcess().getFinishStatus())
+            if(moum.getProcess().getFinishStatus()) {
                 moumState.setText("완료");
+                topView.setBackground(AppCompatResources.getDrawable(context, R.drawable.background_more_rounded_gray2));
+            }
             else
                 moumState.setText("진행중");
             moumProgress.setProgress(moum.getProcess().getProcessPercentage());

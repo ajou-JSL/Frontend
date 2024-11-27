@@ -19,8 +19,10 @@
         app:itemActiveIndicatorStyle="@color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/bottom_nav_menu"
-        app:itemIconSize="32dp"
-        app:labelVisibilityMode="labeled"/>
+        app:itemIconSize="28dp"
+        app:labelVisibilityMode="labeled"
+        app:itemTextAppearanceActive="@style/BottomNavigationView.Active"
+        app:itemTextAppearanceInactive="@style/BottomNavigationView" />
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -79,16 +79,18 @@ public class MoumPracticeroomAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         public void bind(Practiceroom practiceroom) {
             this.practiceroom = practiceroom;
-            practiceroomName.setText(practiceroom.getName());
-            practiceroomDescription.setText(practiceroom.getDetails());
-            practiceroomAddress.setText(practiceroom.getAddress());
-            practiceroomPrice.setText(practiceroom.getPrice());
-            Glide.with(context)
-                    .load(practiceroom.getImageUrl())
-                    .apply(new RequestOptions()
-                            .placeholder(R.drawable.background_more_rounded_gray_size_fit)
-                            .error(R.drawable.background_more_rounded_gray_size_fit))
-                    .into(practiceromProfile);
+            if(practiceroom.getName() != null) practiceroomName.setText(practiceroom.getName());
+            if(practiceroom.getDetails() != null) practiceroomDescription.setText(practiceroom.getDetails());
+            if(practiceroom.getAddress() != null) practiceroomAddress.setText(practiceroom.getAddress());
+            if(practiceroom.getPrice() != null) practiceroomPrice.setText(String.format("시간 당 %s원", practiceroom.getPrice()));
+            if(practiceroom.getImageUrls() != null && !practiceroom.getImageUrls().isEmpty())
+                Glide.with(context)
+                        .load(practiceroom.getImageUrls().get(0))
+                        .apply(new RequestOptions()
+                        .placeholder(R.drawable.background_more_rounded_gray_size_fit)
+                        .error(R.drawable.background_more_rounded_gray_size_fit))
+                        .into(practiceromProfile);
+            practiceromProfile.setClipToOutline(true);
             practiceroomTop.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
