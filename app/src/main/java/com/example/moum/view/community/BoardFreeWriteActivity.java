@@ -95,6 +95,7 @@ public class BoardFreeWriteActivity extends AppCompatActivity {
     private void initWriteButton() {
         // 작성 버튼 클릭 이벤트
         binding.buttonWrite.setOnClickListener(v -> {
+            //TODO author 바꿀 수 있게 api 추가
             String author = binding.boardFreeWriteSpinner.getSelectedItem().toString();
             String title = binding.boardFreeWriteTitle.getText().toString();
             String content = binding.boardFreeWriteContent.getText().toString();
@@ -253,7 +254,7 @@ public class BoardFreeWriteActivity extends AppCompatActivity {
             @Override
             public void onImageClick(int position) {
                 // 이미지 클릭 시 동작 (예: 확대)
-                Toast.makeText(context, "이미지 클릭: " + position, Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
@@ -262,7 +263,7 @@ public class BoardFreeWriteActivity extends AppCompatActivity {
                 imageUris.remove(position);
                 adapter.notifyItemRemoved(position);
                 adapter.notifyItemRangeChanged(position, imageUris.size());
-                Toast.makeText(context, "이미지가 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -275,6 +276,12 @@ public class BoardFreeWriteActivity extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        binding = null;
     }
 
 

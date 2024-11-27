@@ -18,6 +18,7 @@ public class BoardFreeViewModel extends AndroidViewModel {
     private final MutableLiveData<Result<List<Article>>> isLoadArticlesCategorySuccess = new MutableLiveData<>();
     private final MutableLiveData<Result<Article>> isLoadArticleSuccess = new MutableLiveData<>();
     private ArticleRepository articleRepository;
+ //   private final MutableLiveData<Result<String>> profileURL;
     private boolean isLoading = false;
     private Integer currentPage = 0;
     private final Integer currentSize = 10;

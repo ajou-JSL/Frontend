@@ -22,9 +22,7 @@ import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.view.community.adapter.BoardFreeDetailAdapter;
-import com.example.moum.viewmodel.community.BoardFreeDetailViewModel;
 import com.example.moum.viewmodel.community.BoardRecruitDetailViewModel;
-import com.example.moum.viewmodel.community.BoardRecruitViewModel;
 
 import java.util.ArrayList;
 

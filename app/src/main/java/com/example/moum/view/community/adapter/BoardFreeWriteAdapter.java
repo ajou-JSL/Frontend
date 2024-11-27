@@ -4,6 +4,7 @@ package com.example.moum.view.community.adapter;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.moum.R;
 
 import java.util.ArrayList;
@@ -29,7 +31,7 @@ public class BoardFreeWriteAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public interface OnImageClickListener {
         void onAddImageClick();
         void onImageClick(int position);
-        void onImageLongClick(int position); // 이미지를 길게 눌렀을 때
+        void onImageLongClick(int position);
     }
 
     public BoardFreeWriteAdapter(Context context, ArrayList<String> imageList, OnImageClickListener listener) {
@@ -73,7 +75,6 @@ public class BoardFreeWriteAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         return imageList.size() + 1;
     }
 
-    // ViewHolder for image items
     class ImageViewHolder extends RecyclerView.ViewHolder {
         private final ImageView imageView;
 
@@ -86,15 +87,18 @@ public class BoardFreeWriteAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             // 이미지 로드
             Glide.with(context)
                     .load(Uri.parse(imageUri))
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(imageView);
 
+            Log.e("imageURL","이미지 로드완료 URL : " + imageUri);
             // 이미지 클릭 이벤트 처리
             imageView.setOnClickListener(v -> onImageClickListener.onImageClick(position));
 
             // 이미지 길게 클릭 이벤트 처리
             imageView.setOnLongClickListener(v -> {
                 onImageClickListener.onImageLongClick(position);
-                return true; // true로 반환하여 이벤트 소모
+                return true;
             });
         }
     }

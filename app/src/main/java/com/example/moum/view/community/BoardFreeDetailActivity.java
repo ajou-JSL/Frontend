@@ -9,6 +9,7 @@ import android.util.Log;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -96,10 +97,36 @@ public class BoardFreeDetailActivity extends AppCompatActivity {
 
     private void initMenu() {
         binding.menu.setOnClickListener(v -> {
-            Intent intent = new Intent(this, BoardFreeWriteActivity.class);
-            startActivity(intent);
+            // PopupMenu 생성
+            PopupMenu popupMenu = new PopupMenu(this, binding.menu);
+
+            // 메뉴 항목 추가
+            popupMenu.getMenu().add("수정하기");
+            popupMenu.getMenu().add("신고하기");
+
+            // 메뉴 항목 클릭 이벤트 처리
+            popupMenu.setOnMenuItemClickListener(item -> {
+                switch (item.getTitle().toString()) {
+                    case "수정하기":
+                        Intent editIntent = new Intent(this, BoardFreeWriteActivity.class);
+                        startActivity(editIntent);
+                        break;
+
+                    case "신고하기":
+                        Toast.makeText(this, "신고하기가 선택되었습니다.", Toast.LENGTH_SHORT).show();
+                        break;
+
+                    default:
+                        break;
+                }
+                return true;
+            });
+
+            // 메뉴 표시
+            popupMenu.show();
         });
     }
+
 
     private void initRecyclerviewContent() {
         // RecyclerView 초기화

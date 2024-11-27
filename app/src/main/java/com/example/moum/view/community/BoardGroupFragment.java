@@ -2,6 +2,8 @@ package com.example.moum.view.community;
 
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,6 +13,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,15 +25,20 @@ import com.example.moum.R;
 import com.example.moum.data.entity.BoardGroupItem;
 import com.example.moum.data.entity.Team;
 import com.example.moum.databinding.FragmentBoardGroupBinding;
+import com.example.moum.utils.SharedPreferenceManager;
+import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.view.community.adapter.BoardGroupItemAdapter;
 import com.example.moum.viewmodel.community.BoardGroupViewModel;
+import com.example.moum.viewmodel.community.BoardRecruitDetailViewModel;
 
 import java.util.ArrayList;
 
 public class BoardGroupFragment extends Fragment {
     private FragmentBoardGroupBinding binding;
     private BoardGroupViewModel boardGroupViewModel;
+    private SharedPreferenceManager sharedPreferenceManager;
     private BoardGroupItemAdapter adapter;
+    private Context context;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -38,6 +46,18 @@ public class BoardGroupFragment extends Fragment {
 
         binding = FragmentBoardGroupBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        context = getContext();
+        /*자동로그인 정보를 SharedPreference에서 불러오기*/
+        sharedPreferenceManager = new SharedPreferenceManager(context, getString(R.string.preference_file_key));
+        String accessToken = sharedPreferenceManager.getCache(getString(R.string.user_access_token_key), "no-access-token");
+        String username = sharedPreferenceManager.getCache(getString(R.string.user_username_key), "no-memberId");
+        Integer memberId = sharedPreferenceManager.getCache(getString(R.string.user_id_key), -1);
+        if(accessToken.isEmpty() || accessToken.equals("no-access-token")){
+            Toast.makeText(context, "로그인 정보가 없어 초기 페이지로 돌아갑니다.", Toast.LENGTH_SHORT).show();
+            Intent intent1 = new Intent(context, InitialActivity.class);
+            startActivity(intent1);
+        }
 
         initSpinner();
         initRecyclerView();
@@ -84,8 +104,11 @@ public class BoardGroupFragment extends Fragment {
         adapter = new BoardGroupItemAdapter(initialItemList);
         recyclerView.setAdapter(adapter);
 
+        BoardGroupViewModel viewModel = new ViewModelProvider(this).get(BoardGroupViewModel.class);
+
         // LiveData 관찰 및 데이터 로딩
-        boardGroupViewModel.getBoardGroupList().observe(getViewLifecycleOwner(), teamList -> {
+        viewModel.getBoardGroupList().observe(getViewLifecycleOwner(), teamList -> {
+            Log.d("BoardGroup", "LiveData observed: " + teamList);
             ArrayList<BoardGroupItem> itemList = new ArrayList<>();
 
             if (teamList != null && !teamList.isEmpty()) {
@@ -95,9 +118,14 @@ public class BoardGroupFragment extends Fragment {
                     item.setBoardGroupItem(team.getTeamId(), team.getTeamName(), team.getDescription(), team.getFileUrl());
                     itemList.add(item);
                 }
+                // 데이터 로드 성공시 Log 메시지
+                Log.e("BoardGroup", "팀 목록이 성공적으로 로드되었습니다.");
+            } else {
+                // 데이터가 비었거나 null인 경우 Log 메시지
+                Log.e("BoardGroup", "팀 목록이 비어있습니다.");
             }
-            // Adapter에 데이터 설정
-            adapter.updateItemList(itemList);
+
+            requireActivity().runOnUiThread(() -> adapter.updateItemList(itemList));
         });
 
         // 데이터 로딩 호출
@@ -105,6 +133,9 @@ public class BoardGroupFragment extends Fragment {
     }
 
 
-
-
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
 }

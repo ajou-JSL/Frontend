@@ -107,8 +107,8 @@ public class BoardFreeFragment extends Fragment {
         recyclerView.addItemDecoration(dividerItemDecoration);
 
         // RecyclerView 어댑터 설정
-        ArrayList<BoardFreeItem> itemList = new ArrayList<>();
-        BoardFreeItemAdapter adapter = new BoardFreeItemAdapter(itemList);
+        ArrayList<BoardFreeItem> initialItemList = new ArrayList<>();
+        BoardFreeItemAdapter adapter = new BoardFreeItemAdapter(initialItemList);
         recyclerView.setAdapter(adapter);
 
         // Activity에서 BottomNavigationView 높이를 가져오기
@@ -117,14 +117,14 @@ public class BoardFreeFragment extends Fragment {
             bottomNavHeight = mainActivity.getBottomNavHeight();
         }
 
-        //스크롤 리스너 추가
+        // 스크롤 리스너 추가
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
                 LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                // 아래스크롤 동작 확인
+                // 아래 스크롤 동작 확인
                 if (layoutManager != null && dy > 0) {
                     int visibleItemCount = layoutManager.getChildCount();
                     int totalItemCount = layoutManager.getItemCount();
@@ -147,6 +147,7 @@ public class BoardFreeFragment extends Fragment {
 
                 if (validation == Validation.ARTICLE_LIST_GET_SUCCESS && loadedArticles != null) {
                     // 데이터 업데이트
+                    ArrayList<BoardFreeItem> updatedItemList = new ArrayList<>();
                     for (Article article : loadedArticles) {
                         BoardFreeItem item = new BoardFreeItem();
                         item.setBoardFreeItem(
@@ -157,9 +158,9 @@ public class BoardFreeFragment extends Fragment {
                                 article.getCommentsCounts(),
                                 article.getViewCounts()
                         );
-                        itemList.add(item);
+                        updatedItemList.add(item);
                     }
-                    adapter.notifyDataSetChanged();
+                    adapter.updateItemList(updatedItemList);
                 } else {
                     // 에러 처리
                     Toast.makeText(getContext(), "데이터를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
@@ -169,8 +170,10 @@ public class BoardFreeFragment extends Fragment {
                 Toast.makeText(getContext(), "응답이 없습니다.", Toast.LENGTH_SHORT).show();
             }
         });
+
         viewModel.loadArticleCategoryList();
     }
+
 
 
     private void initFloatingActionButton() {

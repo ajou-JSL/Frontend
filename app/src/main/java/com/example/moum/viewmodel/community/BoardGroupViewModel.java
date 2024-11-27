@@ -1,6 +1,7 @@
 package com.example.moum.viewmodel.community;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
@@ -47,13 +48,14 @@ public class BoardGroupViewModel extends AndroidViewModel {
             @Override
             public void onResult(Result<List<Team>> result) {
                 if (result.getValidation() == Validation.GET_TEAM_LIST_SUCCESS) {
+                    Log.d("BoardGroupViewModel", "데이터 로드 성공: " + result.getData().size() + " 팀.");
                     TeamList.setValue(result.getData());
                 } else {
                     // 실패 시 상태 업데이트
+                    Log.e("BoardGroupViewModel", "팀이 없습니다.");
                     validationStatus.setValue(result.getValidation());
                 }
             }
         });
     }
-
 }
