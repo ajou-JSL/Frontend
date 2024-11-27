@@ -12,8 +12,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +34,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.moum.R;
+import com.example.moum.data.entity.Genre;
 import com.example.moum.data.entity.Member;
 import com.example.moum.data.entity.Moum;
 import com.example.moum.data.entity.Music;
@@ -162,6 +166,26 @@ public class PerformanceCreateOnwardActivity extends AppCompatActivity {
             }
         });
 
+        /*genre 스피너 Adapter 연결*/
+        Spinner genreSpinner = binding.spinnerGenre;
+        String[] genreList = Genre.toStringArray();
+        ArrayAdapter<String> genreAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, genreList);
+        genreAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        genreSpinner.setAdapter(genreAdapter);
+
+        viewModel.setGenre(genreList[0]);
+        genreSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                viewModel.setGenre(genreList[position]);
+                binding.errorMoumGenre.setText("");
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                return;
+            }
+        });
+
         /*참여 멤버 리사이클러뷰 표시*/
         RecyclerView recyclerView = binding.recyclerPerformParticipants;
         performanceParticipantAdapter = new ParticipantAdapter();
@@ -193,6 +217,7 @@ public class PerformanceCreateOnwardActivity extends AppCompatActivity {
                 if(loadedMoum.getStartDate() != null) binding.buttonDateStart.setText(loadedMoum.getStartDate());
                 if(loadedMoum.getEndDate() != null) binding.buttonDateEnd.setText(loadedMoum.getEndDate());
                 if(loadedMoum.getPrice() != null) binding.edittextPerformPrice.setText(String.format("%d", loadedMoum.getPrice()));
+                if(loadedMoum.getGenre() != null) genreSpinner.setSelection(loadedMoum.getGenre().getValue());
                 if(loadedMoum.getImageUrls() != null && !loadedMoum.getImageUrls().isEmpty()){
                     Glide.with(context)
                             .applyDefaultRequestOptions(new RequestOptions()
@@ -270,6 +295,10 @@ public class PerformanceCreateOnwardActivity extends AppCompatActivity {
                 binding.errorPerformName.setText("모음 이름을 입력하세요.");
                 binding.errorPerformName.requestFocus();
             }
+            else if(isValidCheckSuccess == Validation.GENRE_NOT_WRITTEN){
+                binding.errorMoumGenre.setText("장르를 선택하세요.");
+                binding.errorMoumGenre.requestFocus();
+            }
             else if(isValidCheckSuccess == Validation.VALID_ALL){
                 // valid check 유효하다면, 최종 다이얼로그 띄우기
                 PerformCreateDialog performCreateDialog = new PerformCreateDialog(this, binding.edittextPerformName.getText().toString());
@@ -346,6 +375,14 @@ public class PerformanceCreateOnwardActivity extends AppCompatActivity {
                     binding.placeholderPerformPrice.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_mint_stroke));
                 }else{
                     binding.placeholderPerformPrice.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_gray_stroke));
+                }
+            }
+        });
+        binding.spinnerGenre.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(hasFocus){
+                    binding.errorMoumGenre.setText("");
                 }
             }
         });

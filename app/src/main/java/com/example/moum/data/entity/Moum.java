@@ -21,6 +21,7 @@ public class Moum {
     private ArrayList<Member> members;
     private ArrayList<Record> records;
     private ArrayList<Music> music;
+    private Genre genre;
 
     public static class Process {
         private Boolean recruitStatus;
@@ -138,6 +139,10 @@ public class Moum {
         this.moumDescription = moumDescription;
     }
 
+    public void setGenre(Genre genre) {
+        this.genre = genre;
+    }
+
     public void setMoumId(Integer moumId) {
         this.moumId = moumId;
     }
@@ -198,6 +203,10 @@ public class Moum {
         return price;
     }
 
+    public Genre getGenre() {
+        return genre;
+    }
+
     public String getLeaderName() {
         return leaderName;
     }
@@ -247,7 +256,8 @@ public class Moum {
                 ", process=" + process +
                 ", members=" + members +
                 ", records=" + records +
-                ", musics =" + music +
+                ", music=" + music +
+                ", genre=" + genre +
                 '}';
     }
 }

@@ -57,4 +57,9 @@ public interface PerformApi {
             @Query("page") Integer page,
             @Query("size") Integer size
     );
+
+    @GET("/api/performs")
+    Call<SuccessResponse<Performance>> loadPerformOfMoum(
+            @Query("moumId") Integer moumId
+    );
 }

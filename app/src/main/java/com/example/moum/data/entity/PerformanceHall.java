@@ -1,6 +1,8 @@
 package com.example.moum.data.entity;
 
-public class PerformaceHall {
+import java.util.ArrayList;
+
+public class PerformanceHall {
     private Integer id;
     private String name;
     private Integer price;
@@ -11,13 +13,13 @@ public class PerformaceHall {
     private String phone;
     private String email;
     private String mapUrl;
-    private String imageUrl;
+    private ArrayList<String> imageUrls;
     private Integer type;
     private Integer stand;
-    private Boolean piano;
-    private Boolean amp;
-    private Boolean speaker;
-    private Boolean drums;
+    private Boolean hasPiano;
+    private Boolean hasAmp;
+    private Boolean hasSpeaker;
+    private Boolean hasDrums;
     private String details;
     private Float latitude;
     private Float longitude;
@@ -35,8 +37,8 @@ public class PerformaceHall {
         return address;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public ArrayList<String> getImageUrls() {
+        return imageUrls;
     }
 
     public Integer getPrice() {
@@ -47,20 +49,20 @@ public class PerformaceHall {
         return email;
     }
 
-    public Boolean getAmp() {
-        return amp;
+    public Boolean getHasAmp() {
+        return hasAmp;
     }
 
-    public Boolean getDrums() {
-        return drums;
+    public Boolean getHasPiano() {
+        return hasPiano;
     }
 
-    public Boolean getPiano() {
-        return piano;
+    public Boolean getHasSpeaker() {
+        return hasSpeaker;
     }
 
-    public Boolean getSpeaker() {
-        return speaker;
+    public Boolean getHasDrums() {
+        return hasDrums;
     }
 
     public Float getLatitude() {
@@ -119,8 +121,8 @@ public class PerformaceHall {
         this.price = price;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImageUrls(ArrayList<String> imageUrls) {
+        this.imageUrls = imageUrls;
     }
 
     public void setEmail(String email) {
@@ -131,10 +133,6 @@ public class PerformaceHall {
         this.type = type;
     }
 
-    public void setAmp(Boolean amp) {
-        this.amp = amp;
-    }
-
     public void setCapacity(Integer capacity) {
         this.capacity = capacity;
     }
@@ -143,9 +141,6 @@ public class PerformaceHall {
         this.details = details;
     }
 
-    public void setDrums(Boolean drums) {
-        this.drums = drums;
-    }
 
     public void setLatitude(Float latitude) {
         this.latitude = latitude;
@@ -167,12 +162,20 @@ public class PerformaceHall {
         this.phone = phone;
     }
 
-    public void setPiano(Boolean piano) {
-        this.piano = piano;
+    public void setHasAmp(Boolean hasAmp) {
+        this.hasAmp = hasAmp;
     }
 
-    public void setSpeaker(Boolean speaker) {
-        this.speaker = speaker;
+    public void setHasDrums(Boolean hasDrums) {
+        this.hasDrums = hasDrums;
+    }
+
+    public void setHasPiano(Boolean hasPiano) {
+        this.hasPiano = hasPiano;
+    }
+
+    public void setHasSpeaker(Boolean hasSpeaker) {
+        this.hasSpeaker = hasSpeaker;
     }
 
     public void setStand(Integer stand) {
@@ -196,13 +199,13 @@ public class PerformaceHall {
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
                 ", mapUrl='" + mapUrl + '\'' +
-                ", imageUrl='" + imageUrl + '\'' +
+                ", imageUrls=" + imageUrls +
                 ", type=" + type +
                 ", stand=" + stand +
-                ", piano=" + piano +
-                ", amp=" + amp +
-                ", speaker=" + speaker +
-                ", drums=" + drums +
+                ", hasPiano=" + hasPiano +
+                ", hasAmp=" + hasAmp +
+                ", hasSpeaker=" + hasSpeaker +
+                ", hasDrums=" + hasDrums +
                 ", details='" + details + '\'' +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +

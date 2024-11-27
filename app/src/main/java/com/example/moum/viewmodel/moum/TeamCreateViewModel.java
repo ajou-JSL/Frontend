@@ -7,6 +7,7 @@ import android.net.Uri;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.moum.data.entity.Genre;
 import com.example.moum.data.entity.Moum;
 import com.example.moum.data.entity.Record;
 import com.example.moum.data.entity.Result;
@@ -16,6 +17,7 @@ import com.example.moum.repository.MoumRepository;
 import com.example.moum.repository.TeamRepository;
 import com.example.moum.utils.ImageManager;
 import com.example.moum.utils.Validation;
+import com.example.moum.utils.YoutubeManager;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -28,6 +30,7 @@ public class TeamCreateViewModel extends AndroidViewModel {
     private final MutableLiveData<Team> team = new MutableLiveData<>(new Team());
     private final MutableLiveData<Uri> profileImage = new MutableLiveData<>();
     private String address;
+    private Genre genre;
     private ArrayList<Record> records = new ArrayList<>();
     private final  MutableLiveData<Validation> isValidCheckSuccess = new MutableLiveData<>();
     private final MutableLiveData<Result<Team>> isCreateTeamSuccess = new MutableLiveData<>();
@@ -58,6 +61,10 @@ public class TeamCreateViewModel extends AndroidViewModel {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public void setGenre(String genreStr) {
+        this.genre = Genre.fromString(genreStr);
     }
 
     public void setIsCreateTeamSuccess(Result<Team> isCreateTeamSuccess){
@@ -92,8 +99,12 @@ public class TeamCreateViewModel extends AndroidViewModel {
             setIsValidCheckSuccess(Validation.TEAM_NAME_NOT_WRITTEN);
             return;
         }
-        else if(team.getValue().getGenre() == null || team.getValue().getGenre().isEmpty()) {
+        else if(genre == null) {
             setIsValidCheckSuccess(Validation.TEAM_GENRE_NOT_WRITTEN);
+            return;
+        }
+        else if(team.getValue().getVideoUrl() != null && !YoutubeManager.isUrlValid(team.getValue().getVideoUrl())){
+            setIsValidCheckSuccess(Validation.VIDEO_URL_NOT_FORMAL);
             return;
         }
         setIsValidCheckSuccess(Validation.VALID_ALL);
@@ -112,17 +123,18 @@ public class TeamCreateViewModel extends AndroidViewModel {
         teamToCreate.setLeaderId(leaderId);
         teamToCreate.setTeamName(team.getValue().getTeamName());
         teamToCreate.setDescription(team.getValue().getDescription());
-        teamToCreate.setGenre(team.getValue().getGenre());
+        teamToCreate.setGenre(genre);
         File profileFile = null;
         if(profileImage.getValue() != null){
             Uri uri = profileImage.getValue();
             ImageManager imageManager = new ImageManager(context);
             profileFile = imageManager.convertUriToFile(uri);
         }
-        if(!records.isEmpty())
+        if(records != null)
             teamToCreate.setRecords(records);
         if(address != null)
             teamToCreate.setLocation(address);
+        teamToCreate.setMembers(new ArrayList<>());
 
         /*goto repository*/
         teamRepository.createTeam(teamToCreate, profileFile, this::setIsCreateTeamSuccess);

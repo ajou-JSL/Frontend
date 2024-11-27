@@ -168,6 +168,10 @@ public class PerformanceCreateActivity extends AppCompatActivity {
                 });
                 binding.spinnerMoum.setEnabled(true);
             }
+            else if(validation == Validation.GET_MOUM_SUCCESS){
+                moums.clear();
+                viewModel.setMoumSelected(null);
+            }
             else if(validation == Validation.TEAM_NOT_FOUND){
                 Toast.makeText(context, "모음을 불러올 수 없습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "단체를 불러올 수 없습니다.");

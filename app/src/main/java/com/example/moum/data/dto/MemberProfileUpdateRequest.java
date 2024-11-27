@@ -16,8 +16,9 @@ public class MemberProfileUpdateRequest {
     private String address;
     private ArrayList<Record> records;
     private ArrayList<Genre> genres;
+    private String videoUrl;
 
-    public MemberProfileUpdateRequest(String name, String username, String profileDescription, String email, String proficiency, String instrument, String address, ArrayList<Record> records, ArrayList<Genre> genres) {
+    public MemberProfileUpdateRequest(String name, String username, String profileDescription, String email, String proficiency, String instrument, String address, ArrayList<Record> records, ArrayList<Genre> genres, String videoUrl) {
         this.name = name;
         this.username = username;
         this.profileDescription = profileDescription;
@@ -27,6 +28,7 @@ public class MemberProfileUpdateRequest {
         this.address = address;
         this.records = records;
         this.genres = genres;
+        this.videoUrl = videoUrl;
     }
 
 }

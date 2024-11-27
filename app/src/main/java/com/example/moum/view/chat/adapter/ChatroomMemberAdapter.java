@@ -87,7 +87,6 @@ public class ChatroomMemberAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             // 리더인 경우
             if(member.getId().equals(leaderId)){
                 memberName.setText(String.format("[단체장] %s", member.getName()));
-                memberName.setTextColor(Color.rgb(42, 200, 189));
                 if(ImageManager.isUrlValid(member.getProfileImageUrl()))
                     Glide.with(context)
                             .load(member.getProfileImageUrl())

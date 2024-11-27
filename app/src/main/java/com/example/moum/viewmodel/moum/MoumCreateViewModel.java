@@ -8,6 +8,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.moum.data.entity.Genre;
 import com.example.moum.data.entity.Member;
 import com.example.moum.data.entity.Moum;
 import com.example.moum.data.entity.Music;
@@ -33,7 +34,7 @@ public class MoumCreateViewModel extends AndroidViewModel {
     private final MutableLiveData<Validation> isValidCheckSuccess = new MutableLiveData<>();
     private final MutableLiveData<Result<Moum>> isCreateMoumSuccess = new MutableLiveData<>();
     private ArrayList<Music> music = new ArrayList<>();
-
+    private Genre genre;
     private LocalDate startDate;
     private LocalDate endDate;
 
@@ -60,6 +61,10 @@ public class MoumCreateViewModel extends AndroidViewModel {
     }
 
     public void setMoum(Moum moum) { this.moum.setValue(moum);}
+
+    public void setGenre(String genreStr) {
+        this.genre = Genre.fromString(genreStr);
+    }
 
     public void setProfileImages(List<Uri> uris) {
         ArrayList<Uri> uriArrayList = new ArrayList<>(uris);
@@ -93,6 +98,10 @@ public class MoumCreateViewModel extends AndroidViewModel {
             setIsValidCheckSuccess(Validation.MOUM_NAME_NOT_WRITTEN);
             return;
         }
+        else if(genre == null){
+            setIsValidCheckSuccess(Validation.GENRE_NOT_WRITTEN);
+            return;
+        }
         setIsValidCheckSuccess(Validation.VALID_ALL);
     }
 
@@ -108,6 +117,7 @@ public class MoumCreateViewModel extends AndroidViewModel {
         Moum moumToCreate = moum.getValue();
         moumToCreate.setLeaderId(leaderId);
         moumToCreate.setTeamId(teamId);
+        moumToCreate.setGenre(genre);
         if(startDate != null) moumToCreate.setStartDate(startDate.toString());
         if(endDate != null) moumToCreate.setEndDate(endDate.toString());
         ArrayList<File> profileFiles = new ArrayList<>();

@@ -9,15 +9,18 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.moum.data.entity.Genre;
 import com.example.moum.data.entity.Record;
 import com.example.moum.data.entity.SignupUser;
 import com.example.moum.repository.SignupRepository;
 import com.example.moum.utils.ImageManager;
 import com.example.moum.utils.Validation;
+import com.example.moum.utils.YoutubeManager;
 
 import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.regex.Pattern;
 
 public class SignupViewModel extends AndroidViewModel {
@@ -36,6 +39,7 @@ public class SignupViewModel extends AndroidViewModel {
     private final MutableLiveData<String> address = new MutableLiveData<>("");
     private final MutableLiveData<Uri> profileImage = new MutableLiveData<>();
     private ArrayList<Record> records = new ArrayList<>();
+    private ArrayList<Genre> selectedGenres = new ArrayList<>();
 
     public SignupViewModel(Application application) {
         super(application);
@@ -268,6 +272,10 @@ public class SignupViewModel extends AndroidViewModel {
             setIsProfileValid(Validation.PROFICIENCY_NOT_WRITTEN);
             return;
         }
+        else if(signupUser.getValue().getVideoUrl() != null && !YoutubeManager.isUrlValid(signupUser.getValue().getVideoUrl())){
+            setIsProfileValid(Validation.VIDEO_URL_NOT_FORMAL);
+            return;
+        }
 
         /*if above all pass, valid all!*/
         setIsProfileValid(Validation.VALID_ALL);
@@ -278,6 +286,15 @@ public class SignupViewModel extends AndroidViewModel {
         Record newRecord = new Record(name, startDate.toString().concat("T00:00:00"), endDate.toString().concat("T00:00:00"));
         records.add(newRecord);
 
+    }
+
+    public void setGenres(Genre[] genres, ArrayList<Boolean> isSelecteds){
+        ArrayList<Genre> genresList = new ArrayList<>(Arrays.asList(genres));
+        if(isSelecteds != null)
+            for (int i = 0; i < genresList.size(); i++) {
+                if (isSelecteds.get(i))
+                    selectedGenres.add(genresList.get(i));
+            }
     }
 
     public void signup(Context context){
@@ -295,7 +312,7 @@ public class SignupViewModel extends AndroidViewModel {
             File file = imageManager.convertUriToFile(uri);
             signupUserValue.setProfileImage(file);
         }
-        if(!records.isEmpty()){
+        if(records != null){
             for(Record record : records){
                 if(record.getEndDate() == null && record.getStartDate() != null){
                     setIsSignupSuccess(Validation.RECORD_NOT_VALID);
@@ -311,6 +328,8 @@ public class SignupViewModel extends AndroidViewModel {
             signupUserValue.setProficiency(proficiency.getValue());
         if(address.getValue() != null)
             signupUserValue.setAddress(address.getValue());
+        if(selectedGenres != null)
+            signupUserValue.setGenres(selectedGenres);
 
         /*goto repository*/
         signupRepository.signup(signupUserValue, result -> {

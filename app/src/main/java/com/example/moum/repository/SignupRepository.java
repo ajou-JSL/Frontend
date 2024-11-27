@@ -144,13 +144,18 @@ public class SignupRepository {
             signupUser.getProficiency(),
             signupUser.getAddress(),
             signupUser.getEmailCode(),
-            signupUser.getRecords()
+            signupUser.getRecords(),
+            signupUser.getVideoUrl(),
+            signupUser.getGenres()
         );
 
         MultipartBody.Part profileImage = null;
         if(signupUser.getProfileImage() != null){
             RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpg"), signupUser.getProfileImage());
             profileImage = MultipartBody.Part.createFormData("profileImage", signupUser.getProfileImage().getName(), requestFile);
+        }
+        else{
+            profileImage = MultipartBody.Part.createFormData("file", null, null);
         }
 
         Call<SuccessResponse<String>> result = signupApi.signup(signupRequest, profileImage);

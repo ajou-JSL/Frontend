@@ -8,6 +8,7 @@ import android.util.Log;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.moum.data.entity.Genre;
 import com.example.moum.data.entity.Member;
 import com.example.moum.data.entity.Moum;
 import com.example.moum.data.entity.Music;
@@ -42,6 +43,7 @@ public class PerformanceCreateOnwardViewModel extends AndroidViewModel {
     private ArrayList<Boolean> isParticipates;
     private LocalDate startDate;
     private LocalDate endDate;
+    private Genre genre;
 
     public PerformanceCreateOnwardViewModel(Application application){
         super(application);
@@ -88,6 +90,10 @@ public class PerformanceCreateOnwardViewModel extends AndroidViewModel {
         this.isParticipates = isParticipates;
     }
 
+    public void setGenre(String genreStr) {
+        this.genre = Genre.fromString(genreStr);
+    }
+
     public void setIsLoadMoumSuccess(Result<Moum> isLoadMoumSuccess){
         this.isLoadMoumSuccess.setValue(isLoadMoumSuccess);
     }
@@ -114,6 +120,10 @@ public class PerformanceCreateOnwardViewModel extends AndroidViewModel {
             setIsValidCheckSuccess(Validation.MOUM_NAME_NOT_WRITTEN);
             return;
         }
+        else if(genre == null){
+            setIsValidCheckSuccess(Validation.GENRE_NOT_WRITTEN);
+            return;
+        }
         setIsValidCheckSuccess(Validation.VALID_ALL);
     }
 
@@ -129,6 +139,7 @@ public class PerformanceCreateOnwardViewModel extends AndroidViewModel {
         Performance performToCreate = perform.getValue();
         performToCreate.setMoumId(moumId);
         performToCreate.setTeamId(teamId);
+        performToCreate.setGenre(genre);
         if(startDate != null) performToCreate.setPerformanceStartDate(startDate.toString().concat("T00:00:00"));
         if(endDate != null) performToCreate.setPerformanceEndDate(endDate.toString().concat("T00:00:00"));
         performToCreate.setMusics(music);

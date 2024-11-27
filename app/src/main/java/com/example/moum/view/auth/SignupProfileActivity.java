@@ -1,5 +1,6 @@
 package com.example.moum.view.auth;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -23,12 +24,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.moum.R;
+import com.example.moum.data.entity.Genre;
 import com.example.moum.databinding.ActivitySignupProfileBinding;
 import com.example.moum.utils.Validation;
+import com.example.moum.utils.WrapContentLinearLayoutManager;
+import com.example.moum.view.auth.adapter.GenreAdapter;
+import com.example.moum.view.dialog.SignupLoadingDialog;
+import com.example.moum.view.moum.adapter.MoumCreateImageAdapter;
 import com.example.moum.viewmodel.auth.SignupViewModel;
+import com.google.android.flexbox.AlignItems;
+import com.google.android.flexbox.FlexWrap;
+import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.android.flexbox.JustifyContent;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -143,6 +155,16 @@ public class SignupProfileActivity extends AppCompatActivity {
             }
         });
 
+        /*장르 선택 리사이클러뷰 연결*/
+        RecyclerView recyclerView = binding.recyclerGenres;
+        FlexboxLayoutManager flexboxLayoutManager = new FlexboxLayoutManager(this); //자연스러운 줄넘김을 위한 Flexbox 사용
+        flexboxLayoutManager.setFlexWrap(FlexWrap.WRAP);
+        flexboxLayoutManager.setJustifyContent(JustifyContent.FLEX_START);
+        flexboxLayoutManager.setAlignItems(AlignItems.STRETCH);
+        GenreAdapter genreAdapter = new GenreAdapter();
+        genreAdapter.setGenres(Genre.values(), context);
+        recyclerView.setLayoutManager(flexboxLayoutManager);
+        recyclerView.setAdapter(genreAdapter);
 
         /*이력 레이아웃 동적 생성*/
         final Calendar calendar = Calendar.getInstance();
@@ -210,6 +232,7 @@ public class SignupProfileActivity extends AppCompatActivity {
         });
 
         /*제출 버튼 결과 감시*/
+        SignupLoadingDialog signupLoadingDialog = new SignupLoadingDialog(context);
         signupViewModel.getIsProfileValid().observe(this, isProfileValid -> {
             if(isProfileValid == Validation.NOT_VALID_ANYWAY || isProfileValid == Validation.NICKNAME_NOT_WRITTEN) {
                 binding.signupEdittextNickname.requestFocus();
@@ -221,6 +244,10 @@ public class SignupProfileActivity extends AppCompatActivity {
             }
             else if(isProfileValid == Validation.PROFICIENCY_NOT_WRITTEN) {
                 binding.signupErrorProficiency.setText("숙련도를 선택하세요.");
+            }
+            else if(isProfileValid == Validation.VIDEO_URL_NOT_FORMAL){
+                binding.errorVideo.setTextColor(getColor(R.color.red));
+                binding.errorVideo.setText("유효하지 않은 형식입니다.");
             }
             else if(isProfileValid == Validation.BASIC_SIGNUP_NOT_TRIED) {
                 Toast.makeText(context, "이전 단계가 정상적으로 완료되지 않았습니다. 다시 시도하세요.", Toast.LENGTH_SHORT).show();
@@ -246,11 +273,15 @@ public class SignupProfileActivity extends AppCompatActivity {
                             .toFormatter();
                     LocalDate startDate = null;
                     LocalDate endDate = null;
-                    if(!startDateString.isEmpty()) startDate = LocalDate.parse(startDateString, formatter);
-                    if(!endDateString.isEmpty()) endDate = LocalDate.parse(endDateString, formatter);
+                    if(!startDateString.isEmpty() && !startDateString.equals("시작 날짜")) startDate = LocalDate.parse(startDateString, formatter);
+                    if(!endDateString.isEmpty() && !startDateString.equals("종료 날짜")) endDate = LocalDate.parse(endDateString, formatter);
 
                     signupViewModel.addRecord(recordName, startDate, endDate);
+                    signupViewModel.setGenres(Genre.values(), genreAdapter.getIsSelecteds());
                 }
+
+                signupLoadingDialog.show();
+
                 signupViewModel.signup(context);
             }
             else{
@@ -261,6 +292,7 @@ public class SignupProfileActivity extends AppCompatActivity {
 
         /*signup 결과 감시*/
         signupViewModel.getIsSignupSuccess().observe(this, isSignupSuccess -> {
+            signupLoadingDialog.dismiss();
             if(isSignupSuccess == Validation.INVALID_TYPE_VALUE){
                 Toast.makeText(context, "잘못 입력된 값이 있습니다.", Toast.LENGTH_SHORT).show();
             }
@@ -280,7 +312,7 @@ public class SignupProfileActivity extends AppCompatActivity {
                 startActivity(nextIntent);
             }
             else{
-                Toast.makeText(context, "알수 없는 감시 결과(Code: " + isSignupSuccess.toString() + ")", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "회원가입에 실패하였습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "signup 감시 결과를 알 수 없습니다.");
             }
         });
@@ -316,6 +348,19 @@ public class SignupProfileActivity extends AppCompatActivity {
                     binding.signupPlaceholderInstrument.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_mint_stroke));
                 }else{
                     binding.signupPlaceholderInstrument.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_gray_stroke));
+                }
+            }
+        });
+        binding.edittextVideo.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(hasFocus){
+                    binding.errorVideo.setText("");
+                    binding.placeholderVideo.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_mint_stroke));
+                }else{
+                    binding.errorVideo.setText("");
+                    binding.placeholderVideo.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_gray_stroke));
                 }
             }
         });

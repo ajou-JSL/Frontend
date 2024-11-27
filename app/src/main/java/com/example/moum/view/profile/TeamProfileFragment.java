@@ -25,6 +25,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.moum.R;
 import com.example.moum.data.entity.Chatroom;
+import com.example.moum.data.entity.Genre;
 import com.example.moum.data.entity.Member;
 import com.example.moum.data.entity.Record;
 import com.example.moum.data.entity.Team;
@@ -35,6 +36,7 @@ import com.example.moum.utils.Validation;
 import com.example.moum.utils.YoutubeManager;
 import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.view.chat.ChatActivity;
+import com.example.moum.view.profile.adapter.ProfileGenreAdapter;
 import com.example.moum.view.profile.adapter.ProfileMemberAdapter;
 import com.example.moum.view.profile.adapter.ProfileRecordAdapter;
 import com.example.moum.view.profile.adapter.ProfileTeamAdapter;
@@ -42,6 +44,10 @@ import com.example.moum.view.report.ReportMemberFragment;
 import com.example.moum.view.report.ReportTeamFragment;
 import com.example.moum.viewmodel.profile.MemberProfileViewModel;
 import com.example.moum.viewmodel.profile.TeamProfileViewModel;
+import com.google.android.flexbox.AlignItems;
+import com.google.android.flexbox.FlexWrap;
+import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.android.flexbox.JustifyContent;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
@@ -58,6 +64,8 @@ public class TeamProfileFragment extends BottomSheetDialogFragment {
     private Team targetTeam;
     private final ArrayList<Record> records = new ArrayList<>();
     private final ArrayList<Member> members = new ArrayList<>();
+    private final ArrayList<Genre> genres = new ArrayList<>();
+
     public TeamProfileFragment(Context context){
         this.context = context;
     }
@@ -107,6 +115,17 @@ public class TeamProfileFragment extends BottomSheetDialogFragment {
         mebersRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
         mebersRecyclerView.setAdapter(membersAdapter);
 
+        /*장르 리사이클러뷰 연결*/
+        RecyclerView recyclerView = binding.recyclerGenres;
+        FlexboxLayoutManager flexboxLayoutManager = new FlexboxLayoutManager(context); //자연스러운 줄넘김을 위한 Flexbox 사용
+        flexboxLayoutManager.setFlexWrap(FlexWrap.WRAP);
+        flexboxLayoutManager.setJustifyContent(JustifyContent.CENTER);
+        flexboxLayoutManager.setAlignItems(AlignItems.STRETCH);
+        ProfileGenreAdapter genreAdapter = new ProfileGenreAdapter();
+        genreAdapter.setGenres(genres, context);
+        recyclerView.setLayoutManager(flexboxLayoutManager);
+        recyclerView.setAdapter(genreAdapter);
+
         /*단체 프로필 정보 불러오기*/
         viewModel.loadTeamProfile(targetTeamId);
 
@@ -154,6 +173,11 @@ public class TeamProfileFragment extends BottomSheetDialogFragment {
                 }
                 binding.borderProfile.setColorFilter(color);
                 binding.imageviewTier.setColorFilter(color);
+                if(targetTeam.getGenre() != null){
+                    genres.clear();
+                    genres.add(targetTeam.getGenre());
+                    genreAdapter.notifyItemInserted(genres.size()-1);
+                }
             }
             else if(validation == Validation.TEAM_NOT_FOUND){
                 Toast.makeText(context, "단체를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
