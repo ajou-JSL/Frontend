@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/gray0">
 
     <LinearLayout
         android:id="@+id/item_board_free_image"
@@ -11,61 +12,97 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
 
+
         app:layout_constraintTop_toTopOf="parent">
 
 
         <LinearLayout
-            android:layout_width="300dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_weight="1">
 
             <TextView
                 android:id="@+id/item_board_free_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
                 android:layout_marginTop="15dp"
 
+                android:fontFamily="@font/noto_sans_kr_bold"
+                android:includeFontPadding="false"
                 android:text="제목"
-                android:textSize="20dp"
-                android:textStyle="bold" />
+                android:textSize="20dp" />
 
             <TextView
-                android:id="@+id/item_board_free_content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="5dp"
 
-                android:text="내용 짧은 글"
-                android:textSize="14sp" />
-
-            <TextView
                 android:id="@+id/item_board_free_writer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="20dp"
 
+                android:fontFamily="@font/noto_sans_kr_regular"
+                android:includeFontPadding="false"
                 android:text="작성자"
                 android:textSize="14sp" />
 
-            <TextView
-                android:id="@+id/item_board_free_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="15dp"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-                android:text="시간"
-                android:textSize="14sp" />
+                <TextView
+                    android:id="@+id/item_board_free_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_gravity="left"
+
+                    android:fontFamily="@font/noto_sans_kr_regular"
+                    android:includeFontPadding="false"
+                    android:textColor="@color/gray4"
+                    android:text="시간"
+                    android:textSize="14sp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:id="@+id/item_board_free_like"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:paddingTop="2dp"
+
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/icon_comment_alpha" />
+                <TextView
+                    android:id="@+id/item_board_free_comments_and_views"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="25dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_gravity="right"
+
+                    android:fontFamily="@font/noto_sans_kr_regular"
+                    android:includeFontPadding="false"
+                    android:textColor="@color/gray4"
+                    android:text="[3] / 5 회"
+                    android:textSize="14sp" />
+
+
+            </LinearLayout>
         </LinearLayout>
 
     <ImageView
         android:id="@+id/item_board_free_image_view"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_weight="0"
+        android:layout_width="95dp"
+        android:layout_height="95dp"
+        android:layout_marginEnd="25dp"
         android:layout_gravity="center"
         android:scaleType="centerCrop"
 

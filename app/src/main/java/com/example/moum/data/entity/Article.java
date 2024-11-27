@@ -1,6 +1,7 @@
 package com.example.moum.data.entity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Article {
     private Integer id;
@@ -8,11 +9,14 @@ public class Article {
     private String category; //TODO enum으로 리팩토링
     private String content;
     private Integer viewCounts;
-    private Integer commentCounts;
+    private Integer commentsCounts;
+    private Integer genres;
     private Integer likeCounts;
+    private String fileURL;
     private String author;
     private ArrayList<Comment> comments;
-    private String createAt;
+    private String createdAt;
+    private String updatedAt;
 
     public Integer getId() {
         return id;
@@ -22,8 +26,8 @@ public class Article {
         return comments;
     }
 
-    public Integer getCommentCounts() {
-        return commentCounts;
+    public Integer getCommentsCounts() {
+        return commentsCounts;
     }
 
     public Integer getLikeCounts() {
@@ -34,65 +38,47 @@ public class Article {
         return viewCounts;
     }
 
-    public String getAuthor() {
-        return author;
-    }
+    public Integer getGenre() { return genres; }
 
-    public String getCategory() {
-        return category;
-    }
+    public String getAuthor() {return author;}
 
-    public String getContent() {
-        return content;
-    }
+    public String getCategory() {return category;}
 
-    public String getTitle() {
-        return title;
-    }
+    public String getContent() {return content;}
 
-    public String getCreateAt() {
-        return createAt;
-    }
+    public String getTitle() {return title;}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    public String getCreateAt() {return createdAt;}
 
-    public void setAuthor(String author) {
-        this.author = author;
-    }
+    public String getUpdateAt() { return updatedAt; }
 
-    public void setCategory(String category) {
-        this.category = category;
-    }
+    public String getFileURL() { return fileURL; }
 
-    public void setCommentCounts(Integer commentCounts) {
-        this.commentCounts = commentCounts;
-    }
+    public void setId(Integer id) {this.id = id;}
 
-    public void setComments(ArrayList<Comment> comments) {
-        this.comments = comments;
-    }
+    public void setAuthor(String author) {this.author = author;}
 
-    public void setContent(String content) {
-        this.content = content;
-    }
+    public void setCategory(String category) {this.category = category;}
 
-    public void setLikeCounts(Integer likeCounts) {
-        this.likeCounts = likeCounts;
-    }
+    public void setCommentsCounts(Integer commentCounts) {this.commentsCounts = commentCounts;}
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    public void setComments(ArrayList<Comment> comments) {this.comments = comments;}
 
-    public void setViewCounts(Integer viewCounts) {
-        this.viewCounts = viewCounts;
-    }
+    public void setContent(String content) {this.content = content;}
 
-    public void setCreateAt(String createAt) {
-        this.createAt = createAt;
-    }
+    public void setLikeCounts(Integer likeCounts) {this.likeCounts = likeCounts;}
+
+    public void setTitle(String title) {this.title = title;}
+
+    public void setViewCounts(Integer viewCounts) {this.viewCounts = viewCounts;}
+
+    public void setCreateAt(String createAt) {this.createdAt = createAt;}
+
+    public void setUpdateAt(String updateAt) { this.updatedAt = updateAt; }
+
+    public void setFileURL(String fileURL) { this.fileURL = fileURL; }
+
+    public void setGenre(Integer genres) { this.genres = genres; }
 
     @Override
     public String toString() {
@@ -102,11 +88,15 @@ public class Article {
                 ", category='" + category + '\'' +
                 ", content='" + content + '\'' +
                 ", viewCounts=" + viewCounts +
-                ", commentCounts=" + commentCounts +
+                ", commentCounts=" + commentsCounts +
                 ", likeCounts=" + likeCounts +
+                ", imageURL=" + fileURL + '\'' +
                 ", author='" + author + '\'' +
                 ", comments=" + comments +
-                ", createAt='" + createAt + '\'' +
+                ", createAt='" + createdAt + '\'' +
+                ", viewCounts=" + updatedAt +
                 '}';
     }
+
+
 }
