@@ -15,8 +15,7 @@ import com.example.moum.data.entity.Comment;
 import java.util.ArrayList;
 
 public class BoardFreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private static final int VIEW_TYPE_ARTICLE = 0;
-    private static final int VIEW_TYPE_COMMENT = 1;
+    private static final int VIEW_TYPE_COMMENT = 0;
 
     private Article articleItem;
     private ArrayList<Comment> commentList;
@@ -29,11 +28,7 @@ public class BoardFreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 0) {
-            return VIEW_TYPE_ARTICLE;
-        } else {
             return VIEW_TYPE_COMMENT;
-        }
     }
 
     @Override

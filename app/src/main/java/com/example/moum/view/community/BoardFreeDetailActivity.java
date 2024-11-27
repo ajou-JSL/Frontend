@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.moum.R;
 import com.example.moum.data.entity.Article;
 import com.example.moum.data.entity.Comment;
-import com.example.moum.databinding.ActivityBoardFreeDetailBinding;
+import com.example.moum.databinding.ActivityBoardFreeDetailTestBinding;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
@@ -31,7 +31,7 @@ import com.example.moum.viewmodel.community.BoardFreeDetailViewModel;
 import java.util.ArrayList;
 
 public class BoardFreeDetailActivity extends AppCompatActivity {
-    private ActivityBoardFreeDetailBinding binding;
+    private ActivityBoardFreeDetailTestBinding binding;
     private BoardFreeDetailViewModel boardFreeDetailViewModel;
     private SharedPreferenceManager sharedPreferenceManager;
     private Integer memberId;
@@ -43,7 +43,7 @@ public class BoardFreeDetailActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         boardFreeDetailViewModel = new ViewModelProvider(this).get(BoardFreeDetailViewModel.class);
         super.onCreate(savedInstanceState);
-        binding = ActivityBoardFreeDetailBinding.inflate(getLayoutInflater());
+        binding = ActivityBoardFreeDetailTestBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         context = this;
 
@@ -68,6 +68,24 @@ public class BoardFreeDetailActivity extends AppCompatActivity {
             return;
         }
 
+        /* 게시글 감지 설정*/
+        boardFreeDetailViewModel.getIsLoadArticeSuccess().observe(this, articleData -> {
+            if (articleData != null) {
+                binding.boardFreeDetailWriter.setText(articleData.getAuthor());
+                binding.boardFreeDetailTime.setText(getTimeAgo(articleData.getCreateAt()));
+                binding.boardFreeDetailTitle.setText(articleData.getTitle());
+                binding.boardFreeDetailContent.setText(articleData.getContent());
+                binding.boardFreeDetailLikeCount.setText(String.valueOf(articleData.getLikeCounts()));
+            } else {
+                Toast.makeText(context, "데이터를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        /* 게시글 로드 */
+        boardFreeDetailViewModel.loadArticlesDetail(targetBoardId);
+
+
+        /* UI 동작 추가 */
         initLeftArrow();
         initWishlistButton();
         initMenu();
@@ -122,7 +140,6 @@ public class BoardFreeDetailActivity extends AppCompatActivity {
                 }
                 return true;
             });
-
             // 메뉴 표시
             popupMenu.show();
         });
@@ -140,19 +157,9 @@ public class BoardFreeDetailActivity extends AppCompatActivity {
         BoardFreeDetailAdapter adapter = new BoardFreeDetailAdapter(article, comments); // 초기 null 값 설정
         recyclerView.setAdapter(adapter);
 
-        // ViewModel 초기화
-        BoardFreeDetailViewModel viewModel = new ViewModelProvider(this).get(BoardFreeDetailViewModel.class);
-
-        // 게시글 데이터 관찰
-        viewModel.getArticleLiveData().observe(this, articleData -> {
-            if (articleData != null) {
-                // 어댑터에 게시글 데이터를 전달하여 갱신
-                adapter.updateArticleData(articleData);
-            }
-        });
-
+        // TODO 댓글만 따로 조회하는 API 필요할까?
         // 댓글 데이터 관찰
-        viewModel.getCommentLiveData().observe(this, commentList -> {
+        boardFreeDetailViewModel.getCommentLiveData().observe(this, commentList -> {
             if (commentList != null) {
                 // 어댑터에 댓글 데이터를 전달하여 갱신
                 adapter.updateCommentData(commentList);
@@ -160,13 +167,13 @@ public class BoardFreeDetailActivity extends AppCompatActivity {
         });
 
         // Validation 상태 관찰
-        viewModel.getValidationStatus().observe(this, validation -> {
+        boardFreeDetailViewModel.getValidationStatus().observe(this, validation -> {
             if (validation == Validation.ARTICLE_GET_FAILED) {
                 // 데이터 로딩 실패 처리
                 Toast.makeText(context, "데이터를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
             }
         });
-        viewModel.loadArticlesDetail(targetBoardId);
+        boardFreeDetailViewModel.loadArticlesDetail(targetBoardId);
     }
 
     public void initInputbutton(){
