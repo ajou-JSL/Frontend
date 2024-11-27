@@ -11,7 +11,7 @@ public class Team {
     private Integer leaderId;
     private String teamName;
     private String description;
-    private String genre;
+    private Genre genre;
     private String location;
     private String createdAt;
     private String fileUrl;
@@ -49,7 +49,7 @@ public class Team {
         this.teamName = teamName;
     }
 
-    public void setGenre(String genre) {
+    public void setGenre(Genre genre) {
         this.genre = genre;
     }
 
@@ -98,7 +98,7 @@ public class Team {
         return teamName;
     }
 
-    public String getGenre() {
+    public Genre getGenre() {
         return genre;
     }
 

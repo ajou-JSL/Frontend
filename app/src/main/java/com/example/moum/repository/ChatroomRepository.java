@@ -147,6 +147,10 @@ public class ChatroomRepository {
             RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpg"), chatroomProfileFile);
             profileImage = MultipartBody.Part.createFormData("chatroomProfile", chatroomProfileFile.getName(), requestFile);
         }
+        else{
+            RequestBody emptyRequestBody = RequestBody.create(null, new byte[0]);
+            profileImage = MultipartBody.Part.createFormData("file", null, emptyRequestBody);
+        }
         ChatroomCreateRequest request = new ChatroomCreateRequest(chatroom.getName(), chatroom.getType().getValue(), chatroom.getTeamId(), chatroom.getLeaderId(), participants);
 
         /*client 요청 보냄*/
@@ -231,6 +235,10 @@ public class ChatroomRepository {
         if(chatroomProfileFile != null){
             RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpg"), chatroomProfileFile);
             profileImage = MultipartBody.Part.createFormData("chatroomProfile", chatroomProfileFile.getName(), requestFile);
+        }
+        else{
+            RequestBody emptyRequestBody = RequestBody.create(null, new byte[0]);
+            profileImage = MultipartBody.Part.createFormData("file", null, emptyRequestBody);
         }
         ChatroomUpdateRequest request = new ChatroomUpdateRequest(chatroom.getName());
 

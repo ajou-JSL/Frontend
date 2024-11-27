@@ -52,6 +52,7 @@ public class MyMoumFragment extends Fragment {
     private Integer pagePos;
     private Integer id;
     private Boolean isOnCreateViewEnd = false;
+    private TeamAdapter teamAdapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         MyMoumViewModel viewModel = new ViewModelProvider(this).get(MyMoumViewModel.class);
@@ -93,8 +94,8 @@ public class MyMoumFragment extends Fragment {
 
         /*단체 viewPager 연결*/
         ViewPager2 viewpagerTeam = binding.viewpagerTeam;
-        TeamAdapter teamAdapter = new TeamAdapter();
-        teamAdapter.setTeamsNMoums(teams, moums, context, launcher);
+        teamAdapter = new TeamAdapter();
+        teamAdapter.setTeamsNMoums(teams, moums, id, context, launcher);
         viewpagerTeam.setAdapter(teamAdapter);
 
         /*속한 단체 리스트 불러오기*/
@@ -230,4 +231,8 @@ public class MyMoumFragment extends Fragment {
         super.onDestroyView();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 }

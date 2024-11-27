@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/MoumPromote1Activity"
+    tools:context=".view.moum.MoumPromote1Activity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_top"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/gray0">
+
+            <LinearLayout
+                android:id="@+id/headerLayout"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:paddingTop="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="30dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@drawable/background_white_underline"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:contentInsetStart="0dp">
+
+                <ImageView
+                    android:id="@+id/button_return"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/button_rounded_left"
+                    />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginStart="15dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="공연 홍보하기"
+                        android:fontFamily="@font/noto_sans_kr_semibold"
+                        android:textColor="@color/gray7"
+                        android:textSize="14sp" />
+                </LinearLayout>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+                <TextView
+                    android:id="@+id/button_next"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="다음"
+                    android:fontFamily="@font/noto_sans_kr_semibold"
+                    android:textColor="@color/gray7"
+                    android:textSize="14sp"
+                    android:clickable="true"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginTop="25dp"
+                app:layout_constraintTop_toBottomOf="@id/headerLayout">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_gravity="bottom"
+                    android:fontFamily="@font/noto_sans_kr_bold"
+                    android:gravity="bottom"
+                    android:text="1. 공연게시글 작성하기"
+                    android:textColor="@color/gray4"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:src="@drawable/background_rounded_gray"
+                    android:layout_marginBottom="20dp"/>
+                <TextView
+                    android:textColor="@color/gray4"
+                    android:textSize="14sp"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:breakStrategy="high_quality"
+                    android:text="모음을 생성할 때 작성한 정보를 바탕으로, 공연 게시글을 간편하게 생성할 수 있어요!"
+                    android:fontFamily="@font/noto_sans_kr_regular"
+                    />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button_goto_perform"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:elevation="5dp"
+                    android:background="@drawable/button_neon_mint_bold_ripple"
+                    android:fontFamily="@font/noto_sans_kr_medium"
+                    android:text="공연 게시글 작성하러 가기"
+                    android:textColor="@color/gray0"
+                    android:textSize="14sp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="20dp"/>
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</layout>

@@ -1,5 +1,6 @@
 package com.example.moum.data.dto;
 
+import com.example.moum.data.entity.Genre;
 import com.example.moum.data.entity.Music;
 import com.example.moum.data.entity.Performance;
 
@@ -16,6 +17,7 @@ public class PerformRequest {
     private Integer teamId;
     private Integer moumId;
     private ArrayList<Music> music;
+    private Genre genre;
 
     public PerformRequest(
             String performanceName,
@@ -27,7 +29,8 @@ public class PerformRequest {
             ArrayList<Integer> membersId,
             Integer teamId,
             Integer moumId,
-            ArrayList<Music> music
+            ArrayList<Music> music,
+            Genre genre
     ) {
         this.performanceName = performanceName;
         this.performanceDescription = performanceDescription;
@@ -39,5 +42,6 @@ public class PerformRequest {
         this.teamId = teamId;
         this.moumId = moumId;
         this.music = music;
+        this.genre = genre;
     }
 }

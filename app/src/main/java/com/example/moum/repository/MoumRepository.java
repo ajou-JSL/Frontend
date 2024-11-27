@@ -71,7 +71,7 @@ public class MoumRepository {
                 profileImages.add(profileImage);
             }
         }
-        MoumRequest moumRequest = new MoumRequest(moum.getMoumName(), moum.getMoumDescription(), moum.getPerformLocation(), moum.getStartDate(), moum.getEndDate(), moum.getPrice(), moum.getLeaderId(), moum.getTeamId(), moum.getMembers(), moum.getRecords(), moum.getMusic());
+        MoumRequest moumRequest = new MoumRequest(moum.getMoumName(), moum.getMoumDescription(), moum.getPerformLocation(), moum.getStartDate(), moum.getEndDate(), moum.getPrice(), moum.getLeaderId(), moum.getTeamId(), moum.getMembers(), moum.getRecords(), moum.getMusic(), moum.getGenre());
         Call<SuccessResponse<Moum>> result = moumApi.createMoum(profileImages, moumRequest);
 
         result.enqueue(new retrofit2.Callback<SuccessResponse<Moum>>() {
@@ -246,7 +246,7 @@ public class MoumRepository {
             profileImages.add(profileImage);
         }
         //Log.e(TAG, "profileImages: " +  profileImages.toString() + " profileImages size: " + profileImages.size());
-        MoumRequest moumRequest = new MoumRequest(moum.getMoumName(), moum.getMoumDescription(), moum.getPerformLocation(), moum.getStartDate(), moum.getEndDate(), moum.getPrice(), moum.getLeaderId(), moum.getTeamId(), moum.getMembers(), moum.getRecords(), moum.getMusic());
+        MoumRequest moumRequest = new MoumRequest(moum.getMoumName(), moum.getMoumDescription(), moum.getPerformLocation(), moum.getStartDate(), moum.getEndDate(), moum.getPrice(), moum.getLeaderId(), moum.getTeamId(), moum.getMembers(), moum.getRecords(), moum.getMusic(), moum.getGenre());
         Call<SuccessResponse<Moum>> result = moumApi.updateMoum(moumId, profileImages, moumRequest);
 
         result.enqueue(new retrofit2.Callback<SuccessResponse<Moum>>() {

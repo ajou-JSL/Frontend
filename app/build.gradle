@@ -155,4 +155,7 @@ dependencies {
 
     // naver map
     implementation 'com.naver.maps:map-sdk:3.19.1'
+
+    // Flexbox layout
+    implementation 'com.google.android.flexbox:flexbox:3.0.0'
 }

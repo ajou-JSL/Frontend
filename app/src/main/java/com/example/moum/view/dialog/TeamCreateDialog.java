@@ -40,8 +40,9 @@ public class TeamCreateDialog extends Dialog {
         buttonNo = findViewById(R.id.button_dialog_no);
         buttonYes = findViewById(R.id.button_dialog_yes);
 
-        textviewMain.setText(String.format("'%s' 단체를 생성할까요?", teamName));
+        textviewMain.setText(String.format("'%s'\n단체를 생성할까요?", teamName));
         textViewSub.setText("기본 이용자는 최대 3개까지의\n단체를 생성할 수 있어요!");
+        buttonYes.setText("생성");
         buttonNo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

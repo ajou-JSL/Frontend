@@ -15,13 +15,22 @@ public class YoutubeManager {
 
     public static String getVideoId(String url){
         Log.e("youtubeManager", url);
-        String urlFormat = "(?:https?://)?(?:www\\.)?youtube\\.com/watch\\?v=([a-zA-Z0-9_-]+)";
-        Pattern urlPattern = Pattern.compile(urlFormat);
-        Matcher matcher = urlPattern.matcher(url);
 
-        if (matcher.find()) {
+        String regex = "(?:https?://)?(?:www\\.)?(?:youtube\\.com/watch\\?v=|youtu\\.be/)([a-zA-Z0-9_-]+)";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(url);
+
+        if (matcher.matches()) {
             return matcher.group(1);
         }
+
         return null;
     }
+
+    public static Boolean isUrlValid(String url) {
+        String urlFormat = "(?:https?://)?(?:www\\.)?(?:youtube\\.com/watch\\?v=|youtu\\.be/)[a-zA-Z0-9_-]+";
+        Pattern urlPattern = Pattern.compile(urlFormat);
+        return urlPattern.matcher(url).matches();
+    }
+
 }

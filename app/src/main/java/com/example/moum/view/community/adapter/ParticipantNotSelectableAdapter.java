@@ -64,6 +64,8 @@ public class ParticipantNotSelectableAdapter extends RecyclerView.Adapter<Recycl
             memberName = itemView.findViewById(R.id.participant_name);
             memberProfile = itemView.findViewById(R.id.participant_profile);
             this.context = context;
+            this.performanceActivity = performanceActivity;
+
         }
 
         @RequiresApi(api = Build.VERSION_CODES.O)

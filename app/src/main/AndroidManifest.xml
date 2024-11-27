@@ -5,7 +5,8 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" android:minSdkVersion="33" />
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
 
     <application
@@ -83,6 +84,10 @@
             android:exported="true">
         </activity>
         <activity
+            android:name=".view.moum.TeamUpdateActivity"
+            android:exported="true">
+        </activity>
+        <activity
             android:name=".view.moum.MoumCreateActivity"
             android:exported="true">
         </activity>
@@ -102,6 +107,12 @@
             android:exported="true">
         </activity>
         <activity android:name=".view.moum.MoumMapPracticeroomActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".view.moum.MoumFindPerformanceHallActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".view.moum.MoumMapPerformanceHallActivity"
             android:exported="true">
         </activity>
         <activity android:name=".view.community.PerformanceActivity"
@@ -129,6 +140,27 @@
             android:exported="true">
         </activity>
         <activity android:name=".view.myinfo.MyInformationUpdateActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".view.moum.MoumPromote2Activity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".view.moum.MoumPromote1Activity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".view.moum.MoumPaymentChatroomActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".view.moum.MoumPaymentActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".view.moum.MoumPaymentAddActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".view.moum.MoumListPracticeroomActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".view.moum.MoumListPerformanceHallActivity"
             android:exported="true">
         </activity>
     </application>

@@ -425,7 +425,100 @@
                                 android:spinnerMode="dropdown"
                                 />
                         </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginBottom="15dp">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                android:layout_gravity="bottom">
+                                <TextView
+                                    android:textColor="@color/gray4"
+                                    android:textSize="14sp"
+                                    android:layout_marginEnd="17dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_width="wrap_content"
+                                    android:text="프로필 동영상"
+                                    android:fontFamily="@font/noto_sans_kr_regular"
+                                    />
 
+                                <TextView
+                                    android:id="@+id/error_video"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:fontFamily="@font/noto_sans_kr_regular"
+                                    android:text=""
+                                    android:textColor="@color/gray7"
+                                    android:textSize="9sp" />
+                            </LinearLayout>
+                            <LinearLayout
+                                android:id="@+id/placeholder_video"
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:background="@drawable/background_rounded_gray_stroke"
+                                android:paddingLeft="10dp"
+                                android:paddingRight="10dp"
+                                android:paddingTop="10dp"
+                                android:paddingBottom="5dp"
+                                >
+                                <EditText
+                                    android:id="@+id/edittext_video"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="33dp"
+                                    android:background="@color/transparent"
+                                    android:inputType="text"
+                                    android:hint="유튜브 링크를 입력하세요"
+                                    android:textSize="14sp"
+                                    android:textColor="@color/gray7"
+                                    android:fontFamily="@font/noto_sans_kr_bold"
+                                    android:gravity="center_vertical"
+                                    android:focusable="true"
+                                    android:focusableInTouchMode="true"
+                                    android:text="@={viewModel.member.videoUrl}"
+                                    />
+                            </LinearLayout>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginBottom="15dp">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                android:layout_gravity="bottom">
+                                <TextView
+                                    android:textColor="@color/gray4"
+                                    android:textSize="14sp"
+                                    android:layout_marginEnd="17dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_width="wrap_content"
+                                    android:text="관심 장르(복수 선택)"
+                                    android:fontFamily="@font/noto_sans_kr_regular"
+                                    />
+
+                                <TextView
+                                    android:id="@+id/error_genres"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:fontFamily="@font/noto_sans_kr_regular"
+                                    android:text=""
+                                    android:textColor="@color/gray7"
+                                    android:textSize="9sp" />
+                            </LinearLayout>
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/recycler_genres"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+                        </LinearLayout>
 
 
 

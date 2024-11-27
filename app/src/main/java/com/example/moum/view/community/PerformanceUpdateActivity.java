@@ -34,6 +34,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.moum.R;
+import com.example.moum.data.entity.Genre;
 import com.example.moum.data.entity.Member;
 import com.example.moum.data.entity.Moum;
 import com.example.moum.data.entity.Music;
@@ -174,6 +175,26 @@ public class PerformanceUpdateActivity extends AppCompatActivity {
             }
         });
 
+        /*genre 스피너 Adapter 연결*/
+        Spinner genreSpinner = binding.spinnerGenre;
+        String[] genreList = Genre.toStringArray();
+        ArrayAdapter<String> genreAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, genreList);
+        genreAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        genreSpinner.setAdapter(genreAdapter);
+
+        viewModel.setGenre(genreList[0]);
+        genreSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                viewModel.setGenre(genreList[position]);
+                binding.errorGenre.setText("");
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                return;
+            }
+        });
+
         /*참여 멤버 리사이클러뷰 표시*/
         RecyclerView recyclerView = binding.recyclerPerformParticipants;
         performanceParticipantAdapter = new ParticipantAdapter();
@@ -228,6 +249,10 @@ public class PerformanceUpdateActivity extends AppCompatActivity {
                 if(loadedPerform.getPerformanceStartDate() != null) binding.buttonDateStart.setText(TimeManager.strToDate(loadedPerform.getPerformanceStartDate()));
                 if(loadedPerform.getPerformanceEndDate() != null) binding.buttonDateEnd.setText(TimeManager.strToDate(loadedPerform.getPerformanceEndDate()));
                 if(loadedPerform.getPerformancePrice() != null) binding.edittextPerformPrice.setText(String.format("%d", loadedPerform.getPerformancePrice()));
+                if(loadedPerform.getGenre() != null) {
+                    binding.spinnerGenre.setSelection(loadedPerform.getGenre().getValue());
+                    viewModel.setGenre(genreList[loadedPerform.getGenre().getValue()]);
+                }
                 if(loadedPerform.getPerformanceImageUrl() != null && !loadedPerform.getPerformanceImageUrl().isEmpty()){
                     Glide.with(context)
                             .applyDefaultRequestOptions(new RequestOptions()
@@ -306,6 +331,10 @@ public class PerformanceUpdateActivity extends AppCompatActivity {
             else if(isValidCheckSuccess == Validation.MOUM_NAME_NOT_WRITTEN){
                 binding.errorPerformName.setText("모음 이름을 입력하세요.");
                 binding.errorPerformName.requestFocus();
+            }
+            else if(isValidCheckSuccess == Validation.GENRE_NOT_WRITTEN){
+                binding.errorGenre.setText("장르를 선택하세요.");
+                binding.spinnerGenre.requestFocus();
             }
             else if(isValidCheckSuccess == Validation.VALID_ALL){
                 // valid check 유효하다면, 최종 다이얼로그 띄우기
@@ -386,7 +415,14 @@ public class PerformanceUpdateActivity extends AppCompatActivity {
                 }
             }
         });
-
+        binding.spinnerGenre.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(hasFocus){
+                    binding.errorGenre.setText("");
+                }
+            }
+        });
     }
 
     public void onDialogYesClicked(){
