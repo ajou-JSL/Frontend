@@ -82,9 +82,9 @@ public class BoardPerformanceFragment extends Fragment {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 requireContext(),
                 R.array.community_board_spinner1_items,
-                R.layout.spinner_item_filter
+                android.R.layout.simple_spinner_item
         );
-        adapter.setDropDownViewResource(R.layout.spinner_item_filter);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.boardPerformanceSpinner.setAdapter(adapter);
         binding.boardPerformanceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

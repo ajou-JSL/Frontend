@@ -13,12 +13,16 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
+
 
 import com.example.moum.R;
 import com.example.moum.data.entity.Article;
@@ -42,6 +46,7 @@ public class BoardFreeFragment extends Fragment {
     private Context context;
     private Integer memberId;
     private boolean isLoading = false;
+    private final String TAG = getClass().toString();
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         boardFreeViewModel = new ViewModelProvider(this).get(BoardFreeViewModel.class);
@@ -59,7 +64,7 @@ public class BoardFreeFragment extends Fragment {
             Intent intent = new Intent(context, InitialActivity.class);
             startActivity(intent);
         }
-
+        Log.e(TAG, "onCreateView start");
         initSpinner();
         initRecyclerView();
         initFloatingActionButton();
@@ -93,6 +98,8 @@ public class BoardFreeFragment extends Fragment {
     }
 
     private void initRecyclerView() {
+
+        Log.e(TAG, "initRecyclerView start");
         // RecyclerView 초기화
         RecyclerView recyclerView = binding.boardFreeRecyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -108,23 +115,22 @@ public class BoardFreeFragment extends Fragment {
 
 
         // 스크롤 리스너 추가
+        long DEBOUNCE_DELAY = 0;
+        Handler handler = new Handler(Looper.getMainLooper()); // 여러번 호출되는 것을 막기 위한 디바운싱
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if(!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE && adapter.getItemCount() > 0 && !isLoading){
+                    isLoading = true;
+                    boardFreeViewModel.loadNextArticleCategoryList();
+                    handler.postDelayed(() -> isLoading = false, DEBOUNCE_DELAY);
+                }
+            }
+
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-
-                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                // 아래 스크롤 동작 확인
-                if (layoutManager != null && dy > 0) {
-                    int visibleItemCount = layoutManager.getChildCount();
-                    int totalItemCount = layoutManager.getItemCount();
-                    int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
-
-                    if (!boardFreeViewModel.isLoading() && (visibleItemCount + firstVisibleItemPosition) >= totalItemCount) {
-                        // ViewModel을 통해 추가 데이터 요청
-                        boardFreeViewModel.loadArticleCategoryList();
-                    }
-                }
             }
         });
 
@@ -151,6 +157,7 @@ public class BoardFreeFragment extends Fragment {
                         updatedItemList.add(item);
                     }
                     adapter.updateItemList(updatedItemList);
+                    boardFreeViewModel.setRecentSize(updatedItemList.size());
                 } else {
                     // 에러 처리
                     Toast.makeText(getContext(), "데이터를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
@@ -180,6 +187,7 @@ public class BoardFreeFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        boardFreeViewModel.resetPagination();
         binding = null;
     }
 }

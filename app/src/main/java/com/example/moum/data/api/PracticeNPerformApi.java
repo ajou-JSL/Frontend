@@ -34,6 +34,28 @@ public interface PracticeNPerformApi {
             @Query("size") Integer size
     );
 
+    @GET("/api/business/practice-rooms/search")
+    Call<SuccessResponse<Content<List<Practiceroom>>>> searchPracticerooms(
+            @Query("page") Integer page,
+            @Query("size") Integer size,
+            @Query("sortBy") String sortBy,
+            @Query("orderBy") String orderBy,
+            @Query("name") String name,
+            @Query("latitude") Double latitude,
+            @Query("longitude") Double longitude,
+            @Query("minPrice") Integer minPrice,
+            @Query("maxPrice") Integer maxPrice,
+            @Query("minCapacity") Integer minCapacity,
+            @Query("maxCapacity") Integer maxCapacity,
+            @Query("type") Integer type,
+            @Query("minStand") Integer minStand,
+            @Query("maxStand") Integer maxStand,
+            @Query("hasPiano") Boolean hasPiano,
+            @Query("hasAmp") Boolean hasAmp,
+            @Query("hasSpeaker") Boolean hasSpeaker,
+            @Query("hasMic") Boolean hasMic,
+            @Query("hasDrums") Boolean hasDrums
+    );
 
     @GET("/api/business/performance-hall/view/{performHallId}")
     Call<SuccessResponse<PerformanceHall>> getPerformHall(
@@ -46,6 +68,29 @@ public interface PracticeNPerformApi {
             @Query("size") Integer size
     );
 
+    @GET("/api/business/performance-halls/search")
+    Call<SuccessResponse<Content<List<PerformanceHall>>>> searchPerformHalls(
+            @Query("page") Integer page,
+            @Query("size") Integer size,
+            @Query("sortBy") String sortBy,
+            @Query("orderBy") String orderBy,
+            @Query("name") String name,
+            @Query("latitude") Double latitude,
+            @Query("longitude") Double longitude,
+            @Query("minPrice") Integer minPrice,
+            @Query("maxPrice") Integer maxPrice,
+            @Query("maxHallSize") Integer maxHallSize,
+            @Query("minHallSize") Integer minHallSize,
+            @Query("minCapacity") Integer minCapacity,
+            @Query("maxCapacity") Integer maxCapacity,
+            @Query("minStand") Integer minStand,
+            @Query("maxStand") Integer maxStand,
+            @Query("hasPiano") Boolean hasPiano,
+            @Query("hasAmp") Boolean hasAmp,
+            @Query("hasSpeaker") Boolean hasSpeaker,
+            @Query("hasMic") Boolean hasMic,
+            @Query("hasDrums") Boolean hasDrums
+    );
 
     /**
      * 아래는 "모음 내에서의" 연습실 및 공연장 관련 API

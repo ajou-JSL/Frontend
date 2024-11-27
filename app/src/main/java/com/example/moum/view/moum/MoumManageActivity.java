@@ -157,7 +157,7 @@ public class MoumManageActivity extends AppCompatActivity {
         RecyclerView musicRecyclerView = binding.recyclerMoumManageMusic;
         MoumManageMusicAdapter moumManageMusicAdapter = new MoumManageMusicAdapter();
         moumManageMusicAdapter.setMusics(musics, context);
-        musicRecyclerView.setLayoutManager(new WrapContentLinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+        musicRecyclerView.setLayoutManager(new WrapContentLinearLayoutManager(context));
         musicRecyclerView.setAdapter(moumManageMusicAdapter);
 
         /*각 단계별 설정 드롭다운 설정*/

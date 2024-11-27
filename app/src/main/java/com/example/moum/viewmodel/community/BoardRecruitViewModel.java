@@ -16,10 +16,12 @@ import java.util.List;
 public class BoardRecruitViewModel extends AndroidViewModel {
     private MutableLiveData<Validation> validationStatus = new MutableLiveData<>();
     private final MutableLiveData<Result<List<Article>>> isLoadArticlesCategorySuccess = new MutableLiveData<>();
+    private final MutableLiveData<Result<List<Article>>> isLoadNextArticlesCategorySuccess = new MutableLiveData<>();
     private final MutableLiveData<Result<Article>> isLoadArticleSuccess = new MutableLiveData<>();
     private ArticleRepository articleRepository;
     private boolean isLoading = false;
     private Integer currentPage = 0;
+    private Integer recentSize = 0;
     private final Integer currentSize = 10;
 
     public BoardRecruitViewModel(Application application) {
@@ -32,6 +34,10 @@ public class BoardRecruitViewModel extends AndroidViewModel {
         this.isLoadArticlesCategorySuccess.setValue(isLoadArticlesCategorySuccess);
     }
 
+    private void setIsLoadNextArticlesCategorySuccess(Result<List<Article>> isLoadNextArticlesCategorySuccess){
+        this.isLoadNextArticlesCategorySuccess.setValue(isLoadNextArticlesCategorySuccess);
+    }
+
     private void setIsLoadArticleSuccess(Result<Article> isLoadArticleSuccess){
         this.isLoadArticleSuccess.setValue(isLoadArticleSuccess);
     }
@@ -41,6 +47,10 @@ public class BoardRecruitViewModel extends AndroidViewModel {
     }
 
     public MutableLiveData<Result<List<Article>>> getIsLoadArticlesCategorySuccess() { return isLoadArticlesCategorySuccess; }
+
+    public MutableLiveData<Result<List<Article>>> getIsLoadNextArticlesCategorySuccess() {
+        return isLoadNextArticlesCategorySuccess;
+    }
 
     public boolean isLoading() {return isLoading; }
 
@@ -56,4 +66,18 @@ public class BoardRecruitViewModel extends AndroidViewModel {
             currentPage++;
         }
     }
+
+    public void loadNextArticleCategoryList() {
+        if(recentSize < currentSize) {
+            return;
+        }
+        articleRepository.loadArticlesCategory(null, "RECRUIT_BOARD", currentPage, currentSize, this::setIsLoadArticlesCategorySuccess);
+        currentPage++;
+
+    }
+
+    public void setRecentSize(Integer recentSize){
+        this.recentSize = recentSize;
+    }
+
 }

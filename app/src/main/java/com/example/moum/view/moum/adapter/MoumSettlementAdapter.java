@@ -36,7 +36,7 @@ public class MoumSettlementAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_moum_practiceroom, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_payment, parent, false);
         return new MoumSettlementAdapter.MoumSettlementViewHolder(view, context);
     }
 

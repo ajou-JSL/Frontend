@@ -11,6 +11,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -97,6 +99,23 @@ public class MoumFindPerformanceHallActivity extends AppCompatActivity {
             }
         });
 
+        /*필터링 스피너 설정*/
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context, R.array.community_board_spinner1_items, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spinnerFilter.setAdapter(adapter);
+        binding.spinnerFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (parent != null) {
+                    //TODO
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                //TODO
+            }
+        });
+
         /*연습실 리사이클러뷰 연결*/
         RecyclerView recyclerView = binding.recyclerPerformanceHall;
         MoumPerformanceHallAdapter moumPerformanceHallAdapter = new MoumPerformanceHallAdapter();
@@ -139,9 +158,16 @@ public class MoumFindPerformanceHallActivity extends AppCompatActivity {
                 if(!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE &&  !isLoading){
                     if(performanceHalls.isEmpty())
                         return;
-                    isLoading = true;
-                    viewModel.loadNextPerformanceHall();
-                    handler.postDelayed(() -> isLoading = false, DEBOUNCE_DELAY);
+                    if(viewModel.isQuerying()){
+                        isLoading = true;
+                        viewModel.queryNextPerformanceHall();
+                        handler.postDelayed(() -> isLoading = false, DEBOUNCE_DELAY);
+                    }else{
+                        isLoading = true;
+                        viewModel.loadNextPerformanceHall();
+                        handler.postDelayed(() -> isLoading = false, DEBOUNCE_DELAY);
+                    }
+
                 }
             }
             @Override
@@ -174,7 +200,7 @@ public class MoumFindPerformanceHallActivity extends AppCompatActivity {
         binding.searchviewPerformanceHall.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                viewModel.queryPerformanceHall(query);
+                viewModel.queryPerformanceHall(query, latLng);
                 return false;
             }
 
@@ -187,11 +213,30 @@ public class MoumFindPerformanceHallActivity extends AppCompatActivity {
         /*검색 결과 감시*/
         viewModel.getIsQueryPerformanceHallSuccess().observe(this, isQueryPerformanceHallSuccess -> {
             Validation validation = isQueryPerformanceHallSuccess.getValidation();
-            List<PerformanceHall> loadedPracticerooms = isQueryPerformanceHallSuccess.getData();
+            List<PerformanceHall> loadedPerformanceHalls = isQueryPerformanceHallSuccess.getData();
             if(validation == Validation.PERFORMANCE_HALL_GET_SUCCESS) {
                 performanceHalls.clear();
-                performanceHalls.addAll(loadedPracticerooms);
+                performanceHalls.addAll(loadedPerformanceHalls);
                 moumPerformanceHallAdapter.notifyDataSetChanged();
+                viewModel.setRecentPageNumber(loadedPerformanceHalls.size());
+            }
+            else if(validation == Validation.NETWORK_FAILED) {
+                Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Toast.makeText(context, "검색에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "감시 결과를 알 수 없습니다.");
+            }
+        });
+
+        /*다음 검색 결과 감시*/
+        viewModel.getIsQueryNextPerformanceHallSuccess().observe(this, isQueryNextPerformanceHallSuccess -> {
+            Validation validation = isQueryNextPerformanceHallSuccess.getValidation();
+            List<PerformanceHall> loadedPerformanceHalls = isQueryNextPerformanceHallSuccess.getData();
+            if(validation == Validation.PERFORMANCE_HALL_GET_SUCCESS) {
+                performanceHalls.addAll(loadedPerformanceHalls);
+                moumPerformanceHallAdapter.notifyDataSetChanged();
+                viewModel.setRecentPageNumber(loadedPerformanceHalls.size());
             }
             else if(validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();

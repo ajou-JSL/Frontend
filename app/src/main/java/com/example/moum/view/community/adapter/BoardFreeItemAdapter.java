@@ -42,6 +42,11 @@ public class BoardFreeItemAdapter extends RecyclerView.Adapter<BoardFreeItemAdap
         notifyDataSetChanged();
     }
 
+    public void addItemList(ArrayList<BoardFreeItem> boardFreeItems){
+        this.itemList.addAll(boardFreeItems);
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

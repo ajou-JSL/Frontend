@@ -13,6 +13,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -102,11 +104,28 @@ public class MoumFindPracticeroomActivity extends AppCompatActivity {
             }
         });
 
+        /*필터링 스피너 설정*/
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context, R.array.community_board_spinner1_items, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spinnerFilter.setAdapter(adapter);
+        binding.spinnerFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (parent != null) {
+                    //TODO
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                //TODO
+            }
+        });
+
         /*연습실 리사이클러뷰 연결*/
         RecyclerView recyclerView = binding.recyclerPracticeroom;
         MoumPracticeroomAdapter moumPracticeroomAdapter = new MoumPracticeroomAdapter();
         moumPracticeroomAdapter.setPracticerooms(practicerooms, context);
-        recyclerView.setLayoutManager(new WrapContentLinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+        recyclerView.setLayoutManager(new WrapContentLinearLayoutManager(context));
         recyclerView.setAdapter(moumPracticeroomAdapter);
 
         /*연습실 불러오기*/

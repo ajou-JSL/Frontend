@@ -16,11 +16,13 @@ import java.util.List;
 public class BoardFreeViewModel extends AndroidViewModel {
     private MutableLiveData<Validation> validationStatus = new MutableLiveData<>();
     private final MutableLiveData<Result<List<Article>>> isLoadArticlesCategorySuccess = new MutableLiveData<>();
-    private final MutableLiveData<Result<Article>> isLoadArticleSuccess = new MutableLiveData<>();
+    private final MutableLiveData<Result<List<Article>>> isLoadNextArticlesCategorySuccess = new MutableLiveData<>();
+
     private ArticleRepository articleRepository;
  //   private final MutableLiveData<Result<String>> profileURL;
     private boolean isLoading = false;
     private Integer currentPage = 0;
+    private Integer recentSize;
     private final Integer currentSize = 10;
 
     public BoardFreeViewModel(Application application) {
@@ -33,8 +35,8 @@ public class BoardFreeViewModel extends AndroidViewModel {
         this.isLoadArticlesCategorySuccess.setValue(isLoadArticlesCategorySuccess);
     }
 
-    private void setIsLoadArticleSuccess(Result<Article> isLoadArticleSuccess){
-        this.isLoadArticleSuccess.setValue(isLoadArticleSuccess);
+    private void setIsLoadNextArticlesCategorySuccess(Result<List<Article>> isLoadNextArticlesCategorySuccess){
+        this.isLoadNextArticlesCategorySuccess.setValue(isLoadNextArticlesCategorySuccess);
     }
 
     public MutableLiveData<Validation> getValidationStatus(){
@@ -42,6 +44,11 @@ public class BoardFreeViewModel extends AndroidViewModel {
     }
 
     public MutableLiveData<Result<List<Article>>> getIsLoadArticlesCategorySuccess() { return isLoadArticlesCategorySuccess; }
+
+
+    public MutableLiveData<Result<List<Article>>> getIsLoadNextArticlesCategorySuccess() {
+        return isLoadNextArticlesCategorySuccess;
+    }
 
     public boolean isLoading() {return isLoading; }
 
@@ -56,5 +63,17 @@ public class BoardFreeViewModel extends AndroidViewModel {
             articleRepository.loadArticlesCategory(null, "FREE_TALKING_BOARD", currentPage, currentSize, this::setIsLoadArticlesCategorySuccess);
             currentPage++;
         }
+    }
+
+    public void loadNextArticleCategoryList() {
+        if(recentSize < currentSize) {
+            return;
+        }
+        articleRepository.loadArticlesCategory(null, "FREE_TALKING_BOARD", currentPage, currentSize, this::setIsLoadNextArticlesCategorySuccess);
+        currentPage++;
+    }
+
+    public void setRecentSize(Integer recentSize) {
+        this.recentSize = recentSize;
     }
 }

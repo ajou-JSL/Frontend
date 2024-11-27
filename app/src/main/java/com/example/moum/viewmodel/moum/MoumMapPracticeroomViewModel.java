@@ -3,12 +3,15 @@ package com.example.moum.viewmodel.moum;
 import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.moum.data.entity.MoumPracticeroom;
+import com.example.moum.data.entity.PerformanceHall;
 import com.example.moum.data.entity.Practiceroom;
 import com.example.moum.data.entity.Result;
 import com.example.moum.repository.PracticeNPerformRepository;
+import com.example.moum.utils.Validation;
 
 import java.util.List;
 
@@ -17,10 +20,30 @@ public class MoumMapPracticeroomViewModel extends AndroidViewModel {
     private final MutableLiveData<Boolean> isNaverMapReady = new MutableLiveData<>();
     private final MutableLiveData<Result<Practiceroom>> isLoadPracticeroomSuccess = new MutableLiveData<>();
     private final MutableLiveData<Result<MoumPracticeroom>> isCreatePracticeroomSuccess = new MutableLiveData<>();
+    private final MediatorLiveData<Boolean> isAllReady = new MediatorLiveData<>();
 
     public MoumMapPracticeroomViewModel(Application application){
         super(application);
         practiceNPerformRepository = PracticeNPerformRepository.getInstance(application);
+        setupCombinedObserver(isNaverMapReady, isLoadPracticeroomSuccess);
+    }
+
+    public void setupCombinedObserver(MutableLiveData<Boolean> data1, MutableLiveData<Result<Practiceroom>> data2) {
+        isAllReady.addSource(data1, value -> combineValues(data1.getValue(), data2.getValue()));
+        isAllReady.addSource(data2, value -> combineValues(data1.getValue(), data2.getValue()));
+    }
+
+    private void combineValues(Boolean value1, Result<Practiceroom> value2) {
+        // 두 LiveData가 모두 true일 때만 MediatorLiveData를 true로 설정
+        if (Boolean.TRUE.equals(value1) && value2 != null && value2.getValidation() == Validation.PRACTICE_ROOM_GET_SUCCESS) {
+            isAllReady.setValue(true);
+        } else {
+            isAllReady.setValue(false);
+        }
+    }
+
+    public MediatorLiveData<Boolean> getIsAllReady() {
+        return isAllReady;
     }
 
     public MutableLiveData<Boolean> getIsNaverMapReady() {
@@ -45,6 +68,10 @@ public class MoumMapPracticeroomViewModel extends AndroidViewModel {
 
     public void setIsCreatePracticeroomSuccess(Result<MoumPracticeroom> isCreatePracticeroomSuccess){
         this.isCreatePracticeroomSuccess.setValue(isCreatePracticeroomSuccess);
+    }
+
+    public void setIsAllReady(Boolean isAllReady){
+        this.isAllReady.setValue(isAllReady);
     }
 
     public void loadPracticeroom(Integer practiceroomId){

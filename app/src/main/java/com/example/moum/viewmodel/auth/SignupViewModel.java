@@ -289,6 +289,7 @@ public class SignupViewModel extends AndroidViewModel {
     }
 
     public void setGenres(Genre[] genres, ArrayList<Boolean> isSelecteds){
+        selectedGenres.clear();
         ArrayList<Genre> genresList = new ArrayList<>(Arrays.asList(genres));
         if(isSelecteds != null)
             for (int i = 0; i < genresList.size(); i++) {

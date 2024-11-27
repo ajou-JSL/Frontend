@@ -223,15 +223,29 @@ public class MoumMapPracticeroomActivity extends AppCompatActivity implements On
         });
 
         /*map ready시 결과 감시*/
-        viewModel.getIsNaverMapReady().observe(this, isNaverMapReady -> {
-            if(isNaverMapReady && practiceroom != null){
+//        practiceroom = null;
+//        naverMap = null;
+//        viewModel.getIsNaverMapReady().observe(this, isNaverMapReady -> {
+//            if(isNaverMapReady && practiceroom != null && naverMap != null){
+//                Marker marker = new Marker();
+//                marker.setPosition(new LatLng(practiceroom.getLatitude(), practiceroom.getLongitude()));
+//                marker.setMap(naverMap);
+//                marker.setCaptionText(practiceroom.getName());
+//                CameraUpdate cameraUpdate = CameraUpdate.scrollTo(new LatLng(practiceroom.getLatitude(), practiceroom.getLongitude()));
+//                naverMap.moveCamera(cameraUpdate);
+//                binding.buttonGotoNaverMap.setEnabled(true);
+//            }
+//        });
+
+        /*map도 준비되고, 공연장 정보도 준비되었을 시 결과 감시*/
+        viewModel.getIsAllReady().observe(this, isAllReady -> {
+            if(isAllReady){
                 Marker marker = new Marker();
                 marker.setPosition(new LatLng(practiceroom.getLatitude(), practiceroom.getLongitude()));
                 marker.setMap(naverMap);
                 marker.setCaptionText(practiceroom.getName());
                 CameraUpdate cameraUpdate = CameraUpdate.scrollTo(new LatLng(practiceroom.getLatitude(), practiceroom.getLongitude()));
                 naverMap.moveCamera(cameraUpdate);
-                binding.buttonGotoNaverMap.setEnabled(true);
             }
         });
     }
@@ -242,6 +256,7 @@ public class MoumMapPracticeroomActivity extends AppCompatActivity implements On
         super.onDestroy();
         practiceroom = null;
         naverMap = null;
+        viewModel.setIsNaverMapReady(false);
     }
 
     @Override

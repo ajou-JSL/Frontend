@@ -106,6 +106,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_width="wrap_content"
                                 android:text="장소 이름"
+                                android:maxWidth="200dp"
                                 android:gravity="bottom"
                                 android:layout_gravity="bottom"
                                 android:includeFontPadding="false"

@@ -215,16 +215,27 @@ public class MoumMapPerformanceHallActivity extends AppCompatActivity implements
         });
 
         /*map ready시 결과 감시*/
-        viewModel.getIsNaverMapReady().observe(this, isNaverMapReady -> {
-            if(isNaverMapReady && performanceHall != null){
-                if (Boolean.TRUE.equals(viewModel.getIsNaverMapReady().getValue())) {
-                    Marker marker = new Marker();
-                    marker.setPosition(new LatLng(performanceHall.getLatitude(), performanceHall.getLongitude()));
-                    marker.setMap(naverMap);
-                    marker.setCaptionText(performanceHall.getName());
-                    CameraUpdate cameraUpdate = CameraUpdate.scrollTo(new LatLng(performanceHall.getLatitude(), performanceHall.getLongitude()));
-                    naverMap.moveCamera(cameraUpdate);
-                }
+
+//        viewModel.getIsNaverMapReady().observe(this, isNaverMapReady -> {
+//            if(isNaverMapReady && performanceHall != null && naverMap != null){
+//                Marker marker = new Marker();
+//                marker.setPosition(new LatLng(performanceHall.getLatitude(), performanceHall.getLongitude()));
+//                marker.setMap(naverMap);
+//                marker.setCaptionText(performanceHall.getName());
+//                CameraUpdate cameraUpdate = CameraUpdate.scrollTo(new LatLng(performanceHall.getLatitude(), performanceHall.getLongitude()));
+//                naverMap.moveCamera(cameraUpdate);
+//            }
+//        });
+
+        /*map도 준비되고, 공연장 정보도 준비되었을 시 결과 감시*/
+        viewModel.getIsAllReady().observe(this, isAllReady -> {
+            if(isAllReady){
+                Marker marker = new Marker();
+                marker.setPosition(new LatLng(performanceHall.getLatitude(), performanceHall.getLongitude()));
+                marker.setMap(naverMap);
+                marker.setCaptionText(performanceHall.getName());
+                CameraUpdate cameraUpdate = CameraUpdate.scrollTo(new LatLng(performanceHall.getLatitude(), performanceHall.getLongitude()));
+                naverMap.moveCamera(cameraUpdate);
             }
         });
     }
@@ -234,13 +245,14 @@ public class MoumMapPerformanceHallActivity extends AppCompatActivity implements
         super.onDestroy();
         performanceHall = null;
         naverMap = null;
+        viewModel.setIsNaverMapReady(false);
     }
 
     @Override
     public void onMapReady(@NonNull NaverMap naverMap) {
         naverMap.setMapType(NaverMap.MapType.Basic);
-        viewModel.setIsNaverMapReady(true);
         this.naverMap = naverMap;
+        viewModel.setIsNaverMapReady(true);
     }
 
     public void onPerformOfMoumCreateDialogYesClicked(){
