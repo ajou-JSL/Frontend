@@ -9,10 +9,12 @@ import androidx.annotation.RequiresApi;
 import com.example.moum.data.api.ArticleApi;
 import com.example.moum.data.api.TeamApi;
 import com.example.moum.data.dto.ArticleRequest;
+import com.example.moum.data.dto.CommentRequest;
 import com.example.moum.data.dto.ErrorResponse;
 import com.example.moum.data.dto.SuccessResponse;
 import com.example.moum.data.dto.TeamRequest;
 import com.example.moum.data.entity.Article;
+import com.example.moum.data.entity.Comment;
 import com.example.moum.data.entity.Member;
 import com.example.moum.data.entity.Result;
 import com.example.moum.data.entity.Team;
@@ -233,6 +235,43 @@ public class ArticleRepository {
             @Override
             public void onFailure(Call<SuccessResponse<Article>> call, Throwable t) {
                 Result<Article> result = new Result<>(Validation.NETWORK_FAILED);
+                callback.onResult(result);
+            }
+        });
+    }
+
+    public void createComment(int articleId, String content, com.example.moum.utils.Callback<Result<Comment>> callback) {
+        Call<SuccessResponse<Comment>> result = articleApi.createComment(articleId, new CommentRequest(content));
+        result.enqueue(new retrofit2.Callback<SuccessResponse<Comment>>() {
+            @Override
+            public void onResponse(Call<SuccessResponse<Comment>> call, Response<SuccessResponse<Comment>> response) {
+                if (response.isSuccessful()) {
+                    /*성공적으로 응답을 받았을 때*/
+                    SuccessResponse<Comment> responseBody = response.body();
+                    Log.e(TAG, responseBody.toString());
+                    Comment comment = responseBody.getData();
+                    Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
+                    Result<Comment> result = new Result<>(validation, comment);
+                    callback.onResult(result);
+                } else {
+                    /*응답은 받았으나 문제 발생 시*/
+                    try {
+                        ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
+                        if (errorResponse != null) {
+                            Log.e(TAG, errorResponse.toString());
+                            Validation validation = ValueMap.getCodeToVal(errorResponse.getCode());
+                            Result<Comment> result = new Result<>(validation);
+                            callback.onResult(result);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SuccessResponse<Comment>> call, Throwable t) {
+                Result<Comment> result = new Result<>(Validation.NETWORK_FAILED);
                 callback.onResult(result);
             }
         });

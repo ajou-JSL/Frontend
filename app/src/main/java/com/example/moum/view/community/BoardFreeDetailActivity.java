@@ -72,6 +72,7 @@ public class BoardFreeDetailActivity extends AppCompatActivity {
         initWishlistButton();
         initMenu();
         initRecyclerviewContent();
+        initInputbutton();
 
     }
 
@@ -166,6 +167,13 @@ public class BoardFreeDetailActivity extends AppCompatActivity {
             }
         });
         viewModel.loadArticlesDetail(targetBoardId);
+    }
+
+    public void initInputbutton(){
+        binding.boardFreeDetailInputButton.setOnClickListener(v -> {
+            String content = binding.boardFreeDetailInputBox.getText().toString();
+            boardFreeDetailViewModel.postComment(targetBoardId, content);
+        });
     }
 
 

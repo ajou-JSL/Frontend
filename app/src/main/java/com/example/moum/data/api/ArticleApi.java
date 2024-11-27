@@ -2,9 +2,11 @@ package com.example.moum.data.api;
 
 import com.example.moum.data.dto.ArticleRequest;
 import com.example.moum.data.dto.ChatSendRequest;
+import com.example.moum.data.dto.CommentRequest;
 import com.example.moum.data.dto.SuccessResponse;
 import com.example.moum.data.entity.Article;
 import com.example.moum.data.entity.Chat;
+import com.example.moum.data.entity.Comment;
 
 import java.util.List;
 
@@ -43,5 +45,11 @@ public interface ArticleApi {
     Call<SuccessResponse<Article>> createArticle(
             @Part List<MultipartBody.Part> file,
             @Part("articleRequestDto") ArticleRequest articleRequest
+    );
+
+    @POST("/api/comments/{articleId}")
+    Call<SuccessResponse<Comment>> createComment(
+            @Path("articleId") int articleId,
+            @Body CommentRequest commentRequest
     );
 }

@@ -166,7 +166,6 @@ public class BoardFreeWriteActivity extends AppCompatActivity {
                     if (validation == Validation.GET_TEAM_LIST_SUCCESS) {
                         // 데이터가 없는 경우 처리
                         if (loadedTeams.isEmpty()) {
-                            Toast.makeText(context, "리더로 속한 단체가 없습니다.", Toast.LENGTH_SHORT).show();
                         } else {
                             // 팀 이름 추가
                             for (Team team : loadedTeams) {

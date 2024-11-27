@@ -32,6 +32,7 @@ import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.view.community.adapter.BoardFreeItemAdapter;
+import com.example.moum.view.community.adapter.BoardRecruitItemAdapter;
 import com.example.moum.viewmodel.community.BoardFreeViewModel;
 import com.example.moum.viewmodel.community.BoardRecruitViewModel;
 
@@ -115,7 +116,7 @@ public class BoardRecruitFragment extends Fragment {
 
         // RecyclerView 어댑터 설정
         ArrayList<BoardFreeItem> initialItemList = new ArrayList<>();
-        BoardFreeItemAdapter adapter = new BoardFreeItemAdapter(initialItemList);
+        BoardRecruitItemAdapter adapter = new BoardRecruitItemAdapter(initialItemList);
         recyclerView.setAdapter(adapter);
 
         // Activity에서 BottomNavigationView 높이를 가져오기

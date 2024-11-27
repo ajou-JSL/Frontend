@@ -29,6 +29,10 @@ public class BoardFreeDetailViewModel extends AndroidViewModel {
 
     }
 
+    private void setIscreateArticleSuccess(Result<Comment> result) {
+
+    }
+
     private void setIsLoadArticleSuccess(Result<Article> result) {
         if (result != null && result.getData() != null) {
             Article article = result.getData();
@@ -64,5 +68,9 @@ public class BoardFreeDetailViewModel extends AndroidViewModel {
     // 게시글과 댓글 데이터를 로드하는 메서드
     public void loadArticlesDetail(Integer positionId) {
         articleRepository.loadArticleDetail(positionId, this::setIsLoadArticleSuccess);
+    }
+
+    public void postComment(Integer ArticleId, String content) {
+        articleRepository.createComment(ArticleId, content, this::setIscreateArticleSuccess);
     }
 }

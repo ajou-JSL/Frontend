@@ -5,7 +5,7 @@ public class Comment {
     private Integer articleDetailsId;
     private String author;
     private String content;
-    private String createAt;
+    private String createdAt;
 
     public String getAuthor() {
         return author;
@@ -24,7 +24,7 @@ public class Comment {
     }
 
     public String getCreateAt() {
-        return createAt;
+        return createdAt;
     }
 
     public void setAuthor(String author) {
@@ -44,7 +44,7 @@ public class Comment {
     }
 
     public void setCreateAt(String createAt) {
-        this.createAt = createAt;
+        this.createdAt = createAt;
     }
 
     @Override
@@ -54,7 +54,7 @@ public class Comment {
                 ", articleDetailsId=" + articleDetailsId +
                 ", author='" + author + '\'' +
                 ", content='" + content + '\'' +
-                ", createAt='" + createAt + '\'' +
+                ", createAt='" + createdAt + '\'' +
                 '}';
     }
 }

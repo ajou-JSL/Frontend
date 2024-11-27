@@ -86,7 +86,6 @@ public class BoardFreeFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (parent != null) {
-                    Toast.makeText(requireContext(), parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -139,8 +138,8 @@ public class BoardFreeFragment extends Fragment {
         });
 
         // LiveData 관찰 및 데이터 로딩
-        BoardFreeViewModel viewModel = new ViewModelProvider(requireActivity()).get(BoardFreeViewModel.class);
-        viewModel.getIsLoadArticlesCategorySuccess().observe(getViewLifecycleOwner(), result -> {
+        boardFreeViewModel.resetPagination();
+        boardFreeViewModel.getIsLoadArticlesCategorySuccess().observe(getViewLifecycleOwner(), result -> {
             if (result != null) {
                 Validation validation = result.getValidation();
                 List<Article> loadedArticles = result.getData();
@@ -171,7 +170,7 @@ public class BoardFreeFragment extends Fragment {
             }
         });
 
-        viewModel.loadArticleCategoryList();
+        boardFreeViewModel.loadArticleCategoryList();
     }
 
 
@@ -190,7 +189,6 @@ public class BoardFreeFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        boardFreeViewModel.resetPagination();
         binding = null;
     }
 }
