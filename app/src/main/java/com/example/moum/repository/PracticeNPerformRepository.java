@@ -22,6 +22,7 @@ import com.example.moum.repository.client.RetrofitClientManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.utils.ValueMap;
 import com.google.gson.Gson;
+import com.naver.maps.geometry.LatLng;
 
 import java.util.List;
 
@@ -135,6 +136,45 @@ public class PracticeNPerformRepository {
         });
     }
 
+    public void searchPracticerooms(Integer page, Integer size, String name, LatLng latLng, com.example.moum.utils.Callback<Result<List<Practiceroom>>> callback){
+        Call<SuccessResponse<Content<List<Practiceroom>>>> result = practiceNPerformApi.searchPracticerooms(page, size, null, null, name, latLng.latitude, latLng.longitude, null, null, null, null, null, null, null, null, null, null, null, null);
+        result.enqueue(new retrofit2.Callback<SuccessResponse<Content<List<Practiceroom>>>>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onResponse(Call<SuccessResponse<Content<List<Practiceroom>>>> call, Response<SuccessResponse<Content<List<Practiceroom>>>> response) {
+                if (response.isSuccessful()) {
+                    /*성공적으로 응답을 받았을 때*/
+                    SuccessResponse<Content<List<Practiceroom>>> responseBody = response.body();
+                    Log.e(TAG, responseBody.toString());
+                    List<Practiceroom> practicerooms = responseBody.getData().getContent();
+
+                    Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
+                    Result<List<Practiceroom>> result = new Result<>(validation, practicerooms);
+                    callback.onResult(result);
+                }
+                else {
+                    /*응답은 받았으나 문제 발생 시*/
+                    try {
+                        ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
+                        if (errorResponse != null) {
+                            Log.e(TAG, errorResponse.toString());
+                            Validation validation = ValueMap.getCodeToVal(errorResponse.getCode());
+                            Result<List<Practiceroom>> result = new Result<>(validation);
+                            callback.onResult(result);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<SuccessResponse<Content<List<Practiceroom>>>> call, Throwable t) {
+                Result<List<Practiceroom>> result = new Result<>(Validation.NETWORK_FAILED);
+                callback.onResult(result);
+            }
+        });
+    }
+
     public void getPerformHall(Integer performHallId, com.example.moum.utils.Callback<Result<PerformanceHall>> callback){
         Call<SuccessResponse<PerformanceHall>> result = practiceNPerformApi.getPerformHall(performHallId);
         result.enqueue(new retrofit2.Callback<SuccessResponse<PerformanceHall>>() {
@@ -188,6 +228,45 @@ public class PracticeNPerformRepository {
 
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<List<PerformanceHall>> result = new Result<>(validation, performanceHalls);
+                    callback.onResult(result);
+                }
+                else {
+                    /*응답은 받았으나 문제 발생 시*/
+                    try {
+                        ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
+                        if (errorResponse != null) {
+                            Log.e(TAG, errorResponse.toString());
+                            Validation validation = ValueMap.getCodeToVal(errorResponse.getCode());
+                            Result<List<PerformanceHall>> result = new Result<>(validation);
+                            callback.onResult(result);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<SuccessResponse<Content<List<PerformanceHall>>>> call, Throwable t) {
+                Result<List<PerformanceHall>> result = new Result<>(Validation.NETWORK_FAILED);
+                callback.onResult(result);
+            }
+        });
+    }
+
+    public void searchPerformHalls(Integer page, Integer size, String name, LatLng latLng, com.example.moum.utils.Callback<Result<List<PerformanceHall>>> callback){
+        Call<SuccessResponse<Content<List<PerformanceHall>>>> result = practiceNPerformApi.searchPerformHalls(page, size, null, null, name, latLng.latitude, latLng.longitude, null, null, null, null, null, null, null, null, null, null, null, null, null);
+        result.enqueue(new retrofit2.Callback<SuccessResponse<Content<List<PerformanceHall>>>>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onResponse(Call<SuccessResponse<Content<List<PerformanceHall>>>> call, Response<SuccessResponse<Content<List<PerformanceHall>>>> response) {
+                if (response.isSuccessful()) {
+                    /*성공적으로 응답을 받았을 때*/
+                    SuccessResponse<Content<List<PerformanceHall>>> responseBody = response.body();
+                    Log.e(TAG, responseBody.toString());
+                    List<PerformanceHall> practicerooms = responseBody.getData().getContent();
+
+                    Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
+                    Result<List<PerformanceHall>> result = new Result<>(validation, practicerooms);
                     callback.onResult(result);
                 }
                 else {

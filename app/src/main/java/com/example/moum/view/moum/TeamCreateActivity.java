@@ -245,7 +245,7 @@ public class TeamCreateActivity extends AppCompatActivity {
                     LocalDate endDate = null;
                     if(!startDateString.isEmpty() && !startDateString.equals("시작 날짜"))
                         startDate = LocalDate.parse(startDateString, formatter);
-                    if(!endDateString.isEmpty() && !startDateString.equals("종료 날짜"))
+                    if(!endDateString.isEmpty() && !endDateString.equals("종료 날짜"))
                         endDate = LocalDate.parse(endDateString, formatter);
 
                     viewModel.addRecord(recordName, startDate, endDate);

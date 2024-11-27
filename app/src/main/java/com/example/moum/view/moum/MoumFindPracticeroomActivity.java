@@ -13,6 +13,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -99,6 +101,23 @@ public class MoumFindPracticeroomActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 finish();
+            }
+        });
+
+        /*필터링 스피너 설정*/
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context, R.array.community_board_spinner1_items, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spinnerFilter.setAdapter(adapter);
+        binding.spinnerFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (parent != null) {
+                    //TODO
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                //TODO
             }
         });
 
