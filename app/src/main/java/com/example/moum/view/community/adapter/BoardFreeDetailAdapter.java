@@ -21,8 +21,7 @@ public class BoardFreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private ArrayList<Comment> commentList;
     private AdapterView.OnItemClickListener onItemClickListener;
 
-    public BoardFreeDetailAdapter(Article articleItem, ArrayList<Comment> commentList) {
-        this.articleItem = articleItem;
+    public BoardFreeDetailAdapter(ArrayList<Comment> commentList) {
         this.commentList = commentList;
     }
 
@@ -36,14 +35,8 @@ public class BoardFreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         return 1 + (commentList != null ? commentList.size() : 0);
     }
 
-    // 게시글 데이터 업데이트
-    public void updateArticleData(Article article) {
-        this.articleItem = article;
-        notifyDataSetChanged(); // 게시글 데이터가 갱신되면 RecyclerView 갱신
-    }
-
     // 댓글 데이터 업데이트
-    public void updateCommentData(ArrayList<Comment> comments) {
+    public void updateComment(ArrayList<Comment> comments) {
         this.commentList = comments;
         notifyDataSetChanged(); // 댓글 데이터가 갱신되면 RecyclerView 갱신
     }
@@ -51,54 +44,18 @@ public class BoardFreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType == VIEW_TYPE_ARTICLE) {
-            // 게시글
-            View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_board_free_detail, parent, false);
-            return new ArticleViewHolder(view);
-        } else {
-            // 댓글
-            View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_board_free_comment, parent, false);
-            return new CommentViewHolder(view);
-        }
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_board_free_comment, parent, false);
+        return new CommentViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (getItemViewType(position) == VIEW_TYPE_ARTICLE) {
-            ((ArticleViewHolder) holder).bind(articleItem); // 게시글 데이터 바인딩
-        } else {
-            Comment comment = commentList.get(position - 1); // 댓글 데이터 (position - 1)
-            ((CommentViewHolder) holder).bind(comment);
-        }
+        Comment comment = commentList.get(position);
+        ((CommentViewHolder) holder).bind(comment);
     }
 
-    // 게시글 ViewHolder
-    static class ArticleViewHolder extends RecyclerView.ViewHolder {
-        private TextView title, content, writer, timestamp;
-        private TextView likeCounts;
-
-        public ArticleViewHolder(View itemView) {
-            super(itemView);
-            writer = itemView.findViewById(R.id.item_board_free_detail_writer);
-            timestamp = itemView.findViewById(R.id.item_board_free_detail_time);
-            title = itemView.findViewById(R.id.item_board_free_detail_title);
-            content = itemView.findViewById(R.id.item_board_free_detail_content);
-            likeCounts = itemView.findViewById(R.id.item_board_free_detail_like_count);
-        }
-
-        public void bind(Article article) {
-            title.setText(article.getTitle());
-            content.setText(article.getContent());
-            writer.setText(article.getAuthor());
-            timestamp.setText(TimeAgo.getTimeAgo(article.getCreateAt()));
-            likeCounts.setText(String.valueOf(article.getLikeCounts()));
-        }
-    }
-
-    // 댓글 ViewHolder
-    static class CommentViewHolder extends RecyclerView.ViewHolder {
+    class CommentViewHolder extends RecyclerView.ViewHolder {
         private TextView commentContent, commentWriter, commentTimestamp;
 
         public CommentViewHolder(View itemView) {

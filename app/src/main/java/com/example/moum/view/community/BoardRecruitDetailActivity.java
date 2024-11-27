@@ -105,25 +105,17 @@ public class BoardRecruitDetailActivity extends AppCompatActivity {
         // RecyclerView 어댑터 설정 (처음에 빈 데이터로 어댑터 설정)
         Article article = new Article();
         ArrayList<Comment> comments = new ArrayList<>();
-        BoardFreeDetailAdapter adapter = new BoardFreeDetailAdapter(article, comments); // 초기 null 값 설정
+        BoardFreeDetailAdapter adapter = new BoardFreeDetailAdapter(comments); // 초기 null 값 설정
         recyclerView.setAdapter(adapter);
 
         // ViewModel 초기화
         BoardRecruitDetailViewModel viewModel = new ViewModelProvider(this).get(BoardRecruitDetailViewModel.class);
 
-        // 게시글 데이터 관찰
-        viewModel.getArticleLiveData().observe(this, articleData -> {
-            if (articleData != null) {
-                // 어댑터에 게시글 데이터를 전달하여 갱신
-                adapter.updateArticleData(articleData);
-            }
-        });
-
         // 댓글 데이터 관찰
         viewModel.getCommentLiveData().observe(this, commentList -> {
             if (commentList != null) {
                 // 어댑터에 댓글 데이터를 전달하여 갱신
-                adapter.updateCommentData(commentList);
+                adapter.updateComment(commentList);
             }
         });
 

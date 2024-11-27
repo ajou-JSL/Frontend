@@ -11,7 +11,6 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 import android.widget.PopupMenu;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -19,7 +18,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moum.R;
-import com.example.moum.data.entity.Article;
 import com.example.moum.data.entity.Comment;
 import com.example.moum.databinding.ActivityBoardFreeDetailTestBinding;
 import com.example.moum.utils.SharedPreferenceManager;
@@ -152,24 +150,20 @@ public class BoardFreeDetailActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
         // RecyclerView 어댑터 설정 (처음에 빈 데이터로 어댑터 설정)
-        Article article = new Article();
         ArrayList<Comment> comments = new ArrayList<>();
-        BoardFreeDetailAdapter adapter = new BoardFreeDetailAdapter(article, comments); // 초기 null 값 설정
+        BoardFreeDetailAdapter adapter = new BoardFreeDetailAdapter( comments); // 초기 null 값 설정
         recyclerView.setAdapter(adapter);
 
-        // TODO 댓글만 따로 조회하는 API 필요할까?
         // 댓글 데이터 관찰
         boardFreeDetailViewModel.getCommentLiveData().observe(this, commentList -> {
             if (commentList != null) {
-                // 어댑터에 댓글 데이터를 전달하여 갱신
-                adapter.updateCommentData(commentList);
+                adapter.updateComment(commentList);
             }
         });
 
         // Validation 상태 관찰
         boardFreeDetailViewModel.getValidationStatus().observe(this, validation -> {
             if (validation == Validation.ARTICLE_GET_FAILED) {
-                // 데이터 로딩 실패 처리
                 Toast.makeText(context, "데이터를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
             }
         });
