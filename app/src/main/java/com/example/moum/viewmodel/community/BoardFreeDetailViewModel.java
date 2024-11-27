@@ -1,6 +1,5 @@
 package com.example.moum.viewmodel.community;
 
-import static androidx.fragment.app.FragmentManager.TAG;
 
 import android.app.Application;
 import android.util.Log;
@@ -82,14 +81,13 @@ public class BoardFreeDetailViewModel extends AndroidViewModel {
         // 만약 isCommentSuccess에 값이 들어있다면
         if (isCommentSuccess != null) {
             // 기존 댓글 리스트를 가져오고, 새로운 댓글을 추가한 뒤, currentComments에 설정
-            ArrayList<Comment> currentList = currentComments.getValue(); // 현재 리스트 가져오기
+            ArrayList<Comment> currentList = currentComments.getValue();
             if (currentList == null) {
                 currentList = new ArrayList<>(); // 리스트가 비어있다면 새로 초기화
             }
             currentList.add(isCommentSuccess); // 새로 받은 댓글 추가
 
-            // 업데이트된 리스트를 LiveData에 설정
-            currentComments.setValue(new ArrayList<>(currentList)); // 새로운 리스트로 설정
+            currentComments.setValue(new ArrayList<>(currentList));
         }
     }
 }

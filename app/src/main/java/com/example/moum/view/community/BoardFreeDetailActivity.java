@@ -174,6 +174,7 @@ public class BoardFreeDetailActivity extends AppCompatActivity {
         binding.boardFreeDetailInputButton.setOnClickListener(v -> {
             String content = binding.boardFreeDetailInputBox.getText().toString();
             boardFreeDetailViewModel.postComment(targetBoardId, content);
+            binding.boardFreeDetailInputBox.setText("");
         });
     }
 

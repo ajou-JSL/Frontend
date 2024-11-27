@@ -20,12 +20,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import com.example.moum.MainActivity;
 import com.example.moum.R;
 import com.example.moum.data.entity.Article;
 import com.example.moum.data.entity.BoardFreeItem;
-import com.example.moum.data.entity.BoardGroupItem;
-import com.example.moum.data.entity.Team;
 import com.example.moum.databinding.FragmentBoardFreeBinding;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
@@ -44,7 +41,6 @@ public class BoardFreeFragment extends Fragment {
     private final ArrayList<Article> articles = new ArrayList<>();
     private Context context;
     private Integer memberId;
-    private int bottomNavHeight;
     private boolean isLoading = false;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -110,11 +106,6 @@ public class BoardFreeFragment extends Fragment {
         BoardFreeItemAdapter adapter = new BoardFreeItemAdapter(initialItemList);
         recyclerView.setAdapter(adapter);
 
-        // Activity에서 BottomNavigationView 높이를 가져오기
-        if (getActivity() != null) {
-            MainActivity mainActivity = (MainActivity) getActivity();
-            bottomNavHeight = mainActivity.getBottomNavHeight();
-        }
 
         // 스크롤 리스너 추가
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {

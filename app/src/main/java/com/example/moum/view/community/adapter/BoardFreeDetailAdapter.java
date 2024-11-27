@@ -32,7 +32,7 @@ public class BoardFreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public int getItemCount() {
-        return 1 + (commentList != null ? commentList.size() : 0);
+        return (commentList != null ? commentList.size() : 0);
     }
 
     // 댓글 데이터 업데이트
