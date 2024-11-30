@@ -98,7 +98,9 @@
                             android:id="@+id/recycler_practiceroom_of_moum"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"/>
-
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"/>
                     </LinearLayout>
                 </androidx.core.widget.NestedScrollView>
             </LinearLayout>

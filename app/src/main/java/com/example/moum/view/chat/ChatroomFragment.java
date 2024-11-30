@@ -107,6 +107,7 @@ public class ChatroomFragment extends Fragment {
             @Override
             public void onRefresh() {
                 chatroomViewModel.loadChatrooms();
+                binding.swipeRefreshLayout.setRefreshing(false);
             }
         });
 

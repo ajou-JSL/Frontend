@@ -138,6 +138,9 @@
                         android:layout_marginLeft="25dp"
                         android:layout_marginRight="25dp"
                         android:layout_marginTop="60dp"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"/>
                     <TextView
                         android:id="@+id/textview_empty"
                         android:layout_width="wrap_content"
