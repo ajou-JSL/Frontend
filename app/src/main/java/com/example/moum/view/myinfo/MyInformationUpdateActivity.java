@@ -61,7 +61,9 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.SignStyle;
 import java.time.temporal.ChronoField;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 
 public class MyInformationUpdateActivity extends AppCompatActivity {
     private MyInformationUpdateViewModel viewModel;
@@ -235,6 +237,12 @@ public class MyInformationUpdateActivity extends AppCompatActivity {
                     }
                     genreAdapter.notifyDataSetChanged();
                 }
+                List<String> tAddressList = new ArrayList<>(Arrays.asList(addressList));
+                int addressIdx = tAddressList.indexOf(tMember.getAddress());
+                if(addressIdx != -1) addressSpinner.setSelection(addressIdx);
+                List<String> tProficiencyList = new ArrayList<>(Arrays.asList(proficiencyList));
+                int proficiencyIdx = tProficiencyList.indexOf(tMember.getProficiency());
+                if(proficiencyIdx != -1) proficiencySpinner.setSelection(proficiencyIdx);
             }
             else if(validation == Validation.NETWORK_FAILED){
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
