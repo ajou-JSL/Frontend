@@ -223,8 +223,10 @@ public class MyInformationUpdateActivity extends AppCompatActivity {
                         AppCompatButton buttonRecordStart = recordChild.findViewById(R.id.button_record_date_start);
                         AppCompatButton buttonRecordEnd = recordChild.findViewById(R.id.button_record_date_end);
                         edittextRecordName.setText(record.getRecordName());
-                        buttonRecordStart.setText(record.getStartDate());
-                        buttonRecordEnd.setText(record.getEndDate());
+                        if(record.getStartDate() != null && !record.getStartDate().isEmpty()) buttonRecordStart.setText(record.getStartDate());
+                        else buttonRecordStart.setText("시작 날짜");
+                        if(record.getEndDate() != null && !record.getEndDate().isEmpty()) buttonRecordEnd.setText(record.getEndDate());
+                        else buttonRecordEnd.setText("종료 날짜");
                     }
                 }
                 if(tMember.getGenres() != null && !tMember.getGenres().isEmpty()){
@@ -315,7 +317,10 @@ public class MyInformationUpdateActivity extends AppCompatActivity {
                 Toast.makeText(context, "내 정보를 수정할 수 없습니다.", Toast.LENGTH_SHORT).show();
             }
             else if(validation == Validation.RECORD_NOT_VALID) {
-                Toast.makeText(context, "이력의 종료 날짜만 존재할 수 없습니다.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "이력 시작 날짜는 종료 날짜보다 이전이어야 합니다.", Toast.LENGTH_SHORT).show();
+            }
+            else if(validation == Validation.RECORD_NAME_NOT_WRITTEN) {
+                Toast.makeText(context, "이력의 이름을 입력하세요.", Toast.LENGTH_SHORT).show();
             }
             else if(validation == Validation.NO_AUTHORITY) {
                 binding.errorProficiency.setText("권한이 없습니다.");

@@ -85,7 +85,6 @@ public class SignupProfileActivity extends AppCompatActivity {
             public void onClick(View view) {
                 finish();
             }
-
         });
 
         /*Photo picker 선택 후 콜백*/
@@ -299,7 +298,7 @@ public class SignupProfileActivity extends AppCompatActivity {
         /*signup 결과 감시*/
         signupViewModel.getIsSignupSuccess().observe(this, isSignupSuccess -> {
             signupLoadingDialog.dismiss();
-            if(isSignupSuccess == Validation.INVALID_TYPE_VALUE){
+            if(isSignupSuccess == Validation.INVALID_TYPE_VALUE || isSignupSuccess == Validation.NOT_VALID_ANYWAY){
                 Toast.makeText(context, "잘못 입력된 값이 있습니다.", Toast.LENGTH_SHORT).show();
             }
             else if(isSignupSuccess == Validation.EMAIL_AUTH_ALREADY){
@@ -308,14 +307,18 @@ public class SignupProfileActivity extends AppCompatActivity {
             else if(isSignupSuccess == Validation.EMAIL_AUTH_FAILED){
                 Toast.makeText(context, "이메일 인증이 실패하였습니다.", Toast.LENGTH_SHORT).show();
             }
+            else if(isSignupSuccess == Validation.RECORD_NOT_VALID){
+                Toast.makeText(context, "이력 시작 날짜는 종료 날짜보다 이전이어야 합니다.", Toast.LENGTH_SHORT).show();
+            }
+            else if(isSignupSuccess == Validation.RECORD_NAME_NOT_WRITTEN){
+                Toast.makeText(context, "이력 이름을 입력하세요.", Toast.LENGTH_SHORT).show();
+            }
             else if(isSignupSuccess == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
             }
             else if(isSignupSuccess == Validation.SIGNUP_SUCCESS) {
                 /*다음 Acitivity로 이동*/
                 Toast.makeText(context, "회원가입이 완료되었습니다. 환영합니다:)", Toast.LENGTH_SHORT).show();
-                Intent nextIntent = new Intent(SignupProfileActivity.this, InitialActivity.class);
-                startActivity(nextIntent);
                 for(int i=0; i<initialActivity.actList().size(); i++){
                     initialActivity.actList().get(i).finish();
                 }

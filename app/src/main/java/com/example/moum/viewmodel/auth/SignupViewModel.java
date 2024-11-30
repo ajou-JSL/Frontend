@@ -322,8 +322,12 @@ public class SignupViewModel extends AndroidViewModel {
         }
         if(records != null){
             for(Record record : records){
-                if(record.getEndDate() == null && record.getStartDate() != null){
+                if(record.getStartDate() != null && record.getEndDate() != null && record.getStartDate().compareTo(record.getEndDate()) > 0){
                     setIsSignupSuccess(Validation.RECORD_NOT_VALID);
+                    return;
+                }
+                else if(record.getRecordName() == null || record.getRecordName().isEmpty()){
+                    setIsSignupSuccess(Validation.RECORD_NAME_NOT_WRITTEN);
                     return;
                 }
             }

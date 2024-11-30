@@ -44,7 +44,6 @@ public class InitialActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(InitialActivity.this, SignupBasicActivity.class);
                 startActivity(intent);
-                finish();
             }
         });
 

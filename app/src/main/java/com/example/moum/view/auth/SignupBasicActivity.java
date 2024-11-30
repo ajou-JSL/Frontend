@@ -43,8 +43,6 @@ public class SignupBasicActivity extends AppCompatActivity {
         binding.buttonSignupReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(SignupBasicActivity.this, InitialActivity.class);
-                startActivity(intent);
                 finish();
             }
         });
