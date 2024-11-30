@@ -29,6 +29,7 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.moum.R;
 import com.example.moum.data.entity.Member;
@@ -712,6 +713,15 @@ public class MoumManageActivity extends AppCompatActivity {
             else{
                 Toast.makeText(context, "모음 삭제에 실패하였습니다.", Toast.LENGTH_SHORT).show();
                 e(TAG, "감시 결과를 알 수 없습니다.");
+            }
+        });
+
+        // swipe to refresh
+        binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                viewModel.loadMoum(moumId);
+                binding.swipeRefreshLayout.setRefreshing(false);
             }
         });
     }

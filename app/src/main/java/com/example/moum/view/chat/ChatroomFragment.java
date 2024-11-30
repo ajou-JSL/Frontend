@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.moum.R;
 import com.example.moum.data.entity.Chatroom;
@@ -98,6 +99,14 @@ public class ChatroomFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(context, ChatCreateChatroomActivity.class);
                 context.startActivity(intent);
+            }
+        });
+
+        // swipe to refresh
+        binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                chatroomViewModel.loadChatrooms();
             }
         });
 

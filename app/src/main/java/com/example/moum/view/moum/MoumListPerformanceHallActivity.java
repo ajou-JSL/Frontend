@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -15,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -154,6 +156,15 @@ public class MoumListPerformanceHallActivity extends AppCompatActivity {
             else{
                 Toast.makeText(context, "공연장 정보를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "알 수 없는 감시 결과");
+            }
+        });
+
+        // swipe to refresh
+        binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                viewModel.loadPerformanceHallsOfMoum(moumId);
+                binding.swipeRefreshLayout.setRefreshing(false);
             }
         });
     }

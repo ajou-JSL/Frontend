@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -182,6 +183,15 @@ public class MoumPaymentActivity extends AppCompatActivity {
             else{
                 Toast.makeText(context, "정산 내역을 삭제에 실패하였습니다.", Toast.LENGTH_SHORT).show();
                 e(TAG, "감시 결과를 알 수 없습니다.");
+            }
+        });
+
+        // swipe to refresh
+        binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                viewModel.loadSettlement(moumId);
+                binding.swipeRefreshLayout.setRefreshing(false);
             }
         });
     }

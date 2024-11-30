@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.moum.R;
 import com.example.moum.data.entity.Article;
@@ -183,6 +184,17 @@ public class HomeFragment extends Fragment {
                 bundle.putInt("targetMemberId", memberId);
                 memberProfileFragment.setArguments(bundle);
                 memberProfileFragment.show(getParentFragmentManager(), memberProfileFragment.getTag());
+            }
+        });
+
+        // swipe to refresh
+        binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                viewModel.loadArticlesHot();
+                viewModel.loadMoums(memberId);
+                viewModel.loadPerformsHot();
+                binding.swipeRefreshLayout.setRefreshing(false);
             }
         });
 

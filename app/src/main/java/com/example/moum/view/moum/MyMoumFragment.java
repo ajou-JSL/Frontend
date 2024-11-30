@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.moum.R;
@@ -218,6 +219,31 @@ public class MyMoumFragment extends Fragment {
                 int currentItem = viewpagerTeam.getCurrentItem();
                 if(currentItem < teamAdapter.getItemCount()-1)
                     viewpagerTeam.setCurrentItem(currentItem+1, true);
+            }
+        });
+
+        // swipe to refresh
+        binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                viewModel.loadTeamsAsMember(id);
+                int position = 0;
+                new Handler().postDelayed(() -> {
+                    if(!teams.isEmpty() && position != teams.size()-1) {
+                        viewModel.loadMoumsOfTeam(teams.get(position).getTeamId());
+                    }
+                }, 50);
+
+                /*왼쪽, 오른쪽 버튼 visibility*/
+                if(teamAdapter.getItemCount() < 2){
+                    binding.imageviewLeft.setVisibility(View.INVISIBLE);
+                    binding.imageviewRight.setVisibility(View.INVISIBLE);
+                }
+                else{
+                    binding.imageviewLeft.setVisibility(View.INVISIBLE);
+                    binding.imageviewRight.setVisibility(View.VISIBLE);
+                }
+                binding.swipeRefreshLayout.setRefreshing(false);
             }
         });
 

@@ -119,6 +119,16 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="100dp"
+                    android:background="@color/transparent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" >
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_moum"
                     android:layout_width="match_parent"
@@ -127,10 +137,8 @@
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
                     android:background="@color/transparent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                   />
+                </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </ScrollView>

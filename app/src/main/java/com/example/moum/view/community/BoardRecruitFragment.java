@@ -30,6 +30,7 @@ import com.example.moum.data.entity.Article;
 import com.example.moum.data.entity.BoardFreeItem;
 import com.example.moum.databinding.FragmentBoardRecruitBinding;
 import com.example.moum.databinding.FragmentCommunityBinding;
+import com.example.moum.utils.RefreshableFragment;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
@@ -37,10 +38,11 @@ import com.example.moum.view.community.adapter.BoardFreeItemAdapter;
 import com.example.moum.viewmodel.community.BoardFreeViewModel;
 import com.example.moum.viewmodel.community.BoardRecruitViewModel;
 
+import java.sql.Ref;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BoardRecruitFragment extends Fragment {
+public class BoardRecruitFragment extends Fragment implements RefreshableFragment {
     private FragmentBoardRecruitBinding binding;
     private SharedPreferenceManager sharedPreferenceManager;
     private BoardRecruitViewModel boardRecruitViewModel;
@@ -238,5 +240,9 @@ public class BoardRecruitFragment extends Fragment {
     }
 
 
-
+    @Override
+    public void refreshContent() {
+        boardRecruitViewModel.resetPagination();
+        boardRecruitViewModel.loadArticleCategoryList();
+    }
 }
