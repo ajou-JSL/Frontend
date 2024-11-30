@@ -189,6 +189,10 @@ public class MoumMapPerformanceHallActivity extends AppCompatActivity implements
         binding.buttonAddInMoum.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(!memberId.equals(leaderId)){
+                    Toast.makeText(MoumMapPerformanceHallActivity.this, "리더만 등록할 수 있어요.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 PerformOfMoumCreateDialog performOfMoumCreateDialog = new PerformOfMoumCreateDialog(context, performanceHall.getName());
                 performOfMoumCreateDialog.show();
             }

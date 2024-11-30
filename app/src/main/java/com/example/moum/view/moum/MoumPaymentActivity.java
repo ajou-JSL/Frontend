@@ -52,6 +52,7 @@ public class MoumPaymentActivity extends AppCompatActivity {
     private Integer id;
     private Integer moumId;
     private Integer teamId;
+    private Integer leaderId;
     private final ArrayList<Settlement> settlements = new ArrayList<>();
 
     @SuppressLint("DefaultLocale")
@@ -68,7 +69,8 @@ public class MoumPaymentActivity extends AppCompatActivity {
         Intent prevIntent = getIntent();
         moumId = prevIntent.getIntExtra("moumId", -1);
         teamId = prevIntent.getIntExtra("teamId", -1);
-        if (teamId == -1 || moumId == -1) {
+        leaderId = prevIntent.getIntExtra("leaderId", -1);
+        if (teamId == -1 || moumId == -1 || leaderId == -1) {
             Toast.makeText(context, "잘못된 접근입니다.", Toast.LENGTH_SHORT).show();
             finish();
         }
@@ -105,6 +107,10 @@ public class MoumPaymentActivity extends AppCompatActivity {
         binding.buttonMakeMoumtalk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(!id.equals(leaderId)){
+                    Toast.makeText(MoumPaymentActivity.this, "리더만 생성할 수 있어요.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Intent intent = new Intent(context, MoumPaymentChatroomActivity.class);
                 intent.putExtra("teamId", teamId);
                 intent.putExtra("moumId", moumId);
@@ -116,6 +122,10 @@ public class MoumPaymentActivity extends AppCompatActivity {
         binding.buttonAddPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(!id.equals(leaderId)){
+                    Toast.makeText(MoumPaymentActivity.this, "리더만 추가할 수 있어요.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Intent intent = new Intent(context, MoumPaymentAddActivity.class);
                 intent.putExtra("teamId", teamId);
                 intent.putExtra("moumId", moumId);
