@@ -32,6 +32,8 @@ import com.example.moum.data.entity.Team;
 import com.example.moum.view.chat.ChatMemberListFragment;
 import com.example.moum.view.chat.adapter.ChatAdapter;
 import com.example.moum.view.chat.adapter.ChatroomAdapter;
+import com.example.moum.view.dialog.TeamLeaveDialog;
+import com.example.moum.view.moum.MyMoumFragment;
 import com.example.moum.view.moum.TeamCreateActivity;
 import com.example.moum.view.moum.TeamUpdateActivity;
 import com.example.moum.view.profile.adapter.ProfileTeamAdapter;
@@ -46,16 +48,18 @@ public class TeamAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Integer myId;
     private Context context;
     private ActivityResultLauncher<Intent> launcher;
+    private MyMoumFragment myMoumFragment;
     private static final int VIEW_TYPE_EXIST = 1;
     private static final int VIEW_TYPE_EMPTY = 2;
     private final String TAG = getClass().toString();
 
-    public void setTeamsNMoums(ArrayList<Team> teams, ArrayList<ArrayList<Moum>> moumsOfTeams, Integer myId, Context context, ActivityResultLauncher<Intent> launcher) {
+    public void setTeamsNMoums(ArrayList<Team> teams, ArrayList<ArrayList<Moum>> moumsOfTeams, Integer myId, Context context, ActivityResultLauncher<Intent> launcher, MyMoumFragment myMoumFragment) {
         this.teams = teams;
         this.moumsOfTeams = moumsOfTeams;
         this.myId = myId;
         this.context = context;
         this.launcher = launcher;
+        this.myMoumFragment = myMoumFragment;
     }
 
     @Override
@@ -71,7 +75,7 @@ public class TeamAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             return new TeamAdapter.TeamEmptyViewHolder(view, context);
         } else {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_team, parent, false);
-            return new TeamAdapter.TeamExistViewHolder(view, context, myId);
+            return new TeamAdapter.TeamExistViewHolder(view, context, myId, myMoumFragment);
         }
     }
 
@@ -102,22 +106,26 @@ public class TeamAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private ImageView teamMembersProfile;
         private TextView teamMembers;
         private TextView teamUpdate;
+        private TextView teamLeave;
         private TextView teamName;
         private TextView teamDescription;
         private RecyclerView moumRecycler;
         private Context context;
+        private MyMoumFragment myMoumFragment;
 
-        public TeamExistViewHolder(@NonNull View itemView, Context context, Integer myId) {
+        public TeamExistViewHolder(@NonNull View itemView, Context context, Integer myId, MyMoumFragment myMoumFragment) {
             super(itemView);
             this.myId = myId;
             teamProfile = itemView.findViewById(R.id.imageview_team_profile);
             teamMembersProfile = itemView.findViewById(R.id.imageview_members);
             teamMembers = itemView.findViewById(R.id.textview_team_members);
             teamUpdate = itemView.findViewById(R.id.textview_update);
+            teamLeave = itemView.findViewById(R.id.textview_leave);
             teamName = itemView.findViewById(R.id.textview_team_name);
             teamDescription = itemView.findViewById(R.id.textview_team_description);
             moumRecycler = itemView.findViewById(R.id.recycler_moum);
             this.context = context;
+            this.myMoumFragment = myMoumFragment;
         }
 
         @SuppressLint("DefaultLocale")
@@ -151,6 +159,7 @@ public class TeamAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             /*단체장이라면 수정하기 버튼 보이기*/
             if(team.getLeaderId().equals(myId)){
                 teamUpdate.setVisibility(View.VISIBLE);
+                teamLeave.setVisibility(View.GONE);
                 teamUpdate.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -163,6 +172,14 @@ public class TeamAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
             else{
                 teamUpdate.setVisibility(View.GONE);
+                teamLeave.setVisibility(View.VISIBLE);
+                teamLeave.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        TeamLeaveDialog teamLeaveDialog = new TeamLeaveDialog(context, myMoumFragment, team.getTeamName());
+                        teamLeaveDialog.show();
+                    }
+                });
             }
         }
     }

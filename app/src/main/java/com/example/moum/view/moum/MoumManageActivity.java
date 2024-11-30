@@ -418,6 +418,9 @@ public class MoumManageActivity extends AppCompatActivity {
             Moum loadedMoum = isLoadMoumSuccess.getData();
             recentMoum = loadedMoum;
             if(validation == Validation.GET_MOUM_SUCCESS){
+                uris.clear();
+                members.clear();
+                musics.clear();
                if(loadedMoum.getImageUrls() != null && !loadedMoum.getImageUrls().isEmpty()) {
                    uris.addAll(loadedMoum.getImageUrls());
                    moumManageImageAdapter.notifyItemInserted(uris.size() - 1);

@@ -84,6 +84,21 @@
                         app:layout_constraintTop_toTopOf="@id/imageview_members"/>
 
                     <TextView
+                        android:id="@+id/textview_leave"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="탈퇴하기"
+                        android:background="@drawable/background_transparent_underline"
+                        android:fontFamily="@font/noto_sans_kr_regular"
+                        android:textSize="12dp"
+                        android:textColor="@color/gray0"
+                        android:layout_marginRight="15dp"
+                        android:includeFontPadding="false"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/imageview_members"/>
+
+                    <TextView
                         android:id="@+id/textview_team_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

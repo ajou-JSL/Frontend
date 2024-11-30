@@ -53,6 +53,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
@@ -172,7 +173,7 @@ public class ChatActivity extends AppCompatActivity {
                     for (int i = 0; i < etcList.length-1; i++) {
                         popupMenu.getMenu().add(etcList[i]);
                     }
-                else if(chatroomType == Chatroom.ChatroomType.MULTI_CHAT && leaderId == id)
+                else if(chatroomType == Chatroom.ChatroomType.MULTI_CHAT && Objects.equals(leaderId, id))
                     for (int i = 0; i < etcList.length; i++) {
                         popupMenu.getMenu().add(etcList[i]);
                     }
