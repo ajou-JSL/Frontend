@@ -206,7 +206,7 @@ public class MyInformationUpdateActivity extends AppCompatActivity {
                 if(tMember.getName() != null) binding.edittextNickname.setText(tMember.getName());
                 if(tMember.getProfileDescription() != null) binding.edittextProfileDescription.setText(tMember.getProfileDescription());
                 if(tMember.getInstrument() != null) binding.edittextInstrument.setText(tMember.getInstrument());
-                if(tMember.getVideoUrl() != null) binding.edittextInstrument.setText(tMember.getVideoUrl());
+                if(tMember.getVideoUrl() != null) binding.edittextVideo.setText(tMember.getVideoUrl());
                 if(ImageManager.isUrlValid(tMember.getProfileImageUrl()))
                     Glide.with(context)
                             .applyDefaultRequestOptions(new RequestOptions()
