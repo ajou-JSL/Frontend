@@ -59,6 +59,9 @@ public class SignupProfileActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // acitvity stack 쌓기
+        InitialActivity initialActivity = new InitialActivity();
+        initialActivity.actList().add(this);
 
         super.onCreate(savedInstanceState);
         binding = ActivitySignupProfileBinding.inflate(getLayoutInflater());
@@ -238,6 +241,10 @@ public class SignupProfileActivity extends AppCompatActivity {
                 binding.signupEdittextNickname.requestFocus();
                 binding.signupErrorNickname.setText("닉네임을 입력하세요.");
             }
+            else if(isProfileValid == Validation.DESCRIPTION_NOT_WRITTEN) {
+                binding.signupEdittextProfileDescription.requestFocus();
+                binding.signupErrorProfileDescription.setText("한 줄 소개를 입력하세요.");
+            }
             else if(isProfileValid == Validation.INSTRUMENT_NOT_WRITTEN) {
                 binding.signupEdittextInstrument.requestFocus();
                 binding.signupErrorInstrument.setText("악기 및 분야를 입력하세요.");
@@ -277,9 +284,8 @@ public class SignupProfileActivity extends AppCompatActivity {
                     if(!endDateString.isEmpty() && !startDateString.equals("종료 날짜")) endDate = LocalDate.parse(endDateString, formatter);
 
                     signupViewModel.addRecord(recordName, startDate, endDate);
-                    signupViewModel.setGenres(Genre.values(), genreAdapter.getIsSelecteds());
                 }
-
+                signupViewModel.setGenres(Genre.values(), genreAdapter.getIsSelecteds());
                 signupLoadingDialog.show();
 
                 signupViewModel.signup(context);
@@ -310,6 +316,9 @@ public class SignupProfileActivity extends AppCompatActivity {
                 Toast.makeText(context, "회원가입이 완료되었습니다. 환영합니다:)", Toast.LENGTH_SHORT).show();
                 Intent nextIntent = new Intent(SignupProfileActivity.this, InitialActivity.class);
                 startActivity(nextIntent);
+                for(int i=0; i<initialActivity.actList().size(); i++){
+                    initialActivity.actList().get(i).finish();
+                }
             }
             else{
                 Toast.makeText(context, "회원가입에 실패하였습니다.", Toast.LENGTH_SHORT).show();

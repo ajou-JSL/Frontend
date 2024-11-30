@@ -12,8 +12,13 @@ import com.example.moum.R;
 import com.example.moum.databinding.ActivityInitialBinding;
 import com.example.moum.utils.SharedPreferenceManager;
 
-public class InitialActivity extends AppCompatActivity {
+import java.util.ArrayList;
 
+public class InitialActivity extends AppCompatActivity {
+    public static ArrayList<AppCompatActivity> actList = new ArrayList<AppCompatActivity>();
+    public ArrayList<AppCompatActivity> actList(){
+        return actList;
+    }
     ActivityInitialBinding binding;
     Context context;
 
