@@ -38,6 +38,9 @@ import com.naver.maps.map.overlay.Marker;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.Disposable;
+
 public class MoumListPracticeroomActivity extends AppCompatActivity {
     private MoumListPracticeroomViewModel viewModel;
     private ActivityMoumListPracticeroomBinding binding;
@@ -50,6 +53,7 @@ public class MoumListPracticeroomActivity extends AppCompatActivity {
     private Integer leaderId;
     private ArrayList<MoumPracticeroom> practiceroomsOfMoum = new ArrayList<>();
     private ArrayList<Practiceroom> practicerooms = new ArrayList<>();
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @SuppressLint("DefaultLocale")
     @Override
@@ -119,7 +123,7 @@ public class MoumListPracticeroomActivity extends AppCompatActivity {
                         practicerooms.add(0, practiceroom);
                     }
                 }
-                practiceOfMoumAdapter.notifyItemInserted(practicerooms.size()-1);
+                practiceOfMoumAdapter.notifyDataSetChanged();
             }
             else if(validation == Validation.MOUM_PRACTICE_ROOM_NOT_FOUND){
                 practicerooms.clear();
@@ -136,12 +140,12 @@ public class MoumListPracticeroomActivity extends AppCompatActivity {
         });
 
         /*연습실 상세정보 불러오기 결과 감시*/
-        viewModel.getIsLoadPracticeroomSuccess().observe(this, isLoadPracticeroomSuccess -> {
+        Disposable practiceroomDisposable = viewModel.getIsLoadPracticeroomSuccess().subscribe(isLoadPracticeroomSuccess -> {
             Validation validation = isLoadPracticeroomSuccess.getValidation();
             Practiceroom loadedPracticeroom = isLoadPracticeroomSuccess.getData();
             if(validation == Validation.PRACTICE_ROOM_GET_SUCCESS){
                 practicerooms.add(0, loadedPracticeroom);
-                practiceOfMoumAdapter.notifyItemInserted(practicerooms.size()-1);
+                practiceOfMoumAdapter.notifyDataSetChanged();
             }
             else if(validation == Validation.MOUM_PRACTICE_ROOM_NOT_FOUND){
                 Toast.makeText(context, "모음의 연습실 정보를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
@@ -154,6 +158,7 @@ public class MoumListPracticeroomActivity extends AppCompatActivity {
                 Log.e(TAG, "알 수 없는 감시 결과");
             }
         });
+        compositeDisposable.add(practiceroomDisposable);
 
         // swipe to refresh
         binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -163,6 +168,12 @@ public class MoumListPracticeroomActivity extends AppCompatActivity {
                 binding.swipeRefreshLayout.setRefreshing(false);
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        compositeDisposable.clear();
     }
 
     public void onPracticeroomClicked(Integer practiceroomId){
