@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/constraint_item_moum_top"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:background="@drawable/background_more_rounded_white"
+    android:layout_marginTop="7dp"
+    android:layout_marginBottom="7dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginLeft="10dp"
+    android:padding="25dp"
+    android:elevation="5dp">
+
+    <TextView
+        android:id="@+id/moum_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="모음 이름"
+        android:textColor="@color/gray7"
+        android:maxWidth="200dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textSize="16sp"
+        android:fontFamily="@font/noto_sans_kr_medium"
+        android:includeFontPadding="false"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/moum_place"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="아주대학교 노천극장"
+        android:maxWidth="70dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/gray4"
+        android:textSize="10sp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/noto_sans_kr_regular"
+        android:includeFontPadding="false"
+        app:layout_constraintTop_toBottomOf="@id/moum_name"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/moum_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="24.07.12"
+        android:textColor="@color/gray4"
+        android:textSize="10sp"
+        android:layout_marginStart="10dp"
+        android:fontFamily="@font/noto_sans_kr_regular"
+        android:includeFontPadding="false"
+        app:layout_constraintTop_toTopOf="@id/moum_place"
+        app:layout_constraintStart_toEndOf="@id/moum_place"/>
+
+    <ProgressBar
+        android:id="@+id/moum_progress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingRight="100dp"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:max="100"
+        android:progress="0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/moum_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="진행중"
+        android:textColor="@color/gray7"
+        android:textSize="16sp"
+        android:fontFamily="@font/noto_sans_kr_regular"
+        android:includeFontPadding="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray1">
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_post"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="1dp"
+        android:background="@drawable/background_white_underline"
+        android:minHeight="?attr/actionBarSize"
+        app:contentInsetStart="0dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/leftarrow"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/button_rounded_left"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="자유게시판"
+            android:fontFamily="@font/noto_sans_kr_semibold"
+            android:textColor="@color/gray7"
+            android:textSize="14sp" />
+
+
+        <ImageButton
+            android:id="@+id/menu"
+            android:contentDescription="게시글 메뉴 버튼"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@null"
+
+            android:layout_gravity="end"
+            app:srcCompat="@drawable/ic_menu" />
+
+        <FrameLayout
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="end|center_vertical"
+           app:layout_constraintEnd_toStartOf="@id/menu">
+
+        <ToggleButton
+            android:id="@+id/wishlist"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_star_toggle"
+            android:textOff="@null"
+            android:textOn="@null" />
+    </FrameLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_post"
+        app:layout_constraintBottom_toTopOf="@id/board_free_detail_input_layout">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/board_free_detail_recycler_view"
+            android:contentDescription="게시판 글"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="1dp"
+            android:layout_marginStart="1dp"
+
+            android:layout_marginEnd="1dp">
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/board_free_detail_input_layout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:background="@drawable/background_top_line"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+
+            <EditText
+                android:id="@+id/board_free_detail_input_box"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="15dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:textSize="20sp"
+                android:hint="입력"/>
+
+        <ImageButton
+            android:id="@+id/board_free_detail_input_button"
+            android:contentDescription="입력 버튼"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:padding="15dp"
+            android:scaleType="centerInside"
+            app:srcCompat="@drawable/icon_paper_plane_alpha"/>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

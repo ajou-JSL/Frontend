@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_report"
+        android:title="신고하기"
+        android:enabled="true"/>
+    <item
+        android:id="@+id/menu_copy"
+        android:title="URL 복사하기"
+        android:enabled="true"/>
+    <item
+        android:id="@+id/menu_modify"
+        android:title="수정하기"
+        android:enabled="true"/>
+    <item
+        android:id="@+id/menu_delete"
+        android:title="삭제하기"
+        android:enabled="true"/>
+
+</menu>

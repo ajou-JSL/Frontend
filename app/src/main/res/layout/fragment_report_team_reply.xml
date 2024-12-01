@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ReportTeamReplyFragment"
+    tools:context=".view.profile.ReportTeamReplyFragment">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp"
+            android:paddingBottom="25dp"
+            android:background="@drawable/background_white">
+
+            <LinearLayout
+                android:id="@+id/layout_records"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="30dp"
+                android:paddingBottom="100dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="24dp"
+                    android:gravity="center_vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="단체 신고"
+                        android:fontFamily="@font/noto_sans_kr_bold"
+                        android:textColor="@color/gray4"
+                        android:textSize="18sp"
+                        android:textStyle="bold"/>
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
+                    <TextView
+                        android:id="@+id/button_goto_reported"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="단체 프로필 보기"
+                        android:background="@drawable/background_white_underline"
+                        android:fontFamily="@font/noto_sans_kr_semibold"
+                        android:textColor="@color/gray4"
+                        android:includeFontPadding="false"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:src="@drawable/line_dash"
+                    android:layerType="software"
+                    android:layout_marginBottom="20dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="- 신고 사유를 선택하세요."
+                    android:fontFamily="@font/noto_sans_kr_semibold"
+                    android:textColor="@color/gray4"
+                    android:textSize="12sp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical">
+                            <TextView
+                                android:id="@+id/textview_report_1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="허위 이력 또는 사칭"
+                                android:fontFamily="@font/noto_sans_kr_regular"
+                                android:textColor="@color/gray4"
+                                android:textSize="12sp"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical">
+                            <TextView
+                                android:id="@+id/textview_report_2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="선정성 또는 폭력적 대화"
+                                android:fontFamily="@font/noto_sans_kr_regular"
+                                android:textColor="@color/gray4"
+                                android:textSize="12sp"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical">
+                            <TextView
+                                android:id="@+id/textview_report_3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="기타"
+                                android:fontFamily="@font/noto_sans_kr_regular"
+                                android:textColor="@color/gray4"
+                                android:textSize="12sp"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                    <RadioGroup
+                        android:id="@+id/radio_group_team"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <RadioButton
+                            android:id="@+id/radio_report_team_1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"/>
+                        <RadioButton
+                            android:id="@+id/radio_report_team_2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"/>
+                        <RadioButton
+                            android:id="@+id/radio_report_team_3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"/>
+                    </RadioGroup>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="- 자세한 사유를 작성하세요."
+                    android:fontFamily="@font/noto_sans_kr_semibold"
+                    android:textColor="@color/gray4"
+                    android:layout_marginTop="15dp"
+                    android:textSize="12sp"/>
+
+                <LinearLayout
+                    android:id="@+id/placeholder_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="@drawable/background_rounded_gray_stroke"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    >
+                    <EditText
+                        android:id="@+id/edittext_details"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/transparent"
+                        android:inputType="text"
+                        android:hint="유저 신고 사유"
+                        android:textSize="12sp"
+                        android:includeFontPadding="false"
+                        android:textColor="@color/gray7"
+                        android:fontFamily="@font/noto_sans_kr_regular"
+                        android:gravity="top"
+                        android:focusable="true"
+                        android:breakStrategy="high_quality"
+                        android:focusableInTouchMode="true"
+                        />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="- 답변"
+                    android:fontFamily="@font/noto_sans_kr_semibold"
+                    android:textColor="@color/gray4"
+                    android:layout_marginTop="15dp"
+                    android:textSize="12sp"/>
+
+                <LinearLayout
+                    android:id="@+id/placeholder_reply"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="@drawable/background_rounded_gray_stroke"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    >
+                    <EditText
+                        android:id="@+id/edittext_reply"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/transparent"
+                        android:inputType="text"
+                        android:enabled="false"
+                        android:hint="답변을 기다리는 중입니다."
+                        android:textSize="12sp"
+                        android:includeFontPadding="false"
+                        android:textColor="@color/gray7"
+                        android:fontFamily="@font/noto_sans_kr_regular"
+                        android:gravity="top"
+                        android:focusable="true"
+                        android:breakStrategy="high_quality"
+                        android:focusableInTouchMode="true"
+                        />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

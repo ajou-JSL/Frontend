@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+<item>
+    <shape>
+        <solid android:color="@color/gray2"/> <!-- 배경색 설정 -->
+        <corners android:radius="6dp"/> <!-- 모서리 둥글게 설정 -->
+    </shape>
+</item>
+<item>
+    <bitmap
+        android:src="@drawable/icon_image"
+        android:alpha="0.3"
+        android:width="26dp"
+        android:height="26dp"
+        android:gravity="center"
+        android:scaleType="centerInside"/>
+</item>
+</layer-list>

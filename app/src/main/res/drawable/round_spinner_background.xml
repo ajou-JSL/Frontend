@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 원래 드로어블 (배경) -->
+    <item>
+        <shape android:shape="rectangle">
+
+            <!-- 각 모서리에 다른 반경 값을 설정 -->
+            <corners
+                android:topLeftRadius="30dp"
+                android:topRightRadius="30dp"
+                android:bottomLeftRadius="30dp"
+                android:bottomRightRadius="30dp"/>
+
+            <solid android:color="#FFFFFF"/>
+
+            <stroke
+                android:width="2dp"
+                android:color="@color/gray4"/>
+        </shape>
+    </item>
+
+    <item>
+        <inset
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="10dp"
+            android:insetBottom="0dp">
+            <bitmap
+                android:src="@drawable/icon_angle_down"
+                android:alpha="0.3"
+                android:gravity="end|center" />
+        </inset>
+    </item>
+
+</layer-list>

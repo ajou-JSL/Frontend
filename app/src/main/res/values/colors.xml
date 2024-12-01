@@ -2,4 +2,30 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="gray0">#FFFFFF</color>
+    <color name="gray1">#F3F3F3</color>
+    <color name="gray2">#DADADA</color>
+    <color name="gray3">#B5B5B5</color>
+    <color name="gray4">#727272</color>
+    <color name="gray5">#3A3A3A</color>
+    <color name="gray6">#232323</color>
+    <color name="gray7">#131313</color>
+    <color name="neon_mint">#A7D1CE</color>
+    <color name="neon_mint_bold">#2AC8BD</color>
+    <color name="neon_mint_light">#95B6B4</color>
+    <color name="neon_pink">#E0A0DA</color>
+    <color name="transparent">#00FFFFFF</color>
+    <color name="red">#FF0000</color>
+    <color name="bronze">#AD6B23</color>
+    <color name="silver">#CDD5CE</color>
+    <color name="gold">#EDCA1C</color>
+    <color name="platinum">#1EEB4B</color>
+    <color name="diamond">#0CDFFA</color>
+    <color name="mint_pink_0">#FFFFFF </color>
+    <color name="mint_pink_1">#FFFFFF</color>
+    <color name="mint_pink_2">#FFFFFF</color>
+    <color name="mint_pink_3">#FFFFFF</color>
+    <color name="mint_pink_4">#FFFFFF</color>
+    <color name="mint_pink_5">#FFFFFF</color>
+    <color name="mint_pink_6">#FFFFFF</color>
 </resources>

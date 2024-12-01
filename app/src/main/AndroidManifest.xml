@@ -2,6 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" android:minSdkVersion="33" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -11,15 +18,162 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MOUM"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <meta-data
+            android:name="com.naver.maps.map.CLIENT_ID"
+            android:value="nvg9q7ut9q" />
+        <activity
+            android:name=".view.auth.SplashActivity"
+            android:exported="true"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".view.chat.ChatActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".view.auth.InitialActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".view.auth.SignupBasicActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".view.auth.SignupProfileActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".view.auth.LoginActivity"
+            android:exported="true">
+        </activity>
         <activity
             android:name=".MainActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        </activity>
+        <activity
+            android:name=".view.community.BoardFreeWriteActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".view.community.BoardFreeDetailActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".view.community.BoardRecruitDetailActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".view.community.BoardRecrutWriteActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".view.community.CommunitySearchActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MOUM" />
+        <activity
+            android:name=".view.chat.ChatCreateChatroomActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".view.chat.ChatCreateChatroomOnwardActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".view.chat.TestActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".view.chat.ChatUpdateChatroomActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".view.moum.TeamCreateActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".view.moum.TeamUpdateActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".view.moum.MoumCreateActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".view.moum.MoumManageActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".view.chat.InviteActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".view.moum.MoumUpdateActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".view.moum.MoumFindPracticeroomActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".view.moum.MoumMapPracticeroomActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".view.moum.MoumFindPerformanceHallActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".view.moum.MoumMapPerformanceHallActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".view.community.PerformanceActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".view.community.PerformanceCreateActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".view.community.PerformanceCreateOnwardActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".view.community.PerformanceUpdateActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".view.myinfo.MyInfoReportNQuestionActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".view.myinfo.MyInfoLogoutNSignoutActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".view.myinfo.MyInfoReportNQuestionListActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".view.myinfo.MyInfoSignoutActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".view.myinfo.MyInformationUpdateActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".view.moum.MoumPromote2Activity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".view.moum.MoumPromote1Activity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".view.moum.MoumPaymentChatroomActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".view.moum.MoumPaymentActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".view.moum.MoumPaymentAddActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".view.moum.MoumListPracticeroomActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".view.moum.MoumListPerformanceHallActivity"
+            android:exported="true">
         </activity>
     </application>
 

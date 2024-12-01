@@ -1,0 +1,4 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_selected="true" android:background="#b0dded" />
+    <item android:background="#00000000" />
+</selector>
