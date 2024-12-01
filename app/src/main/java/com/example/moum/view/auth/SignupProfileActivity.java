@@ -59,6 +59,9 @@ public class SignupProfileActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // acitvity stack 쌓기
+        InitialActivity initialActivity = new InitialActivity();
+        initialActivity.actList().add(this);
 
         super.onCreate(savedInstanceState);
         binding = ActivitySignupProfileBinding.inflate(getLayoutInflater());
@@ -82,7 +85,6 @@ public class SignupProfileActivity extends AppCompatActivity {
             public void onClick(View view) {
                 finish();
             }
-
         });
 
         /*Photo picker 선택 후 콜백*/
@@ -238,6 +240,10 @@ public class SignupProfileActivity extends AppCompatActivity {
                 binding.signupEdittextNickname.requestFocus();
                 binding.signupErrorNickname.setText("닉네임을 입력하세요.");
             }
+            else if(isProfileValid == Validation.DESCRIPTION_NOT_WRITTEN) {
+                binding.signupEdittextProfileDescription.requestFocus();
+                binding.signupErrorProfileDescription.setText("한 줄 소개를 입력하세요.");
+            }
             else if(isProfileValid == Validation.INSTRUMENT_NOT_WRITTEN) {
                 binding.signupEdittextInstrument.requestFocus();
                 binding.signupErrorInstrument.setText("악기 및 분야를 입력하세요.");
@@ -277,9 +283,8 @@ public class SignupProfileActivity extends AppCompatActivity {
                     if(!endDateString.isEmpty() && !startDateString.equals("종료 날짜")) endDate = LocalDate.parse(endDateString, formatter);
 
                     signupViewModel.addRecord(recordName, startDate, endDate);
-                    signupViewModel.setGenres(Genre.values(), genreAdapter.getIsSelecteds());
                 }
-
+                signupViewModel.setGenres(Genre.values(), genreAdapter.getIsSelecteds());
                 signupLoadingDialog.show();
 
                 signupViewModel.signup(context);
@@ -293,7 +298,7 @@ public class SignupProfileActivity extends AppCompatActivity {
         /*signup 결과 감시*/
         signupViewModel.getIsSignupSuccess().observe(this, isSignupSuccess -> {
             signupLoadingDialog.dismiss();
-            if(isSignupSuccess == Validation.INVALID_TYPE_VALUE){
+            if(isSignupSuccess == Validation.INVALID_TYPE_VALUE || isSignupSuccess == Validation.NOT_VALID_ANYWAY){
                 Toast.makeText(context, "잘못 입력된 값이 있습니다.", Toast.LENGTH_SHORT).show();
             }
             else if(isSignupSuccess == Validation.EMAIL_AUTH_ALREADY){
@@ -302,14 +307,21 @@ public class SignupProfileActivity extends AppCompatActivity {
             else if(isSignupSuccess == Validation.EMAIL_AUTH_FAILED){
                 Toast.makeText(context, "이메일 인증이 실패하였습니다.", Toast.LENGTH_SHORT).show();
             }
+            else if(isSignupSuccess == Validation.RECORD_NOT_VALID){
+                Toast.makeText(context, "이력 시작 날짜는 종료 날짜보다 이전이어야 합니다.", Toast.LENGTH_SHORT).show();
+            }
+            else if(isSignupSuccess == Validation.RECORD_NAME_NOT_WRITTEN){
+                Toast.makeText(context, "이력 이름을 입력하세요.", Toast.LENGTH_SHORT).show();
+            }
             else if(isSignupSuccess == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
             }
             else if(isSignupSuccess == Validation.SIGNUP_SUCCESS) {
                 /*다음 Acitivity로 이동*/
                 Toast.makeText(context, "회원가입이 완료되었습니다. 환영합니다:)", Toast.LENGTH_SHORT).show();
-                Intent nextIntent = new Intent(SignupProfileActivity.this, InitialActivity.class);
-                startActivity(nextIntent);
+                for(int i=0; i<initialActivity.actList().size(); i++){
+                    initialActivity.actList().get(i).finish();
+                }
             }
             else{
                 Toast.makeText(context, "회원가입에 실패하였습니다.", Toast.LENGTH_SHORT).show();

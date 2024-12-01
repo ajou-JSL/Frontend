@@ -61,7 +61,9 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.SignStyle;
 import java.time.temporal.ChronoField;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 
 public class MyInformationUpdateActivity extends AppCompatActivity {
     private MyInformationUpdateViewModel viewModel;
@@ -206,7 +208,7 @@ public class MyInformationUpdateActivity extends AppCompatActivity {
                 if(tMember.getName() != null) binding.edittextNickname.setText(tMember.getName());
                 if(tMember.getProfileDescription() != null) binding.edittextProfileDescription.setText(tMember.getProfileDescription());
                 if(tMember.getInstrument() != null) binding.edittextInstrument.setText(tMember.getInstrument());
-                if(tMember.getVideoUrl() != null) binding.edittextInstrument.setText(tMember.getVideoUrl());
+                if(tMember.getVideoUrl() != null) binding.edittextVideo.setText(tMember.getVideoUrl());
                 if(ImageManager.isUrlValid(tMember.getProfileImageUrl()))
                     Glide.with(context)
                             .applyDefaultRequestOptions(new RequestOptions()
@@ -223,8 +225,10 @@ public class MyInformationUpdateActivity extends AppCompatActivity {
                         AppCompatButton buttonRecordStart = recordChild.findViewById(R.id.button_record_date_start);
                         AppCompatButton buttonRecordEnd = recordChild.findViewById(R.id.button_record_date_end);
                         edittextRecordName.setText(record.getRecordName());
-                        buttonRecordStart.setText(record.getStartDate());
-                        buttonRecordEnd.setText(record.getEndDate());
+                        if(record.getStartDate() != null && !record.getStartDate().isEmpty()) buttonRecordStart.setText(record.getStartDate());
+                        else buttonRecordStart.setText("시작 날짜");
+                        if(record.getEndDate() != null && !record.getEndDate().isEmpty()) buttonRecordEnd.setText(record.getEndDate());
+                        else buttonRecordEnd.setText("종료 날짜");
                     }
                 }
                 if(tMember.getGenres() != null && !tMember.getGenres().isEmpty()){
@@ -233,6 +237,12 @@ public class MyInformationUpdateActivity extends AppCompatActivity {
                     }
                     genreAdapter.notifyDataSetChanged();
                 }
+                List<String> tAddressList = new ArrayList<>(Arrays.asList(addressList));
+                int addressIdx = tAddressList.indexOf(tMember.getAddress());
+                if(addressIdx != -1) addressSpinner.setSelection(addressIdx);
+                List<String> tProficiencyList = new ArrayList<>(Arrays.asList(proficiencyList));
+                int proficiencyIdx = tProficiencyList.indexOf(tMember.getProficiency());
+                if(proficiencyIdx != -1) proficiencySpinner.setSelection(proficiencyIdx);
             }
             else if(validation == Validation.NETWORK_FAILED){
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
@@ -315,7 +325,10 @@ public class MyInformationUpdateActivity extends AppCompatActivity {
                 Toast.makeText(context, "내 정보를 수정할 수 없습니다.", Toast.LENGTH_SHORT).show();
             }
             else if(validation == Validation.RECORD_NOT_VALID) {
-                Toast.makeText(context, "이력의 종료 날짜만 존재할 수 없습니다.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "이력 시작 날짜는 종료 날짜보다 이전이어야 합니다.", Toast.LENGTH_SHORT).show();
+            }
+            else if(validation == Validation.RECORD_NAME_NOT_WRITTEN) {
+                Toast.makeText(context, "이력의 이름을 입력하세요.", Toast.LENGTH_SHORT).show();
             }
             else if(validation == Validation.NO_AUTHORITY) {
                 binding.errorProficiency.setText("권한이 없습니다.");

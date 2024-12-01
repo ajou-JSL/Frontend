@@ -116,7 +116,7 @@ public class PerformRepository {
         MultipartBody.Part profileImage = null;
         if(file != null){
             RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpg"), file);
-            profileImage = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+            profileImage = MultipartBody.Part.createFormData("file", "temp_image.jpg", requestFile);
         }
         else{
             RequestBody emptyRequestBody = RequestBody.create(null, new byte[0]);

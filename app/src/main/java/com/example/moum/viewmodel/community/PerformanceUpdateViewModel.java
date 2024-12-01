@@ -3,8 +3,10 @@ package com.example.moum.viewmodel.community;
 import android.app.Application;
 import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
 import android.util.Log;
 
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
@@ -122,6 +124,7 @@ public class PerformanceUpdateViewModel extends AndroidViewModel {
         performRepository.loadPerform(performId, this::setIsLoadPerformanceSuccess);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void validCheck(){
         /*null check*/
         if(perform.getValue() == null){
@@ -135,6 +138,22 @@ public class PerformanceUpdateViewModel extends AndroidViewModel {
         else if(genre == null){
             setIsValidCheckSuccess(Validation.GENRE_NOT_WRITTEN);
             return;
+        }
+        else if(startDate != null && endDate != null && startDate.isAfter(endDate)){
+            setIsValidCheckSuccess(Validation.DATE_NOT_VALID);
+            return;
+        }
+        else if(music != null){
+            for(Music one : music){
+                if(one.getMusicName() == null || one.getMusicName().isEmpty()){
+                    setIsValidCheckSuccess(Validation.MUSIC_NAME_NOT_WRITTEN);
+                    return;
+                }
+                else if(one.getArtistName() == null || one.getArtistName().isEmpty()){
+                    setIsValidCheckSuccess(Validation.ARTIST_NAME_NOT_WRITTEN);
+                    return;
+                }
+            }
         }
         setIsValidCheckSuccess(Validation.VALID_ALL);
     }

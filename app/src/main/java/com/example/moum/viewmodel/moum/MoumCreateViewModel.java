@@ -3,7 +3,9 @@ package com.example.moum.viewmodel.moum;
 import android.app.Application;
 import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
 
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -88,6 +90,7 @@ public class MoumCreateViewModel extends AndroidViewModel {
         this.music.add(new Music(musicName, artistName));
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void validCheck(){
         /*null check*/
         if(moum.getValue() == null){
@@ -101,6 +104,22 @@ public class MoumCreateViewModel extends AndroidViewModel {
         else if(genre == null){
             setIsValidCheckSuccess(Validation.GENRE_NOT_WRITTEN);
             return;
+        }
+        else if(startDate != null && endDate != null && startDate.isAfter(endDate)){
+            setIsValidCheckSuccess(Validation.DATE_NOT_VALID);
+            return;
+        }
+        else if(music != null){
+            for(Music one : music){
+                if(one.getMusicName() == null || one.getMusicName().isEmpty()){
+                    setIsValidCheckSuccess(Validation.MUSIC_NAME_NOT_WRITTEN);
+                    return;
+                }
+                else if(one.getArtistName() == null || one.getArtistName().isEmpty()){
+                    setIsValidCheckSuccess(Validation.ARTIST_NAME_NOT_WRITTEN);
+                    return;
+                }
+            }
         }
         setIsValidCheckSuccess(Validation.VALID_ALL);
     }

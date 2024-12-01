@@ -3,6 +3,7 @@ package com.example.moum.viewmodel.auth;
 import android.app.Application;
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -264,6 +265,10 @@ public class SignupViewModel extends AndroidViewModel {
             setIsProfileValid(Validation.NICKNAME_NOT_WRITTEN);
             return;
         }
+        else if(signupUser.getValue().getProfileDescription() == null || signupUser.getValue().getProfileDescription().isEmpty()){
+            setIsProfileValid(Validation.DESCRIPTION_NOT_WRITTEN);
+            return;
+        }
         else if(signupUser.getValue().getInstrument() == null || signupUser.getValue().getInstrument().isEmpty()) {
             setIsProfileValid(Validation.INSTRUMENT_NOT_WRITTEN);
             return;
@@ -289,6 +294,8 @@ public class SignupViewModel extends AndroidViewModel {
     }
 
     public void setGenres(Genre[] genres, ArrayList<Boolean> isSelecteds){
+        Log.e(TAG, "setGenres start");
+        Log.e(TAG, "isSelecteds: " + isSelecteds.toString());
         selectedGenres.clear();
         ArrayList<Genre> genresList = new ArrayList<>(Arrays.asList(genres));
         if(isSelecteds != null)
@@ -315,8 +322,12 @@ public class SignupViewModel extends AndroidViewModel {
         }
         if(records != null){
             for(Record record : records){
-                if(record.getEndDate() == null && record.getStartDate() != null){
+                if(record.getStartDate() != null && record.getEndDate() != null && record.getStartDate().compareTo(record.getEndDate()) > 0){
                     setIsSignupSuccess(Validation.RECORD_NOT_VALID);
+                    return;
+                }
+                else if(record.getRecordName() == null || record.getRecordName().isEmpty()){
+                    setIsSignupSuccess(Validation.RECORD_NAME_NOT_WRITTEN);
                     return;
                 }
             }
