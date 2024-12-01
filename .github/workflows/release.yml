@@ -108,9 +108,9 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ steps.bump_version.outputs.new_tag }}
           name: "MOUM-${{ steps.bump_version.outputs.new_tag }}"
-          body: "New release based on version ${{ steps.bump_version.outputs.new_tag }}. It is test release."
+          body: "음악인들을 잇는 커뮤니티 플랫폼 어플리케이션, MOUM:모音\n\nNew release based on version ${{ steps.bump_version.outputs.new_tag }}."
           draft: false
-          prerelease: true
+          prerelease: false
           artifacts: ${{ steps.find_apk.outputs.apk_path }}  # APK 경로를 동적으로 설정
           replacesArtifacts: true  # 기존 파일 대체 설정
           skipIfReleaseExists: false  # 기존 릴리스가 있어도 무시하고 업데이트
