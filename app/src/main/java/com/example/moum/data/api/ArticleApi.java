@@ -7,6 +7,7 @@ import com.example.moum.data.dto.SuccessResponse;
 import com.example.moum.data.entity.Article;
 import com.example.moum.data.entity.Chat;
 import com.example.moum.data.entity.Comment;
+import com.example.moum.data.entity.Like;
 
 import java.util.List;
 
@@ -51,5 +52,10 @@ public interface ArticleApi {
     Call<SuccessResponse<Comment>> createComment(
             @Path("articleId") int articleId,
             @Body CommentRequest commentRequest
+    );
+
+    @POST("api/articles/likes/{articleId}")
+    Call<SuccessResponse<Like>> postLike(
+            @Path("articleId") int articleId
     );
 }

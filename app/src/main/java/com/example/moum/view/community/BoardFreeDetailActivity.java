@@ -1,6 +1,6 @@
 package com.example.moum.view.community;
 
-import static com.example.moum.view.community.adapter.TimeAgo.getTimeAgo;
+import static com.example.moum.utils.TimeAgo.getTimeAgo;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,17 +13,23 @@ import android.widget.PopupMenu;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.moum.R;
+import com.example.moum.data.entity.Article;
 import com.example.moum.data.entity.Comment;
 import com.example.moum.databinding.ActivityBoardFreeDetailBinding;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.view.community.adapter.BoardFreeDetailAdapter;
+import com.example.moum.view.profile.MemberProfileFragment;
+import com.example.moum.view.profile.TeamProfileFragment;
 import com.example.moum.viewmodel.community.BoardFreeDetailViewModel;
 
 import java.util.ArrayList;
@@ -36,6 +42,7 @@ public class BoardFreeDetailActivity extends AppCompatActivity {
     private int targetBoardId;
     private ToggleButton wishlistButton;
     private Context context;
+    private String profileURL;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -86,9 +93,11 @@ public class BoardFreeDetailActivity extends AppCompatActivity {
         /* UI 동작 추가 */
         initLeftArrow();
         initWishlistButton();
+        initLikeButton();
         initMenu();
         initRecyclerviewContent();
         initInputbutton();
+     //   initprofileImage();
 
     }
 
@@ -117,8 +126,11 @@ public class BoardFreeDetailActivity extends AppCompatActivity {
             // PopupMenu 생성
             PopupMenu popupMenu = new PopupMenu(this, binding.menu);
 
-            // 메뉴 항목 추가
+            // 작성자가 게시글 보는 본인 일 때
             popupMenu.getMenu().add("수정하기");
+            popupMenu.getMenu().add("삭제하기");
+            //메뉴 기본 항목
+            popupMenu.getMenu().add("URL 복사하기");
             popupMenu.getMenu().add("신고하기");
 
             // 메뉴 항목 클릭 이벤트 처리
@@ -155,7 +167,7 @@ public class BoardFreeDetailActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         // 댓글 데이터 관찰
-        boardFreeDetailViewModel.getCommentLiveData().observe(this, commentList -> {
+        boardFreeDetailViewModel.getCurrentComments().observe(this, commentList -> {
             if (commentList != null) {
                 adapter.updateComment(commentList);
             }
@@ -167,7 +179,6 @@ public class BoardFreeDetailActivity extends AppCompatActivity {
                 Toast.makeText(context, "데이터를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
             }
         });
-        boardFreeDetailViewModel.loadArticlesDetail(targetBoardId);
     }
 
     public void initInputbutton(){
@@ -175,6 +186,53 @@ public class BoardFreeDetailActivity extends AppCompatActivity {
             String content = binding.boardFreeDetailInputBox.getText().toString();
             boardFreeDetailViewModel.postComment(targetBoardId, content);
             binding.boardFreeDetailInputBox.setText("");
+        });
+    }
+
+    public void initLikeButton(){
+        binding.buttonLike.setOnClickListener(v -> {
+            boardFreeDetailViewModel.postLike(targetBoardId);
+        });
+        boardFreeDetailViewModel.loadArticlesDetail(targetBoardId);
+    }
+
+    public void initprofileImage() {
+
+        Article article = boardFreeDetailViewModel.getIsLoadArticeSuccess().getValue();
+        profileURL = boardFreeDetailViewModel.loadProfileImage(article.getAuthorId(), article.getAuthor());
+
+        if (profileURL != null) {
+            Glide.with(binding.boardFreeDetailImage.getContext())
+                    .applyDefaultRequestOptions(new RequestOptions()
+                            .placeholder(R.drawable.background_circle_darkgray)
+                            .error(R.drawable.background_circle_darkgray)
+                            .circleCrop())
+                    .load(profileURL)
+                    .into(binding.boardFreeDetailImage);
+
+            // 이미지뷰의 외곽을 둥글게 설정 (Outline 적용)
+            binding.boardFreeDetailImage.setClipToOutline(true);
+        } else {
+            // 프로필 URL이 없을 경우 기본 이미지 설정
+            binding.boardFreeDetailImage.setImageResource(R.drawable.background_circle_darkgray);
+            binding.boardFreeDetailImage.setClipToOutline(true);
+        }
+
+        binding.boardFreeDetailImage.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            if(boardFreeDetailViewModel.isTeamOrMember()) {
+                bundle.putInt("targetTeamId", boardFreeDetailViewModel.getIsLoadTeamSuccess().getValue().getTeamId());
+                // TeamProfile 열기
+                TeamProfileFragment fragment = new TeamProfileFragment(v.getContext());
+                fragment.setArguments(bundle);
+                fragment.show(((FragmentActivity) v.getContext()).getSupportFragmentManager(), fragment.getTag());
+            } else {
+                bundle.putInt("targetMemberId", boardFreeDetailViewModel.getIsLoadMemberSuccess().getValue().getId());
+                // MemberProfile 열기
+                MemberProfileFragment fragment = new MemberProfileFragment(v.getContext());
+                fragment.setArguments(bundle);
+                fragment.show(((FragmentActivity) v.getContext()).getSupportFragmentManager(), fragment.getTag());
+            }
         });
     }
 

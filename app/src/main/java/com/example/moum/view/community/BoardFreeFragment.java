@@ -1,6 +1,6 @@
 package com.example.moum.view.community;
 
-import static com.example.moum.view.community.adapter.TimeAgo.getTimeAgo;
+import static com.example.moum.utils.TimeAgo.getTimeAgo;
 
 import android.content.Context;
 import android.content.Intent;

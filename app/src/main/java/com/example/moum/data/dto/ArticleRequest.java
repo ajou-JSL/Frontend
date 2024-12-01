@@ -7,12 +7,12 @@ public class ArticleRequest {
     private String title;
     private String content;
     private String category;
-    private Integer gerne;
+    private Integer genre;
 
-    public ArticleRequest( String title, String category, String content, Integer genre) {
+    public ArticleRequest( String title,  String content, String category, Integer genre) {
         this.title = title;
-        this.category = category;
         this.content = content;
-        this.gerne = genre;
+        this.category = category;
+        this.genre = genre;
     }
 }

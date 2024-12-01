@@ -1,6 +1,6 @@
 package com.example.moum.view.community;
 
-import static com.example.moum.view.community.adapter.TimeAgo.getTimeAgo;
+import static com.example.moum.utils.TimeAgo.getTimeAgo;
 
 import androidx.lifecycle.ViewModelProvider;
 
@@ -29,13 +29,10 @@ import com.example.moum.R;
 import com.example.moum.data.entity.Article;
 import com.example.moum.data.entity.BoardFreeItem;
 import com.example.moum.databinding.FragmentBoardRecruitBinding;
-import com.example.moum.databinding.FragmentCommunityBinding;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
-import com.example.moum.view.community.adapter.BoardFreeItemAdapter;
 import com.example.moum.view.community.adapter.BoardRecruitItemAdapter;
-import com.example.moum.viewmodel.community.BoardFreeViewModel;
 import com.example.moum.viewmodel.community.BoardRecruitViewModel;
 
 import java.util.ArrayList;

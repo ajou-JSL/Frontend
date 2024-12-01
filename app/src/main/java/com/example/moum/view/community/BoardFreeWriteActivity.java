@@ -37,10 +37,11 @@ public class BoardFreeWriteActivity extends AppCompatActivity {
     private ActivityBoardFreeWriteBinding binding;
     private BoardFreeWriteViewModel boardFreeWriteViewModel;
     private SharedPreferenceManager sharedPreferenceManager;
-    private BoardFreeWriteAdapter adapter;
-    private ActivityResultLauncher<PickVisualMediaRequest> pickMedia;
+    private ActivityResultLauncher<PickVisualMediaRequest> pickMultipleMedia;
     private Context context;
     private Integer memberId;
+    private ArrayList<Uri> uris = new ArrayList<>();
+    public String TAG = getClass().toString();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,19 +74,14 @@ public class BoardFreeWriteActivity extends AppCompatActivity {
     }
 
     private void initializePickMedia() {
-        pickMedia = registerForActivityResult(
-                new ActivityResultContracts.PickVisualMedia(),
-                uri -> {
-                    if (uri != null) {
-                        // 선택된 이미지 URI 처리
-                        Log.d("PickMedia", "선택된 이미지 URI: " + uri.toString());
-                        // ViewModel 또는 RecyclerView에 이미지 추가 로직 작성
-                        boardFreeWriteViewModel.setFileImage(uri);
-                    } else {
-                        Log.d("PickMedia", "선택된 이미지 없음");
-                    }
-                }
-        );
+        pickMultipleMedia = registerForActivityResult(new ActivityResultContracts.PickMultipleVisualMedia(3), uris -> {
+            if (!uris.isEmpty()) {
+                Log.d("pickMultipleMedia",  "Number of items selected: " + uris.size());
+                boardFreeWriteViewModel.setFileImageList(uris);
+            } else {
+                Log.d("pickMultipleMedia", "No media selected");
+            }
+        });
     }
 
     private void initBackButton() {
@@ -102,7 +98,7 @@ public class BoardFreeWriteActivity extends AppCompatActivity {
             Integer genre = binding.boardFreeWriteGenreSpinner.getSelectedItemPosition() - 1;
             String category = "FREE_TALKING_BOARD";
             // 리사이클러뷰에 표시된 이미지 URI 리스트 가져오기
-            List<Uri> imageUris = boardFreeWriteViewModel.getFileImage().getValue();
+            List<Uri> imageUris = boardFreeWriteViewModel.getFileImageList().getValue();
             // 장르 목록 (빈 리스트로 초기화)
 
             // 제목과 내용이 비어있지 않은지 확인
@@ -112,38 +108,9 @@ public class BoardFreeWriteActivity extends AppCompatActivity {
             }
 
             // 게시글 생성 함수 호출
-            boardFreeWriteViewModel.createArticle(title, content, category, genre, imageUris);
-
-            // 성공 시 처리
-            boardFreeWriteViewModel.getIsArticleCreateSuccess().observe(this, result -> {
-                Validation validation = result.getValidation();
-                switch (validation) {
-                    case VALID_ALL:
-                        Toast.makeText(context, "게시글 작성이 완료되었습니다.", Toast.LENGTH_SHORT).show();
-                        finish();
-                        break;
-
-                    case ARTICLE_INVALID_TITLE:
-                        Toast.makeText(context, "제목을 입력해주세요.", Toast.LENGTH_SHORT).show();
-                        break;
-
-                    case ARTICLE_INVALID_CONTENT:
-                        Toast.makeText(context, "내용을 입력해주세요.", Toast.LENGTH_SHORT).show();
-                        break;
-
-                    case ARTICLE_INVALID_CATEGORY:
-                        Toast.makeText(context, "카테고리를 선택해주세요.", Toast.LENGTH_SHORT).show();
-                        break;
-
-                    case ARTICLE_INVALID_GENRE:
-                        Toast.makeText(context, "장르를 하나 이상 선택해주세요.", Toast.LENGTH_SHORT).show();
-                        break;
-
-                    default:
-                        Toast.makeText(context, "게시글 작성에 실패했습니다.", Toast.LENGTH_SHORT).show();
-                        break;
-                }
-            });
+            Log.e("BoardFreeWriteActivity", "게시글 : " + author + " " + title + " " + content + " " + category + " " + genre + " " + imageUris);
+            boardFreeWriteViewModel.createArticle(title, content, category, genre, context);
+            finish();
         });
     }
 
@@ -235,53 +202,38 @@ public class BoardFreeWriteActivity extends AppCompatActivity {
 
     public void initImageRecyclerView() {
         RecyclerView recyclerView = binding.boardFreeWriteImageRecyclerView;
+        BoardFreeWriteAdapter boardFreeWriteAdapter = new BoardFreeWriteAdapter();
+        boardFreeWriteAdapter.setUris(uris, context);
         recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+        recyclerView.setAdapter(boardFreeWriteAdapter);
+        uris.add(null); //for image selector
+        boardFreeWriteAdapter.notifyItemInserted(uris.size()-1);
 
-        // 초기 이미지 리스트
-        ArrayList<String> imageUris = new ArrayList<>();
-
-        // Adapter 설정
-        adapter = new BoardFreeWriteAdapter(context, imageUris, new BoardFreeWriteAdapter.OnImageClickListener() {
-            @Override
-            public void onAddImageClick() {
-                // 사진 추가 버튼 클릭 시 동작
-                pickMedia.launch(new PickVisualMediaRequest.Builder()
-                        .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
-                        .build());
-            }
-
-            @Override
-            public void onImageClick(int position) {
-                // 이미지 클릭 시 동작 (예: 확대)
-
-            }
-
-            @Override
-            public void onImageLongClick(int position) {
-                // 이미지 삭제 처리
-                imageUris.remove(position);
-                adapter.notifyItemRemoved(position);
-                adapter.notifyItemRangeChanged(position, imageUris.size());
-
-            }
-        });
-
-        recyclerView.setAdapter(adapter);
 
         // ViewModel 관찰로 이미지 추가
-        boardFreeWriteViewModel.getFileImage().observe(this, uri -> {
-            if (uri != null && !imageUris.contains(uri.toString())) {
-                imageUris.add(uri.toString());
-                adapter.notifyDataSetChanged();
+        boardFreeWriteViewModel.getFileImageList().observe(this, addedUris -> {
+            for(Uri uri : addedUris){
+                Log.e(TAG, "Uri: " + uri.toString());
             }
+            uris.clear();
+            uris.addAll(addedUris);
+            uris.add(null); //for image selector
+            boardFreeWriteAdapter.notifyItemInserted(uris.size()-1);
+            recyclerView.scrollToPosition(uris.size()-1);
         });
     }
+
+    public void onImageSelectorClicked(){
+        /*이미지 선택 버튼 클릭 시, Photo picker 열기*/
+        pickMultipleMedia.launch(new PickVisualMediaRequest.Builder()
+                .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+                .build());
+    }
+
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         binding = null;
     }
-
-
 }

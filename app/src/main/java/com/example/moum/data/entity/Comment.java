@@ -3,6 +3,7 @@ package com.example.moum.data.entity;
 public class Comment {
     private Integer commentId;
     private Integer articleDetailsId;
+    private Integer authorId;
     private String author;
     private String content;
     private String createdAt;

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.moum.R;
 import com.example.moum.data.entity.Article;
 import com.example.moum.data.entity.Comment;
+import com.example.moum.utils.TimeAgo;
 
 import java.util.ArrayList;
 
@@ -38,7 +39,7 @@ public class BoardFreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     // 댓글 데이터 업데이트
     public void updateComment(ArrayList<Comment> comments) {
         this.commentList = comments;
-        notifyDataSetChanged(); // 댓글 데이터가 갱신되면 RecyclerView 갱신
+        notifyDataSetChanged();
     }
 
     @NonNull

@@ -117,7 +117,7 @@
 
 
                         <LinearLayout
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:orientation="vertical"
                             android:layout_weight="1">
@@ -176,37 +176,35 @@
                         android:textSize="16sp" />
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
+                        android:id="@+id/button_like"
+                        android:layout_width="70dp"
+                        android:layout_height="35dp"
+                        android:layout_marginTop="25dp"
                         android:layout_marginStart="25dp"
-                        android:layout_marginTop="40dp"
-                        android:paddingStart="10dp"
-                        android:paddingEnd="10dp"
-                        android:background="@drawable/background_like_button">
-
-                        <ImageView
-                            android:id="@+id/board_free_detail_like"
-                            android:layout_width="35dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:layout_gravity="center"
-                            android:scaleType="centerCrop"
-                            android:padding="9dp"
-
-                            app:srcCompat="@drawable/icon_heart_toggle"/>
-
-                        <TextView
-                            android:id="@+id/board_free_detail_like_count"
+                        android:gravity="center"
+                        android:background="@drawable/button_rounded_gray">
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:paddingEnd="5dp"
-                            android:layout_gravity="center|start"
-                            android:text="15"
-
-                            android:fontFamily="@font/noto_sans_kr_regular"
-                            android:includeFontPadding="false"
-                            android:textSize="16sp"/>
+                            android:orientation="horizontal"
+                            android:gravity="bottom">
+                            <ImageView
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:background="@drawable/icon_heart_toggle"
+                                />
+                            <TextView
+                                android:id="@+id/board_free_detail_like_count"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
+                                android:fontFamily="@font/noto_sans_kr_medium"
+                                android:textSize="12dp"
+                                android:textColor="@color/gray4"
+                                android:includeFontPadding="false"/>
+                        </LinearLayout>
                     </LinearLayout>
 
                 </LinearLayout>

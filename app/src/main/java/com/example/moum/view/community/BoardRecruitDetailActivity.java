@@ -1,10 +1,13 @@
 package com.example.moum.view.community;
 
+import static com.example.moum.utils.TimeAgo.getTimeAgo;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.CompoundButton;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -17,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.moum.R;
 import com.example.moum.data.entity.Article;
 import com.example.moum.data.entity.Comment;
+import com.example.moum.databinding.ActivityBoardFreeDetailBinding;
 import com.example.moum.databinding.ActivityBoardRecruitDetailBinding;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
@@ -64,10 +68,30 @@ public class BoardRecruitDetailActivity extends AppCompatActivity {
             return;
         }
 
+        /* 게시글 감지 설정*/
+        boardRecruitDetailViewModel.getIsLoadArticeSuccess().observe(this, articleData -> {
+            if (articleData != null) {
+                binding.boardRecruitDetailWriter.setText(articleData.getAuthor());
+                binding.boardRecruitDetailTime.setText(getTimeAgo(articleData.getCreateAt()));
+                binding.boardRecruitDetailTitle.setText(articleData.getTitle());
+                binding.boardRecruitDetailContent.setText(articleData.getContent());
+                binding.boardRecruitDetailLikeCount.setText(String.valueOf(articleData.getLikeCounts()));
+            } else {
+                Toast.makeText(context, "데이터를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        /* 게시글 로드 */
+        boardRecruitDetailViewModel.loadArticlesDetail(targetBoardId);
+
+
+        /* UI 동작 추가 */
         initLeftArrow();
         initWishlistButton();
         initMenu();
         initRecyclerviewContent();
+        initInputbutton();
+
     }
 
     public void initLeftArrow(){
@@ -92,10 +116,35 @@ public class BoardRecruitDetailActivity extends AppCompatActivity {
 
     private void initMenu() {
         binding.menu.setOnClickListener(v -> {
-            Intent intent = new Intent(this, BoardFreeWriteActivity.class);
-            startActivity(intent);
+            // PopupMenu 생성
+            PopupMenu popupMenu = new PopupMenu(this, binding.menu);
+
+            // 메뉴 항목 추가
+            popupMenu.getMenu().add("수정하기");
+            popupMenu.getMenu().add("신고하기");
+
+            // 메뉴 항목 클릭 이벤트 처리
+            popupMenu.setOnMenuItemClickListener(item -> {
+                switch (item.getTitle().toString()) {
+                    case "수정하기":
+                        Intent editIntent = new Intent(this, BoardFreeWriteActivity.class);
+                        startActivity(editIntent);
+                        break;
+
+                    case "신고하기":
+                        Toast.makeText(this, "신고하기가 선택되었습니다.", Toast.LENGTH_SHORT).show();
+                        break;
+
+                    default:
+                        break;
+                }
+                return true;
+            });
+            // 메뉴 표시
+            popupMenu.show();
         });
     }
+
 
     private void initRecyclerviewContent() {
         // RecyclerView 초기화
@@ -103,30 +152,32 @@ public class BoardRecruitDetailActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
         // RecyclerView 어댑터 설정 (처음에 빈 데이터로 어댑터 설정)
-        Article article = new Article();
         ArrayList<Comment> comments = new ArrayList<>();
-        BoardFreeDetailAdapter adapter = new BoardFreeDetailAdapter(comments); // 초기 null 값 설정
+        BoardFreeDetailAdapter adapter = new BoardFreeDetailAdapter( comments); // 초기 null 값 설정
         recyclerView.setAdapter(adapter);
 
-        // ViewModel 초기화
-        BoardRecruitDetailViewModel viewModel = new ViewModelProvider(this).get(BoardRecruitDetailViewModel.class);
-
         // 댓글 데이터 관찰
-        viewModel.getCommentLiveData().observe(this, commentList -> {
+        boardRecruitDetailViewModel.getCommentLiveData().observe(this, commentList -> {
             if (commentList != null) {
-                // 어댑터에 댓글 데이터를 전달하여 갱신
                 adapter.updateComment(commentList);
             }
         });
 
         // Validation 상태 관찰
-        viewModel.getValidationStatus().observe(this, validation -> {
+        boardRecruitDetailViewModel.getValidationStatus().observe(this, validation -> {
             if (validation == Validation.ARTICLE_GET_FAILED) {
-                // 데이터 로딩 실패 처리
                 Toast.makeText(context, "데이터를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
             }
         });
-        viewModel.loadArticlesDetail(targetBoardId);
+        boardRecruitDetailViewModel.loadArticlesDetail(targetBoardId);
+    }
+
+    public void initInputbutton(){
+        binding.boardRecruitDetailInputButton.setOnClickListener(v -> {
+            String content = binding.boardRecruitDetailInputBox.getText().toString();
+            boardRecruitDetailViewModel.postComment(targetBoardId, content);
+            binding.boardRecruitDetailInputBox.setText("");
+        });
     }
 
 
@@ -136,4 +187,5 @@ public class BoardRecruitDetailActivity extends AppCompatActivity {
         super.onDestroy();
         binding = null;
     }
+
 }

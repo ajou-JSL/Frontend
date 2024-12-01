@@ -1,10 +1,11 @@
 package com.example.moum.viewmodel.community;
 
 import android.app.Application;
+import android.content.Context;
 import android.net.Uri;
 
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
+import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.moum.data.entity.Article;
@@ -14,6 +15,7 @@ import com.example.moum.data.entity.Member;
 import com.example.moum.repository.ArticleRepository;
 import com.example.moum.repository.ProfileRepository;
 import com.example.moum.repository.TeamRepository;
+import com.example.moum.utils.ImageManager;
 import com.example.moum.utils.Validation;
 
 import java.io.File;
@@ -64,6 +66,11 @@ public class BoardFreeWriteViewModel extends AndroidViewModel {
         }
     }
 
+    public void setFileImageList(List<Uri> uris) {
+        ArrayList<Uri> uriArrayList = new ArrayList<>(uris);
+        this.fileImageList.setValue(uriArrayList);
+    }
+
     public void setIsLoadTeamsAsLeaderSuccess(Result<List<Team>> isLoadTeamsAsLeaderSuccess){
         this.isLoadTeamsAsLeaderSuccess.setValue(isLoadTeamsAsLeaderSuccess);
     }
@@ -84,22 +91,7 @@ public class BoardFreeWriteViewModel extends AndroidViewModel {
         return memberSelected;
     }
 
-    public void setFileImage(Uri uri) {
-        if (uri != null) {
-            // 기존 리스트 가져오기
-            ArrayList<Uri> currentList = fileImageList.getValue();
-            if (currentList == null) {
-                currentList = new ArrayList<>();
-            }
-            // 새로운 URI 추가
-            currentList.add(uri);
-            // 리스트 업데이트
-            fileImageList.setValue(currentList);
-        }
-    }
-
-
-    public MutableLiveData<ArrayList<Uri>> getFileImage() {
+    public MutableLiveData<ArrayList<Uri>> getFileImageList() {
         return fileImageList;
     }
 
@@ -122,53 +114,31 @@ public class BoardFreeWriteViewModel extends AndroidViewModel {
         });
     }
 
-    public void createArticle(String title, String content, String category, Integer genre, List<Uri> imageList){
-        // 제목 검증
-        if (title == null || title.trim().isEmpty()) {
-            setIsArticleCreateSuccess(new Result<>(Validation.ARTICLE_INVALID_TITLE));
-            return;
-        }
+    public void createArticle(String title, String content, String category, Integer genre, Context context){
+        Log.e("BoardFreeWriteViewModel", "createArticle 호출되었습니다");
 
-        // 내용 검증
-        if (content == null || content.trim().isEmpty()) {
-            setIsArticleCreateSuccess(new Result<>(Validation.ARTICLE_INVALID_CONTENT));
-            return;
-        }
-
-        // 카테고리 검증
-        if (category == null || category.trim().isEmpty()) {
-            setIsArticleCreateSuccess(new Result<>(Validation.ARTICLE_INVALID_CATEGORY));
-            return;
-        }
-
-        // 장르 검증 (필요에 따라 세부 조건 추가 가능)
-        if (genre == null || genre < 0) {
-            setIsArticleCreateSuccess(new Result<>(Validation.ARTICLE_INVALID_GENRE));
-            return;
-        }
-
+        /*processing for repository*/
         Article articleToCreate = article.getValue();
         articleToCreate.setTitle(title);
         articleToCreate.setContent(content);
         articleToCreate.setCategory(category);
         articleToCreate.setGenre(genre);
 
-        List<File> imageURL = new ArrayList<>();
-        if (imageList != null) {
-            for (Uri uri : imageList) {
-                File file = new File(getRealPathFromUri(uri));
-                imageURL.add(file);
+        ArrayList<File> imageURLs = new ArrayList<>();
+        if (fileImageList.getValue() != null && !fileImageList.getValue().isEmpty()) {
+            for (Uri uri : fileImageList.getValue()) {
+                ImageManager imageManager = new ImageManager(context);
+                File file = imageManager.convertUriToFile(uri);
+                imageURLs.add(file);
             }
         }
+        if(imageURLs.isEmpty()) imageURLs = null;
 
-        articleRepository.createArticle(articleToCreate, imageURL, this::setIsArticleCreateSuccess);
+        articleRepository.createArticle(articleToCreate, imageURLs, this::setIsArticleCreateSuccess);
     }
 
     public void loadMemberProfile(Integer memberId){
         profileRepository.loadMemberProfile(memberId, this::setMemberSelected);
     }
 
-    private String getRealPathFromUri(Uri uri) {
-        return uri.getPath();
-    }
 }
