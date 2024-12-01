@@ -99,7 +99,6 @@ public class BoardFreeWriteActivity extends AppCompatActivity {
             String category = "FREE_TALKING_BOARD";
             // 리사이클러뷰에 표시된 이미지 URI 리스트 가져오기
             List<Uri> imageUris = boardFreeWriteViewModel.getFileImageList().getValue();
-            // 장르 목록 (빈 리스트로 초기화)
 
             // 제목과 내용이 비어있지 않은지 확인
             if (title.isEmpty() || content.isEmpty()) {
@@ -107,8 +106,11 @@ public class BoardFreeWriteActivity extends AppCompatActivity {
                 return;
             }
 
-            // 게시글 생성 함수 호출
-            Log.e("BoardFreeWriteActivity", "게시글 : " + author + " " + title + " " + content + " " + category + " " + genre + " " + imageUris);
+            if(genre < 0){
+                Toast.makeText(context, "장르를 고르세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             boardFreeWriteViewModel.createArticle(title, content, category, genre, context);
             finish();
         });
@@ -152,7 +154,6 @@ public class BoardFreeWriteActivity extends AppCompatActivity {
                     binding.boardFreeWriteSpinner.setAdapter(adapter);
                     binding.boardFreeWriteSpinner.setEnabled(true); // 스피너 활성화
                 } else {
-                    // 멤버 데이터를 로드하지 못한 경우 처리
                     Toast.makeText(context, "사용자 정보를 불러오는 데 실패했습니다.", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -218,7 +219,7 @@ public class BoardFreeWriteActivity extends AppCompatActivity {
             uris.clear();
             uris.addAll(addedUris);
             uris.add(null); //for image selector
-            boardFreeWriteAdapter.notifyItemInserted(uris.size()-1);
+            boardFreeWriteAdapter.notifyDataSetChanged();
             recyclerView.scrollToPosition(uris.size()-1);
         });
     }
