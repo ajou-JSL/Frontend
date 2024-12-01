@@ -18,6 +18,7 @@ import com.example.moum.data.entity.Chatroom;
 import com.example.moum.data.entity.Result;
 import com.example.moum.data.entity.Token;
 import com.example.moum.repository.ChatRepository;
+import com.example.moum.repository.ChatroomRepository;
 import com.example.moum.repository.LoginRepository;
 import com.example.moum.utils.Callback;
 import com.example.moum.utils.Validation;
@@ -44,6 +45,9 @@ public class ChatViewModelTest {
     @Mock
     ChatRepository chatRepository;
 
+    @Mock
+    ChatroomRepository chatroomRepository;
+
     private ChatViewModel chatViewModel;
 
     @Rule
@@ -55,7 +59,7 @@ public class ChatViewModelTest {
     @Before
     public void setUp() {
         Application application = ApplicationProvider.getApplicationContext();
-        chatViewModel = new ChatViewModel(application, chatRepository);
+        chatViewModel = new ChatViewModel(application, chatRepository, chatroomRepository);
     }
 
     @DisplayName("채팅을 보내는 것이 성공하면, 이에 맞는 isChatSendSuccess 값을 리턴한다.")
@@ -64,15 +68,17 @@ public class ChatViewModelTest {
         // Given
         String memberId = "testuser";
         Integer groupId = 1;
+        Integer leaderId = 1;
         String receiverId = "testuser2";
         Integer chatroomId = 1;
         String chatroomName = "testuser2";
         Chatroom.ChatroomType chatroomType = Chatroom.ChatroomType.PERSONAL_CHAT;
-        chatViewModel.setChatroomInfo(memberId, groupId, receiverId, chatroomId, chatroomName, chatroomType, memberId);
+        Chatroom chatroom = new Chatroom(chatroomName, chatroomType, groupId, leaderId);
+        chatViewModel.setChatroomInfo(memberId, leaderId, chatroom);
         String message = "안녕하세요.";
 
         Validation validation = Validation.CHAT_POST_SUCCESS;
-        Chat chat = new Chat(memberId, receiverId, message, chatroomId, LocalDateTime.now());
+        Chat chat = new Chat(memberId, message, chatroomId, LocalDateTime.now());
         Result<Chat> expectedResult = new Result<>(validation, chat);
 
         doAnswer(invocation -> {
@@ -85,8 +91,8 @@ public class ChatViewModelTest {
         chatViewModel.chatSend(message);
 
         // Then
-        assertEquals(memberId, chatViewModel.getSender());
-        assertEquals(chatroomId, chatViewModel.getChatroom().getChatroomId());
+        assertEquals(memberId, chatViewModel.getSenderUsername());
+        assertEquals(chatroomId, chatViewModel.getChatroom().getId());
         assertNotEquals(null, chatViewModel.getIsChatSendSuccess().getValue());
         assertEquals(Validation.CHAT_POST_SUCCESS, chatViewModel.getIsChatSendSuccess().getValue().getValidation());
     }
@@ -97,15 +103,17 @@ public class ChatViewModelTest {
         // Given
         String memberId = "testuser";
         Integer groupId = 1;
+        Integer leaderId = 1;
         String receiverId = "testuser2";
         Integer chatroomId = 1;
         String chatroomName = "testuser2";
         Chatroom.ChatroomType chatroomType = Chatroom.ChatroomType.PERSONAL_CHAT;
-        chatViewModel.setChatroomInfo(memberId, groupId, receiverId, chatroomId, chatroomName, chatroomType, memberId);
+        Chatroom chatroom = new Chatroom(chatroomName, chatroomType, groupId, leaderId);
+        chatViewModel.setChatroomInfo(memberId, leaderId, chatroom);
 
         String message = "안녕하세요.";
         Validation validation = Validation.CHAT_RECEIVE_SUCCESS;
-        Chat chat = new Chat(memberId, receiverId, message, chatroomId, LocalDateTime.now());
+        Chat chat = new Chat(memberId, message, chatroomId, LocalDateTime.now());
         Result<Chat> expectedResult = new Result<>(validation, chat);
 
         doAnswer(invocation -> {
@@ -121,8 +129,8 @@ public class ChatViewModelTest {
         testObserver.awaitCount(1);
 
         // Then
-        assertEquals(memberId, chatViewModel.getSender());
-        assertEquals(chatroomId, chatViewModel.getChatroom().getChatroomId());
+        assertEquals(memberId, chatViewModel.getSenderUsername());
+        assertEquals(chatroomId, chatViewModel.getChatroom().getId());
         testObserver.assertValue(Objects::nonNull);
         testObserver.assertValue(value -> value.getValidation() == Validation.CHAT_RECEIVE_SUCCESS);
         testObserver.dispose();
@@ -134,16 +142,18 @@ public class ChatViewModelTest {
         // Given
         String memberId = "testuser";
         Integer groupId = 1;
+        Integer leaderId = 1;
         String receiverId = "testuser2";
         Integer chatroomId = 1;
         String chatroomName = "testuser2";
         Chatroom.ChatroomType chatroomType = Chatroom.ChatroomType.PERSONAL_CHAT;
         LocalDateTime beforeTimestamp = LocalDateTime.now();
-        chatViewModel.setChatroomInfo(memberId, groupId, receiverId, chatroomId, chatroomName, chatroomType, memberId);
+        Chatroom chatroom = new Chatroom(chatroomName, chatroomType, groupId, leaderId);
+        chatViewModel.setChatroomInfo(memberId, leaderId, chatroom);
 
         String message = "안녕하세요.";
         Validation validation = Validation.CHAT_RECEIVE_SUCCESS;
-        Chat chat = new Chat(memberId, receiverId, message, chatroomId, LocalDateTime.now());
+        Chat chat = new Chat(memberId, message, chatroomId, LocalDateTime.now());
         Result<Chat> expectedResult = new Result<>(validation, chat);
 
         doAnswer(invocation -> {
@@ -159,8 +169,8 @@ public class ChatViewModelTest {
         testObserver.awaitCount(1);
 
         // Then
-        assertEquals(memberId, chatViewModel.getSender());
-        assertEquals(chatroomId, chatViewModel.getChatroom().getChatroomId());
+        assertEquals(memberId, chatViewModel.getSenderUsername());
+        assertEquals(chatroomId, chatViewModel.getChatroom().getId());
         testObserver.assertValue(value -> value != null);
         testObserver.assertValue(value -> value.getValidation() == Validation.CHAT_RECEIVE_SUCCESS);
         testObserver.dispose();
