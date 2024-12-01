@@ -17,6 +17,7 @@ import static org.mockito.Mockito.*;
 
 import android.app.Application;
 
+import com.example.moum.data.entity.Member;
 import com.example.moum.data.entity.Result;
 import com.example.moum.data.entity.Token;
 import com.example.moum.repository.LoginRepository;
@@ -88,7 +89,7 @@ public class LoginViewModelTest {
         loginViewModel.setId(id);
         loginViewModel.setPassword(password);
         Validation validation = Validation.VALID_ALL;
-        Token token = new Token("abcde", "12345", 0);
+        Token token = new Token("abcde", "12345", 0, new Member());
         Result<Token> expectedResult = new Result<>(validation, token);
 
         doAnswer(invocation -> {

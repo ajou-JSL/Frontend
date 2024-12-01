@@ -61,7 +61,7 @@ public class ChatRepositoryTest {
         CountDownLatch latch = new CountDownLatch(1);
 
         // Given
-        Chat chat = new Chat("sender", "receiver", "message", 1, LocalDateTime.now());
+        Chat chat = new Chat("sender", "message", 1, LocalDateTime.now());
         String mockResponse = "{ \"status\": 200, \"code\": \"S-CH001\", \"message\": \"채팅 메세지 전송 성공\", \"data\": { \"sender\": \"testuser\", \"receiver\": \"testuser2\", \"message\": \"Message Contents\", \"chatroomId\": 0, \"timestamp\": \"2024-10-28T20:29:22.6351588\"} }";
         mockWebServer.enqueue(new MockResponse()
                 .setResponseCode(200)
