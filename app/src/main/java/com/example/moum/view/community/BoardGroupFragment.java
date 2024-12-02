@@ -25,6 +25,7 @@ import com.example.moum.R;
 import com.example.moum.data.entity.BoardGroupItem;
 import com.example.moum.data.entity.Team;
 import com.example.moum.databinding.FragmentBoardGroupBinding;
+import com.example.moum.utils.RefreshableFragment;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.view.community.adapter.BoardGroupItemAdapter;
@@ -33,7 +34,7 @@ import com.example.moum.viewmodel.community.BoardRecruitDetailViewModel;
 
 import java.util.ArrayList;
 
-public class BoardGroupFragment extends Fragment {
+public class BoardGroupFragment extends Fragment implements RefreshableFragment {
     private FragmentBoardGroupBinding binding;
     private BoardGroupViewModel boardGroupViewModel;
     private SharedPreferenceManager sharedPreferenceManager;
@@ -137,5 +138,10 @@ public class BoardGroupFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    @Override
+    public void refreshContent() {
+        boardGroupViewModel.LoadBoardTeamList();
     }
 }

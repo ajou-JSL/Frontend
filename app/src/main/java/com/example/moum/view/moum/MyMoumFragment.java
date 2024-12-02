@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.moum.R;
@@ -53,6 +54,7 @@ public class MyMoumFragment extends Fragment {
     private Integer id;
     private Boolean isOnCreateViewEnd = false;
     private TeamAdapter teamAdapter;
+    ViewPager2 viewpagerTeam;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         MyMoumViewModel viewModel = new ViewModelProvider(this).get(MyMoumViewModel.class);
@@ -93,9 +95,9 @@ public class MyMoumFragment extends Fragment {
         );
 
         /*단체 viewPager 연결*/
-        ViewPager2 viewpagerTeam = binding.viewpagerTeam;
+        viewpagerTeam = binding.viewpagerTeam;
         teamAdapter = new TeamAdapter();
-        teamAdapter.setTeamsNMoums(teams, moums, id, context, launcher);
+        teamAdapter.setTeamsNMoums(teams, moums, id, context, launcher, this);
         viewpagerTeam.setAdapter(teamAdapter);
 
         /*속한 단체 리스트 불러오기*/
@@ -221,6 +223,57 @@ public class MyMoumFragment extends Fragment {
             }
         });
 
+        /*팀 탈퇴 결과 감시*/
+        viewModel.getIsLeaveTeamSuccess().observe(getViewLifecycleOwner(), isLeaveTeamSuccess -> {
+            Validation validation = isLeaveTeamSuccess.getValidation();
+            Team leftTeam = isLeaveTeamSuccess.getData();
+            if(validation == Validation.LEAVE_TEAM_SUCCESS){
+                Toast.makeText(context, "단체에서 탈퇴하였습니다.", Toast.LENGTH_SHORT).show();
+            }
+            else if(validation == Validation.NOT_TEAM_MEMBER){
+                Toast.makeText(context, "단체의 멤버가 아닙니다.", Toast.LENGTH_SHORT).show();
+            }
+            else if(validation == Validation.LEADER_CANNOT_LEAVE){
+                Toast.makeText(context, "리더는 단체에서 탈퇴할 수 없습니다.", Toast.LENGTH_SHORT).show();
+            }
+            else if(validation == Validation.MEMBER_NOT_EXIST){
+                Toast.makeText(context, "존재하지 않는 멤버입니다.", Toast.LENGTH_SHORT).show();
+            }
+            else if(validation == Validation.NETWORK_FAILED){
+                Toast.makeText(context, "호출에 실패했습니다.", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "호출 실패");
+            }
+            else{
+                Toast.makeText(context, "단체를 탈퇴할 수 없습니다.", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "알 수 없는 validation");
+            }
+        });
+
+        // swipe to refresh
+        binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                viewModel.loadTeamsAsMember(id);
+                int position = 0;
+                new Handler().postDelayed(() -> {
+                    if(!teams.isEmpty() && position != teams.size()-1) {
+                        viewModel.loadMoumsOfTeam(teams.get(position).getTeamId());
+                    }
+                }, 50);
+
+                /*왼쪽, 오른쪽 버튼 visibility*/
+                if(teamAdapter.getItemCount() < 2){
+                    binding.imageviewLeft.setVisibility(View.INVISIBLE);
+                    binding.imageviewRight.setVisibility(View.INVISIBLE);
+                }
+                else{
+                    binding.imageviewLeft.setVisibility(View.INVISIBLE);
+                    binding.imageviewRight.setVisibility(View.VISIBLE);
+                }
+                binding.swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
         isOnCreateViewEnd = true;
         return root;
     }
@@ -234,5 +287,10 @@ public class MyMoumFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+    }
+
+    public void onTeamLeaveDialogYesClicked(){
+        int pos = viewpagerTeam.getCurrentItem();
+        viewModel.leaveTeam(teams.get(pos).getTeamId());
     }
 }

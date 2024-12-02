@@ -197,6 +197,10 @@ public class MoumMapPracticeroomActivity extends AppCompatActivity implements On
         binding.buttonAddInMoum.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(!memberId.equals(leaderId)){
+                    Toast.makeText(MoumMapPracticeroomActivity.this, "리더만 등록할 수 있어요.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 PracticeOfMoumCreateDialog practiceOfMoumCreateDialog = new PracticeOfMoumCreateDialog(context, practiceroom.getName());
                 practiceOfMoumCreateDialog.show();
             }
