@@ -266,6 +266,10 @@ public class MemberProfileFragment extends BottomSheetDialogFragment {
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         String selectedItem = menuItem.getTitle().toString();
                         if (selectedItem.equals("유저 신고하기")) {
+                            if(id.equals(targetMemberId)){
+                                Toast.makeText(context, "자기 자신은 신고할 수 없습니다.", Toast.LENGTH_SHORT).show();
+                                return true;
+                            }
                             ReportMemberFragment reportMemberFragment = new ReportMemberFragment(context);
                             Bundle bundle = new Bundle();
                             bundle.putInt("targetMemberId", targetMemberId);
