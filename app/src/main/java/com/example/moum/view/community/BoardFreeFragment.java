@@ -30,6 +30,7 @@ import com.example.moum.data.entity.BoardFreeItem;
 import com.example.moum.data.entity.BoardGroupItem;
 import com.example.moum.data.entity.Team;
 import com.example.moum.databinding.FragmentBoardFreeBinding;
+import com.example.moum.utils.RefreshableFragment;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
@@ -40,7 +41,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class BoardFreeFragment extends Fragment {
+public class BoardFreeFragment extends Fragment implements RefreshableFragment {
     private FragmentBoardFreeBinding binding;
     private SharedPreferenceManager sharedPreferenceManager;
     private BoardFreeViewModel boardFreeViewModel;
@@ -225,5 +226,11 @@ public class BoardFreeFragment extends Fragment {
         super.onDestroyView();
         boardFreeViewModel.resetPagination();
         binding = null;
+    }
+
+    @Override
+    public void refreshContent() {
+        boardFreeViewModel.resetPagination();
+        boardFreeViewModel.loadArticleCategoryList();
     }
 }

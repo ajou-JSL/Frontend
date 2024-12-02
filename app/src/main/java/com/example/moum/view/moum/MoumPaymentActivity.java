@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -51,6 +52,7 @@ public class MoumPaymentActivity extends AppCompatActivity {
     private Integer id;
     private Integer moumId;
     private Integer teamId;
+    private Integer leaderId;
     private final ArrayList<Settlement> settlements = new ArrayList<>();
 
     @SuppressLint("DefaultLocale")
@@ -67,7 +69,8 @@ public class MoumPaymentActivity extends AppCompatActivity {
         Intent prevIntent = getIntent();
         moumId = prevIntent.getIntExtra("moumId", -1);
         teamId = prevIntent.getIntExtra("teamId", -1);
-        if (teamId == -1 || moumId == -1) {
+        leaderId = prevIntent.getIntExtra("leaderId", -1);
+        if (teamId == -1 || moumId == -1 || leaderId == -1) {
             Toast.makeText(context, "잘못된 접근입니다.", Toast.LENGTH_SHORT).show();
             finish();
         }
@@ -104,6 +107,10 @@ public class MoumPaymentActivity extends AppCompatActivity {
         binding.buttonMakeMoumtalk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(!id.equals(leaderId)){
+                    Toast.makeText(MoumPaymentActivity.this, "리더만 생성할 수 있어요.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Intent intent = new Intent(context, MoumPaymentChatroomActivity.class);
                 intent.putExtra("teamId", teamId);
                 intent.putExtra("moumId", moumId);
@@ -115,6 +122,10 @@ public class MoumPaymentActivity extends AppCompatActivity {
         binding.buttonAddPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(!id.equals(leaderId)){
+                    Toast.makeText(MoumPaymentActivity.this, "리더만 추가할 수 있어요.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Intent intent = new Intent(context, MoumPaymentAddActivity.class);
                 intent.putExtra("teamId", teamId);
                 intent.putExtra("moumId", moumId);
@@ -182,6 +193,15 @@ public class MoumPaymentActivity extends AppCompatActivity {
             else{
                 Toast.makeText(context, "정산 내역을 삭제에 실패하였습니다.", Toast.LENGTH_SHORT).show();
                 e(TAG, "감시 결과를 알 수 없습니다.");
+            }
+        });
+
+        // swipe to refresh
+        binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                viewModel.loadSettlement(moumId);
+                binding.swipeRefreshLayout.setRefreshing(false);
             }
         });
     }

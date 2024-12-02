@@ -30,6 +30,7 @@ import com.example.moum.data.entity.Performance;
 import com.example.moum.data.entity.Team;
 import com.example.moum.databinding.FragmentBoardGroupBinding;
 import com.example.moum.databinding.FragmentBoardPerformanceBinding;
+import com.example.moum.utils.RefreshableFragment;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.utils.WrapContentLinearLayoutManager;
@@ -44,7 +45,7 @@ import com.example.moum.viewmodel.community.BoardPerformanceViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BoardPerformanceFragment extends Fragment {
+public class BoardPerformanceFragment extends Fragment implements RefreshableFragment {
     private FragmentBoardPerformanceBinding binding;
     private BoardPerformanceViewModel viewModel;
     private Context context;
@@ -189,5 +190,11 @@ public class BoardPerformanceFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         viewModel.clearPage();
+    }
+
+    @Override
+    public void refreshContent() {
+        viewModel.clearPage();
+        viewModel.loadPerformances();
     }
 }

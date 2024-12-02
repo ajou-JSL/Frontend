@@ -9,6 +9,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraint_chat_top"
             android:layout_width="match_parent"
@@ -62,7 +66,7 @@
                 android:orientation="vertical"
                 app:layout_constraintTop_toBottomOf="@id/headerLayout"
                 app:layout_constraintBottom_toBottomOf="parent">
-                <ScrollView
+                <androidx.core.widget.NestedScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     >
@@ -70,6 +74,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
+                        android:paddingBottom="100dp"
                         android:layout_marginStart="25dp"
                         android:layout_marginEnd="25dp">
 
@@ -93,10 +98,13 @@
                             android:id="@+id/recycler_practiceroom_of_moum"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"/>
-
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"/>
                     </LinearLayout>
-                </ScrollView>
+                </androidx.core.widget.NestedScrollView>
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </LinearLayout>
 </layout>

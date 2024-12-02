@@ -197,6 +197,7 @@ public class PerformanceActivity extends AppCompatActivity {
         dropdownMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(!id.equals(team.getLeaderId())) return;
                 PopupMenu popupMenu = new PopupMenu(PerformanceActivity.this, dropdownMenu);
                 for (int i = 0; i < etcList.length; i++) {
                     popupMenu.getMenu().add(etcList[i]);
