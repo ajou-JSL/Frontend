@@ -515,8 +515,10 @@ public class MoumManageActivity extends AppCompatActivity {
         binding.buttonRecruit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO
-                Toast.makeText(context, "구인 게시판으로 이동", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent();
+                intent.putExtra("fragment_index", 2); // chatroomFragment로 이동 (인덱스 1)
+                setResult(RESULT_OK, intent);
+                finish();
             }
         });
         binding.buttonMoumtalk.setOnClickListener(new View.OnClickListener() {
