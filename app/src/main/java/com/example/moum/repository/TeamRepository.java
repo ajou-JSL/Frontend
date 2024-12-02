@@ -114,7 +114,7 @@ public class TeamRepository {
         MultipartBody.Part profileImage = null;
         if(teamProfile != null){
             RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpg"), teamProfile);
-            profileImage = MultipartBody.Part.createFormData("file", teamProfile.getName(), requestFile);
+            profileImage = MultipartBody.Part.createFormData("file", "temp_image.jpg", requestFile);
         }
         else{
             RequestBody emptyRequestBody = RequestBody.create(null, new byte[0]);

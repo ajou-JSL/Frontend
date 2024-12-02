@@ -27,6 +27,9 @@ public class SignupBasicActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // acitvity stack 쌓기
+        InitialActivity initialActivity = new InitialActivity();
+        initialActivity.actList().add(this);
 
         super.onCreate(savedInstanceState);
         binding = ActivitySignupBasicBinding.inflate(getLayoutInflater());
@@ -40,8 +43,6 @@ public class SignupBasicActivity extends AppCompatActivity {
         binding.buttonSignupReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(SignupBasicActivity.this, InitialActivity.class);
-                startActivity(intent);
                 finish();
             }
         });
@@ -283,6 +284,7 @@ public class SignupBasicActivity extends AppCompatActivity {
                     binding.signupErrorEmailCode.setText("");
                     binding.placeholderSignupEmailCode.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_mint_stroke));
                 }else{
+                    binding.signupErrorEmailCode.setText("");
                     binding.placeholderSignupEmailCode.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_gray_stroke));
                 }
             }

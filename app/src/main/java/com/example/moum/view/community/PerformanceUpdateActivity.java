@@ -336,6 +336,15 @@ public class PerformanceUpdateActivity extends AppCompatActivity {
                 binding.errorGenre.setText("장르를 선택하세요.");
                 binding.spinnerGenre.requestFocus();
             }
+            else if(isValidCheckSuccess == Validation.DATE_NOT_VALID){
+                binding.errorPerformDate.setText("시작 날짜는 종료 날짜보다 이전이어야 합니다.");
+            }
+            else if(isValidCheckSuccess == Validation.MUSIC_NAME_NOT_WRITTEN){
+                Toast.makeText(context, "곡 이름을 입력하세요.", Toast.LENGTH_SHORT).show();
+            }
+            else if(isValidCheckSuccess == Validation.ARTIST_NAME_NOT_WRITTEN){
+                Toast.makeText(context, "아티스트 이름을 입력하세요.", Toast.LENGTH_SHORT).show();
+            }
             else if(isValidCheckSuccess == Validation.VALID_ALL){
                 // valid check 유효하다면, 최종 다이얼로그 띄우기
                 PerformUpdateDialog performUpdateDialog = new PerformUpdateDialog(this, binding.edittextPerformName.getText().toString());

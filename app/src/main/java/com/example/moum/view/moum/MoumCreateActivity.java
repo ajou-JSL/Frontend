@@ -264,6 +264,15 @@ public class MoumCreateActivity extends AppCompatActivity {
                 binding.errorMoumGenre.setText("장르를 선택하세요.");
                 binding.spinnerGenre.requestFocus();
             }
+            else if(isValidCheckSuccess == Validation.DATE_NOT_VALID){
+                binding.errorMoumDate.setText("시작 날짜는 종료 날짜보다 이전이어야 합니다.");
+            }
+            else if(isValidCheckSuccess == Validation.MUSIC_NAME_NOT_WRITTEN){
+                Toast.makeText(context, "곡 이름을 입력하세요.", Toast.LENGTH_SHORT).show();
+            }
+            else if(isValidCheckSuccess == Validation.ARTIST_NAME_NOT_WRITTEN){
+                Toast.makeText(context, "아티스트 이름을 입력하세요.", Toast.LENGTH_SHORT).show();
+            }
             else if(isValidCheckSuccess == Validation.VALID_ALL){
                 // valid check 유효하다면, 최종 다이얼로그 띄우기
                 MoumCreateDialog moumCreateDialog = new MoumCreateDialog(this, binding.edittextMoumName.getText().toString());
@@ -346,6 +355,24 @@ public class MoumCreateActivity extends AppCompatActivity {
                 }
             }
         });
+        binding.buttonMoumDateStart.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(hasFocus){
+                    binding.errorMoumDate.setText("");
+                }else{
+                }
+            }
+        });
+        binding.buttonMoumDateEnd.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(hasFocus){
+                    binding.errorMoumDate.setText("");
+                }else{
+                }
+            }
+        });
         binding.spinnerGenre.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
@@ -358,6 +385,7 @@ public class MoumCreateActivity extends AppCompatActivity {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void onDialogYesClicked(){
         /*다이얼로그에서 Yes 버튼 클릭 시, createMoum() 호출*/
         viewModel.createMoum(id, teamId, context);

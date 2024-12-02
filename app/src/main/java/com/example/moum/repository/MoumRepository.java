@@ -236,7 +236,7 @@ public class MoumRepository {
             Log.e(TAG, "if문 들어옴");
             for(File moumProfile : moumProfiles){
                 RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpg"), moumProfile);
-                MultipartBody.Part profileImage = MultipartBody.Part.createFormData("file", moumProfile.getName(), requestFile);
+                MultipartBody.Part profileImage = MultipartBody.Part.createFormData("file", "temp_image.jpg", requestFile);
                 profileImages.add(profileImage);
             }
         }

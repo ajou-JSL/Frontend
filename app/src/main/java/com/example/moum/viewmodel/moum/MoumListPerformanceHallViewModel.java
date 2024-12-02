@@ -1,6 +1,7 @@
 package com.example.moum.viewmodel.moum;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
@@ -13,10 +14,13 @@ import com.example.moum.repository.PracticeNPerformRepository;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.subjects.PublishSubject;
+
 public class MoumListPerformanceHallViewModel extends AndroidViewModel {
     private PracticeNPerformRepository practiceNPerformRepository;
     private final MutableLiveData<Result<List<MoumPerformHall>>> isLoadPerformanceHallsOfMoumSuccess = new MutableLiveData<>();
-    private final MutableLiveData<Result<PerformanceHall>> isLoadPerformanceHallSuccess = new MutableLiveData<>();
+    private final PublishSubject<Result<PerformanceHall>> isLoadPerformanceHallSuccess = PublishSubject.create();
 
     public MoumListPerformanceHallViewModel(Application application){
         super(application);
@@ -27,7 +31,7 @@ public class MoumListPerformanceHallViewModel extends AndroidViewModel {
         return isLoadPerformanceHallsOfMoumSuccess;
     }
 
-    public MutableLiveData<Result<PerformanceHall>> getIsLoadPerformanceHallSuccess() {
+    public Observable<Result<PerformanceHall>> getIsLoadPerformanceHallSuccess() {
         return isLoadPerformanceHallSuccess;
     }
 
@@ -36,7 +40,8 @@ public class MoumListPerformanceHallViewModel extends AndroidViewModel {
     }
 
     public void setIsLoadPerformanceHallSuccess(Result<PerformanceHall> isLoadPerformanceHallSuccess){
-        this.isLoadPerformanceHallSuccess.setValue(isLoadPerformanceHallSuccess);
+        Log.e("gg", isLoadPerformanceHallSuccess.getData().getName());
+        this.isLoadPerformanceHallSuccess.onNext(isLoadPerformanceHallSuccess);
     }
 
     public void loadPerformanceHallsOfMoum(Integer moumId){

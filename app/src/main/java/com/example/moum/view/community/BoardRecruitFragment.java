@@ -29,16 +29,19 @@ import com.example.moum.R;
 import com.example.moum.data.entity.Article;
 import com.example.moum.data.entity.BoardFreeItem;
 import com.example.moum.databinding.FragmentBoardRecruitBinding;
+import com.example.moum.databinding.FragmentCommunityBinding;
+import com.example.moum.utils.RefreshableFragment;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.view.community.adapter.BoardRecruitItemAdapter;
 import com.example.moum.viewmodel.community.BoardRecruitViewModel;
 
+import java.sql.Ref;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BoardRecruitFragment extends Fragment {
+public class BoardRecruitFragment extends Fragment implements RefreshableFragment {
     private FragmentBoardRecruitBinding binding;
     private SharedPreferenceManager sharedPreferenceManager;
     private BoardRecruitViewModel boardRecruitViewModel;
@@ -46,7 +49,11 @@ public class BoardRecruitFragment extends Fragment {
     private Context context;
     private Integer memberId;
     private boolean isLoading = false;
-    private final String TAG = getClass().toString();
+
+
+    public static BoardRecruitFragment newInstance() {
+        return new BoardRecruitFragment();
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -189,5 +196,9 @@ public class BoardRecruitFragment extends Fragment {
     }
 
 
-
+    @Override
+    public void refreshContent() {
+        boardRecruitViewModel.resetPagination();
+        boardRecruitViewModel.loadArticleCategoryList();
+    }
 }

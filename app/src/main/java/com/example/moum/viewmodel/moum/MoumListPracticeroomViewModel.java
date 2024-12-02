@@ -14,10 +14,13 @@ import com.example.moum.utils.Validation;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.subjects.PublishSubject;
+
 public class MoumListPracticeroomViewModel extends AndroidViewModel {
     private PracticeNPerformRepository practiceNPerformRepository;
     private final MutableLiveData<Result<List<MoumPracticeroom>>> isLoadPracticeroomsOfMoumSuccess = new MutableLiveData<>();
-    private final MutableLiveData<Result<Practiceroom>> isLoadPracticeroomSuccess = new MutableLiveData<>();
+    private final PublishSubject<Result<Practiceroom>> isLoadPracticeroomSuccess = PublishSubject.create();
 
     public MoumListPracticeroomViewModel(Application application){
         super(application);
@@ -28,7 +31,7 @@ public class MoumListPracticeroomViewModel extends AndroidViewModel {
         return isLoadPracticeroomsOfMoumSuccess;
     }
 
-    public MutableLiveData<Result<Practiceroom>> getIsLoadPracticeroomSuccess() {
+    public Observable<Result<Practiceroom>> getIsLoadPracticeroomSuccess() {
         return isLoadPracticeroomSuccess;
     }
 
@@ -37,7 +40,7 @@ public class MoumListPracticeroomViewModel extends AndroidViewModel {
     }
 
     public void setIsLoadPracticeroomSuccess(Result<Practiceroom> isLoadPracticeroomSuccess){
-        this.isLoadPracticeroomSuccess.setValue(isLoadPracticeroomSuccess);
+        this.isLoadPracticeroomSuccess.onNext(isLoadPracticeroomSuccess);
     }
 
     public void loadPracticeroomsOfMoum(Integer moumId){

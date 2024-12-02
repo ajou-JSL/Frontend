@@ -158,4 +158,7 @@ dependencies {
 
     // Flexbox layout
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
+
+    // Swipe refresh layout
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 }

@@ -8,6 +8,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.moum.data.entity.Genre;
+import com.example.moum.data.entity.Member;
 import com.example.moum.data.entity.Moum;
 import com.example.moum.data.entity.Record;
 import com.example.moum.data.entity.Result;
@@ -130,8 +131,21 @@ public class TeamCreateViewModel extends AndroidViewModel {
             ImageManager imageManager = new ImageManager(context);
             profileFile = imageManager.convertUriToFile(uri);
         }
-        if(records != null)
+
+        if(records != null){
+            for(Record record : records) {
+                if (record.getStartDate() != null && record.getEndDate() != null && record.getStartDate().compareTo(record.getEndDate()) > 0) {
+                    Result<Team> result = new Result<>(Validation.RECORD_NOT_VALID);
+                    setIsCreateTeamSuccess(result);
+                    return;
+                } else if (record.getRecordName() == null || record.getRecordName().isEmpty()) {
+                    Result<Team> result = new Result<>(Validation.RECORD_NAME_NOT_WRITTEN);
+                    setIsCreateTeamSuccess(result);
+                    return;
+                }
+            }
             teamToCreate.setRecords(records);
+        }
         if(address != null)
             teamToCreate.setLocation(address);
         teamToCreate.setMembers(new ArrayList<>());

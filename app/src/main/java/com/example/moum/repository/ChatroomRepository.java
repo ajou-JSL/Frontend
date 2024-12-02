@@ -234,7 +234,7 @@ public class ChatroomRepository {
         MultipartBody.Part profileImage = null;
         if(chatroomProfileFile != null){
             RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpg"), chatroomProfileFile);
-            profileImage = MultipartBody.Part.createFormData("chatroomProfile", chatroomProfileFile.getName(), requestFile);
+            profileImage = MultipartBody.Part.createFormData("chatroomProfile", "temp_image.jpg", requestFile);
         }
         else{
             RequestBody emptyRequestBody = RequestBody.create(null, new byte[0]);

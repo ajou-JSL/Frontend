@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.moum.R;
 import com.example.moum.data.entity.Chatroom;
+import com.example.moum.utils.TimeManager;
 import com.example.moum.view.chat.ChatActivity;
 
 import java.time.LocalDateTime;
@@ -97,10 +98,7 @@ public class ChatroomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             if(chatroom.getLastChat() != null) chatroomContent.setText(chatroom.getLastChat());
             else chatroomContent.setText(" ");
             if(chatroom.getLastTimestamp() != null && !chatroom.getLastTimestamp().isEmpty()) {
-                LocalDateTime dateTime = LocalDateTime.parse(chatroom.getLastTimestamp());
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-                String formattedDate = dateTime.format(formatter);
-                chatroomLastTime.setText(formattedDate);
+                chatroomLastTime.setText(TimeManager.strToPrettyTime(chatroom.getLastTimestamp()));
             }
             else{
                 chatroomLastTime.setText(" ");

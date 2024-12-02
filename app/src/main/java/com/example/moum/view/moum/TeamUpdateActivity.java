@@ -56,7 +56,9 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.SignStyle;
 import java.time.temporal.ChronoField;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 
 public class TeamUpdateActivity extends AppCompatActivity {
     private TeamUpdateViewModel viewModel;
@@ -218,14 +220,19 @@ public class TeamUpdateActivity extends AppCompatActivity {
                         AppCompatButton buttonRecordStart = recordChild.findViewById(R.id.button_record_date_start);
                         AppCompatButton buttonRecordEnd = recordChild.findViewById(R.id.button_record_date_end);
                         edittextRecordName.setText(record.getRecordName());
-                        buttonRecordStart.setText(record.getStartDate());
-                        buttonRecordEnd.setText(record.getEndDate());
+                        if(record.getStartDate() != null && !record.getStartDate().isEmpty()) buttonRecordStart.setText(record.getStartDate());
+                        else buttonRecordStart.setText("시작 날짜");
+                        if(record.getEndDate() != null && !record.getEndDate().isEmpty()) buttonRecordEnd.setText(record.getEndDate());
+                        else buttonRecordEnd.setText("종료 날짜");
                     }
                 }
                 if(loadedTeam.getGenre() != null){
                     binding.spinnerGenre.setSelection(loadedTeam.getGenre().getValue());
                     viewModel.setGenre(genreList[loadedTeam.getGenre().getValue()]);
                 }
+                List<String> tAddressList = new ArrayList<>(Arrays.asList(addressList));
+                int addressIdx = tAddressList.indexOf(loadedTeam.getLocation());
+                if(addressIdx != -1) addressSpinner.setSelection(addressIdx);
             }
             else if(validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
@@ -309,6 +316,12 @@ public class TeamUpdateActivity extends AppCompatActivity {
             Team updatedTeam = isUpdateTeamSuccess.getData();
             if(validation == Validation.NOT_VALID_ANYWAY){
                 Toast.makeText(context, "잘못 입력된 값이 있습니다.", Toast.LENGTH_SHORT).show();
+            }
+            else if(validation == Validation.RECORD_NOT_VALID){
+                Toast.makeText(context, "이력 시작 날짜는 종료 날짜보다 이전이어야 합니다.", Toast.LENGTH_SHORT).show();
+            }
+            else if(validation == Validation.RECORD_NAME_NOT_WRITTEN) {
+                Toast.makeText(context, "이력 이름을 입력하세요.", Toast.LENGTH_SHORT).show();
             }
             else if(validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();

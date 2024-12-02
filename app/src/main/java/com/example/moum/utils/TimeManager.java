@@ -22,21 +22,20 @@ public class TimeManager {
             return "";
         }
 
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
-        DateTimeFormatter isoFormatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
-
         try {
-            LocalDateTime dateTime = LocalDateTime.parse(input, dateTimeFormatter);
-            return dateTime.toLocalDate().format(dateFormatter);
+            // ISO 형식 처리 (Offset 포함)
+            OffsetDateTime offsetDateTime = OffsetDateTime.parse(input, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+            return offsetDateTime.toLocalDate().toString();
         } catch (DateTimeParseException e) {
             try {
-                OffsetDateTime offsetDateTime = OffsetDateTime.parse(input, isoFormatter);
-                return offsetDateTime.format(dateFormatter);
+                // ISO 형식 처리 (Offset 없는 LocalDateTime)
+                LocalDateTime dateTime = LocalDateTime.parse(input, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+                return dateTime.toLocalDate().toString();
             } catch (DateTimeParseException ex) {
                 try {
-                    LocalDate date = LocalDate.parse(input, dateFormatter);
-                    return date.format(dateFormatter);
+                    // 단순 날짜 포맷 (yyyy-MM-dd)
+                    LocalDate date = LocalDate.parse(input, DateTimeFormatter.ISO_LOCAL_DATE);
+                    return date.toString();
                 } catch (DateTimeParseException exc) {
                     return "";
                 }
@@ -44,22 +43,22 @@ public class TimeManager {
         }
     }
 
+
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public static String strToDatetime(String input){
+    public static String strToDatetime(String input) {
         if (input == null || input.trim().isEmpty()) {
             return "";
         }
 
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
-        DateTimeFormatter isoFormatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
-
         try {
-            OffsetDateTime offsetDateTime = OffsetDateTime.parse(input, isoFormatter);
-            return offsetDateTime.toLocalDate().toString();
+            // ISO 형식 우선 처리 (Offset 포함)
+            OffsetDateTime offsetDateTime = OffsetDateTime.parse(input, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+            return offsetDateTime.toLocalDateTime().toString();
         } catch (DateTimeParseException e) {
             try {
-                LocalDateTime dateTime = LocalDateTime.parse(input, dateTimeFormatter);
-                return dateTime.toLocalDate().toString();
+                // ISO 형식 처리 (Offset 없는 LocalDateTime)
+                LocalDateTime dateTime = LocalDateTime.parse(input, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+                return dateTime.toString();
             } catch (DateTimeParseException ex) {
                 return "";
             }
@@ -74,11 +73,17 @@ public class TimeManager {
         if (input == null || input.trim().isEmpty()) {
             return "";
         }
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
         try {
-            target = LocalDateTime.parse(input, dateTimeFormatter);
+            // ISO 형식 처리 (Offset 포함)
+            OffsetDateTime offsetDateTime = OffsetDateTime.parse(input, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+            target =  offsetDateTime.toLocalDateTime();
         } catch (DateTimeParseException e) {
-            return "";
+            try {
+                // ISO 형식 처리 (Offset 없는 LocalDateTime)
+                target = LocalDateTime.parse(input, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+            } catch (DateTimeParseException ex) {
+                return "";
+            }
         }
 
         /*현재시간을 기준으로 반환 시간 설정*/

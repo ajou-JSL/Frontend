@@ -215,8 +215,10 @@ public class MoumUpdateActivity extends AppCompatActivity {
                 if(loadedMoum.getMoumName() != null) binding.edittextMoumName.setText(loadedMoum.getMoumName());
                 if(loadedMoum.getMoumDescription() != null) binding.edittextMoumDescription.setText(loadedMoum.getMoumDescription());
                 if(loadedMoum.getPerformLocation() != null) binding.edittextMoumPlace.setText(loadedMoum.getPerformLocation());
-                if(loadedMoum.getStartDate() != null) binding.buttonMoumDateStart.setText(loadedMoum.getStartDate());
-                if(loadedMoum.getEndDate() != null) binding.buttonMoumDateEnd.setText(loadedMoum.getEndDate());
+                if(loadedMoum.getStartDate() != null && !loadedMoum.getStartDate().isEmpty()) binding.buttonMoumDateStart.setText(loadedMoum.getStartDate());
+                else binding.buttonMoumDateStart.setText("시작 날짜");
+                if(loadedMoum.getEndDate() != null && !loadedMoum.getEndDate().isEmpty()) binding.buttonMoumDateEnd.setText(loadedMoum.getEndDate());
+                else binding.buttonMoumDateEnd.setText("종료 날짜");
                 if(loadedMoum.getPrice() != null) binding.edittextMoumPrice.setText(String.format("%d", loadedMoum.getPrice()));
                 if(loadedMoum.getGenre() != null) genreSpinner.setSelection(loadedMoum.getGenre().getValue());
                 if(loadedMoum.getImageUrls() != null && !loadedMoum.getImageUrls().isEmpty()){
@@ -292,6 +294,15 @@ public class MoumUpdateActivity extends AppCompatActivity {
             else if(isValidCheckSuccess == Validation.MOUM_NAME_NOT_WRITTEN){
                 binding.errorMoumName.setText("모음 이름을 입력하세요.");
                 binding.errorMoumName.requestFocus();
+            }
+            else if(isValidCheckSuccess == Validation.DATE_NOT_VALID){
+                binding.errorMoumDate.setText("시작 날짜는 종료 날짜보다 이전이어야 합니다.");
+            }
+            else if(isValidCheckSuccess == Validation.MUSIC_NAME_NOT_WRITTEN){
+                Toast.makeText(context, "곡 이름을 입력하세요.", Toast.LENGTH_SHORT).show();
+            }
+            else if(isValidCheckSuccess == Validation.ARTIST_NAME_NOT_WRITTEN){
+                Toast.makeText(context, "아티스트 이름을 입력하세요.", Toast.LENGTH_SHORT).show();
             }
             else if(isValidCheckSuccess == Validation.VALID_ALL){
                 // valid check 유효하다면, 최종 다이얼로그 띄우기
@@ -372,6 +383,33 @@ public class MoumUpdateActivity extends AppCompatActivity {
                     binding.placeholderMoumPrice.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_mint_stroke));
                 }else{
                     binding.placeholderMoumPrice.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_gray_stroke));
+                }
+            }
+        });
+        binding.buttonMoumDateStart.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(hasFocus){
+                    binding.errorMoumDate.setText("");
+                }else{
+                }
+            }
+        });
+        binding.buttonMoumDateEnd.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(hasFocus){
+                    binding.errorMoumDate.setText("");
+                }else{
+                }
+            }
+        });
+        binding.spinnerGenre.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(hasFocus){
+                    binding.errorMoumGenre.setText("");
+                }else{
                 }
             }
         });

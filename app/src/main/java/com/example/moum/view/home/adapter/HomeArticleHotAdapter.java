@@ -1,10 +1,13 @@
 package com.example.moum.view.home.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.example.moum.utils.TimeAgo;
 
@@ -15,6 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moum.R;
 import com.example.moum.data.entity.Article;
+import com.example.moum.data.entity.Moum;
+import com.example.moum.utils.TimeManager;
 import com.example.moum.view.home.HomeFragment;
 
 import java.util.ArrayList;
@@ -71,11 +76,12 @@ public class HomeArticleHotAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             this.homeFragment = homeFragment;
         }
 
+        @RequiresApi(api = Build.VERSION_CODES.O)
         public void bind(Article article) {
             this.article = article;
             articleName.setText(article.getTitle());
             articleAuthor.setText(article.getAuthor());
-            if(article.getCreateAt() != null) articleTime.setText(TimeAgo.getTimeAgo(article.getCreateAt()));
+            if(article.getCreateAt() != null) articleTime.setText(TimeManager.strToPrettyTime(article.getCreateAt()));
             else articleTime.setText("");
             articleViews.setText(String.format("%d회", article.getViewCounts()));
             articleTop.setOnClickListener(new View.OnClickListener() {

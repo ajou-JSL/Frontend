@@ -197,12 +197,17 @@ public class MyInformationUpdateViewModel extends AndroidViewModel {
         else if(profileImage.getValue() != null && !fromExisting)
             profileFile = new ImageManager(context).convertUriToFile(profileImage.getValue());
         if(records != null){
-            for(Record record : records)
-                if(TimeManager.strToDate(record.getEndDate()).isEmpty() && !TimeManager.strToDate(record.getStartDate()).isEmpty()){
+            for(Record record : records) {
+                if (record.getStartDate() != null && record.getEndDate() != null && record.getStartDate().compareTo(record.getEndDate()) > 0) {
                     Result<Member> result = new Result<>(Validation.RECORD_NOT_VALID);
                     setIsUpdateProfileSuccess(result);
                     return;
+                } else if (record.getRecordName() == null || record.getRecordName().isEmpty()) {
+                    Result<Member> result = new Result<>(Validation.RECORD_NAME_NOT_WRITTEN);
+                    setIsUpdateProfileSuccess(result);
+                    return;
                 }
+            }
             memberToUpdate.setMemberRecords(records);
         }
         else

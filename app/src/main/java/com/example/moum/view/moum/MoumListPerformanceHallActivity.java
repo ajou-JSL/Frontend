@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -15,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -42,6 +44,9 @@ import com.naver.maps.map.overlay.Marker;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.Disposable;
+
 public class MoumListPerformanceHallActivity extends AppCompatActivity {
     private MoumListPerformanceHallViewModel viewModel;
     private ActivityMoumListPerformancehallBinding binding;
@@ -55,6 +60,7 @@ public class MoumListPerformanceHallActivity extends AppCompatActivity {
     private NaverMap naverMap;
     private ArrayList<MoumPerformHall> performanceHallsOfMoum = new ArrayList<>();
     private ArrayList<PerformanceHall> performanceHalls = new ArrayList<>();
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @SuppressLint("DefaultLocale")
     @Override
@@ -123,7 +129,7 @@ public class MoumListPerformanceHallActivity extends AppCompatActivity {
                         performanceHall.setName(moumPerformHall.getHallName());
                         performanceHalls.add(performanceHall);
                     }
-                    performOfMoumAdapter.notifyItemInserted(performanceHalls.size()-1);
+                    performOfMoumAdapter.notifyDataSetChanged();
                 }
             }
             else if(validation == Validation.MOUM_PERFORMANCE_HALL_NOT_FOUND){
@@ -141,12 +147,12 @@ public class MoumListPerformanceHallActivity extends AppCompatActivity {
         });
 
         /*공연장 상세정보 불러오기 결과 감시*/
-        viewModel.getIsLoadPerformanceHallSuccess().observe(this, isLoadPerformanceHallSuccess -> {
+        Disposable performanceDisposable = viewModel.getIsLoadPerformanceHallSuccess().subscribe(isLoadPerformanceHallSuccess -> {
             Validation validation = isLoadPerformanceHallSuccess.getValidation();
             PerformanceHall performanceHall = isLoadPerformanceHallSuccess.getData();
             if(validation == Validation.PERFORMANCE_HALL_GET_SUCCESS){
                 performanceHalls.add(0, performanceHall);
-                performOfMoumAdapter.notifyItemInserted(performanceHalls.size()-1);
+                performOfMoumAdapter.notifyDataSetChanged();
             }
             else if(validation == Validation.NETWORK_FAILED){
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
@@ -156,8 +162,23 @@ public class MoumListPerformanceHallActivity extends AppCompatActivity {
                 Log.e(TAG, "알 수 없는 감시 결과");
             }
         });
+        compositeDisposable.add(performanceDisposable);
+
+        // swipe to refresh
+        binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                viewModel.loadPerformanceHallsOfMoum(moumId);
+                binding.swipeRefreshLayout.setRefreshing(false);
+            }
+        });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        compositeDisposable.clear();
+    }
 
     public void onPerformanceHallClicked(Integer performanceHallId){
         Intent intent = new Intent(MoumListPerformanceHallActivity.this, MoumMapPerformanceHallActivity.class);
