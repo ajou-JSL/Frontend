@@ -64,7 +64,7 @@ public class BoardFreeFragment extends Fragment {
             Intent intent = new Intent(context, InitialActivity.class);
             startActivity(intent);
         }
-        Log.e(TAG, "onCreateView start");
+
         initSpinner();
         initRecyclerView();
         initFloatingActionButton();
@@ -98,8 +98,6 @@ public class BoardFreeFragment extends Fragment {
     }
 
     private void initRecyclerView() {
-
-        Log.e(TAG, "initRecyclerView start");
         // RecyclerView 초기화
         RecyclerView recyclerView = binding.boardFreeRecyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(context));

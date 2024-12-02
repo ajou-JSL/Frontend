@@ -27,6 +27,7 @@ public class BoardFreeDetailViewModel extends AndroidViewModel {
     private final MutableLiveData<Like> isSetLikeSuccess = new MutableLiveData<>();
     private final MutableLiveData<Member> isLoadMemberSuccess = new MutableLiveData<>();
     private final MutableLiveData<Team>  isLoadTeamSuccess = new MutableLiveData<>();
+    private final MutableLiveData<Comment> isDeleteCommentSuccess = new MutableLiveData<>();
     private String userName = new String();
     private Comment isLoadCommentSuccess = new Comment();
     private ArticleRepository articleRepository;
@@ -95,6 +96,14 @@ public class BoardFreeDetailViewModel extends AndroidViewModel {
         }
     }
 
+    private void setIsDeleteCommentSuccess(Result<Comment> result) {
+        if(result != null && result.getData() != null) {
+            Comment comment = result.getData();
+            isDeleteCommentSuccess.setValue(comment);
+        }
+        else isDeleteCommentSuccess.setValue(null);
+    }
+
     public MutableLiveData<Validation> getValidationStatus() {
         return validationStatus;
     }
@@ -152,5 +161,10 @@ public class BoardFreeDetailViewModel extends AndroidViewModel {
             return isLoadTeamSuccess.getValue().getFileUrl();
         }
         return isLoadMemberSuccess.getValue().getProfileImageUrl();
+    }
+
+    public void deleteComment(Integer commentId){
+        articleRepository.deleteComment(commentId, this::setIsDeleteCommentSuccess);
+        isLoadArticeSuccess.setValue(isLoadArticeSuccess.getValue());
     }
 }

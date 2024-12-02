@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -30,6 +31,7 @@ import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.view.community.adapter.BoardFreeDetailAdapter;
 import com.example.moum.view.profile.MemberProfileFragment;
 import com.example.moum.view.profile.TeamProfileFragment;
+import com.example.moum.view.report.ReportMemberFragment;
 import com.example.moum.viewmodel.community.BoardFreeDetailViewModel;
 
 import java.util.ArrayList;
@@ -38,6 +40,7 @@ public class BoardFreeDetailActivity extends AppCompatActivity {
     private ActivityBoardFreeDetailBinding binding;
     private BoardFreeDetailViewModel boardFreeDetailViewModel;
     private SharedPreferenceManager sharedPreferenceManager;
+    private BoardFreeDetailAdapter adapter;
     private Integer memberId;
     private int targetBoardId;
     private ToggleButton wishlistButton;
@@ -163,7 +166,7 @@ public class BoardFreeDetailActivity extends AppCompatActivity {
 
         // RecyclerView 어댑터 설정 (처음에 빈 데이터로 어댑터 설정)
         ArrayList<Comment> comments = new ArrayList<>();
-        BoardFreeDetailAdapter adapter = new BoardFreeDetailAdapter( comments); // 초기 null 값 설정
+        adapter = new BoardFreeDetailAdapter(comments, context); // 초기 null 값 설정
         recyclerView.setAdapter(adapter);
 
         // 댓글 데이터 관찰
@@ -234,6 +237,49 @@ public class BoardFreeDetailActivity extends AppCompatActivity {
                 fragment.show(((FragmentActivity) v.getContext()).getSupportFragmentManager(), fragment.getTag());
             }
         });
+    }
+
+    public void commentPopupMenu(View view, int position) {
+        // PopupMenu 생성
+        PopupMenu popupMenu = new PopupMenu(this, view);
+
+        // 메뉴 항목 추가
+        popupMenu.getMenu().add("삭제하기");
+        popupMenu.getMenu().add("신고하기");
+
+        // 메뉴 항목 클릭 이벤트 처리
+        popupMenu.setOnMenuItemClickListener(item -> {
+            Comment comment = boardFreeDetailViewModel.getCurrentComments().getValue().get(position);
+            switch (item.getTitle().toString()) {
+                case "삭제하기":
+                    Toast.makeText(this, "삭제하기가 선택되었습니다.", Toast.LENGTH_SHORT).show();
+                    boardFreeDetailViewModel.deleteComment(comment.getCommentId());
+                    adapter.notifyItemRemoved(position);
+                    break;
+
+                case "신고하기":
+                    Toast.makeText(this, "신고하기가 선택되었습니다.", Toast.LENGTH_SHORT).show();
+                    Log.e("Comment Info", "Position: " + position + ", Author: " + comment.getAuthor() + ", AuthorId: " + comment.getAuthorId());
+                    ReportMemberFragment reportMemberFragment = new ReportMemberFragment(context);
+
+                    // 신고 대상 멤버 ID 전달
+                    Bundle args = new Bundle();
+                    args.putInt("targetMemberId", comment.getAuthorId()); // 신고 대상 멤버 ID 전달
+                    reportMemberFragment.setArguments(args);
+
+                    // BottomSheetDialogFragment 표시
+                    AppCompatActivity activity = (AppCompatActivity) context;
+                    reportMemberFragment.show(activity.getSupportFragmentManager(), "ReportMemberFragment");
+                    break;
+
+                default:
+                    break;
+            }
+            return true;
+        });
+
+        // 메뉴 표시
+        popupMenu.show();
     }
 
 

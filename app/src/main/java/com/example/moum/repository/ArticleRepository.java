@@ -60,6 +60,43 @@ public class ArticleRepository {
         return instance;
     }
 
+    public void searchAllArticles(String keyword, Integer page, Integer size, com.example.moum.utils.Callback<Result<List<Article>>> callback) {
+        Call<SuccessResponse<List<Article>>> result = articleApi.loadAllArticles(keyword, null, page, size);
+
+        result.enqueue(new retrofit2.Callback<SuccessResponse<List<Article>>>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onResponse(Call<SuccessResponse<List<Article>>> call, Response<SuccessResponse<List<Article>>> response) {
+                if (response.isSuccessful()) {
+                    /*성공적으로 응답을 받았을 때*/
+                    SuccessResponse<List<Article>> responseBody = response.body();
+                    List<Article> articles = responseBody.getData();
+
+                    Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
+                    Result<List<Article>> result = new Result<>(validation, articles);
+                    callback.onResult(result);
+                } else {
+                    try {
+                        ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
+                        if (errorResponse != null) {
+                            Log.e(TAG, errorResponse.toString());
+                            Validation validation = ValueMap.getCodeToVal(errorResponse.getCode());
+                            Result<List<Article>> result = new Result<>(validation);
+                            callback.onResult(result);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<SuccessResponse<List<Article>>> call, Throwable t) {
+                Result<List<Article>> result = new Result<>(Validation.NETWORK_FAILED);
+                callback.onResult(result);
+            }
+        });
+    }
+
     public void loadArticlesHot(Integer page, Integer size, com.example.moum.utils.Callback<Result<List<Article>>> callback){
        Call<SuccessResponse<List<Article>>> result = articleApi.loadArticlesHot(page, size);
         result.enqueue(new retrofit2.Callback<SuccessResponse<List<Article>>>() {
@@ -309,4 +346,43 @@ public class ArticleRepository {
             }
         });
     }
+
+    public void deleteComment(int commentId, com.example.moum.utils.Callback<Result<Comment>> callback) {
+        Call<SuccessResponse<Comment>> result = articleApi.deleteComment(commentId);
+
+        result.enqueue(new retrofit2.Callback<SuccessResponse<Comment>>() {
+            @Override
+            public void onResponse(Call<SuccessResponse<Comment>> call, Response<SuccessResponse<Comment>> response) {
+
+                if (response.isSuccessful()) {
+                    /*성공적으로 응답을 받았을 때*/
+                    SuccessResponse<Comment> responseBody = response.body();
+
+                    Comment comment = responseBody.getData();
+                    Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
+                    Result<Comment> result = new Result<>(validation, comment);
+                    callback.onResult(result);
+                } else {
+                    /*응답은 받았으나 문제 발생 시*/
+                    try {
+                        ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
+                        if (errorResponse != null) {
+                            Log.e(TAG, errorResponse.toString());
+                            Validation validation = ValueMap.getCodeToVal(errorResponse.getCode());
+                            Result<Comment> result = new Result<>(validation);
+                            callback.onResult(result);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<SuccessResponse<Comment>> call, Throwable t) {
+                Result<Comment> result = new Result<>(Validation.NETWORK_FAILED);
+                callback.onResult(result);
+            }
+        });
+    }
+
 }

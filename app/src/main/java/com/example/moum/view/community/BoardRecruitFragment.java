@@ -45,13 +45,8 @@ public class BoardRecruitFragment extends Fragment {
     private final ArrayList<Article> articles = new ArrayList<>();
     private Context context;
     private Integer memberId;
-    private int bottomNavHeight;
     private boolean isLoading = false;
-
-
-    public static BoardRecruitFragment newInstance() {
-        return new BoardRecruitFragment();
-    }
+    private final String TAG = getClass().toString();
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -117,12 +112,6 @@ public class BoardRecruitFragment extends Fragment {
         BoardRecruitItemAdapter adapter = new BoardRecruitItemAdapter(initialItemList);
         recyclerView.setAdapter(adapter);
 
-        // Activity에서 BottomNavigationView 높이를 가져오기
-        if (getActivity() != null) {
-            MainActivity mainActivity = (MainActivity) getActivity();
-            bottomNavHeight = mainActivity.getBottomNavHeight();
-        }
-
         // 스크롤 리스너 추가
         long DEBOUNCE_DELAY = 0;
         Handler handler = new Handler(Looper.getMainLooper()); // 여러번 호출되는 것을 막기 위한 디바운싱
@@ -178,42 +167,6 @@ public class BoardRecruitFragment extends Fragment {
             }
         });
 
-        // 다음 리스트 LiveData 관찰 및 데이터 로딩
-        boardRecruitViewModel.resetPagination();
-        boardRecruitViewModel.getIsLoadArticlesCategorySuccess().observe(getViewLifecycleOwner(), result -> {
-            if (result != null) {
-                Validation validation = result.getValidation();
-                List<Article> loadedArticles = result.getData();
-
-                if (validation == Validation.ARTICLE_LIST_GET_SUCCESS && loadedArticles != null) {
-                    // 데이터 업데이트
-                    ArrayList<BoardFreeItem> updatedItemList = new ArrayList<>();
-                    for (Article article : loadedArticles) {
-                        BoardFreeItem item = new BoardFreeItem();
-                        item.setBoardFreeItem(
-                                article.getId(),
-                                article.getTitle(),
-                                article.getAuthor(),
-                                getTimeAgo(article.getCreateAt()),
-                                article.getCommentsCounts(),
-                                article.getViewCounts()
-                        );
-                        updatedItemList.add(item);
-                    }
-                    // updateItemList를 통해 데이터 갱신
-                    adapter.updateItemList(updatedItemList);
-                    boardRecruitViewModel.setRecentSize(updatedItemList.size());
-                } else {
-                    // 에러 처리
-                    Toast.makeText(getContext(), "데이터를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
-                }
-            } else {
-                // result가 null일 경우 에러 처리
-                Toast.makeText(getContext(), "응답이 없습니다.", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
         boardRecruitViewModel.loadArticleCategoryList();
     }
 
@@ -222,7 +175,7 @@ public class BoardRecruitFragment extends Fragment {
         binding.communityFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), BoardFreeWriteActivity.class);
+                Intent intent = new Intent(getActivity(), BoardRecruitWriteActivity.class);
                 startActivity(intent);
             }
         });

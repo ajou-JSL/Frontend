@@ -28,6 +28,9 @@ public class Comment {
         return createdAt;
     }
 
+    public Integer getAuthorId() {return authorId;}
+
+
     public void setAuthor(String author) {
         this.author = author;
     }
@@ -47,6 +50,11 @@ public class Comment {
     public void setCreateAt(String createAt) {
         this.createdAt = createAt;
     }
+
+    public void setAuthorId(Integer authorId) {
+        this.authorId = authorId;
+    }
+
 
     @Override
     public String toString() {
