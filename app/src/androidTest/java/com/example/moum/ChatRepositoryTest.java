@@ -20,6 +20,7 @@ import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -61,11 +62,12 @@ public class ChatRepositoryTest {
         CountDownLatch latch = new CountDownLatch(1);
 
         // Given
-        Chat chat = new Chat("sender", "message", 1, LocalDateTime.now());
-        String mockResponse = "{ \"status\": 200, \"code\": \"S-CH001\", \"message\": \"채팅 메세지 전송 성공\", \"data\": { \"sender\": \"testuser\", \"receiver\": \"testuser2\", \"message\": \"Message Contents\", \"chatroomId\": 0, \"timestamp\": \"2024-10-28T20:29:22.6351588\"} }";
+        Chat chat = new Chat("sender", "message", 0, LocalDateTime.now());
+        String mockResponse = "{ \"status\": 200, \"code\": \"S-CH001\", \"message\": \"채팅 메세지 전송 성공\", \"data\": { \"sender\": \"testuser\", \"message\": \"Message Contents\", \"chatroomId\": 0, \"timestamp\": \"2024-10-28T20:29:22.6351588\"} }";
         mockWebServer.enqueue(new MockResponse()
                 .setResponseCode(200)
-                .setBody(mockResponse));
+                .setBody(mockResponse)
+                .setBodyDelay(0, TimeUnit.MILLISECONDS));
 
         // When
         chatRepository.chatSend(chat, result -> {
