@@ -6,6 +6,13 @@
     android:id="@+id/MyMoumFragment"
     tools:context=".view.moum.MyMoumFragment">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -47,4 +54,6 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </LinearLayout>
 </layout>

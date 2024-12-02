@@ -29,6 +29,7 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.moum.R;
 import com.example.moum.data.entity.Member;
@@ -114,6 +115,7 @@ public class MoumManageActivity extends AppCompatActivity {
         dropdownMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(!id.equals(recentMoum.getLeaderId())) return;
                 PopupMenu popupMenu = new PopupMenu(MoumManageActivity.this, dropdownMenu);
                 for (int i = 0; i < etcList.length; i++) {
                     popupMenu.getMenu().add(etcList[i]);
@@ -165,6 +167,7 @@ public class MoumManageActivity extends AppCompatActivity {
         binding.dropdownRecruit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(!id.equals(recentMoum.getLeaderId())) return;
                 PopupMenu popupMenu = new PopupMenu(MoumManageActivity.this, binding.dropdownRecruit);
                 for (int i = 0; i < processList.length; i++) {
                     popupMenu.getMenu().add(processList[i]);
@@ -194,6 +197,7 @@ public class MoumManageActivity extends AppCompatActivity {
         binding.dropdownMoumtalk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(!id.equals(recentMoum.getLeaderId())) return;
                 PopupMenu popupMenu = new PopupMenu(MoumManageActivity.this, binding.dropdownMoumtalk);
                 for (int i = 0; i < processList.length; i++) {
                     popupMenu.getMenu().add(processList[i]);
@@ -223,6 +227,7 @@ public class MoumManageActivity extends AppCompatActivity {
         binding.dropdownPracticeroom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(!id.equals(recentMoum.getLeaderId())) return;
                 PopupMenu popupMenu = new PopupMenu(MoumManageActivity.this, binding.dropdownPracticeroom);
                 for (int i = 0; i < processList.length; i++) {
                     popupMenu.getMenu().add(processList[i]);
@@ -252,6 +257,7 @@ public class MoumManageActivity extends AppCompatActivity {
         binding.dropdownPerformLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(!id.equals(recentMoum.getLeaderId())) return;
                 PopupMenu popupMenu = new PopupMenu(MoumManageActivity.this, binding.dropdownPerformLocation);
                 for (int i = 0; i < processList.length; i++) {
                     popupMenu.getMenu().add(processList[i]);
@@ -281,6 +287,7 @@ public class MoumManageActivity extends AppCompatActivity {
         binding.dropdownPromote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(!id.equals(recentMoum.getLeaderId())) return;
                 PopupMenu popupMenu = new PopupMenu(MoumManageActivity.this, binding.dropdownPromote);
                 for (int i = 0; i < processList.length; i++) {
                     popupMenu.getMenu().add(processList[i]);
@@ -310,6 +317,7 @@ public class MoumManageActivity extends AppCompatActivity {
         binding.dropdownPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(!id.equals(recentMoum.getLeaderId())) return;
                 PopupMenu popupMenu = new PopupMenu(MoumManageActivity.this, binding.dropdownPayment);
                 for (int i = 0; i < processList.length; i++) {
                     popupMenu.getMenu().add(processList[i]);
@@ -417,6 +425,9 @@ public class MoumManageActivity extends AppCompatActivity {
             Moum loadedMoum = isLoadMoumSuccess.getData();
             recentMoum = loadedMoum;
             if(validation == Validation.GET_MOUM_SUCCESS){
+                uris.clear();
+                members.clear();
+                musics.clear();
                if(loadedMoum.getImageUrls() != null && !loadedMoum.getImageUrls().isEmpty()) {
                    uris.addAll(loadedMoum.getImageUrls());
                    moumManageImageAdapter.notifyItemInserted(uris.size() - 1);
@@ -552,6 +563,7 @@ public class MoumManageActivity extends AppCompatActivity {
                 Intent intent = new Intent(MoumManageActivity.this, MoumPaymentActivity.class);
                 intent.putExtra("teamId", recentMoum.getTeamId());
                 intent.putExtra("moumId", recentMoum.getMoumId());
+                intent.putExtra("leaderId", recentMoum.getLeaderId());
                 startActivity(intent);
             }
         });
@@ -559,6 +571,10 @@ public class MoumManageActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // 다이얼로그 띄우기
+                if(!id.equals(recentMoum.getLeaderId())){
+                    Toast.makeText(MoumManageActivity.this, "리더만 마감할 수 있어요.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 MoumFinishDialog moumFinishDialog = new MoumFinishDialog(context, binding.textviewMoumManageName.getText().toString());
                 moumFinishDialog.show();
             }
@@ -567,6 +583,10 @@ public class MoumManageActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // 다이얼로그 띄우기
+                if(!id.equals(recentMoum.getLeaderId())){
+                    Toast.makeText(MoumManageActivity.this, "리더만 되살릴 수 있어요.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 MoumReopenDialog moumReopenDialog = new MoumReopenDialog(context, binding.textviewMoumManageName.getText().toString());
                 moumReopenDialog.show();
             }
@@ -712,6 +732,15 @@ public class MoumManageActivity extends AppCompatActivity {
             else{
                 Toast.makeText(context, "모음 삭제에 실패하였습니다.", Toast.LENGTH_SHORT).show();
                 e(TAG, "감시 결과를 알 수 없습니다.");
+            }
+        });
+
+        // swipe to refresh
+        binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                viewModel.loadMoum(moumId);
+                binding.swipeRefreshLayout.setRefreshing(false);
             }
         });
     }
