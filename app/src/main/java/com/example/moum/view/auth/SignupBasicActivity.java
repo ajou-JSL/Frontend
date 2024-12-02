@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.moum.R;
 import com.example.moum.databinding.ActivitySignupBasicBinding;
 import com.example.moum.utils.Validation;
+import com.example.moum.view.profile.MemberProfileFragment;
 import com.example.moum.viewmodel.auth.SignupViewModel;
 
 public class SignupBasicActivity extends AppCompatActivity {
@@ -44,6 +45,15 @@ public class SignupBasicActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 finish();
+            }
+        });
+
+        /*개인정보 동의서 보기 클릭 이벤트*/
+        binding.buttonShowPersonalAgree.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PersonalAgreeFragment personalAgreeFragment = new PersonalAgreeFragment(context);
+                personalAgreeFragment.show(getSupportFragmentManager(), personalAgreeFragment.getTag());
             }
         });
 
