@@ -20,6 +20,32 @@ public class SearchPerformHallArgs {
     private Boolean hasMic;
     private Boolean hasDrums;
 
+    public SearchPerformHallArgs(){
+        sortBy = "distance";
+        orderBy = "asc";
+    }
+
+    public void clear(){
+        sortBy = "distance";
+        orderBy = "asc";
+        name = null;
+        latitude = null;
+        longitude = null;
+        minPrice = null;
+        maxPrice = null;
+        maxHallSize = null;
+        minHallSize = null;
+        minCapacity = null;
+        maxCapacity = null;
+        minStand = null;
+        maxStand = null;
+        hasPiano = null;
+        hasAmp = null;
+        hasSpeaker = null;
+        hasMic = null;
+        hasDrums = null;
+    }
+
     public String getOrderBy() {
         return orderBy;
     }
