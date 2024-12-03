@@ -27,6 +27,7 @@ import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.utils.WrapContentLinearLayoutManager;
 import com.example.moum.view.auth.InitialActivity;
+import com.example.moum.view.community.BoardFreeDetailActivity;
 import com.example.moum.view.community.PerformanceActivity;
 import com.example.moum.view.home.adapter.HomeBannerAdapter;
 import com.example.moum.view.home.adapter.HomeMoumAdapter;
@@ -207,9 +208,10 @@ public class HomeFragment extends Fragment {
         binding = null;
     }
 
-    public void onArticleClicked(Integer articleId){
-        Toast.makeText(context, "아티클 보러가기 클릭", Toast.LENGTH_SHORT).show();
-        //TODO 실제 이동해야함
+    public void onArticleClicked(Integer targetBoardId){
+        Intent intent = new Intent(context, BoardFreeDetailActivity.class);
+        intent.putExtra("targetBoardId", targetBoardId);
+        context.startActivity(intent);
     }
 
     public void onPerformClicked(Integer performId){
