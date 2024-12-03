@@ -134,7 +134,7 @@ public class ChatActivity extends AppCompatActivity {
         /*채팅 리사이클러뷰 연결*/
         RecyclerView recyclerView = binding.recyclerChat;
         ChatAdapter chatAdapter = new ChatAdapter();
-        chatAdapter.setChats(chats, chatroomType);
+        chatAdapter.setChats(chats, chatroomType, context);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(chatAdapter);
 
