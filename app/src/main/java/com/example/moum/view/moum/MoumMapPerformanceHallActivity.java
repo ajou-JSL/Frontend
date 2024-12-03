@@ -136,6 +136,11 @@ public class MoumMapPerformanceHallActivity extends AppCompatActivity implements
                     binding.checkboxPerformanceHallSpeaker.setChecked(true);
                     binding.checkboxPerformanceHallSpeaker.setEnabled(false);
                 }
+                if(loadedPerformanceHall.getHasMic() != null && loadedPerformanceHall.getHasMic()) {
+                    binding.checkboxPerformanceHallMic.setText("있음");
+                    binding.checkboxPerformanceHallMic.setChecked(true);
+                    binding.checkboxPerformanceHallMic.setEnabled(false);
+                }
                 if(loadedPerformanceHall.getHasDrums() != null && loadedPerformanceHall.getHasDrums()) {
                     binding.checkboxPerformanceHallDrum.setText("있음");
                     binding.checkboxPerformanceHallDrum.setChecked(true);

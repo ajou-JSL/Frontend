@@ -14,11 +14,12 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moum.R;
-import com.example.moum.data.dto.SearchPerformHallArgs;
-import com.example.moum.databinding.FragmentPerformHallFilterBinding;
+import com.example.moum.data.dto.SearchPracticeroomArgs;
+import com.example.moum.databinding.FragmentPracticeroomFilterBinding;
 import com.example.moum.view.moum.adapter.FilterExistOrNotAdapter;
 import com.example.moum.view.moum.adapter.FilterOrderByAdapter;
 import com.example.moum.view.moum.adapter.FilterSortByAdapter;
+import com.example.moum.view.moum.adapter.FilterTypeAdapter;
 import com.google.android.flexbox.AlignItems;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
@@ -29,20 +30,21 @@ import com.google.android.material.slider.RangeSlider;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PerformanceHallFilterFragment extends BottomSheetDialogFragment {
-    private FragmentPerformHallFilterBinding binding;
+public class PracticeroomFilterFragment extends BottomSheetDialogFragment {
+    private FragmentPracticeroomFilterBinding binding;
     private Context context;
     private final String TAG = getClass().toString();
     private ArrayList<String> sortBys = new ArrayList<>();
     private ArrayList<String> orderBys = new ArrayList<>();
+    private ArrayList<String> types = new ArrayList<>();
     private ArrayList<String> pianos = new ArrayList<>();
     private ArrayList<String> amps = new ArrayList<>();
     private ArrayList<String> speakers = new ArrayList<>();
     private ArrayList<String> mics = new ArrayList<>();
     private ArrayList<String> drums = new ArrayList<>();
-    private SearchPerformHallArgs args = new SearchPerformHallArgs();
+    private SearchPracticeroomArgs args = new SearchPracticeroomArgs();
 
-    public PerformanceHallFilterFragment(Context context){
+    public PracticeroomFilterFragment(Context context){
         this.context = context;
     }
 
@@ -50,7 +52,7 @@ public class PerformanceHallFilterFragment extends BottomSheetDialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = FragmentPerformHallFilterBinding.inflate(inflater,container, false);
+        binding = FragmentPracticeroomFilterBinding.inflate(inflater,container, false);
         context = requireContext();
         View view = binding.getRoot();
         view.setBackground(context.getDrawable(R.drawable.background_top_rounded_white));
@@ -60,10 +62,9 @@ public class PerformanceHallFilterFragment extends BottomSheetDialogFragment {
         if(bundle == null) dismiss();
 //        args.setSortBy(bundle.getString("sortBy", "distance"));
 //        args.setOrderBy(bundle.getString("orderBy", "asc"));
+//        args.setType(bundle.getInt("type"));
 //        args.setMinPrice(bundle.getInt("minPrice"));
 //        args.setMaxPrice(bundle.getInt("maxPrice"));
-//        args.setMaxHallSize(bundle.getInt("maxHallSize"));
-//        args.setMinHallSize(bundle.getInt("minHallSize"));
 //        args.setMinCapacity(bundle.getInt("minCapacity"));
 //        args.setMaxCapacity(bundle.getInt("maxCapacity"));
 //        args.setMinStand(bundle.getInt("minStand"));
@@ -92,7 +93,7 @@ public class PerformanceHallFilterFragment extends BottomSheetDialogFragment {
         sortByAdapter.setSortBys(sortBys, context);
         recyclerSortBy.setLayoutManager(sortFlexboxLayoutManager);
         recyclerSortBy.setAdapter(sortByAdapter);
-        List<String> sortByList = List.of("distance", "price", "size", "capacity", "stand");
+        List<String> sortByList = List.of("distance", "price", "capacity", "stand");
         sortBys.addAll(sortByList);
         sortByAdapter.notifyItemInserted(sortByList.size()-1);
         new Handler().postDelayed(() -> {
@@ -117,6 +118,25 @@ public class PerformanceHallFilterFragment extends BottomSheetDialogFragment {
             orderByAdapter.setIsSelected(0, true);
             orderByAdapter.notifyItemChanged(0);
         }, 100);
+
+        /*type 리사이클러뷰 설정*/
+        RecyclerView recyclerType = binding.recyclerType;
+        FlexboxLayoutManager typeFlexboxLayoutManager = new FlexboxLayoutManager(context); //자연스러운 줄넘김을 위한 Flexbox 사용
+        typeFlexboxLayoutManager.setFlexWrap(FlexWrap.WRAP);
+        typeFlexboxLayoutManager.setJustifyContent(JustifyContent.FLEX_START);
+        typeFlexboxLayoutManager.setAlignItems(AlignItems.STRETCH);
+        FilterTypeAdapter filterTypeAdapter = new FilterTypeAdapter();
+        filterTypeAdapter.setTypes(types, context);
+        recyclerType.setLayoutManager(typeFlexboxLayoutManager);
+        recyclerType.setAdapter(filterTypeAdapter);
+        List<String> typeList = List.of("상관없음", "클래식", "밴드");
+        types.addAll(typeList);
+        filterTypeAdapter.notifyItemInserted(types.size()-1);
+        new Handler().postDelayed(() -> {
+            filterTypeAdapter.setIsSelected(0, true);
+            filterTypeAdapter.notifyItemChanged(0);
+        }, 100);
+
 
         /*피아노 ~ 드럼 유무 리사이클러뷰 설정*/
         RecyclerView recyclerPiano = binding.recyclerPiano;
@@ -209,8 +229,6 @@ public class PerformanceHallFilterFragment extends BottomSheetDialogFragment {
         args.setMaxPrice(Math.round(binding.sliderPrice.getValueTo()));
         args.setMinCapacity(Math.round(binding.sliderCapacity.getValueFrom()));
         args.setMaxCapacity(Math.round(binding.sliderCapacity.getValueTo()));
-        args.setMinHallSize(Math.round(binding.sliderHallSize.getValueFrom()));
-        args.setMaxHallSize(Math.round(binding.sliderHallSize.getValueTo()));
         args.setMinStand(Math.round(binding.sliderStand.getValueFrom()));
         args.setMaxStand(Math.round(binding.sliderStand.getValueTo()));
         binding.sliderPrice.addOnSliderTouchListener(new RangeSlider.OnSliderTouchListener() {
@@ -236,18 +254,6 @@ public class PerformanceHallFilterFragment extends BottomSheetDialogFragment {
             public void onStopTrackingTouch(@NonNull RangeSlider slider) {
                 args.setMinCapacity(Math.round(slider.getValues().get(0)));
                 args.setMaxCapacity(Math.round(slider.getValues().get(1)));
-            }
-        });
-        binding.sliderHallSize.addOnSliderTouchListener(new RangeSlider.OnSliderTouchListener() {
-            @Override
-            public void onStartTrackingTouch(@NonNull RangeSlider slider) {
-                return;
-            }
-
-            @Override
-            public void onStopTrackingTouch(@NonNull RangeSlider slider) {
-                args.setMinHallSize(Math.round(slider.getValues().get(0)));
-                args.setMaxHallSize(Math.round(slider.getValues().get(1)));
             }
         });
         binding.sliderStand.addOnSliderTouchListener(new RangeSlider.OnSliderTouchListener() {
@@ -279,6 +285,12 @@ public class PerformanceHallFilterFragment extends BottomSheetDialogFragment {
                         orderByAdapter.setIsSelected(i, true);
                     else
                         orderByAdapter.setIsSelected(i, false);
+                }
+                for(int i = 0; i < types.size(); i++) {
+                    if (i == 0)
+                        filterTypeAdapter.setIsSelected(i, true);
+                    else
+                        filterTypeAdapter.setIsSelected(i, false);
                 }
                 for(int i = 0; i < pianos.size(); i++) {
                     if (i == 0)
@@ -324,7 +336,6 @@ public class PerformanceHallFilterFragment extends BottomSheetDialogFragment {
                 drumAdapter.notifyDataSetChanged();
                 binding.sliderPrice.setValues(0f, 1000000f);
                 binding.sliderCapacity.setValues(0f, 200f);
-                binding.sliderHallSize.setValues(0f, 10000f);
                 binding.sliderStand.setValues(0f, 50f);
             }
         });
@@ -336,6 +347,7 @@ public class PerformanceHallFilterFragment extends BottomSheetDialogFragment {
                 Bundle bundle = new Bundle();
                 args.setSortBy(sortByAdapter.getSelectedItem());
                 args.setOrderBy(orderByAdapter.getSelectedItem());
+                args.setType(filterTypeAdapter.getSelectedItem());
                 args.setHasPiano(pianoAdapter.getExistOrNot());
                 args.setHasAmp(ampAdapter.getExistOrNot());
                 args.setHasSpeaker(speakerAdapter.getExistOrNot());
@@ -343,10 +355,9 @@ public class PerformanceHallFilterFragment extends BottomSheetDialogFragment {
                 args.setHasDrums(drumAdapter.getExistOrNot());
                 if(args.getSortBy() != null) bundle.putString("sortBy", args.getSortBy());
                 if(args.getOrderBy() != null) bundle.putString("orderBy", args.getOrderBy());
+                if(args.getType() != null) bundle.putInt("type", args.getType());
                 if(args.getMinPrice() != null) bundle.putInt("minPrice", args.getMinPrice());
                 if(args.getMaxPrice() != null) bundle.putInt("maxPrice", args.getMaxPrice());
-                if(args.getMaxHallSize() != null) bundle.putInt("maxHallSize", args.getMaxHallSize());
-                if(args.getMinHallSize() != null) bundle.putInt("minHallSize", args.getMinHallSize());
                 if(args.getMinCapacity() != null) bundle.putInt("minCapacity", args.getMinCapacity());
                 if(args.getMaxCapacity() != null) bundle.putInt("maxCapacity", args.getMaxCapacity());
                 if(args.getMinStand() != null) bundle.putInt("minStand", args.getMinStand());

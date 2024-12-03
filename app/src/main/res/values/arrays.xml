@@ -2,7 +2,7 @@
 <resources>
     <array name="filter_range_price">
         <item>0.0</item>
-        <item>100.0</item>
+        <item>1000000.0</item>
     </array>
     <array name="filter_range_capacity">
         <item>0.0</item>

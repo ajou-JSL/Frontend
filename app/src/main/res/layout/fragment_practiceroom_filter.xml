@@ -42,7 +42,7 @@
                         <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="공연장 필터링"
+                        android:text="연습실 필터링"
                         android:textSize="18sp"
                         android:textColor="@color/gray7"
                         android:fontFamily="@font/noto_sans_kr_bold"
@@ -130,11 +130,35 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/layout_price"
+                    android:id="@+id/layout_type"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     app:layout_constraintTop_toBottomOf="@id/layout_orderBy"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="연습실 타입"
+                        android:fontFamily="@font/noto_sans_kr_regular"
+                        android:textColor="@color/gray7"
+                        android:textSize="16sp"
+                        android:layout_marginTop="24dp"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_type"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintTop_toBottomOf="@id/layout_type"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent">
 
@@ -186,39 +210,11 @@
                         style="style/RangeSliderStyle"/>
                 </LinearLayout>
                 <LinearLayout
-                    android:id="@+id/layout_hall_size"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintTop_toBottomOf="@id/layout_capacity"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="공연장 크기(㎡)"
-                        android:fontFamily="@font/noto_sans_kr_regular"
-                        android:textColor="@color/gray7"
-                        android:textSize="16sp"
-                        android:layout_marginTop="24dp"/>
-
-                    <com.google.android.material.slider.RangeSlider
-                        android:id="@+id/slider_hall_size"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:valueFrom="0.0"
-                        android:valueTo="10000.0"
-                        android:stepSize="10.0"
-                        app:values="@array/filter_range_hall_size"
-                        style="style/RangeSliderStyle"/>
-                </LinearLayout>
-                <LinearLayout
                     android:id="@+id/layout_stand"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintTop_toBottomOf="@id/layout_hall_size"
+                    app:layout_constraintTop_toBottomOf="@id/layout_capacity"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent">
 

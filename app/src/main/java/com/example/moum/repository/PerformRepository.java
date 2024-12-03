@@ -13,6 +13,7 @@ import com.example.moum.data.dto.MoumRequest;
 import com.example.moum.data.dto.PerformRequest;
 import com.example.moum.data.dto.SuccessResponse;
 import com.example.moum.data.entity.Article;
+import com.example.moum.data.entity.Content;
 import com.example.moum.data.entity.Moum;
 import com.example.moum.data.entity.Performance;
 import com.example.moum.data.entity.Result;
@@ -279,16 +280,16 @@ public class PerformRepository {
     }
 
     public void loadPerformsHot(Integer page, Integer size, com.example.moum.utils.Callback<Result<List<Performance>>> callback){
-       Call<SuccessResponse<List<Performance>>> result = performApi.loadPerformsHot(page, size);
-        result.enqueue(new retrofit2.Callback<SuccessResponse<List<Performance>>>() {
+       Call<SuccessResponse<Content<List<Performance>>>> result = performApi.loadPerformsHot(page, size);
+        result.enqueue(new retrofit2.Callback<SuccessResponse<Content<List<Performance>>>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
-            public void onResponse(Call<SuccessResponse<List<Performance>>> call, Response<SuccessResponse<List<Performance>>> response) {
+            public void onResponse(Call<SuccessResponse<Content<List<Performance>>>> call, Response<SuccessResponse<Content<List<Performance>>>> response) {
                 if (response.isSuccessful()) {
                     /*성공적으로 응답을 받았을 때*/
-                    SuccessResponse<List<Performance>> responseBody = response.body();
+                    SuccessResponse<Content<List<Performance>>> responseBody = response.body();
                     Log.e(TAG, responseBody.toString());
-                    List<Performance> articles = responseBody.getData();
+                    List<Performance> articles = responseBody.getData().getContent();
 
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<List<Performance>> result = new Result<>(validation, articles);
@@ -310,7 +311,7 @@ public class PerformRepository {
                 }
             }
             @Override
-            public void onFailure(Call<SuccessResponse<List<Performance>>> call, Throwable t) {
+            public void onFailure(Call<SuccessResponse<Content<List<Performance>>>> call, Throwable t) {
                 Result<List<Performance>> result = new Result<>(Validation.NETWORK_FAILED);
                 callback.onResult(result);
             }

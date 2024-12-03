@@ -19,6 +19,31 @@ public class SearchPracticeroomArgs {
     private Boolean hasMic;
     private Boolean hasDrums;
 
+    public SearchPracticeroomArgs(){
+        sortBy = "distance";
+        orderBy = "asc";
+    }
+
+    public void clear(){
+        sortBy = "distance";
+        orderBy = "asc";
+        type = null;
+        name = null;
+        latitude = null;
+        longitude = null;
+        minPrice = null;
+        maxPrice = null;
+        minCapacity = null;
+        maxCapacity = null;
+        minStand = null;
+        maxStand = null;
+        hasPiano = null;
+        hasAmp = null;
+        hasSpeaker = null;
+        hasMic = null;
+        hasDrums = null;
+    }
+
     public Integer getType() {
         return type;
     }
