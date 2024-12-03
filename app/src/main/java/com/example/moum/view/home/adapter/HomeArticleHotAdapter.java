@@ -87,7 +87,7 @@ public class HomeArticleHotAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             articleTop.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    homeFragment.onArticleClicked(article.getId());
+                    homeFragment.onArticleClicked(article.getId(),article.getCategory());
                 }
             });
         }

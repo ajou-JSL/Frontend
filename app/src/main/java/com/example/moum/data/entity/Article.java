@@ -15,9 +15,10 @@ public class Article {
     private Integer likeCounts;
     private List<String> fileURL;
     private String author;
+    private String authorName; // 닉네임 추가
     private ArrayList<Comment> comments;
     private String createdAt;
-    private String updatedAt;;
+    private String updatedAt;
 
     public Integer getId() {
         return id;
@@ -44,6 +45,8 @@ public class Article {
     public Integer getGenre() { return genres; }
 
     public String getAuthor() {return author;}
+
+    public String getAuthorName() { return authorName; }
 
     public String getCategory() {return category;}
 

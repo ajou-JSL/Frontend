@@ -5,13 +5,6 @@
     android:id="@+id/activity_board_free_write"
     tools:context=".view.community.BoardFreeWriteActivity">
 
-    <data>
-        <variable
-            name="viewModel"
-            type="com.example.moum.viewmodel.community.BoardFreeWriteViewModel" />
-    </data>
-
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
