@@ -86,6 +86,9 @@ public class CommunityFragment extends Fragment {
                         tab.setText("단체 탐색");
                         break;
                     case 3:
+                        tab.setText("멤버 탐색");
+                        break;
+                    case 4:
                         tab.setText("공연 탐색");
                         break;
                 }

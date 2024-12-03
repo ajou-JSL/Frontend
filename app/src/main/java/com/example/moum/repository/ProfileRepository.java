@@ -10,8 +10,10 @@ import com.example.moum.data.api.ProfileApi;
 import com.example.moum.data.api.TeamApi;
 import com.example.moum.data.dto.ChatErrorResponse;
 import com.example.moum.data.dto.ErrorResponse;
+import com.example.moum.data.dto.MemberProfileRankResponse;
 import com.example.moum.data.dto.MemberProfileUpdateRequest;
 import com.example.moum.data.dto.SuccessResponse;
+import com.example.moum.data.entity.Content;
 import com.example.moum.data.entity.Member;
 import com.example.moum.data.entity.Result;
 import com.example.moum.data.entity.Team;
@@ -148,5 +150,42 @@ public class ProfileRepository {
         });
     }
 
+    public void loadMembersByRank(Integer page, Integer size, com.example.moum.utils.Callback<Result<List<MemberProfileRankResponse>>> callback){
+        Call<SuccessResponse<Content<List<MemberProfileRankResponse>>>> result = profileApi.loadMembersByRank(page, size);
+        result.enqueue(new retrofit2.Callback<SuccessResponse<Content<List<MemberProfileRankResponse>>>>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onResponse(Call<SuccessResponse<Content<List<MemberProfileRankResponse>>>> call, Response<SuccessResponse<Content<List<MemberProfileRankResponse>>>> response) {
+                if (response.isSuccessful()) {
+                    /*성공적으로 응답을 받았을 때*/
+                    SuccessResponse<Content<List<MemberProfileRankResponse>>> responseBody = response.body();
+                    Log.e(TAG, responseBody.toString());
+                    List<MemberProfileRankResponse> members = responseBody.getData().getContent();
 
+                    Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
+                    Result<List<MemberProfileRankResponse>> result = new Result<>(validation, members);
+                    callback.onResult(result);
+                }
+                else {
+                    /*응답은 받았으나 문제 발생 시*/
+                    try {
+                        ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
+                        if (errorResponse != null) {
+                            Log.e(TAG, errorResponse.toString());
+                            Validation validation = ValueMap.getCodeToVal(errorResponse.getCode());
+                            Result<List<MemberProfileRankResponse>> result = new Result<>(validation);
+                            callback.onResult(result);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<SuccessResponse<Content<List<MemberProfileRankResponse>>>> call, Throwable t) {
+                Result<List<MemberProfileRankResponse>> result = new Result<>(Validation.NETWORK_FAILED);
+                callback.onResult(result);
+            }
+        });
+    }
 }
