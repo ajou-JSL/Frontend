@@ -68,6 +68,7 @@ public class MoumPromote1Activity extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.putExtra("finish", 1);
                 intent.putExtra("fragment_index", 2); // 커뮤니티 탭으로 이동 (인덱스 2)
+                intent.putExtra("community_index", 4);
                 setResult(RESULT_OK, intent);
                 finish();
             }

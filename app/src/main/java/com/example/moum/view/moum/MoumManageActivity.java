@@ -516,7 +516,8 @@ public class MoumManageActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
-                intent.putExtra("fragment_index", 2); // chatroomFragment로 이동 (인덱스 1)
+                intent.putExtra("fragment_index", 2);
+                intent.putExtra("community_index", 1);
                 setResult(RESULT_OK, intent);
                 finish();
             }
@@ -755,11 +756,13 @@ public class MoumManageActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK && data != null) {
             Log.e(TAG, "onActivityResult RESULT_OK!");
             int fragmentIndex = data.getIntExtra("fragment_index", -1);
+            int communityIndex = data.getIntExtra("community_index", -1);
             int finish = data.getIntExtra("finish", -1);
             Log.e(TAG, "finish: " + finish);
             if(finish == 1){
                 Intent intent = new Intent();
                 intent.putExtra("fragment_index", fragmentIndex);
+                intent.putExtra("community_index", communityIndex);
                 setResult(RESULT_OK, intent);
                 finish();
             }
