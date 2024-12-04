@@ -50,22 +50,6 @@
             android:layout_gravity="end"
             app:srcCompat="@drawable/ic_menu" />
 
-        <FrameLayout
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="end|center_vertical"
-            app:layout_constraintEnd_toStartOf="@id/menu">
-
-            <ToggleButton
-                android:id="@+id/wishlist"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                android:background="@drawable/ic_star_toggle"
-                android:textOff="@null"
-                android:textOn="@null" />
-        </FrameLayout>
-
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.core.widget.NestedScrollView

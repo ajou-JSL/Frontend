@@ -89,7 +89,6 @@ public class BoardRecruitDetailActivity extends AppCompatActivity {
 
         /* UI 동작 추가 */
         initLeftArrow();
-        initWishlistButton();
         initMenu();
         initImageRecyclerview();
         initRecyclerviewContent();
@@ -100,20 +99,6 @@ public class BoardRecruitDetailActivity extends AppCompatActivity {
     public void initLeftArrow(){
         binding.leftarrow.setOnClickListener(v -> {
             finish();
-        });
-    }
-
-    private void initWishlistButton() {
-        wishlistButton = findViewById(R.id.wishlist);
-        wishlistButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    Log.d("Wishlist", "On 상태");
-                } else {
-                    Log.d("Wishlist", "Off 상태");
-                }
-            }
         });
     }
 

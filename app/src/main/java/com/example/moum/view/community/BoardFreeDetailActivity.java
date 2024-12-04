@@ -31,6 +31,7 @@ import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.view.community.adapter.BoardFreeDetailAdapter;
 import com.example.moum.view.profile.MemberProfileFragment;
 import com.example.moum.view.profile.TeamProfileFragment;
+import com.example.moum.view.report.ReportArticleFragment;
 import com.example.moum.view.report.ReportMemberFragment;
 import com.example.moum.viewmodel.community.BoardFreeDetailViewModel;
 
@@ -95,7 +96,6 @@ public class BoardFreeDetailActivity extends AppCompatActivity {
 
         /* UI 동작 추가 */
         initLeftArrow();
-        initWishlistButton();
         initLikeButton();
         initMenu();
         initRecyclerviewContent();
@@ -110,30 +110,18 @@ public class BoardFreeDetailActivity extends AppCompatActivity {
         });
     }
 
-    private void initWishlistButton() {
-        wishlistButton = findViewById(R.id.wishlist);
-        wishlistButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    Log.d("Wishlist", "On 상태");
-                } else {
-                    Log.d("Wishlist", "Off 상태");
-                }
-            }
-        });
-    }
-
     private void initMenu() {
         binding.menu.setOnClickListener(v -> {
             // PopupMenu 생성
             PopupMenu popupMenu = new PopupMenu(this, binding.menu);
 
             // 작성자가 게시글 보는 본인 일 때
-            popupMenu.getMenu().add("수정하기");
-            popupMenu.getMenu().add("삭제하기");
+            Article article = boardFreeDetailViewModel.getIsLoadArticeSuccess().getValue();
+            if(memberId.equals(article.getAuthorId())){
+                popupMenu.getMenu().add("수정하기");
+                popupMenu.getMenu().add("삭제하기");
+            }
             //메뉴 기본 항목
-            popupMenu.getMenu().add("URL 복사하기");
             popupMenu.getMenu().add("신고하기");
 
             // 메뉴 항목 클릭 이벤트 처리
@@ -143,9 +131,19 @@ public class BoardFreeDetailActivity extends AppCompatActivity {
                         Intent editIntent = new Intent(this, BoardFreeWriteActivity.class);
                         startActivity(editIntent);
                         break;
-
+                    case "삭제하기":
+                        boardFreeDetailViewModel.deleteArticle(targetBoardId);
+                        finish();
+                        break;
                     case "신고하기":
-                        Toast.makeText(this, "신고하기가 선택되었습니다.", Toast.LENGTH_SHORT).show();
+                        ReportArticleFragment reportArticleFragment = new ReportArticleFragment(context);
+
+                        Bundle args = new Bundle();
+                        args.putInt("targetArticleId", targetBoardId);
+                        reportArticleFragment.setArguments(args);
+
+                        AppCompatActivity activity = (AppCompatActivity) context;
+                        reportArticleFragment.show(activity.getSupportFragmentManager(), "ReportArticleFragment");
                         break;
 
                     default:
@@ -195,6 +193,20 @@ public class BoardFreeDetailActivity extends AppCompatActivity {
     public void initLikeButton(){
         binding.buttonLike.setOnClickListener(v -> {
             boardFreeDetailViewModel.postLike(targetBoardId);
+            Validation validation = boardFreeDetailViewModel.getValidationStatus().getValue();
+            switch(validation){
+                case DUPLICATE_LIKES:
+                   Toast.makeText(context, "이미 좋아요를 눌렀습니다.", Toast.LENGTH_SHORT).show();
+                    break;
+                case LIKES_NOT_FOUND:
+                    Toast.makeText(context, "게시글을 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
+                    break;
+                case CANNOT_CREATE_SELF_LIKES:
+                    Toast.makeText(context, "본인은 좋아요를 할 수 없습니다.", Toast.LENGTH_SHORT).show();
+                    break;
+                default:
+                    break;
+            }
         });
         boardFreeDetailViewModel.loadArticlesDetail(targetBoardId);
     }
@@ -252,19 +264,17 @@ public class BoardFreeDetailActivity extends AppCompatActivity {
             Comment comment = boardFreeDetailViewModel.getCurrentComments().getValue().get(position);
             switch (item.getTitle().toString()) {
                 case "삭제하기":
-                    Toast.makeText(this, "삭제하기가 선택되었습니다.", Toast.LENGTH_SHORT).show();
                     boardFreeDetailViewModel.deleteComment(comment.getCommentId());
                     adapter.notifyItemRemoved(position);
                     break;
 
                 case "신고하기":
-                    Toast.makeText(this, "신고하기가 선택되었습니다.", Toast.LENGTH_SHORT).show();
                     Log.e("Comment Info", "Position: " + position + ", Author: " + comment.getAuthor() + ", AuthorId: " + comment.getAuthorId());
                     ReportMemberFragment reportMemberFragment = new ReportMemberFragment(context);
 
                     // 신고 대상 멤버 ID 전달
                     Bundle args = new Bundle();
-                    args.putInt("targetMemberId", comment.getAuthorId()); // 신고 대상 멤버 ID 전달
+                    args.putInt("targetMemberId", comment.getAuthorId());
                     reportMemberFragment.setArguments(args);
 
                     // BottomSheetDialogFragment 표시

@@ -1,5 +1,7 @@
 package com.example.moum.data.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 

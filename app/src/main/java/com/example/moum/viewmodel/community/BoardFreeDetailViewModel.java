@@ -23,6 +23,7 @@ import java.util.ArrayList;
 public class BoardFreeDetailViewModel extends AndroidViewModel {
     private final MutableLiveData<Validation> validationStatus = new MutableLiveData<>();
     private final MutableLiveData<Article> isLoadArticeSuccess = new MutableLiveData<>();
+    private final MutableLiveData<Article> isdeleteArticeSuccess = new MutableLiveData<>();
     private final MutableLiveData<ArrayList<Comment>> currentComments = new MutableLiveData<>();
     private final MutableLiveData<Like> isSetLikeSuccess = new MutableLiveData<>();
     private final MutableLiveData<Member> isLoadMemberSuccess = new MutableLiveData<>();
@@ -62,6 +63,10 @@ public class BoardFreeDetailViewModel extends AndroidViewModel {
         } else {
             validationStatus.setValue(Validation.ARTICLE_GET_FAILED); // 에러 상태 처리
         }
+    }
+
+    private void setIsdeleteArticeSuccess(Result<Article> result) {
+        this.isdeleteArticeSuccess.setValue(result.getData());
     }
 
     private void setIsCommentSuccess(Result<Comment> result) {
@@ -148,8 +153,12 @@ public class BoardFreeDetailViewModel extends AndroidViewModel {
         }
     }
 
-    public void postLike(Integer ArticleId) {
-        articleRepository.postLike(ArticleId, this::setIsLikeSuccess);
+    public void postLike(Integer articleId) {
+        articleRepository.postLike(articleId, result -> {
+            // Validation 상태 처리
+            validationStatus.setValue(result.getValidation());
+            setIsLikeSuccess(result);
+        });
         isLoadArticeSuccess.setValue(isLoadArticeSuccess.getValue());
     }
 
@@ -166,5 +175,9 @@ public class BoardFreeDetailViewModel extends AndroidViewModel {
     public void deleteComment(Integer commentId){
         articleRepository.deleteComment(commentId, this::setIsDeleteCommentSuccess);
         isLoadArticeSuccess.setValue(isLoadArticeSuccess.getValue());
+    }
+
+    public void deleteArticle(Integer articleId){
+        articleRepository.deleteArticle(articleId, this::setIsdeleteArticeSuccess);
     }
 }

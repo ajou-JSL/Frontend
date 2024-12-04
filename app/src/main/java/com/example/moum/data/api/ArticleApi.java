@@ -23,12 +23,12 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ArticleApi {
-    @GET("/api/articles")
-    Call<SuccessResponse<List<Article>>> loadAllArticles(
-        @Query("keyword") String keyword,
-        @Query("category") String category,
-        @Query("page") Integer page,
-        @Query("size") Integer size
+    @GET("/api/articles-all/search")
+    Call<SuccessResponse<List<Article>>> searchArticles(
+            @Query("keyword") String keyword,
+            @Query("category") String category,
+            @Query("page") Integer page,
+            @Query("size") Integer size
     );
 
     @GET("/api/articles/hot")
@@ -72,4 +72,10 @@ public interface ArticleApi {
     Call<SuccessResponse<Comment>> deleteComment(
             @Path("commentId") int commentId
     );
+
+    @DELETE("/api/articles/{articleId}")
+    Call<SuccessResponse<Article>> deleteArticle(
+            @Path("articleId") int articleId
+    );
+
 }
