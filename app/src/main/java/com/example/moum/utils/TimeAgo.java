@@ -1,10 +1,9 @@
-package com.example.moum.view.community.adapter;
+package com.example.moum.utils;
 
 import android.os.Build;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.time.Duration;
 
 public class TimeAgo {

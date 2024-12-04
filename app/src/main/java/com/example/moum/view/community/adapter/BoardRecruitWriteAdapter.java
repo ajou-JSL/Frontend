@@ -3,7 +3,6 @@ package com.example.moum.view.community.adapter;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.moum.R;
-import com.example.moum.view.community.BoardFreeWriteActivity;
-
+import com.example.moum.view.community.BoardRecruitWriteActivity;
 
 import java.util.ArrayList;
 
-public class BoardFreeWriteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class BoardRecruitWriteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<Uri> uris;
     private Context context;
     private static final int VIEW_TYPE_IMAGE_HOLDER = 1;
@@ -41,10 +39,10 @@ public class BoardFreeWriteAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_IMAGE_SELECTOR) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_board_create_image, parent, false);
-            return new BoardFreeWriteAdapter.ImageSelectorViewHolder(view, context);
+            return new BoardRecruitWriteAdapter.ImageSelectorViewHolder(view, context);
         } else {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_board_create_image, parent, false);
-            return new BoardFreeWriteAdapter.ImageHolderViewHolder(view, context);
+            return new BoardRecruitWriteAdapter.ImageHolderViewHolder(view, context);
         }
     }
 
@@ -52,10 +50,10 @@ public class BoardFreeWriteAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Uri uri = uris.get(position);
-        if (holder instanceof BoardFreeWriteAdapter.ImageSelectorViewHolder) {
-            ((BoardFreeWriteAdapter.ImageSelectorViewHolder) holder).bind(uri);
-        } else if (holder instanceof BoardFreeWriteAdapter.ImageHolderViewHolder) {
-            ((BoardFreeWriteAdapter.ImageHolderViewHolder) holder).bind(uri);
+        if (holder instanceof BoardRecruitWriteAdapter.ImageSelectorViewHolder) {
+            ((BoardRecruitWriteAdapter.ImageSelectorViewHolder) holder).bind(uri);
+        } else if (holder instanceof BoardRecruitWriteAdapter.ImageHolderViewHolder) {
+            ((BoardRecruitWriteAdapter.ImageHolderViewHolder) holder).bind(uri);
         }
     }
 
@@ -68,13 +66,13 @@ public class BoardFreeWriteAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         private Uri uri;
         private ImageView boardWriteImageview;
         private Context context;
-        private BoardFreeWriteActivity boardFreeWriteActivity;
+        private BoardRecruitWriteActivity boardRecruitWriteActivity;
 
         public ImageSelectorViewHolder(@NonNull View itemView, Context context) {
             super(itemView);
             boardWriteImageview = itemView.findViewById(R.id.imageview_board_create);
             this.context = context;
-            boardFreeWriteActivity = (BoardFreeWriteActivity) context;
+            boardRecruitWriteActivity = (BoardRecruitWriteActivity) context;
         }
 
         public void bind(Uri uri) {
@@ -82,7 +80,7 @@ public class BoardFreeWriteAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             boardWriteImageview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    boardFreeWriteActivity.onImageSelectorClicked();
+                    boardRecruitWriteActivity.onImageSelectorClicked();
                 }
             });
         }
@@ -93,13 +91,13 @@ public class BoardFreeWriteAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         private Uri uri;
         private ImageView boardWriteImageview;
         private Context context;
-        private BoardFreeWriteActivity boardFreeWriteActivity;
+        private BoardRecruitWriteActivity boardRecruitWriteActivity;
 
         public ImageHolderViewHolder(@NonNull View itemView, Context context) {
             super(itemView);
             boardWriteImageview = itemView.findViewById(R.id.imageview_board_create);
             this.context = context;
-            boardFreeWriteActivity = (BoardFreeWriteActivity) context;
+            boardRecruitWriteActivity = (BoardRecruitWriteActivity) context;
         }
 
         public void bind(Uri uri){

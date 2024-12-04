@@ -433,4 +433,43 @@ public class TeamRepository {
         });
     }
 
+    public void loadTeamToTeamName(String teamName, com.example.moum.utils.Callback<Result<Team>> callback){
+        Call<SuccessResponse<Team>> result = teamApi.loadTeamToName(teamName);
+        result.enqueue(new retrofit2.Callback<SuccessResponse<Team>>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onResponse(Call<SuccessResponse<Team>> call, Response<SuccessResponse<Team>> response) {
+                if (response.isSuccessful()) {
+                    /*성공적으로 응답을 받았을 때*/
+                    SuccessResponse<Team> responseBody = response.body();
+                    Log.e(TAG, responseBody.toString());
+                    Team team = responseBody.getData();
+
+                    Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
+                    Result<Team> result = new Result<>(validation, team);
+                    callback.onResult(result);
+                }
+                else {
+                    /*응답은 받았으나 문제 발생 시*/
+                    try {
+                        ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
+                        if (errorResponse != null) {
+                            Log.e(TAG, errorResponse.toString());
+                            Validation validation = ValueMap.getCodeToVal(errorResponse.getCode());
+                            Result<Team> result = new Result<>(validation);
+                            callback.onResult(result);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<SuccessResponse<Team>> call, Throwable t) {
+                Result<Team> result = new Result<>(Validation.NETWORK_FAILED);
+                callback.onResult(result);
+            }
+        });
+    }
+
 }

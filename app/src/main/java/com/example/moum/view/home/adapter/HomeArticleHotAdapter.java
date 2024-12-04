@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import com.example.moum.utils.TimeAgo;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -20,9 +21,6 @@ import com.example.moum.data.entity.Article;
 import com.example.moum.data.entity.Moum;
 import com.example.moum.utils.TimeManager;
 import com.example.moum.view.home.HomeFragment;
-import com.example.moum.view.moum.MoumManageActivity;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -89,7 +87,7 @@ public class HomeArticleHotAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             articleTop.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    homeFragment.onArticleClicked(article.getId());
+                    homeFragment.onArticleClicked(article.getId(),article.getCategory());
                 }
             });
         }
