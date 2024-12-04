@@ -55,13 +55,13 @@
         app:layout_constraintBottom_toBottomOf="@+id/left_content"
         app:layout_constraintStart_toEndOf="@+id/left_content" />
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/left_profile"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:visibility="visible"
+        android:src="@drawable/background_circle_gray_size_fit"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/background_circle_gray" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -63,24 +63,26 @@
                 android:background="@color/gray1"
                 app:layout_constraintTop_toBottomOf="@id/headerLayout"
                 app:layout_constraintBottom_toBottomOf="parent">
+
                 <androidx.core.widget.NestedScrollView
                     android:id="@+id/scrollviewLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    >
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_chatroom"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-                    <View
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        />
-                </LinearLayout>
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recycler_chatroom"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp" />
+                    </LinearLayout>
                 </androidx.core.widget.NestedScrollView>
             </LinearLayout>
 

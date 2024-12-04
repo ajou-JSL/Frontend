@@ -79,6 +79,14 @@ public class LoginActivity extends AppCompatActivity {
                 binding.loginEdittextId.requestFocus();
                 Toast.makeText(context, "아이디 또는 비밀번호가 유효하지 않습니다.", Toast.LENGTH_SHORT).show();
             }
+            else if(isLoginSuccess == Validation.SIGNOUT_MEMBER) {
+                binding.loginEdittextId.requestFocus();
+                Toast.makeText(context, "탈퇴한 회원입니다. 재가입이 필요합니다.", Toast.LENGTH_SHORT).show();
+            }
+            else if(isLoginSuccess == Validation.BANNED_MEMBER) {
+                binding.loginEdittextId.requestFocus();
+                Toast.makeText(context, "추방된 계정입니다.", Toast.LENGTH_SHORT).show();
+            }
             else if(isLoginSuccess == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
             }

@@ -99,6 +99,8 @@ public enum Validation {
     LOGOUT_SUCCESS,
     LOGIN_FAILED,
     LOGOUT_ALREADY,
+    SIGNOUT_MEMBER,
+    BANNED_MEMBER,
 
     // 채팅
     CHAT_POST_SUCCESS,

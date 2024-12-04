@@ -5,6 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doAnswer;
 
+import android.app.Application;
 import android.content.Context;
 import android.net.Uri;
 
@@ -47,8 +48,8 @@ public class SignupViewModelTest {
 
     @Before
     public void setUp() {
-
-        signupViewModel = new SignupViewModel(signupRepository);
+        Application application = ApplicationProvider.getApplicationContext();
+        signupViewModel = new SignupViewModel(application, signupRepository);
         context = ApplicationProvider.getApplicationContext();
     }
 
@@ -58,7 +59,7 @@ public class SignupViewModelTest {
 
         // Given
         String expectedEmail = "";
-        SignupUser signupUser = signupViewModel.getUser().getValue();
+        SignupUser signupUser = signupViewModel.getSignupUser().getValue();
         signupUser.setEmail(expectedEmail);
 
         // When
@@ -74,7 +75,7 @@ public class SignupViewModelTest {
 
         // Given
         String expectedEmail = "strange-email";
-        SignupUser signupUser = signupViewModel.getUser().getValue();
+        SignupUser signupUser = signupViewModel.getSignupUser().getValue();
         signupUser.setEmail(expectedEmail);
 
         // When
@@ -90,7 +91,7 @@ public class SignupViewModelTest {
 
         // Given
         String expectedEmail = "sosongha3@ajou.ac.kr";
-        SignupUser signupUser = signupViewModel.getUser().getValue();
+        SignupUser signupUser = signupViewModel.getSignupUser().getValue();
         signupUser.setEmail(expectedEmail);
 
         Validation validation = Validation.VALID_ALL;
@@ -114,7 +115,7 @@ public class SignupViewModelTest {
     public void testValidCheckBasic_WhenPasswordNotEqual_shouldReturnExpectedValue() {
 
         // Given
-        SignupUser signupUser = signupViewModel.getUser().getValue();
+        SignupUser signupUser = signupViewModel.getSignupUser().getValue();
         signupUser.setEmail("sosongha3@ajou.ac.kr");
         signupUser.setName("소성하");
         signupUser.setPassword("asdf1234!!");
@@ -135,7 +136,7 @@ public class SignupViewModelTest {
     public void testValidCheckBasic_WhenPersonalNotAgree_shouldReturnExpectedValue() {
 
         // Given
-        SignupUser signupUser = signupViewModel.getUser().getValue();
+        SignupUser signupUser = signupViewModel.getSignupUser().getValue();
         signupUser.setEmail("sosongha3@ajou.ac.kr");
         signupUser.setName("소성하");
         signupUser.setPassword("asdf1234!!");
@@ -156,7 +157,7 @@ public class SignupViewModelTest {
     public void testValidCheckBasic_WhenSuccess_shouldReturnExpectedValue() {
 
         // Given
-        SignupUser signupUser = signupViewModel.getUser().getValue();
+        SignupUser signupUser = signupViewModel.getSignupUser().getValue();
         signupUser.setEmail("sosongha3@ajou.ac.kr");
         signupUser.setName("소성하");
         signupUser.setPassword("asdf1234!!");
@@ -177,7 +178,7 @@ public class SignupViewModelTest {
     public void testValidCheckEmailCode_WhenSuccess_shouldReturnExpectedValue() {
 
         // Given
-        SignupUser signupUser = signupViewModel.getUser().getValue();
+        SignupUser signupUser = signupViewModel.getSignupUser().getValue();
         String email = "sosongha3@ajou.ac.kr";
         String emailCode = "123456";
         signupUser.setEmail(email);
@@ -223,7 +224,7 @@ public class SignupViewModelTest {
     public void testSignup_WhenAllEmpty_shouldReturnExpectedValue() {
 
         // Given
-        SignupUser signupUser = signupViewModel.getUser().getValue();
+        SignupUser signupUser = signupViewModel.getSignupUser().getValue();
         signupViewModel.setIsProfileValid(Validation.VALID_ALL);
         Result<Object> expectedResult = new Result<>(Validation.VALID_ALL);
         doAnswer(invocation -> {
@@ -244,7 +245,7 @@ public class SignupViewModelTest {
     public void testSignup_WhenAllInserted_shouldReturnExpectedValue() {
 
         // Given
-        SignupUser signupUser = signupViewModel.getUser().getValue();
+        SignupUser signupUser = signupViewModel.getSignupUser().getValue();
         signupViewModel.setIsProfileValid(Validation.VALID_ALL);
         signupViewModel.addRecord("1회 연주회", LocalDate.now(), LocalDate.now());
         signupViewModel.addRecord("2회 연주회", LocalDate.now(), LocalDate.now());

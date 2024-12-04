@@ -211,15 +211,11 @@ public class HomeFragment extends Fragment {
 
     public void onArticleClicked(Integer articleId, String category){
         Intent intent = new Intent(context, BoardFreeDetailActivity.class);
-
         if(category.equals("RECRUIT_BOARD")){
             intent = new Intent(context, BoardRecruitDetailActivity.class);
         }
         intent.putExtra("targetBoardId", articleId);
-
         context.startActivity(intent);
-
-        //TODO 실제 이동해야함
     }
 
     public void onPerformClicked(Integer performId){
