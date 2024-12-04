@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -36,6 +37,7 @@ import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.utils.WrapContentLinearLayoutManager;
 import com.example.moum.view.auth.InitialActivity;
+import com.example.moum.view.dialog.LoadingDialog;
 import com.example.moum.view.dialog.MoumCreateDialog;
 import com.example.moum.view.moum.adapter.MoumCreateImageAdapter;
 import com.example.moum.viewmodel.moum.MoumCreateViewModel;
@@ -58,6 +60,7 @@ public class MoumCreateActivity extends AppCompatActivity {
     private Integer teamId;
     private ActivityResultLauncher<PickVisualMediaRequest> pickMultipleMedia;
     private ArrayList<Uri> uris = new ArrayList<>();
+    private LoadingDialog loadingDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,8 +71,7 @@ public class MoumCreateActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
         context = this;
-
-        //TODO 리더만 생성 가능하게 로직 수정
+        loadingDialog = new LoadingDialog(context);
 
         /*단체 id 정보 불러오기*/
         Intent prevIntent = getIntent();
@@ -191,7 +193,7 @@ public class MoumCreateActivity extends AppCompatActivity {
                 LinearLayout placeholderArtistName = songChild.findViewById(R.id.placeholder_artist_name);
                 EditText editTextArtistName = songChild.findViewById(R.id.edittext_artist_name);
                 TextView errorArtistName = songChild.findViewById(R.id.error_artist_name);
-
+                ImageView buttonDelete = songChild.findViewById(R.id.button_delete);
 
                 editTextMusicName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                     @Override
@@ -211,6 +213,12 @@ public class MoumCreateActivity extends AppCompatActivity {
                         }else{
                             placeholderArtistName.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_gray_stroke));
                         }
+                    }
+                });
+                buttonDelete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        songParent.removeView(songChild);
                     }
                 });
 
@@ -286,6 +294,7 @@ public class MoumCreateActivity extends AppCompatActivity {
 
         /*createMoum() 결과 감시*/
         viewModel.getIsCreateMoumSuccess().observe(this, isCreateTeamSuccess -> {
+            loadingDialog.dismiss();
             Validation validation = isCreateTeamSuccess.getValidation();
             Moum createdMoum = isCreateTeamSuccess.getData();
             if(validation == Validation.NOT_VALID_ANYWAY){
@@ -388,6 +397,7 @@ public class MoumCreateActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void onDialogYesClicked(){
         /*다이얼로그에서 Yes 버튼 클릭 시, createMoum() 호출*/
+        loadingDialog.show();
         viewModel.createMoum(id, teamId, context);
     }
 

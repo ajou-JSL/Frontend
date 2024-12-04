@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -37,6 +38,7 @@ import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.view.auth.SignupProfileActivity;
+import com.example.moum.view.dialog.LoadingDialog;
 import com.example.moum.view.dialog.TeamCreateDialog;
 import com.example.moum.viewmodel.auth.SignupViewModel;
 import com.example.moum.viewmodel.moum.TeamCreateViewModel;
@@ -56,6 +58,7 @@ public class TeamCreateActivity extends AppCompatActivity {
     public String TAG = getClass().toString();
     private SharedPreferenceManager sharedPreferenceManager;
     private Integer id;
+    private LoadingDialog loadingDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,6 +69,7 @@ public class TeamCreateActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
         context = this;
+        loadingDialog = new LoadingDialog(context);
 
         /*자동로그인 정보를 SharedPreference에서 불러오기*/
         sharedPreferenceManager = new SharedPreferenceManager(context, getString(R.string.preference_file_key));
@@ -180,6 +184,7 @@ public class TeamCreateActivity extends AppCompatActivity {
                 EditText edittextRecordName = recordChild.findViewById(R.id.signup_edittext_record_name);
                 AppCompatButton buttonRecordStart = recordChild.findViewById(R.id.button_record_date_start);
                 AppCompatButton buttonRecordEnd = recordChild.findViewById(R.id.button_record_date_end);
+                ImageView buttonDelete = recordChild.findViewById(R.id.button_record_delete);
                 edittextRecordName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                     @Override
                     public void onFocusChange(View view, boolean hasFocus) {
@@ -211,6 +216,12 @@ public class TeamCreateActivity extends AppCompatActivity {
                                     buttonRecordEnd.setText(selectedDate);
                                 }, thisYear, thisMonth, thisDay);
                         datePickerDialog.show();
+                    }
+                });
+                buttonDelete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        recordParent.removeView(recordChild);
                     }
                 });
 
@@ -285,6 +296,7 @@ public class TeamCreateActivity extends AppCompatActivity {
 
         /*createTeam() 결과 감시*/
         viewModel.getIsCreateTeamSuccess().observe(this, isCreateTeamSuccess -> {
+            loadingDialog.dismiss();
             Validation validation = isCreateTeamSuccess.getValidation();
             Team createdTeam = isCreateTeamSuccess.getData();
             if(validation == Validation.NOT_VALID_ANYWAY){
@@ -367,6 +379,7 @@ public class TeamCreateActivity extends AppCompatActivity {
 
     public void onDialogYesClicked(){
         /*다이얼로그에서 Yes 버튼 클릭 시, createTeam() 호출*/
+        loadingDialog.show();
         viewModel.createTeam(id, context);
     }
 }

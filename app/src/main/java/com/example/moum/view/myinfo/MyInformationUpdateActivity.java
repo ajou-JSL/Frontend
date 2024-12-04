@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -47,7 +48,9 @@ import com.example.moum.view.auth.SignupProfileActivity;
 import com.example.moum.view.auth.adapter.GenreAdapter;
 import com.example.moum.view.community.PerformanceUpdateActivity;
 import com.example.moum.view.community.adapter.ParticipantAdapter;
+import com.example.moum.view.dialog.LoadingDialog;
 import com.example.moum.view.dialog.ProfileUpdateDialog;
+import com.example.moum.view.dialog.SignupLoadingDialog;
 import com.example.moum.viewmodel.community.PerformanceUpdateViewModel;
 import com.example.moum.viewmodel.myinfo.MyInformationUpdateViewModel;
 import com.google.android.flexbox.AlignItems;
@@ -76,6 +79,7 @@ public class MyInformationUpdateActivity extends AppCompatActivity {
     private ParticipantAdapter performanceParticipantAdapter;
     private LinearLayout recordParent;
     private Member member;
+    private LoadingDialog loadingDialog;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -87,6 +91,7 @@ public class MyInformationUpdateActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
         context = this;
+        loadingDialog = new LoadingDialog(context);
 
         /*자동로그인 정보를 SharedPreference에서 불러오기*/
         sharedPreferenceManager = new SharedPreferenceManager(context, getString(R.string.preference_file_key));
@@ -319,6 +324,7 @@ public class MyInformationUpdateActivity extends AppCompatActivity {
 
         /*updateProfile() 결과 감시*/
         viewModel.getIsUpdateProfileSuccess().observe(this, isUpdateProfileSuccess -> {
+            loadingDialog.dismiss();
             Validation validation = isUpdateProfileSuccess.getValidation();
             Member member = isUpdateProfileSuccess.getData();
             if(validation == Validation.NOT_VALID_ANYWAY) {
@@ -408,6 +414,7 @@ public class MyInformationUpdateActivity extends AppCompatActivity {
         EditText edittextRecordName = recordChild.findViewById(R.id.signup_edittext_record_name);
         AppCompatButton buttonRecordStart = recordChild.findViewById(R.id.button_record_date_start);
         AppCompatButton buttonRecordEnd = recordChild.findViewById(R.id.button_record_date_end);
+        ImageView buttonDelete = recordChild.findViewById(R.id.button_record_delete);
         edittextRecordName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
@@ -441,12 +448,19 @@ public class MyInformationUpdateActivity extends AppCompatActivity {
                 datePickerDialog.show();
             }
         });
+        buttonDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                recordParent.removeView(recordChild);
+            }
+        });
 
         return recordChild;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void onDialogYesClicked(){
+        loadingDialog.show();
         viewModel.updateProfile(context, id, member.getUsername());
     }
 }

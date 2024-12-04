@@ -82,7 +82,7 @@ public class MoumPracticeroomAdapter extends RecyclerView.Adapter<RecyclerView.V
             if(practiceroom.getName() != null) practiceroomName.setText(practiceroom.getName());
             if(practiceroom.getDetails() != null) practiceroomDescription.setText(practiceroom.getDetails());
             if(practiceroom.getAddress() != null) practiceroomAddress.setText(practiceroom.getAddress());
-            if(practiceroom.getPrice() != null) practiceroomPrice.setText(String.format("시간 당 %s원", practiceroom.getPrice()));
+            if(practiceroom.getPrice() != null) practiceroomPrice.setText(String.format("시간 당 %,d원", practiceroom.getPrice()));
             if(practiceroom.getImageUrls() != null && !practiceroom.getImageUrls().isEmpty())
                 Glide.with(context)
                         .load(practiceroom.getImageUrls().get(0))

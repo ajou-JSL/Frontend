@@ -27,6 +27,7 @@ public class MyInfoLogoutNSignoutActivity extends AppCompatActivity {
     private Context context;
     public String TAG = getClass().toString();
     private SharedPreferenceManager sharedPreferenceManager;
+    private static final int REQUEST_CODE = 300;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,8 +72,8 @@ public class MyInfoLogoutNSignoutActivity extends AppCompatActivity {
         binding.buttonSignout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MyInfoLogoutNSignoutActivity.this, MyInfoSignoutActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent(context, MyInfoSignoutActivity.class);
+                startActivityForResult(intent, REQUEST_CODE);
                 finish();
             }
         });
@@ -88,8 +89,9 @@ public class MyInfoLogoutNSignoutActivity extends AppCompatActivity {
                 sharedPreferenceManager.removeCache(getString(R.string.user_access_token_key));
                 sharedPreferenceManager.removeCache(getString(R.string.user_refresh_token_key));
 
-                Intent intent = new Intent(MyInfoLogoutNSignoutActivity.this, InitialActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent();
+                intent.putExtra("finish", 1);
+                setResult(RESULT_OK, intent);
                 finish();
             }
             else if(validation == Validation.LOGOUT_ALREADY){

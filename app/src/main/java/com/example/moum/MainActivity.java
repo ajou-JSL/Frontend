@@ -11,10 +11,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.moum.view.auth.InitialActivity;
+import com.example.moum.view.community.CommunityFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -72,6 +75,13 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && data != null) {
             int fragmentIndex = data.getIntExtra("fragment_index", -1);
+            int communityIndex = data.getIntExtra("community_index", -1);
+            int finish = data.getIntExtra("finish", -1);
+            if(finish == 1){
+                Intent intent = new Intent(MainActivity.this, InitialActivity.class);
+                startActivity(intent);
+                finish();
+            }
             if (fragmentIndex == 0) {
                 bottomNavigationView.setSelectedItemId(R.id.menu_home);
             }
@@ -80,6 +90,20 @@ public class MainActivity extends AppCompatActivity {
             }
             else if(fragmentIndex == 2){
                 bottomNavigationView.setSelectedItemId(R.id.menu_community);
+                new Handler().postDelayed(() -> {
+                    NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
+                            .findFragmentById(R.id.nav_host_fragment_activity_main);
+                    if (navHostFragment != null) {
+                        Fragment fragment = navHostFragment.getChildFragmentManager().getPrimaryNavigationFragment();
+                        if (fragment != null) {
+                            Log.e("ss", "fragment: " + fragment.getClass().toString());
+                            if (fragment instanceof CommunityFragment) {
+                                Log.e("ss", "goto onCommunityIndexReturn");
+                                ((CommunityFragment) fragment).onCommunityIndexReturn(communityIndex);
+                            }
+                        }
+                    }
+                }, 100);
             }
             else if(fragmentIndex == 3){
                 bottomNavigationView.setSelectedItemId(R.id.menu_mymoum);

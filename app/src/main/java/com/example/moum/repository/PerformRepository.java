@@ -123,7 +123,7 @@ public class PerformRepository {
             RequestBody emptyRequestBody = RequestBody.create(null, new byte[0]);
             profileImage = MultipartBody.Part.createFormData("file", null, emptyRequestBody);
         }
-        PerformRequest performRequest = new PerformRequest(perform.getPerformanceName(), perform.getPerformanceDescription(), perform.getPerformanceLocation(), perform.getPerformanceStartDate(), perform.getPerformanceEndDate(), perform.getPerformancePrice(), perform.getMembersId(), perform.getTeamId(), perform.getMoumId(), perform.getMusics(), perform.getGenre());
+        PerformRequest performRequest = new PerformRequest(perform.getPerformanceName(), perform.getPerformanceDescription(), perform.getPerformanceLocation(), perform.getPerformanceStartDate(), perform.getPerformanceEndDate(), perform.getPerformancePrice(), perform.getMembersId(), null, perform.getMoumId(), perform.getMusics(), perform.getGenre());
         Call<SuccessResponse<Performance>> result = performApi.updatePerform(performId, profileImage, performRequest);
         result.enqueue(new retrofit2.Callback<SuccessResponse<Performance>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)

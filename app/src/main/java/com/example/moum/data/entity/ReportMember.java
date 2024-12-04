@@ -4,7 +4,7 @@ public class ReportMember {
     private Integer id;
     private Integer memberId;
     private String memberUsername;
-    private Integer reportedId;
+    private Integer reporterId;
     private String reportedUsername;
     private String type;
     private String details;
@@ -27,8 +27,8 @@ public class ReportMember {
         return resolved;
     }
 
-    public Integer getReportedId() {
-        return reportedId;
+    public Integer getReporterId() {
+        return reporterId;
     }
 
     public String getMemberUsername() {
@@ -67,8 +67,8 @@ public class ReportMember {
         this.memberUsername = memberUsername;
     }
 
-    public void setReportedId(Integer reportedId) {
-        this.reportedId = reportedId;
+    public void setReporterId(Integer reporterId) {
+        this.reporterId = reporterId;
     }
 
     public void setReply(String reply) {
@@ -86,12 +86,13 @@ public class ReportMember {
     @Override
     public String toString() {
         return "ReportMember{" +
-                "reportedId=" + reportedId +
-                ", type='" + type + '\'' +
-                ", details='" + details + '\'' +
+                "id=" + id +
                 ", memberId=" + memberId +
                 ", memberUsername='" + memberUsername + '\'' +
+                ", reporterId=" + reporterId +
                 ", reportedUsername='" + reportedUsername + '\'' +
+                ", type='" + type + '\'' +
+                ", details='" + details + '\'' +
                 ", reply='" + reply + '\'' +
                 ", resolved=" + resolved +
                 '}';

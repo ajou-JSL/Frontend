@@ -102,7 +102,7 @@ public class BoardGroupFragment extends Fragment implements RefreshableFragment 
         recyclerView.addItemDecoration(dividerItemDecoration);
 
         ArrayList<BoardGroupItem> initialItemList = new ArrayList<>();
-        adapter = new BoardGroupItemAdapter(initialItemList);
+        adapter = new BoardGroupItemAdapter(initialItemList, context);
         recyclerView.setAdapter(adapter);
 
         BoardGroupViewModel viewModel = new ViewModelProvider(this).get(BoardGroupViewModel.class);
@@ -116,7 +116,7 @@ public class BoardGroupFragment extends Fragment implements RefreshableFragment 
                 // 실제 데이터가 있을 경우 변환하여 추가
                 for (Team team : teamList) {
                     BoardGroupItem item = new BoardGroupItem();
-                    item.setBoardGroupItem(team.getTeamId(), team.getTeamName(), team.getDescription(), team.getFileUrl());
+                    item.setBoardGroupItem(team.getTeamId(), team.getTeamName(), team.getDescription(), team.getFileUrl(), team.getExp(), team.getTier());
                     itemList.add(item);
                 }
                 // 데이터 로드 성공시 Log 메시지

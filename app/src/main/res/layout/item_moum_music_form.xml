@@ -31,10 +31,25 @@
                 android:textSize="9sp"
                 android:fontFamily="@font/noto_sans_kr_regular"
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:text=""
                 android:layout_gravity="center_vertical"
                 />
+            <RelativeLayout
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="20dp">
+
+                <ImageView
+                    android:id="@+id/button_delete"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/icon_circle_xmark"
+                    android:scaleType="fitCenter"
+                    android:alpha="0.7"/>
+
+            </RelativeLayout>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/placeholder_music_name"

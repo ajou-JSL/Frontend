@@ -23,6 +23,8 @@ import com.example.moum.utils.ImageManager;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
+import com.example.moum.view.moum.MoumManageActivity;
+import com.example.moum.view.moum.MoumPromote1Activity;
 import com.example.moum.view.profile.MemberProfileFragment;
 import com.example.moum.viewmodel.myinfo.MyInformationViewModel;
 
@@ -33,6 +35,7 @@ public class MyInformationFragment extends Fragment {
     private MyInformationViewModel viewModel;
     private Context context;
     private Member member;
+    private static final int REQUEST_CODE = 300;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         viewModel = new ViewModelProvider(this).get(MyInformationViewModel.class);
@@ -144,7 +147,7 @@ public class MyInformationFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, MyInfoLogoutNSignoutActivity.class);
-                context.startActivity(intent);
+                startActivityForResult(intent, REQUEST_CODE);
             }
         });
 

@@ -36,7 +36,7 @@ public class HomeMoumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_moum, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_moum_small, parent, false);
         return new HomeMoumAdapter.HomeMoumViewModel(view, context);
     }
 

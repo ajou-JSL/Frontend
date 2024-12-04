@@ -4,11 +4,13 @@ import com.example.moum.data.dto.EmailAuthRequest;
 import com.example.moum.data.dto.EmailCodeRequest;
 import com.example.moum.data.dto.SignupRequest;
 import com.example.moum.data.dto.SuccessResponse;
+import com.example.moum.data.entity.Member;
 
 import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Multipart;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 
@@ -31,4 +33,7 @@ public interface SignupApi {
             @Part MultipartBody.Part profileImage
 
     );
+
+    @PATCH("/signout")
+    Call<SuccessResponse<Member>> signout();
 }

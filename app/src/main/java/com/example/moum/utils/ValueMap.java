@@ -14,6 +14,7 @@ public class ValueMap {
 
             // 회원가입
             put("S-M001", Validation.SIGNUP_SUCCESS);
+            put("S-M006", Validation.SIGNOUT_SUCCESS);
 
             // 로그인 및 로그아웃
             put("S-M002", Validation.LOGIN_SUCCESS);

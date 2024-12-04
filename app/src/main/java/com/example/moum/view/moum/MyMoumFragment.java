@@ -255,6 +255,7 @@ public class MyMoumFragment extends Fragment {
             public void onRefresh() {
                 viewModel.loadTeamsAsMember(id);
                 int position = 0;
+                viewpagerTeam.setCurrentItem(position, false);
                 new Handler().postDelayed(() -> {
                     if(!teams.isEmpty() && position != teams.size()-1) {
                         viewModel.loadMoumsOfTeam(teams.get(position).getTeamId());

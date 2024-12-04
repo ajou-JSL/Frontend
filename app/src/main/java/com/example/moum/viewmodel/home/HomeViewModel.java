@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.moum.data.entity.Article;
 import com.example.moum.data.entity.Chatroom;
+import com.example.moum.data.entity.Member;
 import com.example.moum.data.entity.Moum;
 import com.example.moum.data.entity.Performance;
 import com.example.moum.data.entity.Result;
@@ -16,6 +17,7 @@ import com.example.moum.repository.ArticleRepository;
 import com.example.moum.repository.ChatroomRepository;
 import com.example.moum.repository.MoumRepository;
 import com.example.moum.repository.PerformRepository;
+import com.example.moum.repository.ProfileRepository;
 
 import java.util.List;
 
@@ -23,9 +25,12 @@ public class HomeViewModel extends AndroidViewModel {
     private final MoumRepository moumRepository;
     private final ArticleRepository articleRepository;
     private final PerformRepository performRepository;
+    private final ProfileRepository profileRepository;
     private final MutableLiveData<Result<List<Article>>> isLoadArticlesHotSuccess = new MutableLiveData<>();
     private final MutableLiveData<Result<List<Moum>>> isLoadMoumsSuccess = new MutableLiveData<>();
     private final MutableLiveData<Result<List<Performance>>> isLoadPerformsHotSuccess = new MutableLiveData<>();
+    private final MutableLiveData<Result<Member>> isLoadMemberProfileSuccess = new MutableLiveData<>();
+
     private Integer memberId;
 
     public HomeViewModel(Application application) {
@@ -33,6 +38,7 @@ public class HomeViewModel extends AndroidViewModel {
         moumRepository = MoumRepository.getInstance(application);
         articleRepository = ArticleRepository.getInstance(application);
         performRepository = PerformRepository.getInstance(application);
+        profileRepository = ProfileRepository.getInstance(application);
     }
 
     public MutableLiveData<Result<List<Article>>> getIsLoadArticlesHotSuccess() {
@@ -47,6 +53,10 @@ public class HomeViewModel extends AndroidViewModel {
         return isLoadPerformsHotSuccess;
     }
 
+    public MutableLiveData<Result<Member>> getIsLoadMemberProfileSuccess() {
+        return isLoadMemberProfileSuccess;
+    }
+
     public void setIsLoadArticlesHotSuccess(Result<List<Article>> isLoadArticlesHotSuccess){
         this.isLoadArticlesHotSuccess.setValue(isLoadArticlesHotSuccess);
     }
@@ -59,6 +69,10 @@ public class HomeViewModel extends AndroidViewModel {
         this.isLoadPerformsHotSuccess.setValue(isLoadPerformsHotSuccess);
     }
 
+    public void setIsLoadMemberProfileSuccess(Result<Member> isLoadMemberProfileSuccess){
+        this.isLoadMemberProfileSuccess.setValue(isLoadMemberProfileSuccess);
+    }
+
     public void loadArticlesHot(){
         articleRepository.loadArticlesHot(0, 5, this::setIsLoadArticlesHotSuccess);
     }
@@ -69,5 +83,9 @@ public class HomeViewModel extends AndroidViewModel {
 
     public void loadPerformsHot(){
         performRepository.loadPerformsHot(0, 5, this::setIsLoadPerformsHotSuccess);
+    }
+
+    public void loadMemberProfile(Integer targetMemberId){
+        profileRepository.loadMemberProfile(targetMemberId, this::setIsLoadMemberProfileSuccess);
     }
 }
