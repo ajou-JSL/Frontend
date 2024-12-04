@@ -1,5 +1,7 @@
 package com.example.moum.view.community.adapter;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,9 +25,11 @@ import java.util.ArrayList;
 public class BoardGroupItemAdapter extends RecyclerView.Adapter<BoardGroupItemAdapter.CustomViewHolder> {
     private ArrayList<BoardGroupItem> itemList;
     private AdapterView.OnItemClickListener onItemClickListener;
+    private Context context;
 
-    public BoardGroupItemAdapter(ArrayList<BoardGroupItem> itemList) {
+    public BoardGroupItemAdapter(ArrayList<BoardGroupItem> itemList, Context context) {
         this.itemList = itemList;
+        this.context = context;
     }
 
     @Override
@@ -37,7 +41,7 @@ public class BoardGroupItemAdapter extends RecyclerView.Adapter<BoardGroupItemAd
     @Override
     public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
-        return new CustomViewHolder(view);
+        return new CustomViewHolder(view, context);
     }
 
     @Override
@@ -78,19 +82,23 @@ public class BoardGroupItemAdapter extends RecyclerView.Adapter<BoardGroupItemAd
     }
 
     static class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private TextView content, writer;
-        private ImageView image;
+        private TextView content, writer, exp;
+        private ImageView image, border;
         ItemClickListener itemClickListener;
+        private Context context;
 
-        public CustomViewHolder(View itemView) {
+        public CustomViewHolder(View itemView, Context context) {
             super(itemView);
             writer = itemView.findViewById(R.id.item_board_group_writer);
             content = itemView.findViewById(R.id.item_board_group_content);
             image = itemView.findViewById(R.id.item_board_group_image_view);
-
+            border = itemView.findViewById(R.id.border_profile);
+            exp = itemView.findViewById(R.id.item_board_group_exp);
             itemView.setOnClickListener(this);
+            this.context = context;
         }
 
+        @SuppressLint("DefaultLocale")
         public void bind(BoardGroupItem item) {
             content.setText(item.getContent());
             writer.setText(item.getWriter());
@@ -103,9 +111,26 @@ public class BoardGroupItemAdapter extends RecyclerView.Adapter<BoardGroupItemAd
                         .load(item.getImage())
                         .into(image);
                 image.setClipToOutline(true);
-            } else {
-                image.setVisibility(View.GONE);
             }
+            int color = context.getColor(R.color.bronze);
+            if(item.getTier() == null || item.getTier().equals("BRONZE")){
+                color = context.getColor(R.color.bronze);
+            }
+            else if(item.getTier().equals("SILVER")){
+                color = context.getColor(R.color.silver);
+            }
+            else if(item.getTier().equals("GOLD")){
+                color = context.getColor(R.color.gold);
+            }
+            else if(item.getTier().equals("PLATINUM")){
+                color = context.getColor(R.color.platinum);
+            }
+            else if(item.getTier().equals("DIAMOND")){
+                color = context.getColor(R.color.diamond);
+            }
+            border.setColorFilter(color);
+            if(item.getExp() != null)
+                exp.setText(String.format("%d",item.getExp()));
         }
 
         @Override

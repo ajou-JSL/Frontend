@@ -1,5 +1,6 @@
 package com.example.moum.view.community.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import com.example.moum.data.dto.MemberProfileRankResponse;
 import com.example.moum.data.entity.BoardGroupItem;
 import com.example.moum.data.entity.Member;
 import com.example.moum.data.entity.Performance;
+import com.example.moum.utils.ImageManager;
 import com.example.moum.utils.TimeManager;
 import com.example.moum.view.community.BoardMemberFragment;
 import com.example.moum.view.community.BoardPerformanceFragment;
@@ -67,6 +69,7 @@ public class BoardMemberItemAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         private MemberProfileRankResponse member;
         private TextView memberName;
         private TextView memberDescription;
+        private TextView memberExp;
         private CircleImageView memberImage;
         private Context context;
         private BoardMemberFragment fragment;
@@ -75,22 +78,43 @@ public class BoardMemberItemAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             super(itemView);
             memberName = itemView.findViewById(R.id.item_board_member_name);
             memberDescription = itemView.findViewById(R.id.item_board_member_content);
+            memberExp = itemView.findViewById(R.id.item_board_member_exp);
             memberImage = itemView.findViewById(R.id.item_board_member_image_view);
             this.fragment = fragment;
             this.context = context;
         }
 
+        @SuppressLint("DefaultLocale")
         @RequiresApi(api = Build.VERSION_CODES.O)
         public void bind(MemberProfileRankResponse member){
             this.member = member;
             if(member.getMemberName() != null) memberName.setText(member.getMemberName());
             if(member.getMemberUsername() != null) memberDescription.setText(member.getMemberUsername());
+            if(member.getExp() != null) memberExp.setText(String.format("%d",member.getExp()));
             if(member.getFileUrl() != null)
                 Glide.with(context)
                         .applyDefaultRequestOptions(new RequestOptions()
                         .placeholder(R.drawable.background_circle_gray_size_fit)
                         .error(R.drawable.background_circle_gray_size_fit))
                         .load(member.getFileUrl()).into(memberImage);
+            int color = context.getColor(R.color.bronze);
+            if(member.getTier().equals("BRONZE")){
+                color = context.getColor(R.color.bronze);
+            }
+            else if(member.getTier().equals("SILVER")){
+                color = context.getColor(R.color.silver);
+            }
+            else if(member.getTier().equals("GOLD")){
+                color = context.getColor(R.color.gold);
+            }
+            else if(member.getTier().equals("PLATINUM")){
+                color = context.getColor(R.color.platinum);
+            }
+            else if(member.getTier().equals("DIAMOND")){
+                color = context.getColor(R.color.diamond);
+            }
+            memberImage.setBorderWidth(3);
+            memberImage.setBorderColor(color);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

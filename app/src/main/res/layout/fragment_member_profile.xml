@@ -91,12 +91,51 @@
                     android:textSize="16sp"
                     android:fontFamily="@font/noto_sans_kr_bold"
                     android:includeFontPadding="false"/>
-                <ImageView
-                    android:id="@+id/imageview_tier"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:src="@drawable/icon_trophy"
-                    android:layout_marginLeft="5dp" />
+                    android:layout_marginStart="5dp"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/imageview_tier"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/icon_hexagon"
+                        android:scaleType="fitCenter"
+                        android:alpha="0.7"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/noto_sans_kr_regular"
+                        android:includeFontPadding="false"
+                        android:textColor="@color/gray0"
+                        android:text="exp"
+                        android:textSize="9sp"
+                        android:paddingBottom="2dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/textview_exp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/noto_sans_kr_regular"
+                    android:includeFontPadding="false"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:maxWidth="50dp"
+                    android:text="0"
+                    android:textSize="12sp"/>
             </LinearLayout>
 
             <TextView
