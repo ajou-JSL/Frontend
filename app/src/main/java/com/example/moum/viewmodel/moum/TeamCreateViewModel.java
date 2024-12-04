@@ -83,7 +83,13 @@ public class TeamCreateViewModel extends AndroidViewModel {
     }
 
     public void addRecord(String name, LocalDate startDate, LocalDate endDate){
-        Record newRecord = new Record(name, startDate.toString().concat("T00:00:00"), endDate.toString().concat("T00:00:00"));
+        String startDateStr = null;
+        String endDateStr = null;
+        if(startDate != null)
+            startDateStr = startDate.toString().concat("T00:00:00");
+        if(endDate != null)
+            endDateStr = endDate.toString().concat("T00:00:00");
+        Record newRecord = new Record(name, startDateStr,endDateStr);
         records.add(newRecord);
     }
 

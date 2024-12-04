@@ -290,7 +290,7 @@ public class SignupProfileActivity extends AppCompatActivity {
                 signupViewModel.signup(context);
             }
             else{
-                Toast.makeText(context, "알수 없는 감시 결과(Code: " + isProfileValid.toString() + ")", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "회원가입에 실패하였습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "다음 버튼 감시 결과를 알 수 없습니다.");
             }
         });

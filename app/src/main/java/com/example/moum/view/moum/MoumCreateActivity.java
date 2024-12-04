@@ -36,6 +36,7 @@ import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.utils.WrapContentLinearLayoutManager;
 import com.example.moum.view.auth.InitialActivity;
+import com.example.moum.view.dialog.LoadingDialog;
 import com.example.moum.view.dialog.MoumCreateDialog;
 import com.example.moum.view.moum.adapter.MoumCreateImageAdapter;
 import com.example.moum.viewmodel.moum.MoumCreateViewModel;
@@ -58,6 +59,7 @@ public class MoumCreateActivity extends AppCompatActivity {
     private Integer teamId;
     private ActivityResultLauncher<PickVisualMediaRequest> pickMultipleMedia;
     private ArrayList<Uri> uris = new ArrayList<>();
+    private LoadingDialog loadingDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,8 +70,7 @@ public class MoumCreateActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
         context = this;
-
-        //TODO 리더만 생성 가능하게 로직 수정
+        loadingDialog = new LoadingDialog(context);
 
         /*단체 id 정보 불러오기*/
         Intent prevIntent = getIntent();
@@ -286,6 +287,7 @@ public class MoumCreateActivity extends AppCompatActivity {
 
         /*createMoum() 결과 감시*/
         viewModel.getIsCreateMoumSuccess().observe(this, isCreateTeamSuccess -> {
+            loadingDialog.dismiss();
             Validation validation = isCreateTeamSuccess.getValidation();
             Moum createdMoum = isCreateTeamSuccess.getData();
             if(validation == Validation.NOT_VALID_ANYWAY){
@@ -388,6 +390,7 @@ public class MoumCreateActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void onDialogYesClicked(){
         /*다이얼로그에서 Yes 버튼 클릭 시, createMoum() 호출*/
+        loadingDialog.show();
         viewModel.createMoum(id, teamId, context);
     }
 

@@ -43,6 +43,7 @@ import com.example.moum.databinding.ActivityTeamUpdateBinding;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
+import com.example.moum.view.dialog.LoadingDialog;
 import com.example.moum.view.dialog.TeamCreateDialog;
 import com.example.moum.view.dialog.TeamDeleteDialog;
 import com.example.moum.view.dialog.TeamUpdateDialog;
@@ -69,6 +70,7 @@ public class TeamUpdateActivity extends AppCompatActivity {
     private Integer id;
     private Integer teamId;
     private Integer leaderId;
+    private LoadingDialog loadingDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,6 +81,7 @@ public class TeamUpdateActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
         context = this;
+        loadingDialog = new LoadingDialog(context);
 
         /*자동로그인 정보를 SharedPreference에서 불러오기*/
         sharedPreferenceManager = new SharedPreferenceManager(context, getString(R.string.preference_file_key));
@@ -312,6 +315,7 @@ public class TeamUpdateActivity extends AppCompatActivity {
 
         /*updateTeam() 결과 감시*/
         viewModel.getIsUpdateTeamSuccess().observe(this, isUpdateTeamSuccess -> {
+            loadingDialog.dismiss();
             Validation validation = isUpdateTeamSuccess.getValidation();
             Team updatedTeam = isUpdateTeamSuccess.getData();
             if(validation == Validation.NOT_VALID_ANYWAY){
@@ -433,6 +437,7 @@ public class TeamUpdateActivity extends AppCompatActivity {
 
     public void onTeamUpdateDialogYesClicked(){
         /*다이얼로그에서 Yes 버튼 클릭 시, updateTeam() 호출*/
+        loadingDialog.show();
         viewModel.updateTeam(teamId, id, context);
     }
 
