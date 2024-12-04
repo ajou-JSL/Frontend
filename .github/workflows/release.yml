@@ -9,7 +9,7 @@ on:
     inputs:
       use_version_file:
         description: "Use version.properties file for versioning"
-        required: true
+        required: false
         default: "false"
 
 jobs:
