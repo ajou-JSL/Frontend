@@ -18,6 +18,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -57,8 +58,15 @@ public interface ArticleApi {
             @Part("articleRequestDto") ArticleRequest articleRequest
     );
 
-    @POST("api/articles/likes/{articleId}")
+    @GET("/api/articles/member/{memberId}/likes/{articleId}")
+    Call<SuccessResponse<Like>> loadLike(
+            @Path("memberId") int memberId,
+            @Path("articleId") int articleId
+    );
+
+    @PUT("api/articles/member/{memberId}/likes/{articleId}")
     Call<SuccessResponse<Like>> postLike(
+            @Path("memberId") int memberId,
             @Path("articleId") int articleId
     );
 
@@ -71,6 +79,11 @@ public interface ArticleApi {
     @DELETE("/api/comments/{commentId}")
     Call<SuccessResponse<Comment>> deleteComment(
             @Path("commentId") int commentId
+    );
+
+    @GET("/api/articles/{articleId}")
+    Call<SuccessResponse<List<Comment>>> getArticleComments(
+            @Path("articleId") int articleId
     );
 
     @DELETE("/api/articles/{articleId}")

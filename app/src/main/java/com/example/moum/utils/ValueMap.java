@@ -71,6 +71,7 @@ public class ValueMap {
             // 좋아요 관련 성공 응답
             put("S-L001", Validation.LIKES_CREATE_SUCCESS);
             put("S-L002", Validation.LIKES_DELETE_SUCCESS);
+            put("S-L003", Validation.LIKES_GET_SUCCESS);
 
             // 이력 관련 성공 응답
             put("S-R001", Validation.RECORD_ADD_SUCCESS);

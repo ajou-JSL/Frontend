@@ -97,7 +97,6 @@ public class BoardFreeItemAdapter extends RecyclerView.Adapter<BoardFreeItemAdap
                         .into(image);
             } else {
                 // 이미지가 없으면 숨기기
-                Log.e("BoardFreeItemAdapter", "이미지가 없음 Id : " + item.getBoardId());
                 image.setVisibility(View.GONE);
             }
         }

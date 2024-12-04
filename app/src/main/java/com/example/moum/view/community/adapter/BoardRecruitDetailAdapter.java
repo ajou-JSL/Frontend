@@ -6,8 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,20 +19,20 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.moum.R;
 import com.example.moum.data.entity.Comment;
 import com.example.moum.utils.TimeAgo;
-import com.example.moum.view.community.BoardFreeDetailActivity;
-import com.example.moum.viewmodel.community.BoardFreeDetailViewModel;
+import com.example.moum.view.community.BoardRecruitDetailActivity;
+import com.example.moum.viewmodel.community.BoardRecruitDetailViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BoardFreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class BoardRecruitDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int VIEW_TYPE_COMMENT = 0;
 
-    private final BoardFreeDetailViewModel boardFreeDetailViewModel;
+    private final BoardRecruitDetailViewModel boardRecruitDetailViewModel;
     private List<Comment> commentList;
     private AdapterView.OnItemClickListener onItemClickListener;
     private final Context context;
-    private OnProfileClickListener profileClickListener;
+    private com.example.moum.view.community.adapter.BoardFreeDetailAdapter.OnProfileClickListener profileClickListener;
 
     public Comment getCommentAt(int position) {
         if (position >= 0 && position < commentList.size()) {
@@ -45,15 +45,15 @@ public class BoardFreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         void onProfileClick(int position); // 포지션이나 다른 데이터 전달
     }
 
-    public BoardFreeDetailAdapter(ArrayList<Comment> commentList, Context context, BoardFreeDetailViewModel boardFreeDetailViewModel) {
+    public BoardRecruitDetailAdapter(ArrayList<Comment> commentList, Context context, BoardRecruitDetailViewModel boardRecruitDetailViewModel) {
         this.commentList = commentList;
         this.context = context;
-        this.boardFreeDetailViewModel = boardFreeDetailViewModel;
+        this.boardRecruitDetailViewModel = boardRecruitDetailViewModel;
     }
 
     @Override
     public int getItemViewType(int position) {
-            return VIEW_TYPE_COMMENT;
+        return VIEW_TYPE_COMMENT;
     }
 
     @Override
@@ -78,16 +78,16 @@ public class BoardFreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_board_free_comment, parent, false);
-        return new CommentViewHolder(view);
+        return new com.example.moum.view.community.adapter.BoardRecruitDetailAdapter.CommentViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Comment comment = commentList.get(position);
-        ((CommentViewHolder) holder).bind(comment);
+        ((com.example.moum.view.community.adapter.BoardFreeDetailAdapter.CommentViewHolder) holder).bind(comment);
     }
 
-    public void setOnProfileClickListener(OnProfileClickListener listener) {
+    public void setOnProfileClickListener(com.example.moum.view.community.adapter.BoardFreeDetailAdapter.OnProfileClickListener listener) {
         this.profileClickListener = listener;
     }
 
@@ -129,7 +129,7 @@ public class BoardFreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 LifecycleOwner lifecycleOwner = (LifecycleOwner) context;
 
                 // ViewModel에서 멤버 정보를 가져오고 observe를 설정
-                boardFreeDetailViewModel.getIsLoadMemberSuccess().observe(lifecycleOwner, member -> {
+                boardRecruitDetailViewModel.getIsLoadMemberSuccess().observe(lifecycleOwner, member -> {
                     if (member != null && member.getData().getProfileImageUrl() != null) {
                         Glide.with(profileImage.getContext())
                                 .load(member.getData().getProfileImageUrl())
@@ -140,13 +140,13 @@ public class BoardFreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     }
                 });
             }
-            boardFreeDetailViewModel.loadProfileImage(comment.getAuthorId());
+            boardRecruitDetailViewModel.loadProfileImage(comment.getAuthorId());
 
         }
 
         private void showPopupMenu(View view, int position) {
-            if (context instanceof BoardFreeDetailActivity) {  // 액티비티가 맞는지 확인
-                ((BoardFreeDetailActivity) context).commentPopupMenu(view, position);
+            if (context instanceof BoardRecruitDetailActivity) {  // 액티비티가 맞는지 확인
+                ((BoardRecruitDetailActivity) context).commentPopupMenu(view, position);
             }
         }
 

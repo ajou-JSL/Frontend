@@ -214,7 +214,7 @@ public class CommunitySearchActivity extends AppCompatActivity {
 
         // 스크롤 리스너 추가
         long DEBOUNCE_DELAY = 0;
-        Handler handler = new Handler(Looper.getMainLooper()); // 여러번 호출되는 것을 막기 위한 디바운싱
+        Handler handler = new Handler(Looper.getMainLooper());
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {

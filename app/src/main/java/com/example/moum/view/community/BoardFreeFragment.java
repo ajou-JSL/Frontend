@@ -156,7 +156,6 @@ public class BoardFreeFragment extends Fragment implements RefreshableFragment {
                         if (article.getFileURL() != null) {
                             item.setImage(article.getFileURL().get(0));
                         }
-                        Log.e(TAG, "BoardFreeItem : " + article.toString());
                         updatedItemList.add(item);
                     }
                     adapter.updateItemList(updatedItemList);
