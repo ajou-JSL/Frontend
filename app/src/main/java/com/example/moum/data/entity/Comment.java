@@ -3,9 +3,10 @@ package com.example.moum.data.entity;
 public class Comment {
     private Integer commentId;
     private Integer articleDetailsId;
+    private Integer authorId;
     private String author;
     private String content;
-    private String createAt;
+    private String createdAt;
 
     public String getAuthor() {
         return author;
@@ -24,8 +25,11 @@ public class Comment {
     }
 
     public String getCreateAt() {
-        return createAt;
+        return createdAt;
     }
+
+    public Integer getAuthorId() {return authorId;}
+
 
     public void setAuthor(String author) {
         this.author = author;
@@ -44,8 +48,13 @@ public class Comment {
     }
 
     public void setCreateAt(String createAt) {
-        this.createAt = createAt;
+        this.createdAt = createAt;
     }
+
+    public void setAuthorId(Integer authorId) {
+        this.authorId = authorId;
+    }
+
 
     @Override
     public String toString() {
@@ -54,7 +63,7 @@ public class Comment {
                 ", articleDetailsId=" + articleDetailsId +
                 ", author='" + author + '\'' +
                 ", content='" + content + '\'' +
-                ", createAt='" + createAt + '\'' +
+                ", createAt='" + createdAt + '\'' +
                 '}';
     }
 }

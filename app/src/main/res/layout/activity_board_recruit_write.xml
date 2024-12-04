@@ -15,9 +15,9 @@
             android:id="@+id/toolbar_board_recruit_write"
             android:layout_width="match_parent"
             android:layout_height="90dp"
-            android:layout_marginStart="1dp"
-            android:layout_marginTop="1dp"
-            android:layout_marginEnd="1dp"
+            android:paddingTop="10dp"
+            android:paddingStart="20dp"
+
             android:background="@drawable/background_white_underline"
             android:minHeight="?attr/actionBarSize"
             app:contentInsetStart="0dp"
@@ -28,27 +28,27 @@
 
             <ImageButton
                 android:id="@+id/leftarrow"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:background="@null"
                 android:contentDescription="뒤로가기 버튼"
-                android:padding="7dp"
                 android:scaleType="centerCrop"
 
                 app:layout_constraintBottom_toBottomOf="@id/toolbar_board_recruit_write"
                 app:layout_constraintStart_toStartOf="@id/toolbar_board_recruit_write"
                 app:layout_constraintTop_toTopOf="@id/toolbar_board_recruit_write"
-                app:srcCompat="@drawable/ic_leftarrow" />
+                android:src="@drawable/button_rounded_left" />
 
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="15dp"
                 android:text="모집게시판 글 작성"
-                android:textSize="18sp"
-                android:fontFamily="@font/noto_sans_kr_black"
-                android:includeFontPadding="false"
+                android:fontFamily="@font/noto_sans_kr_semibold"
+                android:textColor="@color/gray7"
+                android:textSize="14sp"
+
 
                 app:layout_constraintBottom_toBottomOf="@+id/toolbar_post"
                 app:layout_constraintStart_toEndOf="@+id/leftarrow"
@@ -61,11 +61,10 @@
                 android:background="?attr/selectableItemBackground"
                 android:layout_gravity="end"
 
-                android:fontFamily="@font/noto_sans_kr_regular"
-                android:includeFontPadding="false"
                 android:text="게시"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:fontFamily="@font/noto_sans_kr_semibold"
+                android:textColor="@color/gray7"
+                android:textSize="14sp" />
 
         </androidx.appcompat.widget.Toolbar>
 

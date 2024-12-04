@@ -4,7 +4,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/CommunityFragment"
-    tools:context=".view.bottomnavi.CommunityFragment">
+    tools:context=".view.community.CommunityFragment">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -60,7 +69,8 @@
         app:tabIndicator="@null"
         app:tabSelectedTextColor="@color/black"
         app:tabTextAppearance="@style/tab_text"
-        app:tabTextColor="@color/gray5">
+        app:tabTextColor="@color/gray5"
+        app:tabMode="scrollable">
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
@@ -76,6 +86,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="단체 탐색" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="멤버 탐색" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
@@ -103,4 +118,6 @@
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </LinearLayout>
 </layout>

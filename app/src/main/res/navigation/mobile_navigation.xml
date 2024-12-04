@@ -20,7 +20,7 @@
 
     <fragment
         android:id="@+id/menu_community"
-        android:name="com.example.moum.view.bottomnavi.CommunityFragment"
+        android:name="com.example.moum.view.community.CommunityFragment"
         android:label="community"
         tools:layout="@layout/fragment_community" />
 

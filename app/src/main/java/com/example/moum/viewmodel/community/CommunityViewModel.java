@@ -1,4 +1,4 @@
-package com.example.moum.viewmodel.bottomnavi;
+package com.example.moum.viewmodel.community;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

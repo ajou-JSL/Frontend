@@ -17,11 +17,16 @@ public class Practiceroom {
     private Integer stand;
     private Boolean hasPiano;
     private Boolean hasAmp;
+    private Boolean hasMic;
     private Boolean hasSpeaker;
     private Boolean hasDrums;
     private String details;
     private Float latitude;
     private Float longitude;
+
+    public Boolean getHasMic() {
+        return hasMic;
+    }
 
     public String getName() {
         return name;
@@ -97,6 +102,10 @@ public class Practiceroom {
 
     public String getPhone() {
         return phone;
+    }
+
+    public void setHasMic(Boolean hasMic) {
+        this.hasMic = hasMic;
     }
 
     public void setName(String name) {

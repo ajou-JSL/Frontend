@@ -69,7 +69,7 @@
             android:exported="true">
         </activity>
         <activity
-            android:name=".view.community.BoardRecrutWriteActivity"
+            android:name=".view.community.BoardRecruitWriteActivity"
             android:exported="true">
         </activity>
         <activity

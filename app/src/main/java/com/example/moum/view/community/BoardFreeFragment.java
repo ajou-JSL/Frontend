@@ -1,6 +1,6 @@
 package com.example.moum.view.community;
 
-import static com.example.moum.view.community.adapter.TimeAgo.getTimeAgo;
+import static com.example.moum.utils.TimeAgo.getTimeAgo;
 
 import android.content.Context;
 import android.content.Intent;
@@ -23,13 +23,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import com.example.moum.MainActivity;
+
 import com.example.moum.R;
 import com.example.moum.data.entity.Article;
 import com.example.moum.data.entity.BoardFreeItem;
-import com.example.moum.data.entity.BoardGroupItem;
-import com.example.moum.data.entity.Team;
 import com.example.moum.databinding.FragmentBoardFreeBinding;
+import com.example.moum.utils.RefreshableFragment;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
@@ -40,14 +39,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class BoardFreeFragment extends Fragment {
+public class BoardFreeFragment extends Fragment implements RefreshableFragment {
     private FragmentBoardFreeBinding binding;
     private SharedPreferenceManager sharedPreferenceManager;
     private BoardFreeViewModel boardFreeViewModel;
     private final ArrayList<Article> articles = new ArrayList<>();
     private Context context;
     private Integer memberId;
-    private int bottomNavHeight;
     private boolean isLoading = false;
     private final String TAG = getClass().toString();
 
@@ -67,7 +65,7 @@ public class BoardFreeFragment extends Fragment {
             Intent intent = new Intent(context, InitialActivity.class);
             startActivity(intent);
         }
-        Log.e(TAG, "onCreateView start");
+
         initSpinner();
         initRecyclerView();
         initFloatingActionButton();
@@ -101,8 +99,6 @@ public class BoardFreeFragment extends Fragment {
     }
 
     private void initRecyclerView() {
-
-        Log.e(TAG, "initRecyclerView start");
         // RecyclerView 초기화
         RecyclerView recyclerView = binding.boardFreeRecyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -115,6 +111,7 @@ public class BoardFreeFragment extends Fragment {
         ArrayList<BoardFreeItem> initialItemList = new ArrayList<>();
         BoardFreeItemAdapter adapter = new BoardFreeItemAdapter(initialItemList);
         recyclerView.setAdapter(adapter);
+
 
         // 스크롤 리스너 추가
         long DEBOUNCE_DELAY = 0;
@@ -136,7 +133,6 @@ public class BoardFreeFragment extends Fragment {
             }
         });
 
-
         // LiveData 관찰 및 데이터 로딩
         boardFreeViewModel.resetPagination();
         boardFreeViewModel.getIsLoadArticlesCategorySuccess().observe(getViewLifecycleOwner(), result -> {
@@ -157,42 +153,13 @@ public class BoardFreeFragment extends Fragment {
                                 article.getCommentsCounts(),
                                 article.getViewCounts()
                         );
+                        if (article.getFileURL() != null) {
+                            item.setImage(article.getFileURL().get(0));
+                        }
+                        Log.e(TAG, "BoardFreeItem : " + article.toString());
                         updatedItemList.add(item);
                     }
                     adapter.updateItemList(updatedItemList);
-                    boardFreeViewModel.setRecentSize(updatedItemList.size());
-                } else {
-                    // 에러 처리
-                    Toast.makeText(getContext(), "데이터를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
-                }
-            } else {
-                // result가 null일 경우 에러 처리
-                Toast.makeText(getContext(), "응답이 없습니다.", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        // 다음 리스트 LiveData 관찰 및 데이터 로딩
-        boardFreeViewModel.getIsLoadNextArticlesCategorySuccess().observe(getViewLifecycleOwner(), result -> {
-            if (result != null) {
-                Validation validation = result.getValidation();
-                List<Article> loadedArticles = result.getData();
-
-                if (validation == Validation.ARTICLE_LIST_GET_SUCCESS && loadedArticles != null) {
-                    // 데이터 업데이트
-                    ArrayList<BoardFreeItem> updatedItemList = new ArrayList<>();
-                    for (Article article : loadedArticles) {
-                        BoardFreeItem item = new BoardFreeItem();
-                        item.setBoardFreeItem(
-                                article.getId(),
-                                article.getTitle(),
-                                article.getAuthor(),
-                                getTimeAgo(article.getCreateAt()),
-                                article.getCommentsCounts(),
-                                article.getViewCounts()
-                        );
-                        updatedItemList.add(item);
-                    }
-                    adapter.addItemList(updatedItemList);
                     boardFreeViewModel.setRecentSize(updatedItemList.size());
                 } else {
                     // 에러 처리
@@ -225,5 +192,11 @@ public class BoardFreeFragment extends Fragment {
         super.onDestroyView();
         boardFreeViewModel.resetPagination();
         binding = null;
+    }
+
+    @Override
+    public void refreshContent() {
+        boardFreeViewModel.resetPagination();
+        boardFreeViewModel.loadArticleCategoryList();
     }
 }

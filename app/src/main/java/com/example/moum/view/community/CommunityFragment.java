@@ -1,4 +1,4 @@
-package com.example.moum.view.bottomnavi;
+package com.example.moum.view.community;
 
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -10,15 +10,15 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.moum.R;
 import com.example.moum.databinding.FragmentCommunityBinding;
+import com.example.moum.utils.RefreshableFragment;
 import com.example.moum.view.community.adapter.TabbarPagerAdapter;
-import com.example.moum.viewmodel.bottomnavi.CommunityViewModel;
-import com.example.moum.view.community.CommunitySearchActivity;
+import com.example.moum.viewmodel.community.CommunityViewModel;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -40,6 +40,19 @@ public class CommunityFragment extends Fragment {
 
         initSearchButton();
         initTabLayout(binding.communityTabbarPage, binding.tabLayout, adapter);
+
+        // swipe to refresh
+        binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                int currentItem = binding.communityTabbarPage.getCurrentItem();
+                Fragment fragment = getChildFragmentManager().findFragmentByTag("f" + currentItem);
+                if (fragment instanceof RefreshableFragment) {
+                    ((RefreshableFragment) fragment).refreshContent();
+                }
+                binding.swipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
         return root;
     }
@@ -73,6 +86,9 @@ public class CommunityFragment extends Fragment {
                         tab.setText("단체 탐색");
                         break;
                     case 3:
+                        tab.setText("멤버 탐색");
+                        break;
+                    case 4:
                         tab.setText("공연 탐색");
                         break;
                 }

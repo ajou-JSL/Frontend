@@ -68,4 +68,10 @@ public interface TeamApi {
             @Path("teamId") Integer teamId,
             @Path("memberId") Integer memberId
     );
+
+    //TODO 임시 api 나중에 바꿔야할듯
+    @GET("/api/teams/name/{teamName}")
+    Call<SuccessResponse<Team>> loadTeamToName(
+            @Path("teamName") String teamName
+    );
 }

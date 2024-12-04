@@ -72,11 +72,20 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && data != null) {
             int fragmentIndex = data.getIntExtra("fragment_index", -1);
-            if (fragmentIndex == 1) {
+            if (fragmentIndex == 0) {
+                bottomNavigationView.setSelectedItemId(R.id.menu_home);
+            }
+            else if (fragmentIndex == 1) {
                 bottomNavigationView.setSelectedItemId(R.id.menu_moumtalk);
             }
             else if(fragmentIndex == 2){
                 bottomNavigationView.setSelectedItemId(R.id.menu_community);
+            }
+            else if(fragmentIndex == 3){
+                bottomNavigationView.setSelectedItemId(R.id.menu_mymoum);
+            }
+            else if(fragmentIndex == 4){
+                bottomNavigationView.setSelectedItemId(R.id.menu_my_information);
             }
         }
     }

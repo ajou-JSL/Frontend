@@ -1,10 +1,13 @@
 package com.example.moum.data.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Article {
     private Integer id;
+    private Integer authorId;
     private String title;
     private String category; //TODO enum으로 리팩토링
     private String content;
@@ -12,8 +15,9 @@ public class Article {
     private Integer commentsCounts;
     private Integer genres;
     private Integer likeCounts;
-    private String fileURL;
+    private List<String> fileURL;
     private String author;
+    private String authorName; // 닉네임 추가
     private ArrayList<Comment> comments;
     private String createdAt;
     private String updatedAt;
@@ -21,6 +25,8 @@ public class Article {
     public Integer getId() {
         return id;
     }
+
+    public Integer getAuthorId() { return authorId; }
 
     public ArrayList<Comment> getComments() {
         return comments;
@@ -42,6 +48,8 @@ public class Article {
 
     public String getAuthor() {return author;}
 
+    public String getAuthorName() { return authorName; }
+
     public String getCategory() {return category;}
 
     public String getContent() {return content;}
@@ -52,9 +60,11 @@ public class Article {
 
     public String getUpdateAt() { return updatedAt; }
 
-    public String getFileURL() { return fileURL; }
+    public List<String> getFileURL() { return fileURL; }
 
     public void setId(Integer id) {this.id = id;}
+
+    public void setAuthorId(Integer authorId) { this.authorId = authorId; }
 
     public void setAuthor(String author) {this.author = author;}
 
@@ -76,7 +86,7 @@ public class Article {
 
     public void setUpdateAt(String updateAt) { this.updatedAt = updateAt; }
 
-    public void setFileURL(String fileURL) { this.fileURL = fileURL; }
+    public void setFileURL(List<String> fileURL) { this.fileURL = fileURL; }
 
     public void setGenre(Integer genres) { this.genres = genres; }
 
@@ -84,6 +94,7 @@ public class Article {
     public String toString() {
         return "Article{" +
                 "id=" + id +
+                "authorId=" + authorId +
                 ", title='" + title + '\'' +
                 ", category='" + category + '\'' +
                 ", content='" + content + '\'' +
@@ -93,7 +104,7 @@ public class Article {
                 ", imageURL=" + fileURL + '\'' +
                 ", author='" + author + '\'' +
                 ", comments=" + comments +
-                ", createAt='" + createdAt + '\'' +
+                ", createdAt='" + createdAt + '\'' +
                 ", viewCounts=" + updatedAt +
                 '}';
     }

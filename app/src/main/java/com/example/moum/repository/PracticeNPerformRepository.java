@@ -10,6 +10,8 @@ import com.example.moum.data.api.PracticeNPerformApi;
 import com.example.moum.data.dto.ErrorResponse;
 import com.example.moum.data.dto.PerformMoumRequest;
 import com.example.moum.data.dto.PracticeMoumRequest;
+import com.example.moum.data.dto.SearchPerformHallArgs;
+import com.example.moum.data.dto.SearchPracticeroomArgs;
 import com.example.moum.data.dto.SuccessResponse;
 import com.example.moum.data.entity.Content;
 import com.example.moum.data.entity.MoumPerformHall;
@@ -136,8 +138,8 @@ public class PracticeNPerformRepository {
         });
     }
 
-    public void searchPracticerooms(Integer page, Integer size, String name, LatLng latLng, com.example.moum.utils.Callback<Result<List<Practiceroom>>> callback){
-        Call<SuccessResponse<Content<List<Practiceroom>>>> result = practiceNPerformApi.searchPracticerooms(page, size, null, null, name, latLng.latitude, latLng.longitude, null, null, null, null, null, null, null, null, null, null, null, null);
+    public void searchPracticerooms(Integer page, Integer size, SearchPracticeroomArgs args, com.example.moum.utils.Callback<Result<List<Practiceroom>>> callback){
+        Call<SuccessResponse<Content<List<Practiceroom>>>> result = practiceNPerformApi.searchPracticerooms(page, size, args.getSortBy(), args.getOrderBy(), args.getName(), args.getLatitude(), args.getLongitude(), args.getMinPrice(), args.getMaxPrice(), args.getMinCapacity(), args.getMaxCapacity(), args.getType(), args.getMinStand(), args.getMaxStand(), args.getHasPiano(), args.getHasAmp(), args.getHasSpeaker(), args.getHasMic(), args.getHasDrums());
         result.enqueue(new retrofit2.Callback<SuccessResponse<Content<List<Practiceroom>>>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
@@ -253,8 +255,8 @@ public class PracticeNPerformRepository {
         });
     }
 
-    public void searchPerformHalls(Integer page, Integer size, String name, LatLng latLng, com.example.moum.utils.Callback<Result<List<PerformanceHall>>> callback){
-        Call<SuccessResponse<Content<List<PerformanceHall>>>> result = practiceNPerformApi.searchPerformHalls(page, size, null, null, name, latLng.latitude, latLng.longitude, null, null, null, null, null, null, null, null, null, null, null, null, null);
+    public void searchPerformHalls(Integer page, Integer size, SearchPerformHallArgs args, com.example.moum.utils.Callback<Result<List<PerformanceHall>>> callback){
+        Call<SuccessResponse<Content<List<PerformanceHall>>>> result = practiceNPerformApi.searchPerformHalls(page, size, args.getSortBy(), args.getOrderBy(), args.getName(), args.getLatitude(), args.getLongitude(), args.getMinPrice(), args.getMaxPrice(), args.getMaxHallSize(), args.getMinHallSize(), args.getMinCapacity(), args.getMaxCapacity(), args.getMinStand(), args.getMaxStand(), args.getHasPiano(), args.getHasAmp(), args.getHasSpeaker(), args.getHasMic(), args.getHasDrums());
         result.enqueue(new retrofit2.Callback<SuccessResponse<Content<List<PerformanceHall>>>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override

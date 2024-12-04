@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import com.example.moum.utils.TimeAgo;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -18,10 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.moum.R;
 import com.example.moum.data.entity.Article;
 import com.example.moum.data.entity.Moum;
+import com.example.moum.utils.TimeManager;
 import com.example.moum.view.home.HomeFragment;
-import com.example.moum.view.moum.MoumManageActivity;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -77,17 +76,18 @@ public class HomeArticleHotAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             this.homeFragment = homeFragment;
         }
 
+        @RequiresApi(api = Build.VERSION_CODES.O)
         public void bind(Article article) {
             this.article = article;
             articleName.setText(article.getTitle());
             articleAuthor.setText(article.getAuthor());
-            if(article.getCreateAt() != null) articleTime.setText(article.getCreateAt());
+            if(article.getCreateAt() != null) articleTime.setText(TimeManager.strToPrettyTime(article.getCreateAt()));
             else articleTime.setText("");
             articleViews.setText(String.format("%d회", article.getViewCounts()));
             articleTop.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    homeFragment.onArticleClicked(article.getId());
+                    homeFragment.onArticleClicked(article.getId(),article.getCategory());
                 }
             });
         }

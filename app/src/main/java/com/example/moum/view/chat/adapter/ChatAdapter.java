@@ -1,5 +1,6 @@
 package com.example.moum.view.chat.adapter;
 
+import android.content.Context;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.moum.R;
 import com.example.moum.data.entity.Chat;
 import com.example.moum.data.entity.Chatroom;
@@ -17,15 +20,19 @@ import com.example.moum.data.entity.Chatroom;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<Chat> chats;
     private Chatroom.ChatroomType chatroomType;
+    private Context context;
     private static final int VIEW_TYPE_LEFT = 1;
     private static final int VIEW_TYPE_RIGHT = 2;
 
-    public void setChats(ArrayList<Chat> chats, Chatroom.ChatroomType chatroomType) {
+    public void setChats(ArrayList<Chat> chats, Chatroom.ChatroomType chatroomType, Context context) {
         this.chats = chats;
         this.chatroomType = chatroomType;
+        this.context = context;
     }
 
     @Override
@@ -38,7 +45,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_LEFT) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chat_left, parent, false);
-            return new ChatLeftViewHolder(view);
+            return new ChatLeftViewHolder(view, context);
         } else {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chat_right, parent, false);
             return new ChatRightViewHolder(view);
@@ -65,12 +72,16 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private TextView leftName;
         private TextView leftContent;
         private TextView leftTime;
+        private CircleImageView leftProfile;
+        private Context context;
 
-        public ChatLeftViewHolder(@NonNull View itemView) {
+        public ChatLeftViewHolder(@NonNull View itemView, Context context) {
             super(itemView);
             leftName = itemView.findViewById(R.id.left_name);
             leftContent = itemView.findViewById(R.id.left_content);
             leftTime = itemView.findViewById(R.id.left_time);
+            leftProfile = itemView.findViewById(R.id.left_profile);
+            this.context = context;
         }
 
         @RequiresApi(api = Build.VERSION_CODES.O)
@@ -79,6 +90,11 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             leftContent.setText(chat.getMessage());
             String formatTime = chat.getTimestamp().format(DateTimeFormatter.ofPattern("HH:mm"));
             leftTime.setText(formatTime);
+            Glide.with(context)
+                    .applyDefaultRequestOptions(new RequestOptions()
+                    .placeholder(R.drawable.background_circle_gray_size_fit)
+                    .error(R.drawable.background_circle_gray_size_fit))
+                    .load(chat.getProfileUrl()).into(leftProfile);
         }
     }
 
