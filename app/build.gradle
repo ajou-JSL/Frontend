@@ -8,7 +8,7 @@ android {
 
     signingConfigs {
         release {
-            storeFile file("keystore/MOUMkey.jks")
+            storeFile file("keystore/MOUMkey2.jks")
             storePassword System.getenv("KEYSTORE_PASSWORD")
             keyAlias System.getenv("KEY_ALIAS")
             keyPassword System.getenv("KEY_PASSWORD")
