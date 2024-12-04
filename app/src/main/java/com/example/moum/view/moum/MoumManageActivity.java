@@ -70,7 +70,7 @@ public class MoumManageActivity extends AppCompatActivity {
     private boolean isSpinnerInitialized = false;
     private static final int REQUEST_CODE = 200;
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "DefaultLocale"})
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -446,7 +446,7 @@ public class MoumManageActivity extends AppCompatActivity {
                     binding.textviewMoumManageDate.setText(String.format("%s", loadedMoum.getEndDate()));
                 else
                     binding.textviewMoumManageDate.setText("");
-                if(loadedMoum.getPrice() != null) binding.textviewMoumManagePrice.setText(loadedMoum.getPrice().toString());
+                if(loadedMoum.getPrice() != null) binding.textviewMoumManagePrice.setText(String.format("%,d", loadedMoum.getPrice()));
                 if(loadedMoum.getMoumName() != null) binding.textviewMoumManageName.setText(loadedMoum.getMoumName());
 
                 Moum.Process process = loadedMoum.getProcess();

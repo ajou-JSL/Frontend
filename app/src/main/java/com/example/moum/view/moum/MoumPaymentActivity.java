@@ -150,7 +150,7 @@ public class MoumPaymentActivity extends AppCompatActivity {
                     if(settlement.getFee() != null)
                         sum += settlement.getFee();
                 }
-                binding.textviewSum.setText(String.format("%d", sum));
+                binding.textviewSum.setText(String.format("%,d", sum));
             }
             else if(validation == Validation.SETTLEMENT_GET_SUCCESS){
                 settlements.clear();

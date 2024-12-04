@@ -79,7 +79,7 @@ public class MoumPerformanceHallAdapter extends RecyclerView.Adapter<RecyclerVie
             if(performanceHall.getName() != null) performanceHallName.setText(performanceHall.getName());
             if(performanceHall.getDetails() != null) performanceHallDescription.setText(performanceHall.getDetails());
             if(performanceHall.getAddress() != null) performanceHallAddress.setText(performanceHall.getAddress());
-            if(performanceHall.getPrice() != null) performanceHallPrice.setText(String.format("시간 당 %s원", performanceHall.getPrice()));
+            if(performanceHall.getPrice() != null) performanceHallPrice.setText(String.format("시간 당 %,d원", performanceHall.getPrice()));
             if(performanceHall.getImageUrls() != null && !performanceHall.getImageUrls().isEmpty())
                 Glide.with(context)
                         .load(performanceHall.getImageUrls().get(0))
