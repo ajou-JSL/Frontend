@@ -35,24 +35,26 @@ jobs:
       # 4. GitHub Secrets에서 키스토어 로드 및 파일 생성
       - name: Generate Keystore file from Github Secrets
         run: |
-          mkdir -p ./keystore
-          echo "$KEYSTORE" > ./keystore/keystore.b64
-          base64 -d ./keystore/keystore.b64 > ./keystore/MOUMkey.jks
+          mkdir -p ./app/keystore
+          echo "$KEYSTORE" > ./app/keystore/keystore.b64
+          base64 -d ./app/keystore/keystore.b64 > ./app/keystore/MOUMkey.jks
         env:
           KEYSTORE: ${{ secrets.APP_KEYSTORE_BASE64 }}
 
       # 5. 키스토어 파일 생성 확인
-      - name: Verify Keystore File
+      - name: Verify Keystore File Path
         run: |
-          if [ ! -f ./keystore/MOUMkey.jks ]; then
-            echo "Keystore file was not created!"
+          echo "Current directory: $(pwd)"
+          echo "Listing files in ./app/keystore/"
+          ls -l ./app/keystore/
+          if [ ! -f ./app/keystore/MOUMkey.jks ]; then
+            echo "Keystore file is missing!"
             exit 1
           fi
-          echo "Keystore file created successfully."
 
       # 6. Gradle로 APK 빌드 (서명 포함)
       - name: Build APK with Signing
-        run: ./gradlew assembleRelease
+        run: ./gradlew assembleRelease --info
         env:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
@@ -82,22 +84,19 @@ jobs:
       - name: Bump version tag
         id: bump_version
         run: |
-          # 버전 태그를 X.Y.Z 형식으로 가정
           latest_tag=${{ steps.get_tag.outputs.latest_tag }}
-          IFS='.' read -r -a parts <<< "${latest_tag#v}" # 'v' 제거 후 숫자 분리
+          IFS='.' read -r -a parts <<< "${latest_tag#v}"
           major="${parts[0]}"
           minor="${parts[1]}"
           patch="${parts[2]}"
           
-          # 패치 번호가 9이면 마이너를 증가시키고 패치를 0으로 초기화
           if [ "$patch" -eq 9 ]; then
             patch=0
             minor=$((minor+1))
           else
             patch=$((patch+1))
           fi
-          
-          # 마이너가 10에 도달하면 메이저를 증가시키고 마이너를 0으로 초기화
+
           if [ "$minor" -eq 10 ]; then
             minor=0
             major=$((major+1))
