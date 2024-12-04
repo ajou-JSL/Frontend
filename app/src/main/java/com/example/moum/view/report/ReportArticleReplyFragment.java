@@ -24,6 +24,7 @@ import com.example.moum.databinding.FragmentReportTeamReplyBinding;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
+import com.example.moum.view.community.BoardFreeDetailActivity;
 import com.example.moum.view.profile.MemberProfileFragment;
 import com.example.moum.viewmodel.report.ReportArticleReplyViewModel;
 import com.example.moum.viewmodel.report.ReportTeamReplyViewModel;
@@ -91,10 +92,16 @@ public class ReportArticleReplyFragment extends BottomSheetDialogFragment {
                         binding.radioGroupArticle.check(R.id.radio_report_article_4);
                 }
                 binding.radioGroupArticle.setEnabled(false);
+                binding.radioReportArticle1.setEnabled(false);
+                binding.radioReportArticle2.setEnabled(false);
+                binding.radioReportArticle3.setEnabled(false);
+                binding.edittextReply.setEnabled(false);
                 binding.buttonGotoReported.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        //TODO 게시글 완성 시 채울 것
+                        Intent intent = new Intent(context, BoardFreeDetailActivity.class);
+                        intent.putExtra("targetBoardId", reportArticle.getArticleId());
+                        context.startActivity(intent);
                     }
                 });
             }
@@ -109,6 +116,8 @@ public class ReportArticleReplyFragment extends BottomSheetDialogFragment {
                 Log.e(TAG, "알 수 없는 validation");
             }
         });
+        binding.radioGroupArticle.setEnabled(false);
+        binding.edittextReply.setEnabled(false);
 
         return  view;
     }

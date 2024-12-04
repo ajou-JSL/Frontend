@@ -4,7 +4,7 @@ public class ReportTeam {
     private Integer id;
     private Integer teamId;
     private String teamName;
-    private Integer reportedId;
+    private Integer reporterId;
     private String reportedUsername;
     private String type;
     private String details;
@@ -27,8 +27,8 @@ public class ReportTeam {
         return resolved;
     }
 
-    public Integer getReportedId() {
-        return reportedId;
+    public Integer getReporterId() {
+        return reporterId;
     }
 
     public Integer getTeamId() {
@@ -67,8 +67,8 @@ public class ReportTeam {
         this.teamId = teamId;
     }
 
-    public void setReportedId(Integer reportedId) {
-        this.reportedId = reportedId;
+    public void setReporterId(Integer reporterId) {
+        this.reporterId = reporterId;
     }
 
     public void setReply(String reply) {
@@ -86,9 +86,10 @@ public class ReportTeam {
     @Override
     public String toString() {
         return "ReportTeam{" +
-                "teamId=" + teamId +
+                "id=" + id +
+                ", teamId=" + teamId +
                 ", teamName='" + teamName + '\'' +
-                ", reportedId=" + reportedId +
+                ", reporterId=" + reporterId +
                 ", reportedUsername='" + reportedUsername + '\'' +
                 ", type='" + type + '\'' +
                 ", details='" + details + '\'' +
