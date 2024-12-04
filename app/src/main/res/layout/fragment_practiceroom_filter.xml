@@ -170,6 +170,15 @@
                         android:textColor="@color/gray7"
                         android:textSize="16sp"
                         android:layout_marginTop="24dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0 ~ 1,000,000원"
+                        android:fontFamily="@font/noto_sans_kr_regular"
+                        android:textColor="@color/gray4"
+                        android:includeFontPadding="false"
+                        android:textSize="12sp"
+                        android:layout_marginBottom="5dp"/>
 
                     <com.google.android.material.slider.RangeSlider
                         android:id="@+id/slider_price"
@@ -178,8 +187,8 @@
                         android:stepSize="1.0"
                         android:valueFrom="0.0"
                         android:valueTo="1000000.0"
-                        app:values="@array/filter_range_price"
-                        style="style/RangeSliderStyle"/>
+                        app:values="@array/filter_range_practice_price"
+                        style="@style/RangeSliderStyle"/>
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/layout_capacity"
@@ -198,7 +207,15 @@
                         android:textColor="@color/gray7"
                         android:textSize="16sp"
                         android:layout_marginTop="24dp"/>
-
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0 ~ 200명"
+                        android:fontFamily="@font/noto_sans_kr_regular"
+                        android:textColor="@color/gray4"
+                        android:includeFontPadding="false"
+                        android:textSize="12sp"
+                        android:layout_marginBottom="5dp"/>
                     <com.google.android.material.slider.RangeSlider
                         android:id="@+id/slider_capacity"
                         android:layout_width="match_parent"
@@ -206,8 +223,8 @@
                         android:valueFrom="0.0"
                         android:valueTo="200.0"
                         android:stepSize="1.0"
-                        app:values="@array/filter_range_capacity"
-                        style="style/RangeSliderStyle"/>
+                        app:values="@array/filter_range_practice_capacity"
+                        style="@style/RangeSliderStyle"/>
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/layout_stand"
@@ -226,16 +243,24 @@
                         android:textColor="@color/gray7"
                         android:textSize="16sp"
                         android:layout_marginTop="24dp"/>
-
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0 ~ 100개"
+                        android:fontFamily="@font/noto_sans_kr_regular"
+                        android:textColor="@color/gray4"
+                        android:includeFontPadding="false"
+                        android:textSize="12sp"
+                        android:layout_marginBottom="5dp"/>
                     <com.google.android.material.slider.RangeSlider
                         android:id="@+id/slider_stand"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:valueFrom="0.0"
-                        android:valueTo="50.0"
+                        android:valueTo="100.0"
                         android:stepSize="1.0"
-                        app:values="@array/filter_range_stand"
-                        style="style/RangeSliderStyle"/>
+                        app:values="@array/filter_range_practice_stand"
+                        style="@style/RangeSliderStyle"/>
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/layout_piano"

@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <array name="filter_range_price">
+    <array name="filter_range_perform_price">
+        <item>0.0</item>
+        <item>10000000.0</item>
+    </array>
+    <array name="filter_range_practice_price">
         <item>0.0</item>
         <item>1000000.0</item>
     </array>
-    <array name="filter_range_capacity">
+    <array name="filter_range_perform_capacity">
+        <item>0.0</item>
+        <item>5000.0</item>
+    </array>
+    <array name="filter_range_practice_capacity">
         <item>0.0</item>
         <item>200.0</item>
     </array>
@@ -12,8 +20,12 @@
         <item>0.0</item>
         <item>10000.0</item>
     </array>
-    <array name="filter_range_stand">
+    <array name="filter_range_perform_stand">
         <item>0.0</item>
-        <item>50.0</item>
+        <item>200.0</item>
+    </array>
+    <array name="filter_range_practice_stand">
+        <item>0.0</item>
+        <item>100.0</item>
     </array>
 </resources>

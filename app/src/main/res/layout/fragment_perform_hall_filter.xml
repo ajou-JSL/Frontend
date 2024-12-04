@@ -146,16 +146,24 @@
                         android:textColor="@color/gray7"
                         android:textSize="16sp"
                         android:layout_marginTop="24dp"/>
-
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0 ~ 10,000,000원"
+                        android:fontFamily="@font/noto_sans_kr_regular"
+                        android:textColor="@color/gray4"
+                        android:includeFontPadding="false"
+                        android:textSize="12sp"
+                        android:layout_marginBottom="5dp"/>
                     <com.google.android.material.slider.RangeSlider
                         android:id="@+id/slider_price"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:stepSize="1.0"
                         android:valueFrom="0.0"
-                        android:valueTo="1000000.0"
-                        app:values="@array/filter_range_price"
-                        style="style/RangeSliderStyle"/>
+                        android:valueTo="10000000.0"
+                        app:values="@array/filter_range_perform_price"
+                        style="@style/RangeSliderStyle"/>
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/layout_capacity"
@@ -165,7 +173,6 @@
                     app:layout_constraintTop_toBottomOf="@id/layout_price"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent">
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -174,16 +181,24 @@
                         android:textColor="@color/gray7"
                         android:textSize="16sp"
                         android:layout_marginTop="24dp"/>
-
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0 ~ 5000명"
+                        android:fontFamily="@font/noto_sans_kr_regular"
+                        android:textColor="@color/gray4"
+                        android:includeFontPadding="false"
+                        android:textSize="12sp"
+                        android:layout_marginBottom="5dp"/>
                     <com.google.android.material.slider.RangeSlider
                         android:id="@+id/slider_capacity"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:valueFrom="0.0"
-                        android:valueTo="200.0"
+                        android:valueTo="5000.0"
                         android:stepSize="1.0"
-                        app:values="@array/filter_range_capacity"
-                        style="style/RangeSliderStyle"/>
+                        app:values="@array/filter_range_perform_capacity"
+                        style="@style/RangeSliderStyle"/>
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/layout_hall_size"
@@ -202,7 +217,15 @@
                         android:textColor="@color/gray7"
                         android:textSize="16sp"
                         android:layout_marginTop="24dp"/>
-
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0 ~ 10,000㎡"
+                        android:fontFamily="@font/noto_sans_kr_regular"
+                        android:textColor="@color/gray4"
+                        android:includeFontPadding="false"
+                        android:textSize="12sp"
+                        android:layout_marginBottom="5dp"/>
                     <com.google.android.material.slider.RangeSlider
                         android:id="@+id/slider_hall_size"
                         android:layout_width="match_parent"
@@ -211,7 +234,7 @@
                         android:valueTo="10000.0"
                         android:stepSize="10.0"
                         app:values="@array/filter_range_hall_size"
-                        style="style/RangeSliderStyle"/>
+                        style="@style/RangeSliderStyle"/>
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/layout_stand"
@@ -230,16 +253,24 @@
                         android:textColor="@color/gray7"
                         android:textSize="16sp"
                         android:layout_marginTop="24dp"/>
-
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0 ~ 200개"
+                        android:fontFamily="@font/noto_sans_kr_regular"
+                        android:textColor="@color/gray4"
+                        android:includeFontPadding="false"
+                        android:textSize="12sp"
+                        android:layout_marginBottom="5dp"/>
                     <com.google.android.material.slider.RangeSlider
                         android:id="@+id/slider_stand"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:valueFrom="0.0"
-                        android:valueTo="50.0"
+                        android:valueTo="200.0"
                         android:stepSize="1.0"
-                        app:values="@array/filter_range_stand"
-                        style="style/RangeSliderStyle"/>
+                        app:values="@array/filter_range_perform_stand"
+                        style="@style/RangeSliderStyle"/>
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/layout_piano"

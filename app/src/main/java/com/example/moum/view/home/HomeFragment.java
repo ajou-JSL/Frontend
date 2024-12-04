@@ -18,11 +18,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.moum.R;
 import com.example.moum.data.entity.Article;
+import com.example.moum.data.entity.Member;
 import com.example.moum.data.entity.Moum;
 import com.example.moum.data.entity.Performance;
+import com.example.moum.data.entity.Record;
 import com.example.moum.databinding.FragmentHomeBinding;
+import com.example.moum.utils.ImageManager;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.utils.WrapContentLinearLayoutManager;
@@ -104,6 +109,7 @@ public class HomeFragment extends Fragment {
         viewModel.loadArticlesHot();
         viewModel.loadMoums(memberId);
         viewModel.loadPerformsHot();
+        viewModel.loadMemberProfile(memberId);
 
         /*실시간 인기글 가져오기 감시 결과*/
         viewModel.getIsLoadArticlesHotSuccess().observe(getViewLifecycleOwner(), isLoadArticlesHotSuccess -> {
@@ -174,6 +180,28 @@ public class HomeFragment extends Fragment {
             else{
                 Toast.makeText(context, "공연 게시글을 불러올 수 없습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "알 수 없는 validation");
+            }
+        });
+
+        /*개인 프로필 정보 불러오기 결과 감시*/
+        viewModel.getIsLoadMemberProfileSuccess().observe(getViewLifecycleOwner(), isLoadMemberProfileSuccess -> {
+            Validation validation = isLoadMemberProfileSuccess.getValidation();
+            Member tMember = isLoadMemberProfileSuccess.getData();
+            if(validation == Validation.GET_PROFILE_SUCCESS){
+                if(ImageManager.isUrlValid(tMember.getProfileImageUrl()))
+                    Glide.with(context)
+                            .applyDefaultRequestOptions(new RequestOptions()
+                            .placeholder(R.drawable.background_circle_darkgray_size_fit)
+                            .error(R.drawable.background_circle_darkgray_size_fit))
+                            .load(tMember.getProfileImageUrl())
+                            .into(binding.imageProfile);
+            }
+            else if(validation == Validation.NETWORK_FAILED){
+                Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Log.e(TAG, "프로필을 불러올 수 없습니다.");
+                Toast.makeText(context, "프로필을 불러올 수 없습니다.", Toast.LENGTH_SHORT).show();
             }
         });
 

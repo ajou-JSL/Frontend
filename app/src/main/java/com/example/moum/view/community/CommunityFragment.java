@@ -3,6 +3,7 @@ package com.example.moum.view.community;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -136,11 +137,19 @@ public class CommunityFragment extends Fragment {
 
     }
 
-
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    public void onCommunityIndexReturn(Integer communityIndex){
+        Log.e("ss", "onCommunityIndexReturn start");
+        if(communityIndex != -1) {
+            communityViewModel.setSelectedTabIndex(communityIndex);
+            binding.communityTabbarPage.setCurrentItem(communityViewModel.getSelectedTabIndex().getValue(), false);
+            binding.tabLayout.selectTab(binding.tabLayout.getTabAt(communityViewModel.getSelectedTabIndex().getValue()));
+            Log.e("ss", "setSelectedTabIndex success");
+        }
     }
 }

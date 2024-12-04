@@ -37,7 +37,7 @@ jobs:
         run: |
           mkdir -p ./app/keystore
           echo "$KEYSTORE" > ./app/keystore/keystore.b64
-          base64 -d ./app/keystore/keystore.b64 > ./app/keystore/MOUMkey.jks
+          base64 -d ./app/keystore/keystore.b64 > ./app/keystore/MOUMkey2.jks
         env:
           KEYSTORE: ${{ secrets.APP_KEYSTORE_BASE64 }}
 
@@ -47,7 +47,7 @@ jobs:
           echo "Current directory: $(pwd)"
           echo "Listing files in ./app/keystore/"
           ls -l ./app/keystore/
-          if [ ! -f ./app/keystore/MOUMkey.jks ]; then
+          if [ ! -f ./app/keystore/MOUMkey2.jks ]; then
             echo "Keystore file is missing!"
             exit 1
           fi
@@ -123,7 +123,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ steps.bump_version.outputs.new_tag }}
           name: "MOUM-${{ steps.bump_version.outputs.new_tag }}"
-          body: "음악인들을 잇는 커뮤니티 플랫폼 어플리케이션, MOUM:모音\n\nNew release based on version ${{ steps.bump_version.outputs.new_tag }}."
+          body: "음악인들을 잇는 커뮤니티 플랫폼 어플리케이션, MOUM:모音\n*app-release.apk 다운로드.\n\nNew release based on version ${{ steps.bump_version.outputs.new_tag }}."
           draft: false
           prerelease: false
           artifacts: ${{ steps.find_apk.outputs.apk_path }}  # APK 경로를 동적으로 설정

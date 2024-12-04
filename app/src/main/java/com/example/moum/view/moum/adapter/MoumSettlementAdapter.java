@@ -73,7 +73,7 @@ public class MoumSettlementAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         public void bind(Settlement settlement) {
             this.settlement = settlement;
             if(settlement.getSettlementName() != null) settlementName.setText(settlement.getSettlementName());
-            if(settlement.getFee() != null) settlementFee.setText(String.format("%d", settlement.getFee()));
+            if(settlement.getFee() != null) settlementFee.setText(String.format("%,d", settlement.getFee()));
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
