@@ -28,14 +28,29 @@
         <item name="android:colorControlHighlight">@color/neon_mint</item>
     </style>
     <style name="RangeSliderStyle" parent="Widget.MaterialComponents.Slider">
-        <item name="materialThemeOverlay">@style/ThemeOverlay.Slider</item>
-        <item name="thumbColor">@color/neon_mint_bold</item>
-        <item name="trackColorActive">@color/neon_mint_bold</item>
-        <item name="haloColor">@color/neon_mint_bold</item>
-    </style>
-    <style name="ThemeOverlay.Slider" parent="">
-        <item name="colorPrimary">@color/neon_mint_bold</item>
-        <item name="colorOnBackground">@color/gray0</item>
-        <item name="colorSurface">@color/gray7</item>
+        <!-- Thumb customization -->
+        <item name="thumbColor">@color/gray4</item>
+        <item name="thumbStrokeColor">@color/gray3</item>
+        <item name="thumbWidth">5dp</item>
+        <item name="thumbHeight">25dp</item>
+
+        <!-- Track customization -->
+        <item name="trackColorActive">@color/gray3</item>
+        <item name="trackColorInactive">@color/gray2</item>
+        <item name="trackHeight">12dp</item>
+        <!-- Adjust the thickness -->
+
+        <!-- Tick marks customization -->
+        <item name="tickColor">@color/transparent</item>
+        <item name="tickColorActive">@color/transparent</item>
+
+
+        <item name="colorPrimary">@color/gray1</item>
+        <item name="colorOnPrimary">@color/gray4</item>
+        <item name="colorOnSurface">@color/gray1</item>
+        <item name="backgroundTint">@color/gray4</item>
+        <item name="android:textColor">@color/gray1</item>
+        <item name="fontFamily">@font/noto_sans_kr_regular</item>
+        <item name="android:fontFamily">@font/noto_sans_kr_regular</item>
     </style>
 </resources>
