@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -413,6 +414,7 @@ public class MyInformationUpdateActivity extends AppCompatActivity {
         EditText edittextRecordName = recordChild.findViewById(R.id.signup_edittext_record_name);
         AppCompatButton buttonRecordStart = recordChild.findViewById(R.id.button_record_date_start);
         AppCompatButton buttonRecordEnd = recordChild.findViewById(R.id.button_record_date_end);
+        ImageView buttonDelete = recordChild.findViewById(R.id.button_record_delete);
         edittextRecordName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
@@ -444,6 +446,12 @@ public class MyInformationUpdateActivity extends AppCompatActivity {
                             buttonRecordEnd.setText(selectedDate);
                         }, thisYear, thisMonth, thisDay);
                 datePickerDialog.show();
+            }
+        });
+        buttonDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                recordParent.removeView(recordChild);
             }
         });
 
