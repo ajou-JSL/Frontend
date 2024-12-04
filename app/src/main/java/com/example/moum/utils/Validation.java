@@ -93,6 +93,7 @@ public enum Validation {
 
     // 회원가입
     SIGNUP_SUCCESS,
+    SIGNOUT_SUCCESS,
 
     // 로그인 및 로그아웃
     LOGIN_SUCCESS,

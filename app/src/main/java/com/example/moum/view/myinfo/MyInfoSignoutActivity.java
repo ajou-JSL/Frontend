@@ -35,6 +35,7 @@ public class MyInfoSignoutActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(MyInfoSignoutViewModel.class);
         binding = ActivityMyinfoSignoutBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
+        binding.setViewModel(viewModel);
         setContentView(view);
         context = this;
 
@@ -71,12 +72,25 @@ public class MyInfoSignoutActivity extends AppCompatActivity {
         viewModel.getIsSignoutSuccess().observe(this, isSignoutSuccess -> {
             Validation validation = isSignoutSuccess.getValidation();
             Member member = isSignoutSuccess.getData();
-            if(validation == Validation.ID_NOT_WRITTEN){
+            if(validation == Validation.SIGNOUT_SUCCESS){
+                Toast.makeText(context, "회원탈퇴가 완료되었습니다.", Toast.LENGTH_SHORT).show();
+
+                sharedPreferenceManager.removeCache(getString(R.string.user_id_key));
+                sharedPreferenceManager.removeCache(getString(R.string.user_username_key));
+                sharedPreferenceManager.removeCache(getString(R.string.user_access_token_key));
+                sharedPreferenceManager.removeCache(getString(R.string.user_refresh_token_key));
+
+                Intent intent = new Intent();
+                intent.putExtra("finish", 1);
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+            else if(validation == Validation.ID_NOT_WRITTEN){
                 Toast.makeText(context, "아이디를 입력해야 합니다.", Toast.LENGTH_SHORT).show();
             }
             else if(validation == Validation.ID_NOT_EQUAL){
                 Toast.makeText(context, "아이디가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
-            }//TODO 추가 필요
+            }
             else{
                 Toast.makeText(context, "회원탈퇴에 실패하였습니다.", Toast.LENGTH_SHORT).show();
             }

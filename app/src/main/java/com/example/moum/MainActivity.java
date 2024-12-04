@@ -16,6 +16,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.view.community.CommunityFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -75,7 +76,12 @@ public class MainActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK && data != null) {
             int fragmentIndex = data.getIntExtra("fragment_index", -1);
             int communityIndex = data.getIntExtra("community_index", -1);
-            Log.e("ss", "community index: " + communityIndex);
+            int finish = data.getIntExtra("finish", -1);
+            if(finish == 1){
+                Intent intent = new Intent(MainActivity.this, InitialActivity.class);
+                startActivity(intent);
+                finish();
+            }
             if (fragmentIndex == 0) {
                 bottomNavigationView.setSelectedItemId(R.id.menu_home);
             }

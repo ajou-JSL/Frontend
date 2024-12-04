@@ -9,6 +9,7 @@ import com.example.moum.data.dto.EmailCodeRequest;
 import com.example.moum.data.dto.ErrorResponse;
 import com.example.moum.data.dto.SignupRequest;
 import com.example.moum.data.dto.SuccessResponse;
+import com.example.moum.data.entity.Member;
 import com.example.moum.data.entity.Result;
 import com.example.moum.data.entity.SignupUser;
 import com.example.moum.repository.client.BaseUrl;
@@ -187,6 +188,41 @@ public class SignupRepository {
             @Override
             public void onFailure(Call<SuccessResponse<String>> call, Throwable t) {
                 Result<Object> result = new Result<>(Validation.NETWORK_FAILED);
+                callback.onResult(result);
+            }
+        });
+    }
+
+    public void signout(com.example.moum.utils.Callback<Result<Member>> callback) {
+        Call<SuccessResponse<Member>> result = signupApi.signout();
+        result.enqueue(new Callback<SuccessResponse<Member>>() {
+            @Override
+            public void onResponse(Call<SuccessResponse<Member>> call, Response<SuccessResponse<Member>> response) {
+                if (response.isSuccessful()) {
+                    /*성공적으로 응답을 받았을 때*/
+                    SuccessResponse<Member> responseBody = response.body();
+                    Member member = responseBody.getData();
+                    Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
+                    Result<Member> result = new Result<>(validation, member);
+                    callback.onResult(result);
+                } else {
+                    /*응답은 받았으나 문제 발생 시*/
+                    try {
+                        ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
+                        if (errorResponse != null && errorResponse.getErrors() != null) {
+                            Log.e(TAG, errorResponse.toString());
+                            Validation validation = ValueMap.getCodeToVal(errorResponse.getCode());
+                            Result<Member> result = new Result<>(validation);
+                            callback.onResult(result);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<SuccessResponse<Member>> call, Throwable t) {
+                Result<Member> result = new Result<>(Validation.NETWORK_FAILED);
                 callback.onResult(result);
             }
         });

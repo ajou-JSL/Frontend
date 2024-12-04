@@ -1,6 +1,7 @@
 package com.example.moum.viewmodel.myinfo;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
@@ -36,6 +37,7 @@ public class MyInfoSignoutViewModel extends AndroidViewModel {
 
     public void signout(String username){
         /*null check*/
+        Log.e("sss", "username: " + signout.getValue());
         if(signout.getValue() == null || signout.getValue().getUsername() == null || signout.getValue().getUsername().isEmpty()){
             Result<Member> result = new Result<>(Validation.ID_NOT_WRITTEN);
             setIsSignoutSuccess(result);
@@ -48,6 +50,6 @@ public class MyInfoSignoutViewModel extends AndroidViewModel {
         }
 
         /*goto repository*/
-        //TODO
+        signupRepository.signout(this::setIsSignoutSuccess);
     }
 }
