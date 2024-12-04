@@ -3,15 +3,15 @@ package com.example.moum.viewmodel.community;
 import android.app.Application;
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
-import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.moum.data.entity.Article;
+import com.example.moum.data.entity.Member;
 import com.example.moum.data.entity.Result;
 import com.example.moum.data.entity.Team;
-import com.example.moum.data.entity.Member;
 import com.example.moum.repository.ArticleRepository;
 import com.example.moum.repository.ProfileRepository;
 import com.example.moum.repository.TeamRepository;
@@ -22,7 +22,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BoardFreeWriteViewModel extends AndroidViewModel {
+public class BoardRecruitWriteViewModel extends AndroidViewModel {
     private final ArticleRepository articleRepository;
     private final TeamRepository teamRepository;
     private final ProfileRepository profileRepository;
@@ -35,7 +35,7 @@ public class BoardFreeWriteViewModel extends AndroidViewModel {
     private final MutableLiveData<ArrayList<Uri>> fileImageList = new MutableLiveData<>();
 
 
-    public BoardFreeWriteViewModel(Application application) {
+    public BoardRecruitWriteViewModel(Application application) {
         super(application);
         articleRepository = ArticleRepository.getInstance(application);
         teamRepository = TeamRepository.getInstance(application);
@@ -138,5 +138,4 @@ public class BoardFreeWriteViewModel extends AndroidViewModel {
     public void loadMemberProfile(Integer memberId){
         profileRepository.loadMemberProfile(memberId, this::setMemberSelected);
     }
-
 }

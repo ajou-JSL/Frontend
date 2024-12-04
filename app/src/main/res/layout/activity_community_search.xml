@@ -20,27 +20,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageButton
+        <ImageView
             android:id="@+id/leftarrow2"
-            android:contentDescription="뒤로가기 버튼"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:background="@null"
-            android:padding="7dp"
-            android:scaleType="centerCrop"
-            app:srcCompat="@drawable/ic_leftarrow"
-
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="15dp"
+            android:src="@drawable/button_rounded_left"
             app:layout_constraintStart_toStartOf="@+id/toolbar_search"
             app:layout_constraintTop_toTopOf="@+id/toolbar_search"
             app:layout_constraintBottom_toBottomOf="@+id/toolbar_search"/>
 
         <ImageButton
             android:id="@+id/search_button2"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_gravity="end"
-            android:background="@null"
-            android:contentDescription="검색 버튼"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="#00000000"
+            android:contentDescription="검색 화면 이동 버튼"
             android:padding="10dp"
             android:scaleType="centerCrop"
             app:srcCompat="?android:attr/actionModeWebSearchDrawable"
@@ -52,9 +51,8 @@
             android:id="@+id/search_input_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="7dp"
             android:layout_marginBottom="10dp"
-            android:layout_marginStart="5dp"
             android:textColorHint="#a8a8a8"
 
             app:layout_constraintStart_toEndOf="@+id/leftarrow2"
@@ -68,7 +66,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-
                 app:queryBackground="@null"
                 app:searchIcon="@null"
                 app:iconifiedByDefault="false"
@@ -115,20 +112,27 @@
 
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/community_search_recycler_view"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="1dp"
-        android:background="@color/gray0"
-        android:contentDescription="검색 목록 스크롤"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/filter_layout2">
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/community_search_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="1dp"
+            android:background="@color/gray0"
+            android:contentDescription="검색 목록 스크롤">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

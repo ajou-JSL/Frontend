@@ -1,116 +1,92 @@
 package com.example.moum.view.community.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.PopupMenu;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moum.R;
 import com.example.moum.data.entity.Article;
 import com.example.moum.data.entity.Comment;
+import com.example.moum.utils.TimeAgo;
+import com.example.moum.view.community.BoardFreeDetailActivity;
+import com.example.moum.view.community.BoardFreeWriteActivity;
 
 import java.util.ArrayList;
 
 public class BoardFreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private static final int VIEW_TYPE_ARTICLE = 0;
-    private static final int VIEW_TYPE_COMMENT = 1;
+    private static final int VIEW_TYPE_COMMENT = 0;
 
     private Article articleItem;
     private ArrayList<Comment> commentList;
     private AdapterView.OnItemClickListener onItemClickListener;
+    private Context context;
 
-    public BoardFreeDetailAdapter(Article articleItem, ArrayList<Comment> commentList) {
-        this.articleItem = articleItem;
+    public BoardFreeDetailAdapter(ArrayList<Comment> commentList, Context context) {
         this.commentList = commentList;
+        this.context = context;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 0) {
-            return VIEW_TYPE_ARTICLE;
-        } else {
             return VIEW_TYPE_COMMENT;
-        }
     }
 
     @Override
     public int getItemCount() {
-        return 1 + (commentList != null ? commentList.size() : 0);
-    }
-
-    // 게시글 데이터 업데이트
-    public void updateArticleData(Article article) {
-        this.articleItem = article;
-        notifyDataSetChanged(); // 게시글 데이터가 갱신되면 RecyclerView 갱신
+        return (commentList != null ? commentList.size() : 0);
     }
 
     // 댓글 데이터 업데이트
-    public void updateCommentData(ArrayList<Comment> comments) {
+    public void updateComment(ArrayList<Comment> comments) {
         this.commentList = comments;
-        notifyDataSetChanged(); // 댓글 데이터가 갱신되면 RecyclerView 갱신
+        notifyDataSetChanged();
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType == VIEW_TYPE_ARTICLE) {
-            // 게시글
-            View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_board_free_detail, parent, false);
-            return new ArticleViewHolder(view);
-        } else {
-            // 댓글
-            View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_board_free_comment, parent, false);
-            return new CommentViewHolder(view);
-        }
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_board_free_comment, parent, false);
+        return new CommentViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (getItemViewType(position) == VIEW_TYPE_ARTICLE) {
-            ((ArticleViewHolder) holder).bind(articleItem); // 게시글 데이터 바인딩
-        } else {
-            Comment comment = commentList.get(position - 1); // 댓글 데이터 (position - 1)
-            ((CommentViewHolder) holder).bind(comment);
-        }
+        Comment comment = commentList.get(position);
+        ((CommentViewHolder) holder).bind(comment);
     }
 
-    // 게시글 ViewHolder
-    static class ArticleViewHolder extends RecyclerView.ViewHolder {
-        private TextView title, content, writer, timestamp;
-        private TextView likeCounts;
-
-        public ArticleViewHolder(View itemView) {
-            super(itemView);
-            writer = itemView.findViewById(R.id.item_board_free_detail_writer);
-            timestamp = itemView.findViewById(R.id.item_board_free_detail_time);
-            title = itemView.findViewById(R.id.item_board_free_detail_title);
-            content = itemView.findViewById(R.id.item_board_free_detail_content);
-            likeCounts = itemView.findViewById(R.id.item_board_free_detail_like_count);
-        }
-
-        public void bind(Article article) {
-            title.setText(article.getTitle());
-            content.setText(article.getContent());
-            writer.setText(article.getAuthor());
-            timestamp.setText(TimeAgo.getTimeAgo(article.getCreateAt()));
-            likeCounts.setText(String.valueOf(article.getLikeCounts()));
-        }
-    }
-
-    // 댓글 ViewHolder
-    static class CommentViewHolder extends RecyclerView.ViewHolder {
+    class CommentViewHolder extends RecyclerView.ViewHolder {
         private TextView commentContent, commentWriter, commentTimestamp;
+        private ImageView profileImage;
+        private ImageButton menu;
 
         public CommentViewHolder(View itemView) {
             super(itemView);
             commentWriter = itemView.findViewById(R.id.item_board_free_comment_writer);
             commentTimestamp = itemView.findViewById(R.id.item_board_free_comment_time);
             commentContent = itemView.findViewById(R.id.item_board_free_comment_content);
+
+            profileImage = itemView.findViewById(R.id.board_free_detail_image);
+            menu = itemView.findViewById(R.id.menu);
+
+            menu.setOnClickListener(v -> {
+                int position = getBindingAdapterPosition();  // 아이템 포지션 가져오기
+                if (position != RecyclerView.NO_POSITION) {
+                    showPopupMenu(v, position);  // 포지션을 함께 전달
+                }
+            });
         }
 
         public void bind(Comment comment) {
@@ -118,5 +94,12 @@ public class BoardFreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             commentTimestamp.setText(TimeAgo.getTimeAgo(comment.getCreateAt()));
             commentContent.setText(comment.getContent());
         }
+
+        private void showPopupMenu(View view, int position) {
+            if (context instanceof BoardFreeDetailActivity) {  // 액티비티가 맞는지 확인
+                ((BoardFreeDetailActivity) context).commentPopupMenu(view, position);
+            }
+        }
+
     }
 }
