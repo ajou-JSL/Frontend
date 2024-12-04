@@ -178,7 +178,7 @@
                         android:stepSize="1.0"
                         android:valueFrom="0.0"
                         android:valueTo="1000000.0"
-                        app:values="@array/filter_range_price"
+                        app:values="@array/filter_range_practice_price"
                         style="style/RangeSliderStyle"/>
                 </LinearLayout>
                 <LinearLayout
@@ -206,7 +206,7 @@
                         android:valueFrom="0.0"
                         android:valueTo="200.0"
                         android:stepSize="1.0"
-                        app:values="@array/filter_range_capacity"
+                        app:values="@array/filter_range_practice_capacity"
                         style="style/RangeSliderStyle"/>
                 </LinearLayout>
                 <LinearLayout
@@ -232,9 +232,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:valueFrom="0.0"
-                        android:valueTo="50.0"
+                        android:valueTo="100.0"
                         android:stepSize="1.0"
-                        app:values="@array/filter_range_stand"
+                        app:values="@array/filter_range_practice_stand"
                         style="style/RangeSliderStyle"/>
                 </LinearLayout>
                 <LinearLayout

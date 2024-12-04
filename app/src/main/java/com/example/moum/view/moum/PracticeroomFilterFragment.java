@@ -336,7 +336,7 @@ public class PracticeroomFilterFragment extends BottomSheetDialogFragment {
                 drumAdapter.notifyDataSetChanged();
                 binding.sliderPrice.setValues(0f, 1000000f);
                 binding.sliderCapacity.setValues(0f, 200f);
-                binding.sliderStand.setValues(0f, 50f);
+                binding.sliderStand.setValues(0f, 100f);
             }
         });
 

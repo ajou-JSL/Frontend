@@ -322,10 +322,10 @@ public class PerformanceHallFilterFragment extends BottomSheetDialogFragment {
                 speakerAdapter.notifyDataSetChanged();
                 micAdapter.notifyDataSetChanged();
                 drumAdapter.notifyDataSetChanged();
-                binding.sliderPrice.setValues(0f, 1000000f);
-                binding.sliderCapacity.setValues(0f, 200f);
+                binding.sliderPrice.setValues(0f, 10000000f);
+                binding.sliderCapacity.setValues(0f, 5000f);
                 binding.sliderHallSize.setValues(0f, 10000f);
-                binding.sliderStand.setValues(0f, 50f);
+                binding.sliderStand.setValues(0f, 200f);
             }
         });
 
