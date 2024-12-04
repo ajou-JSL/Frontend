@@ -2,7 +2,7 @@ name: Build and Release
 
 on:
   pull_request:
-    types: [ closed ]  # PR이 닫히는 이벤트(merged 포함)에 대해서만 실행
+    types: [closed]  # PR이 닫히는 이벤트(merged 포함)에 대해서만 실행
     branches:
       - main  # PR이 main 브랜치에 병합될 때만 실행
 
@@ -32,19 +32,37 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
-      # 깃허브 시크릿에 저장된 키스토어 로드
+      # 4. GitHub Secrets에서 키스토어 로드 및 파일 생성
       - name: Generate Keystore file from Github Secrets
         run: |
+          mkdir -p ./keystore
           echo "$KEYSTORE" > ./keystore/keystore.b64
-          base64 -d -i ./keystore/keystore.b64 > ./keystore/MOUMkey.jks
+          base64 -d ./keystore/keystore.b64 > ./keystore/MOUMkey.jks
         env:
           KEYSTORE: ${{ secrets.APP_KEYSTORE_BASE64 }}
 
-      # 4. Gradle로 APK 빌드
-      - name: Build APK
-        run: ./gradlew assembleRelease
+      # 5. 키스토어 파일 생성 확인
+      - name: Verify Keystore File
+        run: |
+          if [ ! -f ./keystore/MOUMkey.jks ]; then
+            echo "Keystore file was not created!"
+            exit 1
+          fi
+          echo "Keystore file created successfully."
 
-      # 5. APK 파일 경로 찾기
+      # 6. Gradle로 APK 빌드 (서명 포함)
+      - name: Build APK with Signing
+        run: ./gradlew assembleRelease
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+
+      # 7. APK 서명 확인
+      - name: Verify APK Signing
+        run: jarsigner -verify -verbose -certs app/build/outputs/apk/release/app-release.apk
+
+      # 8. APK 파일 경로 찾기
       - name: Find APK Path
         id: find_apk
         run: |
@@ -52,7 +70,7 @@ jobs:
           echo "APK path: $APK_PATH"
           echo ::set-output name=apk_path::$APK_PATH
 
-      # 6. GitHub API를 통해 최신 태그 가져오기
+      # 9. GitHub API를 통해 최신 태그 가져오기
       - name: Get latest tag
         id: get_tag
         run: |
@@ -60,7 +78,7 @@ jobs:
           echo "Latest tag: $latest_tag"
           echo ::set-output name=latest_tag::$latest_tag
 
-      # 7. 새 버전 태그 생성 (기존 태그에서 숫자를 증가시킴)
+      # 10. 새 버전 태그 생성 (기존 태그에서 숫자를 증가시킴)
       - name: Bump version tag
         id: bump_version
         run: |
@@ -89,19 +107,17 @@ jobs:
           echo "New tag: $new_tag"
           echo ::set-output name=new_tag::$new_tag
 
-      # 8. 새로운 태그를 원격 저장소에 푸시 (GITHUB_TOKEN 사용)
+      # 11. 새로운 태그를 원격 저장소에 푸시
       - name: Push new tag to GitHub
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # GITHUB_TOKEN 사용하여 권한 부여
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
           git tag ${{ steps.bump_version.outputs.new_tag }}
           git push origin ${{ steps.bump_version.outputs.new_tag }}
 
-
-
-      # 9. GitHub Releases에 새 릴리스 생성 및 APK 업로드
+      # 12. GitHub Releases에 새 릴리스 생성 및 APK 업로드
       - name: Create GitHub Release
         uses: ncipollo/release-action@v1
         with:
