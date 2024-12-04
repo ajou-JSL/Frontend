@@ -69,7 +69,8 @@
         app:tabIndicator="@null"
         app:tabSelectedTextColor="@color/black"
         app:tabTextAppearance="@style/tab_text"
-        app:tabTextColor="@color/gray5">
+        app:tabTextColor="@color/gray5"
+        app:tabMode="scrollable">
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
@@ -85,6 +86,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="단체 탐색" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="멤버 탐색" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"

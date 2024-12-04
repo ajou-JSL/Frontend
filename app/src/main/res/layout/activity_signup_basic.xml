@@ -417,8 +417,9 @@
 
             <CheckBox
                 android:id="@+id/checkbox_personal_agreement"
-                android:layout_width="15dp"
-                android:layout_height="20dp" />
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                style="@style/CustomCheckboxPersonalAgree"/>
             <TextView
                 android:textColor="@color/gray4"
                 android:textSize="15sp"
@@ -435,6 +436,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1" />
             <ImageView
+                android:id="@+id/button_show_personal_agree"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/icon_angle_right"

@@ -21,4 +21,21 @@
     <style name="BottomNavigationView.Active" parent="@style/TextAppearance.AppCompat.Caption">
         <item name="android:textSize">12sp</item>
     </style>
+
+    <style name="CustomCheckboxPersonalAgree" parent="@style/Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="android:colorControlNormal">@color/gray5</item>
+        <item name="android:colorControlActivated">@color/neon_mint_bold</item>
+        <item name="android:colorControlHighlight">@color/neon_mint</item>
+    </style>
+    <style name="RangeSliderStyle" parent="Widget.MaterialComponents.Slider">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.Slider</item>
+        <item name="thumbColor">@color/neon_mint_bold</item>
+        <item name="trackColorActive">@color/neon_mint_bold</item>
+        <item name="haloColor">@color/neon_mint_bold</item>
+    </style>
+    <style name="ThemeOverlay.Slider" parent="">
+        <item name="colorPrimary">@color/neon_mint_bold</item>
+        <item name="colorOnBackground">@color/gray0</item>
+        <item name="colorSurface">@color/gray7</item>
+    </style>
 </resources>

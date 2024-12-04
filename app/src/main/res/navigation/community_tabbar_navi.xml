@@ -25,6 +25,12 @@
         tools:layout="@layout/fragment_board_group" />
 
     <fragment
+        android:id="@+id/menu_board_member"
+        android:name="com.example.moum.view.community.BoardMemberFragment"
+        android:label="community"
+        tools:layout="@layout/fragment_board_member" />
+
+    <fragment
         android:id="@+id/menu_board_performance"
         android:name="com.example.moum.view.community.BoardRecruitFragment"
         android:label="my moum"

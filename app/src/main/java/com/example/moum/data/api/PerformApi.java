@@ -4,6 +4,7 @@ import com.example.moum.data.dto.MoumRequest;
 import com.example.moum.data.dto.PerformRequest;
 import com.example.moum.data.dto.SuccessResponse;
 import com.example.moum.data.entity.Article;
+import com.example.moum.data.entity.Content;
 import com.example.moum.data.entity.Moum;
 import com.example.moum.data.entity.Performance;
 
@@ -53,7 +54,7 @@ public interface PerformApi {
     );
 
     @GET("/api/performs-all/this-month")
-    Call<SuccessResponse<List<Performance>>> loadPerformsHot(
+    Call<SuccessResponse<Content<List<Performance>>>> loadPerformsHot(
             @Query("page") Integer page,
             @Query("size") Integer size
     );

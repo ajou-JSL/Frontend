@@ -90,12 +90,14 @@ public class BoardFreeItemAdapter extends RecyclerView.Adapter<BoardFreeItemAdap
 
             if (item.hasImage()) {
                 // 이미지가 있을 때만 보이게 설정
+                Log.e("BoardFreeItemAdapter", "이미지가 있음 Id : " + item.getBoardId() + " Image : " + item.getImage() + "");
                 image.setVisibility(View.VISIBLE);
                 Glide.with(itemView.getContext())
                         .load(item.getImage())
                         .into(image);
             } else {
                 // 이미지가 없으면 숨기기
+                Log.e("BoardFreeItemAdapter", "이미지가 없음 Id : " + item.getBoardId());
                 image.setVisibility(View.GONE);
             }
         }

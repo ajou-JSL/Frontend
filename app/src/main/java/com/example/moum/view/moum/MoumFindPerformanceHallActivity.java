@@ -19,11 +19,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moum.R;
+import com.example.moum.data.dto.SearchPerformHallArgs;
 import com.example.moum.data.entity.PerformanceHall;
 import com.example.moum.data.entity.Practiceroom;
 import com.example.moum.databinding.ActivityMoumFindPerformancehallBinding;
@@ -35,6 +37,7 @@ import com.example.moum.utils.WrapContentLinearLayoutManager;
 import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.view.moum.adapter.MoumPerformanceHallAdapter;
 import com.example.moum.view.moum.adapter.MoumPracticeroomAdapter;
+import com.example.moum.view.profile.TeamProfileFragment;
 import com.example.moum.viewmodel.moum.MoumFindPerformanceHallViewModel;
 import com.example.moum.viewmodel.moum.MoumFindPracticeroomViewModel;
 import com.naver.maps.geometry.LatLng;
@@ -99,22 +102,75 @@ public class MoumFindPerformanceHallActivity extends AppCompatActivity {
             }
         });
 
-        /*필터링 스피너 설정*/
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context, R.array.community_board_spinner1_items, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.spinnerFilter.setAdapter(adapter);
-        binding.spinnerFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        /*필터링 버튼 클릭 이벤트*/
+        binding.buttonFilter.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (parent != null) {
-                    //TODO
-                }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                //TODO
+            public void onClick(View view) {
+                PerformanceHallFilterFragment performanceHallFilterFragment = new PerformanceHallFilterFragment(context);
+                SearchPerformHallArgs args = viewModel.getArgs();
+                Bundle bundle = new Bundle();
+                if(args.getSortBy() != null) bundle.putString("sortBy", args.getSortBy());
+                if(args.getOrderBy() != null) bundle.putString("orderBy", args.getOrderBy());
+                if(args.getName() != null) bundle.putString("name", args.getName());
+                if(args.getLatitude() != null) bundle.putDouble("latitude", args.getLatitude());
+                if(args.getLongitude() != null) bundle.putDouble("longitude", args.getLongitude());
+                if(args.getMinPrice() != null) bundle.putInt("minPrice", args.getMinPrice());
+                if(args.getMaxPrice() != null) bundle.putInt("maxPrice", args.getMaxPrice());
+                if(args.getMaxHallSize() != null) bundle.putInt("maxHallSize", args.getMaxHallSize());
+                if(args.getMinHallSize() != null) bundle.putInt("minHallSize", args.getMinHallSize());
+                if(args.getMinCapacity() != null) bundle.putInt("minCapacity", args.getMinCapacity());
+                if(args.getMaxCapacity() != null) bundle.putInt("maxCapacity", args.getMaxCapacity());
+                if(args.getMinStand() != null) bundle.putInt("minStand", args.getMinStand());
+                if(args.getMaxStand() != null) bundle.putInt("maxStand", args.getMaxStand());
+                if(args.getHasPiano() != null) bundle.putBoolean("hasPiano", args.getHasPiano());
+                if(args.getHasAmp() != null) bundle.putBoolean("hasAmp", args.getHasAmp());
+                if(args.getHasSpeaker() != null) bundle.putBoolean("hasSpeaker", args.getHasSpeaker());
+                if(args.getHasMic() != null) bundle.putBoolean("hasMic", args.getHasMic());
+                if(args.getHasDrums() != null) bundle.putBoolean("hasDrums", args.getHasDrums());
+                performanceHallFilterFragment.setArguments(bundle);
+                performanceHallFilterFragment.show(getSupportFragmentManager(), performanceHallFilterFragment.getTag());
             }
         });
+
+        /*필터링 결과 리스너*/
+        getSupportFragmentManager().setFragmentResultListener("filter_args", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                SearchPerformHallArgs args = new SearchPerformHallArgs();
+                args.setSortBy(result.getString("sortBy", "distance"));
+                args.setOrderBy(result.getString("orderBy", "asc"));
+                args.setMinPrice(result.getInt("minPrice", -1));
+                args.setMaxPrice(result.getInt("maxPrice", -1));
+                args.setMaxHallSize(result.getInt("maxHallSize", -1));
+                args.setMinHallSize(result.getInt("minHallSize", -1));
+                args.setMinCapacity(result.getInt("minCapacity", -1));
+                args.setMaxCapacity(result.getInt("maxCapacity", -1));
+                args.setMinStand(result.getInt("minStand", -1));
+                args.setMaxStand(result.getInt("maxStand", -1));
+                if (result.containsKey("hasPiano"))
+                    args.setHasPiano(result.getBoolean("hasPiano"));
+                else
+                    args.setHasPiano(null);
+                if (result.containsKey("hasAmp"))
+                    args.setHasAmp(result.getBoolean("hasAmp"));
+                else
+                    args.setHasAmp(null);
+                if (result.containsKey("hasSpeaker"))
+                    args.setHasSpeaker(result.getBoolean("hasSpeaker"));
+                else
+                    args.setHasSpeaker(null);
+                if (result.containsKey("hasMic"))
+                    args.setHasMic(result.getBoolean("hasMic"));
+                else
+                    args.setHasMic(null);
+                if (result.containsKey("hasDrums"))
+                    args.setHasDrums(result.getBoolean("hasDrums"));
+                else
+                    args.setHasDrums(null);
+                viewModel.queryPerformanceHallWithArgs(args);
+            }
+        });
+
 
         /*연습실 리사이클러뷰 연결*/
         RecyclerView recyclerView = binding.recyclerPerformanceHall;
@@ -199,8 +255,8 @@ public class MoumFindPerformanceHallActivity extends AppCompatActivity {
         /*검색창 세팅*/
         binding.searchviewPerformanceHall.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                viewModel.queryPerformanceHall(query, latLng);
+            public boolean onQueryTextSubmit(String name) {
+                viewModel.queryPerformanceHallWithName(name);
                 return false;
             }
 
@@ -271,6 +327,7 @@ public class MoumFindPerformanceHallActivity extends AppCompatActivity {
             }
             else{
                 latLng = getCurrentLatLng();
+                viewModel.setLatLng(latLng);
                 Log.e(TAG, latLng.toString());
             }
         }
@@ -284,6 +341,7 @@ public class MoumFindPerformanceHallActivity extends AppCompatActivity {
         }
         else{
             latLng = getCurrentLatLng();
+            viewModel.setLatLng(latLng);
             Log.e(TAG, latLng.toString());
         }
     }

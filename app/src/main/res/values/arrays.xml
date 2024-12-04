@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="filter_range_price">
+        <item>0.0</item>
+        <item>1000000.0</item>
+    </array>
+    <array name="filter_range_capacity">
+        <item>0.0</item>
+        <item>200.0</item>
+    </array>
+    <array name="filter_range_hall_size">
+        <item>0.0</item>
+        <item>10000.0</item>
+    </array>
+    <array name="filter_range_stand">
+        <item>0.0</item>
+        <item>50.0</item>
+    </array>
+</resources>

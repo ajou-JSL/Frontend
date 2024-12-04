@@ -19,11 +19,16 @@ public class PerformanceHall {
     private Boolean hasPiano;
     private Boolean hasAmp;
     private Boolean hasSpeaker;
+    private Boolean hasMic;
     private Boolean hasDrums;
     private String details;
     private Float latitude;
     private Float longitude;
 
+
+    public Boolean getHasMic() {
+        return hasMic;
+    }
 
     public String getName() {
         return name;
@@ -103,6 +108,10 @@ public class PerformanceHall {
 
     public String getPhone() {
         return phone;
+    }
+
+    public void setHasMic(Boolean hasMic) {
+        this.hasMic = hasMic;
     }
 
     public void setName(String name) {

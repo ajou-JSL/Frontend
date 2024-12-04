@@ -20,6 +20,8 @@ public class ValueMap {
             put("S-M004", Validation.LOGOUT_SUCCESS);
             put("F-A001", Validation.LOGIN_FAILED);
             put("F-M006", Validation.LOGOUT_ALREADY);
+            put("F-M007", Validation.SIGNOUT_MEMBER);
+            put("F-M008", Validation.BANNED_MEMBER);
 
             // 채팅
             put("S-CH001", Validation.CHAT_POST_SUCCESS);

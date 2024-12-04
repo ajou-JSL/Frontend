@@ -145,6 +145,11 @@ public class MoumMapPracticeroomActivity extends AppCompatActivity implements On
                     binding.checkboxPracticeroomSpeaker.setChecked(true);
                     binding.checkboxPracticeroomSpeaker.setEnabled(false);
                 }
+                if(loadedPracticeroom.getHasMic() != null && loadedPracticeroom.getHasMic()) {
+                    binding.checkboxPerformanceHallMic.setText("있음");
+                    binding.checkboxPerformanceHallMic.setChecked(true);
+                    binding.checkboxPerformanceHallMic.setEnabled(false);
+                }
                 if(loadedPracticeroom.getHasDrums() != null && loadedPracticeroom.getHasDrums()) {
                     binding.checkboxPracticeroomDrum.setText("있음");
                     binding.checkboxPracticeroomDrum.setChecked(true);

@@ -115,6 +115,7 @@ public class MoumMapPerformanceHallActivity extends AppCompatActivity implements
                 if(loadedPerformanceHall.getName() != null) binding.textviewPerformanceHallName.setText(loadedPerformanceHall.getName());
                 if(loadedPerformanceHall.getPrice() != null) binding.textviewPerformanceHallPrice.setText(String.format("%d", loadedPerformanceHall.getPrice()));
                 if(loadedPerformanceHall.getCapacity() != null) binding.textviewPerformanceHallCapacity.setText(String.format("%d", loadedPerformanceHall.getCapacity()));
+                if(loadedPerformanceHall.getSize() != null) binding.textviewPerformanceHallSize.setText(String.format("%d", loadedPerformanceHall.getSize()));
                 if(loadedPerformanceHall.getAddress() != null) binding.textviewPerformanceHallAddress.setText(loadedPerformanceHall.getAddress());
                 if(loadedPerformanceHall.getOwner() != null) binding.textviewPerformanceHallOwner.setText(loadedPerformanceHall.getOwner());
                 if(loadedPerformanceHall.getPhone() != null) binding.textviewPerformanceHallPhone.setText(loadedPerformanceHall.getPhone());
@@ -134,6 +135,11 @@ public class MoumMapPerformanceHallActivity extends AppCompatActivity implements
                     binding.checkboxPerformanceHallSpeaker.setText("있음");
                     binding.checkboxPerformanceHallSpeaker.setChecked(true);
                     binding.checkboxPerformanceHallSpeaker.setEnabled(false);
+                }
+                if(loadedPerformanceHall.getHasMic() != null && loadedPerformanceHall.getHasMic()) {
+                    binding.checkboxPerformanceHallMic.setText("있음");
+                    binding.checkboxPerformanceHallMic.setChecked(true);
+                    binding.checkboxPerformanceHallMic.setEnabled(false);
                 }
                 if(loadedPerformanceHall.getHasDrums() != null && loadedPerformanceHall.getHasDrums()) {
                     binding.checkboxPerformanceHallDrum.setText("있음");
