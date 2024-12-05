@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
+import android.view.Window;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -63,6 +66,11 @@ public class MainActivity extends AppCompatActivity {
                 bottomNavHeight = bottomNavigationView.getHeight();
             }
         });
+
+        // 상태바 세팅
+        Window window = getWindow();
+        window.setStatusBarColor(ContextCompat.getColor(this,R.color.gray0));
+        window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
     }
 
     public int getBottomNavHeight() {
