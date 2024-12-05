@@ -7,6 +7,7 @@ import android.util.Log;
 import androidx.annotation.RequiresApi;
 
 import com.example.moum.data.api.ArticleApi;
+import com.example.moum.data.dto.ArticleFilterRequest;
 import com.example.moum.data.dto.ArticleRequest;
 import com.example.moum.data.dto.CommentRequest;
 import com.example.moum.data.dto.ErrorResponse;
@@ -496,6 +497,40 @@ public class ArticleRepository {
             @Override
             public void onFailure(Call<SuccessResponse<List<Comment>>> call, Throwable t) {
                 Result<List<Comment>> result = new Result<>(Validation.NETWORK_FAILED);
+                callback.onResult(result);
+            }
+        });
+    }
+
+    public void loadArticlesByFilter(ArticleFilterRequest articleFilterRequest, Integer page, Integer size,com.example.moum.utils.Callback<Result<List<Article>>> callback) {
+        Call<SuccessResponse<List<Article>>> result = articleApi.searchArticlesFilters( page, size, articleFilterRequest);
+        result.enqueue(new retrofit2.Callback<SuccessResponse<List<Article>>>() {
+            @Override
+            public void onResponse(Call<SuccessResponse<List<Article>>> call, Response<SuccessResponse<List<Article>>> response) {
+                if (response.isSuccessful()) {
+                    /*성공적으로 응답을 받았을 때*/
+                    SuccessResponse<List<Article>> responseBody = response.body();
+                    List<Article> articles = responseBody.getData();
+                    Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
+                    Result<List<Article>> result = new Result<>(validation, articles);
+                    callback.onResult(result);
+                } else {
+                    try {
+                        ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
+                        if (errorResponse != null) {
+                            Log.e(TAG, errorResponse.toString());
+                            Validation validation = ValueMap.getCodeToVal(errorResponse.getCode());
+                            Result<List<Article>> result = new Result<>(validation);
+                            callback.onResult(result);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<SuccessResponse<List<Article>>> call, Throwable t) {
+                Result<List<Article>> result = new Result<>(Validation.NETWORK_FAILED);
                 callback.onResult(result);
             }
         });

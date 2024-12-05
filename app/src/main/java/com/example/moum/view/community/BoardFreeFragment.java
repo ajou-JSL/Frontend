@@ -70,6 +70,8 @@ public class BoardFreeFragment extends Fragment implements RefreshableFragment {
         initRecyclerView();
         initFloatingActionButton();
 
+        boardFreeViewModel.loadArticleCategoryList();
+
         return root;
     }
 
@@ -88,9 +90,29 @@ public class BoardFreeFragment extends Fragment implements RefreshableFragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (parent != null) {
+                    switch(position){
+                        case 0:
+                            /* 조회순 */
+                            boardFreeViewModel.loadArticlesByFilter(false, true, false, false, null);
+                            break;
+                        case 1:
+                            /* 최신순 */
+                            boardFreeViewModel.loadArticlesByFilter(false, false, false, true, null);
+                            break;
+                        case 2:
+                            /* 댓글순 */
+                            boardFreeViewModel.loadArticlesByFilter(false, false, true, false, null);
+                            break;
+                        case 3:
+                            /* 좋아요순 */
+                            boardFreeViewModel.loadArticlesByFilter(true, false, false, false, null);
+                            break;
+                        default:
+                            break;
+
+                    }
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
@@ -134,7 +156,6 @@ public class BoardFreeFragment extends Fragment implements RefreshableFragment {
         });
 
         // LiveData 관찰 및 데이터 로딩
-        boardFreeViewModel.resetPagination();
         boardFreeViewModel.getIsLoadArticlesCategorySuccess().observe(getViewLifecycleOwner(), result -> {
             if (result != null) {
                 Validation validation = result.getValidation();
@@ -143,6 +164,10 @@ public class BoardFreeFragment extends Fragment implements RefreshableFragment {
                 if (validation == Validation.ARTICLE_LIST_GET_SUCCESS && loadedArticles != null) {
                     // 데이터 업데이트
                     ArrayList<BoardFreeItem> updatedItemList = new ArrayList<>();
+
+                    articles.clear();
+                    articles.addAll(loadedArticles);
+
                     for (Article article : loadedArticles) {
                         BoardFreeItem item = new BoardFreeItem();
                         item.setBoardFreeItem(
@@ -170,7 +195,42 @@ public class BoardFreeFragment extends Fragment implements RefreshableFragment {
             }
         });
 
-        boardFreeViewModel.loadArticleCategoryList();
+        // LiveData 관찰 및 데이터 로딩
+        boardFreeViewModel.getIsLoadNextArticlesCategorySuccess().observe(getViewLifecycleOwner(), result -> {
+            if (result != null) {
+                Validation validation = result.getValidation();
+                List<Article> loadedArticles = result.getData();
+
+                if (validation == Validation.ARTICLE_LIST_GET_SUCCESS && loadedArticles != null) {
+                    // 데이터 업데이트
+                    ArrayList<BoardFreeItem> updatedItemList = new ArrayList<>();
+
+                    for (Article article : loadedArticles) {
+                        BoardFreeItem item = new BoardFreeItem();
+                        item.setBoardFreeItem(
+                                article.getId(),
+                                article.getTitle(),
+                                article.getAuthor(),
+                                getTimeAgo(article.getCreateAt()),
+                                article.getCommentsCounts(),
+                                article.getViewCounts()
+                        );
+                        if (article.getFileURL() != null) {
+                            item.setImage(article.getFileURL().get(0));
+                        }
+                        updatedItemList.add(item);
+                    }
+                    adapter.updateItemList(updatedItemList);
+                    boardFreeViewModel.setRecentSize(updatedItemList.size());
+                } else {
+                    // 에러 처리
+                    Toast.makeText(getContext(), "데이터를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                // result가 null일 경우 에러 처리
+                Toast.makeText(getContext(), "응답이 없습니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 

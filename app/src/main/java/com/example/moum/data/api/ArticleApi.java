@@ -1,5 +1,6 @@
 package com.example.moum.data.api;
 
+import com.example.moum.data.dto.ArticleFilterRequest;
 import com.example.moum.data.dto.ArticleRequest;
 import com.example.moum.data.dto.ChatSendRequest;
 import com.example.moum.data.dto.CommentRequest;
@@ -49,6 +50,13 @@ public interface ArticleApi {
     @GET("/api/articles/{articleId}")
     Call<SuccessResponse<Article>> loadArticleDetail(
         @Path("articleId") Integer articleId
+    );
+
+    @GET("api/articles/search")
+    Call<SuccessResponse<List<Article>>> searchArticlesFilters(
+            @Query("page") Integer page,
+            @Query("size") Integer size,
+            @Query("searchDto") ArticleFilterRequest articleFilterRequest
     );
 
     @Multipart
