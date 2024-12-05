@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.moum.data.dto.ArticleFilterRequest;
 import com.example.moum.data.entity.Article;
 import com.example.moum.data.entity.Result;
 import com.example.moum.repository.ArticleRepository;
@@ -17,7 +18,6 @@ public class BoardRecruitViewModel extends AndroidViewModel {
     private MutableLiveData<Validation> validationStatus = new MutableLiveData<>();
     private final MutableLiveData<Result<List<Article>>> isLoadArticlesCategorySuccess = new MutableLiveData<>();
     private final MutableLiveData<Result<List<Article>>> isLoadNextArticlesCategorySuccess = new MutableLiveData<>();
-    private final MutableLiveData<Result<Article>> isLoadArticleSuccess = new MutableLiveData<>();
     private ArticleRepository articleRepository;
     private boolean isLoading = false;
     private Integer currentPage = 0;
@@ -38,15 +38,12 @@ public class BoardRecruitViewModel extends AndroidViewModel {
         this.isLoadNextArticlesCategorySuccess.setValue(isLoadNextArticlesCategorySuccess);
     }
 
-    private void setIsLoadArticleSuccess(Result<Article> isLoadArticleSuccess){
-        this.isLoadArticleSuccess.setValue(isLoadArticleSuccess);
-    }
-
     public MutableLiveData<Validation> getValidationStatus(){
         return validationStatus;
     }
 
     public MutableLiveData<Result<List<Article>>> getIsLoadArticlesCategorySuccess() { return isLoadArticlesCategorySuccess; }
+
 
     public MutableLiveData<Result<List<Article>>> getIsLoadNextArticlesCategorySuccess() {
         return isLoadNextArticlesCategorySuccess;
@@ -67,17 +64,18 @@ public class BoardRecruitViewModel extends AndroidViewModel {
         }
     }
 
-    public void loadNextArticleCategoryList() {
-        if(recentSize < currentSize) {
-            return;
-        }
-        articleRepository.loadArticlesCategory(null, "RECRUIT_BOARD", currentPage, currentSize, this::setIsLoadArticlesCategorySuccess);
-        currentPage++;
-
+    public void loadArticlesByFilter(boolean likesCount, boolean ViewCount, boolean CommentCount, boolean createdAt, Integer genre) {
+        ArticleFilterRequest articleFilterRequest = new ArticleFilterRequest(
+                null, likesCount, ViewCount, CommentCount, createdAt, null, 0, genre);
+        articleRepository.loadArticlesByFilter(articleFilterRequest, currentPage, currentSize,this::setIsLoadArticlesCategorySuccess);
     }
 
-    public void setRecentSize(Integer recentSize){
+    public void loadNextArticleCategoryList() {
+        //TODO 페이지 조절 필요 데이터가 더이상 없을 때
+        articleRepository.loadArticlesCategory(null, "RECRUIT_BOARD", currentPage, currentSize, this::setIsLoadNextArticlesCategorySuccess);
+        currentPage++;
+    }
+    public void setRecentSize(Integer recentSize) {
         this.recentSize = recentSize;
     }
-
 }

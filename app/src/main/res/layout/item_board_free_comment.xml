@@ -69,7 +69,8 @@
                 android:id="@+id/menu"
                 android:contentDescription="게시글 메뉴 버튼"
                 android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_height="58dp"
+                android:layout_marginTop="5dp"
                 android:background="@null"
                 android:layout_weight="0"
 

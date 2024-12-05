@@ -132,19 +132,19 @@ public class BoardFreeWriteActivity extends AppCompatActivity {
                     List<String> spinnerItems = new ArrayList<>();
                     spinnerItems.add(member.getName()); // 유저 이름 추가
 
-                    if (validation == Validation.GET_TEAM_LIST_SUCCESS) {
-                        // 데이터가 없는 경우 처리
-                        if (loadedTeams.isEmpty()) {
-                        } else {
-                            // 팀 이름 추가
-                            for (Team team : loadedTeams) {
-                                spinnerItems.add(team.getTeamName());
-                            }
-                        }
-                    } else {
-                        // 실패 시 에러 메시지 처리
-                        Toast.makeText(context, "팀 목록을 불러오는 데 실패했습니다.", Toast.LENGTH_SHORT).show();
-                    }
+//                    if (validation == Validation.GET_TEAM_LIST_SUCCESS) {
+//                        // 데이터가 없는 경우 처리
+//                        if (loadedTeams.isEmpty()) {
+//                        } else {
+//                            // 팀 이름 추가
+//                            for (Team team : loadedTeams) {
+//                                spinnerItems.add(team.getTeamName());
+//                            }
+//                        }
+//                    } else {
+//                        // 실패 시 에러 메시지 처리
+//                        Toast.makeText(context, "팀 목록을 불러오는 데 실패했습니다.", Toast.LENGTH_SHORT).show();
+//                    }
 
                     // 어댑터 연결
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, spinnerItems);

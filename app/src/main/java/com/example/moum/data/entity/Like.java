@@ -1,40 +1,25 @@
 package com.example.moum.data.entity;
 
+import androidx.annotation.NonNull;
+
 public class Like {
-    private Integer likesId;
-    private Integer memberId;
-    private Integer articlesId;
+    private Integer likesCount;
+    private boolean liked;
 
-    public Integer getArticlesId() {
-        return articlesId;
+    public Integer getLikesCount() {
+        return likesCount;
     }
 
-    public Integer getLikesId() {
-        return likesId;
+    public boolean getLiked() {
+        return liked;
     }
 
-    public Integer getMemberId() {
-        return memberId;
-    }
-
-    public void setMemberId(Integer memberId) {
-        this.memberId = memberId;
-    }
-
-    public void setArticlesId(Integer articlesId) {
-        this.articlesId = articlesId;
-    }
-
-    public void setLikesId(Integer likesId) {
-        this.likesId = likesId;
-    }
-
+    @NonNull
     @Override
     public String toString() {
         return "Like{" +
-                "likesId=" + likesId +
-                ", memberId=" + memberId +
-                ", articlesId=" + articlesId +
+                "likesCount=" + likesCount +
+                ", liked=" + liked +
                 '}';
     }
 }
