@@ -24,12 +24,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import com.example.moum.MainActivity;
 import com.example.moum.R;
 import com.example.moum.data.entity.Article;
-import com.example.moum.data.entity.BoardFreeItem;
 import com.example.moum.databinding.FragmentBoardRecruitBinding;
-import com.example.moum.databinding.FragmentCommunityBinding;
 import com.example.moum.utils.RefreshableFragment;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
@@ -37,7 +34,6 @@ import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.view.community.adapter.BoardRecruitItemAdapter;
 import com.example.moum.viewmodel.community.BoardRecruitViewModel;
 
-import java.sql.Ref;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,15 +41,13 @@ public class BoardRecruitFragment extends Fragment implements RefreshableFragmen
     private FragmentBoardRecruitBinding binding;
     private SharedPreferenceManager sharedPreferenceManager;
     private BoardRecruitViewModel boardRecruitViewModel;
+    private BoardRecruitItemAdapter adapter;
     private final ArrayList<Article> articles = new ArrayList<>();
     private Context context;
     private Integer memberId;
     private boolean isLoading = false;
+    private final String TAG = getClass().toString();
 
-
-    public static BoardRecruitFragment newInstance() {
-        return new BoardRecruitFragment();
-    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -76,6 +70,8 @@ public class BoardRecruitFragment extends Fragment implements RefreshableFragmen
         initSpinner();
         initRecyclerView();
         initFloatingActionButton();
+
+        boardRecruitViewModel.loadArticleCategoryList();
 
         return root;
     }
@@ -114,10 +110,9 @@ public class BoardRecruitFragment extends Fragment implements RefreshableFragmen
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), LinearLayoutManager.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
 
-        // RecyclerView 어댑터 설정
-        ArrayList<BoardFreeItem> initialItemList = new ArrayList<>();
-        BoardRecruitItemAdapter adapter = new BoardRecruitItemAdapter(initialItemList);
+        adapter = new BoardRecruitItemAdapter(articles);
         recyclerView.setAdapter(adapter);
+
 
         // 스크롤 리스너 추가
         long DEBOUNCE_DELAY = 0;
@@ -139,8 +134,7 @@ public class BoardRecruitFragment extends Fragment implements RefreshableFragmen
             }
         });
 
-        // LiveData 관찰 및 데이터 로딩
-        boardRecruitViewModel.resetPagination();
+        // LiveData 처음 페이지 관찰
         boardRecruitViewModel.getIsLoadArticlesCategorySuccess().observe(getViewLifecycleOwner(), result -> {
             if (result != null) {
                 Validation validation = result.getValidation();
@@ -148,22 +142,9 @@ public class BoardRecruitFragment extends Fragment implements RefreshableFragmen
 
                 if (validation == Validation.ARTICLE_LIST_GET_SUCCESS && loadedArticles != null) {
                     // 데이터 업데이트
-                    ArrayList<BoardFreeItem> updatedItemList = new ArrayList<>();
-                    for (Article article : loadedArticles) {
-                        BoardFreeItem item = new BoardFreeItem();
-                        item.setBoardFreeItem(
-                                article.getId(),
-                                article.getTitle(),
-                                article.getAuthor(),
-                                getTimeAgo(article.getCreateAt()),
-                                article.getCommentsCounts(),
-                                article.getViewCounts()
-                        );
-                        updatedItemList.add(item);
-                    }
-                    // updateItemList를 통해 데이터 갱신
-                    adapter.updateItemList(updatedItemList);
-                    boardRecruitViewModel.setRecentSize(updatedItemList.size());
+                    articles.clear();
+                    articles.addAll(loadedArticles);
+                    adapter.updateItemList(articles);
                 } else {
                     // 에러 처리
                     Toast.makeText(getContext(), "데이터를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
@@ -174,8 +155,27 @@ public class BoardRecruitFragment extends Fragment implements RefreshableFragmen
             }
         });
 
-        boardRecruitViewModel.loadArticleCategoryList();
+        // LiveData 다음 페이지 불러오기 관찰
+        boardRecruitViewModel.getIsLoadNextArticlesCategorySuccess().observe(getViewLifecycleOwner(), result -> {
+            if (result != null) {
+                Validation validation = result.getValidation();
+                List<Article> loadedArticles = result.getData();
+
+                if (validation == Validation.ARTICLE_LIST_GET_SUCCESS && loadedArticles != null) {
+                    // 데이터 업데이트
+                    articles.addAll(loadedArticles);
+                    adapter.updateItemList(articles);
+                } else {
+                    // 에러 처리
+                    Toast.makeText(getContext(), "데이터를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                // result가 null일 경우 에러 처리
+                Toast.makeText(getContext(), "응답이 없습니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
+
 
 
     private void initFloatingActionButton() {
@@ -195,10 +195,11 @@ public class BoardRecruitFragment extends Fragment implements RefreshableFragmen
         binding = null;
     }
 
-
     @Override
     public void refreshContent() {
         boardRecruitViewModel.resetPagination();
         boardRecruitViewModel.loadArticleCategoryList();
     }
+
+
 }

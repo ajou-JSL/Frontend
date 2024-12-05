@@ -62,6 +62,7 @@ public class Comment {
                 "commentId=" + commentId +
                 ", articleDetailsId=" + articleDetailsId +
                 ", author='" + author + '\'' +
+                ", authorId='" + authorId + '\'' +
                 ", content='" + content + '\'' +
                 ", createAt='" + createdAt + '\'' +
                 '}';
