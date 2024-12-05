@@ -197,6 +197,14 @@ public class MemberProfileFragment extends BottomSheetDialogFragment {
                     genreAdapter.notifyItemInserted(genres.size()-1);
                 }
             }
+            else if(validation == Validation.BANNED_MEMBER){
+                Toast.makeText(context, "밴 당한 회원입니다.", Toast.LENGTH_SHORT).show();
+                dismiss();
+            }
+            else if(validation == Validation.SIGNOUT_MEMBER){
+                Toast.makeText(context, "탈퇴한 회원입니다.", Toast.LENGTH_SHORT).show();
+                dismiss();
+            }
             else if(validation == Validation.NETWORK_FAILED){
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
             }

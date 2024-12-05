@@ -18,7 +18,7 @@ public class Article {
     private List<String> fileURL;
     private String author;
     private String authorName; // 닉네임 추가
-    private ArrayList<Comment> comments;
+    private List<Comment> comments;
     private String createdAt;
     private String updatedAt;
 
@@ -28,7 +28,7 @@ public class Article {
 
     public Integer getAuthorId() { return authorId; }
 
-    public ArrayList<Comment> getComments() {
+    public List<Comment> getComments() {
         return comments;
     }
 
@@ -72,7 +72,7 @@ public class Article {
 
     public void setCommentsCounts(Integer commentCounts) {this.commentsCounts = commentCounts;}
 
-    public void setComments(ArrayList<Comment> comments) {this.comments = comments;}
+    public void setComments(List<Comment> comments) {this.comments = comments;}
 
     public void setContent(String content) {this.content = content;}
 

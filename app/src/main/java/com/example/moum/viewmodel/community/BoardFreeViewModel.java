@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.moum.data.dto.ArticleFilterRequest;
 import com.example.moum.data.entity.Article;
 import com.example.moum.data.entity.Result;
 import com.example.moum.utils.Callback;
@@ -65,14 +66,17 @@ public class BoardFreeViewModel extends AndroidViewModel {
         }
     }
 
+    public void loadArticlesByFilter(boolean likesCount, boolean ViewCount, boolean CommentCount, boolean createdAt, Integer genre) {
+        ArticleFilterRequest articleFilterRequest = new ArticleFilterRequest(
+                null, likesCount, ViewCount, CommentCount, createdAt, null, 0, genre);
+        articleRepository.loadArticlesByFilter(articleFilterRequest, currentPage, currentSize,this::setIsLoadArticlesCategorySuccess);
+    }
+
     public void loadNextArticleCategoryList() {
-        if(recentSize < currentSize) {
-            return;
-        }
+        //TODO 페이지 조절 필요 데이터가 더이상 없을 때
         articleRepository.loadArticlesCategory(null, "FREE_TALKING_BOARD", currentPage, currentSize, this::setIsLoadNextArticlesCategorySuccess);
         currentPage++;
     }
-
     public void setRecentSize(Integer recentSize) {
         this.recentSize = recentSize;
     }

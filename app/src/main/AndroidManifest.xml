@@ -54,7 +54,8 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.MOUM">
         </activity>
         <activity
             android:name=".view.community.BoardFreeWriteActivity"

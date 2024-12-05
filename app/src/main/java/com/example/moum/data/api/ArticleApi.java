@@ -1,5 +1,6 @@
 package com.example.moum.data.api;
 
+import com.example.moum.data.dto.ArticleFilterRequest;
 import com.example.moum.data.dto.ArticleRequest;
 import com.example.moum.data.dto.ChatSendRequest;
 import com.example.moum.data.dto.CommentRequest;
@@ -18,6 +19,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -50,6 +52,13 @@ public interface ArticleApi {
         @Path("articleId") Integer articleId
     );
 
+    @GET("api/articles/search")
+    Call<SuccessResponse<List<Article>>> searchArticlesFilters(
+            @Query("page") Integer page,
+            @Query("size") Integer size,
+            @Query("searchDto") ArticleFilterRequest articleFilterRequest
+    );
+
     @Multipart
     @POST("/api/articles")
     Call<SuccessResponse<Article>> createArticle(
@@ -57,8 +66,15 @@ public interface ArticleApi {
             @Part("articleRequestDto") ArticleRequest articleRequest
     );
 
-    @POST("api/articles/likes/{articleId}")
+    @GET("/api/articles/member/{memberId}/likes/{articleId}")
+    Call<SuccessResponse<Like>> loadLike(
+            @Path("memberId") int memberId,
+            @Path("articleId") int articleId
+    );
+
+    @PUT("api/articles/member/{memberId}/likes/{articleId}")
     Call<SuccessResponse<Like>> postLike(
+            @Path("memberId") int memberId,
             @Path("articleId") int articleId
     );
 
@@ -71,6 +87,11 @@ public interface ArticleApi {
     @DELETE("/api/comments/{commentId}")
     Call<SuccessResponse<Comment>> deleteComment(
             @Path("commentId") int commentId
+    );
+
+    @GET("/api/comments/{articleId}")
+    Call<SuccessResponse<List<Comment>>> getArticleComments(
+            @Path("articleId") int articleId
     );
 
     @DELETE("/api/articles/{articleId}")

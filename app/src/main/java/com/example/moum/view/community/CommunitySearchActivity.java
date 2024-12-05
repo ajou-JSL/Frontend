@@ -43,6 +43,7 @@ public class CommunitySearchActivity extends AppCompatActivity {
     private Context context;
     private String keyword;
     private String category;
+    private final ArrayList<Article> articles = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -207,14 +208,13 @@ public class CommunitySearchActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(dividerItemDecoration);
 
         // RecyclerView 어댑터 설정
-        ArrayList<BoardFreeItem> initialItemList = new ArrayList<>();
-        adapter = new BoardFreeItemAdapter(initialItemList);
+        adapter = new BoardFreeItemAdapter(articles);
         recyclerView.setAdapter(adapter);
 
 
         // 스크롤 리스너 추가
         long DEBOUNCE_DELAY = 0;
-        Handler handler = new Handler(Looper.getMainLooper()); // 여러번 호출되는 것을 막기 위한 디바운싱
+        Handler handler = new Handler(Looper.getMainLooper());
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -231,8 +231,7 @@ public class CommunitySearchActivity extends AppCompatActivity {
             }
         });
 
-        // LiveData 관찰 및 데이터 로딩
-        communitySearchViewModel.resetPagination();
+        // LiveData 처음 호출 데이터 관찰 및 데이터 로딩
         communitySearchViewModel.getIsLoadSearchArticlesSuccess().observe( this, result -> {
             if (result != null) {
                 Validation validation = result.getValidation();
@@ -240,28 +239,16 @@ public class CommunitySearchActivity extends AppCompatActivity {
 
                 if (validation == Validation.ARTICLE_LIST_GET_SUCCESS && loadedArticles != null) {
                     // 데이터 업데이트
-                    ArrayList<BoardFreeItem> updatedItemList = new ArrayList<>();
-                    for (Article article : loadedArticles) {
-                        BoardFreeItem item = new BoardFreeItem();
-                        item.setBoardFreeItem(
-                                article.getId(),
-                                article.getTitle(),
-                                article.getAuthor(),
-                                getTimeAgo(article.getCreateAt()),
-                                article.getCommentsCounts(),
-                                article.getViewCounts()
-                        );
-                        if (article.getFileURL() != null) {
-                            item.setImage(article.getFileURL().get(0));
-                        }
-                        updatedItemList.add(item);
-                    }
-                    adapter.updateItemList(updatedItemList);
-                    communitySearchViewModel.setRecentSize(updatedItemList.size());
+                    articles.clear();
+                    articles.addAll(loadedArticles);
+                    adapter.updateItemList(articles);
                 } else {
                     // 에러 처리
-                    Toast.makeText(context, "데이터를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "데이터를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
                 }
+            } else {
+                // result가 null일 경우 에러 처리
+                Toast.makeText(this, "응답이 없습니다.", Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -101,7 +101,6 @@ public enum Validation {
     LOGIN_FAILED,
     LOGOUT_ALREADY,
     SIGNOUT_MEMBER,
-    BANNED_MEMBER,
 
     // 채팅
     CHAT_POST_SUCCESS,
@@ -140,6 +139,7 @@ public enum Validation {
     COMMENT_DELETE_SUCCESS,
 
     // 좋아요 관련 성공 응답
+    LIKES_GET_SUCCESS,
     LIKES_CREATE_SUCCESS,
     LIKES_DELETE_SUCCESS,
 
@@ -208,6 +208,8 @@ public enum Validation {
     NEED_LOGIN,
     AUTHENTICATION_NOT_FOUND,
     MEMBER_ALREADY_LOGOUT,
+    SIGNOUTED_MEMBER,
+    BANNED_MEMBER,
 
     // 인증 관련 오류 코드
     LOGIN_FAIL,
