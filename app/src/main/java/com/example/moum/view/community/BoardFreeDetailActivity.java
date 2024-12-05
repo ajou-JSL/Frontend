@@ -46,6 +46,7 @@ public class BoardFreeDetailActivity extends AppCompatActivity {
     private int targetBoardId;
     private Context context;
     private String profileURL;
+    private ArrayList<Comment> comments = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -99,8 +100,21 @@ public class BoardFreeDetailActivity extends AppCompatActivity {
         /* 댓글 감시 */
         boardFreeDetailViewModel.getisLoadCommentsSuccess().observe(this, commentList -> {
             if (commentList != null) {
-                Log.e("commentList", commentList.toString());
+                for (Comment comment : commentList.getData()) {
+                    Log.e("cccc", "Comment: " + comment.toString());
+                }
                 adapter.updateComment(commentList.getData());
+            } else {
+                Log.d("Comments", "No data or null");
+            }
+        });
+
+        /* 댓글 삭제 추가 감시 */
+        boardFreeDetailViewModel.getIsChangeCommentSuccess().observe(this, comment -> {
+            Validation validataion = comment.getValidation();
+            if(validataion == Validation.COMMENT_CREATE_SUCCESS || validataion == Validation.COMMENT_DELETE_SUCCESS){
+                boardFreeDetailViewModel.loadComments(targetBoardId);
+                adapter.notifyDataSetChanged();
             }
         });
 
@@ -127,13 +141,6 @@ public class BoardFreeDetailActivity extends AppCompatActivity {
             }
         });
 
-
-        /* 게시글 로드, 좋아요 로드 */
-        boardFreeDetailViewModel.loadArticlesDetail(targetBoardId);
-        boardFreeDetailViewModel.loadLike(memberId,targetBoardId);
-        boardFreeDetailViewModel.loadComments(targetBoardId);
-
-
         /* UI 동작 추가 */
         initLeftArrow();
         initLikeButton();
@@ -141,6 +148,11 @@ public class BoardFreeDetailActivity extends AppCompatActivity {
         initRecyclerviewContent();
         initInputbutton();
         initprofileImage();
+
+        /* 게시글 로드, 좋아요 로드 */
+        boardFreeDetailViewModel.loadArticlesDetail(targetBoardId);
+        boardFreeDetailViewModel.loadLike(memberId,targetBoardId);
+        boardFreeDetailViewModel.loadComments(targetBoardId);
 
     }
 
@@ -201,9 +213,8 @@ public class BoardFreeDetailActivity extends AppCompatActivity {
         RecyclerView recyclerView = binding.boardFreeDetailRecyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-        // RecyclerView 어댑터 설정 (처음에 빈 데이터로 어댑터 설정)
-        ArrayList<Comment> comments = new ArrayList<>();
         adapter = new BoardFreeDetailAdapter(comments, context, boardFreeDetailViewModel);
+        recyclerView.setAdapter(adapter);
 
         // 프로필 클릭 이벤트
         adapter.setOnProfileClickListener(position -> {
@@ -219,13 +230,6 @@ public class BoardFreeDetailActivity extends AppCompatActivity {
 
                 fragment.show(((FragmentActivity) context).getSupportFragmentManager(), fragment.getTag());
 
-            }
-        });
-        recyclerView.setAdapter(adapter);
-
-        boardFreeDetailViewModel.getValidationStatus().observe(this, validation -> {
-            if (validation == Validation.ARTICLE_GET_FAILED) {
-                Toast.makeText(context, "데이터를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -285,8 +289,6 @@ public class BoardFreeDetailActivity extends AppCompatActivity {
             switch (item.getTitle().toString()) {
                 case "삭제하기":
                     boardFreeDetailViewModel.deleteComment(comment.getCommentId());
-                    adapter.notifyItemRemoved(position);
-                    boardFreeDetailViewModel.loadComments(targetBoardId);
                     break;
 
                 case "신고하기":

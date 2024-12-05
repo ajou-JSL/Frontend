@@ -29,7 +29,7 @@ public class BoardFreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private static final int VIEW_TYPE_COMMENT = 0;
 
     private final BoardFreeDetailViewModel boardFreeDetailViewModel;
-    private List<Comment> commentList;
+    private List<Comment> commentList = new ArrayList<>();
     private AdapterView.OnItemClickListener onItemClickListener;
     private final Context context;
     private OnProfileClickListener profileClickListener;
@@ -63,13 +63,9 @@ public class BoardFreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
 
     public void updateComment(List<Comment> comments) {
-        for (Comment comment : commentList) {
-            Log.e("updateComment", "Comment: " + comment.toString());
-        }
-        int previousSize = this.commentList.size();
-        this.commentList.clear();
-        this.commentList.addAll(comments);
-        notifyItemInserted(previousSize);
+        commentList.clear();
+        commentList.addAll(comments);
+        notifyDataSetChanged();
     }
 
 
@@ -129,7 +125,7 @@ public class BoardFreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 LifecycleOwner lifecycleOwner = (LifecycleOwner) context;
 
                 // ViewModel에서 멤버 정보를 가져오고 observe를 설정
-                boardFreeDetailViewModel.getIsLoadMemberSuccess().observe(lifecycleOwner, member -> {
+                boardFreeDetailViewModel.getIsLoadItemMemberSuccess().observe(lifecycleOwner, member -> {
                     if (member != null && member.getData().getProfileImageUrl() != null) {
                         Glide.with(profileImage.getContext())
                                 .load(member.getData().getProfileImageUrl())
@@ -140,7 +136,7 @@ public class BoardFreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     }
                 });
             }
-            boardFreeDetailViewModel.loadProfileImage(comment.getAuthorId());
+            boardFreeDetailViewModel.loadItemProfileImage(comment.getAuthorId());
 
         }
 

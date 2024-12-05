@@ -1,29 +1,28 @@
 package com.example.moum.view.community.adapter;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.moum.data.entity.BoardFreeItem;
+import com.example.moum.data.entity.Article;
 import com.example.moum.R;
+import com.example.moum.utils.TimeAgo;
 import com.example.moum.view.community.BoardFreeDetailActivity;
 
 import java.util.ArrayList;
 
 public class BoardFreeItemAdapter extends RecyclerView.Adapter<BoardFreeItemAdapter.CustomViewHolder> {
-    private ArrayList<BoardFreeItem> itemList;
+    private ArrayList<Article> itemList;
 
-    public BoardFreeItemAdapter(ArrayList<BoardFreeItem> itemList) {
+    public BoardFreeItemAdapter(ArrayList<Article> itemList) {
         this.itemList = itemList;
     }
 
@@ -37,12 +36,12 @@ public class BoardFreeItemAdapter extends RecyclerView.Adapter<BoardFreeItemAdap
         return itemList.size();
     }
 
-    public void updateItemList(ArrayList<BoardFreeItem> boarditemList) {
-        this.itemList = boarditemList;
+    public void updateItemList(ArrayList<Article> articles) {
+        this.itemList = articles;
         notifyDataSetChanged();
     }
 
-    public void addItemList(ArrayList<BoardFreeItem> boardFreeItems){
+    public void addItemList(ArrayList<Article> boardFreeItems){
         this.itemList.addAll(boardFreeItems);
         notifyDataSetChanged();
     }
@@ -62,7 +61,7 @@ public class BoardFreeItemAdapter extends RecyclerView.Adapter<BoardFreeItemAdap
         holder.itemView.setOnClickListener(v -> {
             // BoardId를 Intent에 전달
             Intent intent = new Intent(v.getContext(), BoardFreeDetailActivity.class);
-            intent.putExtra("targetBoardId", itemList.get(position).getBoardId());
+            intent.putExtra("targetBoardId", itemList.get(position).getId());
 
             // Activity 시작
             v.getContext().startActivity(intent);
@@ -82,18 +81,18 @@ public class BoardFreeItemAdapter extends RecyclerView.Adapter<BoardFreeItemAdap
             image = itemView.findViewById(R.id.item_board_free_image_view);
         }
 
-        public void bind(BoardFreeItem item) {
-            title.setText(item.getTitle());
-            writer.setText(item.getWriter());
-            time.setText(item.getTime());
-            counts.setText("[" + item.getCommentsCounts() + "] / " + item.getViewCounts() + " 회");
+        public void bind(Article article) {
+            title.setText(article.getTitle());
+            writer.setText(article.getAuthor());
+            time.setText(TimeAgo.getTimeAgo(article.getCreateAt()));
+            String count = "[" + article.getCommentsCounts() + "] / " + article.getViewCounts() + " 회";
+            counts.setText(count);
 
-            if (item.hasImage()) {
+            if (article.getFileURL() != null) {
                 // 이미지가 있을 때만 보이게 설정
-                Log.e("BoardFreeItemAdapter", "이미지가 있음 Id : " + item.getBoardId() + " Image : " + item.getImage() + "");
                 image.setVisibility(View.VISIBLE);
                 Glide.with(itemView.getContext())
-                        .load(item.getImage())
+                        .load(article.getFileURL().get(0))
                         .into(image);
             } else {
                 // 이미지가 없으면 숨기기

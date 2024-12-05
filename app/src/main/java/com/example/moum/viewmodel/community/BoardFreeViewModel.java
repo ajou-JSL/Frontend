@@ -73,9 +73,7 @@ public class BoardFreeViewModel extends AndroidViewModel {
     }
 
     public void loadNextArticleCategoryList() {
-        if(recentSize < currentSize) {
-            return;
-        }
+        //TODO 페이지 조절 필요 데이터가 더이상 없을 때
         articleRepository.loadArticlesCategory(null, "FREE_TALKING_BOARD", currentPage, currentSize, this::setIsLoadNextArticlesCategorySuccess);
         currentPage++;
     }

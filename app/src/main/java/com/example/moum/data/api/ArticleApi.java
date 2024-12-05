@@ -89,7 +89,7 @@ public interface ArticleApi {
             @Path("commentId") int commentId
     );
 
-    @GET("/api/articles/{articleId}")
+    @GET("/api/comments/{articleId}")
     Call<SuccessResponse<List<Comment>>> getArticleComments(
             @Path("articleId") int articleId
     );

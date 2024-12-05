@@ -26,7 +26,6 @@ import android.widget.Toast;
 
 import com.example.moum.R;
 import com.example.moum.data.entity.Article;
-import com.example.moum.data.entity.BoardFreeItem;
 import com.example.moum.databinding.FragmentBoardFreeBinding;
 import com.example.moum.utils.RefreshableFragment;
 import com.example.moum.utils.SharedPreferenceManager;
@@ -43,6 +42,7 @@ public class BoardFreeFragment extends Fragment implements RefreshableFragment {
     private FragmentBoardFreeBinding binding;
     private SharedPreferenceManager sharedPreferenceManager;
     private BoardFreeViewModel boardFreeViewModel;
+    private BoardFreeItemAdapter adapter;
     private final ArrayList<Article> articles = new ArrayList<>();
     private Context context;
     private Integer memberId;
@@ -129,9 +129,7 @@ public class BoardFreeFragment extends Fragment implements RefreshableFragment {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), LinearLayoutManager.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
 
-        // RecyclerView 어댑터 설정
-        ArrayList<BoardFreeItem> initialItemList = new ArrayList<>();
-        BoardFreeItemAdapter adapter = new BoardFreeItemAdapter(initialItemList);
+        adapter = new BoardFreeItemAdapter(articles);
         recyclerView.setAdapter(adapter);
 
 
@@ -155,7 +153,7 @@ public class BoardFreeFragment extends Fragment implements RefreshableFragment {
             }
         });
 
-        // LiveData 관찰 및 데이터 로딩
+        // LiveData 처음 페이지 관찰
         boardFreeViewModel.getIsLoadArticlesCategorySuccess().observe(getViewLifecycleOwner(), result -> {
             if (result != null) {
                 Validation validation = result.getValidation();
@@ -163,28 +161,9 @@ public class BoardFreeFragment extends Fragment implements RefreshableFragment {
 
                 if (validation == Validation.ARTICLE_LIST_GET_SUCCESS && loadedArticles != null) {
                     // 데이터 업데이트
-                    ArrayList<BoardFreeItem> updatedItemList = new ArrayList<>();
-
                     articles.clear();
                     articles.addAll(loadedArticles);
-
-                    for (Article article : loadedArticles) {
-                        BoardFreeItem item = new BoardFreeItem();
-                        item.setBoardFreeItem(
-                                article.getId(),
-                                article.getTitle(),
-                                article.getAuthor(),
-                                getTimeAgo(article.getCreateAt()),
-                                article.getCommentsCounts(),
-                                article.getViewCounts()
-                        );
-                        if (article.getFileURL() != null) {
-                            item.setImage(article.getFileURL().get(0));
-                        }
-                        updatedItemList.add(item);
-                    }
-                    adapter.updateItemList(updatedItemList);
-                    boardFreeViewModel.setRecentSize(updatedItemList.size());
+                    adapter.updateItemList(articles);
                 } else {
                     // 에러 처리
                     Toast.makeText(getContext(), "데이터를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
@@ -195,7 +174,7 @@ public class BoardFreeFragment extends Fragment implements RefreshableFragment {
             }
         });
 
-        // LiveData 관찰 및 데이터 로딩
+        // LiveData 다음 페이지 불러오기 관찰
         boardFreeViewModel.getIsLoadNextArticlesCategorySuccess().observe(getViewLifecycleOwner(), result -> {
             if (result != null) {
                 Validation validation = result.getValidation();
@@ -203,25 +182,8 @@ public class BoardFreeFragment extends Fragment implements RefreshableFragment {
 
                 if (validation == Validation.ARTICLE_LIST_GET_SUCCESS && loadedArticles != null) {
                     // 데이터 업데이트
-                    ArrayList<BoardFreeItem> updatedItemList = new ArrayList<>();
-
-                    for (Article article : loadedArticles) {
-                        BoardFreeItem item = new BoardFreeItem();
-                        item.setBoardFreeItem(
-                                article.getId(),
-                                article.getTitle(),
-                                article.getAuthor(),
-                                getTimeAgo(article.getCreateAt()),
-                                article.getCommentsCounts(),
-                                article.getViewCounts()
-                        );
-                        if (article.getFileURL() != null) {
-                            item.setImage(article.getFileURL().get(0));
-                        }
-                        updatedItemList.add(item);
-                    }
-                    adapter.updateItemList(updatedItemList);
-                    boardFreeViewModel.setRecentSize(updatedItemList.size());
+                    articles.addAll(loadedArticles);
+                    adapter.updateItemList(articles);
                 } else {
                     // 에러 처리
                     Toast.makeText(getContext(), "데이터를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();

@@ -35,7 +35,7 @@ public class TimeAgo {
         long seconds = duration.getSeconds();
 
         if (seconds < 60) {
-            return seconds + "초 전";
+            return seconds + 1 + "초 전";
         } else if (seconds < 3600) {
             return duration.toMinutes() + "분 전";
         } else if (seconds < 86400) { // 86400초 = 1일

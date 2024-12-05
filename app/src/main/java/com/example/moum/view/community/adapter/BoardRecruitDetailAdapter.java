@@ -32,7 +32,7 @@ public class BoardRecruitDetailAdapter extends RecyclerView.Adapter<RecyclerView
     private List<Comment> commentList;
     private AdapterView.OnItemClickListener onItemClickListener;
     private final Context context;
-    private com.example.moum.view.community.adapter.BoardFreeDetailAdapter.OnProfileClickListener profileClickListener;
+    private com.example.moum.view.community.adapter.BoardRecruitDetailAdapter.OnProfileClickListener profileClickListener;
 
     public Comment getCommentAt(int position) {
         if (position >= 0 && position < commentList.size()) {
@@ -63,15 +63,10 @@ public class BoardRecruitDetailAdapter extends RecyclerView.Adapter<RecyclerView
 
 
     public void updateComment(List<Comment> comments) {
-        for (Comment comment : commentList) {
-            Log.e("updateComment", "Comment: " + comment.toString());
-        }
-        int previousSize = this.commentList.size();
-        this.commentList.clear();
-        this.commentList.addAll(comments);
-        notifyItemInserted(previousSize);
+        commentList.clear();
+        commentList.addAll(comments);
+        notifyDataSetChanged();
     }
-
 
     @NonNull
     @Override
@@ -84,10 +79,10 @@ public class BoardRecruitDetailAdapter extends RecyclerView.Adapter<RecyclerView
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Comment comment = commentList.get(position);
-        ((com.example.moum.view.community.adapter.BoardFreeDetailAdapter.CommentViewHolder) holder).bind(comment);
+        ((com.example.moum.view.community.adapter.BoardRecruitDetailAdapter.CommentViewHolder) holder).bind(comment);
     }
 
-    public void setOnProfileClickListener(com.example.moum.view.community.adapter.BoardFreeDetailAdapter.OnProfileClickListener listener) {
+    public void setOnProfileClickListener(com.example.moum.view.community.adapter.BoardRecruitDetailAdapter.OnProfileClickListener listener) {
         this.profileClickListener = listener;
     }
 
@@ -129,7 +124,7 @@ public class BoardRecruitDetailAdapter extends RecyclerView.Adapter<RecyclerView
                 LifecycleOwner lifecycleOwner = (LifecycleOwner) context;
 
                 // ViewModel에서 멤버 정보를 가져오고 observe를 설정
-                boardRecruitDetailViewModel.getIsLoadMemberSuccess().observe(lifecycleOwner, member -> {
+                boardRecruitDetailViewModel.getIsLoadItemMemberSuccess().observe(lifecycleOwner, member -> {
                     if (member != null && member.getData().getProfileImageUrl() != null) {
                         Glide.with(profileImage.getContext())
                                 .load(member.getData().getProfileImageUrl())
@@ -140,7 +135,7 @@ public class BoardRecruitDetailAdapter extends RecyclerView.Adapter<RecyclerView
                     }
                 });
             }
-            boardRecruitDetailViewModel.loadProfileImage(comment.getAuthorId());
+            boardRecruitDetailViewModel.loadItemProfileImage(comment.getAuthorId());
 
         }
 

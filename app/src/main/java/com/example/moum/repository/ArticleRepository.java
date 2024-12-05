@@ -467,15 +467,14 @@ public class ArticleRepository {
 
     public void loadArticleComments(int articleId, com.example.moum.utils.Callback<Result<List<Comment>>> callback) {
         Call<SuccessResponse<List<Comment>>> result = articleApi.getArticleComments(articleId);
-
         result.enqueue(new retrofit2.Callback<SuccessResponse<List<Comment>>>() {
             @Override
             public void onResponse(Call<SuccessResponse<List<Comment>>> call, Response<SuccessResponse<List<Comment>>> response) {
                 if (response.isSuccessful()) {
                     /*성공적으로 응답을 받았을 때*/
                     SuccessResponse<List<Comment>> responseBody = response.body();
-
                     List<Comment> comment = responseBody.getData();
+                    Log.e(TAG, responseBody.toString());
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<List<Comment>> result = new Result<>(validation, comment);
                     callback.onResult(result);

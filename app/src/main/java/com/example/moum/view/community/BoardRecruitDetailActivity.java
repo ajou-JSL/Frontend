@@ -30,6 +30,7 @@ import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.view.community.adapter.BoardRecruitDetailAdapter;
 import com.example.moum.view.profile.MemberProfileFragment;
+import com.example.moum.view.report.ReportArticleFragment;
 import com.example.moum.view.report.ReportMemberFragment;
 import com.example.moum.viewmodel.community.BoardRecruitDetailViewModel;
 
@@ -101,6 +102,15 @@ public class BoardRecruitDetailActivity extends AppCompatActivity {
             }
         });
 
+        /* 댓글 삭제 추가 감시 */
+        boardRecruitDetailViewModel.getIsChangeCommentSuccess().observe(this, comment -> {
+            Validation validataion = comment.getValidation();
+            if(validataion == Validation.COMMENT_CREATE_SUCCESS || validataion == Validation.COMMENT_DELETE_SUCCESS){
+                boardRecruitDetailViewModel.loadComments(targetBoardId);
+                adapter.notifyDataSetChanged();
+            }
+        });
+
         /* 작성자 프로필 감시 */
         boardRecruitDetailViewModel.getIsLoadMemberSuccess().observe(this, member -> {
             if (member != null) {
@@ -151,20 +161,35 @@ public class BoardRecruitDetailActivity extends AppCompatActivity {
             // PopupMenu 생성
             PopupMenu popupMenu = new PopupMenu(this, binding.menu);
 
-            // 메뉴 항목 추가
-            popupMenu.getMenu().add("수정하기");
+            // 작성자가 게시글 보는 본인 일 때
+            Article article = boardRecruitDetailViewModel.getIsLoadArticeSuccess().getValue();
+            if(memberId.equals(article.getAuthorId())){
+                //popupMenu.getMenu().add("수정하기");
+                popupMenu.getMenu().add("삭제하기");
+            }
+            //메뉴 기본 항목
             popupMenu.getMenu().add("신고하기");
 
             // 메뉴 항목 클릭 이벤트 처리
             popupMenu.setOnMenuItemClickListener(item -> {
                 switch (item.getTitle().toString()) {
                     case "수정하기":
-                        Intent editIntent = new Intent(this, BoardFreeWriteActivity.class);
+                        Intent editIntent = new Intent(this, BoardRecruitWriteActivity.class);
                         startActivity(editIntent);
                         break;
-
+                    case "삭제하기":
+                        boardRecruitDetailViewModel.deleteArticle(targetBoardId);
+                        finish();
+                        break;
                     case "신고하기":
-                        Toast.makeText(this, "신고하기가 선택되었습니다.", Toast.LENGTH_SHORT).show();
+                        ReportArticleFragment reportArticleFragment = new ReportArticleFragment(context);
+
+                        Bundle args = new Bundle();
+                        args.putInt("targetArticleId", targetBoardId);
+                        reportArticleFragment.setArguments(args);
+
+                        AppCompatActivity activity = (AppCompatActivity) context;
+                        reportArticleFragment.show(activity.getSupportFragmentManager(), "ReportArticleFragment");
                         break;
 
                     default:
@@ -275,8 +300,6 @@ public class BoardRecruitDetailActivity extends AppCompatActivity {
             switch (item.getTitle().toString()) {
                 case "삭제하기":
                     boardRecruitDetailViewModel.deleteComment(comment.getCommentId());
-                    adapter.notifyItemRemoved(position);
-                    boardRecruitDetailViewModel.loadComments(targetBoardId);
                     break;
 
                 case "신고하기":
