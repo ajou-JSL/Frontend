@@ -50,6 +50,7 @@ public class ImageManager {
     }
 
     public static Boolean isUrlValid(String url) {
+        if(url == null || url.equals("null")) return false;
         String urlFormat = "^https://kr\\.object\\.ncloudstorage\\.com/moumstorage/([\\w가-힣\\s-]+/)*[\\w가-힣\\s-]+\\.(jpg|png|jpeg|gif|bmp)$";
         Pattern urlPattern = Pattern.compile(urlFormat, Pattern.CASE_INSENSITIVE); // 대소문자 무시
         return urlPattern.matcher(url).matches();
