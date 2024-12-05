@@ -66,7 +66,7 @@ public class BoardFreeFragment extends Fragment implements RefreshableFragment {
             startActivity(intent);
         }
 
-        initSpinner();
+        //initSpinner();
         initRecyclerView();
         initFloatingActionButton();
 

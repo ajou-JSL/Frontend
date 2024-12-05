@@ -45,6 +45,7 @@ public class BoardRecruitDetailActivity extends AppCompatActivity {
     private int targetBoardId;
     private Context context;
     private String profileURL;
+    private ArrayList<Comment> comments;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,6 +84,7 @@ public class BoardRecruitDetailActivity extends AppCompatActivity {
                 binding.boardRecruitDetailTitle.setText(articleData.getTitle());
                 binding.boardRecruitDetailContent.setText(articleData.getContent());
                 binding.boardRecruitDetailLikeCount.setText(String.valueOf(articleData.getLikeCounts()));
+                boardRecruitDetailViewModel.loadProfileImage(articleData.getAuthorId());
             } else {
                 Toast.makeText(context, "데이터를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
             }
@@ -238,7 +240,7 @@ public class BoardRecruitDetailActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
         // RecyclerView 어댑터 설정 (처음에 빈 데이터로 어댑터 설정)
-        ArrayList<Comment> comments = new ArrayList<>();
+        comments = new ArrayList<>();
         adapter = new BoardRecruitDetailAdapter(comments, context, boardRecruitDetailViewModel);
 
         // 프로필 클릭 이벤트
@@ -291,7 +293,9 @@ public class BoardRecruitDetailActivity extends AppCompatActivity {
         PopupMenu popupMenu = new PopupMenu(this, view);
 
         // 메뉴 항목 추가
-        popupMenu.getMenu().add("삭제하기");
+        if(memberId.equals(comments.get(position).getAuthorId())) {
+            popupMenu.getMenu().add("삭제하기");
+        }
         popupMenu.getMenu().add("신고하기");
 
         // 메뉴 항목 클릭 이벤트 처리

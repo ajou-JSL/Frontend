@@ -194,7 +194,7 @@ public class SignupRepository {
     }
 
     public void signout(com.example.moum.utils.Callback<Result<Member>> callback) {
-        Call<SuccessResponse<Member>> result = signupApi.signout();
+        Call<SuccessResponse<Member>> result = authSignupApi.signout();
         result.enqueue(new Callback<SuccessResponse<Member>>() {
             @Override
             public void onResponse(Call<SuccessResponse<Member>> call, Response<SuccessResponse<Member>> response) {

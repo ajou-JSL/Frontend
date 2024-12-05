@@ -34,6 +34,6 @@ public interface SignupApi {
 
     );
 
-    @PATCH("/signout")
+    @PATCH("/api/signout")
     Call<SuccessResponse<Member>> signout();
 }

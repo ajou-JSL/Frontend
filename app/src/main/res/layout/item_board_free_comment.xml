@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/gray0">
+    android:background="@drawable/background_white_underline_light">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -86,7 +86,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginEnd="25dp"
             android:text="내용"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textColor="@color/gray4"/>
 
     </LinearLayout>

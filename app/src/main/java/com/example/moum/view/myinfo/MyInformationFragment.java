@@ -35,7 +35,7 @@ public class MyInformationFragment extends Fragment {
     private MyInformationViewModel viewModel;
     private Context context;
     private Member member;
-    private static final int REQUEST_CODE = 300;
+    private static final int REQUEST_CODE = 100;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         viewModel = new ViewModelProvider(this).get(MyInformationViewModel.class);

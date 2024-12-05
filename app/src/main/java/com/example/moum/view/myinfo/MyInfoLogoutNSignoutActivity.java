@@ -27,7 +27,7 @@ public class MyInfoLogoutNSignoutActivity extends AppCompatActivity {
     private Context context;
     public String TAG = getClass().toString();
     private SharedPreferenceManager sharedPreferenceManager;
-    private static final int REQUEST_CODE = 300;
+    private static final int REQUEST_CODE = 100;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

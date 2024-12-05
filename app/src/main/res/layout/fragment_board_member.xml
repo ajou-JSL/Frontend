@@ -30,6 +30,7 @@
             android:textColor="@color/gray7"
             android:textSize="12sp"
             android:background="@drawable/background_genre_item_gray"
+            android:visibility="gone"
             />
 
     </LinearLayout>

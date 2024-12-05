@@ -280,7 +280,9 @@ public class BoardFreeDetailActivity extends AppCompatActivity {
         PopupMenu popupMenu = new PopupMenu(this, view);
 
         // 메뉴 항목 추가
-        popupMenu.getMenu().add("삭제하기");
+        if(memberId.equals(comments.get(position).getAuthorId())) {
+            popupMenu.getMenu().add("삭제하기");
+        }
         popupMenu.getMenu().add("신고하기");
 
         // 메뉴 항목 클릭 이벤트 처리

@@ -101,7 +101,6 @@ public enum Validation {
     LOGIN_FAILED,
     LOGOUT_ALREADY,
     SIGNOUT_MEMBER,
-    BANNED_MEMBER,
 
     // 채팅
     CHAT_POST_SUCCESS,
@@ -209,6 +208,8 @@ public enum Validation {
     NEED_LOGIN,
     AUTHENTICATION_NOT_FOUND,
     MEMBER_ALREADY_LOGOUT,
+    SIGNOUTED_MEMBER,
+    BANNED_MEMBER,
 
     // 인증 관련 오류 코드
     LOGIN_FAIL,

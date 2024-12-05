@@ -20,7 +20,8 @@
             android:layout_height="30dp"
             android:layout_margin="10dp"
             android:paddingEnd="25dp"
-            android:background="@drawable/round_spinner_background" />
+            android:background="@drawable/round_spinner_background"
+            android:visibility="gone"/>
 
     </LinearLayout>
     <androidx.core.widget.NestedScrollView

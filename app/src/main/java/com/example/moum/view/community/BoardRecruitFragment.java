@@ -67,7 +67,7 @@ public class BoardRecruitFragment extends Fragment implements RefreshableFragmen
             startActivity(intent);
         }
 
-        initSpinner();
+        //initSpinner();
         initRecyclerView();
         initFloatingActionButton();
 
