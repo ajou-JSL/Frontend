@@ -8,6 +8,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.example.moum.view.community.BoardFreeFragment;
 import com.example.moum.view.community.BoardGroupFragment;
+import com.example.moum.view.community.BoardMemberFragment;
 import com.example.moum.view.community.BoardPerformanceFragment;
 import com.example.moum.view.community.BoardRecruitFragment;
 
@@ -28,6 +29,8 @@ public class TabbarPagerAdapter extends FragmentStateAdapter {
             case 2:
                 return new BoardGroupFragment();
             case 3:
+                return new BoardMemberFragment();
+            case 4:
                 return new BoardPerformanceFragment();
             default:
                 return null;
@@ -36,6 +39,6 @@ public class TabbarPagerAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 4;
+        return 5;
     }
 }

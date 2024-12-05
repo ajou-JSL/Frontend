@@ -16,6 +16,7 @@ public class Chat {
     @Nullable
     private String timestampFormatted;
     private boolean isSentByMe;
+    private String profileUrl;
 
     public Chat(String sender, String message, Integer chatroomId, LocalDateTime timestamp){
         this.sender = sender;
@@ -31,6 +32,10 @@ public class Chat {
         this.chatroomId = chatroomId;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
         this.timestamp = LocalDateTime.parse(timestamp, formatter);
+    }
+
+    public void setProfileUrl(String profileUrl) {
+        this.profileUrl = profileUrl;
     }
 
     public void setMessage(String message) {
@@ -55,6 +60,10 @@ public class Chat {
 
     public void setTimestampFormatted(String timestampFormatted) {
         this.timestampFormatted = timestampFormatted;
+    }
+
+    public String getProfileUrl() {
+        return profileUrl;
     }
 
     public String getMessage() {

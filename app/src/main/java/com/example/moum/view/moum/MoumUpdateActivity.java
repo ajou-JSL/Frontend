@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -41,6 +42,7 @@ import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.utils.WrapContentLinearLayoutManager;
 import com.example.moum.view.auth.InitialActivity;
+import com.example.moum.view.dialog.LoadingDialog;
 import com.example.moum.view.dialog.MoumCreateDialog;
 import com.example.moum.view.dialog.MoumUpdateDialog;
 import com.example.moum.view.moum.adapter.MoumCreateImageAdapter;
@@ -70,6 +72,7 @@ public class MoumUpdateActivity extends AppCompatActivity {
     private Integer leaderId;
     private ActivityResultLauncher<PickVisualMediaRequest> pickMultipleMedia;
     private ArrayList<Uri> uris = new ArrayList<>();
+    private LoadingDialog loadingDialog;
 
     @SuppressLint("DefaultLocale")
     @Override
@@ -81,6 +84,7 @@ public class MoumUpdateActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
         context = this;
+        loadingDialog = new LoadingDialog(context);
 
         /*모음 id 정보 불러오기*/
         Intent prevIntent = getIntent();
@@ -317,6 +321,7 @@ public class MoumUpdateActivity extends AppCompatActivity {
 
         /*createUpdate() 결과 감시*/
         viewModel.getIsUpdateMoumSuccess().observe(this, isUpdateMoumSuccess -> {
+            loadingDialog.dismiss();
             Validation validation = isUpdateMoumSuccess.getValidation();
             Moum updateMoum = isUpdateMoumSuccess.getData();
             if(validation == Validation.NOT_VALID_ANYWAY){
@@ -418,6 +423,7 @@ public class MoumUpdateActivity extends AppCompatActivity {
 
     public void onDialogYesClicked(){
         /*다이얼로그에서 Yes 버튼 클릭 시, updateMoum() 호출*/
+        loadingDialog.show();
         viewModel.updateMoum(moumId, teamId, leaderId, context);
     }
 
@@ -439,7 +445,7 @@ public class MoumUpdateActivity extends AppCompatActivity {
         LinearLayout placeholderArtistName = songChild.findViewById(R.id.placeholder_artist_name);
         EditText editTextArtistName = songChild.findViewById(R.id.edittext_artist_name);
         TextView errorArtistName = songChild.findViewById(R.id.error_artist_name);
-
+        ImageView buttonDelete = songChild.findViewById(R.id.button_delete);
 
         editTextMusicName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -459,6 +465,12 @@ public class MoumUpdateActivity extends AppCompatActivity {
                 }else{
                     placeholderArtistName.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_gray_stroke));
                 }
+            }
+        });
+        buttonDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                songParent.removeView(songChild);
             }
         });
 

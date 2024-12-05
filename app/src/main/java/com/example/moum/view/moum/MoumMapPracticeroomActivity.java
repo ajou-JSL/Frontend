@@ -123,7 +123,7 @@ public class MoumMapPracticeroomActivity extends AppCompatActivity implements On
             if(validation == Validation.PRACTICE_ROOM_GET_SUCCESS){
                 practiceroom = loadedPracticeroom;
                 if(loadedPracticeroom.getName() != null) binding.textviewPracticeroomName.setText(loadedPracticeroom.getName());
-                if(loadedPracticeroom.getPrice() != null) binding.textviewPracticeroomPrice.setText(String.format("%d", loadedPracticeroom.getPrice()));
+                if(loadedPracticeroom.getPrice() != null) binding.textviewPracticeroomPrice.setText(String.format("%,d", loadedPracticeroom.getPrice()));
                 if(loadedPracticeroom.getCapacity() != null) binding.textviewPracticeroomCapacity.setText(String.format("%d", loadedPracticeroom.getCapacity()));
                 if(loadedPracticeroom.getAddress() != null) binding.textviewPracticeroomAddress.setText(loadedPracticeroom.getAddress());
                 if(loadedPracticeroom.getOwner() != null) binding.textviewPracticeroomOwner.setText(loadedPracticeroom.getOwner());
@@ -144,6 +144,11 @@ public class MoumMapPracticeroomActivity extends AppCompatActivity implements On
                     binding.checkboxPracticeroomSpeaker.setText("있음");
                     binding.checkboxPracticeroomSpeaker.setChecked(true);
                     binding.checkboxPracticeroomSpeaker.setEnabled(false);
+                }
+                if(loadedPracticeroom.getHasMic() != null && loadedPracticeroom.getHasMic()) {
+                    binding.checkboxPerformanceHallMic.setText("있음");
+                    binding.checkboxPerformanceHallMic.setChecked(true);
+                    binding.checkboxPerformanceHallMic.setEnabled(false);
                 }
                 if(loadedPracticeroom.getHasDrums() != null && loadedPracticeroom.getHasDrums()) {
                     binding.checkboxPracticeroomDrum.setText("있음");

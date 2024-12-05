@@ -121,7 +121,7 @@ public class PerformanceActivity extends AppCompatActivity {
                 if (loadedPerform.getPerformanceLocation() != null)
                     binding.textviewPerformPlace.setText(loadedPerform.getPerformanceLocation());
                 if (loadedPerform.getPerformancePrice() != null)
-                    binding.textviewPerformPrice.setText(String.format("%d", loadedPerform.getPerformancePrice()));
+                    binding.textviewPerformPrice.setText(String.format("%,d", loadedPerform.getPerformancePrice()));
                 if (loadedPerform.getPerformanceStartDate() != null && loadedPerform.getPerformanceEndDate() != null)
                     binding.textviewPerformTime.setText(String.format("%s ~ %s", TimeManager.strToDate(loadedPerform.getPerformanceStartDate()), TimeManager.strToDate(loadedPerform.getPerformanceEndDate())));
                 else if (loadedPerform.getPerformanceStartDate() == null && loadedPerform.getPerformanceEndDate() != null)

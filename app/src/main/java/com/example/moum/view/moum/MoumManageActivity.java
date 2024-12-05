@@ -70,7 +70,7 @@ public class MoumManageActivity extends AppCompatActivity {
     private boolean isSpinnerInitialized = false;
     private static final int REQUEST_CODE = 200;
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "DefaultLocale"})
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -446,7 +446,7 @@ public class MoumManageActivity extends AppCompatActivity {
                     binding.textviewMoumManageDate.setText(String.format("%s", loadedMoum.getEndDate()));
                 else
                     binding.textviewMoumManageDate.setText("");
-                if(loadedMoum.getPrice() != null) binding.textviewMoumManagePrice.setText(loadedMoum.getPrice().toString());
+                if(loadedMoum.getPrice() != null) binding.textviewMoumManagePrice.setText(String.format("%,d", loadedMoum.getPrice()));
                 if(loadedMoum.getMoumName() != null) binding.textviewMoumManageName.setText(loadedMoum.getMoumName());
 
                 Moum.Process process = loadedMoum.getProcess();
@@ -515,8 +515,11 @@ public class MoumManageActivity extends AppCompatActivity {
         binding.buttonRecruit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO
-                Toast.makeText(context, "구인 게시판으로 이동", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent();
+                intent.putExtra("fragment_index", 2);
+                intent.putExtra("community_index", 1);
+                setResult(RESULT_OK, intent);
+                finish();
             }
         });
         binding.buttonMoumtalk.setOnClickListener(new View.OnClickListener() {
@@ -753,11 +756,13 @@ public class MoumManageActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK && data != null) {
             Log.e(TAG, "onActivityResult RESULT_OK!");
             int fragmentIndex = data.getIntExtra("fragment_index", -1);
+            int communityIndex = data.getIntExtra("community_index", -1);
             int finish = data.getIntExtra("finish", -1);
             Log.e(TAG, "finish: " + finish);
             if(finish == 1){
                 Intent intent = new Intent();
                 intent.putExtra("fragment_index", fragmentIndex);
+                intent.putExtra("community_index", communityIndex);
                 setResult(RESULT_OK, intent);
                 finish();
             }

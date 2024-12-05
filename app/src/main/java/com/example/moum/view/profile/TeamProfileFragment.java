@@ -70,7 +70,7 @@ public class TeamProfileFragment extends BottomSheetDialogFragment {
         this.context = context;
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
+    @SuppressLint({"UseCompatLoadingForDrawables", "DefaultLocale"})
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -146,6 +146,7 @@ public class TeamProfileFragment extends BottomSheetDialogFragment {
                     membersAdapter.notifyDataSetChanged();
                 }
                 binding.textviewTeamName.setText(targetTeam.getTeamName());
+                binding.textviewExp.setText(String.format("%d", targetTeam.getExp()));
                 binding.textviewDescription.setText(targetTeam.getDescription());
                 Glide.with(context)
                         .applyDefaultRequestOptions(new RequestOptions()

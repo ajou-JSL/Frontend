@@ -151,7 +151,7 @@ public class PerformanceCreateActivity extends AppCompatActivity {
                 moumAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 moumSpinner.setAdapter(moumAdapter);
                 moumSpinner.setSelection(0, false);
-                viewModel.setMoumSelected(moums.get(0));
+                viewModel.setMoumSelected(null);
                 moumSpinner.setOnItemSelectedListener(null);
                 moumSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override

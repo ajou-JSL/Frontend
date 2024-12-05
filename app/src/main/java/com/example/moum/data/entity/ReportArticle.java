@@ -4,7 +4,7 @@ public class ReportArticle {
     private Integer id;
     private Integer articleId;
     private String articleTitle;
-    private Integer reportedId;
+    private Integer reporterId;
     private String reportedUsername;
     private String type;
     private String details;
@@ -27,8 +27,8 @@ public class ReportArticle {
         return resolved;
     }
 
-    public Integer getReportedId() {
-        return reportedId;
+    public Integer getReporterId() {
+        return reporterId;
     }
 
     public String getArticleTitle() {
@@ -67,8 +67,8 @@ public class ReportArticle {
         this.articleTitle = articleTitle;
     }
 
-    public void setReportedId(Integer reportedId) {
-        this.reportedId = reportedId;
+    public void setReporterId(Integer reporterId) {
+        this.reporterId = reporterId;
     }
 
     public void setReply(String reply) {
@@ -86,9 +86,10 @@ public class ReportArticle {
     @Override
     public String toString() {
         return "ReportArticle{" +
-                "articleId=" + articleId +
+                "id=" + id +
+                ", articleId=" + articleId +
                 ", articleTitle='" + articleTitle + '\'' +
-                ", reportedId=" + reportedId +
+                ", reporterId=" + reporterId +
                 ", reportedUsername='" + reportedUsername + '\'' +
                 ", type='" + type + '\'' +
                 ", details='" + details + '\'' +

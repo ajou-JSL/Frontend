@@ -35,6 +35,7 @@ public class ChatViewModel extends AndroidViewModel {
     private String senderUsername;
     private Integer senderId;
     private Chatroom chatroom;
+    private final ArrayList<Member> loadedMembers = new ArrayList<>();
     private String TAG = getClass().toString();
 
     public ChatViewModel(Application application){
@@ -123,6 +124,12 @@ public class ChatViewModel extends AndroidViewModel {
                     chat.setSentByMe(true);
                 else
                     chat.setSentByMe(false);
+                for(Member member : loadedMembers){
+                    if(chat.getSender().equals(member.getUsername())) {
+                        chat.setProfileUrl(member.getProfileImageUrl());
+                        break;
+                    }
+                }
             }
             setIsReceiveRecentChatSuccess(result);
         });
@@ -136,13 +143,26 @@ public class ChatViewModel extends AndroidViewModel {
                     chat.setSentByMe(true);
                 else
                     chat.setSentByMe(false);
+                for(Member member : loadedMembers){
+                    if(chat.getSender().equals(member.getUsername())) {
+                        chat.setProfileUrl(member.getProfileImageUrl());
+                        break;
+                    }
+                }
             }
             setIsReceiveOldChatSuccess(result);
         });
     }
 
     public void loadMembersOfChatroom(){
-        chatroomRepository.loadMembersOfChatroom(chatroom.getId(), this::setIsLoadMembersOfChatroomSuccess);
+        chatroomRepository.loadMembersOfChatroom(chatroom.getId(), result -> {
+            if(result.getValidation() == Validation.CHATROOM_MEMBER_LOAD_SUCCESS){
+                loadedMembers.clear();
+                loadedMembers.addAll(result.getData());
+            }
+            setIsLoadMembersOfChatroomSuccess(result);
+        });
+
     }
 
     public void deleteMembers(Integer chatroomId, Integer memberId, Chatroom.ChatroomType chatroomType){

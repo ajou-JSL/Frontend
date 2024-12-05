@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -451,7 +452,7 @@ public class PerformanceUpdateActivity extends AppCompatActivity {
         LinearLayout placeholderArtistName = songChild.findViewById(R.id.placeholder_artist_name);
         EditText editTextArtistName = songChild.findViewById(R.id.edittext_artist_name);
         TextView errorArtistName = songChild.findViewById(R.id.error_artist_name);
-
+        ImageView buttonDelete = songChild.findViewById(R.id.button_delete);
 
         editTextMusicName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -471,6 +472,12 @@ public class PerformanceUpdateActivity extends AppCompatActivity {
                 }else{
                     placeholderArtistName.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_gray_stroke));
                 }
+            }
+        });
+        buttonDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                songParent.removeView(songChild);
             }
         });
 

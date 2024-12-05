@@ -5,12 +5,16 @@ public class BoardGroupItem {
     private String content;
     private String writer;
     private String image;
+    private Integer exp;
+    private String tier;
 
-    public void setBoardGroupItem(Integer teamId, String writer, String content,String image) {
+    public void setBoardGroupItem(Integer teamId, String writer, String content,String image, Integer exp, String tier) {
         this.teamId = teamId;
         this.writer = writer;
         this.content = content;
         this.image = image;
+        this.exp = exp;
+        this.tier = tier;
     }
 
     // Getters
@@ -32,5 +36,13 @@ public class BoardGroupItem {
 
     public boolean hasImage() {
         return image != null && !image.isEmpty();
+    }
+
+    public Integer getExp() {
+        return exp;
+    }
+
+    public String getTier() {
+        return tier;
     }
 }

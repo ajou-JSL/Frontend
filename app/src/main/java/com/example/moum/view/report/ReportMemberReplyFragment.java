@@ -89,6 +89,10 @@ public class ReportMemberReplyFragment extends BottomSheetDialogFragment {
                         binding.radioGroupMember.check(R.id.radio_report_member_3);
                 }
                 binding.radioGroupMember.setEnabled(false);
+                binding.radioReportMember1.setEnabled(false);
+                binding.radioReportMember2.setEnabled(false);
+                binding.radioReportMember3.setEnabled(false);
+                binding.edittextReply.setEnabled(false);
                 binding.buttonGotoReported.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -111,6 +115,8 @@ public class ReportMemberReplyFragment extends BottomSheetDialogFragment {
                 Log.e(TAG, "알 수 없는 validation");
             }
         });
+        binding.radioGroupMember.setEnabled(false);
+        binding.edittextReply.setEnabled(false);
 
         return  view;
     }

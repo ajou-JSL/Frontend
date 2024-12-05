@@ -77,7 +77,7 @@ public class MemberProfileFragment extends BottomSheetDialogFragment {
         this.context = context;
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
+    @SuppressLint({"UseCompatLoadingForDrawables", "DefaultLocale"})
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -160,6 +160,7 @@ public class MemberProfileFragment extends BottomSheetDialogFragment {
                 }
                 binding.textviewNickname.setText(targetMember.getName());
                 binding.textviewDescription.setText(targetMember.getProfileDescription());
+                binding.textviewExp.setText(String.format("%d", targetMember.getExp()));
                 binding.textviewLocation.setText(String.format("%s(%s) | %s", targetMember.getInstrument(), targetMember.getProficiency(), targetMember.getAddress()));
                 if(ImageManager.isUrlValid(targetMember.getProfileImageUrl()))
                     Glide.with(context)
@@ -266,6 +267,10 @@ public class MemberProfileFragment extends BottomSheetDialogFragment {
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         String selectedItem = menuItem.getTitle().toString();
                         if (selectedItem.equals("유저 신고하기")) {
+                            if(id.equals(targetMemberId)){
+                                Toast.makeText(context, "자기 자신은 신고할 수 없습니다.", Toast.LENGTH_SHORT).show();
+                                return true;
+                            }
                             ReportMemberFragment reportMemberFragment = new ReportMemberFragment(context);
                             Bundle bundle = new Bundle();
                             bundle.putInt("targetMemberId", targetMemberId);

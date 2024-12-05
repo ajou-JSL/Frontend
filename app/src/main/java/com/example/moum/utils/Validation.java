@@ -93,12 +93,15 @@ public enum Validation {
 
     // 회원가입
     SIGNUP_SUCCESS,
+    SIGNOUT_SUCCESS,
 
     // 로그인 및 로그아웃
     LOGIN_SUCCESS,
     LOGOUT_SUCCESS,
     LOGIN_FAILED,
     LOGOUT_ALREADY,
+    SIGNOUT_MEMBER,
+    BANNED_MEMBER,
 
     // 채팅
     CHAT_POST_SUCCESS,

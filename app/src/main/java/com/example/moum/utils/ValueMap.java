@@ -14,12 +14,15 @@ public class ValueMap {
 
             // 회원가입
             put("S-M001", Validation.SIGNUP_SUCCESS);
+            put("S-M006", Validation.SIGNOUT_SUCCESS);
 
             // 로그인 및 로그아웃
             put("S-M002", Validation.LOGIN_SUCCESS);
             put("S-M004", Validation.LOGOUT_SUCCESS);
             put("F-A001", Validation.LOGIN_FAILED);
             put("F-M006", Validation.LOGOUT_ALREADY);
+            put("F-M007", Validation.SIGNOUT_MEMBER);
+            put("F-M008", Validation.BANNED_MEMBER);
 
             // 채팅
             put("S-CH001", Validation.CHAT_POST_SUCCESS);

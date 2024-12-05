@@ -22,14 +22,18 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moum.R;
+import com.example.moum.data.dto.SearchPerformHallArgs;
+import com.example.moum.data.dto.SearchPracticeroomArgs;
 import com.example.moum.data.entity.Member;
 import com.example.moum.data.entity.Moum;
 import com.example.moum.data.entity.Music;
+import com.example.moum.data.entity.PerformanceHall;
 import com.example.moum.data.entity.Practiceroom;
 import com.example.moum.databinding.ActivityMoumFindPracticeroomBinding;
 import com.example.moum.databinding.ActivityMoumManageBinding;
@@ -104,23 +108,69 @@ public class MoumFindPracticeroomActivity extends AppCompatActivity {
             }
         });
 
-        /*필터링 스피너 설정*/
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context, R.array.community_board_spinner1_items, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.spinnerFilter.setAdapter(adapter);
-        binding.spinnerFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        /*필터링 버튼 클릭 이벤트*/
+        binding.buttonFilter.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (parent != null) {
-                    //TODO
-                }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                //TODO
+            public void onClick(View view) {
+                PracticeroomFilterFragment practiceroomFilterFragment = new PracticeroomFilterFragment(context);
+                SearchPracticeroomArgs args = viewModel.getArgs();
+                Bundle bundle = new Bundle();
+                if(args.getSortBy() != null) bundle.putString("sortBy", args.getSortBy());
+                if(args.getOrderBy() != null) bundle.putString("orderBy", args.getOrderBy());
+                if(args.getType() != null) bundle.putInt("type", args.getType());
+                if(args.getMinPrice() != null) bundle.putInt("minPrice", args.getMinPrice());
+                if(args.getMaxPrice() != null) bundle.putInt("maxPrice", args.getMaxPrice());
+                if(args.getMinCapacity() != null) bundle.putInt("minCapacity", args.getMinCapacity());
+                if(args.getMaxCapacity() != null) bundle.putInt("maxCapacity", args.getMaxCapacity());
+                if(args.getMinStand() != null) bundle.putInt("minStand", args.getMinStand());
+                if(args.getMaxStand() != null) bundle.putInt("maxStand", args.getMaxStand());
+                if(args.getHasPiano() != null) bundle.putBoolean("hasPiano", args.getHasPiano());
+                if(args.getHasAmp() != null) bundle.putBoolean("hasAmp", args.getHasAmp());
+                if(args.getHasSpeaker() != null) bundle.putBoolean("hasSpeaker", args.getHasSpeaker());
+                if(args.getHasMic() != null) bundle.putBoolean("hasMic", args.getHasMic());
+                if(args.getHasDrums() != null) bundle.putBoolean("hasDrums", args.getHasDrums());
+                practiceroomFilterFragment.setArguments(bundle);
+                practiceroomFilterFragment.show(getSupportFragmentManager(), practiceroomFilterFragment.getTag());
             }
         });
 
+        /*필터링 결과 리스너*/
+        getSupportFragmentManager().setFragmentResultListener("filter_args", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                SearchPracticeroomArgs args = new SearchPracticeroomArgs();
+                args.setSortBy(result.getString("sortBy", "distance"));
+                args.setOrderBy(result.getString("orderBy", "asc"));
+                args.setType(result.getInt("type", -1));
+                args.setMinPrice(result.getInt("minPrice", -1));
+                args.setMaxPrice(result.getInt("maxPrice", -1));
+                args.setMinCapacity(result.getInt("minCapacity", -1));
+                args.setMaxCapacity(result.getInt("maxCapacity", -1));
+                args.setMinStand(result.getInt("minStand", -1));
+                args.setMaxStand(result.getInt("maxStand", -1));
+                if (result.containsKey("hasPiano"))
+                    args.setHasPiano(result.getBoolean("hasPiano"));
+                else
+                    args.setHasPiano(null);
+                if (result.containsKey("hasAmp"))
+                    args.setHasAmp(result.getBoolean("hasAmp"));
+                else
+                    args.setHasAmp(null);
+                if (result.containsKey("hasSpeaker"))
+                    args.setHasSpeaker(result.getBoolean("hasSpeaker"));
+                else
+                    args.setHasSpeaker(null);
+                if (result.containsKey("hasMic"))
+                    args.setHasMic(result.getBoolean("hasMic"));
+                else
+                    args.setHasMic(null);
+                if (result.containsKey("hasDrums"))
+                    args.setHasDrums(result.getBoolean("hasDrums"));
+                else
+                    args.setHasDrums(null);
+                viewModel.queryPracticeroomWithArgs(args);
+            }
+        });
         /*연습실 리사이클러뷰 연결*/
         RecyclerView recyclerView = binding.recyclerPracticeroom;
         MoumPracticeroomAdapter moumPracticeroomAdapter = new MoumPracticeroomAdapter();
@@ -160,9 +210,15 @@ public class MoumFindPracticeroomActivity extends AppCompatActivity {
                 if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE && !isLoading) {
                     if (practicerooms.isEmpty())
                         return;
-                    isLoading = true;
-                    viewModel.loadNextPracticeroom();
-                    handler.postDelayed(() -> isLoading = false, DEBOUNCE_DELAY);
+                    if(viewModel.isQuerying()){
+                        isLoading = true;
+                        viewModel.queryNextPracticeroom();
+                        handler.postDelayed(() -> isLoading = false, DEBOUNCE_DELAY);
+                    }else{
+                        isLoading = true;
+                        viewModel.loadNextPracticeroom();
+                        handler.postDelayed(() -> isLoading = false, DEBOUNCE_DELAY);
+                    }
                 }
             }
 
@@ -192,8 +248,8 @@ public class MoumFindPracticeroomActivity extends AppCompatActivity {
         /*검색창 세팅*/
         binding.searchviewPracticeroom.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                viewModel.queryPracticeroom(query);
+            public boolean onQueryTextSubmit(String name) {
+                viewModel.queryPracticeroomWithName(name);
                 return false;
             }
 
@@ -211,9 +267,28 @@ public class MoumFindPracticeroomActivity extends AppCompatActivity {
                 practicerooms.clear();
                 practicerooms.addAll(loadedPracticerooms);
                 moumPracticeroomAdapter.notifyDataSetChanged();
+                viewModel.setRecentPageNumber(loadedPracticerooms.size());
             } else if (validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
             } else {
+                Toast.makeText(context, "검색에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "감시 결과를 알 수 없습니다.");
+            }
+        });
+
+        /*다음 검색 결과 감시*/
+        viewModel.getIsQueryNextPracticeroomSuccess().observe(this, isLoadNextPracticeroomSuccess -> {
+            Validation validation = isLoadNextPracticeroomSuccess.getValidation();
+            List<Practiceroom> loadedPracticerooms = isLoadNextPracticeroomSuccess.getData();
+            if(validation == Validation.PRACTICE_ROOM_GET_SUCCESS) {
+                practicerooms.addAll(loadedPracticerooms);
+                moumPracticeroomAdapter.notifyDataSetChanged();
+                viewModel.setRecentPageNumber(loadedPracticerooms.size());
+            }
+            else if(validation == Validation.NETWORK_FAILED) {
+                Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+            }
+            else{
                 Toast.makeText(context, "검색에 실패하였습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "감시 결과를 알 수 없습니다.");
             }
@@ -242,6 +317,7 @@ public class MoumFindPracticeroomActivity extends AppCompatActivity {
                 permissionManager.requestPermission();
             } else {
                 latLng = getCurrentLatLng();
+                viewModel.setLatLng(latLng);
                 Log.e(TAG, latLng.toString());
             }
         }
@@ -254,6 +330,7 @@ public class MoumFindPracticeroomActivity extends AppCompatActivity {
             permissionManager.requestPermission();
         } else {
             latLng = getCurrentLatLng();
+            viewModel.setLatLng(latLng);
             Log.e(TAG, latLng.toString());
         }
     }
