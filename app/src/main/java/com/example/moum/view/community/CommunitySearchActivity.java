@@ -58,9 +58,9 @@ public class CommunitySearchActivity extends AppCompatActivity {
 
         initBackButton();
         initSearchButton();
-        initSpinner1();
-        initSpinner2();
-        initSpinner3();
+  //      initSpinner1();
+  //      initSpinner2();
+  //      initSpinner3();
         initRecyclerView();
     }
 
@@ -238,7 +238,6 @@ public class CommunitySearchActivity extends AppCompatActivity {
                 List<Article> loadedArticles = result.getData();
 
                 if (validation == Validation.ARTICLE_LIST_GET_SUCCESS && loadedArticles != null) {
-                    // 데이터 업데이트
                     articles.clear();
                     articles.addAll(loadedArticles);
                     adapter.updateItemList(articles);
