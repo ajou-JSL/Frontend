@@ -282,6 +282,7 @@ public class BoardFreeDetailActivity extends AppCompatActivity {
         // 메뉴 항목 추가
         if(memberId.equals(comments.get(position).getAuthorId())) {
             popupMenu.getMenu().add("삭제하기");
+
         }
         popupMenu.getMenu().add("신고하기");
 
