@@ -57,19 +57,4 @@ public class ChatroomCreateRequest {
         return leaderId;
     }
 
-    public static class Member {
-        private Integer memberId;
-
-        public Member(Integer memberId) {
-            this.memberId = memberId;
-        }
-
-        public void setMemberId(Integer memberId) {
-            this.memberId = memberId;
-        }
-
-        public Integer getMemberId() {
-            return memberId;
-        }
-    }
 }

@@ -163,7 +163,7 @@ public class ChatActivity extends AppCompatActivity {
             public void onClick(View view) {
                 PopupMenu popupMenu = new PopupMenu(ChatActivity.this, binding.dropdownChatEtc);
                 if (chatroomType == Chatroom.ChatroomType.PERSONAL_CHAT) {
-                    for (int i = 0; i < etcList.length - 1; i++) {
+                    for (int i = 0; i < etcList.length - 2; i++) {
                         popupMenu.getMenu().add(etcList[i]);
                     }
                 } else if (chatroomType == Chatroom.ChatroomType.MULTI_CHAT && Objects.equals(leaderId, id)) {
@@ -181,6 +181,13 @@ public class ChatActivity extends AppCompatActivity {
                         } else if (selectedItem.equals("수정하기")) {
                             Intent intent = new Intent(context, ChatUpdateChatroomActivity.class);
                             intent.putExtra("chatroomId", chatroomId);
+                            startActivityForResult(intent, REQUEST_CODE);
+                        } else if (selectedItem.equals("멤버 초대하기")) {
+                            Intent intent = new Intent(context, ChatInviteMemberActivity.class);
+                            intent.putExtra("chatroomId", chatroomId);
+                            intent.putExtra("chatroomType", chatroomTypeInt);
+                            intent.putExtra("teamId", teamId);
+                            intent.putExtra("chatroomName", chatroomName);
                             startActivityForResult(intent, REQUEST_CODE);
                         }
                         return true;
@@ -409,7 +416,7 @@ public class ChatActivity extends AppCompatActivity {
             if (data != null) {
                 int modified = data.getIntExtra("modified", -1);
                 if (modified == 1) {
-                    //TODO refresh
+                    chatViewModel.loadMembersOfChatroom();
                 }
             }
         }

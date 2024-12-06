@@ -108,6 +108,9 @@ public class MoumMapPerformanceHallActivity extends AppCompatActivity implements
             if (validation == Validation.PERFORMANCE_HALL_GET_SUCCESS) {
                 performanceHall = loadedPerformanceHall;
                 if (loadedPerformanceHall.getName() != null) binding.textviewPerformanceHallName.setText(loadedPerformanceHall.getName());
+                if (loadedPerformanceHall.getDetails() != null) {
+                    binding.textviewDescription.setText(loadedPerformanceHall.getDetails());
+                }
                 if (loadedPerformanceHall.getPrice() != null) {
                     binding.textviewPerformanceHallPrice.setText(
                             String.format("%,d", loadedPerformanceHall.getPrice()));
