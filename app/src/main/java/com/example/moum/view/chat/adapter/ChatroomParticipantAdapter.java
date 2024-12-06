@@ -40,18 +40,18 @@ public class ChatroomParticipantAdapter extends RecyclerView.Adapter<RecyclerVie
     }
 
     public ArrayList<Boolean> getIsParticipates() {
-        Log.e(TAG, isParticipates.isEmpty()? "empty" : "not");
+        Log.e(TAG, isParticipates.isEmpty() ? "empty" : "not");
         return isParticipates;
     }
 
     public void setIsParticipate(int pos, Boolean isParticipate) {
-        if(!isParticipates.isEmpty()){
+        if (!isParticipates.isEmpty()) {
             isParticipates.set(pos, isParticipate);
         }
     }
 
-    public Boolean getIsParticipate(int pos){
-        if(!isParticipates.isEmpty()){
+    public Boolean getIsParticipate(int pos) {
+        if (!isParticipates.isEmpty()) {
             return isParticipates.get(pos);
         }
         return false;
@@ -64,7 +64,7 @@ public class ChatroomParticipantAdapter extends RecyclerView.Adapter<RecyclerVie
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if(isParticipates == null) isParticipates = new ArrayList<>(Collections.nCopies(participants.size(), false));
+        if (isParticipates == null) isParticipates = new ArrayList<>(Collections.nCopies(participants.size(), false));
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_member, parent, false);
         return new ChatroomParticipantAdapter.ChatroomParticipantViewHolder(view, context, this);
     }
@@ -82,7 +82,7 @@ public class ChatroomParticipantAdapter extends RecyclerView.Adapter<RecyclerVie
         return participants.size();
     }
 
-    static class ChatroomParticipantViewHolder extends RecyclerView.ViewHolder{
+    static class ChatroomParticipantViewHolder extends RecyclerView.ViewHolder {
         private ChatroomParticipantAdapter adapter;
         private Member participant;
         private TextView participantName;
@@ -99,48 +99,49 @@ public class ChatroomParticipantAdapter extends RecyclerView.Adapter<RecyclerVie
 
         @SuppressLint("UseCompatLoadingForDrawables")
         @RequiresApi(api = Build.VERSION_CODES.O)
-        public void bind(Member participant){
+        public void bind(Member participant) {
             this.participant = participant;
             int pos = getAbsoluteAdapterPosition();
 
             // 리더인 경우
-            if(participant.getId().equals(adapter.leaderId)){
+            if (participant.getId().equals(adapter.leaderId)) {
                 participantName.setText(participant.getName());
                 participantName.setTextColor(Color.rgb(42, 200, 189));
                 participantProfile.setBorderWidth(8);
                 participantProfile.setBorderColor(Color.rgb(167, 209, 206));
-                if(ImageManager.isUrlValid(participant.getProfileImageUrl()))
+                if (ImageManager.isUrlValid(participant.getProfileImageUrl())) {
                     Glide.with(context)
                             .load(participant.getProfileImageUrl())
                             .apply(new RequestOptions()
                                     .placeholder(R.drawable.background_circle_gray_size_fit)
                                     .error(R.drawable.background_circle_gray_size_fit))
                             .into(participantProfile);
+                }
                 if (pos != RecyclerView.NO_POSITION) {
                     adapter.setIsParticipate(pos, true);
                 }
             }
             //리더가 아닌 경우
-            else{
+            else {
                 participantName.setText(participant.getName());
-                if(ImageManager.isUrlValid(participant.getProfileImageUrl()))
+                if (ImageManager.isUrlValid(participant.getProfileImageUrl())) {
                     Glide.with(context)
                             .load(participant.getProfileImageUrl())
                             .apply(new RequestOptions()
                                     .placeholder(R.drawable.background_circle_gray_size_fit)
                                     .error(R.drawable.background_circle_gray_size_fit))
                             .into(participantProfile);
+                }
 
                 participantProfile.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         if (pos != RecyclerView.NO_POSITION) {
                             Boolean isParticipate = adapter.getIsParticipate(pos);
-                            if(isParticipate){
+                            if (isParticipate) {
                                 participantProfile.setBorderWidth(0);
                                 adapter.setIsParticipate(pos, false);
-                            }
-                            else{
+                            } else {
                                 participantProfile.setBorderWidth(8);
                                 participantProfile.setBorderColor(Color.rgb(167, 209, 206));
                                 adapter.setIsParticipate(pos, true);

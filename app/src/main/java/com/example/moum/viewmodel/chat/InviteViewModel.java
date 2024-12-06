@@ -20,7 +20,7 @@ public class InviteViewModel extends AndroidViewModel {
     private final MutableLiveData<Result<Member>> isInviteMemberToTeamSuccess = new MutableLiveData<>();
     private Team selectedTeam;
 
-    public InviteViewModel(Application application){
+    public InviteViewModel(Application application) {
         super(application);
         teamRepository = TeamRepository.getInstance(application);
     }
@@ -37,29 +37,28 @@ public class InviteViewModel extends AndroidViewModel {
         return isInviteMemberToTeamSuccess;
     }
 
-    public void setIsLoadTeamsAsMemberSuccess(Result<List<Team>> isLoadTeamsAsMemberSuccess){
+    public void setIsLoadTeamsAsMemberSuccess(Result<List<Team>> isLoadTeamsAsMemberSuccess) {
         this.isLoadTeamsAsMemberSuccess.setValue(isLoadTeamsAsMemberSuccess);
     }
 
-    public void setIsValidCheckSuccess(Validation isValidCheckSuccess){
+    public void setIsValidCheckSuccess(Validation isValidCheckSuccess) {
         this.isValidCheckSuccess.setValue(isValidCheckSuccess);
     }
 
-    public void setIsInviteMemberToTeamSuccess(Result<Member> isInviteMemberToTeamSuccess){
+    public void setIsInviteMemberToTeamSuccess(Result<Member> isInviteMemberToTeamSuccess) {
         this.isInviteMemberToTeamSuccess.setValue(isInviteMemberToTeamSuccess);
     }
 
-    public void loadTeamsAsMember(Integer memberId){
+    public void loadTeamsAsMember(Integer memberId) {
         teamRepository.loadTeamsAsMember(memberId, this::setIsLoadTeamsAsMemberSuccess);
     }
 
-    public void validCheck(Integer memberId, Team selectedTeam){
+    public void validCheck(Integer memberId, Team selectedTeam) {
         /*null check*/
-        if(memberId == -1){
+        if (memberId == -1) {
             setIsValidCheckSuccess(Validation.MEMBER_NOT_EXIST);
             return;
-        }
-        else if(selectedTeam == null || selectedTeam.getTeamId() == null){
+        } else if (selectedTeam == null || selectedTeam.getTeamId() == null) {
             setIsValidCheckSuccess(Validation.TEAM_NOT_FOUND);
             return;
         }
@@ -67,7 +66,7 @@ public class InviteViewModel extends AndroidViewModel {
         setIsValidCheckSuccess(Validation.VALID_ALL);
     }
 
-    public void inviteMemberToTeam(Integer memberId, Integer teamId){
+    public void inviteMemberToTeam(Integer memberId, Integer teamId) {
         /*goto repository*/
         teamRepository.inviteMemberToTeam(teamId, memberId, this::setIsInviteMemberToTeamSuccess);
     }

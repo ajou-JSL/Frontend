@@ -25,7 +25,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -33,10 +32,8 @@ import com.example.moum.R;
 import com.example.moum.data.entity.Genre;
 import com.example.moum.databinding.ActivitySignupProfileBinding;
 import com.example.moum.utils.Validation;
-import com.example.moum.utils.WrapContentLinearLayoutManager;
 import com.example.moum.view.auth.adapter.GenreAdapter;
 import com.example.moum.view.dialog.SignupLoadingDialog;
-import com.example.moum.view.moum.adapter.MoumCreateImageAdapter;
 import com.example.moum.viewmodel.auth.SignupViewModel;
 import com.google.android.flexbox.AlignItems;
 import com.google.android.flexbox.FlexWrap;
@@ -191,9 +188,9 @@ public class SignupProfileActivity extends AppCompatActivity {
                 edittextRecordName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                     @Override
                     public void onFocusChange(View view, boolean hasFocus) {
-                        if(hasFocus){
+                        if (hasFocus) {
                             placeholderRecordName.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_mint_stroke));
-                        }else{
+                        } else {
                             placeholderRecordName.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_gray_stroke));
                         }
                     }
@@ -244,29 +241,23 @@ public class SignupProfileActivity extends AppCompatActivity {
         /*제출 버튼 결과 감시*/
         SignupLoadingDialog signupLoadingDialog = new SignupLoadingDialog(context);
         signupViewModel.getIsProfileValid().observe(this, isProfileValid -> {
-            if(isProfileValid == Validation.NOT_VALID_ANYWAY || isProfileValid == Validation.NICKNAME_NOT_WRITTEN) {
+            if (isProfileValid == Validation.NOT_VALID_ANYWAY || isProfileValid == Validation.NICKNAME_NOT_WRITTEN) {
                 binding.signupEdittextNickname.requestFocus();
                 binding.signupErrorNickname.setText("닉네임을 입력하세요.");
-            }
-            else if(isProfileValid == Validation.DESCRIPTION_NOT_WRITTEN) {
+            } else if (isProfileValid == Validation.DESCRIPTION_NOT_WRITTEN) {
                 binding.signupEdittextProfileDescription.requestFocus();
                 binding.signupErrorProfileDescription.setText("한 줄 소개를 입력하세요.");
-            }
-            else if(isProfileValid == Validation.INSTRUMENT_NOT_WRITTEN) {
+            } else if (isProfileValid == Validation.INSTRUMENT_NOT_WRITTEN) {
                 binding.signupEdittextInstrument.requestFocus();
                 binding.signupErrorInstrument.setText("악기 및 분야를 입력하세요.");
-            }
-            else if(isProfileValid == Validation.PROFICIENCY_NOT_WRITTEN) {
+            } else if (isProfileValid == Validation.PROFICIENCY_NOT_WRITTEN) {
                 binding.signupErrorProficiency.setText("숙련도를 선택하세요.");
-            }
-            else if(isProfileValid == Validation.VIDEO_URL_NOT_FORMAL){
+            } else if (isProfileValid == Validation.VIDEO_URL_NOT_FORMAL) {
                 binding.errorVideo.setTextColor(getColor(R.color.red));
                 binding.errorVideo.setText("유효하지 않은 형식입니다.");
-            }
-            else if(isProfileValid == Validation.BASIC_SIGNUP_NOT_TRIED) {
+            } else if (isProfileValid == Validation.BASIC_SIGNUP_NOT_TRIED) {
                 Toast.makeText(context, "이전 단계가 정상적으로 완료되지 않았습니다. 다시 시도하세요.", Toast.LENGTH_SHORT).show();
-            }
-            else if(isProfileValid == Validation.VALID_ALL) {
+            } else if (isProfileValid == Validation.VALID_ALL) {
                 for (int i = 0; i < recordParent.getChildCount(); i++) {
 
                     View recordChild = recordParent.getChildAt(i);
@@ -287,8 +278,8 @@ public class SignupProfileActivity extends AppCompatActivity {
                             .toFormatter();
                     LocalDate startDate = null;
                     LocalDate endDate = null;
-                    if(!startDateString.isEmpty() && !startDateString.equals("시작 날짜")) startDate = LocalDate.parse(startDateString, formatter);
-                    if(!endDateString.isEmpty() && !startDateString.equals("종료 날짜")) endDate = LocalDate.parse(endDateString, formatter);
+                    if (!startDateString.isEmpty() && !startDateString.equals("시작 날짜")) startDate = LocalDate.parse(startDateString, formatter);
+                    if (!endDateString.isEmpty() && !startDateString.equals("종료 날짜")) endDate = LocalDate.parse(endDateString, formatter);
 
                     signupViewModel.addRecord(recordName, startDate, endDate);
                 }
@@ -296,8 +287,7 @@ public class SignupProfileActivity extends AppCompatActivity {
                 signupLoadingDialog.show();
 
                 signupViewModel.signup(context);
-            }
-            else{
+            } else {
                 Toast.makeText(context, "회원가입에 실패하였습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "다음 버튼 감시 결과를 알 수 없습니다.");
             }
@@ -306,32 +296,25 @@ public class SignupProfileActivity extends AppCompatActivity {
         /*signup 결과 감시*/
         signupViewModel.getIsSignupSuccess().observe(this, isSignupSuccess -> {
             signupLoadingDialog.dismiss();
-            if(isSignupSuccess == Validation.INVALID_TYPE_VALUE || isSignupSuccess == Validation.NOT_VALID_ANYWAY){
+            if (isSignupSuccess == Validation.INVALID_TYPE_VALUE || isSignupSuccess == Validation.NOT_VALID_ANYWAY) {
                 Toast.makeText(context, "잘못 입력된 값이 있습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(isSignupSuccess == Validation.EMAIL_AUTH_ALREADY){
+            } else if (isSignupSuccess == Validation.EMAIL_AUTH_ALREADY) {
                 Toast.makeText(context, "이미 가입 완료된 이메일입니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(isSignupSuccess == Validation.EMAIL_AUTH_FAILED){
+            } else if (isSignupSuccess == Validation.EMAIL_AUTH_FAILED) {
                 Toast.makeText(context, "이메일 인증이 실패하였습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(isSignupSuccess == Validation.RECORD_NOT_VALID){
+            } else if (isSignupSuccess == Validation.RECORD_NOT_VALID) {
                 Toast.makeText(context, "이력 시작 날짜는 종료 날짜보다 이전이어야 합니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(isSignupSuccess == Validation.RECORD_NAME_NOT_WRITTEN){
+            } else if (isSignupSuccess == Validation.RECORD_NAME_NOT_WRITTEN) {
                 Toast.makeText(context, "이력 이름을 입력하세요.", Toast.LENGTH_SHORT).show();
-            }
-            else if(isSignupSuccess == Validation.NETWORK_FAILED) {
+            } else if (isSignupSuccess == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(isSignupSuccess == Validation.SIGNUP_SUCCESS) {
+            } else if (isSignupSuccess == Validation.SIGNUP_SUCCESS) {
                 /*다음 Acitivity로 이동*/
                 Toast.makeText(context, "회원가입이 완료되었습니다. 환영합니다:)", Toast.LENGTH_SHORT).show();
-                for(int i=0; i<initialActivity.actList().size(); i++){
+                for (int i = 0; i < initialActivity.actList().size(); i++) {
                     initialActivity.actList().get(i).finish();
                 }
-            }
-            else{
+            } else {
                 Toast.makeText(context, "회원가입에 실패하였습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "signup 감시 결과를 알 수 없습니다.");
             }
@@ -341,10 +324,10 @@ public class SignupProfileActivity extends AppCompatActivity {
         binding.signupEdittextNickname.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if(hasFocus){
+                if (hasFocus) {
                     binding.signupErrorNickname.setText("");
                     binding.signupPlaceholderNickname.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_mint_stroke));
-                }else{
+                } else {
                     binding.signupPlaceholderNickname.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_gray_stroke));
                 }
             }
@@ -352,21 +335,23 @@ public class SignupProfileActivity extends AppCompatActivity {
         binding.signupEdittextProfileDescription.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if(hasFocus){
+                if (hasFocus) {
                     binding.signupErrorProfileDescription.setText("");
-                    binding.signupPlaceholderProfileDescription.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_mint_stroke));
-                }else{
-                    binding.signupPlaceholderProfileDescription.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_gray_stroke));
+                    binding.signupPlaceholderProfileDescription.setBackground(
+                            ContextCompat.getDrawable(context, R.drawable.background_rounded_mint_stroke));
+                } else {
+                    binding.signupPlaceholderProfileDescription.setBackground(
+                            ContextCompat.getDrawable(context, R.drawable.background_rounded_gray_stroke));
                 }
             }
         });
         binding.signupEdittextInstrument.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if(hasFocus){
+                if (hasFocus) {
                     binding.signupErrorInstrument.setText("");
                     binding.signupPlaceholderInstrument.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_mint_stroke));
-                }else{
+                } else {
                     binding.signupPlaceholderInstrument.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_gray_stroke));
                 }
             }
@@ -375,10 +360,10 @@ public class SignupProfileActivity extends AppCompatActivity {
             @SuppressLint("SetTextI18n")
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if(hasFocus){
+                if (hasFocus) {
                     binding.errorVideo.setText("");
                     binding.placeholderVideo.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_mint_stroke));
-                }else{
+                } else {
                     binding.errorVideo.setText("");
                     binding.placeholderVideo.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_gray_stroke));
                 }

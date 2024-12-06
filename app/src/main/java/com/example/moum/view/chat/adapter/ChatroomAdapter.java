@@ -2,7 +2,6 @@ package com.example.moum.view.chat.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,8 +20,6 @@ import com.example.moum.data.entity.Chatroom;
 import com.example.moum.utils.TimeManager;
 import com.example.moum.view.chat.ChatActivity;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class ChatroomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -54,7 +51,7 @@ public class ChatroomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return chatrooms.size();
     }
 
-    static class ChatroomViewHolder extends RecyclerView.ViewHolder{
+    static class ChatroomViewHolder extends RecyclerView.ViewHolder {
         private Chatroom chatroom;
         private TextView chatroomName;
         private TextView chatroomContent;
@@ -92,23 +89,26 @@ public class ChatroomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
 
         @RequiresApi(api = Build.VERSION_CODES.O)
-        public void bind(Chatroom chatroom){
+        public void bind(Chatroom chatroom) {
             this.chatroom = chatroom;
             chatroomName.setText(chatroom.getName());
-            if(chatroom.getLastChat() != null) chatroomContent.setText(chatroom.getLastChat());
-            else chatroomContent.setText(" ");
-            if(chatroom.getLastTimestamp() != null && !chatroom.getLastTimestamp().isEmpty()) {
-                chatroomLastTime.setText(TimeManager.strToPrettyTime(chatroom.getLastTimestamp()));
+            if (chatroom.getLastChat() != null) {
+                chatroomContent.setText(chatroom.getLastChat());
+            } else {
+                chatroomContent.setText(" ");
             }
-            else{
+            if (chatroom.getLastTimestamp() != null && !chatroom.getLastTimestamp().isEmpty()) {
+                chatroomLastTime.setText(TimeManager.strToPrettyTime(chatroom.getLastTimestamp()));
+            } else {
                 chatroomLastTime.setText(" ");
             }
-            if(chatroom.getFileUrl() != null)
+            if (chatroom.getFileUrl() != null) {
                 Glide.with(context)
                         .applyDefaultRequestOptions(new RequestOptions()
-                        .placeholder(R.drawable.background_circle_gray_size_fit)
-                        .error(R.drawable.background_circle_gray_size_fit))
+                                .placeholder(R.drawable.background_circle_gray_size_fit)
+                                .error(R.drawable.background_circle_gray_size_fit))
                         .load(chatroom.getFileUrl()).into(chatroomProfile);
+            }
         }
     }
 }

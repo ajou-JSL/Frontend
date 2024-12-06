@@ -6,9 +6,10 @@ public class EmailAuthRequest {
     @SerializedName("email")
     private String email;
 
-    public EmailAuthRequest(String email){
+    public EmailAuthRequest(String email) {
         this.email = email;
     }
+
     public String getEmail() {
         return email;
     }

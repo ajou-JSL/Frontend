@@ -3,7 +3,6 @@ package com.example.moum.view.moum;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -15,27 +14,20 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.moum.R;
-import com.example.moum.data.entity.Chatroom;
 import com.example.moum.data.entity.Moum;
 import com.example.moum.data.entity.Team;
-import com.example.moum.databinding.FragmentChatroomBinding;
 import com.example.moum.databinding.FragmentMyMoumBinding;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
-import com.example.moum.view.chat.adapter.ChatroomAdapter;
 import com.example.moum.view.moum.adapter.TeamAdapter;
 import com.example.moum.viewmodel.moum.MyMoumViewModel;
-import com.example.moum.viewmodel.chat.ChatroomViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
@@ -67,7 +59,7 @@ public class MyMoumFragment extends Fragment {
         String accessToken = sharedPreferenceManager.getCache(getString(R.string.user_access_token_key), "no-access-token");
         String username = sharedPreferenceManager.getCache(getString(R.string.user_username_key), "no-memberId");
         id = sharedPreferenceManager.getCache(getString(R.string.user_id_key), -1);
-        if(accessToken.isEmpty() || accessToken.equals("no-access-token")){
+        if (accessToken.isEmpty() || accessToken.equals("no-access-token")) {
             Toast.makeText(context, "로그인 정보가 없어 초기 페이지로 돌아갑니다.", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(context, InitialActivity.class);
             startActivity(intent);
@@ -108,33 +100,30 @@ public class MyMoumFragment extends Fragment {
         viewModel.getIsLoadTeamsAsMemberSuccess().observe(getViewLifecycleOwner(), isLoadTeamsAsMemberSuccess -> {
             Validation validation = isLoadTeamsAsMemberSuccess.getValidation();
             List<Team> loadedTeams = isLoadTeamsAsMemberSuccess.getData();
-            if(validation == Validation.GET_TEAM_LIST_SUCCESS && !loadedTeams.isEmpty()){
+            if (validation == Validation.GET_TEAM_LIST_SUCCESS && !loadedTeams.isEmpty()) {
                 teams.clear();
                 teams.addAll(loadedTeams);
                 Team emptyTeam = new Team();
                 teams.add(emptyTeam);
                 ArrayList<ArrayList<Moum>> tMoums = new ArrayList<>();
-                for(Team team : teams){
+                for (Team team : teams) {
                     ArrayList<Moum> tMoum = new ArrayList<>();
                     tMoums.add(tMoum);
                 }
                 moums.clear();
                 moums.addAll(tMoums);
                 teamAdapter.notifyDataSetChanged();
-            }
-            else if(validation == Validation.GET_TEAM_LIST_SUCCESS){
+            } else if (validation == Validation.GET_TEAM_LIST_SUCCESS) {
                 teams.clear();
                 Team emptyTeam = new Team();
                 teams.add(emptyTeam);
                 moums.clear();
                 moums.add(new ArrayList<>());
                 teamAdapter.notifyDataSetChanged();
-            }
-            else if(validation == Validation.NETWORK_FAILED){
+            } else if (validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패했습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "호출 실패");
-            }
-            else{
+            } else {
                 Toast.makeText(context, "단체를 불러올 수 없습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "알 수 없는 validation");
             }
@@ -147,25 +136,22 @@ public class MyMoumFragment extends Fragment {
                 super.onPageSelected(position);
                 pagePos = position;
                 new Handler().postDelayed(() -> {
-                    if(!teams.isEmpty() && position != teams.size()-1) {
+                    if (!teams.isEmpty() && position != teams.size() - 1) {
                         viewModel.loadMoumsOfTeam(teams.get(position).getTeamId());
                     }
                 }, 50);
 
                 /*왼쪽, 오른쪽 버튼 visibility*/
-                if(position == 0 && teamAdapter.getItemCount() < 2){
+                if (position == 0 && teamAdapter.getItemCount() < 2) {
                     binding.imageviewLeft.setVisibility(View.INVISIBLE);
                     binding.imageviewRight.setVisibility(View.INVISIBLE);
-                }
-                else if(position == 0){
+                } else if (position == 0) {
                     binding.imageviewLeft.setVisibility(View.INVISIBLE);
                     binding.imageviewRight.setVisibility(View.VISIBLE);
-                }
-                else if(position == teams.size()-1){
+                } else if (position == teams.size() - 1) {
                     binding.imageviewLeft.setVisibility(View.VISIBLE);
                     binding.imageviewRight.setVisibility(View.INVISIBLE);
-                }
-                else{
+                } else {
                     binding.imageviewLeft.setVisibility(View.VISIBLE);
                     binding.imageviewRight.setVisibility(View.VISIBLE);
                 }
@@ -177,28 +163,24 @@ public class MyMoumFragment extends Fragment {
             Validation validation = isLoadMoumsOfTeamSuccess.getValidation();
             List<Moum> loadedMoums = isLoadMoumsOfTeamSuccess.getData();
             int pos = viewpagerTeam.getCurrentItem();
-            if(validation == Validation.GET_MOUM_SUCCESS && !loadedMoums.isEmpty()){
+            if (validation == Validation.GET_MOUM_SUCCESS && !loadedMoums.isEmpty()) {
                 moums.get(pos).clear();
                 moums.get(pos).addAll(loadedMoums);
                 Moum emptyMoum = new Moum();
                 moums.get(pos).add(emptyMoum);
                 teamAdapter.notifyItemChanged(pos);
-            }
-            else if(validation == Validation.GET_MOUM_SUCCESS){
+            } else if (validation == Validation.GET_MOUM_SUCCESS) {
                 moums.get(pos).clear();
                 Moum emptyMoum = new Moum();
                 moums.get(pos).add(emptyMoum);
                 teamAdapter.notifyItemChanged(pos);
-            }
-            else if(validation == Validation.TEAM_NOT_FOUND){
-               // Toast.makeText(context, "단체를 불러올 수 없습니다.", Toast.LENGTH_SHORT).show();
+            } else if (validation == Validation.TEAM_NOT_FOUND) {
+                // Toast.makeText(context, "단체를 불러올 수 없습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "단체를 불러올 수 없습니다.");
-            }
-            else if(validation == Validation.NETWORK_FAILED){
+            } else if (validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패했습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "호출 실패");
-            }
-            else{
+            } else {
                 Toast.makeText(context, "단체를 불러올 수 없습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "알 수 없는 validation");
             }
@@ -209,8 +191,9 @@ public class MyMoumFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 int currentItem = viewpagerTeam.getCurrentItem();
-                if(currentItem > 0)
-                    viewpagerTeam.setCurrentItem(currentItem-1, true);
+                if (currentItem > 0) {
+                    viewpagerTeam.setCurrentItem(currentItem - 1, true);
+                }
             }
         });
 
@@ -218,8 +201,9 @@ public class MyMoumFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 int currentItem = viewpagerTeam.getCurrentItem();
-                if(currentItem < teamAdapter.getItemCount()-1)
-                    viewpagerTeam.setCurrentItem(currentItem+1, true);
+                if (currentItem < teamAdapter.getItemCount() - 1) {
+                    viewpagerTeam.setCurrentItem(currentItem + 1, true);
+                }
             }
         });
 
@@ -227,23 +211,18 @@ public class MyMoumFragment extends Fragment {
         viewModel.getIsLeaveTeamSuccess().observe(getViewLifecycleOwner(), isLeaveTeamSuccess -> {
             Validation validation = isLeaveTeamSuccess.getValidation();
             Team leftTeam = isLeaveTeamSuccess.getData();
-            if(validation == Validation.LEAVE_TEAM_SUCCESS){
+            if (validation == Validation.LEAVE_TEAM_SUCCESS) {
                 Toast.makeText(context, "단체에서 탈퇴하였습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(validation == Validation.NOT_TEAM_MEMBER){
+            } else if (validation == Validation.NOT_TEAM_MEMBER) {
                 Toast.makeText(context, "단체의 멤버가 아닙니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(validation == Validation.LEADER_CANNOT_LEAVE){
+            } else if (validation == Validation.LEADER_CANNOT_LEAVE) {
                 Toast.makeText(context, "리더는 단체에서 탈퇴할 수 없습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(validation == Validation.MEMBER_NOT_EXIST){
+            } else if (validation == Validation.MEMBER_NOT_EXIST) {
                 Toast.makeText(context, "존재하지 않는 멤버입니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(validation == Validation.NETWORK_FAILED){
+            } else if (validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패했습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "호출 실패");
-            }
-            else{
+            } else {
                 Toast.makeText(context, "단체를 탈퇴할 수 없습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "알 수 없는 validation");
             }
@@ -257,17 +236,16 @@ public class MyMoumFragment extends Fragment {
                 int position = 0;
                 viewpagerTeam.setCurrentItem(position, false);
                 new Handler().postDelayed(() -> {
-                    if(!teams.isEmpty() && position != teams.size()-1) {
+                    if (!teams.isEmpty() && position != teams.size() - 1) {
                         viewModel.loadMoumsOfTeam(teams.get(position).getTeamId());
                     }
                 }, 50);
 
                 /*왼쪽, 오른쪽 버튼 visibility*/
-                if(teamAdapter.getItemCount() < 2){
+                if (teamAdapter.getItemCount() < 2) {
                     binding.imageviewLeft.setVisibility(View.INVISIBLE);
                     binding.imageviewRight.setVisibility(View.INVISIBLE);
-                }
-                else{
+                } else {
                     binding.imageviewLeft.setVisibility(View.INVISIBLE);
                     binding.imageviewRight.setVisibility(View.VISIBLE);
                 }
@@ -290,7 +268,7 @@ public class MyMoumFragment extends Fragment {
         super.onResume();
     }
 
-    public void onTeamLeaveDialogYesClicked(){
+    public void onTeamLeaveDialogYesClicked() {
         int pos = viewpagerTeam.getCurrentItem();
         viewModel.leaveTeam(teams.get(pos).getTeamId());
     }

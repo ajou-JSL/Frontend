@@ -38,13 +38,13 @@ public class ChatViewModel extends AndroidViewModel {
     private final ArrayList<Member> loadedMembers = new ArrayList<>();
     private String TAG = getClass().toString();
 
-    public ChatViewModel(Application application){
+    public ChatViewModel(Application application) {
         super(application);
         chatRepository = ChatRepository.getInstance(application);
         chatroomRepository = ChatroomRepository.getInstance(application);
     }
 
-    public ChatViewModel(Application application, ChatRepository chatRepository, ChatroomRepository chatroomRepository){
+    public ChatViewModel(Application application, ChatRepository chatRepository, ChatroomRepository chatroomRepository) {
         super(application);
         this.chatRepository = chatRepository;
         this.chatroomRepository = chatroomRepository;
@@ -62,11 +62,11 @@ public class ChatViewModel extends AndroidViewModel {
         this.isReceiveOldChatSuccess.onNext(isReceiveOldChatSuccess);
     }
 
-    public void setIsLoadMembersOfChatroomSuccess(Result<List<Member>> isLoadMembersOfChatroomSuccess){
+    public void setIsLoadMembersOfChatroomSuccess(Result<List<Member>> isLoadMembersOfChatroomSuccess) {
         this.isLoadMembersOfChatroomSuccess.setValue(isLoadMembersOfChatroomSuccess);
     }
 
-    public void setIsDeleteMembersSuccess(Result<Chatroom> isDeleteMembersSuccess){
+    public void setIsDeleteMembersSuccess(Result<Chatroom> isDeleteMembersSuccess) {
         this.isDeleteMembersSuccess.setValue(isDeleteMembersSuccess);
     }
 
@@ -105,27 +105,28 @@ public class ChatViewModel extends AndroidViewModel {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void chatSend(String message){
+    public void chatSend(String message) {
         Chat chat = new Chat(senderUsername, message, chatroom.getId(), LocalDateTime.now());
         chatRepository.chatSend(chat, result -> {
             Log.e(TAG, "chatSend return");
-            if(result.getData() != null){
+            if (result.getData() != null) {
                 result.getData().setSentByMe(true);
             }
             setIsChatSendSuccess(result);
         });
     }
 
-    public void receiveRecentChat(){
+    public void receiveRecentChat() {
         chatRepository.receiveRecentChat(chatroom.getId(), result -> {
-            if(result.getData() != null){
+            if (result.getData() != null) {
                 Chat chat = result.getData();
-                if(chat.getSender().equals(senderUsername))
+                if (chat.getSender().equals(senderUsername)) {
                     chat.setSentByMe(true);
-                else
+                } else {
                     chat.setSentByMe(false);
-                for(Member member : loadedMembers){
-                    if(chat.getSender().equals(member.getUsername())) {
+                }
+                for (Member member : loadedMembers) {
+                    if (chat.getSender().equals(member.getUsername())) {
                         chat.setProfileUrl(member.getProfileImageUrl());
                         break;
                     }
@@ -135,16 +136,17 @@ public class ChatViewModel extends AndroidViewModel {
         });
     }
 
-    public void receiveOldChat(LocalDateTime beforeTimestamp){
+    public void receiveOldChat(LocalDateTime beforeTimestamp) {
         chatRepository.receiveOldChat(chatroom.getId(), beforeTimestamp, result -> {
-            if(result.getData() != null){
+            if (result.getData() != null) {
                 Chat chat = result.getData();
-                if(chat.getSender().equals(senderUsername))
+                if (chat.getSender().equals(senderUsername)) {
                     chat.setSentByMe(true);
-                else
+                } else {
                     chat.setSentByMe(false);
-                for(Member member : loadedMembers){
-                    if(chat.getSender().equals(member.getUsername())) {
+                }
+                for (Member member : loadedMembers) {
+                    if (chat.getSender().equals(member.getUsername())) {
                         chat.setProfileUrl(member.getProfileImageUrl());
                         break;
                     }
@@ -154,9 +156,9 @@ public class ChatViewModel extends AndroidViewModel {
         });
     }
 
-    public void loadMembersOfChatroom(){
+    public void loadMembersOfChatroom() {
         chatroomRepository.loadMembersOfChatroom(chatroom.getId(), result -> {
-            if(result.getValidation() == Validation.CHATROOM_MEMBER_LOAD_SUCCESS){
+            if (result.getValidation() == Validation.CHATROOM_MEMBER_LOAD_SUCCESS) {
                 loadedMembers.clear();
                 loadedMembers.addAll(result.getData());
             }
@@ -165,7 +167,7 @@ public class ChatViewModel extends AndroidViewModel {
 
     }
 
-    public void deleteMembers(Integer chatroomId, Integer memberId, Chatroom.ChatroomType chatroomType){
+    public void deleteMembers(Integer chatroomId, Integer memberId, Chatroom.ChatroomType chatroomType) {
         /*processing*/
         Chatroom tChatroom = new Chatroom();
         chatroom.setType(chatroomType);

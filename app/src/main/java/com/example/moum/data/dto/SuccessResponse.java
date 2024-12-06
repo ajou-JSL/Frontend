@@ -1,9 +1,5 @@
 package com.example.moum.data.dto;
 
-import androidx.annotation.NonNull;
-
-import java.util.List;
-
 public class SuccessResponse<T> {
     private int status;
     private String code;
@@ -48,8 +44,9 @@ public class SuccessResponse<T> {
                 "status=" + status +
                 ", code='" + code + '\'' +
                 ", message='" + message + '\'';
-        if(data != null)
+        if (data != null) {
             str = str + ", data=" + data.toString() + '}';
+        }
         return str;
     }
 

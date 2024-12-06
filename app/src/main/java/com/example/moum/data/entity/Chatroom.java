@@ -1,25 +1,11 @@
 package com.example.moum.data.entity;
 
-import android.net.Uri;
-import android.os.Build;
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
-import retrofit2.http.Url;
 
 public class Chatroom {
     private Integer id;
@@ -43,12 +29,13 @@ public class Chatroom {
 
     }
 
-    public enum ChatroomType{
+    public enum ChatroomType {
         PERSONAL_CHAT(0),
         MULTI_CHAT(1),
         SYSTEM_CHAT(2);
 
         private final int value;
+
         ChatroomType(int value) {
             this.value = value;
         }
@@ -82,7 +69,8 @@ public class Chatroom {
         }
     }
 
-    public Chatroom(Integer id, String name, ChatroomType type, Integer teamId, Integer leaderId, String lastChat, String lastTimestamp, String fileUrl){
+    public Chatroom(Integer id, String name, ChatroomType type, Integer teamId, Integer leaderId, String lastChat, String lastTimestamp,
+            String fileUrl) {
         this.id = id;
         this.name = name;
         this.type = type;

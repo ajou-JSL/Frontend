@@ -37,7 +37,7 @@ public class PaymentRepository {
         paymentApi = retrofitClient.create(PaymentApi.class);
     }
 
-    public PaymentRepository(RetrofitClientManager retrofitClientManager, PaymentApi paymentApi){
+    public PaymentRepository(RetrofitClientManager retrofitClientManager, PaymentApi paymentApi) {
         this.retrofitClientManager = retrofitClientManager;
         this.retrofitClient = retrofitClientManager.getClient();
         this.paymentApi = paymentApi;
@@ -81,6 +81,7 @@ public class PaymentRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<Settlement>> call, Throwable t) {
                 Result<Settlement> result = new Result<>(Validation.NETWORK_FAILED);
@@ -118,6 +119,7 @@ public class PaymentRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<List<Settlement>>> call, Throwable t) {
                 Result<List<Settlement>> result = new Result<>(Validation.NETWORK_FAILED);
@@ -155,6 +157,7 @@ public class PaymentRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<Settlement>> call, Throwable t) {
                 Result<Settlement> result = new Result<>(Validation.NETWORK_FAILED);

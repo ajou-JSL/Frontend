@@ -9,8 +9,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.moum.data.api.SignupApi;
 import com.example.moum.data.entity.SignupUser;
-import com.example.moum.repository.client.RetrofitClientManager;
 import com.example.moum.repository.SignupRepository;
+import com.example.moum.repository.client.RetrofitClientManager;
 import com.example.moum.utils.Validation;
 
 import org.junit.After;
@@ -34,7 +34,7 @@ import retrofit2.Retrofit;
 public class SignupRepositoryTest {
 
     private MockWebServer mockWebServer;
-    private  RetrofitClientManager retrofitClientManager;
+    private RetrofitClientManager retrofitClientManager;
     private Retrofit retrofitClient;
     private SignupRepository signupRepository;
     private SignupApi signupApi;
@@ -97,7 +97,9 @@ public class SignupRepositoryTest {
 
         // Given
         CountDownLatch latch = new CountDownLatch(1);
-        String mockResponse = "{ \"status\": 400, \"code\": \"C002\", \"message\": \"invalid input type.\", \"errors\": [{\"field\": \"email\", \"value\": \"swo9sadff.ac.kr\",\"reason\": \"이메일 형식이 올바르지 않습니다.\"}]}";
+        String mockResponse =
+                "{ \"status\": 400, \"code\": \"C002\", \"message\": \"invalid input type.\", \"errors\": [{\"field\": \"email\", \"value\": "
+                        + "\"swo9sadff.ac.kr\",\"reason\": \"이메일 형식이 올바르지 않습니다.\"}]}";
         mockWebServer.enqueue(new MockResponse()
                 .setResponseCode(200)
                 .setBody(mockResponse));

@@ -12,7 +12,6 @@ import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.moum.R;
 import com.example.moum.view.moum.MoumCreateActivity;
-import com.example.moum.view.moum.TeamCreateActivity;
 
 public class MoumCreateDialog extends Dialog {
     private MoumCreateActivity moumCreateActivity;
@@ -23,7 +22,7 @@ public class MoumCreateDialog extends Dialog {
     private String moumName;
     private final String TAG = getClass().toString();
 
-    public MoumCreateDialog(@NonNull Context context, String moumName){
+    public MoumCreateDialog(@NonNull Context context, String moumName) {
         super(context);
         this.moumCreateActivity = (MoumCreateActivity) context;
         this.moumName = moumName;

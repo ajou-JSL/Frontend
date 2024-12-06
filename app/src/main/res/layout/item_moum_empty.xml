@@ -30,7 +30,7 @@
             android:textColor="@color/gray3"
             android:textSize="15sp"
             android:fontFamily="@font/noto_sans_kr_regular"
-            android:includeFontPadding="false"/>
+            android:includeFontPadding="false" />
 
         <ImageView
             android:layout_width="17dp"

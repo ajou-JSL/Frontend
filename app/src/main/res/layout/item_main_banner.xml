@@ -14,8 +14,7 @@
         android:scaleType="fitXY"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-    </ImageView>
+        app:layout_constraintTop_toTopOf="parent"></ImageView>
 
     <ImageView
         android:id="@+id/imageview_gradient"
@@ -24,8 +23,7 @@
         android:background="@drawable/gradient_black_transparent_horizontal"
         android:scaleType="fitXY"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-    </ImageView>
+        app:layout_constraintTop_toTopOf="parent"></ImageView>
 
     <TextView
         android:id="@+id/textview_main"
@@ -39,7 +37,7 @@
         android:layout_marginStart="25dp"
         android:layout_marginTop="30dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textview_sub"
@@ -53,7 +51,7 @@
         android:layout_marginTop="10dp"
         android:includeFontPadding="false"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textview_main"/>
+        app:layout_constraintTop_toBottomOf="@id/textview_main" />
 
     <me.relex.circleindicator.CircleIndicator
         android:id="@+id/indicator_main_banner"
@@ -62,7 +60,7 @@
         android:orientation="horizontal"
         android:layout_height="48dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

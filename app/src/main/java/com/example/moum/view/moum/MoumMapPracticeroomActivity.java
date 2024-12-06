@@ -12,29 +12,18 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
-import androidx.fragment.app.FragmentContainerView;
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.moum.R;
 import com.example.moum.data.entity.MoumPracticeroom;
-import com.example.moum.data.entity.PerformanceHall;
 import com.example.moum.data.entity.Practiceroom;
-import com.example.moum.databinding.ActivityMoumFindPracticeroomBinding;
-import com.example.moum.databinding.ActivityMoumManageBinding;
 import com.example.moum.databinding.ActivityMoumMapPracticeroomBinding;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
-import com.example.moum.utils.WrapContentLinearLayoutManager;
 import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.view.dialog.PracticeOfMoumCreateDialog;
-import com.example.moum.view.moum.adapter.MoumPracticeroomAdapter;
-import com.example.moum.viewmodel.moum.MoumFindPracticeroomViewModel;
 import com.example.moum.viewmodel.moum.MoumMapPracticeroomViewModel;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.CameraUpdate;
@@ -44,7 +33,6 @@ import com.naver.maps.map.OnMapReadyCallback;
 import com.naver.maps.map.overlay.Marker;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MoumMapPracticeroomActivity extends AppCompatActivity implements OnMapReadyCallback {
     private MoumMapPracticeroomViewModel viewModel;
@@ -77,7 +65,7 @@ public class MoumMapPracticeroomActivity extends AppCompatActivity implements On
         teamId = prevIntent.getIntExtra("teamId", -1);
         moumId = prevIntent.getIntExtra("moumId", -1);
         leaderId = prevIntent.getIntExtra("leaderId", -1);
-        if(practiceroomId == -1 || teamId == -1 || moumId == -1 || leaderId == -1){
+        if (practiceroomId == -1 || teamId == -1 || moumId == -1 || leaderId == -1) {
             Toast.makeText(context, "잘못된 접근입니다.", Toast.LENGTH_SHORT).show();
 //            finish();
         }
@@ -87,7 +75,7 @@ public class MoumMapPracticeroomActivity extends AppCompatActivity implements On
         String accessToken = sharedPreferenceManager.getCache(getString(R.string.user_access_token_key), "no-access-token");
         String username = sharedPreferenceManager.getCache(getString(R.string.user_username_key), "no-memberId");
         memberId = sharedPreferenceManager.getCache(getString(R.string.user_id_key), -1);
-        if(accessToken.isEmpty() || accessToken.equals("no-access-token")){
+        if (accessToken.isEmpty() || accessToken.equals("no-access-token")) {
             Toast.makeText(context, "로그인 정보가 없어 초기 페이지로 돌아갑니다.", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(context, InitialActivity.class);
             startActivity(intent);
@@ -120,69 +108,79 @@ public class MoumMapPracticeroomActivity extends AppCompatActivity implements On
         viewModel.getIsLoadPracticeroomSuccess().observe(this, isLoadPracticeroomSuccess -> {
             Validation validation = isLoadPracticeroomSuccess.getValidation();
             Practiceroom loadedPracticeroom = isLoadPracticeroomSuccess.getData();
-            if(validation == Validation.PRACTICE_ROOM_GET_SUCCESS){
+            if (validation == Validation.PRACTICE_ROOM_GET_SUCCESS) {
                 practiceroom = loadedPracticeroom;
-                if(loadedPracticeroom.getName() != null) binding.textviewPracticeroomName.setText(loadedPracticeroom.getName());
-                if(loadedPracticeroom.getPrice() != null) binding.textviewPracticeroomPrice.setText(String.format("%,d", loadedPracticeroom.getPrice()));
-                if(loadedPracticeroom.getCapacity() != null) binding.textviewPracticeroomCapacity.setText(String.format("%d", loadedPracticeroom.getCapacity()));
-                if(loadedPracticeroom.getAddress() != null) binding.textviewPracticeroomAddress.setText(loadedPracticeroom.getAddress());
-                if(loadedPracticeroom.getOwner() != null) binding.textviewPracticeroomOwner.setText(loadedPracticeroom.getOwner());
-                if(loadedPracticeroom.getPhone() != null) binding.textviewPracticeroomPhone.setText(loadedPracticeroom.getPhone());
-                if(loadedPracticeroom.getEmail() != null) binding.textviewPracticeroomEmail.setText(loadedPracticeroom.getEmail());
-                if(loadedPracticeroom.getStand() != null) binding.textviewPracticeroomStand.setText(String.format("%d", loadedPracticeroom.getStand()));
-                if(loadedPracticeroom.getHasPiano() != null && loadedPracticeroom.getHasPiano()) {
+                if (loadedPracticeroom.getName() != null) binding.textviewPracticeroomName.setText(loadedPracticeroom.getName());
+                if (loadedPracticeroom.getPrice() != null) {
+                    binding.textviewPracticeroomPrice.setText(
+                            String.format("%,d", loadedPracticeroom.getPrice()));
+                }
+                if (loadedPracticeroom.getCapacity() != null) {
+                    binding.textviewPracticeroomCapacity.setText(
+                            String.format("%d", loadedPracticeroom.getCapacity()));
+                }
+                if (loadedPracticeroom.getAddress() != null) binding.textviewPracticeroomAddress.setText(loadedPracticeroom.getAddress());
+                if (loadedPracticeroom.getOwner() != null) binding.textviewPracticeroomOwner.setText(loadedPracticeroom.getOwner());
+                if (loadedPracticeroom.getPhone() != null) binding.textviewPracticeroomPhone.setText(loadedPracticeroom.getPhone());
+                if (loadedPracticeroom.getEmail() != null) binding.textviewPracticeroomEmail.setText(loadedPracticeroom.getEmail());
+                if (loadedPracticeroom.getStand() != null) {
+                    binding.textviewPracticeroomStand.setText(
+                            String.format("%d", loadedPracticeroom.getStand()));
+                }
+                if (loadedPracticeroom.getHasPiano() != null && loadedPracticeroom.getHasPiano()) {
                     binding.checkboxPracticeroomPiano.setText("있음");
                     binding.checkboxPracticeroomPiano.setChecked(true);
                     binding.checkboxPracticeroomPiano.setEnabled(false);
                 }
-                if(loadedPracticeroom.getHasAmp() != null && loadedPracticeroom.getHasAmp()) {
+                if (loadedPracticeroom.getHasAmp() != null && loadedPracticeroom.getHasAmp()) {
                     binding.checkboxPracticeroomAmp.setText("있음");
                     binding.checkboxPracticeroomAmp.setChecked(true);
                     binding.checkboxPracticeroomAmp.setEnabled(false);
                 }
-                if(loadedPracticeroom.getHasSpeaker() != null && loadedPracticeroom.getHasSpeaker()) {
+                if (loadedPracticeroom.getHasSpeaker() != null && loadedPracticeroom.getHasSpeaker()) {
                     binding.checkboxPracticeroomSpeaker.setText("있음");
                     binding.checkboxPracticeroomSpeaker.setChecked(true);
                     binding.checkboxPracticeroomSpeaker.setEnabled(false);
                 }
-                if(loadedPracticeroom.getHasMic() != null && loadedPracticeroom.getHasMic()) {
+                if (loadedPracticeroom.getHasMic() != null && loadedPracticeroom.getHasMic()) {
                     binding.checkboxPerformanceHallMic.setText("있음");
                     binding.checkboxPerformanceHallMic.setChecked(true);
                     binding.checkboxPerformanceHallMic.setEnabled(false);
                 }
-                if(loadedPracticeroom.getHasDrums() != null && loadedPracticeroom.getHasDrums()) {
+                if (loadedPracticeroom.getHasDrums() != null && loadedPracticeroom.getHasDrums()) {
                     binding.checkboxPracticeroomDrum.setText("있음");
                     binding.checkboxPracticeroomDrum.setChecked(true);
                     binding.checkboxPracticeroomDrum.setEnabled(false);
                 }
-                if(practiceroom.getImageUrls() != null && !practiceroom.getImageUrls().isEmpty()) {
+                if (practiceroom.getImageUrls() != null && !practiceroom.getImageUrls().isEmpty()) {
                     Glide.with(context)
                             .applyDefaultRequestOptions(new RequestOptions()
-                            .placeholder(R.drawable.background_more_rounded_gray_size_fit2)
-                            .error(R.drawable.background_more_rounded_gray_size_fit2))
+                                    .placeholder(R.drawable.background_more_rounded_gray_size_fit2)
+                                    .error(R.drawable.background_more_rounded_gray_size_fit2))
                             .load(loadedPracticeroom.getImageUrls().get(0)).into(binding.imageviewPracticeroom);
                     binding.imageviewPracticeroom.setClipToOutline(true);
                 }
-                if(loadedPracticeroom.getLatitude() != null && loadedPracticeroom.getLongitude() != null)
-                    if(Boolean.TRUE.equals(viewModel.getIsNaverMapReady().getValue())){
+                if (loadedPracticeroom.getLatitude() != null && loadedPracticeroom.getLongitude() != null) {
+                    if (Boolean.TRUE.equals(viewModel.getIsNaverMapReady().getValue())) {
                         Marker marker = new Marker();
                         marker.setPosition(new LatLng(loadedPracticeroom.getLatitude(), loadedPracticeroom.getLongitude()));
                         marker.setMap(naverMap);
                         marker.setCaptionText(loadedPracticeroom.getName());
-                        CameraUpdate cameraUpdate = CameraUpdate.scrollTo(new LatLng(loadedPracticeroom.getLatitude(), loadedPracticeroom.getLongitude()));
+                        CameraUpdate cameraUpdate = CameraUpdate.scrollTo(
+                                new LatLng(loadedPracticeroom.getLatitude(), loadedPracticeroom.getLongitude()));
                         naverMap.moveCamera(cameraUpdate);
                         binding.buttonGotoNaverMap.setEnabled(true);
                     }
-                if(loadedPracticeroom.getMapUrl() != null)
+                }
+                if (loadedPracticeroom.getMapUrl() != null) {
                     binding.buttonGotoNaverMap.setEnabled(true);
-                else
+                } else {
                     binding.buttonGotoNaverMap.setEnabled(false);
+                }
                 binding.buttonAddInMoum.setEnabled(true);
-            }
-            else if(validation == Validation.NETWORK_FAILED){
+            } else if (validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else{
+            } else {
                 Toast.makeText(context, "연습실 정보를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "알 수 없는 감시 결과");
             }
@@ -202,7 +200,7 @@ public class MoumMapPracticeroomActivity extends AppCompatActivity implements On
         binding.buttonAddInMoum.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!memberId.equals(leaderId)){
+                if (!memberId.equals(leaderId)) {
                     Toast.makeText(MoumMapPracticeroomActivity.this, "리더만 등록할 수 있어요.", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -215,17 +213,14 @@ public class MoumMapPracticeroomActivity extends AppCompatActivity implements On
         viewModel.getIsCreatePracticeroomSuccess().observe(this, isCreatePracticeroomSuccess -> {
             Validation validation = isCreatePracticeroomSuccess.getValidation();
             MoumPracticeroom createdPracticeroom = isCreatePracticeroomSuccess.getData();
-            if(validation == Validation.MOUM_PRACTICE_ROOM_CREATE_SUCCESS){
+            if (validation == Validation.MOUM_PRACTICE_ROOM_CREATE_SUCCESS) {
                 Toast.makeText(context, "모음에 등록을 완료하였습니다.", Toast.LENGTH_SHORT).show();
                 finish();
-            }
-            else if(validation == Validation.MOUM_NOT_FOUND){
+            } else if (validation == Validation.MOUM_NOT_FOUND) {
                 Toast.makeText(context, "존재하지 않는 모음입니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(validation == Validation.NETWORK_FAILED){
+            } else if (validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else{
+            } else {
                 Toast.makeText(context, "모음 등록에 실패하였습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "알 수 없는 감시 결과");
             }
@@ -248,7 +243,7 @@ public class MoumMapPracticeroomActivity extends AppCompatActivity implements On
 
         /*map도 준비되고, 공연장 정보도 준비되었을 시 결과 감시*/
         viewModel.getIsAllReady().observe(this, isAllReady -> {
-            if(isAllReady){
+            if (isAllReady) {
                 Marker marker = new Marker();
                 marker.setPosition(new LatLng(practiceroom.getLatitude(), practiceroom.getLongitude()));
                 marker.setMap(naverMap);
@@ -275,8 +270,9 @@ public class MoumMapPracticeroomActivity extends AppCompatActivity implements On
         viewModel.setIsNaverMapReady(true);
     }
 
-    public void onPracticeOfMoumCreateDialogYesClicked(){
-        if(practiceroom != null)
+    public void onPracticeOfMoumCreateDialogYesClicked() {
+        if (practiceroom != null) {
             viewModel.createPracticeroom(moumId, practiceroom.getId());
+        }
     }
 }

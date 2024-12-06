@@ -24,7 +24,7 @@ public class PerformanceCreateViewModel extends AndroidViewModel {
     private final MutableLiveData<Team> teamSelected = new MutableLiveData<>();
     private final MutableLiveData<Moum> moumSelected = new MutableLiveData<>();
 
-    public PerformanceCreateViewModel(Application application){
+    public PerformanceCreateViewModel(Application application) {
         super(application);
         teamRepository = TeamRepository.getInstance(application);
         moumRepository = MoumRepository.getInstance(application);
@@ -42,51 +42,53 @@ public class PerformanceCreateViewModel extends AndroidViewModel {
         return teamSelected;
     }
 
-    public Team getTeamSelectedValue(){
+    public Team getTeamSelectedValue() {
         return teamSelected.getValue();
     }
 
-    public Moum getMoumSelectedValue(){
-        return  moumSelected.getValue();
+    public Moum getMoumSelectedValue() {
+        return moumSelected.getValue();
     }
 
-    public void setIsLoadTeamsAsLeaderSuccess(Result<List<Team>> isLoadTeamsAsLeaderSuccess){
+    public void setIsLoadTeamsAsLeaderSuccess(Result<List<Team>> isLoadTeamsAsLeaderSuccess) {
         this.isLoadTeamsAsLeaderSuccess.setValue(isLoadTeamsAsLeaderSuccess);
     }
 
-    public void setIsLoadMoumsOfTeamSuccess(Result<List<Moum>> isLoadMoumsOfTeamSuccess){
+    public void setIsLoadMoumsOfTeamSuccess(Result<List<Moum>> isLoadMoumsOfTeamSuccess) {
         this.isLoadMoumsOfTeamSuccess.setValue(isLoadMoumsOfTeamSuccess);
     }
 
-    public void setTeamSelected(Team teamSelected){
+    public void setTeamSelected(Team teamSelected) {
         this.teamSelected.setValue(teamSelected);
     }
 
-    public void setMoumSelected(Moum moumSelected){
+    public void setMoumSelected(Moum moumSelected) {
         this.moumSelected.setValue(moumSelected);
     }
 
-    public void loadTeamsAsLeader(Integer memberId){
+    public void loadTeamsAsLeader(Integer memberId) {
         teamRepository.loadTeamsAsMember(memberId, result -> {
             Validation validation = result.getValidation();
             List<Team> loadedTeams = result.getData();
             List<Team> teamsAsLeader = new ArrayList<>();
-            if(validation == Validation.GET_TEAM_LIST_SUCCESS && !loadedTeams.isEmpty()) {
-                for (Team team : loadedTeams)
-                    if (team.getLeaderId().equals(memberId))
+            if (validation == Validation.GET_TEAM_LIST_SUCCESS && !loadedTeams.isEmpty()) {
+                for (Team team : loadedTeams) {
+                    if (team.getLeaderId().equals(memberId)) {
                         teamsAsLeader.add(team);
+                    }
+                }
                 Result<List<Team>> newResult = new Result<>(validation, teamsAsLeader);
                 setIsLoadTeamsAsLeaderSuccess(newResult);
-            }
-            else{
+            } else {
                 setIsLoadTeamsAsLeaderSuccess(result);
             }
         });
     }
 
-    public void loadMoumsOfTeam(Integer teamId){
+    public void loadMoumsOfTeam(Integer teamId) {
         //valid check
-        if(isLoadTeamsAsLeaderSuccess.getValue() == null || isLoadTeamsAsLeaderSuccess.getValue().getValidation() != Validation.GET_TEAM_LIST_SUCCESS){
+        if (isLoadTeamsAsLeaderSuccess.getValue() == null
+                || isLoadTeamsAsLeaderSuccess.getValue().getValidation() != Validation.GET_TEAM_LIST_SUCCESS) {
             Result<List<Moum>> result = new Result<>(Validation.TEAM_NOT_FOUND);
             setIsLoadMoumsOfTeamSuccess(result);
             return;

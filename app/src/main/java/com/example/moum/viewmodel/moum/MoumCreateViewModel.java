@@ -40,7 +40,7 @@ public class MoumCreateViewModel extends AndroidViewModel {
     private LocalDate startDate;
     private LocalDate endDate;
 
-    public MoumCreateViewModel(Application application){
+    public MoumCreateViewModel(Application application) {
         super(application);
         teamRepository = TeamRepository.getInstance(application);
         moumRepository = MoumRepository.getInstance(application);
@@ -62,7 +62,9 @@ public class MoumCreateViewModel extends AndroidViewModel {
         return isCreateMoumSuccess;
     }
 
-    public void setMoum(Moum moum) { this.moum.setValue(moum);}
+    public void setMoum(Moum moum) {
+        this.moum.setValue(moum);
+    }
 
     public void setGenre(String genreStr) {
         this.genre = Genre.fromString(genreStr);
@@ -73,49 +75,44 @@ public class MoumCreateViewModel extends AndroidViewModel {
         this.profileImages.setValue(uriArrayList);
     }
 
-    public void setDates(LocalDate startDate, LocalDate endDate){
+    public void setDates(LocalDate startDate, LocalDate endDate) {
         this.startDate = startDate;
         this.endDate = endDate;
     }
 
-    public void setIsValidCheckSuccess(Validation isValidCheckSuccess){
+    public void setIsValidCheckSuccess(Validation isValidCheckSuccess) {
         this.isValidCheckSuccess.setValue(isValidCheckSuccess);
     }
 
-    public void setIsCreateMoumSuccess(Result<Moum> isCreateMoumSuccess){
+    public void setIsCreateMoumSuccess(Result<Moum> isCreateMoumSuccess) {
         this.isCreateMoumSuccess.setValue(isCreateMoumSuccess);
     }
 
-    public void addMusic(String musicName, String artistName){
+    public void addMusic(String musicName, String artistName) {
         this.music.add(new Music(musicName, artistName));
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void validCheck(){
+    public void validCheck() {
         /*null check*/
-        if(moum.getValue() == null){
+        if (moum.getValue() == null) {
             setIsValidCheckSuccess(Validation.NOT_VALID_ANYWAY);
             return;
-        }
-        else if(moum.getValue().getMoumName() == null || moum.getValue().getMoumName().isEmpty()) {
+        } else if (moum.getValue().getMoumName() == null || moum.getValue().getMoumName().isEmpty()) {
             setIsValidCheckSuccess(Validation.MOUM_NAME_NOT_WRITTEN);
             return;
-        }
-        else if(genre == null){
+        } else if (genre == null) {
             setIsValidCheckSuccess(Validation.GENRE_NOT_WRITTEN);
             return;
-        }
-        else if(startDate != null && endDate != null && startDate.isAfter(endDate)){
+        } else if (startDate != null && endDate != null && startDate.isAfter(endDate)) {
             setIsValidCheckSuccess(Validation.DATE_NOT_VALID);
             return;
-        }
-        else if(music != null){
-            for(Music one : music){
-                if(one.getMusicName() == null || one.getMusicName().isEmpty()){
+        } else if (music != null) {
+            for (Music one : music) {
+                if (one.getMusicName() == null || one.getMusicName().isEmpty()) {
                     setIsValidCheckSuccess(Validation.MUSIC_NAME_NOT_WRITTEN);
                     return;
-                }
-                else if(one.getArtistName() == null || one.getArtistName().isEmpty()){
+                } else if (one.getArtistName() == null || one.getArtistName().isEmpty()) {
                     setIsValidCheckSuccess(Validation.ARTIST_NAME_NOT_WRITTEN);
                     return;
                 }
@@ -124,9 +121,9 @@ public class MoumCreateViewModel extends AndroidViewModel {
         setIsValidCheckSuccess(Validation.VALID_ALL);
     }
 
-    public void createMoum(Integer leaderId, Integer teamId, Context context){
+    public void createMoum(Integer leaderId, Integer teamId, Context context) {
         /*valid check*/
-        if(isValidCheckSuccess.getValue() == null || isValidCheckSuccess.getValue() != Validation.VALID_ALL){
+        if (isValidCheckSuccess.getValue() == null || isValidCheckSuccess.getValue() != Validation.VALID_ALL) {
             Result<Moum> result = new Result<>(Validation.NOT_VALID_ANYWAY);
             setIsCreateMoumSuccess(result);
             return;
@@ -137,17 +134,17 @@ public class MoumCreateViewModel extends AndroidViewModel {
         moumToCreate.setLeaderId(leaderId);
         moumToCreate.setTeamId(teamId);
         moumToCreate.setGenre(genre);
-        if(startDate != null) moumToCreate.setStartDate(startDate.toString());
-        if(endDate != null) moumToCreate.setEndDate(endDate.toString());
+        if (startDate != null) moumToCreate.setStartDate(startDate.toString());
+        if (endDate != null) moumToCreate.setEndDate(endDate.toString());
         ArrayList<File> profileFiles = new ArrayList<>();
-        if(profileImages.getValue() != null && !profileImages.getValue().isEmpty()){
-            for(Uri uri : profileImages.getValue()){
+        if (profileImages.getValue() != null && !profileImages.getValue().isEmpty()) {
+            for (Uri uri : profileImages.getValue()) {
                 ImageManager imageManager = new ImageManager(context);
                 File profileFile = imageManager.convertUriToFile(uri);
                 profileFiles.add(profileFile);
             }
         }
-        if(profileFiles.isEmpty()) profileFiles = null;
+        if (profileFiles.isEmpty()) profileFiles = null;
         ArrayList<Member> members = new ArrayList<>();
         moumToCreate.setMembers(members);
         moumToCreate.setRecords(new ArrayList<>());

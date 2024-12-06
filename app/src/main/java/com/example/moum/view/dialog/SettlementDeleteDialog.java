@@ -12,7 +12,6 @@ import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.moum.R;
 import com.example.moum.data.entity.Settlement;
-import com.example.moum.view.community.PerformanceActivity;
 import com.example.moum.view.moum.MoumPaymentActivity;
 
 public class SettlementDeleteDialog extends Dialog {
@@ -25,7 +24,7 @@ public class SettlementDeleteDialog extends Dialog {
     private final String TAG = getClass().toString();
     private Context context;
 
-    public SettlementDeleteDialog(@NonNull Context context, Settlement settlement){
+    public SettlementDeleteDialog(@NonNull Context context, Settlement settlement) {
         super(context);
         this.moumPaymentActivity = (MoumPaymentActivity) context;
         this.settlement = settlement;

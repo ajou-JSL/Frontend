@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -28,8 +27,7 @@
             android:layout_height="40dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="15dp"
-            android:src="@drawable/button_rounded_left"
-            />
+            android:src="@drawable/button_rounded_left" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -49,7 +47,6 @@
 
             android:layout_gravity="end"
             app:srcCompat="@drawable/ic_menu" />
-
 
 
     </androidx.appcompat.widget.Toolbar>
@@ -98,8 +95,7 @@
                             android:layout_marginLeft="15dp"
                             android:scaleType="centerCrop"
 
-                            app:srcCompat="@drawable/background_circle_darkgray">
-                        </ImageView>
+                            app:srcCompat="@drawable/background_circle_darkgray"></ImageView>
 
 
                         <LinearLayout
@@ -165,7 +161,7 @@
                         android:layout_height="90dp"
                         android:layout_marginStart="25dp"
                         android:layout_marginEnd="25dp"
-                        android:layout_marginTop="10dp"/>
+                        android:layout_marginTop="10dp" />
 
                     <LinearLayout
                         android:id="@+id/button_like"
@@ -175,10 +171,12 @@
                         android:layout_marginStart="25dp"
                         android:gravity="center"
                         android:background="@drawable/button_rounded_gray">
+
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
+
                             <ToggleButton
                                 android:id="@+id/button_like_image"
                                 android:layout_width="15dp"
@@ -186,8 +184,8 @@
                                 android:layout_gravity="bottom"
                                 android:textOff=""
                                 android:textOn=""
-                                android:background="@drawable/icon_heart_toggle"
-                                />
+                                android:background="@drawable/icon_heart_toggle" />
+
                             <TextView
                                 android:id="@+id/board_recruit_detail_like_count"
                                 android:layout_width="wrap_content"
@@ -198,7 +196,7 @@
                                 android:fontFamily="@font/noto_sans_kr_medium"
                                 android:textSize="12dp"
                                 android:textColor="@color/gray4"
-                                android:includeFontPadding="false"/>
+                                android:includeFontPadding="false" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -209,8 +207,7 @@
                     android:id="@+id/board_recruit_detail_recycler_view"
                     android:contentDescription="댓글"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                </androidx.recyclerview.widget.RecyclerView>
+                    android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
 
             </LinearLayout>
         </ScrollView>
@@ -239,7 +236,7 @@
             android:layout_weight="1"
             android:background="@drawable/background_rounded_bright_gray"
             android:textSize="16sp"
-            android:hint="입력"/>
+            android:hint="입력" />
 
         <ImageButton
             android:id="@+id/board_recruit_detail_input_button"
@@ -250,7 +247,7 @@
             android:background="@null"
 
             android:scaleType="centerInside"
-            app:srcCompat="@drawable/icon_paper_plane_alpha"/>
+            app:srcCompat="@drawable/icon_paper_plane_alpha" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

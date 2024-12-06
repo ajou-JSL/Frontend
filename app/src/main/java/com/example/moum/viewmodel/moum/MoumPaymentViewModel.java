@@ -17,7 +17,7 @@ public class MoumPaymentViewModel extends AndroidViewModel {
     private final MutableLiveData<Result<List<Settlement>>> isLoadSettlementsSuccess = new MutableLiveData<>();
     private final MutableLiveData<Result<Settlement>> isDeleteSettlementSuccess = new MutableLiveData<>();
 
-    public MoumPaymentViewModel(Application application){
+    public MoumPaymentViewModel(Application application) {
         super(application);
         paymentRepository = PaymentRepository.getInstance(application);
     }
@@ -30,19 +30,19 @@ public class MoumPaymentViewModel extends AndroidViewModel {
         return isDeleteSettlementSuccess;
     }
 
-    public void setIsLoadSettlementsSuccess(Result<List<Settlement>> isLoadSettlementsSuccess){
+    public void setIsLoadSettlementsSuccess(Result<List<Settlement>> isLoadSettlementsSuccess) {
         this.isLoadSettlementsSuccess.setValue(isLoadSettlementsSuccess);
     }
 
-    public void setIsDeleteSettlementSuccess(Result<Settlement> isDeleteSettlementSuccess){
+    public void setIsDeleteSettlementSuccess(Result<Settlement> isDeleteSettlementSuccess) {
         this.isDeleteSettlementSuccess.setValue(isDeleteSettlementSuccess);
     }
 
-    public void loadSettlement(Integer moumId){
+    public void loadSettlement(Integer moumId) {
         paymentRepository.loadSettlements(moumId, this::setIsLoadSettlementsSuccess);
     }
 
-    public void deleteSettlement(Integer moumId, Integer settlementId){
+    public void deleteSettlement(Integer moumId, Integer settlementId) {
         paymentRepository.deleteSettlement(moumId, settlementId, this::setIsDeleteSettlementSuccess);
     }
 

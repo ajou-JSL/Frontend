@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.moum.R;
-import com.example.moum.view.moum.MoumUpdateActivity;
 import com.example.moum.view.myinfo.MyInformationUpdateActivity;
 
 public class ProfileUpdateDialog extends Dialog {
@@ -23,7 +22,7 @@ public class ProfileUpdateDialog extends Dialog {
     private String nickname;
     private final String TAG = getClass().toString();
 
-    public ProfileUpdateDialog(@NonNull Context context, String nickname){
+    public ProfileUpdateDialog(@NonNull Context context, String nickname) {
         super(context);
         this.myInformationUpdateActivity = (MyInformationUpdateActivity) context;
         this.nickname = nickname;

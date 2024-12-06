@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.moum.R;
-import com.example.moum.view.community.PerformanceCreateOnwardActivity;
 import com.example.moum.view.community.PerformanceUpdateActivity;
 
 public class PerformUpdateDialog extends Dialog {
@@ -23,7 +22,7 @@ public class PerformUpdateDialog extends Dialog {
     private String performName;
     private final String TAG = getClass().toString();
 
-    public PerformUpdateDialog(@NonNull Context context, String performName){
+    public PerformUpdateDialog(@NonNull Context context, String performName) {
         super(context);
         this.performanceUpdateActivity = (PerformanceUpdateActivity) context;
         this.performName = performName;

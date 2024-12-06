@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.Window;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
@@ -69,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
         // 상태바 세팅
         Window window = getWindow();
-        window.setStatusBarColor(ContextCompat.getColor(this,R.color.gray0));
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.gray0));
         window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
     }
 
@@ -85,18 +84,16 @@ public class MainActivity extends AppCompatActivity {
             int fragmentIndex = data.getIntExtra("fragment_index", -1);
             int communityIndex = data.getIntExtra("community_index", -1);
             int finish = data.getIntExtra("finish", -1);
-            if(finish == 1){
+            if (finish == 1) {
                 Intent intent = new Intent(MainActivity.this, InitialActivity.class);
                 startActivity(intent);
                 finish();
             }
             if (fragmentIndex == 0) {
                 bottomNavigationView.setSelectedItemId(R.id.menu_home);
-            }
-            else if (fragmentIndex == 1) {
+            } else if (fragmentIndex == 1) {
                 bottomNavigationView.setSelectedItemId(R.id.menu_moumtalk);
-            }
-            else if(fragmentIndex == 2){
+            } else if (fragmentIndex == 2) {
                 bottomNavigationView.setSelectedItemId(R.id.menu_community);
                 new Handler().postDelayed(() -> {
                     NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
@@ -112,11 +109,9 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 }, 100);
-            }
-            else if(fragmentIndex == 3){
+            } else if (fragmentIndex == 3) {
                 bottomNavigationView.setSelectedItemId(R.id.menu_mymoum);
-            }
-            else if(fragmentIndex == 4){
+            } else if (fragmentIndex == 4) {
                 bottomNavigationView.setSelectedItemId(R.id.menu_my_information);
             }
         }

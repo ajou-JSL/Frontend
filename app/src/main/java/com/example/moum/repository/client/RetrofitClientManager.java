@@ -1,4 +1,3 @@
-
 package com.example.moum.repository.client;
 
 import android.content.Context;
@@ -38,8 +37,8 @@ public class RetrofitClientManager {
 
             OkHttpClient okHttpClient = new OkHttpClient.Builder()
                     .connectTimeout(5, TimeUnit.MINUTES)
-                    .readTimeout(5,TimeUnit.MINUTES)
-                    .writeTimeout(5,TimeUnit.MINUTES)
+                    .readTimeout(5, TimeUnit.MINUTES)
+                    .writeTimeout(5, TimeUnit.MINUTES)
                     .addInterceptor(loggingInterceptor)
                     .build();
             Gson gson = new GsonBuilder()

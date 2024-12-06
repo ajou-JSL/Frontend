@@ -3,7 +3,6 @@ package com.example.moum.view.community.adapter;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.moum.R;
 import com.example.moum.view.community.BoardFreeWriteActivity;
-
 
 import java.util.ArrayList;
 
@@ -33,7 +31,7 @@ public class BoardFreeWriteAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public int getItemViewType(int position) {
-        return position == uris.size()-1? VIEW_TYPE_IMAGE_SELECTOR : VIEW_TYPE_IMAGE_HOLDER;
+        return position == uris.size() - 1 ? VIEW_TYPE_IMAGE_SELECTOR : VIEW_TYPE_IMAGE_HOLDER;
     }
 
     @NonNull
@@ -64,7 +62,7 @@ public class BoardFreeWriteAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         return uris.size();
     }
 
-    static class ImageSelectorViewHolder extends RecyclerView.ViewHolder{
+    static class ImageSelectorViewHolder extends RecyclerView.ViewHolder {
         private Uri uri;
         private ImageView boardWriteImageview;
         private Context context;
@@ -89,7 +87,7 @@ public class BoardFreeWriteAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     }
 
-    static class ImageHolderViewHolder extends RecyclerView.ViewHolder{
+    static class ImageHolderViewHolder extends RecyclerView.ViewHolder {
         private Uri uri;
         private ImageView boardWriteImageview;
         private Context context;
@@ -102,7 +100,7 @@ public class BoardFreeWriteAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             boardFreeWriteActivity = (BoardFreeWriteActivity) context;
         }
 
-        public void bind(Uri uri){
+        public void bind(Uri uri) {
             this.uri = uri;
             Glide.with(context).load(uri).into(boardWriteImageview);
             boardWriteImageview.setClipToOutline(true);

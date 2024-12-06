@@ -29,7 +29,7 @@ public class ChatUpdateChatroomViewModel extends AndroidViewModel {
     private final MutableLiveData<Uri> profileImage = new MutableLiveData<>();
     private Boolean fromExisting = false;
 
-    public ChatUpdateChatroomViewModel(Application application){
+    public ChatUpdateChatroomViewModel(Application application) {
         super(application);
         chatroomRepository = ChatroomRepository.getInstance(application);
     }
@@ -46,28 +46,28 @@ public class ChatUpdateChatroomViewModel extends AndroidViewModel {
         return profileImage;
     }
 
-    public void setIsLoadChatroomSuccess(Result<Chatroom> isLoadChatroomSuccess){
+    public void setIsLoadChatroomSuccess(Result<Chatroom> isLoadChatroomSuccess) {
         this.isLoadChatroomSuccess.setValue(isLoadChatroomSuccess);
     }
 
-    public void setIsUpdateChatroomSuccess(Result<Chatroom> isUpdateChatroomSuccess){
+    public void setIsUpdateChatroomSuccess(Result<Chatroom> isUpdateChatroomSuccess) {
         this.isUpdateChatroomSuccess.setValue(isUpdateChatroomSuccess);
     }
 
-    public void setProfileImage(Uri profileImage, Boolean fromExisting){
+    public void setProfileImage(Uri profileImage, Boolean fromExisting) {
         this.profileImage.setValue(profileImage);
         this.fromExisting = fromExisting;
     }
 
-    public void loadChatroom(Integer chatroomId){
+    public void loadChatroom(Integer chatroomId) {
         chatroomRepository.loadChatroom(chatroomId, this::setIsLoadChatroomSuccess);
     }
 
-    public void updateChatroom(Integer chatroomId, String chatroomName, Context context){
+    public void updateChatroom(Integer chatroomId, String chatroomName, Context context) {
         /*valid check*/
         Chatroom chatroom = new Chatroom();
         chatroom.setName(chatroomName);
-        if(isLoadChatroomSuccess.getValue() == null || isLoadChatroomSuccess.getValue().getValidation() != Validation.CHATROOM_GET_SUCCESS){
+        if (isLoadChatroomSuccess.getValue() == null || isLoadChatroomSuccess.getValue().getValidation() != Validation.CHATROOM_GET_SUCCESS) {
             Result<Chatroom> result = new Result<>(Validation.CHATROOM_NOT_LOADED);
             setIsUpdateChatroomSuccess(result);
             return;
@@ -93,9 +93,9 @@ public class ChatUpdateChatroomViewModel extends AndroidViewModel {
             } catch (ExecutionException | InterruptedException e) {
                 e.printStackTrace();
             }
-        }
-        else if(profileImage.getValue() != null && !fromExisting)
+        } else if (profileImage.getValue() != null && !fromExisting) {
             profileFile = new ImageManager(context).convertUriToFile(profileImage.getValue());
+        }
 
         /*goto repository*/
         chatroomRepository.updateChatroom(chatroomId, chatroom, profileFile, this::setIsUpdateChatroomSuccess);

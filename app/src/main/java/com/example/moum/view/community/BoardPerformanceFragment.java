@@ -1,18 +1,8 @@
 package com.example.moum.view.community;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -23,23 +13,21 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.moum.R;
-import com.example.moum.data.entity.BoardGroupItem;
-import com.example.moum.data.entity.Chatroom;
 import com.example.moum.data.entity.Performance;
-import com.example.moum.data.entity.Team;
-import com.example.moum.databinding.FragmentBoardGroupBinding;
 import com.example.moum.databinding.FragmentBoardPerformanceBinding;
 import com.example.moum.utils.RefreshableFragment;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.utils.WrapContentLinearLayoutManager;
 import com.example.moum.view.auth.InitialActivity;
-import com.example.moum.view.chat.ChatCreateChatroomActivity;
-import com.example.moum.view.chat.adapter.ChatroomAdapter;
-import com.example.moum.view.community.adapter.BoardGroupItemAdapter;
 import com.example.moum.view.community.adapter.BoardPerformanceItemAdapter;
-import com.example.moum.viewmodel.community.BoardGroupViewModel;
 import com.example.moum.viewmodel.community.BoardPerformanceViewModel;
 
 import java.util.ArrayList;
@@ -60,7 +48,7 @@ public class BoardPerformanceFragment extends Fragment implements RefreshableFra
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+            @Nullable Bundle savedInstanceState) {
         viewModel = new ViewModelProvider(this).get(BoardPerformanceViewModel.class);
         binding = FragmentBoardPerformanceBinding.inflate(inflater, container, false);
         context = getContext();
@@ -72,7 +60,7 @@ public class BoardPerformanceFragment extends Fragment implements RefreshableFra
         String username = sharedPreferenceManager.getCache(getString(R.string.user_username_key), "no-memberId");
         Integer id = sharedPreferenceManager.getCache(getString(R.string.user_id_key), -1);
         String name = sharedPreferenceManager.getCache(getString(R.string.user_name_key), "no-memberName");
-        if(accessToken.isEmpty() || accessToken.equals("no-access-token")){
+        if (accessToken.isEmpty() || accessToken.equals("no-access-token")) {
             Toast.makeText(context, "로그인 정보가 없어 초기 페이지로 돌아갑니다.", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(context, InitialActivity.class);
             startActivity(intent);
@@ -94,6 +82,7 @@ public class BoardPerformanceFragment extends Fragment implements RefreshableFra
                     //TODO
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 //TODO
@@ -114,17 +103,15 @@ public class BoardPerformanceFragment extends Fragment implements RefreshableFra
         viewModel.getIsLoadPerformancesSuccess().observe(getViewLifecycleOwner(), isLoadPerformancesSuccess -> {
             Validation validation = isLoadPerformancesSuccess.getValidation();
             List<Performance> loadPerforms = isLoadPerformancesSuccess.getData();
-            if(validation == Validation.PERFORMANCE_LIST_GET_SUCCESS){
+            if (validation == Validation.PERFORMANCE_LIST_GET_SUCCESS) {
                 performances.clear();
                 performances.addAll(loadPerforms);
-                boardPerformanceItemAdapter.notifyItemInserted(performances.size()-1);
+                boardPerformanceItemAdapter.notifyItemInserted(performances.size() - 1);
                 recyclerView.scrollToPosition(0);
                 viewModel.setRecentPageNumber(loadPerforms.size());
-            }
-            else if(validation == Validation.NETWORK_FAILED){
+            } else if (validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else{
+            } else {
                 Log.e(TAG, "공연 게시글을 불러오지 못했습니다.");
                 Toast.makeText(context, "결과를 알 수 없습니다.", Toast.LENGTH_SHORT).show();
             }
@@ -146,7 +133,7 @@ public class BoardPerformanceFragment extends Fragment implements RefreshableFra
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if(!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE && !performances.isEmpty() &&  !isLoading){
+                if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE && !performances.isEmpty() && !isLoading) {
                     isLoading = true;
                     viewModel.loadNextPerformances();
                     handler.postDelayed(() -> isLoading = false, DEBOUNCE_DELAY);
@@ -163,15 +150,13 @@ public class BoardPerformanceFragment extends Fragment implements RefreshableFra
         viewModel.getIsLoadNextPerformancesSuccess().observe(getViewLifecycleOwner(), isLoadNextPerformancesSuccess -> {
             Validation validation = isLoadNextPerformancesSuccess.getValidation();
             List<Performance> loadPerforms = isLoadNextPerformancesSuccess.getData();
-            if(validation == Validation.PERFORMANCE_LIST_GET_SUCCESS){
+            if (validation == Validation.PERFORMANCE_LIST_GET_SUCCESS) {
                 performances.addAll(loadPerforms);
-                boardPerformanceItemAdapter.notifyItemInserted(performances.size()-1);
+                boardPerformanceItemAdapter.notifyItemInserted(performances.size() - 1);
                 viewModel.setRecentPageNumber(loadPerforms.size());
-            }
-            else if(validation == Validation.NETWORK_FAILED){
+            } else if (validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else{
+            } else {
                 Log.e(TAG, "공연 게시글을 불러오지 못했습니다.");
                 Toast.makeText(context, "결과를 알 수 없습니다.", Toast.LENGTH_SHORT).show();
             }
@@ -180,7 +165,7 @@ public class BoardPerformanceFragment extends Fragment implements RefreshableFra
         return root;
     }
 
-    public void onPerformanceClicked(Integer performId){
+    public void onPerformanceClicked(Integer performId) {
         Intent intent = new Intent(context, PerformanceActivity.class);
         intent.putExtra("performId", performId);
         context.startActivity(intent);

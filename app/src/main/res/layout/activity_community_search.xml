@@ -29,7 +29,7 @@
             android:src="@drawable/button_rounded_left"
             app:layout_constraintStart_toStartOf="@+id/toolbar_search"
             app:layout_constraintTop_toTopOf="@+id/toolbar_search"
-            app:layout_constraintBottom_toBottomOf="@+id/toolbar_search"/>
+            app:layout_constraintBottom_toBottomOf="@+id/toolbar_search" />
 
         <ImageButton
             android:id="@+id/search_button2"
@@ -44,7 +44,7 @@
             android:scaleType="centerCrop"
             app:srcCompat="?android:attr/actionModeWebSearchDrawable"
 
-            app:layout_constraintEnd_toEndOf="@+id/toolbar_search"/>
+            app:layout_constraintEnd_toEndOf="@+id/toolbar_search" />
 
 
         <com.google.android.material.textfield.TextInputLayout
@@ -58,8 +58,7 @@
             app:layout_constraintStart_toEndOf="@+id/leftarrow2"
             app:layout_constraintEnd_toStartOf="@+id/search_button2"
             app:layout_constraintTop_toTopOf="@+id/search_button2"
-            app:layout_constraintBottom_toBottomOf="@+id/search_button2"
-            >
+            app:layout_constraintBottom_toBottomOf="@+id/search_button2">
 
             <androidx.appcompat.widget.SearchView
                 android:id="@+id/search_view"
@@ -92,7 +91,7 @@
             android:layout_margin="10dp"
             android:paddingEnd="25dp"
             android:background="@drawable/round_spinner_background"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <Spinner
             android:id="@+id/community_search_spinner2"
@@ -101,7 +100,7 @@
             android:layout_margin="10dp"
             android:paddingEnd="25dp"
             android:background="@drawable/round_spinner_background"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <Spinner
             android:id="@+id/community_search_spinner3"

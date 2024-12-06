@@ -11,8 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.moum.R;
-import com.example.moum.data.entity.Settlement;
-import com.example.moum.view.moum.MoumPaymentActivity;
 import com.example.moum.view.moum.MoumPaymentAddActivity;
 
 public class SettlementCreateDialog extends Dialog {
@@ -25,7 +23,7 @@ public class SettlementCreateDialog extends Dialog {
     private final String TAG = getClass().toString();
     private Context context;
 
-    public SettlementCreateDialog(@NonNull Context context, String settlementName){
+    public SettlementCreateDialog(@NonNull Context context, String settlementName) {
         super(context);
         this.moumPaymentAddActivity = (MoumPaymentAddActivity) context;
         this.settlementName = settlementName;

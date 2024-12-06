@@ -22,11 +22,11 @@ public class MyInformationViewModel extends AndroidViewModel {
         return isLoadMemberProfileSuccess;
     }
 
-    public void setIsLoadMemberProfileSuccess(Result<Member> isLoadMemberProfileSuccess){
+    public void setIsLoadMemberProfileSuccess(Result<Member> isLoadMemberProfileSuccess) {
         this.isLoadMemberProfileSuccess.setValue(isLoadMemberProfileSuccess);
     }
 
-    public void loadMemberProfile(Integer memberId){
+    public void loadMemberProfile(Integer memberId) {
         profileRepository.loadMemberProfile(memberId, this::setIsLoadMemberProfileSuccess);
     }
 }

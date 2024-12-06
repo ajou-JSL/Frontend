@@ -14,7 +14,7 @@ public class ReportFragment extends BottomSheetDialogFragment {
     private final String TAG = getClass().toString();
     private SharedPreferenceManager sharedPreferenceManager;
 
-    public ReportFragment(Context context){
+    public ReportFragment(Context context) {
         this.context = context;
     }
 }

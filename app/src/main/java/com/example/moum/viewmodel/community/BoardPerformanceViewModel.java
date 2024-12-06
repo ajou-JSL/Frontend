@@ -20,7 +20,7 @@ public class BoardPerformanceViewModel extends AndroidViewModel {
     private static Integer page = 0;
     private Integer recentPageNumber = 0;
 
-    public BoardPerformanceViewModel(Application application){
+    public BoardPerformanceViewModel(Application application) {
         super(application);
         performRepository = PerformRepository.getInstance(application);
     }
@@ -37,25 +37,25 @@ public class BoardPerformanceViewModel extends AndroidViewModel {
         this.recentPageNumber = recentPageNumber;
     }
 
-    public void setIsLoadPerformancesSuccess(Result<List<Performance>> isLoadPerformancesSuccess){
+    public void setIsLoadPerformancesSuccess(Result<List<Performance>> isLoadPerformancesSuccess) {
         this.isLoadPerformancesSuccess.setValue(isLoadPerformancesSuccess);
     }
 
-    public void setIsLoadNextPerformancesSuccess(Result<List<Performance>> isLoadNextPerformancesSuccess){
+    public void setIsLoadNextPerformancesSuccess(Result<List<Performance>> isLoadNextPerformancesSuccess) {
         this.isLoadNextPerformancesSuccess.setValue(isLoadNextPerformancesSuccess);
     }
 
-    public void clearPage(){
+    public void clearPage() {
         page = 0;
     }
 
-    public void loadPerformances(){
+    public void loadPerformances() {
         performRepository.loadPerforms(page, LOAD_PERFORM_NUMBER, this::setIsLoadPerformancesSuccess);
         page = page + 1;
     }
 
-    public void loadNextPerformances(){
-        if(recentPageNumber < LOAD_PERFORM_NUMBER) return; //이전에 불러온 이미지들이 LOAD_PERFORM_NUMBER보다 적다면, 그만 불러오기
+    public void loadNextPerformances() {
+        if (recentPageNumber < LOAD_PERFORM_NUMBER) return; //이전에 불러온 이미지들이 LOAD_PERFORM_NUMBER보다 적다면, 그만 불러오기
         performRepository.loadPerforms(page, LOAD_PERFORM_NUMBER, this::setIsLoadNextPerformancesSuccess);
         page = page + 1;
     }

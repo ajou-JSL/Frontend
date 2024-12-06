@@ -9,8 +9,8 @@ import com.example.moum.repository.LoginRepository;
 import com.example.moum.repository.client.RetrofitClientManager;
 import com.example.moum.utils.Validation;
 
-import org.junit.Before;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
@@ -61,8 +61,14 @@ public class LoginRepositoryTest {
         CountDownLatch latch = new CountDownLatch(1);
 
         // Given
-        String access = "eyJhbGciOiJIUzI1NiJ9.eyJjYXRlZ29yeSI6ImFjY2VzcyIsInVzZXJuYW1lIjoidGVzdHVzZXIzIiwicm9sZSI6IlJPTEVfQURNSU4iLCJpYXQiOjE3Mjg5MDM3NDksImV4cCI6MTcyODkwNDM0OX0.ozImUNza_VC3ATdZXbst19DlUARvtEloGH0G-iShaDw";
-        String refresh = "eyJhbGciOiJIUzI1NiJ9.eyJjYXRlZ29yeSI6InJlZnJlc2giLCJ1c2VybmFtZSI6InRlc3R1c2VyMyIsInJvbGUiOiJST0xFX0FETUlOIiwiaWF0IjoxNzI4OTAzNzQ5LCJleHAiOjE3Mjg5OTAxNDl9.KY5BNqBEe8lfaZZ76pTvgxK5wlt7BPVfpuuoE2We7pQ";
+        String access =
+                "eyJhbGciOiJIUzI1NiJ9"
+                        +
+                        ".eyJjYXRlZ29yeSI6ImFjY2VzcyIsInVzZXJuYW1lIjoidGVzdHVzZXIzIiwicm9sZSI6IlJPTEVfQURNSU4iLCJpYXQiOjE3Mjg5MDM3NDksImV4cCI6MTcyODkwNDM0OX0.ozImUNza_VC3ATdZXbst19DlUARvtEloGH0G-iShaDw";
+        String refresh =
+                "eyJhbGciOiJIUzI1NiJ9"
+                        +
+                        ".eyJjYXRlZ29yeSI6InJlZnJlc2giLCJ1c2VybmFtZSI6InRlc3R1c2VyMyIsInJvbGUiOiJST0xFX0FETUlOIiwiaWF0IjoxNzI4OTAzNzQ5LCJleHAiOjE3Mjg5OTAxNDl9.KY5BNqBEe8lfaZZ76pTvgxK5wlt7BPVfpuuoE2We7pQ";
         String mockResponse = "{ \"status\": 200, \"code\": \"0000\", \"message\": \"로그인 되었습니다.\", \"data\": \"testuser\"}";
         mockWebServer.enqueue(new MockResponse()
                 .setResponseCode(200)
@@ -105,9 +111,9 @@ public class LoginRepositoryTest {
         // When
         loginRepository.login("test@example.com", "asdfg1345!", result -> {
 
-            try{
+            try {
                 assertEquals(Validation.LOGIN_FAILED, result.getValidation());
-            }finally {
+            } finally {
                 latch.countDown();
             }
         });
@@ -133,9 +139,9 @@ public class LoginRepositoryTest {
         // When
         loginRepository.login("test@example.com", "asdfg1345!", result -> {
 
-            try{
+            try {
                 assertEquals(Validation.NETWORK_FAILED, result.getValidation());
-            }finally {
+            } finally {
                 latch.countDown();
             }
         });

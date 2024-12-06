@@ -3,32 +3,20 @@ package com.example.moum.view.community.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.moum.R;
 import com.example.moum.data.dto.MemberProfileRankResponse;
-import com.example.moum.data.entity.BoardGroupItem;
-import com.example.moum.data.entity.Member;
-import com.example.moum.data.entity.Performance;
-import com.example.moum.utils.ImageManager;
-import com.example.moum.utils.TimeManager;
 import com.example.moum.view.community.BoardMemberFragment;
-import com.example.moum.view.community.BoardPerformanceFragment;
-import com.example.moum.view.profile.TeamProfileFragment;
 
 import java.util.ArrayList;
 
@@ -65,7 +53,7 @@ public class BoardMemberItemAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         return members.size();
     }
 
-    static class BoardMemberItemViewModel extends RecyclerView.ViewHolder{
+    static class BoardMemberItemViewModel extends RecyclerView.ViewHolder {
         private MemberProfileRankResponse member;
         private TextView memberName;
         private TextView memberDescription;
@@ -86,31 +74,28 @@ public class BoardMemberItemAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         @SuppressLint("DefaultLocale")
         @RequiresApi(api = Build.VERSION_CODES.O)
-        public void bind(MemberProfileRankResponse member){
+        public void bind(MemberProfileRankResponse member) {
             this.member = member;
-            if(member.getMemberName() != null) memberName.setText(member.getMemberName());
-            if(member.getMemberUsername() != null) memberDescription.setText(member.getMemberUsername());
-            if(member.getExp() != null) memberExp.setText(String.format("%d",member.getExp()));
-            if(member.getFileUrl() != null)
+            if (member.getMemberName() != null) memberName.setText(member.getMemberName());
+            if (member.getMemberUsername() != null) memberDescription.setText(member.getMemberUsername());
+            if (member.getExp() != null) memberExp.setText(String.format("%d", member.getExp()));
+            if (member.getFileUrl() != null) {
                 Glide.with(context)
                         .applyDefaultRequestOptions(new RequestOptions()
-                        .placeholder(R.drawable.background_circle_gray_size_fit)
-                        .error(R.drawable.background_circle_gray_size_fit))
+                                .placeholder(R.drawable.background_circle_gray_size_fit)
+                                .error(R.drawable.background_circle_gray_size_fit))
                         .load(member.getFileUrl()).into(memberImage);
+            }
             int color = context.getColor(R.color.bronze);
-            if(member.getTier().equals("BRONZE")){
+            if (member.getTier().equals("BRONZE")) {
                 color = context.getColor(R.color.bronze);
-            }
-            else if(member.getTier().equals("SILVER")){
+            } else if (member.getTier().equals("SILVER")) {
                 color = context.getColor(R.color.silver);
-            }
-            else if(member.getTier().equals("GOLD")){
+            } else if (member.getTier().equals("GOLD")) {
                 color = context.getColor(R.color.gold);
-            }
-            else if(member.getTier().equals("PLATINUM")){
+            } else if (member.getTier().equals("PLATINUM")) {
                 color = context.getColor(R.color.platinum);
-            }
-            else if(member.getTier().equals("DIAMOND")){
+            } else if (member.getTier().equals("DIAMOND")) {
                 color = context.getColor(R.color.diamond);
             }
             memberImage.setBorderWidth(3);

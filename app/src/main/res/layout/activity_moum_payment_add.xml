@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/MoumPaymentAddActivity"
     tools:context=".view.moum.MoumPaymentAddActivity">
+
     <data>
         <!-- ViewModel을 위한 variable 정의 -->
         <variable
             name="viewModel"
             type="com.example.moum.viewmodel.moum.MoumPaymentAddViewModel" />
     </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraint_chat_top"
             android:layout_width="match_parent"
@@ -39,14 +41,14 @@
                     android:id="@+id/button_return"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/button_rounded_left"
-                    />
+                    android:src="@drawable/button_rounded_left" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_marginStart="15dp">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -55,10 +57,12 @@
                         android:textColor="@color/gray7"
                         android:textSize="14sp" />
                 </LinearLayout>
+
                 <View
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1" />
+
                 <TextView
                     android:id="@+id/button_next"
                     android:layout_width="wrap_content"
@@ -67,7 +71,7 @@
                     android:fontFamily="@font/noto_sans_kr_semibold"
                     android:textColor="@color/gray7"
                     android:textSize="14sp"
-                    android:clickable="true"/>
+                    android:clickable="true" />
             </LinearLayout>
 
             <LinearLayout
@@ -78,6 +82,7 @@
                 android:layout_marginRight="25dp"
                 android:layout_marginTop="25dp"
                 app:layout_constraintTop_toBottomOf="@id/headerLayout">
+
                 <TextView
                     android:textColor="@color/gray4"
                     android:textSize="14sp"
@@ -86,13 +91,14 @@
                     android:text="정산 정보 입력"
                     android:gravity="bottom"
                     android:layout_gravity="bottom"
-                    android:fontFamily="@font/noto_sans_kr_bold"
-                    />
+                    android:fontFamily="@font/noto_sans_kr_bold" />
+
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="3dp"
                     android:src="@drawable/background_rounded_gray"
-                    android:layout_marginBottom="20dp"/>
+                    android:layout_marginBottom="20dp" />
+
                 <LinearLayout
                     android:id="@+id/chat_create_chatroom_form"
                     android:layout_width="match_parent"
@@ -105,12 +111,14 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:layout_marginBottom="15dp">
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
                             android:orientation="horizontal"
                             android:layout_gravity="bottom">
+
                             <TextView
                                 android:textColor="@color/gray4"
                                 android:textSize="14sp"
@@ -118,8 +126,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_width="wrap_content"
                                 android:text="내역 이름*"
-                                android:fontFamily="@font/noto_sans_kr_regular"
-                                />
+                                android:fontFamily="@font/noto_sans_kr_regular" />
+
                             <TextView
                                 android:id="@+id/error_payment_name"
                                 android:textColor="@color/red"
@@ -128,9 +136,9 @@
                                 android:layout_height="wrap_content"
                                 android:layout_width="match_parent"
                                 android:text=""
-                                android:layout_gravity="center_vertical"
-                                />
+                                android:layout_gravity="center_vertical" />
                         </LinearLayout>
+
                         <LinearLayout
                             android:id="@+id/placeholder_payment_name"
                             android:layout_width="match_parent"
@@ -139,8 +147,8 @@
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
                             android:paddingTop="10dp"
-                            android:paddingBottom="5dp"
-                            >
+                            android:paddingBottom="5dp">
+
                             <EditText
                                 android:id="@+id/edittext_payment_name"
                                 android:layout_width="match_parent"
@@ -154,21 +162,23 @@
                                 android:gravity="center_vertical"
                                 android:focusable="true"
                                 android:focusableInTouchMode="true"
-                                android:text="@={viewModel.settlement.settlementName}"
-                                />
+                                android:text="@={viewModel.settlement.settlementName}" />
                         </LinearLayout>
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:layout_marginBottom="15dp">
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
                             android:orientation="horizontal"
                             android:layout_gravity="bottom">
+
                             <TextView
                                 android:textColor="@color/gray4"
                                 android:textSize="14sp"
@@ -176,8 +186,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_width="wrap_content"
                                 android:text="금액*"
-                                android:fontFamily="@font/noto_sans_kr_regular"
-                                />
+                                android:fontFamily="@font/noto_sans_kr_regular" />
+
                             <TextView
                                 android:id="@+id/error_amount"
                                 android:textColor="@color/red"
@@ -186,9 +196,9 @@
                                 android:layout_height="wrap_content"
                                 android:layout_width="match_parent"
                                 android:text=""
-                                android:layout_gravity="center_vertical"
-                                />
+                                android:layout_gravity="center_vertical" />
                         </LinearLayout>
+
                         <LinearLayout
                             android:id="@+id/placeholder_amount"
                             android:layout_width="match_parent"
@@ -197,8 +207,8 @@
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
                             android:paddingTop="10dp"
-                            android:paddingBottom="5dp"
-                            >
+                            android:paddingBottom="5dp">
+
                             <EditText
                                 android:id="@+id/edittext_amount"
                                 android:layout_width="match_parent"
@@ -212,8 +222,7 @@
                                 android:gravity="center_vertical"
                                 android:focusable="true"
                                 android:focusableInTouchMode="true"
-                                android:text="@={viewModel.settlement.fee}"
-                                />
+                                android:text="@={viewModel.settlement.fee}" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>

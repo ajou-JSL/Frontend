@@ -2,25 +2,12 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <layer-list>
-            <item
-                android:drawable="@drawable/background_rounded_gray_stroke">
-                <padding
-                    android:top="6dp"
-                    android:bottom="6dp"
-                    android:right="10dp"/>
+            <item android:drawable="@drawable/background_rounded_gray_stroke">
+                <padding android:top="6dp" android:bottom="6dp" android:right="10dp" />
             </item>
             <item>
-                <inset
-                    android:insetLeft="0dp"
-                    android:insetTop="0dp"
-                    android:insetRight="10dp"
-                    android:insetBottom="0dp">
-                <bitmap
-                    android:gravity="center|end"
-                    android:src="@drawable/icon_angle_down"
-                    android:alpha="0.3"
-                    android:width="24dp"
-                    android:height="24dp"/>
+                <inset android:insetLeft="0dp" android:insetTop="0dp" android:insetRight="10dp" android:insetBottom="0dp">
+                    <bitmap android:gravity="center|end" android:src="@drawable/icon_angle_down" android:alpha="0.3" android:width="24dp" android:height="24dp" />
                 </inset>
             </item>
         </layer-list>

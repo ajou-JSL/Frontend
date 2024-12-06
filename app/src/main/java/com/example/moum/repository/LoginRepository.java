@@ -1,11 +1,9 @@
 package com.example.moum.repository;
 
 import android.app.Application;
-import android.health.connect.datatypes.AppInfo;
 import android.util.Log;
 
 import com.example.moum.data.api.LoginApi;
-import com.example.moum.data.dto.ErrorDetail;
 import com.example.moum.data.dto.ErrorResponse;
 import com.example.moum.data.dto.SuccessResponse;
 import com.example.moum.data.entity.Member;
@@ -44,7 +42,7 @@ public class LoginRepository {
         authLoginApi = authRetrofitClient.create(LoginApi.class);
     }
 
-    public LoginRepository(Retrofit retrofitClient, LoginApi loginApi){
+    public LoginRepository(Retrofit retrofitClient, LoginApi loginApi) {
         retrofitClientManager.setBaseUrl(BaseUrl.BASIC_SERVER_PATH.getUrl());
         this.retrofitClient = retrofitClient;
         this.loginApi = loginApi;
@@ -92,6 +90,7 @@ public class LoginRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<Member>> call, Throwable t) {
                 Result<Token> result = new Result<Token>(Validation.NETWORK_FAILED);
@@ -129,6 +128,7 @@ public class LoginRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<Member>> call, Throwable t) {
                 Result<Member> result = new Result<>(Validation.NETWORK_FAILED);

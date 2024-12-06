@@ -33,14 +33,15 @@ public class AuthInterceptor implements Interceptor {
     private SharedPreferenceManager sharedPreferenceManager;
     RetrofitClientManager retrofitClientManager;
 
-    public AuthInterceptor(Context context){
+    public AuthInterceptor(Context context) {
         this.context = context;
         this.sharedPreferenceManager = new SharedPreferenceManager(context, context.getString(R.string.preference_file_key));
         this.accessToken = sharedPreferenceManager.getCache(context.getString(R.string.user_access_token_key), "no-access-token");
         this.refreshToken = sharedPreferenceManager.getCache(context.getString(R.string.user_refresh_token_key), "no-refresh-token");
         this.retrofitClientManager = new RetrofitClientManager();
         retrofitClientManager.setBaseUrl(BaseUrl.BASIC_SERVER_PATH.getUrl());
-        Log.e(TAG, "AuthInterceptor 초기화 시 acccessToken값: " + sharedPreferenceManager.getCache(context.getString(R.string.user_access_token_key), "no-access-token"));
+        Log.e(TAG, "AuthInterceptor 초기화 시 acccessToken값: " + sharedPreferenceManager.getCache(context.getString(R.string.user_access_token_key),
+                "no-access-token"));
     }
 
     @NonNull
@@ -65,8 +66,8 @@ public class AuthInterceptor implements Interceptor {
 
         Response response = chain.proceed(newRequest);
 
-        if(response.code() == CODE_TOKEN_EXPIRATION){
-            synchronized (this){
+        if (response.code() == CODE_TOKEN_EXPIRATION) {
+            synchronized (this) {
 
                 Log.e(TAG, "Refresh token request start");
 

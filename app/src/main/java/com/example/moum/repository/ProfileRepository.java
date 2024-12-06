@@ -7,8 +7,6 @@ import android.util.Log;
 import androidx.annotation.RequiresApi;
 
 import com.example.moum.data.api.ProfileApi;
-import com.example.moum.data.api.TeamApi;
-import com.example.moum.data.dto.ChatErrorResponse;
 import com.example.moum.data.dto.ErrorResponse;
 import com.example.moum.data.dto.MemberProfileRankResponse;
 import com.example.moum.data.dto.MemberProfileUpdateRequest;
@@ -16,7 +14,6 @@ import com.example.moum.data.dto.SuccessResponse;
 import com.example.moum.data.entity.Content;
 import com.example.moum.data.entity.Member;
 import com.example.moum.data.entity.Result;
-import com.example.moum.data.entity.Team;
 import com.example.moum.repository.client.BaseUrl;
 import com.example.moum.repository.client.RetrofitClientManager;
 import com.example.moum.utils.Validation;
@@ -47,7 +44,7 @@ public class ProfileRepository {
         profileApi = retrofitClient.create(ProfileApi.class);
     }
 
-    public ProfileRepository(RetrofitClientManager retrofitClientManager, ProfileApi profileApi){
+    public ProfileRepository(RetrofitClientManager retrofitClientManager, ProfileApi profileApi) {
         this.retrofitClientManager = retrofitClientManager;
         this.retrofitClient = retrofitClientManager.getClient();
         this.profileApi = profileApi;
@@ -61,7 +58,7 @@ public class ProfileRepository {
         return instance;
     }
 
-    public void loadMemberProfile(Integer targetMemberId, com.example.moum.utils.Callback<Result<Member>> callback){
+    public void loadMemberProfile(Integer targetMemberId, com.example.moum.utils.Callback<Result<Member>> callback) {
         Call<SuccessResponse<Member>> result = profileApi.loadMemberProfile(targetMemberId);
         result.enqueue(new retrofit2.Callback<SuccessResponse<Member>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -76,8 +73,7 @@ public class ProfileRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<Member> result = new Result<>(validation, member);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -92,6 +88,7 @@ public class ProfileRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<Member>> call, Throwable t) {
                 Result<Member> result = new Result<>(Validation.NETWORK_FAILED);
@@ -100,18 +97,19 @@ public class ProfileRepository {
         });
     }
 
-    public void updateMemberProfile(Integer memberId, File file, Member updatedMember, com.example.moum.utils.Callback<Result<Member>> callback){
+    public void updateMemberProfile(Integer memberId, File file, Member updatedMember, com.example.moum.utils.Callback<Result<Member>> callback) {
         /*processing into DTO*/
         MultipartBody.Part profileImage = null;
-        if(file != null){
+        if (file != null) {
             RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpg"), file);
             profileImage = MultipartBody.Part.createFormData("file", "temp_image.jpg", requestFile);
-        }
-        else{
+        } else {
             RequestBody emptyRequestBody = RequestBody.create(null, new byte[0]);
             profileImage = MultipartBody.Part.createFormData("file", null, emptyRequestBody);
         }
-        MemberProfileUpdateRequest request = new MemberProfileUpdateRequest(updatedMember.getName(), updatedMember.getUsername(), updatedMember.getProfileDescription(), updatedMember.getEmail(), updatedMember.getProficiency(), updatedMember.getInstrument(), updatedMember.getAddress(), updatedMember.getMemberRecords(), updatedMember.getGenres(), updatedMember.getVideoUrl());
+        MemberProfileUpdateRequest request = new MemberProfileUpdateRequest(updatedMember.getName(), updatedMember.getUsername(),
+                updatedMember.getProfileDescription(), updatedMember.getEmail(), updatedMember.getProficiency(), updatedMember.getInstrument(),
+                updatedMember.getAddress(), updatedMember.getMemberRecords(), updatedMember.getGenres(), updatedMember.getVideoUrl());
         Call<SuccessResponse<Member>> result = profileApi.updateMemberProfile(memberId, profileImage, request);
         result.enqueue(new retrofit2.Callback<SuccessResponse<Member>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -126,8 +124,7 @@ public class ProfileRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<Member> result = new Result<>(validation, member);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -142,6 +139,7 @@ public class ProfileRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<Member>> call, Throwable t) {
                 Result<Member> result = new Result<>(Validation.NETWORK_FAILED);
@@ -150,12 +148,13 @@ public class ProfileRepository {
         });
     }
 
-    public void loadMembersByRank(Integer page, Integer size, com.example.moum.utils.Callback<Result<List<MemberProfileRankResponse>>> callback){
+    public void loadMembersByRank(Integer page, Integer size, com.example.moum.utils.Callback<Result<List<MemberProfileRankResponse>>> callback) {
         Call<SuccessResponse<Content<List<MemberProfileRankResponse>>>> result = profileApi.loadMembersByRank(page, size);
         result.enqueue(new retrofit2.Callback<SuccessResponse<Content<List<MemberProfileRankResponse>>>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
-            public void onResponse(Call<SuccessResponse<Content<List<MemberProfileRankResponse>>>> call, Response<SuccessResponse<Content<List<MemberProfileRankResponse>>>> response) {
+            public void onResponse(Call<SuccessResponse<Content<List<MemberProfileRankResponse>>>> call,
+                    Response<SuccessResponse<Content<List<MemberProfileRankResponse>>>> response) {
                 if (response.isSuccessful()) {
                     /*성공적으로 응답을 받았을 때*/
                     SuccessResponse<Content<List<MemberProfileRankResponse>>> responseBody = response.body();
@@ -165,8 +164,7 @@ public class ProfileRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<List<MemberProfileRankResponse>> result = new Result<>(validation, members);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -181,6 +179,7 @@ public class ProfileRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<Content<List<MemberProfileRankResponse>>>> call, Throwable t) {
                 Result<List<MemberProfileRankResponse>> result = new Result<>(Validation.NETWORK_FAILED);

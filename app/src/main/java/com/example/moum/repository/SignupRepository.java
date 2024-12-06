@@ -43,12 +43,14 @@ public class SignupRepository {
         signupApi = retrofitClient.create(SignupApi.class);
         authSignupApi = authRetrofitClient.create(SignupApi.class);
     }
-    public SignupRepository(Retrofit retrofitClient, SignupApi signupApi){
+
+    public SignupRepository(Retrofit retrofitClient, SignupApi signupApi) {
         //TODO 테스트용
         this.retrofitClient = retrofitClient;
         retrofitClientManager.setBaseUrl(BaseUrl.BASIC_SERVER_PATH.getUrl());
         this.signupApi = signupApi;
     }
+
     public static SignupRepository getInstance(Application application) {
         if (instance == null) {
             instance = new SignupRepository(application);
@@ -86,6 +88,7 @@ public class SignupRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<String>> call, Throwable t) {
                 /*요청과 응답에 실패했을 때*/
@@ -125,6 +128,7 @@ public class SignupRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<String>> call, Throwable t) {
                 Result<Object> result = new Result<>(Validation.NETWORK_FAILED);
@@ -136,26 +140,25 @@ public class SignupRepository {
     public void signup(SignupUser signupUser, com.example.moum.utils.Callback<Result<Object>> callback) {
 
         SignupRequest signupRequest = new SignupRequest(
-            signupUser.getUsername(),
-            signupUser.getPassword(),
-            signupUser.getEmail(),
-            signupUser.getName(),
-            signupUser.getProfileDescription(),
-            signupUser.getInstrument(),
-            signupUser.getProficiency(),
-            signupUser.getAddress(),
-            signupUser.getEmailCode(),
-            signupUser.getRecords(),
-            signupUser.getVideoUrl(),
-            signupUser.getGenres()
+                signupUser.getUsername(),
+                signupUser.getPassword(),
+                signupUser.getEmail(),
+                signupUser.getName(),
+                signupUser.getProfileDescription(),
+                signupUser.getInstrument(),
+                signupUser.getProficiency(),
+                signupUser.getAddress(),
+                signupUser.getEmailCode(),
+                signupUser.getRecords(),
+                signupUser.getVideoUrl(),
+                signupUser.getGenres()
         );
 
         MultipartBody.Part profileImage = null;
-        if(signupUser.getProfileImage() != null){
+        if (signupUser.getProfileImage() != null) {
             RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpg"), signupUser.getProfileImage());
             profileImage = MultipartBody.Part.createFormData("profileImage", signupUser.getProfileImage().getName(), requestFile);
-        }
-        else{
+        } else {
             profileImage = MultipartBody.Part.createFormData("file", null, null);
         }
 
@@ -185,6 +188,7 @@ public class SignupRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<String>> call, Throwable t) {
                 Result<Object> result = new Result<>(Validation.NETWORK_FAILED);
@@ -220,6 +224,7 @@ public class SignupRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<Member>> call, Throwable t) {
                 Result<Member> result = new Result<>(Validation.NETWORK_FAILED);

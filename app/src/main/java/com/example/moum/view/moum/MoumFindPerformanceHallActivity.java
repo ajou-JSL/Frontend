@@ -11,8 +11,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,25 +19,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.FragmentResultListener;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moum.R;
 import com.example.moum.data.dto.SearchPerformHallArgs;
 import com.example.moum.data.entity.PerformanceHall;
-import com.example.moum.data.entity.Practiceroom;
 import com.example.moum.databinding.ActivityMoumFindPerformancehallBinding;
-import com.example.moum.databinding.ActivityMoumFindPracticeroomBinding;
 import com.example.moum.utils.PermissionManager;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.utils.WrapContentLinearLayoutManager;
 import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.view.moum.adapter.MoumPerformanceHallAdapter;
-import com.example.moum.view.moum.adapter.MoumPracticeroomAdapter;
-import com.example.moum.view.profile.TeamProfileFragment;
 import com.example.moum.viewmodel.moum.MoumFindPerformanceHallViewModel;
-import com.example.moum.viewmodel.moum.MoumFindPracticeroomViewModel;
 import com.naver.maps.geometry.LatLng;
 
 import java.util.ArrayList;
@@ -77,7 +69,7 @@ public class MoumFindPerformanceHallActivity extends AppCompatActivity {
         teamId = prevIntent.getIntExtra("teamId", -1);
         moumId = prevIntent.getIntExtra("moumId", -1);
         leaderId = prevIntent.getIntExtra("leaderId", -1);
-        if(teamId == -1 || moumId == -1 || leaderId == -1){
+        if (teamId == -1 || moumId == -1 || leaderId == -1) {
             Toast.makeText(context, "잘못된 접근입니다.", Toast.LENGTH_SHORT).show();
             finish();
         }
@@ -87,7 +79,7 @@ public class MoumFindPerformanceHallActivity extends AppCompatActivity {
         String accessToken = sharedPreferenceManager.getCache(getString(R.string.user_access_token_key), "no-access-token");
         String username = sharedPreferenceManager.getCache(getString(R.string.user_username_key), "no-memberId");
         memberId = sharedPreferenceManager.getCache(getString(R.string.user_id_key), -1);
-        if(accessToken.isEmpty() || accessToken.equals("no-access-token")){
+        if (accessToken.isEmpty() || accessToken.equals("no-access-token")) {
             Toast.makeText(context, "로그인 정보가 없어 초기 페이지로 돌아갑니다.", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(context, InitialActivity.class);
             startActivity(intent);
@@ -109,24 +101,24 @@ public class MoumFindPerformanceHallActivity extends AppCompatActivity {
                 PerformanceHallFilterFragment performanceHallFilterFragment = new PerformanceHallFilterFragment(context);
                 SearchPerformHallArgs args = viewModel.getArgs();
                 Bundle bundle = new Bundle();
-                if(args.getSortBy() != null) bundle.putString("sortBy", args.getSortBy());
-                if(args.getOrderBy() != null) bundle.putString("orderBy", args.getOrderBy());
-                if(args.getName() != null) bundle.putString("name", args.getName());
-                if(args.getLatitude() != null) bundle.putDouble("latitude", args.getLatitude());
-                if(args.getLongitude() != null) bundle.putDouble("longitude", args.getLongitude());
-                if(args.getMinPrice() != null) bundle.putInt("minPrice", args.getMinPrice());
-                if(args.getMaxPrice() != null) bundle.putInt("maxPrice", args.getMaxPrice());
-                if(args.getMaxHallSize() != null) bundle.putInt("maxHallSize", args.getMaxHallSize());
-                if(args.getMinHallSize() != null) bundle.putInt("minHallSize", args.getMinHallSize());
-                if(args.getMinCapacity() != null) bundle.putInt("minCapacity", args.getMinCapacity());
-                if(args.getMaxCapacity() != null) bundle.putInt("maxCapacity", args.getMaxCapacity());
-                if(args.getMinStand() != null) bundle.putInt("minStand", args.getMinStand());
-                if(args.getMaxStand() != null) bundle.putInt("maxStand", args.getMaxStand());
-                if(args.getHasPiano() != null) bundle.putBoolean("hasPiano", args.getHasPiano());
-                if(args.getHasAmp() != null) bundle.putBoolean("hasAmp", args.getHasAmp());
-                if(args.getHasSpeaker() != null) bundle.putBoolean("hasSpeaker", args.getHasSpeaker());
-                if(args.getHasMic() != null) bundle.putBoolean("hasMic", args.getHasMic());
-                if(args.getHasDrums() != null) bundle.putBoolean("hasDrums", args.getHasDrums());
+                if (args.getSortBy() != null) bundle.putString("sortBy", args.getSortBy());
+                if (args.getOrderBy() != null) bundle.putString("orderBy", args.getOrderBy());
+                if (args.getName() != null) bundle.putString("name", args.getName());
+                if (args.getLatitude() != null) bundle.putDouble("latitude", args.getLatitude());
+                if (args.getLongitude() != null) bundle.putDouble("longitude", args.getLongitude());
+                if (args.getMinPrice() != null) bundle.putInt("minPrice", args.getMinPrice());
+                if (args.getMaxPrice() != null) bundle.putInt("maxPrice", args.getMaxPrice());
+                if (args.getMaxHallSize() != null) bundle.putInt("maxHallSize", args.getMaxHallSize());
+                if (args.getMinHallSize() != null) bundle.putInt("minHallSize", args.getMinHallSize());
+                if (args.getMinCapacity() != null) bundle.putInt("minCapacity", args.getMinCapacity());
+                if (args.getMaxCapacity() != null) bundle.putInt("maxCapacity", args.getMaxCapacity());
+                if (args.getMinStand() != null) bundle.putInt("minStand", args.getMinStand());
+                if (args.getMaxStand() != null) bundle.putInt("maxStand", args.getMaxStand());
+                if (args.getHasPiano() != null) bundle.putBoolean("hasPiano", args.getHasPiano());
+                if (args.getHasAmp() != null) bundle.putBoolean("hasAmp", args.getHasAmp());
+                if (args.getHasSpeaker() != null) bundle.putBoolean("hasSpeaker", args.getHasSpeaker());
+                if (args.getHasMic() != null) bundle.putBoolean("hasMic", args.getHasMic());
+                if (args.getHasDrums() != null) bundle.putBoolean("hasDrums", args.getHasDrums());
                 performanceHallFilterFragment.setArguments(bundle);
                 performanceHallFilterFragment.show(getSupportFragmentManager(), performanceHallFilterFragment.getTag());
             }
@@ -147,26 +139,31 @@ public class MoumFindPerformanceHallActivity extends AppCompatActivity {
                 args.setMaxCapacity(result.getInt("maxCapacity", -1));
                 args.setMinStand(result.getInt("minStand", -1));
                 args.setMaxStand(result.getInt("maxStand", -1));
-                if (result.containsKey("hasPiano"))
+                if (result.containsKey("hasPiano")) {
                     args.setHasPiano(result.getBoolean("hasPiano"));
-                else
+                } else {
                     args.setHasPiano(null);
-                if (result.containsKey("hasAmp"))
+                }
+                if (result.containsKey("hasAmp")) {
                     args.setHasAmp(result.getBoolean("hasAmp"));
-                else
+                } else {
                     args.setHasAmp(null);
-                if (result.containsKey("hasSpeaker"))
+                }
+                if (result.containsKey("hasSpeaker")) {
                     args.setHasSpeaker(result.getBoolean("hasSpeaker"));
-                else
+                } else {
                     args.setHasSpeaker(null);
-                if (result.containsKey("hasMic"))
+                }
+                if (result.containsKey("hasMic")) {
                     args.setHasMic(result.getBoolean("hasMic"));
-                else
+                } else {
                     args.setHasMic(null);
-                if (result.containsKey("hasDrums"))
+                }
+                if (result.containsKey("hasDrums")) {
                     args.setHasDrums(result.getBoolean("hasDrums"));
-                else
+                } else {
                     args.setHasDrums(null);
+                }
                 viewModel.queryPerformanceHallWithArgs(args);
             }
         });
@@ -186,19 +183,16 @@ public class MoumFindPerformanceHallActivity extends AppCompatActivity {
         viewModel.getIsLoadPerformanceHallSuccess().observe(this, isLoadPerformanceHallSuccess -> {
             Validation validation = isLoadPerformanceHallSuccess.getValidation();
             List<PerformanceHall> loadedPerformanceHalls = isLoadPerformanceHallSuccess.getData();
-            if(validation == Validation.PERFORMANCE_HALL_GET_SUCCESS && !loadedPerformanceHalls.isEmpty()) {
+            if (validation == Validation.PERFORMANCE_HALL_GET_SUCCESS && !loadedPerformanceHalls.isEmpty()) {
                 performanceHalls.clear();
                 performanceHalls.addAll(loadedPerformanceHalls);
-                moumPerformanceHallAdapter.notifyItemInserted(performanceHalls.size()-1);
+                moumPerformanceHallAdapter.notifyItemInserted(performanceHalls.size() - 1);
                 viewModel.setRecentPageNumber(loadedPerformanceHalls.size());
-            }
-            else if(validation == Validation.PERFORMANCE_HALL_GET_SUCCESS){
+            } else if (validation == Validation.PERFORMANCE_HALL_GET_SUCCESS) {
                 Toast.makeText(context, "등록된 공연장이 없습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(validation == Validation.NETWORK_FAILED) {
+            } else if (validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else{
+            } else {
                 Toast.makeText(context, "공연장 불러오기에 실패하였습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "감시 결과를 알 수 없습니다.");
             }
@@ -211,14 +205,15 @@ public class MoumFindPerformanceHallActivity extends AppCompatActivity {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if(!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE &&  !isLoading){
-                    if(performanceHalls.isEmpty())
+                if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE && !isLoading) {
+                    if (performanceHalls.isEmpty()) {
                         return;
-                    if(viewModel.isQuerying()){
+                    }
+                    if (viewModel.isQuerying()) {
                         isLoading = true;
                         viewModel.queryNextPerformanceHall();
                         handler.postDelayed(() -> isLoading = false, DEBOUNCE_DELAY);
-                    }else{
+                    } else {
                         isLoading = true;
                         viewModel.loadNextPerformanceHall();
                         handler.postDelayed(() -> isLoading = false, DEBOUNCE_DELAY);
@@ -226,6 +221,7 @@ public class MoumFindPerformanceHallActivity extends AppCompatActivity {
 
                 }
             }
+
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -236,17 +232,14 @@ public class MoumFindPerformanceHallActivity extends AppCompatActivity {
         viewModel.getIsLoadNextPerformanceHallSuccess().observe(this, isLoadNextPerformanceHallSuccess -> {
             Validation validation = isLoadNextPerformanceHallSuccess.getValidation();
             List<PerformanceHall> loadedPerformanceHalls = isLoadNextPerformanceHallSuccess.getData();
-            if(validation == Validation.PERFORMANCE_HALL_GET_SUCCESS && !loadedPerformanceHalls.isEmpty()) {
+            if (validation == Validation.PERFORMANCE_HALL_GET_SUCCESS && !loadedPerformanceHalls.isEmpty()) {
                 performanceHalls.addAll(loadedPerformanceHalls);
-                moumPerformanceHallAdapter.notifyItemInserted(performanceHalls.size()-1);
+                moumPerformanceHallAdapter.notifyItemInserted(performanceHalls.size() - 1);
                 viewModel.setRecentPageNumber(loadedPerformanceHalls.size());
-            }
-            else if(validation == Validation.PERFORMANCE_HALL_GET_SUCCESS){
-            }
-            else if(validation == Validation.NETWORK_FAILED) {
+            } else if (validation == Validation.PERFORMANCE_HALL_GET_SUCCESS) {
+            } else if (validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else{
+            } else {
                 Toast.makeText(context, "다음 연습실 불러오기에 실패하였습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "감시 결과를 알 수 없습니다.");
             }
@@ -270,16 +263,14 @@ public class MoumFindPerformanceHallActivity extends AppCompatActivity {
         viewModel.getIsQueryPerformanceHallSuccess().observe(this, isQueryPerformanceHallSuccess -> {
             Validation validation = isQueryPerformanceHallSuccess.getValidation();
             List<PerformanceHall> loadedPerformanceHalls = isQueryPerformanceHallSuccess.getData();
-            if(validation == Validation.PERFORMANCE_HALL_GET_SUCCESS) {
+            if (validation == Validation.PERFORMANCE_HALL_GET_SUCCESS) {
                 performanceHalls.clear();
                 performanceHalls.addAll(loadedPerformanceHalls);
                 moumPerformanceHallAdapter.notifyDataSetChanged();
                 viewModel.setRecentPageNumber(loadedPerformanceHalls.size());
-            }
-            else if(validation == Validation.NETWORK_FAILED) {
+            } else if (validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else{
+            } else {
                 Toast.makeText(context, "검색에 실패하였습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "감시 결과를 알 수 없습니다.");
             }
@@ -289,22 +280,20 @@ public class MoumFindPerformanceHallActivity extends AppCompatActivity {
         viewModel.getIsQueryNextPerformanceHallSuccess().observe(this, isQueryNextPerformanceHallSuccess -> {
             Validation validation = isQueryNextPerformanceHallSuccess.getValidation();
             List<PerformanceHall> loadedPerformanceHalls = isQueryNextPerformanceHallSuccess.getData();
-            if(validation == Validation.PERFORMANCE_HALL_GET_SUCCESS) {
+            if (validation == Validation.PERFORMANCE_HALL_GET_SUCCESS) {
                 performanceHalls.addAll(loadedPerformanceHalls);
                 moumPerformanceHallAdapter.notifyDataSetChanged();
                 viewModel.setRecentPageNumber(loadedPerformanceHalls.size());
-            }
-            else if(validation == Validation.NETWORK_FAILED) {
+            } else if (validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else{
+            } else {
                 Toast.makeText(context, "검색에 실패하였습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "감시 결과를 알 수 없습니다.");
             }
         });
     }
 
-    public void onPerformanceHallClicked(Integer performanceHallId){
+    public void onPerformanceHallClicked(Integer performanceHallId) {
         Intent intent = new Intent(MoumFindPerformanceHallActivity.this, MoumMapPerformanceHallActivity.class);
         intent.putExtra("performanceHallId", performanceHallId);
         intent.putExtra("teamId", teamId);
@@ -319,13 +308,12 @@ public class MoumFindPerformanceHallActivity extends AppCompatActivity {
         viewModel.clearPage();
     }
 
-    private void permissionCheck(){
-        if(Build.VERSION.SDK_INT >= 23){
-            permissionManager =  new PermissionManager(this, this);
-            if(!permissionManager.checkPermission()){
+    private void permissionCheck() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            permissionManager = new PermissionManager(this, this);
+            if (!permissionManager.checkPermission()) {
                 permissionManager.requestPermission();
-            }
-            else{
+            } else {
                 latLng = getCurrentLatLng();
                 viewModel.setLatLng(latLng);
                 Log.e(TAG, latLng.toString());
@@ -336,23 +324,21 @@ public class MoumFindPerformanceHallActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (!permissionManager.permissionResult(requestCode, permissions, grantResults)){
+        if (!permissionManager.permissionResult(requestCode, permissions, grantResults)) {
             permissionManager.requestPermission();
-        }
-        else{
+        } else {
             latLng = getCurrentLatLng();
             viewModel.setLatLng(latLng);
             Log.e(TAG, latLng.toString());
         }
     }
 
-    private LatLng getCurrentLatLng(){
+    private LatLng getCurrentLatLng() {
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         @SuppressLint("MissingPermission") Location currentLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         if (currentLocation != null) {
             return new LatLng(currentLocation);
-        }
-        else{
+        } else {
             // 기본 설정 위치
             Log.e(TAG, "기본 위치로 설정되었습니다.");
             return new LatLng(37.279784, 127.043664);

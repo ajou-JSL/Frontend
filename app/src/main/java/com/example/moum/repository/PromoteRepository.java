@@ -1,32 +1,18 @@
 package com.example.moum.repository;
 
 import android.app.Application;
-import android.os.Build;
 import android.util.Log;
 
-import androidx.annotation.RequiresApi;
-
-import com.example.moum.data.api.PerformApi;
 import com.example.moum.data.api.PromoteApi;
 import com.example.moum.data.dto.ErrorResponse;
-import com.example.moum.data.dto.PerformRequest;
 import com.example.moum.data.dto.SuccessResponse;
-import com.example.moum.data.entity.Member;
-import com.example.moum.data.entity.Performance;
 import com.example.moum.data.entity.Result;
-import com.example.moum.data.entity.Token;
 import com.example.moum.repository.client.BaseUrl;
 import com.example.moum.repository.client.RetrofitClientManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.utils.ValueMap;
 import com.google.gson.Gson;
 
-import java.io.File;
-import java.util.List;
-
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -46,7 +32,7 @@ public class PromoteRepository {
         promoteApi = retrofitClient.create(PromoteApi.class);
     }
 
-    public PromoteRepository(RetrofitClientManager retrofitClientManager, PromoteApi promoteApi){
+    public PromoteRepository(RetrofitClientManager retrofitClientManager, PromoteApi promoteApi) {
         this.retrofitClientManager = retrofitClientManager;
         this.retrofitClient = retrofitClientManager.getClient();
         this.promoteApi = promoteApi;
@@ -89,6 +75,7 @@ public class PromoteRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<String>> call, Throwable t) {
                 Result<String> result = new Result<>(Validation.NETWORK_FAILED);
@@ -126,6 +113,7 @@ public class PromoteRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<String>> call, Throwable t) {
                 Result<String> result = new Result<>(Validation.NETWORK_FAILED);
@@ -163,6 +151,7 @@ public class PromoteRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<String>> call, Throwable t) {
                 Result<String> result = new Result<>(Validation.NETWORK_FAILED);

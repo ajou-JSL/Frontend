@@ -16,7 +16,7 @@ public class ReportArticleViewModel extends AndroidViewModel {
     private final MutableLiveData<Result<ReportArticle>> isReportArticleSuccess = new MutableLiveData<>();
     private String type;
 
-    public ReportArticleViewModel(Application application){
+    public ReportArticleViewModel(Application application) {
         super(application);
         reportRepository = ReportRepository.getInstance(application);
     }
@@ -25,17 +25,17 @@ public class ReportArticleViewModel extends AndroidViewModel {
         return isReportArticleSuccess;
     }
 
-    public void setIsReportArticleSuccess(Result<ReportArticle> isReportArticleSuccess){
+    public void setIsReportArticleSuccess(Result<ReportArticle> isReportArticleSuccess) {
         this.isReportArticleSuccess.setValue(isReportArticleSuccess);
     }
 
-    public void setType(String type){
+    public void setType(String type) {
         this.type = type;
     }
 
-    public void reportArticle(Integer targetArticleId, Integer myId, String details){
+    public void reportArticle(Integer targetArticleId, Integer myId, String details) {
         /*null check*/
-        if(type == null){
+        if (type == null) {
             Result<ReportArticle> result = new Result<>(Validation.NOT_VALID_ANYWAY);
             setIsReportArticleSuccess(result);
             return;

@@ -44,7 +44,7 @@ public class TeamRepository {
         teamApi = retrofitClient.create(TeamApi.class);
     }
 
-    public TeamRepository(RetrofitClientManager retrofitClientManager, TeamApi teamApi){
+    public TeamRepository(RetrofitClientManager retrofitClientManager, TeamApi teamApi) {
         this.retrofitClientManager = retrofitClientManager;
         this.retrofitClient = retrofitClientManager.getClient();
         this.teamApi = teamApi;
@@ -58,18 +58,18 @@ public class TeamRepository {
         return instance;
     }
 
-    public void createTeam(Team team, File teamProfile, com.example.moum.utils.Callback<Result<Team>> callback){
+    public void createTeam(Team team, File teamProfile, com.example.moum.utils.Callback<Result<Team>> callback) {
         /*processing into DTO*/
         MultipartBody.Part profileImage = null;
-        if(teamProfile != null){
+        if (teamProfile != null) {
             RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpg"), teamProfile);
             profileImage = MultipartBody.Part.createFormData("file", teamProfile.getName(), requestFile);
-        }
-        else{
+        } else {
             RequestBody emptyRequestBody = RequestBody.create(null, new byte[0]);
             profileImage = MultipartBody.Part.createFormData("file", null, emptyRequestBody);
         }
-        TeamRequest teamRequest = new TeamRequest(team.getLeaderId(), team.getTeamName(), team.getDescription(), team.getGenre(), team.getLocation(), team.getRecords(), team.getVideoUrl());
+        TeamRequest teamRequest = new TeamRequest(team.getLeaderId(), team.getTeamName(), team.getDescription(), team.getGenre(), team.getLocation(),
+                team.getRecords(), team.getVideoUrl());
         Call<SuccessResponse<Team>> result = teamApi.createTeam(profileImage, teamRequest);
 
         result.enqueue(new retrofit2.Callback<SuccessResponse<Team>>() {
@@ -85,8 +85,7 @@ public class TeamRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<Team> result = new Result<>(validation, team);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -101,6 +100,7 @@ public class TeamRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<Team>> call, Throwable t) {
                 Result<Team> result = new Result<>(Validation.NETWORK_FAILED);
@@ -109,18 +109,18 @@ public class TeamRepository {
         });
     }
 
-    public void updateTeam(Integer teamId, Team team, File teamProfile, com.example.moum.utils.Callback<Result<Team>> callback){
+    public void updateTeam(Integer teamId, Team team, File teamProfile, com.example.moum.utils.Callback<Result<Team>> callback) {
         /*processing into DTO*/
         MultipartBody.Part profileImage = null;
-        if(teamProfile != null){
+        if (teamProfile != null) {
             RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpg"), teamProfile);
             profileImage = MultipartBody.Part.createFormData("file", "temp_image.jpg", requestFile);
-        }
-        else{
+        } else {
             RequestBody emptyRequestBody = RequestBody.create(null, new byte[0]);
             profileImage = MultipartBody.Part.createFormData("file", null, emptyRequestBody);
         }
-        TeamRequest teamRequest = new TeamRequest(null, team.getTeamName(), team.getDescription(), team.getGenre(), team.getLocation(), team.getRecords(), team.getVideoUrl());
+        TeamRequest teamRequest = new TeamRequest(null, team.getTeamName(), team.getDescription(), team.getGenre(), team.getLocation(),
+                team.getRecords(), team.getVideoUrl());
         Call<SuccessResponse<Team>> result = teamApi.updateTeam(teamId, profileImage, teamRequest);
 
         result.enqueue(new retrofit2.Callback<SuccessResponse<Team>>() {
@@ -136,8 +136,7 @@ public class TeamRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<Team> result = new Result<>(validation, team);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -152,6 +151,7 @@ public class TeamRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<Team>> call, Throwable t) {
                 Result<Team> result = new Result<>(Validation.NETWORK_FAILED);
@@ -160,7 +160,7 @@ public class TeamRepository {
         });
     }
 
-    public void deleteTeam(Integer teamId, com.example.moum.utils.Callback<Result<Team>> callback){
+    public void deleteTeam(Integer teamId, com.example.moum.utils.Callback<Result<Team>> callback) {
         Call<SuccessResponse<Team>> result = teamApi.deleteTeam(teamId);
         result.enqueue(new retrofit2.Callback<SuccessResponse<Team>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -175,8 +175,7 @@ public class TeamRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<Team> result = new Result<>(validation, team);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -191,6 +190,7 @@ public class TeamRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<Team>> call, Throwable t) {
                 Result<Team> result = new Result<>(Validation.NETWORK_FAILED);
@@ -199,7 +199,7 @@ public class TeamRepository {
         });
     }
 
-    public void loadTeam(Integer teamId, com.example.moum.utils.Callback<Result<Team>> callback){
+    public void loadTeam(Integer teamId, com.example.moum.utils.Callback<Result<Team>> callback) {
         Call<SuccessResponse<Team>> result = teamApi.loadTeam(teamId);
         result.enqueue(new retrofit2.Callback<SuccessResponse<Team>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -214,8 +214,7 @@ public class TeamRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<Team> result = new Result<>(validation, team);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -230,6 +229,7 @@ public class TeamRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<Team>> call, Throwable t) {
                 Result<Team> result = new Result<>(Validation.NETWORK_FAILED);
@@ -238,7 +238,7 @@ public class TeamRepository {
         });
     }
 
-    public void loadTeams(com.example.moum.utils.Callback<Result<List<Team>>> callback){
+    public void loadTeams(com.example.moum.utils.Callback<Result<List<Team>>> callback) {
         Call<SuccessResponse<List<Team>>> result = teamApi.loadTeams();
         result.enqueue(new retrofit2.Callback<SuccessResponse<List<Team>>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -253,8 +253,7 @@ public class TeamRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<List<Team>> result = new Result<>(validation, teams);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -269,6 +268,7 @@ public class TeamRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<List<Team>>> call, Throwable t) {
                 Result<List<Team>> result = new Result<>(Validation.NETWORK_FAILED);
@@ -277,7 +277,7 @@ public class TeamRepository {
         });
     }
 
-    public void loadTeamsAsMember(Integer memberId, com.example.moum.utils.Callback<Result<List<Team>>> callback){
+    public void loadTeamsAsMember(Integer memberId, com.example.moum.utils.Callback<Result<List<Team>>> callback) {
         Call<SuccessResponse<List<Team>>> result = teamApi.loadTeamsAsMember(memberId);
         result.enqueue(new retrofit2.Callback<SuccessResponse<List<Team>>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -292,8 +292,7 @@ public class TeamRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<List<Team>> result = new Result<>(validation, teams);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -308,6 +307,7 @@ public class TeamRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<List<Team>>> call, Throwable t) {
                 Result<List<Team>> result = new Result<>(Validation.NETWORK_FAILED);
@@ -316,7 +316,7 @@ public class TeamRepository {
         });
     }
 
-    public void kickMemberFromTeam(Integer teamId, Integer memberId, com.example.moum.utils.Callback<Result<Team>> callback){
+    public void kickMemberFromTeam(Integer teamId, Integer memberId, com.example.moum.utils.Callback<Result<Team>> callback) {
         Call<SuccessResponse<Team>> result = teamApi.kickMemberFromTeam(teamId, memberId);
         result.enqueue(new retrofit2.Callback<SuccessResponse<Team>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -331,8 +331,7 @@ public class TeamRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<Team> result = new Result<>(validation, team);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -347,6 +346,7 @@ public class TeamRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<Team>> call, Throwable t) {
                 Result<Team> result = new Result<>(Validation.NETWORK_FAILED);
@@ -355,7 +355,7 @@ public class TeamRepository {
         });
     }
 
-    public void leaveTeam(Integer teamId, com.example.moum.utils.Callback<Result<Team>> callback){
+    public void leaveTeam(Integer teamId, com.example.moum.utils.Callback<Result<Team>> callback) {
         Call<SuccessResponse<Team>> result = teamApi.leaveTeam(teamId);
         result.enqueue(new retrofit2.Callback<SuccessResponse<Team>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -370,8 +370,7 @@ public class TeamRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<Team> result = new Result<>(validation, team);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -386,6 +385,7 @@ public class TeamRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<Team>> call, Throwable t) {
                 Result<Team> result = new Result<>(Validation.NETWORK_FAILED);
@@ -394,7 +394,7 @@ public class TeamRepository {
         });
     }
 
-    public void inviteMemberToTeam(Integer teamId, Integer memberId, com.example.moum.utils.Callback<Result<Member>> callback){
+    public void inviteMemberToTeam(Integer teamId, Integer memberId, com.example.moum.utils.Callback<Result<Member>> callback) {
         Call<SuccessResponse<Member>> result = teamApi.inviteMemberToTeam(teamId, memberId);
         result.enqueue(new retrofit2.Callback<SuccessResponse<Member>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -409,8 +409,7 @@ public class TeamRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<Member> result = new Result<>(validation, member);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -425,6 +424,7 @@ public class TeamRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<Member>> call, Throwable t) {
                 Result<Member> result = new Result<>(Validation.NETWORK_FAILED);
@@ -433,7 +433,7 @@ public class TeamRepository {
         });
     }
 
-    public void loadTeamToTeamName(String teamName, com.example.moum.utils.Callback<Result<Team>> callback){
+    public void loadTeamToTeamName(String teamName, com.example.moum.utils.Callback<Result<Team>> callback) {
         Call<SuccessResponse<Team>> result = teamApi.loadTeamToName(teamName);
         result.enqueue(new retrofit2.Callback<SuccessResponse<Team>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -448,8 +448,7 @@ public class TeamRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<Team> result = new Result<>(validation, team);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -464,6 +463,7 @@ public class TeamRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<Team>> call, Throwable t) {
                 Result<Team> result = new Result<>(Validation.NETWORK_FAILED);

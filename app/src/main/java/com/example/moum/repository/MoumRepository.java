@@ -47,7 +47,7 @@ public class MoumRepository {
         moumApi = retrofitClient.create(MoumApi.class);
     }
 
-    public MoumRepository(RetrofitClientManager retrofitClientManager, MoumApi moumApi){
+    public MoumRepository(RetrofitClientManager retrofitClientManager, MoumApi moumApi) {
         this.retrofitClientManager = retrofitClientManager;
         this.retrofitClient = retrofitClientManager.getClient();
         this.moumApi = moumApi;
@@ -61,17 +61,19 @@ public class MoumRepository {
         return instance;
     }
 
-    public void createMoum(Moum moum, ArrayList<File> moumProfiles, com.example.moum.utils.Callback<Result<Moum>> callback){
+    public void createMoum(Moum moum, ArrayList<File> moumProfiles, com.example.moum.utils.Callback<Result<Moum>> callback) {
         /*processing into DTO*/
         List<MultipartBody.Part> profileImages = new ArrayList<>();
-        if(moumProfiles != null && !moumProfiles.isEmpty()){
-            for(File moumProfile : moumProfiles){
+        if (moumProfiles != null && !moumProfiles.isEmpty()) {
+            for (File moumProfile : moumProfiles) {
                 RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpg"), moumProfile);
                 MultipartBody.Part profileImage = MultipartBody.Part.createFormData("file", moumProfile.getName(), requestFile);
                 profileImages.add(profileImage);
             }
         }
-        MoumRequest moumRequest = new MoumRequest(moum.getMoumName(), moum.getMoumDescription(), moum.getPerformLocation(), moum.getStartDate(), moum.getEndDate(), moum.getPrice(), moum.getLeaderId(), moum.getTeamId(), moum.getMembers(), moum.getRecords(), moum.getMusic(), moum.getGenre());
+        MoumRequest moumRequest = new MoumRequest(moum.getMoumName(), moum.getMoumDescription(), moum.getPerformLocation(), moum.getStartDate(),
+                moum.getEndDate(), moum.getPrice(), moum.getLeaderId(), moum.getTeamId(), moum.getMembers(), moum.getRecords(), moum.getMusic(),
+                moum.getGenre());
         Call<SuccessResponse<Moum>> result = moumApi.createMoum(profileImages, moumRequest);
 
         result.enqueue(new retrofit2.Callback<SuccessResponse<Moum>>() {
@@ -87,8 +89,7 @@ public class MoumRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<Moum> result = new Result<>(validation, moum);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -103,6 +104,7 @@ public class MoumRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<Moum>> call, Throwable t) {
                 Result<Moum> result = new Result<>(Validation.NETWORK_FAILED);
@@ -111,7 +113,7 @@ public class MoumRepository {
         });
     }
 
-    public void loadMoum(Integer moumId, com.example.moum.utils.Callback<Result<Moum>> callback){
+    public void loadMoum(Integer moumId, com.example.moum.utils.Callback<Result<Moum>> callback) {
         Call<SuccessResponse<Moum>> result = moumApi.loadMoum(moumId);
         result.enqueue(new retrofit2.Callback<SuccessResponse<Moum>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -126,8 +128,7 @@ public class MoumRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<Moum> result = new Result<>(validation, moum);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -142,6 +143,7 @@ public class MoumRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<Moum>> call, Throwable t) {
                 Result<Moum> result = new Result<>(Validation.NETWORK_FAILED);
@@ -150,7 +152,7 @@ public class MoumRepository {
         });
     }
 
-    public void loadMoumsOfTeam(Integer teamId, com.example.moum.utils.Callback<Result<List<Moum>>> callback){
+    public void loadMoumsOfTeam(Integer teamId, com.example.moum.utils.Callback<Result<List<Moum>>> callback) {
         Call<SuccessResponse<List<Moum>>> result = moumApi.loadMoumsOfTeam(teamId);
         result.enqueue(new retrofit2.Callback<SuccessResponse<List<Moum>>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -165,8 +167,7 @@ public class MoumRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<List<Moum>> result = new Result<>(validation, moums);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -181,6 +182,7 @@ public class MoumRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<List<Moum>>> call, Throwable t) {
                 Result<List<Moum>> result = new Result<>(Validation.NETWORK_FAILED);
@@ -189,7 +191,7 @@ public class MoumRepository {
         });
     }
 
-    public void loadMoumsAll(com.example.moum.utils.Callback<Result<List<Moum>>> callback){
+    public void loadMoumsAll(com.example.moum.utils.Callback<Result<List<Moum>>> callback) {
         Call<SuccessResponse<List<Moum>>> result = moumApi.loadMoumsOfMe();
         result.enqueue(new retrofit2.Callback<SuccessResponse<List<Moum>>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -204,8 +206,7 @@ public class MoumRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<List<Moum>> result = new Result<>(validation, moums);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -220,6 +221,7 @@ public class MoumRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<List<Moum>>> call, Throwable t) {
                 Result<List<Moum>> result = new Result<>(Validation.NETWORK_FAILED);
@@ -228,25 +230,28 @@ public class MoumRepository {
         });
     }
 
-    public void updateMoum(Integer moumId, Moum moum, ArrayList<File> moumProfiles, com.example.moum.utils.Callback<Result<Moum>> callback){
+    public void updateMoum(Integer moumId, Moum moum, ArrayList<File> moumProfiles, com.example.moum.utils.Callback<Result<Moum>> callback) {
         /*processing into DTO*/
-        Log.e(TAG, "moumProfiles: " +  moumProfiles.toString() + " moumProfiles size: " + moumProfiles.size());
-        List<MultipartBody.Part> profileImages = new ArrayList<>();;
-        if(moumProfiles != null && !moumProfiles.isEmpty()){
+        Log.e(TAG, "moumProfiles: " + moumProfiles.toString() + " moumProfiles size: " + moumProfiles.size());
+        List<MultipartBody.Part> profileImages = new ArrayList<>();
+        ;
+        if (moumProfiles != null && !moumProfiles.isEmpty()) {
             Log.e(TAG, "if문 들어옴");
-            for(File moumProfile : moumProfiles){
+            for (File moumProfile : moumProfiles) {
                 RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpg"), moumProfile);
                 MultipartBody.Part profileImage = MultipartBody.Part.createFormData("file", "temp_image.jpg", requestFile);
                 profileImages.add(profileImage);
             }
         }
 
-        if(profileImages.isEmpty()){
+        if (profileImages.isEmpty()) {
             MultipartBody.Part profileImage = MultipartBody.Part.createFormData("file", null, RequestBody.create(null, new byte[0]));
             profileImages.add(profileImage);
         }
         //Log.e(TAG, "profileImages: " +  profileImages.toString() + " profileImages size: " + profileImages.size());
-        MoumRequest moumRequest = new MoumRequest(moum.getMoumName(), moum.getMoumDescription(), moum.getPerformLocation(), moum.getStartDate(), moum.getEndDate(), moum.getPrice(), moum.getLeaderId(), moum.getTeamId(), moum.getMembers(), moum.getRecords(), moum.getMusic(), moum.getGenre());
+        MoumRequest moumRequest = new MoumRequest(moum.getMoumName(), moum.getMoumDescription(), moum.getPerformLocation(), moum.getStartDate(),
+                moum.getEndDate(), moum.getPrice(), moum.getLeaderId(), moum.getTeamId(), moum.getMembers(), moum.getRecords(), moum.getMusic(),
+                moum.getGenre());
         Call<SuccessResponse<Moum>> result = moumApi.updateMoum(moumId, profileImages, moumRequest);
 
         result.enqueue(new retrofit2.Callback<SuccessResponse<Moum>>() {
@@ -262,8 +267,7 @@ public class MoumRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<Moum> result = new Result<>(validation, moum);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -278,6 +282,7 @@ public class MoumRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<Moum>> call, Throwable t) {
                 Result<Moum> result = new Result<>(Validation.NETWORK_FAILED);
@@ -286,7 +291,7 @@ public class MoumRepository {
         });
     }
 
-    public void deleteMoum(Integer moumId, com.example.moum.utils.Callback<Result<Moum>> callback){
+    public void deleteMoum(Integer moumId, com.example.moum.utils.Callback<Result<Moum>> callback) {
         Call<SuccessResponse<Moum>> result = moumApi.deleteMoum(moumId);
         result.enqueue(new retrofit2.Callback<SuccessResponse<Moum>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -301,8 +306,7 @@ public class MoumRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<Moum> result = new Result<>(validation, moum);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -317,6 +321,7 @@ public class MoumRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<Moum>> call, Throwable t) {
                 Result<Moum> result = new Result<>(Validation.NETWORK_FAILED);
@@ -325,7 +330,7 @@ public class MoumRepository {
         });
     }
 
-    public void finishMoum(Integer moumId, com.example.moum.utils.Callback<Result<Moum>> callback){
+    public void finishMoum(Integer moumId, com.example.moum.utils.Callback<Result<Moum>> callback) {
         Call<SuccessResponse<Moum>> result = moumApi.finishMoum(moumId);
         result.enqueue(new retrofit2.Callback<SuccessResponse<Moum>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -340,8 +345,7 @@ public class MoumRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<Moum> result = new Result<>(validation, moum);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -356,6 +360,7 @@ public class MoumRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<Moum>> call, Throwable t) {
                 Result<Moum> result = new Result<>(Validation.NETWORK_FAILED);
@@ -364,7 +369,7 @@ public class MoumRepository {
         });
     }
 
-    public void reopenMoum(Integer moumId, com.example.moum.utils.Callback<Result<Moum>> callback){
+    public void reopenMoum(Integer moumId, com.example.moum.utils.Callback<Result<Moum>> callback) {
         Call<SuccessResponse<Moum>> result = moumApi.reopenMoum(moumId);
         result.enqueue(new retrofit2.Callback<SuccessResponse<Moum>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -379,8 +384,7 @@ public class MoumRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<Moum> result = new Result<>(validation, moum);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -395,6 +399,7 @@ public class MoumRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<Moum>> call, Throwable t) {
                 Result<Moum> result = new Result<>(Validation.NETWORK_FAILED);
@@ -403,8 +408,9 @@ public class MoumRepository {
         });
     }
 
-    public void updateProcessMoum(Integer moumId, Moum.Process process, com.example.moum.utils.Callback<Result<Moum>> callback){
-        MoumProcessRequest request = new MoumProcessRequest(process.getRecruitStatus(), process.getChatroomStatus(), process.getPracticeroomStatus(), process.getPerformLocationStatus(), process.getPromoteStatus(), process.getPaymentStatus());
+    public void updateProcessMoum(Integer moumId, Moum.Process process, com.example.moum.utils.Callback<Result<Moum>> callback) {
+        MoumProcessRequest request = new MoumProcessRequest(process.getRecruitStatus(), process.getChatroomStatus(), process.getPracticeroomStatus(),
+                process.getPerformLocationStatus(), process.getPromoteStatus(), process.getPaymentStatus());
         Call<SuccessResponse<Moum>> result = moumApi.updateProcessMoum(moumId, request);
         result.enqueue(new retrofit2.Callback<SuccessResponse<Moum>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -419,8 +425,7 @@ public class MoumRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<Moum> result = new Result<>(validation, moum);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -435,6 +440,7 @@ public class MoumRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<Moum>> call, Throwable t) {
                 Result<Moum> result = new Result<>(Validation.NETWORK_FAILED);

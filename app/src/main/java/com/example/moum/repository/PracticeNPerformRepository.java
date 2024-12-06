@@ -24,7 +24,6 @@ import com.example.moum.repository.client.RetrofitClientManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.utils.ValueMap;
 import com.google.gson.Gson;
-import com.naver.maps.geometry.LatLng;
 
 import java.util.List;
 
@@ -46,7 +45,7 @@ public class PracticeNPerformRepository {
         practiceNPerformApi = retrofitClient.create(PracticeNPerformApi.class);
     }
 
-    public PracticeNPerformRepository(RetrofitClientManager retrofitClientManager, PracticeNPerformApi practiceNPerformApi){
+    public PracticeNPerformRepository(RetrofitClientManager retrofitClientManager, PracticeNPerformApi practiceNPerformApi) {
         this.retrofitClientManager = retrofitClientManager;
         this.retrofitClient = retrofitClientManager.getClient();
         this.practiceNPerformApi = practiceNPerformApi;
@@ -60,7 +59,7 @@ public class PracticeNPerformRepository {
         return instance;
     }
 
-    public void getPracticeroom(Integer practiceroomId, com.example.moum.utils.Callback<Result<Practiceroom>> callback){
+    public void getPracticeroom(Integer practiceroomId, com.example.moum.utils.Callback<Result<Practiceroom>> callback) {
         Call<SuccessResponse<Practiceroom>> result = practiceNPerformApi.getPracticeroom(practiceroomId);
         result.enqueue(new retrofit2.Callback<SuccessResponse<Practiceroom>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -75,8 +74,7 @@ public class PracticeNPerformRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<Practiceroom> result = new Result<>(validation, practiceroom);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -91,6 +89,7 @@ public class PracticeNPerformRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<Practiceroom>> call, Throwable t) {
                 Result<Practiceroom> result = new Result<>(Validation.NETWORK_FAILED);
@@ -99,12 +98,13 @@ public class PracticeNPerformRepository {
         });
     }
 
-    public void getPracticerooms(Integer page, Integer size, com.example.moum.utils.Callback<Result<List<Practiceroom>>> callback){
+    public void getPracticerooms(Integer page, Integer size, com.example.moum.utils.Callback<Result<List<Practiceroom>>> callback) {
         Call<SuccessResponse<Content<List<Practiceroom>>>> result = practiceNPerformApi.getPracticerooms(page, size);
         result.enqueue(new retrofit2.Callback<SuccessResponse<Content<List<Practiceroom>>>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
-            public void onResponse(Call<SuccessResponse<Content<List<Practiceroom>>>> call, Response<SuccessResponse<Content<List<Practiceroom>>>> response) {
+            public void onResponse(Call<SuccessResponse<Content<List<Practiceroom>>>> call,
+                    Response<SuccessResponse<Content<List<Practiceroom>>>> response) {
                 if (response.isSuccessful()) {
                     /*성공적으로 응답을 받았을 때*/
                     SuccessResponse<Content<List<Practiceroom>>> responseBody = response.body();
@@ -114,8 +114,7 @@ public class PracticeNPerformRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<List<Practiceroom>> result = new Result<>(validation, practicerooms);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -130,6 +129,7 @@ public class PracticeNPerformRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<Content<List<Practiceroom>>>> call, Throwable t) {
                 Result<List<Practiceroom>> result = new Result<>(Validation.NETWORK_FAILED);
@@ -138,12 +138,17 @@ public class PracticeNPerformRepository {
         });
     }
 
-    public void searchPracticerooms(Integer page, Integer size, SearchPracticeroomArgs args, com.example.moum.utils.Callback<Result<List<Practiceroom>>> callback){
-        Call<SuccessResponse<Content<List<Practiceroom>>>> result = practiceNPerformApi.searchPracticerooms(page, size, args.getSortBy(), args.getOrderBy(), args.getName(), args.getLatitude(), args.getLongitude(), args.getMinPrice(), args.getMaxPrice(), args.getMinCapacity(), args.getMaxCapacity(), args.getType(), args.getMinStand(), args.getMaxStand(), args.getHasPiano(), args.getHasAmp(), args.getHasSpeaker(), args.getHasMic(), args.getHasDrums());
+    public void searchPracticerooms(Integer page, Integer size, SearchPracticeroomArgs args,
+            com.example.moum.utils.Callback<Result<List<Practiceroom>>> callback) {
+        Call<SuccessResponse<Content<List<Practiceroom>>>> result = practiceNPerformApi.searchPracticerooms(page, size, args.getSortBy(),
+                args.getOrderBy(), args.getName(), args.getLatitude(), args.getLongitude(), args.getMinPrice(), args.getMaxPrice(),
+                args.getMinCapacity(), args.getMaxCapacity(), args.getType(), args.getMinStand(), args.getMaxStand(), args.getHasPiano(),
+                args.getHasAmp(), args.getHasSpeaker(), args.getHasMic(), args.getHasDrums());
         result.enqueue(new retrofit2.Callback<SuccessResponse<Content<List<Practiceroom>>>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
-            public void onResponse(Call<SuccessResponse<Content<List<Practiceroom>>>> call, Response<SuccessResponse<Content<List<Practiceroom>>>> response) {
+            public void onResponse(Call<SuccessResponse<Content<List<Practiceroom>>>> call,
+                    Response<SuccessResponse<Content<List<Practiceroom>>>> response) {
                 if (response.isSuccessful()) {
                     /*성공적으로 응답을 받았을 때*/
                     SuccessResponse<Content<List<Practiceroom>>> responseBody = response.body();
@@ -153,8 +158,7 @@ public class PracticeNPerformRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<List<Practiceroom>> result = new Result<>(validation, practicerooms);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -169,6 +173,7 @@ public class PracticeNPerformRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<Content<List<Practiceroom>>>> call, Throwable t) {
                 Result<List<Practiceroom>> result = new Result<>(Validation.NETWORK_FAILED);
@@ -177,7 +182,7 @@ public class PracticeNPerformRepository {
         });
     }
 
-    public void getPerformHall(Integer performHallId, com.example.moum.utils.Callback<Result<PerformanceHall>> callback){
+    public void getPerformHall(Integer performHallId, com.example.moum.utils.Callback<Result<PerformanceHall>> callback) {
         Call<SuccessResponse<PerformanceHall>> result = practiceNPerformApi.getPerformHall(performHallId);
         result.enqueue(new retrofit2.Callback<SuccessResponse<PerformanceHall>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -192,8 +197,7 @@ public class PracticeNPerformRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<PerformanceHall> result = new Result<>(validation, performanceHall);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -208,6 +212,7 @@ public class PracticeNPerformRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<PerformanceHall>> call, Throwable t) {
                 Result<PerformanceHall> result = new Result<>(Validation.NETWORK_FAILED);
@@ -216,12 +221,13 @@ public class PracticeNPerformRepository {
         });
     }
 
-    public void getPerformHalls(Integer page, Integer size, com.example.moum.utils.Callback<Result<List<PerformanceHall>>> callback){
+    public void getPerformHalls(Integer page, Integer size, com.example.moum.utils.Callback<Result<List<PerformanceHall>>> callback) {
         Call<SuccessResponse<Content<List<PerformanceHall>>>> result = practiceNPerformApi.getPerformHalls(page, size);
         result.enqueue(new retrofit2.Callback<SuccessResponse<Content<List<PerformanceHall>>>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
-            public void onResponse(Call<SuccessResponse<Content<List<PerformanceHall>>>> call, Response<SuccessResponse<Content<List<PerformanceHall>>>> response) {
+            public void onResponse(Call<SuccessResponse<Content<List<PerformanceHall>>>> call,
+                    Response<SuccessResponse<Content<List<PerformanceHall>>>> response) {
                 if (response.isSuccessful()) {
                     /*성공적으로 응답을 받았을 때*/
                     SuccessResponse<Content<List<PerformanceHall>>> responseBody = response.body();
@@ -231,8 +237,7 @@ public class PracticeNPerformRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<List<PerformanceHall>> result = new Result<>(validation, performanceHalls);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -247,6 +252,7 @@ public class PracticeNPerformRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<Content<List<PerformanceHall>>>> call, Throwable t) {
                 Result<List<PerformanceHall>> result = new Result<>(Validation.NETWORK_FAILED);
@@ -255,12 +261,17 @@ public class PracticeNPerformRepository {
         });
     }
 
-    public void searchPerformHalls(Integer page, Integer size, SearchPerformHallArgs args, com.example.moum.utils.Callback<Result<List<PerformanceHall>>> callback){
-        Call<SuccessResponse<Content<List<PerformanceHall>>>> result = practiceNPerformApi.searchPerformHalls(page, size, args.getSortBy(), args.getOrderBy(), args.getName(), args.getLatitude(), args.getLongitude(), args.getMinPrice(), args.getMaxPrice(), args.getMaxHallSize(), args.getMinHallSize(), args.getMinCapacity(), args.getMaxCapacity(), args.getMinStand(), args.getMaxStand(), args.getHasPiano(), args.getHasAmp(), args.getHasSpeaker(), args.getHasMic(), args.getHasDrums());
+    public void searchPerformHalls(Integer page, Integer size, SearchPerformHallArgs args,
+            com.example.moum.utils.Callback<Result<List<PerformanceHall>>> callback) {
+        Call<SuccessResponse<Content<List<PerformanceHall>>>> result = practiceNPerformApi.searchPerformHalls(page, size, args.getSortBy(),
+                args.getOrderBy(), args.getName(), args.getLatitude(), args.getLongitude(), args.getMinPrice(), args.getMaxPrice(),
+                args.getMaxHallSize(), args.getMinHallSize(), args.getMinCapacity(), args.getMaxCapacity(), args.getMinStand(), args.getMaxStand(),
+                args.getHasPiano(), args.getHasAmp(), args.getHasSpeaker(), args.getHasMic(), args.getHasDrums());
         result.enqueue(new retrofit2.Callback<SuccessResponse<Content<List<PerformanceHall>>>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
-            public void onResponse(Call<SuccessResponse<Content<List<PerformanceHall>>>> call, Response<SuccessResponse<Content<List<PerformanceHall>>>> response) {
+            public void onResponse(Call<SuccessResponse<Content<List<PerformanceHall>>>> call,
+                    Response<SuccessResponse<Content<List<PerformanceHall>>>> response) {
                 if (response.isSuccessful()) {
                     /*성공적으로 응답을 받았을 때*/
                     SuccessResponse<Content<List<PerformanceHall>>> responseBody = response.body();
@@ -270,8 +281,7 @@ public class PracticeNPerformRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<List<PerformanceHall>> result = new Result<>(validation, practicerooms);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -286,6 +296,7 @@ public class PracticeNPerformRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<Content<List<PerformanceHall>>>> call, Throwable t) {
                 Result<List<PerformanceHall>> result = new Result<>(Validation.NETWORK_FAILED);
@@ -294,7 +305,8 @@ public class PracticeNPerformRepository {
         });
     }
 
-    public void createPracticeroomOfMoum(Integer moumId, Integer roomId, String practiceroomName, com.example.moum.utils.Callback<Result<MoumPracticeroom>> callback){
+    public void createPracticeroomOfMoum(Integer moumId, Integer roomId, String practiceroomName,
+            com.example.moum.utils.Callback<Result<MoumPracticeroom>> callback) {
         PracticeMoumRequest practiceMoumRequest = new PracticeMoumRequest(moumId, roomId, practiceroomName);
         Call<SuccessResponse<MoumPracticeroom>> result = practiceNPerformApi.createPracticeroomOfMoum(practiceMoumRequest);
         result.enqueue(new retrofit2.Callback<SuccessResponse<MoumPracticeroom>>() {
@@ -310,8 +322,7 @@ public class PracticeNPerformRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<MoumPracticeroom> result = new Result<>(validation, practiceroom);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -326,6 +337,7 @@ public class PracticeNPerformRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<MoumPracticeroom>> call, Throwable t) {
                 Result<MoumPracticeroom> result = new Result<>(Validation.NETWORK_FAILED);
@@ -334,7 +346,7 @@ public class PracticeNPerformRepository {
         });
     }
 
-    public void deletePracticeroomOfMoum(Integer moumId, Integer practiceroomId, com.example.moum.utils.Callback<Result<List<String>>> callback){
+    public void deletePracticeroomOfMoum(Integer moumId, Integer practiceroomId, com.example.moum.utils.Callback<Result<List<String>>> callback) {
         Call<SuccessResponse<List<String>>> result = practiceNPerformApi.deletePracticeroomOfMoum(moumId, practiceroomId);
         result.enqueue(new retrofit2.Callback<SuccessResponse<List<String>>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -349,8 +361,7 @@ public class PracticeNPerformRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<List<String>> result = new Result<>(validation, practiceroom);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -365,6 +376,7 @@ public class PracticeNPerformRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<List<String>>> call, Throwable t) {
                 Result<List<String>> result = new Result<>(Validation.NETWORK_FAILED);
@@ -373,7 +385,7 @@ public class PracticeNPerformRepository {
         });
     }
 
-    public void getPracticeroomsOfMoum(Integer moumId, com.example.moum.utils.Callback<Result<List<MoumPracticeroom>>> callback){
+    public void getPracticeroomsOfMoum(Integer moumId, com.example.moum.utils.Callback<Result<List<MoumPracticeroom>>> callback) {
         Call<SuccessResponse<List<MoumPracticeroom>>> result = practiceNPerformApi.getPracticeroomsOfMoum(moumId);
         result.enqueue(new retrofit2.Callback<SuccessResponse<List<MoumPracticeroom>>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -388,8 +400,7 @@ public class PracticeNPerformRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<List<MoumPracticeroom>> result = new Result<>(validation, practicerooms);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -404,6 +415,7 @@ public class PracticeNPerformRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<List<MoumPracticeroom>>> call, Throwable t) {
                 Result<List<MoumPracticeroom>> result = new Result<>(Validation.NETWORK_FAILED);
@@ -412,7 +424,8 @@ public class PracticeNPerformRepository {
         });
     }
 
-    public void createPerformHallOfMoum(Integer moumId, Integer hallId, String performHallName, com.example.moum.utils.Callback<Result<MoumPerformHall>> callback){
+    public void createPerformHallOfMoum(Integer moumId, Integer hallId, String performHallName,
+            com.example.moum.utils.Callback<Result<MoumPerformHall>> callback) {
         PerformMoumRequest performMoumRequest = new PerformMoumRequest(moumId, hallId, performHallName);
         Call<SuccessResponse<MoumPerformHall>> result = practiceNPerformApi.createPerformHallOfMoum(performMoumRequest);
         result.enqueue(new retrofit2.Callback<SuccessResponse<MoumPerformHall>>() {
@@ -428,8 +441,7 @@ public class PracticeNPerformRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<MoumPerformHall> result = new Result<>(validation, performanceHall);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -444,6 +456,7 @@ public class PracticeNPerformRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<MoumPerformHall>> call, Throwable t) {
                 Result<MoumPerformHall> result = new Result<>(Validation.NETWORK_FAILED);
@@ -452,7 +465,7 @@ public class PracticeNPerformRepository {
         });
     }
 
-    public void deletePerformHallOfMoum(Integer moumId, Integer performHallId, com.example.moum.utils.Callback<Result<List<String>>> callback){
+    public void deletePerformHallOfMoum(Integer moumId, Integer performHallId, com.example.moum.utils.Callback<Result<List<String>>> callback) {
         Call<SuccessResponse<List<String>>> result = practiceNPerformApi.deletePerformHallOfMoum(moumId, performHallId);
         result.enqueue(new retrofit2.Callback<SuccessResponse<List<String>>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -467,8 +480,7 @@ public class PracticeNPerformRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<List<String>> result = new Result<>(validation, practiceroom);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -483,6 +495,7 @@ public class PracticeNPerformRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<List<String>>> call, Throwable t) {
                 Result<List<String>> result = new Result<>(Validation.NETWORK_FAILED);
@@ -491,7 +504,7 @@ public class PracticeNPerformRepository {
         });
     }
 
-    public void getPerformHallsOfMoum(Integer moumId, com.example.moum.utils.Callback<Result<List<MoumPerformHall>>> callback){
+    public void getPerformHallsOfMoum(Integer moumId, com.example.moum.utils.Callback<Result<List<MoumPerformHall>>> callback) {
         Call<SuccessResponse<List<MoumPerformHall>>> result = practiceNPerformApi.getPerformHallsOfMoum(moumId);
         result.enqueue(new retrofit2.Callback<SuccessResponse<List<MoumPerformHall>>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -506,8 +519,7 @@ public class PracticeNPerformRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<List<MoumPerformHall>> result = new Result<>(validation, practicerooms);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -522,6 +534,7 @@ public class PracticeNPerformRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<List<MoumPerformHall>>> call, Throwable t) {
                 Result<List<MoumPerformHall>> result = new Result<>(Validation.NETWORK_FAILED);

@@ -5,14 +5,10 @@ import static org.junit.Assert.assertEquals;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import com.example.moum.data.api.ChatApi;
-import com.example.moum.data.api.LoginApi;
 import com.example.moum.data.entity.Chat;
 import com.example.moum.repository.ChatRepository;
-import com.example.moum.repository.LoginRepository;
 import com.example.moum.repository.client.RetrofitClientManager;
 import com.example.moum.utils.Validation;
-import com.example.moum.view.chat.ChatActivity;
 
 import org.junit.After;
 import org.junit.Before;
@@ -20,7 +16,6 @@ import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -28,7 +23,6 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
-import okhttp3.mockwebserver.SocketPolicy;
 import retrofit2.Retrofit;
 
 @RunWith(AndroidJUnit4.class)
@@ -63,7 +57,9 @@ public class ChatRepositoryTest {
 
         // Given
         Chat chat = new Chat("sender", "message", 0, LocalDateTime.now());
-        String mockResponse = "{ \"status\": 200, \"code\": \"S-CH001\", \"message\": \"채팅 메세지 전송 성공\", \"data\": { \"sender\": \"testuser\", \"message\": \"Message Contents\", \"chatroomId\": 0, \"timestamp\": \"2024-10-28T20:29:22.6351588\"} }";
+        String mockResponse =
+                "{ \"status\": 200, \"code\": \"S-CH001\", \"message\": \"채팅 메세지 전송 성공\", \"data\": { \"sender\": \"testuser\", \"message\": "
+                        + "\"Message Contents\", \"chatroomId\": 0, \"timestamp\": \"2024-10-28T20:29:22.6351588\"} }";
         mockWebServer.enqueue(new MockResponse()
                 .setResponseCode(200)
                 .setBody(mockResponse)

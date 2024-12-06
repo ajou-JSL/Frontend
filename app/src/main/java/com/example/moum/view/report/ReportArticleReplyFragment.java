@@ -18,16 +18,12 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.moum.R;
 import com.example.moum.data.entity.ReportArticle;
-import com.example.moum.data.entity.ReportTeam;
 import com.example.moum.databinding.FragmentReportArticleReplyBinding;
-import com.example.moum.databinding.FragmentReportTeamReplyBinding;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.view.community.BoardFreeDetailActivity;
-import com.example.moum.view.profile.MemberProfileFragment;
 import com.example.moum.viewmodel.report.ReportArticleReplyViewModel;
-import com.example.moum.viewmodel.report.ReportTeamReplyViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 public class ReportArticleReplyFragment extends BottomSheetDialogFragment {
@@ -37,7 +33,7 @@ public class ReportArticleReplyFragment extends BottomSheetDialogFragment {
     private final String TAG = getClass().toString();
     private SharedPreferenceManager sharedPreferenceManager;
 
-    public ReportArticleReplyFragment(Context context){
+    public ReportArticleReplyFragment(Context context) {
         this.context = context;
     }
 
@@ -65,7 +61,7 @@ public class ReportArticleReplyFragment extends BottomSheetDialogFragment {
         /*이전 액티비티로부터의 값 가져오기*/
         int reportArticleId;
         Bundle bundle = getArguments();
-        if(bundle == null || bundle.getInt("reportArticleId") < 0){
+        if (bundle == null || bundle.getInt("reportArticleId") < 0) {
             Toast.makeText(context, "신고 대상 단체를 알 수 없습니다.", Toast.LENGTH_SHORT).show();
             dismiss();
         }
@@ -78,18 +74,19 @@ public class ReportArticleReplyFragment extends BottomSheetDialogFragment {
         viewModel.getIsLoadReportArticleSuccess().observe(getViewLifecycleOwner(), isLoadReportArticleSuccess -> {
             Validation validation = isLoadReportArticleSuccess.getValidation();
             ReportArticle reportArticle = isLoadReportArticleSuccess.getData();
-            if(validation == Validation.REPORT_TEAM_GET_SUCCESS){
-                if(reportArticle.getDetails() != null) binding.edittextDetails.setText(reportArticle.getDetails());
-                if(reportArticle.getReply() != null) binding.edittextReply.setText(reportArticle.getReply());
-                if(reportArticle.getType() != null){
-                    if(reportArticle.getType().equals("개인정보 노출 및 불법 정보 게시"))
+            if (validation == Validation.REPORT_TEAM_GET_SUCCESS) {
+                if (reportArticle.getDetails() != null) binding.edittextDetails.setText(reportArticle.getDetails());
+                if (reportArticle.getReply() != null) binding.edittextReply.setText(reportArticle.getReply());
+                if (reportArticle.getType() != null) {
+                    if (reportArticle.getType().equals("개인정보 노출 및 불법 정보 게시")) {
                         binding.radioGroupArticle.check(R.id.radio_report_article_1);
-                    else if(reportArticle.getType().equals("선정성 또는 폭력성"))
+                    } else if (reportArticle.getType().equals("선정성 또는 폭력성")) {
                         binding.radioGroupArticle.check(R.id.radio_report_article_2);
-                    else if(reportArticle.getType().equals("같은 내용 반복 게시"))
+                    } else if (reportArticle.getType().equals("같은 내용 반복 게시")) {
                         binding.radioGroupArticle.check(R.id.radio_report_article_3);
-                    else
+                    } else {
                         binding.radioGroupArticle.check(R.id.radio_report_article_4);
+                    }
                 }
                 binding.radioGroupArticle.setEnabled(false);
                 binding.radioReportArticle1.setEnabled(false);
@@ -104,14 +101,11 @@ public class ReportArticleReplyFragment extends BottomSheetDialogFragment {
                         context.startActivity(intent);
                     }
                 });
-            }
-            else if(validation == Validation.REPORT_NOT_FOUND){
+            } else if (validation == Validation.REPORT_NOT_FOUND) {
                 Toast.makeText(context, "신고를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(validation == Validation.NETWORK_FAILED){
+            } else if (validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else{
+            } else {
                 Toast.makeText(context, "신고를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "알 수 없는 validation");
             }
@@ -119,6 +113,6 @@ public class ReportArticleReplyFragment extends BottomSheetDialogFragment {
         binding.radioGroupArticle.setEnabled(false);
         binding.edittextReply.setEnabled(false);
 
-        return  view;
+        return view;
     }
 }

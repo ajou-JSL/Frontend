@@ -36,22 +36,26 @@ public class BoardFreeViewModel extends AndroidViewModel {
         this.isLoadArticlesCategorySuccess.setValue(isLoadArticlesCategorySuccess);
     }
 
-    private void setIsLoadNextArticlesCategorySuccess(Result<List<Article>> isLoadNextArticlesCategorySuccess){
+    private void setIsLoadNextArticlesCategorySuccess(Result<List<Article>> isLoadNextArticlesCategorySuccess) {
         this.isLoadNextArticlesCategorySuccess.setValue(isLoadNextArticlesCategorySuccess);
     }
 
-    public MutableLiveData<Validation> getValidationStatus(){
+    public MutableLiveData<Validation> getValidationStatus() {
         return validationStatus;
     }
 
-    public MutableLiveData<Result<List<Article>>> getIsLoadArticlesCategorySuccess() { return isLoadArticlesCategorySuccess; }
+    public MutableLiveData<Result<List<Article>>> getIsLoadArticlesCategorySuccess() {
+        return isLoadArticlesCategorySuccess;
+    }
 
 
     public MutableLiveData<Result<List<Article>>> getIsLoadNextArticlesCategorySuccess() {
         return isLoadNextArticlesCategorySuccess;
     }
 
-    public boolean isLoading() {return isLoading; }
+    public boolean isLoading() {
+        return isLoading;
+    }
 
     public void resetPagination() {
         currentPage = 0;
@@ -69,7 +73,7 @@ public class BoardFreeViewModel extends AndroidViewModel {
     public void loadArticlesByFilter(boolean likesCount, boolean ViewCount, boolean CommentCount, boolean createdAt, Integer genre) {
         ArticleFilterRequest articleFilterRequest = new ArticleFilterRequest(
                 null, likesCount, ViewCount, CommentCount, createdAt, null, 0, genre);
-        articleRepository.loadArticlesByFilter(articleFilterRequest, currentPage, currentSize,this::setIsLoadArticlesCategorySuccess);
+        articleRepository.loadArticlesByFilter(articleFilterRequest, currentPage, currentSize, this::setIsLoadArticlesCategorySuccess);
     }
 
     public void loadNextArticleCategoryList() {
@@ -77,6 +81,7 @@ public class BoardFreeViewModel extends AndroidViewModel {
         articleRepository.loadArticlesCategory(null, "FREE_TALKING_BOARD", currentPage, currentSize, this::setIsLoadNextArticlesCategorySuccess);
         currentPage++;
     }
+
     public void setRecentSize(Integer recentSize) {
         this.recentSize = recentSize;
     }

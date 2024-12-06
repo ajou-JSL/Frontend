@@ -1,7 +1,5 @@
 package com.example.moum.data.entity;
 
-import androidx.annotation.NonNull;
-
 public enum Genre {
     POP(0),
     ROCK(1),
@@ -20,6 +18,7 @@ public enum Genre {
     FOLK(14);
 
     private final int value;
+
     Genre(int value) {
         this.value = value;
     }

@@ -22,7 +22,7 @@ public class BoardMemberViewModel extends AndroidViewModel {
     private static Integer page = 0;
     private Integer recentPageNumber = 0;
 
-    public BoardMemberViewModel(Application application){
+    public BoardMemberViewModel(Application application) {
         super(application);
         profileRepository = ProfileRepository.getInstance(application);
     }
@@ -39,25 +39,25 @@ public class BoardMemberViewModel extends AndroidViewModel {
         this.recentPageNumber = recentPageNumber;
     }
 
-    public void setIsLoadMembersSuccess(Result<List<MemberProfileRankResponse>> isLoadMembersSuccess){
+    public void setIsLoadMembersSuccess(Result<List<MemberProfileRankResponse>> isLoadMembersSuccess) {
         this.isLoadMembersSuccess.setValue(isLoadMembersSuccess);
     }
 
-    public void setIsLoadNextMembersSuccess(Result<List<MemberProfileRankResponse>> isLoadNextMembersSuccess){
+    public void setIsLoadNextMembersSuccess(Result<List<MemberProfileRankResponse>> isLoadNextMembersSuccess) {
         this.isLoadNextMembersSuccess.setValue(isLoadNextMembersSuccess);
     }
 
-    public void clearPage(){
+    public void clearPage() {
         page = 0;
     }
 
-    public void loadMembers(){
+    public void loadMembers() {
         profileRepository.loadMembersByRank(page, LOAD_NUMBER, this::setIsLoadMembersSuccess);
         page = page + 1;
     }
 
-    public void loadNextMembers(){
-        if(recentPageNumber < LOAD_NUMBER) return; //이전에 불러온 이미지들이 LOAD_PERFORM_NUMBER보다 적다면, 그만 불러오기
+    public void loadNextMembers() {
+        if (recentPageNumber < LOAD_NUMBER) return; //이전에 불러온 이미지들이 LOAD_PERFORM_NUMBER보다 적다면, 그만 불러오기
         profileRepository.loadMembersByRank(page, LOAD_NUMBER, this::setIsLoadNextMembersSuccess);
         page = page + 1;
     }

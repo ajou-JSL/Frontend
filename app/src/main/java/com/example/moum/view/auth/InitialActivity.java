@@ -16,9 +16,11 @@ import java.util.ArrayList;
 
 public class InitialActivity extends AppCompatActivity {
     public static ArrayList<AppCompatActivity> actList = new ArrayList<AppCompatActivity>();
-    public ArrayList<AppCompatActivity> actList(){
+
+    public ArrayList<AppCompatActivity> actList() {
         return actList;
     }
+
     ActivityInitialBinding binding;
     Context context;
 
@@ -57,14 +59,13 @@ public class InitialActivity extends AppCompatActivity {
 
     }
 
-    private void autoLogin(){
+    private void autoLogin() {
         /*자동로그인 정보를 SharedPreference에서 불러오기*/
         SharedPreferenceManager sharedPreferenceManager = new SharedPreferenceManager(context, getString(R.string.preference_file_key));
         String accessToken = sharedPreferenceManager.getCache(getString(R.string.user_access_token_key), "no-access-token");
-        if(accessToken.isEmpty() || accessToken.equals("no-access-token")){
+        if (accessToken.isEmpty() || accessToken.equals("no-access-token")) {
             return;
-        }
-        else{
+        } else {
             Intent intent = new Intent(InitialActivity.this, MainActivity.class);
             startActivity(intent);
             finish();

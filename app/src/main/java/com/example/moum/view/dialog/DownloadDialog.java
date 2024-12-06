@@ -3,16 +3,13 @@ package com.example.moum.view.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.view.View;
 import android.view.Window;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.moum.R;
-import com.example.moum.view.moum.MoumCreateActivity;
 import com.example.moum.view.moum.MoumPromote2Activity;
 
 public class DownloadDialog extends Dialog {
@@ -22,7 +19,7 @@ public class DownloadDialog extends Dialog {
     private ProgressBar progressBar;
     private final String TAG = getClass().toString();
 
-    public DownloadDialog(@NonNull Context context){
+    public DownloadDialog(@NonNull Context context) {
         super(context);
         this.moumPromote2Activity = (MoumPromote2Activity) context;
     }

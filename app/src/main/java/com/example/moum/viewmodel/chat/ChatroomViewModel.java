@@ -18,9 +18,10 @@ public class ChatroomViewModel extends AndroidViewModel {
     private final MutableLiveData<Result<List<Chatroom>>> isLoadChatroomsSuccess = new MutableLiveData<>();
     private Integer memberId;
 
-    public ChatroomViewModel(Application application){
+    public ChatroomViewModel(Application application) {
         super(application);
-        chatroomRepository = ChatroomRepository.getInstance(application);}
+        chatroomRepository = ChatroomRepository.getInstance(application);
+    }
 
     public void setIsLoadChatroomsSuccess(Result<List<Chatroom>> isLoadChatroomsSuccess) {
         this.isLoadChatroomsSuccess.setValue(isLoadChatroomsSuccess);
@@ -34,7 +35,7 @@ public class ChatroomViewModel extends AndroidViewModel {
         return isLoadChatroomsSuccess;
     }
 
-    public void loadChatrooms(){
+    public void loadChatrooms() {
         chatroomRepository.loadChatrooms(memberId, this::setIsLoadChatroomsSuccess);
     }
 }

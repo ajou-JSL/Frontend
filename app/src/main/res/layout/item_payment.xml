@@ -5,8 +5,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/background_rounded_white"
     android:layout_margin="5dp"
-    android:elevation="5dp"
-    >
+    android:elevation="5dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/payment_top"
@@ -67,7 +66,7 @@
             app:tint="@color/gray5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

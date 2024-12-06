@@ -23,8 +23,6 @@ import com.example.moum.utils.ImageManager;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
-import com.example.moum.view.moum.MoumManageActivity;
-import com.example.moum.view.moum.MoumPromote1Activity;
 import com.example.moum.view.profile.MemberProfileFragment;
 import com.example.moum.viewmodel.myinfo.MyInformationViewModel;
 
@@ -49,7 +47,7 @@ public class MyInformationFragment extends Fragment {
         String username = sharedPreferenceManager.getCache(getString(R.string.user_username_key), "no-memberId");
         Integer id = sharedPreferenceManager.getCache(getString(R.string.user_id_key), -1);
         String name = sharedPreferenceManager.getCache(getString(R.string.user_name_key), "no-memberName");
-        if(accessToken.isEmpty() || accessToken.equals("no-access-token")){
+        if (accessToken.isEmpty() || accessToken.equals("no-access-token")) {
             Toast.makeText(context, "로그인 정보가 없어 초기 페이지로 돌아갑니다.", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(context, InitialActivity.class);
             startActivity(intent);
@@ -63,41 +61,36 @@ public class MyInformationFragment extends Fragment {
         viewModel.getIsLoadMemberProfileSuccess().observe(getViewLifecycleOwner(), isLoadMemberProfileSuccess -> {
             Validation validation = isLoadMemberProfileSuccess.getValidation();
             Member tMember = isLoadMemberProfileSuccess.getData();
-            if(validation == Validation.GET_PROFILE_SUCCESS){
+            if (validation == Validation.GET_PROFILE_SUCCESS) {
                 member = tMember;
                 binding.textviewNickname.setText(tMember.getName());
                 binding.textviewDescription.setText(tMember.getProfileDescription());
-                if(ImageManager.isUrlValid(tMember.getProfileImageUrl()))
+                if (ImageManager.isUrlValid(tMember.getProfileImageUrl())) {
                     Glide.with(context)
                             .applyDefaultRequestOptions(new RequestOptions()
                                     .placeholder(R.drawable.background_circle_gray_size_fit)
                                     .error(R.drawable.background_circle_gray_size_fit))
                             .load(tMember.getProfileImageUrl())
                             .into(binding.imageviewProfile);
+                }
                 int color = context.getColor(R.color.bronze);
-                if(tMember.getTier().equals("BRONZE")){
+                if (tMember.getTier().equals("BRONZE")) {
                     color = context.getColor(R.color.bronze);
-                }
-                else if(tMember.getTier().equals("SILVER")){
+                } else if (tMember.getTier().equals("SILVER")) {
                     color = context.getColor(R.color.silver);
-                }
-                else if(tMember.getTier().equals("GOLD")){
+                } else if (tMember.getTier().equals("GOLD")) {
                     color = context.getColor(R.color.gold);
-                }
-                else if(tMember.getTier().equals("PLATINUM")){
+                } else if (tMember.getTier().equals("PLATINUM")) {
                     color = context.getColor(R.color.platinum);
-                }
-                else if(tMember.getTier().equals("DIAMOND")){
+                } else if (tMember.getTier().equals("DIAMOND")) {
                     color = context.getColor(R.color.diamond);
                 }
                 binding.imageviewProfile.setBorderWidth(8);
                 binding.imageviewProfile.setBorderColor(color);
                 binding.imageviewTier.setColorFilter(color);
-            }
-            else if(validation == Validation.NETWORK_FAILED){
+            } else if (validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else{
+            } else {
                 Log.e(TAG, "프로필을 불러올 수 없습니다.");
                 Toast.makeText(context, "결과를 알 수 없습니다.", Toast.LENGTH_SHORT).show();
             }

@@ -42,7 +42,7 @@ public class PerformanceHallFilterFragment extends BottomSheetDialogFragment {
     private ArrayList<String> drums = new ArrayList<>();
     private SearchPerformHallArgs args = new SearchPerformHallArgs();
 
-    public PerformanceHallFilterFragment(Context context){
+    public PerformanceHallFilterFragment(Context context) {
         this.context = context;
     }
 
@@ -50,14 +50,14 @@ public class PerformanceHallFilterFragment extends BottomSheetDialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = FragmentPerformHallFilterBinding.inflate(inflater,container, false);
+        binding = FragmentPerformHallFilterBinding.inflate(inflater, container, false);
         context = requireContext();
         View view = binding.getRoot();
         view.setBackground(context.getDrawable(R.drawable.background_top_rounded_white));
 
         /*이전에 저장된 필터링 값 가져오기*/
         Bundle bundle = getArguments();
-        if(bundle == null) dismiss();
+        if (bundle == null) dismiss();
 //        args.setSortBy(bundle.getString("sortBy", "distance"));
 //        args.setOrderBy(bundle.getString("orderBy", "asc"));
 //        args.setMinPrice(bundle.getInt("minPrice"));
@@ -94,7 +94,7 @@ public class PerformanceHallFilterFragment extends BottomSheetDialogFragment {
         recyclerSortBy.setAdapter(sortByAdapter);
         List<String> sortByList = List.of("distance", "price", "size", "capacity", "stand");
         sortBys.addAll(sortByList);
-        sortByAdapter.notifyItemInserted(sortByList.size()-1);
+        sortByAdapter.notifyItemInserted(sortByList.size() - 1);
         new Handler().postDelayed(() -> {
             sortByAdapter.setIsSelected(0, true);
             sortByAdapter.notifyItemChanged(0);
@@ -112,7 +112,7 @@ public class PerformanceHallFilterFragment extends BottomSheetDialogFragment {
         recyclerOrderBy.setAdapter(orderByAdapter);
         List<String> orderByList = List.of("asc", "desc");
         orderBys.addAll(orderByList);
-        orderByAdapter.notifyItemInserted(orderBys.size()-1);
+        orderByAdapter.notifyItemInserted(orderBys.size() - 1);
         new Handler().postDelayed(() -> {
             orderByAdapter.setIsSelected(0, true);
             orderByAdapter.notifyItemChanged(0);
@@ -130,7 +130,7 @@ public class PerformanceHallFilterFragment extends BottomSheetDialogFragment {
         recyclerPiano.setAdapter(pianoAdapter);
         List<String> pianoList = List.of("don't-care", "exist", "not-exist");
         pianos.addAll(pianoList);
-        pianoAdapter.notifyItemInserted(pianos.size()-1);
+        pianoAdapter.notifyItemInserted(pianos.size() - 1);
         new Handler().postDelayed(() -> {
             pianoAdapter.setIsSelected(0, true);
             pianoAdapter.notifyItemChanged(0);
@@ -147,7 +147,7 @@ public class PerformanceHallFilterFragment extends BottomSheetDialogFragment {
         recyclerAmp.setAdapter(ampAdapter);
         List<String> ampList = List.of("don't-care", "exist", "not-exist");
         amps.addAll(ampList);
-        ampAdapter.notifyItemInserted(amps.size()-1);
+        ampAdapter.notifyItemInserted(amps.size() - 1);
         new Handler().postDelayed(() -> {
             ampAdapter.setIsSelected(0, true);
             ampAdapter.notifyItemChanged(0);
@@ -164,7 +164,7 @@ public class PerformanceHallFilterFragment extends BottomSheetDialogFragment {
         recyclerSpeaker.setAdapter(speakerAdapter);
         List<String> speakerList = List.of("don't-care", "exist", "not-exist");
         speakers.addAll(speakerList);
-        speakerAdapter.notifyItemInserted(speakers.size()-1);
+        speakerAdapter.notifyItemInserted(speakers.size() - 1);
         new Handler().postDelayed(() -> {
             speakerAdapter.setIsSelected(0, true);
             speakerAdapter.notifyItemChanged(0);
@@ -181,7 +181,7 @@ public class PerformanceHallFilterFragment extends BottomSheetDialogFragment {
         recyclerMic.setAdapter(micAdapter);
         List<String> micList = List.of("don't-care", "exist", "not-exist");
         mics.addAll(micList);
-        micAdapter.notifyItemInserted(mics.size()-1);
+        micAdapter.notifyItemInserted(mics.size() - 1);
         new Handler().postDelayed(() -> {
             micAdapter.setIsSelected(0, true);
             micAdapter.notifyItemChanged(0);
@@ -198,7 +198,7 @@ public class PerformanceHallFilterFragment extends BottomSheetDialogFragment {
         recyclerDrums.setAdapter(drumAdapter);
         List<String> drumList = List.of("don't-care", "exist", "not-exist");
         drums.addAll(drumList);
-        drumAdapter.notifyItemInserted(drums.size()-1);
+        drumAdapter.notifyItemInserted(drums.size() - 1);
         new Handler().postDelayed(() -> {
             drumAdapter.setIsSelected(0, true);
             drumAdapter.notifyItemChanged(0);
@@ -268,47 +268,54 @@ public class PerformanceHallFilterFragment extends BottomSheetDialogFragment {
             @Override
             public void onClick(View view) {
                 args.clear();
-                for(int i = 0; i < sortBys.size(); i++) {
-                    if (i == 0)
+                for (int i = 0; i < sortBys.size(); i++) {
+                    if (i == 0) {
                         sortByAdapter.setIsSelected(i, true);
-                    else
+                    } else {
                         sortByAdapter.setIsSelected(i, false);
+                    }
                 }
-                for(int i = 0; i < orderBys.size(); i++) {
-                    if (i == 0)
+                for (int i = 0; i < orderBys.size(); i++) {
+                    if (i == 0) {
                         orderByAdapter.setIsSelected(i, true);
-                    else
+                    } else {
                         orderByAdapter.setIsSelected(i, false);
+                    }
                 }
-                for(int i = 0; i < pianos.size(); i++) {
-                    if (i == 0)
+                for (int i = 0; i < pianos.size(); i++) {
+                    if (i == 0) {
                         pianoAdapter.setIsSelected(i, true);
-                    else
+                    } else {
                         pianoAdapter.setIsSelected(i, false);
+                    }
                 }
-                for(int i = 0; i < amps.size(); i++) {
-                    if (i == 0)
+                for (int i = 0; i < amps.size(); i++) {
+                    if (i == 0) {
                         ampAdapter.setIsSelected(i, true);
-                    else
+                    } else {
                         ampAdapter.setIsSelected(i, false);
+                    }
                 }
-                for(int i = 0; i < speakers.size(); i++) {
-                    if (i == 0)
+                for (int i = 0; i < speakers.size(); i++) {
+                    if (i == 0) {
                         speakerAdapter.setIsSelected(i, true);
-                    else
+                    } else {
                         speakerAdapter.setIsSelected(i, false);
+                    }
                 }
-                for(int i = 0; i < mics.size(); i++) {
-                    if (i == 0)
+                for (int i = 0; i < mics.size(); i++) {
+                    if (i == 0) {
                         micAdapter.setIsSelected(i, true);
-                    else
+                    } else {
                         micAdapter.setIsSelected(i, false);
+                    }
                 }
-                for(int i = 0; i < drums.size(); i++) {
-                    if (i == 0)
+                for (int i = 0; i < drums.size(); i++) {
+                    if (i == 0) {
                         drumAdapter.setIsSelected(i, true);
-                    else
+                    } else {
                         drumAdapter.setIsSelected(i, false);
+                    }
                 }
                 sortByAdapter.notifyDataSetChanged();
                 orderByAdapter.notifyDataSetChanged();
@@ -341,21 +348,21 @@ public class PerformanceHallFilterFragment extends BottomSheetDialogFragment {
                 args.setHasSpeaker(speakerAdapter.getExistOrNot());
                 args.setHasMic(micAdapter.getExistOrNot());
                 args.setHasDrums(drumAdapter.getExistOrNot());
-                if(args.getSortBy() != null) bundle.putString("sortBy", args.getSortBy());
-                if(args.getOrderBy() != null) bundle.putString("orderBy", args.getOrderBy());
-                if(args.getMinPrice() != null) bundle.putInt("minPrice", args.getMinPrice());
-                if(args.getMaxPrice() != null) bundle.putInt("maxPrice", args.getMaxPrice());
-                if(args.getMaxHallSize() != null) bundle.putInt("maxHallSize", args.getMaxHallSize());
-                if(args.getMinHallSize() != null) bundle.putInt("minHallSize", args.getMinHallSize());
-                if(args.getMinCapacity() != null) bundle.putInt("minCapacity", args.getMinCapacity());
-                if(args.getMaxCapacity() != null) bundle.putInt("maxCapacity", args.getMaxCapacity());
-                if(args.getMinStand() != null) bundle.putInt("minStand", args.getMinStand());
-                if(args.getMaxStand() != null) bundle.putInt("maxStand", args.getMaxStand());
-                if(args.getHasPiano() != null) bundle.putBoolean("hasPiano", args.getHasPiano());
-                if(args.getHasAmp() != null) bundle.putBoolean("hasAmp", args.getHasAmp());
-                if(args.getHasSpeaker() != null) bundle.putBoolean("hasSpeaker", args.getHasSpeaker());
-                if(args.getHasMic() != null) bundle.putBoolean("hasMic", args.getHasMic());
-                if(args.getHasDrums() != null) bundle.putBoolean("hasDrums", args.getHasDrums());
+                if (args.getSortBy() != null) bundle.putString("sortBy", args.getSortBy());
+                if (args.getOrderBy() != null) bundle.putString("orderBy", args.getOrderBy());
+                if (args.getMinPrice() != null) bundle.putInt("minPrice", args.getMinPrice());
+                if (args.getMaxPrice() != null) bundle.putInt("maxPrice", args.getMaxPrice());
+                if (args.getMaxHallSize() != null) bundle.putInt("maxHallSize", args.getMaxHallSize());
+                if (args.getMinHallSize() != null) bundle.putInt("minHallSize", args.getMinHallSize());
+                if (args.getMinCapacity() != null) bundle.putInt("minCapacity", args.getMinCapacity());
+                if (args.getMaxCapacity() != null) bundle.putInt("maxCapacity", args.getMaxCapacity());
+                if (args.getMinStand() != null) bundle.putInt("minStand", args.getMinStand());
+                if (args.getMaxStand() != null) bundle.putInt("maxStand", args.getMaxStand());
+                if (args.getHasPiano() != null) bundle.putBoolean("hasPiano", args.getHasPiano());
+                if (args.getHasAmp() != null) bundle.putBoolean("hasAmp", args.getHasAmp());
+                if (args.getHasSpeaker() != null) bundle.putBoolean("hasSpeaker", args.getHasSpeaker());
+                if (args.getHasMic() != null) bundle.putBoolean("hasMic", args.getHasMic());
+                if (args.getHasDrums() != null) bundle.putBoolean("hasDrums", args.getHasDrums());
 
                 getParentFragmentManager().setFragmentResult("filter_args", bundle);
                 dismiss();

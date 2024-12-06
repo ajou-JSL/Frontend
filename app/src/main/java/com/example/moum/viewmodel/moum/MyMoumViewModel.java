@@ -31,7 +31,7 @@ public class MyMoumViewModel extends AndroidViewModel {
     private final MutableLiveData<Result<List<Moum>>> isLoadMoumsOfTeamSuccess = new MutableLiveData<>();
     private final MutableLiveData<Result<Team>> isLeaveTeamSuccess = new MutableLiveData<>();
 
-    public MyMoumViewModel(Application application){
+    public MyMoumViewModel(Application application) {
         super(application);
         teamRepository = TeamRepository.getInstance(application);
         moumRepository = MoumRepository.getInstance(application);
@@ -49,26 +49,27 @@ public class MyMoumViewModel extends AndroidViewModel {
         return isLeaveTeamSuccess;
     }
 
-    public void setIsLoadTeamsAsMemberSuccess(Result<List<Team>> isLoadTeamsAsMemberSuccess){
+    public void setIsLoadTeamsAsMemberSuccess(Result<List<Team>> isLoadTeamsAsMemberSuccess) {
         this.isLoadTeamsAsMemberSuccess.setValue(isLoadTeamsAsMemberSuccess);
     }
 
-    public void setIsLoadMoumsOfTeamSuccess(Result<List<Moum>> isLoadMoumsOfTeamSuccess){
+    public void setIsLoadMoumsOfTeamSuccess(Result<List<Moum>> isLoadMoumsOfTeamSuccess) {
         this.isLoadMoumsOfTeamSuccess.setValue(isLoadMoumsOfTeamSuccess);
     }
 
-    public void setIsLeaveTeamSuccess(Result<Team> isLeaveTeamSuccess){
+    public void setIsLeaveTeamSuccess(Result<Team> isLeaveTeamSuccess) {
         this.isLeaveTeamSuccess.setValue(isLeaveTeamSuccess);
     }
 
-    public void loadTeamsAsMember(Integer memberId){
+    public void loadTeamsAsMember(Integer memberId) {
         // goto repository
         teamRepository.loadTeamsAsMember(memberId, this::setIsLoadTeamsAsMemberSuccess);
     }
 
-    public void loadMoumsOfTeam(Integer teamId){
+    public void loadMoumsOfTeam(Integer teamId) {
         //valid check
-        if(isLoadTeamsAsMemberSuccess.getValue() != null || isLoadTeamsAsMemberSuccess.getValue().getValidation() != Validation.GET_MY_TEAM_LIST_SUCCESS){
+        if (isLoadTeamsAsMemberSuccess.getValue() != null
+                || isLoadTeamsAsMemberSuccess.getValue().getValidation() != Validation.GET_MY_TEAM_LIST_SUCCESS) {
             Result<List<Moum>> result = new Result<>(Validation.TEAM_NOT_FOUND);
             setIsLoadMoumsOfTeamSuccess(result);
         }
@@ -77,9 +78,10 @@ public class MyMoumViewModel extends AndroidViewModel {
         moumRepository.loadMoumsOfTeam(teamId, this::setIsLoadMoumsOfTeamSuccess);
     }
 
-    public void leaveTeam(Integer teamId){
+    public void leaveTeam(Integer teamId) {
         //valid check
-        if(isLoadTeamsAsMemberSuccess.getValue() != null || isLoadTeamsAsMemberSuccess.getValue().getValidation() != Validation.GET_MY_TEAM_LIST_SUCCESS || teamId == null){
+        if (isLoadTeamsAsMemberSuccess.getValue() != null
+                || isLoadTeamsAsMemberSuccess.getValue().getValidation() != Validation.GET_MY_TEAM_LIST_SUCCESS || teamId == null) {
             Result<Team> result = new Result<>(Validation.TEAM_NOT_FOUND);
             setIsLeaveTeamSuccess(result);
         }

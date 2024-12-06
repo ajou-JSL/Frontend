@@ -17,7 +17,7 @@ import com.example.moum.view.community.CommunitySearchActivity;
 
 import java.util.ArrayList;
 
-public class BoardSearchAdapter extends RecyclerView.Adapter<BoardSearchAdapter.CustomViewHolder>{
+public class BoardSearchAdapter extends RecyclerView.Adapter<BoardSearchAdapter.CustomViewHolder> {
     private ArrayList<BoardFreeItem> itemList;
 
     public BoardSearchAdapter(ArrayList<BoardFreeItem> itemList) {
@@ -39,7 +39,7 @@ public class BoardSearchAdapter extends RecyclerView.Adapter<BoardSearchAdapter.
         notifyDataSetChanged();
     }
 
-    public void addItemList(ArrayList<BoardFreeItem> boardFreeItems){
+    public void addItemList(ArrayList<BoardFreeItem> boardFreeItems) {
         this.itemList.addAll(boardFreeItems);
         notifyDataSetChanged();
     }

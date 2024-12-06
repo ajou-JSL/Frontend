@@ -16,9 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.moum.R;
-import com.example.moum.data.entity.Article;
 import com.example.moum.data.entity.Performance;
-import com.example.moum.utils.ImageManager;
 import com.example.moum.utils.TimeManager;
 import com.example.moum.view.home.HomeFragment;
 
@@ -55,7 +53,7 @@ public class HomePerformHotAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         return performances.size();
     }
 
-    static class HomePerformHotViewModel extends RecyclerView.ViewHolder{
+    static class HomePerformHotViewModel extends RecyclerView.ViewHolder {
         private Performance performance;
         private ImageView performImage;
         private TextView performName;
@@ -79,21 +77,24 @@ public class HomePerformHotAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         @RequiresApi(api = Build.VERSION_CODES.O)
         public void bind(Performance performance) {
             this.performance = performance;
-            if(performance.getPerformanceImageUrl() != null)
+            if (performance.getPerformanceImageUrl() != null) {
                 Glide.with(context)
                         .load(performance.getPerformanceImageUrl())
                         .apply(new RequestOptions()
-                        .placeholder(R.drawable.background_top_more_rounded_gray_size_fit)
-                        .error(R.drawable.background_top_more_rounded_gray_size_fit))
+                                .placeholder(R.drawable.background_top_more_rounded_gray_size_fit)
+                                .error(R.drawable.background_top_more_rounded_gray_size_fit))
                         .into(performImage);
+            }
             performImage.setClipToOutline(true);
             performName.setText(performance.getPerformanceName());
             performPlace.setText(performance.getPerformanceLocation());
             String performTimeStr = "";
-            if(performance.getPerformanceStartDate() != null)
+            if (performance.getPerformanceStartDate() != null) {
                 performTimeStr = performTimeStr.concat(TimeManager.strToDate(performance.getPerformanceStartDate()));
-            if(performance.getPerformanceEndDate() != null)
+            }
+            if (performance.getPerformanceEndDate() != null) {
                 performTimeStr = performTimeStr.concat("\n~ " + TimeManager.strToDate(performance.getPerformanceEndDate()));
+            }
             performTime.setText(performTimeStr);
             performTop.setOnClickListener(new View.OnClickListener() {
                 @Override

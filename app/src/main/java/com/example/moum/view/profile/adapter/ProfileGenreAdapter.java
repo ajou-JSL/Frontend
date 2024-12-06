@@ -16,7 +16,6 @@ import com.example.moum.R;
 import com.example.moum.data.entity.Genre;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class ProfileGenreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<Genre> genres;
@@ -47,7 +46,7 @@ public class ProfileGenreAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return genres.size();
     }
 
-    static class ProfileGenreViewModel extends RecyclerView.ViewHolder{
+    static class ProfileGenreViewModel extends RecyclerView.ViewHolder {
         private ProfileGenreAdapter adapter;
         private Genre genre;
         private TextView genreItem;
@@ -62,7 +61,7 @@ public class ProfileGenreAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         @SuppressLint("UseCompatLoadingForDrawables")
         @RequiresApi(api = Build.VERSION_CODES.O)
-        public void bind(Genre genre){
+        public void bind(Genre genre) {
             this.genre = genre;
             genreItem.setText(genre.name());
         }

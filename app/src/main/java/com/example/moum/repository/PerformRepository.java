@@ -6,15 +6,11 @@ import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
-import com.example.moum.data.api.ArticleApi;
 import com.example.moum.data.api.PerformApi;
 import com.example.moum.data.dto.ErrorResponse;
-import com.example.moum.data.dto.MoumRequest;
 import com.example.moum.data.dto.PerformRequest;
 import com.example.moum.data.dto.SuccessResponse;
-import com.example.moum.data.entity.Article;
 import com.example.moum.data.entity.Content;
-import com.example.moum.data.entity.Moum;
 import com.example.moum.data.entity.Performance;
 import com.example.moum.data.entity.Result;
 import com.example.moum.repository.client.BaseUrl;
@@ -24,7 +20,6 @@ import com.example.moum.utils.ValueMap;
 import com.google.gson.Gson;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.MediaType;
@@ -48,7 +43,7 @@ public class PerformRepository {
         performApi = retrofitClient.create(PerformApi.class);
     }
 
-    public PerformRepository(RetrofitClientManager retrofitClientManager, PerformApi performApi){
+    public PerformRepository(RetrofitClientManager retrofitClientManager, PerformApi performApi) {
         this.retrofitClientManager = retrofitClientManager;
         this.retrofitClient = retrofitClientManager.getClient();
         this.performApi = performApi;
@@ -62,18 +57,19 @@ public class PerformRepository {
         return instance;
     }
 
-    public void createPerform(Performance perform, File file, com.example.moum.utils.Callback<Result<Performance>> callback){
+    public void createPerform(Performance perform, File file, com.example.moum.utils.Callback<Result<Performance>> callback) {
         /*processing into DTO*/
         MultipartBody.Part profileImage = null;
-        if(file != null) {
+        if (file != null) {
             RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpg"), file);
             profileImage = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
-        }
-        else{
+        } else {
             RequestBody emptyRequestBody = RequestBody.create(null, new byte[0]);
             profileImage = MultipartBody.Part.createFormData("file", null, emptyRequestBody);
         }
-        PerformRequest performRequest = new PerformRequest(perform.getPerformanceName(), perform.getPerformanceDescription(), perform.getPerformanceLocation(), perform.getPerformanceStartDate(), perform.getPerformanceEndDate(), perform.getPerformancePrice(), perform.getMembersId(), perform.getTeamId(), perform.getMoumId(), perform.getMusics(), perform.getGenre());
+        PerformRequest performRequest = new PerformRequest(perform.getPerformanceName(), perform.getPerformanceDescription(),
+                perform.getPerformanceLocation(), perform.getPerformanceStartDate(), perform.getPerformanceEndDate(), perform.getPerformancePrice(),
+                perform.getMembersId(), perform.getTeamId(), perform.getMoumId(), perform.getMusics(), perform.getGenre());
         Call<SuccessResponse<Performance>> result = performApi.createPerform(profileImage, performRequest);
         result.enqueue(new retrofit2.Callback<SuccessResponse<Performance>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -88,8 +84,7 @@ public class PerformRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<Performance> result = new Result<>(validation, performance);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -104,6 +99,7 @@ public class PerformRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<Performance>> call, Throwable t) {
                 Result<Performance> result = new Result<>(Validation.NETWORK_FAILED);
@@ -112,18 +108,19 @@ public class PerformRepository {
         });
     }
 
-    public void updatePerform(Integer performId, Performance perform, File file, com.example.moum.utils.Callback<Result<Performance>> callback){
+    public void updatePerform(Integer performId, Performance perform, File file, com.example.moum.utils.Callback<Result<Performance>> callback) {
         /*processing into DTO*/
         MultipartBody.Part profileImage = null;
-        if(file != null){
+        if (file != null) {
             RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpg"), file);
             profileImage = MultipartBody.Part.createFormData("file", "temp_image.jpg", requestFile);
-        }
-        else{
+        } else {
             RequestBody emptyRequestBody = RequestBody.create(null, new byte[0]);
             profileImage = MultipartBody.Part.createFormData("file", null, emptyRequestBody);
         }
-        PerformRequest performRequest = new PerformRequest(perform.getPerformanceName(), perform.getPerformanceDescription(), perform.getPerformanceLocation(), perform.getPerformanceStartDate(), perform.getPerformanceEndDate(), perform.getPerformancePrice(), perform.getMembersId(), null, perform.getMoumId(), perform.getMusics(), perform.getGenre());
+        PerformRequest performRequest = new PerformRequest(perform.getPerformanceName(), perform.getPerformanceDescription(),
+                perform.getPerformanceLocation(), perform.getPerformanceStartDate(), perform.getPerformanceEndDate(), perform.getPerformancePrice(),
+                perform.getMembersId(), null, perform.getMoumId(), perform.getMusics(), perform.getGenre());
         Call<SuccessResponse<Performance>> result = performApi.updatePerform(performId, profileImage, performRequest);
         result.enqueue(new retrofit2.Callback<SuccessResponse<Performance>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -138,8 +135,7 @@ public class PerformRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<Performance> result = new Result<>(validation, performance);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -154,6 +150,7 @@ public class PerformRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<Performance>> call, Throwable t) {
                 Result<Performance> result = new Result<>(Validation.NETWORK_FAILED);
@@ -162,7 +159,7 @@ public class PerformRepository {
         });
     }
 
-    public void deletePerform(Integer performId, com.example.moum.utils.Callback<Result<Performance>> callback){
+    public void deletePerform(Integer performId, com.example.moum.utils.Callback<Result<Performance>> callback) {
         Call<SuccessResponse<Performance>> result = performApi.deletePerform(performId);
         result.enqueue(new retrofit2.Callback<SuccessResponse<Performance>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -177,8 +174,7 @@ public class PerformRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<Performance> result = new Result<>(validation, performance);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -193,6 +189,7 @@ public class PerformRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<Performance>> call, Throwable t) {
                 Result<Performance> result = new Result<>(Validation.NETWORK_FAILED);
@@ -201,7 +198,7 @@ public class PerformRepository {
         });
     }
 
-    public void loadPerform(Integer performId, com.example.moum.utils.Callback<Result<Performance>> callback){
+    public void loadPerform(Integer performId, com.example.moum.utils.Callback<Result<Performance>> callback) {
         Call<SuccessResponse<Performance>> result = performApi.loadPerform(performId);
         result.enqueue(new retrofit2.Callback<SuccessResponse<Performance>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -216,8 +213,7 @@ public class PerformRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<Performance> result = new Result<>(validation, performance);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -232,6 +228,7 @@ public class PerformRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<Performance>> call, Throwable t) {
                 Result<Performance> result = new Result<>(Validation.NETWORK_FAILED);
@@ -240,7 +237,7 @@ public class PerformRepository {
         });
     }
 
-    public void loadPerforms(Integer page, Integer size, com.example.moum.utils.Callback<Result<List<Performance>>> callback){
+    public void loadPerforms(Integer page, Integer size, com.example.moum.utils.Callback<Result<List<Performance>>> callback) {
         Call<SuccessResponse<List<Performance>>> result = performApi.loadPerforms(page, size);
         result.enqueue(new retrofit2.Callback<SuccessResponse<List<Performance>>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -255,8 +252,7 @@ public class PerformRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<List<Performance>> result = new Result<>(validation, articles);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -271,6 +267,7 @@ public class PerformRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<List<Performance>>> call, Throwable t) {
                 Result<List<Performance>> result = new Result<>(Validation.NETWORK_FAILED);
@@ -279,12 +276,13 @@ public class PerformRepository {
         });
     }
 
-    public void loadPerformsHot(Integer page, Integer size, com.example.moum.utils.Callback<Result<List<Performance>>> callback){
-       Call<SuccessResponse<Content<List<Performance>>>> result = performApi.loadPerformsHot(page, size);
+    public void loadPerformsHot(Integer page, Integer size, com.example.moum.utils.Callback<Result<List<Performance>>> callback) {
+        Call<SuccessResponse<Content<List<Performance>>>> result = performApi.loadPerformsHot(page, size);
         result.enqueue(new retrofit2.Callback<SuccessResponse<Content<List<Performance>>>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
-            public void onResponse(Call<SuccessResponse<Content<List<Performance>>>> call, Response<SuccessResponse<Content<List<Performance>>>> response) {
+            public void onResponse(Call<SuccessResponse<Content<List<Performance>>>> call,
+                    Response<SuccessResponse<Content<List<Performance>>>> response) {
                 if (response.isSuccessful()) {
                     /*성공적으로 응답을 받았을 때*/
                     SuccessResponse<Content<List<Performance>>> responseBody = response.body();
@@ -294,8 +292,7 @@ public class PerformRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<List<Performance>> result = new Result<>(validation, articles);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -310,6 +307,7 @@ public class PerformRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<Content<List<Performance>>>> call, Throwable t) {
                 Result<List<Performance>> result = new Result<>(Validation.NETWORK_FAILED);
@@ -318,7 +316,7 @@ public class PerformRepository {
         });
     }
 
-    public void loadPerformOfMoum(Integer moumId, com.example.moum.utils.Callback<Result<Performance>> callback){
+    public void loadPerformOfMoum(Integer moumId, com.example.moum.utils.Callback<Result<Performance>> callback) {
         Call<SuccessResponse<Performance>> result = performApi.loadPerformOfMoum(moumId);
         result.enqueue(new retrofit2.Callback<SuccessResponse<Performance>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -333,8 +331,7 @@ public class PerformRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<Performance> result = new Result<>(validation, performance);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -349,6 +346,7 @@ public class PerformRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<Performance>> call, Throwable t) {
                 Result<Performance> result = new Result<>(Validation.NETWORK_FAILED);

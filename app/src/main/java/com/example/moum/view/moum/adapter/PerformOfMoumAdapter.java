@@ -1,34 +1,23 @@
 package com.example.moum.view.moum.adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.content.res.AppCompatResources;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.moum.R;
-import com.example.moum.data.entity.Moum;
 import com.example.moum.data.entity.PerformanceHall;
-import com.example.moum.data.entity.Practiceroom;
-import com.example.moum.view.moum.MoumCreateActivity;
-import com.example.moum.view.moum.MoumFindPerformanceHallActivity;
 import com.example.moum.view.moum.MoumListPerformanceHallActivity;
-import com.example.moum.view.moum.MoumListPracticeroomActivity;
-import com.example.moum.view.moum.MoumManageActivity;
 
 import java.util.ArrayList;
 
@@ -46,12 +35,14 @@ public class PerformOfMoumAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public int getItemViewType(int position) {
-        if(performanceHalls.get(position) == null || (performanceHalls.get(position).getId() == null && performanceHalls.get(position).getName() == null))
+        if (performanceHalls.get(position) == null || (performanceHalls.get(position).getId() == null && performanceHalls.get(position).getName()
+                == null)) {
             return VIEW_TYPE_EMPTY;
-        else if(performanceHalls.get(position).getId() == null && performanceHalls.get(position).getName() != null)
+        } else if (performanceHalls.get(position).getId() == null && performanceHalls.get(position).getName() != null) {
             return VIEW_TYPE_EXIST_NOT_VERIFIED;
-        else
+        } else {
             return VIEW_TYPE_EXIST;
+        }
     }
 
     @NonNull
@@ -63,7 +54,7 @@ public class PerformOfMoumAdapter extends RecyclerView.Adapter<RecyclerView.View
         } else if (viewType == VIEW_TYPE_EXIST) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_perform_of_moum, parent, false);
             return new PerformOfMoumAdapter.PerformExistViewHolder(view, context);
-        }else {
+        } else {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_practice_of_moum, parent, false);
             return new PracticeOfMoumAdapter.PracticemExistNotVerifiedViewHolder(view, context);
         }
@@ -87,7 +78,7 @@ public class PerformOfMoumAdapter extends RecyclerView.Adapter<RecyclerView.View
         return performanceHalls.size();
     }
 
-    static class PerformExistViewHolder extends RecyclerView.ViewHolder{
+    static class PerformExistViewHolder extends RecyclerView.ViewHolder {
         private PerformanceHall performanceHall;
         private TextView performanceHallName;
         private TextView performanceHallDescription;
@@ -112,17 +103,18 @@ public class PerformOfMoumAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         public void bind(PerformanceHall performanceHall) {
             this.performanceHall = performanceHall;
-            if(performanceHall.getName() != null) performanceHallName.setText(performanceHall.getName());
-            if(performanceHall.getDetails() != null) performanceHallDescription.setText(performanceHall.getDetails());
-            if(performanceHall.getAddress() != null) performanceHallAddress.setText(performanceHall.getAddress());
-            if(performanceHall.getPrice() != null) performanceHallPrice.setText(String.format("시간 당 %,d원", performanceHall.getPrice()));
-            if(performanceHall.getImageUrls() != null && !performanceHall.getImageUrls().isEmpty())
+            if (performanceHall.getName() != null) performanceHallName.setText(performanceHall.getName());
+            if (performanceHall.getDetails() != null) performanceHallDescription.setText(performanceHall.getDetails());
+            if (performanceHall.getAddress() != null) performanceHallAddress.setText(performanceHall.getAddress());
+            if (performanceHall.getPrice() != null) performanceHallPrice.setText(String.format("시간 당 %,d원", performanceHall.getPrice()));
+            if (performanceHall.getImageUrls() != null && !performanceHall.getImageUrls().isEmpty()) {
                 Glide.with(context)
                         .load(performanceHall.getImageUrls().get(0))
                         .apply(new RequestOptions()
                                 .placeholder(R.drawable.background_more_rounded_gray_size_fit)
                                 .error(R.drawable.background_more_rounded_gray_size_fit))
                         .into(performanceHallProfile);
+            }
             performanceHallProfile.setClipToOutline(true);
             performanceHallTop.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -134,7 +126,7 @@ public class PerformOfMoumAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     }
 
-    static class PerformEmptyViewHolder extends RecyclerView.ViewHolder{
+    static class PerformEmptyViewHolder extends RecyclerView.ViewHolder {
         private ConstraintLayout performanceHallTop;
         private MoumListPerformanceHallActivity activity;
         private Context context;
@@ -147,7 +139,7 @@ public class PerformOfMoumAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
 
         @RequiresApi(api = Build.VERSION_CODES.O)
-        public void bind(){
+        public void bind() {
             performanceHallTop.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -182,8 +174,9 @@ public class PerformOfMoumAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         public void bind(PerformanceHall performanceHall) {
             this.performanceHall = performanceHall;
-            if (performanceHall.getName() != null)
+            if (performanceHall.getName() != null) {
                 performanceHallName.setText(performanceHall.getName());
+            }
             performanceHallDescription.setVisibility(View.INVISIBLE);
             performanceHallAddress.setVisibility(View.INVISIBLE);
             performanceHallPrice.setVisibility(View.INVISIBLE);
@@ -192,4 +185,4 @@ public class PerformOfMoumAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
-    }
+}

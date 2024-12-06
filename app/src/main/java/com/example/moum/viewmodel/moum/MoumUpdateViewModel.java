@@ -42,7 +42,7 @@ public class MoumUpdateViewModel extends AndroidViewModel {
     private LocalDate endDate;
     private Genre genre;
 
-    public MoumUpdateViewModel(Application application){
+    public MoumUpdateViewModel(Application application) {
         super(application);
         teamRepository = TeamRepository.getInstance(application);
         moumRepository = MoumRepository.getInstance(application);
@@ -68,76 +68,76 @@ public class MoumUpdateViewModel extends AndroidViewModel {
         return isUpdateMoumSuccess;
     }
 
-    public void setMoum(Moum moum) { this.moum.setValue(moum);}
+    public void setMoum(Moum moum) {
+        this.moum.setValue(moum);
+    }
 
     public void setGenre(String genreStr) {
         this.genre = Genre.fromString(genreStr);
     }
+
     public void setProfileImages(List<Uri> uris) {
         ArrayList<Uri> uriArrayList = new ArrayList<>(uris);
         this.profileImages.setValue(uriArrayList);
         isProfileUpdated = true;
     }
 
-    public void setProfileImages(ArrayList<String> urls){
+    public void setProfileImages(ArrayList<String> urls) {
         ArrayList<Uri> uriArrayList = new ArrayList<>();
-        for(String url : urls)
+        for (String url : urls) {
             uriArrayList.add(Uri.parse(url));
+        }
         this.profileImages.setValue(uriArrayList);
         isProfileUpdated = false;
     }
 
-    public void setDates(LocalDate startDate, LocalDate endDate){
+    public void setDates(LocalDate startDate, LocalDate endDate) {
         this.startDate = startDate;
         this.endDate = endDate;
     }
 
-    public void setIsLoadMoumSuccess(Result<Moum> isLoadMoumSuccess){
+    public void setIsLoadMoumSuccess(Result<Moum> isLoadMoumSuccess) {
         this.isLoadMoumSuccess.setValue(isLoadMoumSuccess);
     }
 
-    public void setIsValidCheckSuccess(Validation isValidCheckSuccess){
+    public void setIsValidCheckSuccess(Validation isValidCheckSuccess) {
         this.isValidCheckSuccess.setValue(isValidCheckSuccess);
     }
 
-    public void setIsUpdateMoumSuccess(Result<Moum> isUpdateMoumSuccess){
+    public void setIsUpdateMoumSuccess(Result<Moum> isUpdateMoumSuccess) {
         this.isUpdateMoumSuccess.setValue(isUpdateMoumSuccess);
     }
 
-    public void setIsProfileUpdated(Boolean isProfileUpdated){
+    public void setIsProfileUpdated(Boolean isProfileUpdated) {
         this.isProfileUpdated = isProfileUpdated;
     }
 
-    public void loadMoum(Integer moumId){
+    public void loadMoum(Integer moumId) {
         moumRepository.loadMoum(moumId, this::setIsLoadMoumSuccess);
     }
 
-    public void addMusic(String musicName, String artistName){
+    public void addMusic(String musicName, String artistName) {
         this.music.add(new Music(musicName, artistName));
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void validCheck(){
+    public void validCheck() {
         /*null check*/
-        if(moum.getValue() == null){
+        if (moum.getValue() == null) {
             setIsValidCheckSuccess(Validation.NOT_VALID_ANYWAY);
             return;
-        }
-        else if(moum.getValue().getMoumName() == null || moum.getValue().getMoumName().isEmpty()) {
+        } else if (moum.getValue().getMoumName() == null || moum.getValue().getMoumName().isEmpty()) {
             setIsValidCheckSuccess(Validation.MOUM_NAME_NOT_WRITTEN);
             return;
-        }
-        else if(startDate != null && endDate != null && startDate.isAfter(endDate)){
+        } else if (startDate != null && endDate != null && startDate.isAfter(endDate)) {
             setIsValidCheckSuccess(Validation.DATE_NOT_VALID);
             return;
-        }
-        else if(music != null){
-            for(Music one : music){
-                if(one.getMusicName() == null || one.getMusicName().isEmpty()){
+        } else if (music != null) {
+            for (Music one : music) {
+                if (one.getMusicName() == null || one.getMusicName().isEmpty()) {
                     setIsValidCheckSuccess(Validation.MUSIC_NAME_NOT_WRITTEN);
                     return;
-                }
-                else if(one.getArtistName() == null || one.getArtistName().isEmpty()){
+                } else if (one.getArtistName() == null || one.getArtistName().isEmpty()) {
                     setIsValidCheckSuccess(Validation.ARTIST_NAME_NOT_WRITTEN);
                     return;
                 }
@@ -146,9 +146,9 @@ public class MoumUpdateViewModel extends AndroidViewModel {
         setIsValidCheckSuccess(Validation.VALID_ALL);
     }
 
-    public void updateMoum(Integer moumId, Integer teamId, Integer leaderId, Context context){
+    public void updateMoum(Integer moumId, Integer teamId, Integer leaderId, Context context) {
         /*valid check*/
-        if(isValidCheckSuccess.getValue() == null || isValidCheckSuccess.getValue() != Validation.VALID_ALL){
+        if (isValidCheckSuccess.getValue() == null || isValidCheckSuccess.getValue() != Validation.VALID_ALL) {
             Result<Moum> result = new Result<>(Validation.NOT_VALID_ANYWAY);
             setIsUpdateMoumSuccess(result);
             return;
@@ -160,18 +160,17 @@ public class MoumUpdateViewModel extends AndroidViewModel {
         moumToUpdate.setMoumId(moumId);
         moumToUpdate.setTeamId(teamId);
         moumToUpdate.setLeaderId(leaderId);
-        if(startDate != null) moumToUpdate.setStartDate(startDate.toString());
-        if(endDate != null) moumToUpdate.setEndDate(endDate.toString());
+        if (startDate != null) moumToUpdate.setStartDate(startDate.toString());
+        if (endDate != null) moumToUpdate.setEndDate(endDate.toString());
         ArrayList<File> profileFiles = new ArrayList<>();
-        if(profileImages.getValue() != null && !profileImages.getValue().isEmpty() && isProfileUpdated){
-            for(Uri uri : profileImages.getValue()){
+        if (profileImages.getValue() != null && !profileImages.getValue().isEmpty() && isProfileUpdated) {
+            for (Uri uri : profileImages.getValue()) {
                 ImageManager imageManager = new ImageManager(context);
                 File profileFile = imageManager.convertUriToFile(uri);
                 profileFiles.add(profileFile);
             }
-        }
-        else if(profileImages.getValue() != null && !profileImages.getValue().isEmpty() && !isProfileUpdated){
-            for(Uri profileImage : profileImages.getValue()) {
+        } else if (profileImages.getValue() != null && !profileImages.getValue().isEmpty() && !isProfileUpdated) {
+            for (Uri profileImage : profileImages.getValue()) {
                 File profileFile = null;
                 Callable<File> callable = () -> {
                     ImageManager imageManager = new ImageManager(context);
@@ -193,7 +192,7 @@ public class MoumUpdateViewModel extends AndroidViewModel {
                 }
             }
         }
-        moumToUpdate.setMembers( new ArrayList<>());
+        moumToUpdate.setMembers(new ArrayList<>());
         moumToUpdate.setRecords(new ArrayList<>());
         moumToUpdate.setMusic(music);
 

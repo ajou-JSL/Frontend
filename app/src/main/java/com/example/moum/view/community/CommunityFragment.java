@@ -59,7 +59,6 @@ public class CommunityFragment extends Fragment {
     }
 
 
-
     private void initSearchButton() {
         binding.searchButton1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,9 +142,9 @@ public class CommunityFragment extends Fragment {
         binding = null;
     }
 
-    public void onCommunityIndexReturn(Integer communityIndex){
+    public void onCommunityIndexReturn(Integer communityIndex) {
         Log.e("ss", "onCommunityIndexReturn start");
-        if(communityIndex != -1) {
+        if (communityIndex != -1) {
             communityViewModel.setSelectedTabIndex(communityIndex);
             binding.communityTabbarPage.setCurrentItem(communityViewModel.getSelectedTabIndex().getValue(), false);
             binding.tabLayout.selectTab(binding.tabLayout.getTabAt(communityViewModel.getSelectedTabIndex().getValue()));

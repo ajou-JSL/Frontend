@@ -33,6 +33,7 @@ import okhttp3.Request;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+
 import com.here.oksse.OkSse;
 import com.here.oksse.ServerSentEvent;
 
@@ -55,7 +56,7 @@ public class ChatRepository {
         this.accessToken = sharedPreferenceManager.getCache(application.getString(R.string.user_access_token_key), "no-access-token");
     }
 
-    public ChatRepository(Application application, RetrofitClientManager retrofitClientManager){
+    public ChatRepository(Application application, RetrofitClientManager retrofitClientManager) {
         this.retrofitClientManager = retrofitClientManager;
         this.retrofitClient = retrofitClientManager.getAuthClient(application);
         this.chatApi = retrofitClient.create(ChatApi.class);
@@ -141,12 +142,13 @@ public class ChatRepository {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onMessage(ServerSentEvent sse, String id, String event, String message) {
-                Log.e(TAG, "Event: "+event+ " => Message; "+message + " - recent");
-                if(event.equals("message")){
+                Log.e(TAG, "Event: " + event + " => Message; " + message + " - recent");
+                if (event.equals("message")) {
                     ChatStreamResponse receivedChat = new Gson().fromJson(message, ChatStreamResponse.class);
                     if (receivedChat != null) {
                         Validation validation = Validation.CHAT_RECEIVE_SUCCESS;
-                        Chat chat = new Chat(receivedChat.getSender(), receivedChat.getMessage(), receivedChat.getChatroomId(), receivedChat.getTimestamp());
+                        Chat chat = new Chat(receivedChat.getSender(), receivedChat.getMessage(), receivedChat.getChatroomId(),
+                                receivedChat.getTimestamp());
                         Result<Chat> result = new Result<Chat>(validation, chat);
                         /*viewModel에 도착하는 순서를 보장하기 위해 handler 사용*/
                         handler.post(() -> {
@@ -222,12 +224,13 @@ public class ChatRepository {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onMessage(ServerSentEvent sse, String id, String event, String message) {
-                Log.e(TAG, "Event: "+event+ " => Message; "+message + "- old");
-                if(event.equals("message")){
+                Log.e(TAG, "Event: " + event + " => Message; " + message + "- old");
+                if (event.equals("message")) {
                     ChatStreamResponse receivedChat = new Gson().fromJson(message, ChatStreamResponse.class);
                     if (receivedChat != null) {
                         Validation validation = Validation.CHAT_RECEIVE_SUCCESS;
-                        Chat chat = new Chat(receivedChat.getSender(), receivedChat.getMessage(), receivedChat.getChatroomId(), receivedChat.getTimestamp());
+                        Chat chat = new Chat(receivedChat.getSender(), receivedChat.getMessage(), receivedChat.getChatroomId(),
+                                receivedChat.getTimestamp());
                         Result<Chat> result = new Result<Chat>(validation, chat);
                         /*viewModel에 도착하는 순서를 보장하기 위해 handler 사용*/
                         handler.post(() -> {

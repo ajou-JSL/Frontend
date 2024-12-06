@@ -16,7 +16,7 @@ public class ReportTeamViewModel extends AndroidViewModel {
     private final MutableLiveData<Result<ReportTeam>> isReportTeamSuccess = new MutableLiveData<>();
     private String type;
 
-    public ReportTeamViewModel(Application application){
+    public ReportTeamViewModel(Application application) {
         super(application);
         reportRepository = ReportRepository.getInstance(application);
     }
@@ -25,17 +25,17 @@ public class ReportTeamViewModel extends AndroidViewModel {
         return isReportTeamSuccess;
     }
 
-    public void setIsReportTeamSuccess(Result<ReportTeam> isReportTeamSuccess){
+    public void setIsReportTeamSuccess(Result<ReportTeam> isReportTeamSuccess) {
         this.isReportTeamSuccess.setValue(isReportTeamSuccess);
     }
 
-    public void setType(String type){
+    public void setType(String type) {
         this.type = type;
     }
 
-    public void reportTeam(Integer targetTeamId, Integer myId, String details){
+    public void reportTeam(Integer targetTeamId, Integer myId, String details) {
         /*null check*/
-        if(type == null){
+        if (type == null) {
             Result<ReportTeam> result = new Result<>(Validation.NOT_VALID_ANYWAY);
             setIsReportTeamSuccess(result);
             return;

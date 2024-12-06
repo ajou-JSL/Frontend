@@ -47,7 +47,7 @@ public class SignupViewModel extends AndroidViewModel {
         signupRepository = SignupRepository.getInstance(application);
     }
 
-    public SignupViewModel(Application application, SignupRepository signupRepository){
+    public SignupViewModel(Application application, SignupRepository signupRepository) {
         super(application);
         this.signupRepository = signupRepository;
     }
@@ -57,9 +57,11 @@ public class SignupViewModel extends AndroidViewModel {
         return signupUser;
     }
 
-    public void setSignupUser(SignupUser signupUser) { this.signupUser.setValue(signupUser);}
+    public void setSignupUser(SignupUser signupUser) {
+        this.signupUser.setValue(signupUser);
+    }
 
-    public void setIsEmailAuthSuccess(Validation validation){
+    public void setIsEmailAuthSuccess(Validation validation) {
         isEmailAuthSuccess.setValue(validation);
     }
 
@@ -75,15 +77,25 @@ public class SignupViewModel extends AndroidViewModel {
         isProfileValid.setValue(validation);
     }
 
-    public void setIsPersonalAgree(Validation validation) {isPersonalAgree.setValue(validation);}
+    public void setIsPersonalAgree(Validation validation) {
+        isPersonalAgree.setValue(validation);
+    }
 
-    public void setIsSignupSuccess(Validation validation) {isSignupSuccess.setValue(validation);}
+    public void setIsSignupSuccess(Validation validation) {
+        isSignupSuccess.setValue(validation);
+    }
 
-    public void setProficiency(String string) {proficiency.setValue(string);}
+    public void setProficiency(String string) {
+        proficiency.setValue(string);
+    }
 
-    public void setAddress(String string) {address.setValue(string);}
+    public void setAddress(String string) {
+        address.setValue(string);
+    }
 
-    public void setProfileImage(Uri uri) {profileImage.setValue(uri);}
+    public void setProfileImage(Uri uri) {
+        profileImage.setValue(uri);
+    }
 
     public MutableLiveData<Validation> getIsEmailAuthSuccess() {
         return isEmailAuthSuccess;
@@ -113,7 +125,7 @@ public class SignupViewModel extends AndroidViewModel {
         return profileImage;
     }
 
-    public void emailAuth(){
+    public void emailAuth() {
 
         /*null check*/
         if (signupUser.getValue() == null || signupUser.getValue().getEmail() == null || signupUser.getValue().getEmail().isEmpty()) {
@@ -125,7 +137,7 @@ public class SignupViewModel extends AndroidViewModel {
         String email = signupUser.getValue().getEmail();
         String emailFormat = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
         Pattern emailPattern = Pattern.compile(emailFormat);
-        if(!emailPattern.matcher(email).matches()){
+        if (!emailPattern.matcher(email).matches()) {
             setIsEmailAuthSuccess(Validation.EMAIL_NOT_FORMAL);
             return;
         }
@@ -136,30 +148,25 @@ public class SignupViewModel extends AndroidViewModel {
         });
     }
 
-    public void validCheckBasic(){
+    public void validCheckBasic() {
 
         /*null or empty check*/
-        if(signupUser.getValue() == null){
+        if (signupUser.getValue() == null) {
             setIsBasicValid(Validation.NOT_VALID_ANYWAY);
             return;
-        }
-        else if(signupUser.getValue().getUsername() == null || signupUser.getValue().getUsername().isEmpty()) {
+        } else if (signupUser.getValue().getUsername() == null || signupUser.getValue().getUsername().isEmpty()) {
             setIsBasicValid(Validation.ID_NOT_WRITTEN);
             return;
-        }
-        else if(signupUser.getValue().getPassword() == null || signupUser.getValue().getPassword().isEmpty()) {
+        } else if (signupUser.getValue().getPassword() == null || signupUser.getValue().getPassword().isEmpty()) {
             setIsBasicValid(Validation.PASSWORD_NOT_WRITTEN);
             return;
-        }
-        else if(signupUser.getValue().getPasswordCheck() == null || signupUser.getValue().getPasswordCheck().isEmpty()) {
+        } else if (signupUser.getValue().getPasswordCheck() == null || signupUser.getValue().getPasswordCheck().isEmpty()) {
             setIsBasicValid(Validation.PASSWORD_CHECK_NOT_WRITTEN);
             return;
-        }
-        else if(signupUser.getValue().getEmail() == null || signupUser.getValue().getEmail().isEmpty()) {
+        } else if (signupUser.getValue().getEmail() == null || signupUser.getValue().getEmail().isEmpty()) {
             setIsBasicValid(Validation.EMAIL_NOT_WRITTEN);
             return;
-        }
-        else if(signupUser.getValue().getEmailCode() == null || signupUser.getValue().getEmailCode().isEmpty()) {
+        } else if (signupUser.getValue().getEmailCode() == null || signupUser.getValue().getEmailCode().isEmpty()) {
             setIsBasicValid(Validation.EMAIL_CODE_NOT_WRITTEN);
             return;
         }
@@ -173,37 +180,34 @@ public class SignupViewModel extends AndroidViewModel {
         Pattern passwordPattern = Pattern.compile(passwordFormat);
         Pattern emailPattern = Pattern.compile(emailFormat);
         Pattern emailCodePattern = Pattern.compile(emailCodeFormat);
-        if(!idPattern.matcher(signupUser.getValue().getUsername()).matches()){
+        if (!idPattern.matcher(signupUser.getValue().getUsername()).matches()) {
             setIsBasicValid(Validation.ID_NOT_FORMAL);
             return;
-        }
-        else if(!passwordPattern.matcher(signupUser.getValue().getPassword()).matches()){
+        } else if (!passwordPattern.matcher(signupUser.getValue().getPassword()).matches()) {
             setIsBasicValid(Validation.PASSWORD_NOT_FORMAL);
             return;
-        }
-        else if(!emailPattern.matcher(signupUser.getValue().getEmail()).matches()){
+        } else if (!emailPattern.matcher(signupUser.getValue().getEmail()).matches()) {
             setIsBasicValid(Validation.EMAIL_NOT_FORMAL);
             return;
-        }
-        else if(!emailCodePattern.matcher(signupUser.getValue().getEmailCode()).matches()){
+        } else if (!emailCodePattern.matcher(signupUser.getValue().getEmailCode()).matches()) {
             setIsBasicValid(Validation.EMAIL_CODE_NOT_FORMAL);
             return;
         }
 
         /*isEmailCodeSuccess check*/
-        if(isEmailCodeSuccess.getValue() == null || isEmailCodeSuccess.getValue() != Validation.EMAIL_AUTH_SUCCESS){
+        if (isEmailCodeSuccess.getValue() == null || isEmailCodeSuccess.getValue() != Validation.EMAIL_AUTH_SUCCESS) {
             setIsBasicValid(Validation.EMAIL_AUTH_NOT_TRIED);
             return;
         }
 
         /*isPersonalAgreement check*/
-        if(isPersonalAgree.getValue() == null || isPersonalAgree.getValue() != Validation.VALID_ALL){
+        if (isPersonalAgree.getValue() == null || isPersonalAgree.getValue() != Validation.VALID_ALL) {
             setIsBasicValid(Validation.PERSONAL_NOT_AGREE);
             return;
         }
 
         /*other check*/
-        if(!signupUser.getValue().getPassword().equals(signupUser.getValue().getPasswordCheck())){
+        if (!signupUser.getValue().getPassword().equals(signupUser.getValue().getPasswordCheck())) {
             setIsBasicValid(Validation.PASSWORD_NOT_EQUAL);
             return;
         }
@@ -213,7 +217,7 @@ public class SignupViewModel extends AndroidViewModel {
 
     }
 
-    public void validCheckEmailCode(){
+    public void validCheckEmailCode() {
 
         /*null check*/
         if (signupUser.getValue() == null || signupUser.getValue().getEmailCode() == null || signupUser.getValue().getEmailCode().isEmpty()) {
@@ -225,13 +229,13 @@ public class SignupViewModel extends AndroidViewModel {
         String emailCode = signupUser.getValue().getEmailCode();
         String emailCodeFormat = "^[0-9a-zA-Z]{6}$";
         Pattern emailCodePattern = Pattern.compile(emailCodeFormat);
-        if(!emailCodePattern.matcher(emailCode).matches()){
+        if (!emailCodePattern.matcher(emailCode).matches()) {
             setIsEmailCodeSuccess(Validation.EMAIL_CODE_NOT_FORMAL);
             return;
         }
 
         /*emailAuthSuccess check*/
-        if(getIsEmailAuthSuccess().getValue() == null || getIsEmailAuthSuccess().getValue() != Validation.EMAIL_AUTH_SUCCESS){
+        if (getIsEmailAuthSuccess().getValue() == null || getIsEmailAuthSuccess().getValue() != Validation.EMAIL_AUTH_SUCCESS) {
             setIsEmailCodeSuccess(Validation.EMAIL_AUTH_NOT_TRIED);
         }
         String email = signupUser.getValue().getEmail();
@@ -242,9 +246,9 @@ public class SignupViewModel extends AndroidViewModel {
         });
     }
 
-    public void setBasic(String memberId, String password, String email, String emailCode){
+    public void setBasic(String memberId, String password, String email, String emailCode) {
 
-        if(signupUser.getValue() == null){
+        if (signupUser.getValue() == null) {
             signupUser.setValue(new SignupUser());
         }
         SignupUser signupUserValue = signupUser.getValue();
@@ -254,30 +258,25 @@ public class SignupViewModel extends AndroidViewModel {
         signupUserValue.setEmailCode(emailCode);
     }
 
-    public void validCheckProfile(){
+    public void validCheckProfile() {
 
         /*null check*/
-        if(signupUser.getValue() == null){
+        if (signupUser.getValue() == null) {
             setIsProfileValid(Validation.NOT_VALID_ANYWAY);
             return;
-        }
-        else if(signupUser.getValue().getName() == null || signupUser.getValue().getName().isEmpty()) {
+        } else if (signupUser.getValue().getName() == null || signupUser.getValue().getName().isEmpty()) {
             setIsProfileValid(Validation.NICKNAME_NOT_WRITTEN);
             return;
-        }
-        else if(signupUser.getValue().getProfileDescription() == null || signupUser.getValue().getProfileDescription().isEmpty()){
+        } else if (signupUser.getValue().getProfileDescription() == null || signupUser.getValue().getProfileDescription().isEmpty()) {
             setIsProfileValid(Validation.DESCRIPTION_NOT_WRITTEN);
             return;
-        }
-        else if(signupUser.getValue().getInstrument() == null || signupUser.getValue().getInstrument().isEmpty()) {
+        } else if (signupUser.getValue().getInstrument() == null || signupUser.getValue().getInstrument().isEmpty()) {
             setIsProfileValid(Validation.INSTRUMENT_NOT_WRITTEN);
             return;
-        }
-        else if(proficiency.getValue() == null || proficiency.getValue().isEmpty()) {
+        } else if (proficiency.getValue() == null || proficiency.getValue().isEmpty()) {
             setIsProfileValid(Validation.PROFICIENCY_NOT_WRITTEN);
             return;
-        }
-        else if(signupUser.getValue().getVideoUrl() != null && !YoutubeManager.isUrlValid(signupUser.getValue().getVideoUrl())){
+        } else if (signupUser.getValue().getVideoUrl() != null && !YoutubeManager.isUrlValid(signupUser.getValue().getVideoUrl())) {
             setIsProfileValid(Validation.VIDEO_URL_NOT_FORMAL);
             return;
         }
@@ -286,66 +285,71 @@ public class SignupViewModel extends AndroidViewModel {
         setIsProfileValid(Validation.VALID_ALL);
     }
 
-    public void addRecord(String name, LocalDate startDate, LocalDate endDate){
+    public void addRecord(String name, LocalDate startDate, LocalDate endDate) {
         String startDateStr = null;
         String endDateStr = null;
-        if(startDate != null)
+        if (startDate != null) {
             startDateStr = startDate.toString().concat("T00:00:00");
-        if(endDate != null)
+        }
+        if (endDate != null) {
             endDateStr = endDate.toString().concat("T00:00:00");
-        Record newRecord = new Record(name, startDateStr,endDateStr);
+        }
+        Record newRecord = new Record(name, startDateStr, endDateStr);
         records.add(newRecord);
     }
 
-    public void setGenres(Genre[] genres, ArrayList<Boolean> isSelecteds){
+    public void setGenres(Genre[] genres, ArrayList<Boolean> isSelecteds) {
         Log.e(TAG, "setGenres start");
         Log.e(TAG, "isSelecteds: " + isSelecteds.toString());
         selectedGenres.clear();
         ArrayList<Genre> genresList = new ArrayList<>(Arrays.asList(genres));
-        if(isSelecteds != null)
+        if (isSelecteds != null) {
             for (int i = 0; i < genresList.size(); i++) {
-                if (isSelecteds.get(i))
+                if (isSelecteds.get(i)) {
                     selectedGenres.add(genresList.get(i));
+                }
             }
+        }
     }
 
-    public void signup(Context context){
+    public void signup(Context context) {
         /*isProfileValid check*/
-        if(getIsProfileValid().getValue() == null || getIsProfileValid().getValue() != Validation.VALID_ALL){
+        if (getIsProfileValid().getValue() == null || getIsProfileValid().getValue() != Validation.VALID_ALL) {
             setIsSignupSuccess(Validation.NOT_VALID_ANYWAY);
             return;
         }
 
         /*processing for repository*/
         SignupUser signupUserValue = signupUser.getValue();
-        if(profileImage.getValue() != null){
+        if (profileImage.getValue() != null) {
             Uri uri = profileImage.getValue();
             ImageManager imageManager = new ImageManager(context);
             File file = imageManager.convertUriToFile(uri);
             signupUserValue.setProfileImage(file);
         }
-        if(records != null){
-            for(Record record : records){
-                if(record.getStartDate() != null && record.getEndDate() != null && record.getStartDate().compareTo(record.getEndDate()) > 0){
+        if (records != null) {
+            for (Record record : records) {
+                if (record.getStartDate() != null && record.getEndDate() != null && record.getStartDate().compareTo(record.getEndDate()) > 0) {
                     setIsSignupSuccess(Validation.RECORD_NOT_VALID);
                     return;
-                }
-                else if(record.getRecordName() == null || record.getRecordName().isEmpty()){
+                } else if (record.getRecordName() == null || record.getRecordName().isEmpty()) {
                     setIsSignupSuccess(Validation.RECORD_NAME_NOT_WRITTEN);
                     return;
                 }
             }
             signupUserValue.setRecords(records);
-        }
-        else{
+        } else {
             signupUserValue.setRecords(new ArrayList<Record>());
         }
-        if(proficiency.getValue() != null)
+        if (proficiency.getValue() != null) {
             signupUserValue.setProficiency(proficiency.getValue());
-        if(address.getValue() != null)
+        }
+        if (address.getValue() != null) {
             signupUserValue.setAddress(address.getValue());
-        if(selectedGenres != null)
+        }
+        if (selectedGenres != null) {
             signupUserValue.setGenres(selectedGenres);
+        }
 
         /*goto repository*/
         signupRepository.signup(signupUserValue, result -> {

@@ -18,7 +18,7 @@ public class MoumManageViewModel extends AndroidViewModel {
     private final MutableLiveData<Result<Moum>> isUpdateMoumSuccess = new MutableLiveData<>();
     private final MutableLiveData<Result<Moum>> isDeleteMoumSuccess = new MutableLiveData<>();
 
-    public MoumManageViewModel(Application application){
+    public MoumManageViewModel(Application application) {
         super(application);
         moumRepository = MoumRepository.getInstance(application);
     }
@@ -43,43 +43,43 @@ public class MoumManageViewModel extends AndroidViewModel {
         return isDeleteMoumSuccess;
     }
 
-    public void setIsLoadMoumSuccess(Result<Moum> isLoadMoumSuccess){
+    public void setIsLoadMoumSuccess(Result<Moum> isLoadMoumSuccess) {
         this.isLoadMoumSuccess.setValue(isLoadMoumSuccess);
     }
 
-    public void setIsFinishMoumSuccess(Result<Moum> isFinishMoumSuccess){
+    public void setIsFinishMoumSuccess(Result<Moum> isFinishMoumSuccess) {
         this.isFinishMoumSuccess.setValue(isFinishMoumSuccess);
     }
 
-    public void setIsReopenMoumSuccess(Result<Moum> isReopenMoumSuccess){
+    public void setIsReopenMoumSuccess(Result<Moum> isReopenMoumSuccess) {
         this.isReopenMoumSuccess.setValue(isReopenMoumSuccess);
     }
 
-    public void setIsUpdateMoumSuccess(Result<Moum> isUpdateMoumSuccess){
+    public void setIsUpdateMoumSuccess(Result<Moum> isUpdateMoumSuccess) {
         this.isUpdateMoumSuccess.setValue(isUpdateMoumSuccess);
     }
 
-    public void setIsDeleteMoumSuccess(Result<Moum> isDeleteMoumSuccess){
+    public void setIsDeleteMoumSuccess(Result<Moum> isDeleteMoumSuccess) {
         this.isDeleteMoumSuccess.setValue(isDeleteMoumSuccess);
     }
 
-    public void loadMoum(Integer moumId){
+    public void loadMoum(Integer moumId) {
         moumRepository.loadMoum(moumId, this::setIsLoadMoumSuccess);
     }
 
-    public void finishMoum(Integer moumId){
+    public void finishMoum(Integer moumId) {
         moumRepository.finishMoum(moumId, this::setIsFinishMoumSuccess);
     }
 
-    public void reopenMoum(Integer moumId){
+    public void reopenMoum(Integer moumId) {
         moumRepository.reopenMoum(moumId, this::setIsReopenMoumSuccess);
     }
 
-    public void updateProcessMoum(Integer moumId, Moum.Process process){
+    public void updateProcessMoum(Integer moumId, Moum.Process process) {
         moumRepository.updateProcessMoum(moumId, process, this::setIsUpdateMoumSuccess);
     }
 
-    public void deleteMoum(Integer moumId){
+    public void deleteMoum(Integer moumId) {
         moumRepository.deleteMoum(moumId, this::setIsDeleteMoumSuccess);
     }
 }

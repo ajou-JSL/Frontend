@@ -1,11 +1,9 @@
 package com.example.moum.data.api;
 
-import com.example.moum.data.dto.ChatSendRequest;
 import com.example.moum.data.dto.ChatroomCreateRequest;
 import com.example.moum.data.dto.ChatroomDeleteRequest;
 import com.example.moum.data.dto.ChatroomUpdateRequest;
 import com.example.moum.data.dto.SuccessResponse;
-import com.example.moum.data.entity.Chat;
 import com.example.moum.data.entity.Chatroom;
 import com.example.moum.data.entity.Member;
 

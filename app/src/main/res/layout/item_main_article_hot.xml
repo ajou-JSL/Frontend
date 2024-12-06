@@ -3,73 +3,73 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/background_white_underline"
-    >
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/article_top"
-            android:layout_width="match_parent"
+    android:background="@drawable/background_white_underline">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/article_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/article_name"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:paddingBottom="5dp"
+            android:text="게시글 이름"
+            android:textColor="@color/gray5"
+            android:textSize="14sp"
+            android:fontFamily="@font/noto_sans_kr_regular"
+            android:includeFontPadding="false"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/article_name"
+            app:layout_constraintStart_toStartOf="parent">
 
             <TextView
-                android:id="@+id/article_name"
+                android:id="@+id/article_author"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="5dp"
-                android:text="게시글 이름"
-                android:textColor="@color/gray5"
-                android:textSize="14sp"
                 android:fontFamily="@font/noto_sans_kr_regular"
                 android:includeFontPadding="false"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
+                android:paddingRight="8dp"
+                android:text="글쓴이 이름"
+                android:textColor="@color/gray4"
+                android:textSize="12sp" />
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/article_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@id/article_name"
-                app:layout_constraintStart_toStartOf="parent">
+                android:paddingRight="8dp"
+                android:text="24.09.16 15:30"
+                android:textColor="@color/gray4"
+                android:textSize="12sp"
+                android:fontFamily="@font/noto_sans_kr_regular"
+                android:includeFontPadding="false" />
 
-                <TextView
-                    android:id="@+id/article_author"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/noto_sans_kr_regular"
-                    android:includeFontPadding="false"
-                    android:paddingRight="8dp"
-                    android:text="글쓴이 이름"
-                    android:textColor="@color/gray4"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/article_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingRight="8dp"
-                    android:text="24.09.16 15:30"
-                    android:textColor="@color/gray4"
-                    android:textSize="12sp"
-                    android:fontFamily="@font/noto_sans_kr_regular"
-                    android:includeFontPadding="false"/>
-
-                <TextView
-                    android:id="@+id/article_views"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingRight="5dp"
-                    android:text="5회"
-                    android:textColor="@color/gray4"
-                    android:textSize="12sp"
-                    android:fontFamily="@font/noto_sans_kr_regular"
-                    android:includeFontPadding="false"/>
-            </LinearLayout>
+            <TextView
+                android:id="@+id/article_views"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="5dp"
+                android:text="5회"
+                android:textColor="@color/gray4"
+                android:textSize="12sp"
+                android:fontFamily="@font/noto_sans_kr_regular"
+                android:includeFontPadding="false" />
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

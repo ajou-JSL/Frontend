@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
-        <bitmap
-            android:src="@drawable/icon_angles_left"
-            android:alpha="0.7"
-            android:tint="@color/gray0"/>
+        <bitmap android:src="@drawable/icon_angles_left" android:alpha="0.7" android:tint="@color/gray0" />
     </item>
 </selector>

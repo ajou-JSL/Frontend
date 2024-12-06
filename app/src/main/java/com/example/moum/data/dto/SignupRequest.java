@@ -40,7 +40,8 @@ public class SignupRequest {
     private String videoUrl;
     private ArrayList<Genre> genres;
 
-    public SignupRequest(String memberId, String password, String email, String nickname, String profileDescription, String instrument, String proficiency, String address, ArrayList<Record> records){
+    public SignupRequest(String memberId, String password, String email, String nickname, String profileDescription, String instrument,
+            String proficiency, String address, ArrayList<Record> records) {
         this.memberId = memberId;
         this.password = password;
         this.email = email;
@@ -52,7 +53,8 @@ public class SignupRequest {
         this.records = records;
     }
 
-    public SignupRequest(String memberId, String password, String email, String nickname, String profileDescription, String instrument, String proficiency, String address, String verifyCode, ArrayList<Record> records, String videoUrl, ArrayList<Genre> genres){
+    public SignupRequest(String memberId, String password, String email, String nickname, String profileDescription, String instrument,
+            String proficiency, String address, String verifyCode, ArrayList<Record> records, String videoUrl, ArrayList<Genre> genres) {
         this.memberId = memberId;
         this.password = password;
         this.email = email;
@@ -70,9 +72,11 @@ public class SignupRequest {
     public String getMemberId() {
         return memberId;
     }
+
     public String getPassword() {
         return password;
     }
+
     public String getEmail() {
         return email;
     }
@@ -80,15 +84,19 @@ public class SignupRequest {
     public String getNickname() {
         return nickname;
     }
+
     public String getProfileDescription() {
         return profileDescription;
     }
+
     public String getInstrument() {
         return instrument;
     }
+
     public String getProficiency() {
         return proficiency;
     }
+
     public String getAddress() {
         return address;
     }
@@ -96,7 +104,8 @@ public class SignupRequest {
     public String getVerifyCode() {
         return verifyCode;
     }
-        public ArrayList<Record> getRecords() {
+
+    public ArrayList<Record> getRecords() {
         return records;
     }
 
@@ -111,9 +120,11 @@ public class SignupRequest {
     public void setMemberId(String name) {
         this.memberId = memberId;
     }
+
     public void setPassword(String password) {
         this.password = password;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -125,12 +136,15 @@ public class SignupRequest {
     public void setProfileDescription(String profileDescription) {
         this.profileDescription = profileDescription;
     }
+
     public void setInstrument(String instrument) {
         this.instrument = instrument;
     }
+
     public void setProficiency(String proficiency) {
         this.proficiency = proficiency;
     }
+
     public void setAddress(String address) {
         this.address = address;
     }
@@ -138,7 +152,8 @@ public class SignupRequest {
     public void setVerifyCode(String verifyCode) {
         this.verifyCode = verifyCode;
     }
-        public void setRecords(ArrayList<Record> records) {
+
+    public void setRecords(ArrayList<Record> records) {
         this.records = records;
     }
 

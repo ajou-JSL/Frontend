@@ -26,7 +26,7 @@ public class TeamProfileViewModel extends AndroidViewModel {
     private final MutableLiveData<Result<Team>> isLoadTeamProfileSuccess = new MutableLiveData<>();
     private final MutableLiveData<Result<Chatroom>> isCreateChatroomSuccess = new MutableLiveData<>();
 
-    public TeamProfileViewModel(Application application){
+    public TeamProfileViewModel(Application application) {
         super(application);
         teamRepository = TeamRepository.getInstance(application);
         chatroomRepository = ChatroomRepository.getInstance(application);
@@ -40,26 +40,26 @@ public class TeamProfileViewModel extends AndroidViewModel {
         return isCreateChatroomSuccess;
     }
 
-    public void setIsLoadTeamProfileSuccess(Result<Team> isLoadTeamProfileSuccess){
+    public void setIsLoadTeamProfileSuccess(Result<Team> isLoadTeamProfileSuccess) {
         this.isLoadTeamProfileSuccess.setValue(isLoadTeamProfileSuccess);
     }
 
-    public void setIsCreateChatroomSuccess(Result<Chatroom> isCreateChatroomSuccess){
+    public void setIsCreateChatroomSuccess(Result<Chatroom> isCreateChatroomSuccess) {
         this.isCreateChatroomSuccess.setValue(isCreateChatroomSuccess);
     }
-    public void loadTeamProfile(Integer targetTeamId){
+
+    public void loadTeamProfile(Integer targetTeamId) {
         // goto repository
         teamRepository.loadTeam(targetTeamId, this::setIsLoadTeamProfileSuccess);
     }
 
-    public void createChatroom(Member targetMember, Integer myId, String myName, Context context){
+    public void createChatroom(Member targetMember, Integer myId, String myName, Context context) {
         // valid check
-        if(isLoadTeamProfileSuccess.getValue() == null || isLoadTeamProfileSuccess.getValue().getValidation() != Validation.GET_TEAM_SUCCESS){
+        if (isLoadTeamProfileSuccess.getValue() == null || isLoadTeamProfileSuccess.getValue().getValidation() != Validation.GET_TEAM_SUCCESS) {
             Result<Chatroom> result = new Result<>(Validation.PROFILE_NOT_LOADED);
             setIsCreateChatroomSuccess(result);
             return;
-        }
-        else if(targetMember.getId() == myId){
+        } else if (targetMember.getId() == myId) {
             Result<Chatroom> result = new Result<>(Validation.CHATROOM_WITH_ME);
             setIsCreateChatroomSuccess(result);
             return;
@@ -67,7 +67,7 @@ public class TeamProfileViewModel extends AndroidViewModel {
 
         // processing
         File chatroomProfileFile = null;
-        if(targetMember.getProfileImageUrl() != null){
+        if (targetMember.getProfileImageUrl() != null) {
             Uri uri = Uri.parse(targetMember.getProfileImageUrl());
             ImageManager imageManager = new ImageManager(context);
             chatroomProfileFile = imageManager.convertUriToFile(uri);

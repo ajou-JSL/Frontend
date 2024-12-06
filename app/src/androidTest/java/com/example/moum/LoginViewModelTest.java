@@ -1,21 +1,15 @@
 package com.example.moum;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.eq;
+
+import android.app.Application;
+
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
-
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.*;
-
-import android.app.Application;
 
 import com.example.moum.data.entity.Member;
 import com.example.moum.data.entity.Result;
@@ -24,6 +18,15 @@ import com.example.moum.repository.LoginRepository;
 import com.example.moum.utils.Callback;
 import com.example.moum.utils.Validation;
 import com.example.moum.viewmodel.auth.LoginViewModel;
+
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 
 @RunWith(AndroidJUnit4.class)
 public class LoginViewModelTest {

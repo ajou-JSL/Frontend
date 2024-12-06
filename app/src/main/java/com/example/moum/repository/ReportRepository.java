@@ -47,7 +47,7 @@ public class ReportRepository {
         reportApi = retrofitClient.create(ReportApi.class);
     }
 
-    public ReportRepository(RetrofitClientManager retrofitClientManager, ReportApi reportApi){
+    public ReportRepository(RetrofitClientManager retrofitClientManager, ReportApi reportApi) {
         this.retrofitClientManager = retrofitClientManager;
         this.retrofitClient = retrofitClientManager.getClient();
         this.reportApi = reportApi;
@@ -61,7 +61,8 @@ public class ReportRepository {
         return instance;
     }
 
-    public void reportMember(Integer reported, Integer reporter, String type, String details, com.example.moum.utils.Callback<Result<ReportMember>> callback){
+    public void reportMember(Integer reported, Integer reporter, String type, String details,
+            com.example.moum.utils.Callback<Result<ReportMember>> callback) {
         ReportRequest reportRequest = new ReportRequest(reporter, type, details);
         Call<SuccessResponse<ReportMember>> result = reportApi.reportMember(reported, reportRequest);
         result.enqueue(new retrofit2.Callback<SuccessResponse<ReportMember>>() {
@@ -77,8 +78,7 @@ public class ReportRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<ReportMember> result = new Result<>(validation, reportMember);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -93,6 +93,7 @@ public class ReportRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<ReportMember>> call, Throwable t) {
                 Result<ReportMember> result = new Result<>(Validation.NETWORK_FAILED);
@@ -101,7 +102,7 @@ public class ReportRepository {
         });
     }
 
-    public void loadReportMember(Integer reportId, com.example.moum.utils.Callback<Result<ReportMember>> callback){
+    public void loadReportMember(Integer reportId, com.example.moum.utils.Callback<Result<ReportMember>> callback) {
         Call<SuccessResponse<ReportMember>> result = reportApi.loadReportMember(reportId);
         result.enqueue(new retrofit2.Callback<SuccessResponse<ReportMember>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -116,8 +117,7 @@ public class ReportRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<ReportMember> result = new Result<>(validation, reportMember);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -132,6 +132,7 @@ public class ReportRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<ReportMember>> call, Throwable t) {
                 Result<ReportMember> result = new Result<>(Validation.NETWORK_FAILED);
@@ -140,7 +141,8 @@ public class ReportRepository {
         });
     }
 
-    public void loadReportMembers(Integer reporterId, Integer page, Integer size, com.example.moum.utils.Callback<Result<List<ReportMember>>> callback){
+    public void loadReportMembers(Integer reporterId, Integer page, Integer size,
+            com.example.moum.utils.Callback<Result<List<ReportMember>>> callback) {
         Call<SuccessResponse<List<ReportMember>>> result = reportApi.loadReportMembers(reporterId, page, size);
         result.enqueue(new retrofit2.Callback<SuccessResponse<List<ReportMember>>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -155,8 +157,7 @@ public class ReportRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<List<ReportMember>> result = new Result<>(validation, reportMembers);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -171,6 +172,7 @@ public class ReportRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<List<ReportMember>>> call, Throwable t) {
                 Result<List<ReportMember>> result = new Result<>(Validation.NETWORK_FAILED);
@@ -179,7 +181,8 @@ public class ReportRepository {
         });
     }
 
-    public void reportTeam(Integer reported, Integer reporter, String type, String details, com.example.moum.utils.Callback<Result<ReportTeam>> callback){
+    public void reportTeam(Integer reported, Integer reporter, String type, String details,
+            com.example.moum.utils.Callback<Result<ReportTeam>> callback) {
         ReportRequest reportRequest = new ReportRequest(reporter, type, details);
         Call<SuccessResponse<ReportTeam>> result = reportApi.reportTeam(reported, reportRequest);
         result.enqueue(new retrofit2.Callback<SuccessResponse<ReportTeam>>() {
@@ -195,8 +198,7 @@ public class ReportRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<ReportTeam> result = new Result<>(validation, reportTeam);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -211,6 +213,7 @@ public class ReportRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<ReportTeam>> call, Throwable t) {
                 Result<ReportTeam> result = new Result<>(Validation.NETWORK_FAILED);
@@ -219,7 +222,7 @@ public class ReportRepository {
         });
     }
 
-    public void loadReportTeam(Integer reportId, com.example.moum.utils.Callback<Result<ReportTeam>> callback){
+    public void loadReportTeam(Integer reportId, com.example.moum.utils.Callback<Result<ReportTeam>> callback) {
         Call<SuccessResponse<ReportTeam>> result = reportApi.loadReportTeam(reportId);
         result.enqueue(new retrofit2.Callback<SuccessResponse<ReportTeam>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -234,8 +237,7 @@ public class ReportRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<ReportTeam> result = new Result<>(validation, reportTeam);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -250,6 +252,7 @@ public class ReportRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<ReportTeam>> call, Throwable t) {
                 Result<ReportTeam> result = new Result<>(Validation.NETWORK_FAILED);
@@ -258,7 +261,7 @@ public class ReportRepository {
         });
     }
 
-    public void loadReportTeams(Integer reporterId, Integer page, Integer size, com.example.moum.utils.Callback<Result<List<ReportTeam>>> callback){
+    public void loadReportTeams(Integer reporterId, Integer page, Integer size, com.example.moum.utils.Callback<Result<List<ReportTeam>>> callback) {
         Call<SuccessResponse<List<ReportTeam>>> result = reportApi.loadReportTeams(reporterId, page, size);
         result.enqueue(new retrofit2.Callback<SuccessResponse<List<ReportTeam>>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -273,8 +276,7 @@ public class ReportRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<List<ReportTeam>> result = new Result<>(validation, reportTeams);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -289,6 +291,7 @@ public class ReportRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<List<ReportTeam>>> call, Throwable t) {
                 Result<List<ReportTeam>> result = new Result<>(Validation.NETWORK_FAILED);
@@ -297,7 +300,8 @@ public class ReportRepository {
         });
     }
 
-    public void reportArticle(Integer reported, Integer reporter, String type, String details, com.example.moum.utils.Callback<Result<ReportArticle>> callback){
+    public void reportArticle(Integer reported, Integer reporter, String type, String details,
+            com.example.moum.utils.Callback<Result<ReportArticle>> callback) {
         ReportRequest reportRequest = new ReportRequest(reporter, type, details);
         Call<SuccessResponse<ReportArticle>> result = reportApi.reportArticle(reported, reportRequest);
         result.enqueue(new retrofit2.Callback<SuccessResponse<ReportArticle>>() {
@@ -313,8 +317,7 @@ public class ReportRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<ReportArticle> result = new Result<>(validation, reportArticle);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -329,6 +332,7 @@ public class ReportRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<ReportArticle>> call, Throwable t) {
                 Result<ReportArticle> result = new Result<>(Validation.NETWORK_FAILED);
@@ -337,7 +341,7 @@ public class ReportRepository {
         });
     }
 
-    public void loadReportArticle(Integer reportId, com.example.moum.utils.Callback<Result<ReportArticle>> callback){
+    public void loadReportArticle(Integer reportId, com.example.moum.utils.Callback<Result<ReportArticle>> callback) {
         Call<SuccessResponse<ReportArticle>> result = reportApi.loadReportArticle(reportId);
         result.enqueue(new retrofit2.Callback<SuccessResponse<ReportArticle>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -352,8 +356,7 @@ public class ReportRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<ReportArticle> result = new Result<>(validation, reportArticle);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -368,6 +371,7 @@ public class ReportRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<ReportArticle>> call, Throwable t) {
                 Result<ReportArticle> result = new Result<>(Validation.NETWORK_FAILED);
@@ -376,7 +380,8 @@ public class ReportRepository {
         });
     }
 
-    public void loadReportArticles(Integer reporterId, Integer page, Integer size, com.example.moum.utils.Callback<Result<List<ReportArticle>>> callback){
+    public void loadReportArticles(Integer reporterId, Integer page, Integer size,
+            com.example.moum.utils.Callback<Result<List<ReportArticle>>> callback) {
         Call<SuccessResponse<List<ReportArticle>>> result = reportApi.loadReportArticles(reporterId, page, size);
         result.enqueue(new retrofit2.Callback<SuccessResponse<List<ReportArticle>>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -391,8 +396,7 @@ public class ReportRepository {
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
                     Result<List<ReportArticle>> result = new Result<>(validation, reportArticles);
                     callback.onResult(result);
-                }
-                else {
+                } else {
                     /*응답은 받았으나 문제 발생 시*/
                     try {
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
@@ -407,6 +411,7 @@ public class ReportRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<List<ReportArticle>>> call, Throwable t) {
                 Result<List<ReportArticle>> result = new Result<>(Validation.NETWORK_FAILED);

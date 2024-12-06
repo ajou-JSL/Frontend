@@ -28,25 +28,25 @@ public class PermissionManager {
     // 권한 요청을 할 때 발생하는 창에 대한 결과값
     private List<Object> permissionList;
 
-    private final int MULTIPLE_PERMISSIONS = 1023 ;
+    private final int MULTIPLE_PERMISSIONS = 1023;
 
 
-    public PermissionManager(Activity _activity, Context _context){
+    public PermissionManager(Activity _activity, Context _context) {
         this.activity = _activity;
         this.context = _context;
     }
 
     // 허용할 권한 요청이 남았는지 체크
-    public boolean checkPermission(){
+    public boolean checkPermission() {
         Log.e("PermissionManager", "checkPermission start");
         int result;
         permissionList = new ArrayList<>();
 
         // 배열로 저장한 권한 중 허용되지 않은 권한이 있는지 체크
-        for (String pm : permissions){
+        for (String pm : permissions) {
             result = ContextCompat.checkSelfPermission(context, pm);
             Log.e("PermissionManager", "pm: " + pm + "result: " + result + ", " + PackageManager.PERMISSION_GRANTED);
-            if(result != PackageManager.PERMISSION_GRANTED){
+            if (result != PackageManager.PERMISSION_GRANTED) {
                 permissionList.add(pm);
             }
         }
@@ -55,22 +55,22 @@ public class PermissionManager {
     }
 
     // 권한 허용 요청
-    public  void requestPermission(){
+    public void requestPermission() {
         Log.e("PermissionManager", "requestPermission start");
         ActivityCompat.requestPermissions(activity, permissionList.toArray(new String[permissionList.size()]),
                 MULTIPLE_PERMISSIONS);
     }
 
     // 권한 요청에 대한 결과 처리
-    public boolean permissionResult(int requestCode , @NonNull String[] permissions, @NonNull int[] grantResults){
+    public boolean permissionResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
         Log.e("PermissionManager", "permissionResult start");
-        if (requestCode == MULTIPLE_PERMISSIONS && (grantResults.length > 0)){
-            for(int i =0; i < grantResults.length ; i ++){
+        if (requestCode == MULTIPLE_PERMISSIONS && (grantResults.length > 0)) {
+            for (int i = 0; i < grantResults.length; i++) {
 
                 // grantResults == 0 사용자가 허용한 것
                 // grantResults == -1 사용자가 거부한 것
-                if(grantResults[i] == -1){
+                if (grantResults[i] == -1) {
                     return false;
                 }
             }

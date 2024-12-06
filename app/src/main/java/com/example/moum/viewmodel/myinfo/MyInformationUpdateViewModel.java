@@ -70,22 +70,26 @@ public class MyInformationUpdateViewModel extends AndroidViewModel {
         return isUpdateProfileSuccess;
     }
 
-    public void setProfileImage(Uri profileImage, Boolean fromExisting){
+    public void setProfileImage(Uri profileImage, Boolean fromExisting) {
         this.profileImage.setValue(profileImage);
         this.fromExisting = fromExisting;
     }
 
-    public void setProficiency(String string) {proficiency.setValue(string);}
+    public void setProficiency(String string) {
+        proficiency.setValue(string);
+    }
 
-    public void setAddress(String string) {address.setValue(string);}
+    public void setAddress(String string) {
+        address.setValue(string);
+    }
 
     public void setEmail(String email) {
         this.email = email;
     }
 
-    public void setGenres(Genre[] genres, ArrayList<Boolean> isSelecteds){
+    public void setGenres(Genre[] genres, ArrayList<Boolean> isSelecteds) {
         ArrayList<Genre> genresList = new ArrayList<>(Arrays.asList(genres));
-        if(isSelecteds != null) {
+        if (isSelecteds != null) {
             selectedGenres.clear();
             for (int i = 0; i < genresList.size(); i++) {
                 if (isSelecteds.get(i)) {
@@ -95,62 +99,61 @@ public class MyInformationUpdateViewModel extends AndroidViewModel {
         }
     }
 
-    public void setIsLoadMemberProfileSuccess(Result<Member> isLoadMemberProfileSuccess){
+    public void setIsLoadMemberProfileSuccess(Result<Member> isLoadMemberProfileSuccess) {
         this.isLoadMemberProfileSuccess.setValue(isLoadMemberProfileSuccess);
     }
 
-    public void setIsProfileValid(Validation isProfileValid){
+    public void setIsProfileValid(Validation isProfileValid) {
         this.isProfileValid.setValue(isProfileValid);
     }
 
-    public void setIsUpdateProfileSuccess(Result<Member> isUpdateProfileSuccess){
+    public void setIsUpdateProfileSuccess(Result<Member> isUpdateProfileSuccess) {
         this.isUpdateProfileSuccess.setValue(isUpdateProfileSuccess);
     }
 
-    public void loadMemberProfile(Integer memberId){
+    public void loadMemberProfile(Integer memberId) {
         profileRepository.loadMemberProfile(memberId, this::setIsLoadMemberProfileSuccess);
     }
 
-    public void addRecord(String name, LocalDate startDate, LocalDate endDate){
+    public void addRecord(String name, LocalDate startDate, LocalDate endDate) {
         String startDateStr = null;
         String endDateStr = null;
-        if(startDate != null)
+        if (startDate != null) {
             startDateStr = startDate.toString().concat("T00:00:00");
-        if(endDate != null)
+        }
+        if (endDate != null) {
             endDateStr = endDate.toString().concat("T00:00:00");
-        Record newRecord = new Record(name, startDateStr,endDateStr);
+        }
+        Record newRecord = new Record(name, startDateStr, endDateStr);
         records.add(newRecord);
     }
 
-    public void clearRecord(){
+    public void clearRecord() {
         records.clear();
     }
 
-    public void validCheckProfile(){
+    public void validCheckProfile() {
         /*null check*/
-        if(member.getValue() == null){
+        if (member.getValue() == null) {
             setIsProfileValid(Validation.NOT_VALID_ANYWAY);
             return;
-        }
-        else if(member.getValue().getName() == null || member.getValue().getName().isEmpty()) {
+        } else if (member.getValue().getName() == null || member.getValue().getName().isEmpty()) {
             setIsProfileValid(Validation.NICKNAME_NOT_WRITTEN);
             return;
-        }
-        else if(member.getValue().getInstrument() == null || member.getValue().getInstrument().isEmpty()) {
+        } else if (member.getValue().getInstrument() == null || member.getValue().getInstrument().isEmpty()) {
             setIsProfileValid(Validation.INSTRUMENT_NOT_WRITTEN);
             return;
-        }
-        else if(proficiency.getValue() == null || proficiency.getValue().isEmpty()) {
+        } else if (proficiency.getValue() == null || proficiency.getValue().isEmpty()) {
             setIsProfileValid(Validation.PROFICIENCY_NOT_WRITTEN);
             return;
         }
 
         /*valid check*/
-        if(isLoadMemberProfileSuccess.getValue() == null || isLoadMemberProfileSuccess.getValue().getValidation() != Validation.GET_PROFILE_SUCCESS){
+        if (isLoadMemberProfileSuccess.getValue() == null
+                || isLoadMemberProfileSuccess.getValue().getValidation() != Validation.GET_PROFILE_SUCCESS) {
             setIsProfileValid(Validation.MEMBER_NOT_EXIST);
             return;
-        }
-        else if(member.getValue().getVideoUrl() != null && !YoutubeManager.isUrlValid(member.getValue().getVideoUrl())){
+        } else if (member.getValue().getVideoUrl() != null && !YoutubeManager.isUrlValid(member.getValue().getVideoUrl())) {
             setIsProfileValid(Validation.VIDEO_URL_NOT_FORMAL);
             return;
         }
@@ -160,12 +163,12 @@ public class MyInformationUpdateViewModel extends AndroidViewModel {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void updateProfile(Context context, Integer memberId, String username){
+    public void updateProfile(Context context, Integer memberId, String username) {
         /*processing*/
         Member memberToUpdate = member.getValue();
 
         /*isProfileValid check*/
-        if(isProfileValid.getValue() != Validation.VALID_ALL){
+        if (isProfileValid.getValue() != Validation.VALID_ALL) {
             Result<Member> result = new Result<>(Validation.NOT_VALID_ANYWAY);
             setIsUpdateProfileSuccess(result);
             return;
@@ -173,7 +176,7 @@ public class MyInformationUpdateViewModel extends AndroidViewModel {
 
         /*processing for repository*/
         memberToUpdate.setUsername(username);
-        if(email != null) memberToUpdate.setEmail(email);
+        if (email != null) memberToUpdate.setEmail(email);
         File profileFile = null;
         if (profileImage.getValue() != null && fromExisting) {
             Callable<File> callable = () -> {
@@ -193,11 +196,11 @@ public class MyInformationUpdateViewModel extends AndroidViewModel {
             } catch (ExecutionException | InterruptedException e) {
                 e.printStackTrace();
             }
-        }
-        else if(profileImage.getValue() != null && !fromExisting)
+        } else if (profileImage.getValue() != null && !fromExisting) {
             profileFile = new ImageManager(context).convertUriToFile(profileImage.getValue());
-        if(records != null){
-            for(Record record : records) {
+        }
+        if (records != null) {
+            for (Record record : records) {
                 if (record.getStartDate() != null && record.getEndDate() != null && record.getStartDate().compareTo(record.getEndDate()) > 0) {
                     Result<Member> result = new Result<>(Validation.RECORD_NOT_VALID);
                     setIsUpdateProfileSuccess(result);
@@ -209,13 +212,15 @@ public class MyInformationUpdateViewModel extends AndroidViewModel {
                 }
             }
             memberToUpdate.setMemberRecords(records);
-        }
-        else
+        } else {
             memberToUpdate.setMemberRecords(new ArrayList<Record>());
-        if(proficiency.getValue() != null)
+        }
+        if (proficiency.getValue() != null) {
             memberToUpdate.setProficiency(proficiency.getValue());
-        if(address.getValue() != null)
+        }
+        if (address.getValue() != null) {
             memberToUpdate.setAddress(address.getValue());
+        }
         memberToUpdate.setGenres(selectedGenres);
 
         /*goto repository*/

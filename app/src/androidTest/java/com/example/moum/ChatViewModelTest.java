@@ -3,11 +3,9 @@ package com.example.moum;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doAnswer;
 
 import android.app.Application;
-import android.content.Context;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.test.core.app.ApplicationProvider;
@@ -16,13 +14,10 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import com.example.moum.data.entity.Chat;
 import com.example.moum.data.entity.Chatroom;
 import com.example.moum.data.entity.Result;
-import com.example.moum.data.entity.Token;
 import com.example.moum.repository.ChatRepository;
 import com.example.moum.repository.ChatroomRepository;
-import com.example.moum.repository.LoginRepository;
 import com.example.moum.utils.Callback;
 import com.example.moum.utils.Validation;
-import com.example.moum.viewmodel.auth.LoginViewModel;
 import com.example.moum.viewmodel.chat.ChatViewModel;
 
 import org.junit.Before;
@@ -36,7 +31,6 @@ import org.mockito.junit.MockitoRule;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 import io.reactivex.rxjava3.observers.TestObserver;
 

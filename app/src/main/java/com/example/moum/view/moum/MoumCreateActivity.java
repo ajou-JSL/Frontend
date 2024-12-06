@@ -82,7 +82,7 @@ public class MoumCreateActivity extends AppCompatActivity {
         String accessToken = sharedPreferenceManager.getCache(getString(R.string.user_access_token_key), "no-access-token");
         String username = sharedPreferenceManager.getCache(getString(R.string.user_username_key), "no-memberId");
         id = sharedPreferenceManager.getCache(getString(R.string.user_id_key), -1);
-        if(accessToken.isEmpty() || accessToken.equals("no-access-token")){
+        if (accessToken.isEmpty() || accessToken.equals("no-access-token")) {
             Toast.makeText(context, "로그인 정보가 없어 초기 페이지로 돌아갑니다.", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(context, InitialActivity.class);
             startActivity(intent);
@@ -104,29 +104,29 @@ public class MoumCreateActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new WrapContentLinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setAdapter(moumCreateImageAdapter);
         uris.add(null); //for image selector
-        moumCreateImageAdapter.notifyItemInserted(uris.size()-1);
+        moumCreateImageAdapter.notifyItemInserted(uris.size() - 1);
 
         /*Photo picker 선택 후 콜백*/
         pickMultipleMedia =
-            registerForActivityResult(new ActivityResultContracts.PickMultipleVisualMedia(5), uris -> {
-                if (!uris.isEmpty()) {
-                    Log.d(TAG,  "Number of items selected: " + uris.size());
-                    viewModel.setProfileImages(uris);
-                } else {
-                    Log.d(TAG, "No media selected");
-                }
-        });
+                registerForActivityResult(new ActivityResultContracts.PickMultipleVisualMedia(5), uris -> {
+                    if (!uris.isEmpty()) {
+                        Log.d(TAG, "Number of items selected: " + uris.size());
+                        viewModel.setProfileImages(uris);
+                    } else {
+                        Log.d(TAG, "No media selected");
+                    }
+                });
 
         /*사진 업로드 감시*/
         viewModel.getProfileImages().observe(this, addedUris -> {
-            for(Uri uri : addedUris){
+            for (Uri uri : addedUris) {
                 Log.e(TAG, "Uri: " + uri.toString());
             }
             uris.clear();
             uris.addAll(addedUris);
             uris.add(null); //for image selector
-            moumCreateImageAdapter.notifyItemInserted(uris.size()-1);
-            recyclerView.scrollToPosition(uris.size()-1);
+            moumCreateImageAdapter.notifyItemInserted(uris.size() - 1);
+            recyclerView.scrollToPosition(uris.size() - 1);
         });
 
         /*날짜 선택 이벤트*/
@@ -172,6 +172,7 @@ public class MoumCreateActivity extends AppCompatActivity {
                 viewModel.setGenre(genreList[position]);
                 binding.errorMoumGenre.setText("");
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 return;
@@ -198,9 +199,9 @@ public class MoumCreateActivity extends AppCompatActivity {
                 editTextMusicName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                     @Override
                     public void onFocusChange(View view, boolean hasFocus) {
-                        if(hasFocus){
+                        if (hasFocus) {
                             placeholderMusicName.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_mint_stroke));
-                        }else{
+                        } else {
                             placeholderMusicName.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_gray_stroke));
                         }
                     }
@@ -208,9 +209,9 @@ public class MoumCreateActivity extends AppCompatActivity {
                 editTextArtistName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                     @Override
                     public void onFocusChange(View view, boolean hasFocus) {
-                        if(hasFocus){
+                        if (hasFocus) {
                             placeholderArtistName.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_mint_stroke));
-                        }else{
+                        } else {
                             placeholderArtistName.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_gray_stroke));
                         }
                     }
@@ -243,8 +244,8 @@ public class MoumCreateActivity extends AppCompatActivity {
                         .toFormatter();
                 LocalDate startDate = null;
                 LocalDate endDate = null;
-                if(!startDateString.equals("시작 날짜")) startDate = LocalDate.parse(startDateString, formatter);
-                if(!endDateString.equals("종료 날짜")) endDate = LocalDate.parse(endDateString, formatter);
+                if (!startDateString.equals("시작 날짜")) startDate = LocalDate.parse(startDateString, formatter);
+                if (!endDateString.equals("종료 날짜")) endDate = LocalDate.parse(endDateString, formatter);
                 viewModel.setDates(startDate, endDate);
 
                 for (int i = 0; i < songParent.getChildCount(); i++) {
@@ -261,32 +262,25 @@ public class MoumCreateActivity extends AppCompatActivity {
 
         /*제출 버튼 클릭 결과 감시*/
         viewModel.getIsValidCheckSuccess().observe(this, isValidCheckSuccess -> {
-            if(isValidCheckSuccess == Validation.NOT_VALID_ANYWAY){
+            if (isValidCheckSuccess == Validation.NOT_VALID_ANYWAY) {
                 Toast.makeText(context, "잘못 입력된 값이 있습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(isValidCheckSuccess == Validation.MOUM_NAME_NOT_WRITTEN){
+            } else if (isValidCheckSuccess == Validation.MOUM_NAME_NOT_WRITTEN) {
                 binding.errorMoumName.setText("모음 이름을 입력하세요.");
                 binding.errorMoumName.requestFocus();
-            }
-            else if(isValidCheckSuccess == Validation.GENRE_NOT_WRITTEN){
+            } else if (isValidCheckSuccess == Validation.GENRE_NOT_WRITTEN) {
                 binding.errorMoumGenre.setText("장르를 선택하세요.");
                 binding.spinnerGenre.requestFocus();
-            }
-            else if(isValidCheckSuccess == Validation.DATE_NOT_VALID){
+            } else if (isValidCheckSuccess == Validation.DATE_NOT_VALID) {
                 binding.errorMoumDate.setText("시작 날짜는 종료 날짜보다 이전이어야 합니다.");
-            }
-            else if(isValidCheckSuccess == Validation.MUSIC_NAME_NOT_WRITTEN){
+            } else if (isValidCheckSuccess == Validation.MUSIC_NAME_NOT_WRITTEN) {
                 Toast.makeText(context, "곡 이름을 입력하세요.", Toast.LENGTH_SHORT).show();
-            }
-            else if(isValidCheckSuccess == Validation.ARTIST_NAME_NOT_WRITTEN){
+            } else if (isValidCheckSuccess == Validation.ARTIST_NAME_NOT_WRITTEN) {
                 Toast.makeText(context, "아티스트 이름을 입력하세요.", Toast.LENGTH_SHORT).show();
-            }
-            else if(isValidCheckSuccess == Validation.VALID_ALL){
+            } else if (isValidCheckSuccess == Validation.VALID_ALL) {
                 // valid check 유효하다면, 최종 다이얼로그 띄우기
                 MoumCreateDialog moumCreateDialog = new MoumCreateDialog(this, binding.edittextMoumName.getText().toString());
                 moumCreateDialog.show();
-            }
-            else{
+            } else {
                 Toast.makeText(context, "모음 생성에 실패하였습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "감시 결과를 알 수 없습니다.");
             }
@@ -297,23 +291,18 @@ public class MoumCreateActivity extends AppCompatActivity {
             loadingDialog.dismiss();
             Validation validation = isCreateTeamSuccess.getValidation();
             Moum createdMoum = isCreateTeamSuccess.getData();
-            if(validation == Validation.NOT_VALID_ANYWAY){
+            if (validation == Validation.NOT_VALID_ANYWAY) {
                 Toast.makeText(context, "잘못 입력된 값이 있습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(validation == Validation.NETWORK_FAILED) {
+            } else if (validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(validation == Validation.MUST_JOIN_TEAM_FIRST){
+            } else if (validation == Validation.MUST_JOIN_TEAM_FIRST) {
                 Toast.makeText(context, "팀에 먼저 가입해야 합니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(validation == Validation.TEAM_NOT_FOUND){
+            } else if (validation == Validation.TEAM_NOT_FOUND) {
                 Toast.makeText(context, "팀을 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(validation == Validation.CREATE_MOUM_SUCCESS){
+            } else if (validation == Validation.CREATE_MOUM_SUCCESS) {
                 Toast.makeText(context, "모음 생성에 성공하였습니다.", Toast.LENGTH_SHORT).show();
                 finish();
-            }
-            else{
+            } else {
                 Toast.makeText(context, "모음 생성에 실패하였습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "감시 결과를 알 수 없습니다.");
             }
@@ -323,10 +312,10 @@ public class MoumCreateActivity extends AppCompatActivity {
         binding.edittextMoumName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if(hasFocus){
+                if (hasFocus) {
                     binding.errorMoumName.setText("");
                     binding.placeholderMoumName.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_mint_stroke));
-                }else{
+                } else {
                     binding.placeholderMoumName.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_gray_stroke));
                 }
             }
@@ -334,10 +323,10 @@ public class MoumCreateActivity extends AppCompatActivity {
         binding.edittextMoumDescription.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if(hasFocus){
+                if (hasFocus) {
                     binding.errorMoumDescription.setText("");
                     binding.placeholderMoumDescription.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_mint_stroke));
-                }else{
+                } else {
                     binding.placeholderMoumDescription.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_gray_stroke));
                 }
             }
@@ -345,10 +334,10 @@ public class MoumCreateActivity extends AppCompatActivity {
         binding.edittextMoumPlace.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if(hasFocus){
+                if (hasFocus) {
                     binding.errorMoumPlace.setText("");
                     binding.placeholderMoumPlace.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_mint_stroke));
-                }else{
+                } else {
                     binding.placeholderMoumPlace.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_gray_stroke));
                 }
             }
@@ -356,10 +345,10 @@ public class MoumCreateActivity extends AppCompatActivity {
         binding.edittextMoumPrice.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if(hasFocus){
+                if (hasFocus) {
                     binding.errorMoumPrice.setText("");
                     binding.placeholderMoumPrice.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_mint_stroke));
-                }else{
+                } else {
                     binding.placeholderMoumPrice.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_gray_stroke));
                 }
             }
@@ -367,27 +356,27 @@ public class MoumCreateActivity extends AppCompatActivity {
         binding.buttonMoumDateStart.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if(hasFocus){
+                if (hasFocus) {
                     binding.errorMoumDate.setText("");
-                }else{
+                } else {
                 }
             }
         });
         binding.buttonMoumDateEnd.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if(hasFocus){
+                if (hasFocus) {
                     binding.errorMoumDate.setText("");
-                }else{
+                } else {
                 }
             }
         });
         binding.spinnerGenre.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if(hasFocus){
+                if (hasFocus) {
                     binding.errorMoumGenre.setText("");
-                }else{
+                } else {
                 }
             }
         });
@@ -395,13 +384,13 @@ public class MoumCreateActivity extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void onDialogYesClicked(){
+    public void onDialogYesClicked() {
         /*다이얼로그에서 Yes 버튼 클릭 시, createMoum() 호출*/
         loadingDialog.show();
         viewModel.createMoum(id, teamId, context);
     }
 
-    public void onImageSelectorClicked(){
+    public void onImageSelectorClicked() {
         /*이미지 선택 버튼 클릭 시, Photo picker 열기*/
         pickMultipleMedia.launch(new PickVisualMediaRequest.Builder()
                 .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)

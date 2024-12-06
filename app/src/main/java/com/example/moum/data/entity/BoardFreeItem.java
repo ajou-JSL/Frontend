@@ -10,7 +10,7 @@ public class BoardFreeItem {
     private Integer commentsCounts;
     private Integer viewCounts;
 
-    public void setBoardFreeItem(Integer postId, String title, String writer, String time, Integer commentCounts, Integer viewCounts){
+    public void setBoardFreeItem(Integer postId, String title, String writer, String time, Integer commentCounts, Integer viewCounts) {
         this.postId = postId;
         this.title = title;
         this.writer = writer;
@@ -19,27 +19,35 @@ public class BoardFreeItem {
         this.viewCounts = viewCounts;
     }
 
-    public void setImage(String image){
+    public void setImage(String image) {
         this.image = image;
     }
 
-    public Integer getBoardId(){ return postId; }
+    public Integer getBoardId() {
+        return postId;
+    }
 
-    public String getTitle(){
+    public String getTitle() {
         return title;
     }
 
-    public String getContent(){ return content; }
+    public String getContent() {
+        return content;
+    }
 
-    public Integer getCommentsCounts(){ return commentsCounts; }
+    public Integer getCommentsCounts() {
+        return commentsCounts;
+    }
 
-    public Integer getViewCounts(){ return viewCounts; }
+    public Integer getViewCounts() {
+        return viewCounts;
+    }
 
     public String getWriter() {
         return writer;
     }
 
-    public String getTime(){
+    public String getTime() {
         return time;
     }
 
@@ -47,9 +55,13 @@ public class BoardFreeItem {
         return image;
     }
 
-    public void setCommentCounts(Integer commentCounts){ this.commentsCounts = commentCounts; }
+    public void setCommentCounts(Integer commentCounts) {
+        this.commentsCounts = commentCounts;
+    }
 
-    public void setViewCounts(Integer viewCounts){ this.viewCounts = viewCounts; }
+    public void setViewCounts(Integer viewCounts) {
+        this.viewCounts = viewCounts;
+    }
 
     public boolean hasImage() {
         return image != null && !image.isEmpty();

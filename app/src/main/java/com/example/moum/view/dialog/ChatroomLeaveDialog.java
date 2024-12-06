@@ -12,7 +12,6 @@ import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.moum.R;
 import com.example.moum.view.chat.ChatActivity;
-import com.example.moum.view.moum.MoumCreateActivity;
 
 public class ChatroomLeaveDialog extends Dialog {
     private ChatActivity chatActivity;
@@ -23,7 +22,7 @@ public class ChatroomLeaveDialog extends Dialog {
     private String chatroomName;
     private final String TAG = getClass().toString();
 
-    public ChatroomLeaveDialog(@NonNull Context context, String chatroomName){
+    public ChatroomLeaveDialog(@NonNull Context context, String chatroomName) {
         super(context);
         this.chatActivity = (ChatActivity) context;
         this.chatroomName = chatroomName;

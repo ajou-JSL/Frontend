@@ -1,7 +1,6 @@
 package com.example.moum.view.moum.adapter;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,8 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.moum.R;
-import com.example.moum.view.moum.MoumCreateActivity;
-import com.example.moum.view.moum.MoumManageActivity;
 
 import java.util.ArrayList;
 
@@ -67,8 +64,8 @@ public class MoumManageImageAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             Glide.with(context)
                     .load(uri)
                     .apply(new RequestOptions()
-                    .placeholder(R.drawable.background_more_rounded_gray_size_fit)
-                    .error(R.drawable.background_more_rounded_gray_size_fit))
+                            .placeholder(R.drawable.background_more_rounded_gray_size_fit)
+                            .error(R.drawable.background_more_rounded_gray_size_fit))
                     .into(moumManageImageview);
             moumManageImageview.setClipToOutline(true);
         }
