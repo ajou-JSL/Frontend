@@ -105,14 +105,15 @@
                             <TextView
                                 android:id="@+id/textview_practiceroom_name"
                                 android:textColor="@color/gray6"
-                                android:textSize="18sp"
+                                android:textSize="17sp"
                                 android:layout_height="wrap_content"
                                 android:layout_width="wrap_content"
                                 android:text="장소 이름"
-                                android:maxWidth="200dp"
+                                android:maxWidth="160dp"
                                 android:gravity="bottom"
                                 android:layout_gravity="bottom"
                                 android:includeFontPadding="false"
+                                android:breakStrategy="high_quality"
                                 android:fontFamily="@font/noto_sans_kr_extrabold"
                                 android:layout_margin="5dp" />
 
@@ -135,7 +136,7 @@
                                 android:text="네이버 지도에서 보기"
                                 android:includeFontPadding="false"
                                 android:textColor="@color/gray4"
-                                android:textSize="10sp"
+                                android:textSize="9sp"
                                 android:elevation="8dp"
                                 android:drawablePadding="5dp"
                                 android:paddingLeft="8dp"
@@ -157,15 +158,27 @@
                             android:id="@+id/button_add_in_moum"
                             android:layout_width="300dp"
                             android:layout_height="50dp"
+                            android:layout_margin="5dp"
                             android:layout_marginLeft="25dp"
                             android:layout_marginRight="25dp"
                             android:background="@drawable/button_neon_mint_bold_ripple"
+                            android:elevation="5dp"
                             android:fontFamily="@font/noto_sans_kr_semibold"
                             android:text="모음에 등록하기"
                             android:textColor="@color/gray0"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/textview_description"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="장소 설명"
+                            android:fontFamily="@font/noto_sans_kr_light"
                             android:textSize="14sp"
-                            android:elevation="5dp"
-                            android:layout_margin="5dp" />
+                            android:layout_marginLeft="25dp"
+                            android:layout_marginRight="25dp"
+                            android:layout_marginTop="30dp"
+                            android:breakStrategy="high_quality" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -272,8 +285,7 @@
                                     android:layout_marginLeft="5dp"
                                     android:fontFamily="@font/noto_sans_kr_regular"
                                     android:includeFontPadding="false"
-                                    android:ellipsize="end"
-                                    android:maxLines="1" />
+                                    android:breakStrategy="high_quality" />
                             </LinearLayout>
 
                             <LinearLayout
