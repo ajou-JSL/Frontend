@@ -1,7 +1,10 @@
 package com.example.moum.repository;
 
 import android.app.Application;
+import android.os.Build;
 import android.util.Log;
+
+import androidx.annotation.RequiresApi;
 
 import com.example.moum.data.api.SignupApi;
 import com.example.moum.data.dto.EmailAuthRequest;
@@ -35,6 +38,7 @@ public class SignupRepository {
     private Retrofit authRetrofitClient;
     private String TAG = getClass().toString();
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public SignupRepository(Application application) {
         retrofitClientManager = new RetrofitClientManager();
         retrofitClientManager.setBaseUrl(BaseUrl.BASIC_SERVER_PATH.getUrl());
@@ -44,13 +48,16 @@ public class SignupRepository {
         authSignupApi = authRetrofitClient.create(SignupApi.class);
     }
 
-    public SignupRepository(Retrofit retrofitClient, SignupApi signupApi) {
-        //TODO 테스트용
-        this.retrofitClient = retrofitClient;
-        retrofitClientManager.setBaseUrl(BaseUrl.BASIC_SERVER_PATH.getUrl());
-        this.signupApi = signupApi;
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public SignupRepository(RetrofitClientManager retrofitClientManager) {
+        this.retrofitClientManager = retrofitClientManager;
+        retrofitClient = retrofitClientManager.getClient();
+        authRetrofitClient = retrofitClientManager.getAuthClient(null);
+        signupApi = retrofitClient.create(SignupApi.class);
+        authSignupApi = authRetrofitClient.create(SignupApi.class);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public static SignupRepository getInstance(Application application) {
         if (instance == null) {
             instance = new SignupRepository(application);
