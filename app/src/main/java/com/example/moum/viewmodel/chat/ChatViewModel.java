@@ -38,6 +38,7 @@ public class ChatViewModel extends AndroidViewModel {
     private final ArrayList<Member> loadedMembers = new ArrayList<>();
     private String TAG = getClass().toString();
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public ChatViewModel(Application application) {
         super(application);
         chatRepository = ChatRepository.getInstance(application);

@@ -42,8 +42,8 @@ public class LoginRepository {
         authLoginApi = authRetrofitClient.create(LoginApi.class);
     }
 
-    public LoginRepository(Retrofit retrofitClient, LoginApi loginApi) {
-        retrofitClientManager.setBaseUrl(BaseUrl.BASIC_SERVER_PATH.getUrl());
+    public LoginRepository(RetrofitClientManager retrofitClientManager, Retrofit retrofitClient, LoginApi loginApi) {
+        this.retrofitClientManager = retrofitClientManager;
         this.retrofitClient = retrofitClient;
         this.loginApi = loginApi;
     }

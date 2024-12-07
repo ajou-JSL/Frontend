@@ -46,6 +46,7 @@ public class ChatRepository {
     private final SharedPreferenceManager sharedPreferenceManager;
     private final String accessToken;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private ChatRepository(Application application) {
         retrofitClientManager = new RetrofitClientManager();
         retrofitClientManager.setBaseUrl(BaseUrl.CHAT_SERVER_PATH.getUrl());
@@ -56,15 +57,16 @@ public class ChatRepository {
         this.accessToken = sharedPreferenceManager.getCache(application.getString(R.string.user_access_token_key), "no-access-token");
     }
 
-    public ChatRepository(Application application, RetrofitClientManager retrofitClientManager) {
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public ChatRepository(RetrofitClientManager retrofitClientManager, String accessToken) {
         this.retrofitClientManager = retrofitClientManager;
-        this.retrofitClient = retrofitClientManager.getAuthClient(application);
+        this.retrofitClient = retrofitClientManager.getAuthClient(null);
         this.chatApi = retrofitClient.create(ChatApi.class);
-
-        this.sharedPreferenceManager = new SharedPreferenceManager(application, application.getString(R.string.preference_file_key));
-        this.accessToken = sharedPreferenceManager.getCache(application.getString(R.string.user_access_token_key), "no-access-token");
+        this.sharedPreferenceManager = null;
+        this.accessToken = accessToken;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public static ChatRepository getInstance(Application application) {
         if (instance == null) {
             instance = new ChatRepository(application);
@@ -79,6 +81,11 @@ public class ChatRepository {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onResponse(Call<SuccessResponse<Chat>> call, Response<SuccessResponse<Chat>> response) {
+                try {
+                } catch (Exception e) {
+                    Log.d(TAG, e.toString());
+                }
+
                 if (response.isSuccessful()) {
                     /*성공적으로 응답을 받았을 때*/
                     SuccessResponse<Chat> responseBody = response.body();

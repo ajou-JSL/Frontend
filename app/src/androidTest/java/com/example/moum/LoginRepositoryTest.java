@@ -44,7 +44,7 @@ public class LoginRepositoryTest {
         retrofitClient = retrofitClientManager.getClient();
         loginApi = retrofitClient.create(LoginApi.class);
 
-        loginRepository = new LoginRepository(retrofitClient, loginApi);
+        loginRepository = new LoginRepository(retrofitClientManager, retrofitClient, loginApi);
     }
 
     @After
@@ -69,7 +69,7 @@ public class LoginRepositoryTest {
                 "eyJhbGciOiJIUzI1NiJ9"
                         +
                         ".eyJjYXRlZ29yeSI6InJlZnJlc2giLCJ1c2VybmFtZSI6InRlc3R1c2VyMyIsInJvbGUiOiJST0xFX0FETUlOIiwiaWF0IjoxNzI4OTAzNzQ5LCJleHAiOjE3Mjg5OTAxNDl9.KY5BNqBEe8lfaZZ76pTvgxK5wlt7BPVfpuuoE2We7pQ";
-        String mockResponse = "{ \"status\": 200, \"code\": \"0000\", \"message\": \"로그인 되었습니다.\", \"data\": \"testuser\"}";
+        String mockResponse = "{ \"status\": 200, \"code\": \"S-M002\", \"message\": \"로그인 되었습니다.\", \"data\": \"testuser\"}";
         mockWebServer.enqueue(new MockResponse()
                 .setResponseCode(200)
                 .addHeader("access", access)
