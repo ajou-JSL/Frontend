@@ -33,6 +33,7 @@ import okhttp3.Request;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.http.Url;
 
 import com.here.oksse.OkSse;
 import com.here.oksse.ServerSentEvent;
@@ -45,6 +46,7 @@ public class ChatRepository {
     private final String TAG = getClass().toString();
     private final SharedPreferenceManager sharedPreferenceManager;
     private final String accessToken;
+    private String chatBaseUrl;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private ChatRepository(Application application) {
@@ -55,6 +57,7 @@ public class ChatRepository {
 
         this.sharedPreferenceManager = new SharedPreferenceManager(application, application.getString(R.string.preference_file_key));
         this.accessToken = sharedPreferenceManager.getCache(application.getString(R.string.user_access_token_key), "no-access-token");
+        chatBaseUrl = BaseUrl.CHAT_SERVER_PATH.getUrl();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -64,6 +67,7 @@ public class ChatRepository {
         this.chatApi = retrofitClient.create(ChatApi.class);
         this.sharedPreferenceManager = null;
         this.accessToken = accessToken;
+        chatBaseUrl = retrofitClientManager.getBaseUrl();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -122,7 +126,7 @@ public class ChatRepository {
 
     public void receiveRecentChat(Integer chatroomId, com.example.moum.utils.Callback<Result<Chat>> callback) {
         /*URL 생성*/
-        HttpUrl url = HttpUrl.parse(BaseUrl.CHAT_SERVER_PATH.getUrl())
+        HttpUrl url = HttpUrl.parse(chatBaseUrl)
                 .newBuilder()
                 .addPathSegment("api")
                 .addPathSegment("chat")
@@ -203,7 +207,7 @@ public class ChatRepository {
 
     public void receiveOldChat(Integer chatroomId, LocalDateTime beforeTimestamp, com.example.moum.utils.Callback<Result<Chat>> callback) {
         /*URL 생성*/
-        HttpUrl url = HttpUrl.parse(BaseUrl.CHAT_SERVER_PATH.getUrl())
+        HttpUrl url = HttpUrl.parse(chatBaseUrl)
                 .newBuilder()
                 .addPathSegment("api")
                 .addPathSegment("chat")

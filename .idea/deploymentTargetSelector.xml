@@ -61,10 +61,7 @@
           </targets>
         </DialogSelection>
       </SelectionState>
-      <SelectionState runConfigName="LoginRepositoryTest">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="testLoginSuccess()">
+      <SelectionState runConfigName="testReceiveRecentChat_ShouldReturnSuccessResponse_WhenReceiveRecentChatSuccess()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

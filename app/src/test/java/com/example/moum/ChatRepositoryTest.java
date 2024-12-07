@@ -51,7 +51,6 @@ public class ChatRepositoryTest {
 
     @Test
     public void testChatSend_ShouldReturnSuccessResponse_WhenChatSendSuccess() throws Exception {
-
         CountDownLatch latch = new CountDownLatch(1);
 
         // Given
@@ -90,7 +89,6 @@ public class ChatRepositoryTest {
 
     @Test
     public void testChatSend_ShouldReturnFailureResponse_WhenChatSendFailure() throws Exception {
-
         CountDownLatch latch = new CountDownLatch(1);
 
         // Given
@@ -123,7 +121,6 @@ public class ChatRepositoryTest {
 
     @Test
     public void testChatSend_ShouldReturnNetworkFailureResponse_WhenNetworkFailure() throws Exception {
-
         CountDownLatch latch = new CountDownLatch(1);
 
         // Given
