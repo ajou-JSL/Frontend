@@ -40,6 +40,7 @@ public class ReportRepository {
     private final Retrofit retrofitClient;
     private final String TAG = getClass().toString();
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private ReportRepository(Application application) {
         retrofitClientManager = new RetrofitClientManager();
         retrofitClientManager.setBaseUrl(BaseUrl.BASIC_SERVER_PATH.getUrl());
@@ -47,13 +48,14 @@ public class ReportRepository {
         reportApi = retrofitClient.create(ReportApi.class);
     }
 
-    public ReportRepository(RetrofitClientManager retrofitClientManager, ReportApi reportApi) {
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public ReportRepository(RetrofitClientManager retrofitClientManager) {
         this.retrofitClientManager = retrofitClientManager;
-        this.retrofitClient = retrofitClientManager.getClient();
-        this.reportApi = reportApi;
-        retrofitClientManager.setBaseUrl(BaseUrl.BASIC_SERVER_PATH.getUrl());
+        this.retrofitClient = retrofitClientManager.getAuthClient(null);
+        reportApi = retrofitClient.create(ReportApi.class);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public static ReportRepository getInstance(Application application) {
         if (instance == null) {
             instance = new ReportRepository(application);
