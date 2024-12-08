@@ -1,7 +1,10 @@
 package com.example.moum.repository;
 
 import android.app.Application;
+import android.os.Build;
 import android.util.Log;
+
+import androidx.annotation.RequiresApi;
 
 import com.example.moum.data.api.PromoteApi;
 import com.example.moum.data.dto.ErrorResponse;
@@ -25,6 +28,7 @@ public class PromoteRepository {
     private final Retrofit retrofitClient;
     private final String TAG = getClass().toString();
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private PromoteRepository(Application application) {
         retrofitClientManager = new RetrofitClientManager();
         retrofitClientManager.setBaseUrl(BaseUrl.BASIC_SERVER_PATH.getUrl());
@@ -32,13 +36,14 @@ public class PromoteRepository {
         promoteApi = retrofitClient.create(PromoteApi.class);
     }
 
-    public PromoteRepository(RetrofitClientManager retrofitClientManager, PromoteApi promoteApi) {
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public PromoteRepository(RetrofitClientManager retrofitClientManager) {
         this.retrofitClientManager = retrofitClientManager;
-        this.retrofitClient = retrofitClientManager.getClient();
-        this.promoteApi = promoteApi;
-        retrofitClientManager.setBaseUrl(BaseUrl.BASIC_SERVER_PATH.getUrl());
+        this.retrofitClient = retrofitClientManager.getAuthClient(null);
+        promoteApi = retrofitClient.create(PromoteApi.class);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public static PromoteRepository getInstance(Application application) {
         if (instance == null) {
             instance = new PromoteRepository(application);

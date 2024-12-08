@@ -36,6 +36,7 @@ public class PerformRepository {
     private final Retrofit retrofitClient;
     private final String TAG = getClass().toString();
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private PerformRepository(Application application) {
         retrofitClientManager = new RetrofitClientManager();
         retrofitClientManager.setBaseUrl(BaseUrl.BASIC_SERVER_PATH.getUrl());
@@ -43,13 +44,14 @@ public class PerformRepository {
         performApi = retrofitClient.create(PerformApi.class);
     }
 
-    public PerformRepository(RetrofitClientManager retrofitClientManager, PerformApi performApi) {
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public PerformRepository(RetrofitClientManager retrofitClientManager) {
         this.retrofitClientManager = retrofitClientManager;
-        this.retrofitClient = retrofitClientManager.getClient();
-        this.performApi = performApi;
-        retrofitClientManager.setBaseUrl(BaseUrl.BASIC_SERVER_PATH.getUrl());
+        this.retrofitClient = retrofitClientManager.getAuthClient(null);
+        performApi = retrofitClient.create(PerformApi.class);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public static PerformRepository getInstance(Application application) {
         if (instance == null) {
             instance = new PerformRepository(application);
