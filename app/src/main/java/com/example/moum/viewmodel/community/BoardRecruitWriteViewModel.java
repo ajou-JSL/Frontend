@@ -9,6 +9,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.moum.data.entity.Article;
+import com.example.moum.data.entity.Genre;
 import com.example.moum.data.entity.Member;
 import com.example.moum.data.entity.Result;
 import com.example.moum.data.entity.Team;
@@ -120,7 +121,7 @@ public class BoardRecruitWriteViewModel extends AndroidViewModel {
         articleToCreate.setTitle(title);
         articleToCreate.setContent(content);
         articleToCreate.setCategory(category);
-        articleToCreate.setGenre(genre);
+        articleToCreate.setGenre(Genre.fromInt(genre));
 
         ArrayList<File> imageURLs = new ArrayList<>();
         if (fileImageList.getValue() != null && !fileImageList.getValue().isEmpty()) {

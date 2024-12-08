@@ -181,14 +181,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
-                            <ToggleButton
+                            <ImageView
                                 android:id="@+id/button_like_image"
                                 android:layout_width="15dp"
                                 android:layout_height="15dp"
                                 android:layout_gravity="bottom"
-                                android:textOff=""
-                                android:textOn=""
-                                android:background="@drawable/icon_heart_toggle"
+                                android:background="@drawable/icon_heart_click_no"
                                 />
                             <TextView
                                 android:id="@+id/board_recruit_detail_like_count"

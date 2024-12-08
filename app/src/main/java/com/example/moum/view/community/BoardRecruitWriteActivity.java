@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moum.R;
+import com.example.moum.data.entity.Article;
 import com.example.moum.data.entity.Genre;
 import com.example.moum.data.entity.Team;
 import com.example.moum.databinding.ActivityBoardRecruitWriteBinding;
@@ -63,6 +64,16 @@ public class BoardRecruitWriteActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
+
+        /* 게시글 생성 감시 */
+        boardRecruitWriteViewModel.getIsArticleCreateSuccess().observe(this, result -> {
+            Validation validation = result.getValidation();
+            Article article = result.getData();
+            if(validation == Validation.ARTICLE_POST_SUCCESS && article != null){
+                Toast.makeText(context,"게시글 생성 성공", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
 
         initBackButton();
         initWriteButton();
@@ -112,7 +123,6 @@ public class BoardRecruitWriteActivity extends AppCompatActivity {
             }
 
             boardRecruitWriteViewModel.createArticle(title, content, category, genre, context);
-            finish();
         });
     }
 

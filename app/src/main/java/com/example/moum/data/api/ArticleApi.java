@@ -4,12 +4,14 @@ import com.example.moum.data.dto.ArticleFilterRequest;
 import com.example.moum.data.dto.ArticleRequest;
 import com.example.moum.data.dto.ChatSendRequest;
 import com.example.moum.data.dto.CommentRequest;
+import com.example.moum.data.dto.DataResponse;
 import com.example.moum.data.dto.SuccessResponse;
 import com.example.moum.data.entity.Article;
 import com.example.moum.data.entity.Chat;
 import com.example.moum.data.entity.Comment;
 import com.example.moum.data.entity.Like;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import okhttp3.MultipartBody;
@@ -18,6 +20,7 @@ import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
@@ -53,10 +56,17 @@ public interface ArticleApi {
     );
 
     @GET("api/articles/search")
-    Call<SuccessResponse<List<Article>>> searchArticlesFilters(
+    Call<SuccessResponse<DataResponse<Article>>> searchArticlesFilters(
+            @Query("keyword") String keyword,
+            @Query("filterByLikesCount") boolean filterByLikesCount,
+            @Query("filterByViewCount") boolean filterByViewCount,
+            @Query("filterByCommentsCount") boolean filterByCommentsCount,
+            @Query("filterByCreatedAt") boolean filterByCreatedAt,
+            @Query("createdAt") String createdAt,
+            @Query("category") String category,
+            @Query("genre") String genre,
             @Query("page") Integer page,
-            @Query("size") Integer size,
-            @Query("searchDto") ArticleFilterRequest articleFilterRequest
+            @Query("size") Integer size
     );
 
     @Multipart

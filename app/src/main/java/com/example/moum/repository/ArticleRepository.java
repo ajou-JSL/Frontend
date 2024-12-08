@@ -10,10 +10,12 @@ import com.example.moum.data.api.ArticleApi;
 import com.example.moum.data.dto.ArticleFilterRequest;
 import com.example.moum.data.dto.ArticleRequest;
 import com.example.moum.data.dto.CommentRequest;
+import com.example.moum.data.dto.DataResponse;
 import com.example.moum.data.dto.ErrorResponse;
 import com.example.moum.data.dto.SuccessResponse;
 import com.example.moum.data.entity.Article;
 import com.example.moum.data.entity.Comment;
+import com.example.moum.data.entity.Genre;
 import com.example.moum.data.entity.Like;
 import com.example.moum.data.entity.Result;
 import com.example.moum.repository.client.BaseUrl;
@@ -233,7 +235,7 @@ public class ArticleRepository {
         }
         Log.e(TAG, "파일 없음");
         /*RequestDto 처리 */
-        ArticleRequest articleRequest = new ArticleRequest(article.getTitle(), article.getContent(), article.getCategory(), article.getGenre());
+        ArticleRequest articleRequest = new ArticleRequest(article.getTitle(), article.getContent(), article.getCategory(), Genre.fromString(article.getGenre()).getValue());
         Call<SuccessResponse<Article>> result = articleApi.createArticle(fileList, articleRequest);
 
         /* API 호출 */
@@ -500,21 +502,38 @@ public class ArticleRepository {
             }
         });
     }
+    public void loadArticlesByFilter(ArticleFilterRequest articleFilterRequest, Integer page, Integer size, com.example.moum.utils.Callback<Result<List<Article>>> callback) {
+        // SuccessResponse<DataResponse<Article>>로 변경
+        Call<SuccessResponse<DataResponse<Article>>> result =
+                articleApi.searchArticlesFilters(
+                        articleFilterRequest.getKeyword(),
+                        articleFilterRequest.getLike(),
+                        articleFilterRequest.getView(),
+                        articleFilterRequest.getComment(),
+                        articleFilterRequest.getCreatedAt(),
+                        articleFilterRequest.getCreatedAtValue(),
+                        articleFilterRequest.getCategory(),
+                        articleFilterRequest.getGenre(),
+                        page, size);
 
-    public void loadArticlesByFilter(ArticleFilterRequest articleFilterRequest, Integer page, Integer size,com.example.moum.utils.Callback<Result<List<Article>>> callback) {
-        Call<SuccessResponse<List<Article>>> result = articleApi.searchArticlesFilters( page, size, articleFilterRequest);
-        result.enqueue(new retrofit2.Callback<SuccessResponse<List<Article>>>() {
+        result.enqueue(new retrofit2.Callback<SuccessResponse<DataResponse<Article>>>() {
             @Override
-            public void onResponse(Call<SuccessResponse<List<Article>>> call, Response<SuccessResponse<List<Article>>> response) {
+            public void onResponse(Call<SuccessResponse<DataResponse<Article>>> call, Response<SuccessResponse<DataResponse<Article>>> response) {
                 if (response.isSuccessful()) {
-                    /*성공적으로 응답을 받았을 때*/
-                    SuccessResponse<List<Article>> responseBody = response.body();
-                    List<Article> articles = responseBody.getData();
-                    Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
-                    Result<List<Article>> result = new Result<>(validation, articles);
-                    callback.onResult(result);
+                    /* 성공적으로 응답을 받았을 때 */
+                    SuccessResponse<DataResponse<Article>> responseBody = response.body();
+                    if (responseBody != null && responseBody.getData() != null) {
+                        /* content에 있는 List<Article>을 추출 */
+                        List<Article> articles = responseBody.getData().getContent();
+                        Log.e(TAG, "SuccessResponse" + articles.toString());
+                        /* validation을 위한 코드 */
+                        Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
+                        Result<List<Article>> result = new Result<>(validation, articles);
+                        callback.onResult(result);
+                    }
                 } else {
                     try {
+                        // 오류 응답 처리
                         ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
                         if (errorResponse != null) {
                             Log.e(TAG, errorResponse.toString());
@@ -527,11 +546,13 @@ public class ArticleRepository {
                     }
                 }
             }
+
             @Override
-            public void onFailure(Call<SuccessResponse<List<Article>>> call, Throwable t) {
+            public void onFailure(Call<SuccessResponse<DataResponse<Article>>> call, Throwable t) {
                 Result<List<Article>> result = new Result<>(Validation.NETWORK_FAILED);
                 callback.onResult(result);
             }
         });
     }
+
 }

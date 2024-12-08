@@ -12,12 +12,14 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.moum.R;
 import com.example.moum.data.entity.Comment;
+import com.example.moum.data.entity.Member;
 import com.example.moum.utils.TimeAgo;
 import com.example.moum.view.community.BoardRecruitDetailActivity;
 import com.example.moum.viewmodel.community.BoardRecruitDetailViewModel;
@@ -119,25 +121,39 @@ public class BoardRecruitDetailAdapter extends RecyclerView.Adapter<RecyclerView
             commentTimestamp.setText(TimeAgo.getTimeAgo(comment.getCreateAt()));
             commentContent.setText(comment.getContent());
 
-            // context가 LifecycleOwner인지 확인 후 처리
+            // 기본 이미지 설정
+            profileImage.setImageResource(R.drawable.background_circle_darkgray);
+
+            // context가 LifecycleOwner인지 확인
             if (context instanceof LifecycleOwner) {
                 LifecycleOwner lifecycleOwner = (LifecycleOwner) context;
 
-                // ViewModel에서 멤버 정보를 가져오고 observe를 설정
-                boardRecruitDetailViewModel.getIsLoadItemMemberSuccess().observe(lifecycleOwner, member -> {
-                    if (member != null && member.getData().getProfileImageUrl() != null) {
-                        Glide.with(profileImage.getContext())
-                                .load(member.getData().getProfileImageUrl())
-                                .apply(new RequestOptions().circleCrop())
-                                .into(profileImage);
+                // ViewModel에서 LiveData를 observe
+                boardRecruitDetailViewModel.getIsLoadItemMemberSuccess().observe(lifecycleOwner, result -> {
+                    if (result != null && result.getData() != null) {
+                        Member member = result.getData();
+                        if (member.getProfileImageUrl() != null) {
+                            Glide.with(profileImage.getContext())
+                                    .load(member.getProfileImageUrl())
+                                    .apply(new RequestOptions().circleCrop())
+                                    .into(profileImage);
+                        } else {
+                            profileImage.setImageResource(R.drawable.background_circle_darkgray);
+                        }
                     } else {
                         profileImage.setImageResource(R.drawable.background_circle_darkgray);
                     }
+
+                    // 관찰 중단
+                    boardRecruitDetailViewModel.getIsLoadItemMemberSuccess().removeObservers(lifecycleOwner);
                 });
             }
-            boardRecruitDetailViewModel.loadItemProfileImage(comment.getAuthorId());
 
+            // ViewModel에 프로필 이미지 로드 요청
+            boardRecruitDetailViewModel.loadItemProfileImage(comment.getAuthorId());
         }
+
+
 
         private void showPopupMenu(View view, int position) {
             if (context instanceof BoardRecruitDetailActivity) {  // 액티비티가 맞는지 확인

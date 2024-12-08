@@ -321,8 +321,8 @@
         <item>수정하기</item>
     </string-array>
     <string-array name="community_spinner1_items">
-        <item>조회순</item>
         <item>최신순</item>
+        <item>조회순</item>
         <item>댓글순</item>
         <item>좋아요순</item>
     </string-array>

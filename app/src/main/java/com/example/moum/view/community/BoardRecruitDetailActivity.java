@@ -4,6 +4,7 @@ import static com.example.moum.utils.TimeAgo.getTimeAgo;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.ToggleButton;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -89,10 +91,39 @@ public class BoardRecruitDetailActivity extends AppCompatActivity {
             }
         });
 
-        /* 좋아요 수 감시 */
+        /* 좋아요 감시 */
         boardRecruitDetailViewModel.getIsLikeSuccess().observe(this, like -> {
-            binding.boardRecruitDetailLikeCount.setText(String.valueOf(like.getData().getLikesCount()));
-            binding.buttonLikeImage.setChecked(like.getData().getLiked());
+            if (like.getData() != null) {
+                Drawable currentBackground = binding.buttonLikeImage.getBackground();
+                Drawable heartClickDrawable = ContextCompat.getDrawable(context, R.drawable.icon_heart_click);
+
+                if (currentBackground != null && currentBackground.getConstantState() != null &&
+                        currentBackground.getConstantState().equals(heartClickDrawable.getConstantState())) {
+                    binding.buttonLikeImage.setBackgroundResource(R.drawable.icon_heart_click_no);
+                } else {
+                    binding.buttonLikeImage.setBackgroundResource(R.drawable.icon_heart_click);
+                }
+                // 좋아요 카운트 업데이트
+                binding.boardRecruitDetailLikeCount.setText(String.valueOf(like.getData().getLikesCount()));
+            }
+        });
+
+        /* 좋아요 추가 삭제 */
+        boardRecruitDetailViewModel.getIsPostLikeSuccess().observe(this, like -> {
+            Validation validation = like.getValidation();
+            if(validation != null){
+                switch(validation){
+                    case ARTICLE_NOT_FOUND:
+                        Toast.makeText(context, "이미 좋아요를 눌렀습니다.", Toast.LENGTH_SHORT).show();
+                        break;
+                    case CANNOT_CREATE_SELF_LIKES:
+                        Toast.makeText(context, "본인은 좋아요를 할 수 없습니다.", Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        break;
+                }
+            }
+            boardRecruitDetailViewModel.loadLike(memberId, targetBoardId);
         });
 
         /* 댓글 감시 */

@@ -4,15 +4,16 @@ import static com.example.moum.utils.TimeAgo.getTimeAgo;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 import android.widget.PopupMenu;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,14 +24,12 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.moum.R;
 import com.example.moum.data.entity.Article;
 import com.example.moum.data.entity.Comment;
-import com.example.moum.data.entity.Like;
 import com.example.moum.databinding.ActivityBoardFreeDetailBinding;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.view.community.adapter.BoardFreeDetailAdapter;
 import com.example.moum.view.profile.MemberProfileFragment;
-import com.example.moum.view.profile.TeamProfileFragment;
 import com.example.moum.view.report.ReportArticleFragment;
 import com.example.moum.view.report.ReportMemberFragment;
 import com.example.moum.viewmodel.community.BoardFreeDetailViewModel;
@@ -91,10 +90,43 @@ public class BoardFreeDetailActivity extends AppCompatActivity {
             }
         });
 
-        /* 좋아요 수 감시 */
+        /* 좋아요 감시 */
         boardFreeDetailViewModel.getIsLikeSuccess().observe(this, like -> {
+            Log.e("LikeTest", "Like 조회 완료");
+            if (like.getData() != null) {
+                Log.e("LikeTest", "Like Like null 아님");
+                Drawable currentBackground = binding.buttonLikeImage.getBackground();
+                Drawable heartClickDrawable = ContextCompat.getDrawable(context, R.drawable.icon_heart_click);
+
+                if (currentBackground != null ) {
+                    Log.e("LikeTest", "Like 눌러진 상태일 경우는 안눌러짐 으로");
+                    binding.buttonLikeImage.setBackgroundResource(R.drawable.icon_heart_click_no);
+                } else {
+                    Log.e("LikeTest", "Like 안 -> 눌");
+                    binding.buttonLikeImage.setBackgroundResource(R.drawable.icon_heart_click);
+                }
+                // 좋아요 카운트 업데이트
+                Log.e("LikeTest", "Like Count 초기화");
                 binding.boardFreeDetailLikeCount.setText(String.valueOf(like.getData().getLikesCount()));
-            binding.buttonLikeImage.setChecked(like.getData().getLiked());
+            }
+        });
+
+        /* 좋아요 추가 삭제 */
+        boardFreeDetailViewModel.getIsPostLikeSuccess().observe(this, like -> {
+            Validation validation = like.getValidation();
+            if(validation != null){
+                switch(validation){
+                    case ARTICLE_NOT_FOUND:
+                        Toast.makeText(context, "이미 좋아요를 눌렀습니다.", Toast.LENGTH_SHORT).show();
+                        break;
+                    case CANNOT_CREATE_SELF_LIKES:
+                        Toast.makeText(context, "본인은 좋아요를 할 수 없습니다.", Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        break;
+                }
+            }
+            boardFreeDetailViewModel.loadLike(memberId, targetBoardId);
         });
 
         /* 댓글 감시 */
@@ -245,21 +277,6 @@ public class BoardFreeDetailActivity extends AppCompatActivity {
     public void initLikeButton(){
         binding.buttonLike.setOnClickListener(v -> {
             boardFreeDetailViewModel.postLike(memberId ,targetBoardId);
-            Validation validation = boardFreeDetailViewModel.getIsLikeSuccess().getValue().getValidation();
-            if(validation != null){
-                switch(validation){
-                    case DUPLICATE_LIKES:
-                        Toast.makeText(context, "이미 좋아요를 눌렀습니다.", Toast.LENGTH_SHORT).show();
-                        break;
-                    case CANNOT_CREATE_SELF_LIKES:
-                        Toast.makeText(context, "본인은 좋아요를 할 수 없습니다.", Toast.LENGTH_SHORT).show();
-                        break;
-                    default:
-                        break;
-                }
-
-            }
-            boardFreeDetailViewModel.loadLike(memberId,targetBoardId);
         });
     }
 

@@ -1,11 +1,9 @@
 package com.example.moum.data.entity;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class Article {
+public class ArticleDetail {
     private Integer id;
     private Integer authorId;
     private String title;
@@ -15,7 +13,7 @@ public class Article {
     private Integer commentsCounts;
     private String genre;
     private Integer likeCounts;
-    private String fileUrl;
+    private ArrayList<String> fileUrl;
     private String author;
     private String authorName; // 닉네임 추가
     private List<Comment> comments;
@@ -60,7 +58,7 @@ public class Article {
 
     public String getUpdateAt() { return updatedAt; }
 
-    public String getFileUrl() { return fileUrl; }
+    public ArrayList<String> getFileUrl() { return fileUrl; }
 
     public void setId(Integer id) {this.id = id;}
 
@@ -86,7 +84,7 @@ public class Article {
 
     public void setUpdateAt(String updateAt) { this.updatedAt = updateAt; }
 
-    public void setFileUrl(String fileUrl) { this.fileUrl = fileUrl; }
+    public void setFileUrl(ArrayList<String> fileURL) { this.fileUrl = fileURL; }
 
     public void setGenre(String genre) { this.genre = genre; }
 

@@ -26,6 +26,7 @@ public class BoardRecruitDetailViewModel extends AndroidViewModel {
     private final MutableLiveData<Article> isdeleteArticeSuccess = new MutableLiveData<>();
     private final MutableLiveData<Result<List<Comment>>> isLoadCommentsSuccess = new MutableLiveData<>();
     private final MutableLiveData<Result<Like>> isLoadLikeSuccess = new MutableLiveData<>();
+    private final MutableLiveData<Result<Like>> isPostLikeSuccess = new MutableLiveData<>();
     private final MutableLiveData<Result<Member>> isLoadMemberSuccess = new MutableLiveData<>();
     private final MutableLiveData<Result<Member>> isLoadItemMemberSuccess = new MutableLiveData<>();
     private final MutableLiveData<Result<Comment>> isChangeCommentSuccess = new MutableLiveData<>();
@@ -61,19 +62,23 @@ public class BoardRecruitDetailViewModel extends AndroidViewModel {
     }
 
     private void setIsLikeSuccess(Result<Like> result) {
-        isLoadLikeSuccess.setValue(result);
+        this.isLoadLikeSuccess.setValue(result);
+    }
+
+    private void setIsPostLikeSuccess(Result<Like> result) {
+        this.isLoadLikeSuccess.setValue(result);
     }
 
     private void setIsLoadMemberSuccess(Result<Member> result) {
-        isLoadMemberSuccess.setValue(result);
+        this.isLoadMemberSuccess.setValue(result);
     }
 
     private void setIsLoadItemMemberSuccess(Result<Member> result) {
-        isLoadItemMemberSuccess.setValue(result);
+        this.isLoadItemMemberSuccess.setValue(result);
     }
 
     private void setIsItemLoadMemberSuccess(Result<Member> result) {
-        isLoadItemMemberSuccess.setValue(result);
+        this.isLoadItemMemberSuccess.setValue(result);
     }
 
     public MutableLiveData<Validation> getValidationStatus() {
@@ -86,6 +91,10 @@ public class BoardRecruitDetailViewModel extends AndroidViewModel {
 
     public MutableLiveData<Result<Like>> getIsLikeSuccess() {
         return isLoadLikeSuccess;
+    }
+
+    public MutableLiveData<Result<Like>> getIsPostLikeSuccess() {
+        return isPostLikeSuccess;
     }
 
     public MutableLiveData<Result<List<Comment>>> getisLoadCommentsSuccess() {
@@ -121,7 +130,7 @@ public class BoardRecruitDetailViewModel extends AndroidViewModel {
     }
 
     public void postLike(Integer memberId, Integer articleId) {
-        articleRepository.postLike(memberId, articleId, this::setIsLikeSuccess);
+        articleRepository.postLike(memberId, articleId, this::setIsPostLikeSuccess);
     }
 
     public void loadProfileImage(Integer authorId){
