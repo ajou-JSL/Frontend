@@ -111,6 +111,9 @@ public class MoumMapPracticeroomActivity extends AppCompatActivity implements On
             if (validation == Validation.PRACTICE_ROOM_GET_SUCCESS) {
                 practiceroom = loadedPracticeroom;
                 if (loadedPracticeroom.getName() != null) binding.textviewPracticeroomName.setText(loadedPracticeroom.getName());
+                if (loadedPracticeroom.getDetails() != null) {
+                    binding.textviewDescription.setText(loadedPracticeroom.getDetails());
+                }
                 if (loadedPracticeroom.getPrice() != null) {
                     binding.textviewPracticeroomPrice.setText(
                             String.format("%,d", loadedPracticeroom.getPrice()));

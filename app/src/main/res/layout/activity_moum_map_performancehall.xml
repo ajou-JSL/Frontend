@@ -167,6 +167,18 @@
                             android:elevation="5dp"
                             android:layout_margin="5dp" />
 
+                        <TextView
+                            android:id="@+id/textview_description"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="장소 설명"
+                            android:fontFamily="@font/noto_sans_kr_light"
+                            android:textSize="14sp"
+                            android:layout_marginLeft="25dp"
+                            android:layout_marginRight="25dp"
+                            android:layout_marginTop="30dp"
+                            android:breakStrategy="high_quality" />
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -300,8 +312,7 @@
                                     android:layout_marginLeft="5dp"
                                     android:fontFamily="@font/noto_sans_kr_regular"
                                     android:includeFontPadding="false"
-                                    android:ellipsize="end"
-                                    android:maxLines="1" />
+                                    android:breakStrategy="high_quality" />
                             </LinearLayout>
 
                             <LinearLayout
