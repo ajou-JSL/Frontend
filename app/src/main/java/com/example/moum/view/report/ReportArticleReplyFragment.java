@@ -74,7 +74,7 @@ public class ReportArticleReplyFragment extends BottomSheetDialogFragment {
         viewModel.getIsLoadReportArticleSuccess().observe(getViewLifecycleOwner(), isLoadReportArticleSuccess -> {
             Validation validation = isLoadReportArticleSuccess.getValidation();
             ReportArticle reportArticle = isLoadReportArticleSuccess.getData();
-            if (validation == Validation.REPORT_TEAM_GET_SUCCESS) {
+            if (validation == Validation.REPORT_ARTICLE_GET_SUCCESS) {
                 if (reportArticle.getDetails() != null) binding.edittextDetails.setText(reportArticle.getDetails());
                 if (reportArticle.getReply() != null) binding.edittextReply.setText(reportArticle.getReply());
                 if (reportArticle.getType() != null) {
