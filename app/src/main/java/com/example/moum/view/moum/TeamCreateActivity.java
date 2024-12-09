@@ -32,19 +32,15 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.moum.R;
 import com.example.moum.data.entity.Genre;
 import com.example.moum.data.entity.Team;
-import com.example.moum.databinding.ActivitySignupProfileBinding;
 import com.example.moum.databinding.ActivityTeamCreateBinding;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
-import com.example.moum.view.auth.SignupProfileActivity;
 import com.example.moum.view.dialog.LoadingDialog;
 import com.example.moum.view.dialog.TeamCreateDialog;
-import com.example.moum.viewmodel.auth.SignupViewModel;
 import com.example.moum.viewmodel.moum.TeamCreateViewModel;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.SignStyle;
@@ -76,7 +72,7 @@ public class TeamCreateActivity extends AppCompatActivity {
         String accessToken = sharedPreferenceManager.getCache(getString(R.string.user_access_token_key), "no-access-token");
         String username = sharedPreferenceManager.getCache(getString(R.string.user_username_key), "no-memberId");
         id = sharedPreferenceManager.getCache(getString(R.string.user_id_key), -1);
-        if(accessToken.isEmpty() || accessToken.equals("no-access-token")){
+        if (accessToken.isEmpty() || accessToken.equals("no-access-token")) {
             Toast.makeText(context, "로그인 정보가 없어 초기 페이지로 돌아갑니다.", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(context, InitialActivity.class);
             startActivity(intent);
@@ -118,8 +114,8 @@ public class TeamCreateActivity extends AppCompatActivity {
             Log.e(TAG, "Uri: " + uri.toString());
             Glide.with(this)
                     .applyDefaultRequestOptions(new RequestOptions()
-                    .placeholder(R.drawable.background_more_rounded_gray_size_fit)
-                    .error(R.drawable.background_more_rounded_gray_size_fit))
+                            .placeholder(R.drawable.background_more_rounded_gray_size_fit)
+                            .error(R.drawable.background_more_rounded_gray_size_fit))
                     .load(uri).into(binding.imageviewTeamProfile);
             binding.imageviewTeamProfile.setClipToOutline(true);
         });
@@ -188,9 +184,9 @@ public class TeamCreateActivity extends AppCompatActivity {
                 edittextRecordName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                     @Override
                     public void onFocusChange(View view, boolean hasFocus) {
-                        if(hasFocus){
+                        if (hasFocus) {
                             placeholderRecordName.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_mint_stroke));
-                        }else{
+                        } else {
                             placeholderRecordName.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_gray_stroke));
                         }
                     }
@@ -254,10 +250,12 @@ public class TeamCreateActivity extends AppCompatActivity {
                             .toFormatter();
                     LocalDate startDate = null;
                     LocalDate endDate = null;
-                    if(!startDateString.isEmpty() && !startDateString.equals("시작 날짜"))
+                    if (!startDateString.isEmpty() && !startDateString.equals("시작 날짜")) {
                         startDate = LocalDate.parse(startDateString, formatter);
-                    if(!endDateString.isEmpty() && !endDateString.equals("종료 날짜"))
+                    }
+                    if (!endDateString.isEmpty() && !endDateString.equals("종료 날짜")) {
                         endDate = LocalDate.parse(endDateString, formatter);
+                    }
 
                     viewModel.addRecord(recordName, startDate, endDate);
                 }
@@ -267,28 +265,23 @@ public class TeamCreateActivity extends AppCompatActivity {
 
         /*제출 버튼 클릭 결과 감시*/
         viewModel.getIsValidCheckSuccess().observe(this, isValidCheckSuccess -> {
-            if(isValidCheckSuccess == Validation.NOT_VALID_ANYWAY){
+            if (isValidCheckSuccess == Validation.NOT_VALID_ANYWAY) {
                 Toast.makeText(context, "잘못 입력된 값이 있습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(isValidCheckSuccess == Validation.TEAM_NAME_NOT_WRITTEN){
+            } else if (isValidCheckSuccess == Validation.TEAM_NAME_NOT_WRITTEN) {
                 binding.errorTeamName.setText("단체 이름을 입력하세요.");
                 binding.edittextTeamName.requestFocus();
-            }
-            else if(isValidCheckSuccess == Validation.TEAM_GENRE_NOT_WRITTEN){
+            } else if (isValidCheckSuccess == Validation.TEAM_GENRE_NOT_WRITTEN) {
                 binding.errorTeamGenre.setText("단체의 분야를 선택하세요.");
                 binding.spinnerGenre.requestFocus();
-            }
-            else if(isValidCheckSuccess == Validation.VIDEO_URL_NOT_FORMAL){
+            } else if (isValidCheckSuccess == Validation.VIDEO_URL_NOT_FORMAL) {
                 binding.errorVideo.setText("형식이 올바르지 않습니다.");
                 binding.errorVideo.setTextColor(getColor(R.color.red));
                 binding.edittextVideo.requestFocus();
-            }
-            else if(isValidCheckSuccess == Validation.VALID_ALL){
+            } else if (isValidCheckSuccess == Validation.VALID_ALL) {
                 // valid check 유효하다면, 최종 다이얼로그 띄우기
                 TeamCreateDialog teamCreateDialog = new TeamCreateDialog(this, binding.edittextTeamName.getText().toString());
                 teamCreateDialog.show();
-            }
-            else{
+            } else {
                 Toast.makeText(context, "단체 생성에 실패하였습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "감시 결과를 알 수 없습니다.");
             }
@@ -299,23 +292,18 @@ public class TeamCreateActivity extends AppCompatActivity {
             loadingDialog.dismiss();
             Validation validation = isCreateTeamSuccess.getValidation();
             Team createdTeam = isCreateTeamSuccess.getData();
-            if(validation == Validation.NOT_VALID_ANYWAY){
+            if (validation == Validation.NOT_VALID_ANYWAY) {
                 Toast.makeText(context, "잘못 입력된 값이 있습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(validation == Validation.RECORD_NOT_VALID){
+            } else if (validation == Validation.RECORD_NOT_VALID) {
                 Toast.makeText(context, "이력 시작 날짜는 종료 날짜보다 이전이어야 합니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(validation == Validation.RECORD_NAME_NOT_WRITTEN) {
+            } else if (validation == Validation.RECORD_NAME_NOT_WRITTEN) {
                 Toast.makeText(context, "이력 이름을 입력하세요.", Toast.LENGTH_SHORT).show();
-            }
-            else if(validation == Validation.NETWORK_FAILED) {
+            } else if (validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(validation == Validation.CREATE_TEAM_SUCCESS){
+            } else if (validation == Validation.CREATE_TEAM_SUCCESS) {
                 Toast.makeText(context, "단체 생성에 성공하였습니다.", Toast.LENGTH_SHORT).show();
                 finish();
-            }
-            else{
+            } else {
                 Toast.makeText(context, "단체 생성에 실패하였습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "감시 결과를 알 수 없습니다.");
             }
@@ -325,10 +313,10 @@ public class TeamCreateActivity extends AppCompatActivity {
         binding.edittextTeamName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if(hasFocus){
+                if (hasFocus) {
                     binding.errorTeamName.setText("");
                     binding.placeholderTeamName.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_mint_stroke));
-                }else{
+                } else {
                     binding.placeholderTeamName.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_gray_stroke));
                 }
             }
@@ -336,10 +324,10 @@ public class TeamCreateActivity extends AppCompatActivity {
         binding.edittextTeamDescription.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if(hasFocus){
+                if (hasFocus) {
                     binding.errorTeamDescription.setText("");
                     binding.placeholderTeamDescription.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_mint_stroke));
-                }else{
+                } else {
                     binding.placeholderTeamDescription.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_gray_stroke));
                 }
             }
@@ -347,18 +335,18 @@ public class TeamCreateActivity extends AppCompatActivity {
         binding.spinnerAddress.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if(hasFocus){
+                if (hasFocus) {
                     binding.teamErrorAddress.setText("");
-                }else{
+                } else {
                 }
             }
         });
         binding.spinnerGenre.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if(hasFocus){
+                if (hasFocus) {
                     binding.errorTeamGenre.setText("");
-                }else{
+                } else {
                 }
             }
         });
@@ -366,10 +354,10 @@ public class TeamCreateActivity extends AppCompatActivity {
             @SuppressLint("SetTextI18n")
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if(hasFocus){
+                if (hasFocus) {
                     binding.errorVideo.setText("");
                     binding.placeholderVideo.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_mint_stroke));
-                }else{
+                } else {
                     binding.errorVideo.setText("");
                     binding.placeholderVideo.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_gray_stroke));
                 }
@@ -377,7 +365,7 @@ public class TeamCreateActivity extends AppCompatActivity {
         });
     }
 
-    public void onDialogYesClicked(){
+    public void onDialogYesClicked() {
         /*다이얼로그에서 Yes 버튼 클릭 시, createTeam() 호출*/
         loadingDialog.show();
         viewModel.createTeam(id, context);

@@ -32,22 +32,22 @@ public class FilterExistOrNotAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     public ArrayList<Boolean> getIsSelecteds() {
-        Log.e(TAG, isSelecteds.isEmpty()? "empty" : "not");
+        Log.e(TAG, isSelecteds.isEmpty() ? "empty" : "not");
         return isSelecteds;
     }
 
     public void setIsSelected(int pos, Boolean isSelected) {
-        if(!isSelecteds.isEmpty()){
+        if (!isSelecteds.isEmpty()) {
             isSelecteds.set(pos, isSelected);
         }
     }
 
-    public void setExistOrNot(Boolean existOrNot){
+    public void setExistOrNot(Boolean existOrNot) {
         this.existOrNot = existOrNot;
     }
 
-    public Boolean getIsSelected(int pos){
-        if(!isSelecteds.isEmpty()){
+    public Boolean getIsSelected(int pos) {
+        if (!isSelecteds.isEmpty()) {
             return isSelecteds.get(pos);
         }
         return false;
@@ -60,7 +60,7 @@ public class FilterExistOrNotAdapter extends RecyclerView.Adapter<RecyclerView.V
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if(isSelecteds == null) isSelecteds = new ArrayList<>(Collections.nCopies(items.size(), false));
+        if (isSelecteds == null) isSelecteds = new ArrayList<>(Collections.nCopies(items.size(), false));
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_genre, parent, false);
         return new FilterExistOrNotAdapter.FilterSortByViewHolder(view, context, this);
     }
@@ -78,7 +78,7 @@ public class FilterExistOrNotAdapter extends RecyclerView.Adapter<RecyclerView.V
         return items.size();
     }
 
-    static class FilterSortByViewHolder extends RecyclerView.ViewHolder{
+    static class FilterSortByViewHolder extends RecyclerView.ViewHolder {
         private FilterExistOrNotAdapter adapter;
         private String item;
         private TextView genreItem;
@@ -93,15 +93,16 @@ public class FilterExistOrNotAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         @SuppressLint("UseCompatLoadingForDrawables")
         @RequiresApi(api = Build.VERSION_CODES.O)
-        public void bind(String item){
+        public void bind(String item) {
             int pos = getAbsoluteAdapterPosition();
             this.item = item;
-            if(item.equals("don't-care"))
+            if (item.equals("don't-care")) {
                 genreItem.setText("상관없음");
-            else if(item.equals("exist"))
+            } else if (item.equals("exist")) {
                 genreItem.setText("있음");
-            else if(item.equals("not-exist"))
+            } else if (item.equals("not-exist")) {
                 genreItem.setText("없음");
+            }
 
             if (pos != RecyclerView.NO_POSITION) {
                 Boolean isSelected = adapter.getIsSelected(pos);
@@ -118,18 +119,18 @@ public class FilterExistOrNotAdapter extends RecyclerView.Adapter<RecyclerView.V
                 public void onClick(View view) {
                     if (pos != RecyclerView.NO_POSITION) {
                         ArrayList<Boolean> isSeltecteds = adapter.getIsSelecteds();
-                        for(int i = 0; i < isSeltecteds.size(); i++){
-                            if(pos == i){
+                        for (int i = 0; i < isSeltecteds.size(); i++) {
+                            if (pos == i) {
                                 adapter.setIsSelected(pos, true);
-                                if(pos == 0)
+                                if (pos == 0) {
                                     adapter.setExistOrNot(null);
-                                else if(pos == 1)
+                                } else if (pos == 1) {
                                     adapter.setExistOrNot(true);
-                                else if(pos == 2)
+                                } else if (pos == 2) {
                                     adapter.setExistOrNot(false);
+                                }
                                 adapter.notifyItemChanged(pos);
-                            }
-                            else{
+                            } else {
                                 adapter.setIsSelected(i, false);
                                 adapter.notifyItemChanged(i);
                             }

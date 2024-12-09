@@ -1,7 +1,6 @@
 package com.example.moum.view.community.adapter;
 
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.moum.data.entity.Article;
 import com.example.moum.R;
+import com.example.moum.data.entity.Article;
 import com.example.moum.utils.TimeAgo;
 import com.example.moum.view.community.BoardFreeDetailActivity;
 
@@ -41,7 +40,7 @@ public class BoardFreeItemAdapter extends RecyclerView.Adapter<BoardFreeItemAdap
         notifyDataSetChanged();
     }
 
-    public void addItemList(ArrayList<Article> boardFreeItems){
+    public void addItemList(ArrayList<Article> boardFreeItems) {
         this.itemList.addAll(boardFreeItems);
         notifyDataSetChanged();
     }

@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 
 import com.example.moum.R;
 import com.example.moum.view.auth.SignupProfileActivity;
-import com.example.moum.view.moum.MoumPromote2Activity;
 
 public class SignupLoadingDialog extends Dialog {
     private SignupProfileActivity signupProfileActivity;
@@ -20,7 +19,7 @@ public class SignupLoadingDialog extends Dialog {
     private ProgressBar progressBar;
     private final String TAG = getClass().toString();
 
-    public SignupLoadingDialog(@NonNull Context context){
+    public SignupLoadingDialog(@NonNull Context context) {
         super(context);
         this.signupProfileActivity = (SignupProfileActivity) context;
     }

@@ -1,7 +1,5 @@
 package com.example.moum.data.entity;
 
-import android.net.Uri;
-
 import java.util.ArrayList;
 
 public class Member {

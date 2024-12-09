@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -77,7 +78,7 @@ public class BoardGroupItemAdapter extends RecyclerView.Adapter<BoardGroupItemAd
         notifyDataSetChanged();
     }
 
-    public interface ItemClickListener{
+    public interface ItemClickListener {
         void onItemClick(View v, int position);
     }
 
@@ -106,31 +107,28 @@ public class BoardGroupItemAdapter extends RecyclerView.Adapter<BoardGroupItemAd
             if (item.hasImage() && image != null) {
                 Glide.with(itemView.getContext())
                         .applyDefaultRequestOptions(new RequestOptions()
-                            .placeholder(R.drawable.background_more_rounded_gray_size_fit)
-                            .error(R.drawable.background_more_rounded_gray_size_fit))
+                                .placeholder(R.drawable.background_more_rounded_gray_size_fit)
+                                .error(R.drawable.background_more_rounded_gray_size_fit))
                         .load(item.getImage())
                         .into(image);
                 image.setClipToOutline(true);
             }
             int color = context.getColor(R.color.bronze);
-            if(item.getTier() == null || item.getTier().equals("BRONZE")){
+            if (item.getTier() == null || item.getTier().equals("BRONZE")) {
                 color = context.getColor(R.color.bronze);
-            }
-            else if(item.getTier().equals("SILVER")){
+            } else if (item.getTier().equals("SILVER")) {
                 color = context.getColor(R.color.silver);
-            }
-            else if(item.getTier().equals("GOLD")){
+            } else if (item.getTier().equals("GOLD")) {
                 color = context.getColor(R.color.gold);
-            }
-            else if(item.getTier().equals("PLATINUM")){
+            } else if (item.getTier().equals("PLATINUM")) {
                 color = context.getColor(R.color.platinum);
-            }
-            else if(item.getTier().equals("DIAMOND")){
+            } else if (item.getTier().equals("DIAMOND")) {
                 color = context.getColor(R.color.diamond);
             }
             border.setColorFilter(color);
-            if(item.getExp() != null)
-                exp.setText(String.format("%d",item.getExp()));
+            if (item.getExp() != null) {
+                exp.setText(String.format("%d", item.getExp()));
+            }
         }
 
         @Override

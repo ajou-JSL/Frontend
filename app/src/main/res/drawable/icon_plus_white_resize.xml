@@ -2,5 +2,5 @@
     <item
         android:width="12dp"
         android:height="12dp"
-        android:drawable="@drawable/icon_plus_white"/>
+        android:drawable="@drawable/icon_plus_white" />
 </layer-list>

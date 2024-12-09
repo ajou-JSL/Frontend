@@ -2,7 +2,6 @@ package com.example.moum.view.profile.adapter;
 
 import android.content.Context;
 import android.os.Build;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,14 +15,13 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.moum.R;
 import com.example.moum.data.entity.Member;
-import com.example.moum.data.entity.Team;
 import com.example.moum.view.profile.TeamProfileFragment;
 
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ProfileMemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class ProfileMemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<Member> members;
     private Context context;
     private TeamProfileFragment teamProfileFragment;
@@ -54,7 +52,7 @@ public class ProfileMemberAdapter extends RecyclerView.Adapter<RecyclerView.View
         return members.size();
     }
 
-    static class ProfileMemberViewHolder extends RecyclerView.ViewHolder{
+    static class ProfileMemberViewHolder extends RecyclerView.ViewHolder {
         private Member member;
         private TextView memberName;
         private CircleImageView memberProfile;
@@ -70,13 +68,13 @@ public class ProfileMemberAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
 
         @RequiresApi(api = Build.VERSION_CODES.O)
-        public void bind(Member member){
+        public void bind(Member member) {
             this.member = member;
             memberName.setText(member.getName());
             Glide.with(context)
                     .applyDefaultRequestOptions(new RequestOptions()
-                    .placeholder(R.drawable.background_circle_gray)
-                    .error(R.drawable.background_circle_gray))
+                            .placeholder(R.drawable.background_circle_gray)
+                            .error(R.drawable.background_circle_gray))
                     .load(member.getProfileImageUrl()).into(memberProfile);
             memberProfile.setOnClickListener(new View.OnClickListener() {
                 @Override

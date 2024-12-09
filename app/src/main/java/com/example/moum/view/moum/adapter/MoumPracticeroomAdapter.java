@@ -1,8 +1,6 @@
 package com.example.moum.view.moum.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,9 +18,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.moum.R;
 import com.example.moum.data.entity.Practiceroom;
 import com.example.moum.view.moum.MoumFindPracticeroomActivity;
-import com.example.moum.view.moum.MoumUpdateActivity;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -54,7 +49,7 @@ public class MoumPracticeroomAdapter extends RecyclerView.Adapter<RecyclerView.V
         return practicerooms.size();
     }
 
-    static class MoumPracticeroomViewHolder extends RecyclerView.ViewHolder{
+    static class MoumPracticeroomViewHolder extends RecyclerView.ViewHolder {
         private Practiceroom practiceroom;
         private TextView practiceroomName;
         private TextView practiceroomDescription;
@@ -79,17 +74,18 @@ public class MoumPracticeroomAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         public void bind(Practiceroom practiceroom) {
             this.practiceroom = practiceroom;
-            if(practiceroom.getName() != null) practiceroomName.setText(practiceroom.getName());
-            if(practiceroom.getDetails() != null) practiceroomDescription.setText(practiceroom.getDetails());
-            if(practiceroom.getAddress() != null) practiceroomAddress.setText(practiceroom.getAddress());
-            if(practiceroom.getPrice() != null) practiceroomPrice.setText(String.format("시간 당 %,d원", practiceroom.getPrice()));
-            if(practiceroom.getImageUrls() != null && !practiceroom.getImageUrls().isEmpty())
+            if (practiceroom.getName() != null) practiceroomName.setText(practiceroom.getName());
+            if (practiceroom.getDetails() != null) practiceroomDescription.setText(practiceroom.getDetails());
+            if (practiceroom.getAddress() != null) practiceroomAddress.setText(practiceroom.getAddress());
+            if (practiceroom.getPrice() != null) practiceroomPrice.setText(String.format("시간 당 %,d원", practiceroom.getPrice()));
+            if (practiceroom.getImageUrls() != null && !practiceroom.getImageUrls().isEmpty()) {
                 Glide.with(context)
                         .load(practiceroom.getImageUrls().get(0))
                         .apply(new RequestOptions()
-                        .placeholder(R.drawable.background_more_rounded_gray_size_fit)
-                        .error(R.drawable.background_more_rounded_gray_size_fit))
+                                .placeholder(R.drawable.background_more_rounded_gray_size_fit)
+                                .error(R.drawable.background_more_rounded_gray_size_fit))
                         .into(practiceromProfile);
+            }
             practiceromProfile.setClipToOutline(true);
             practiceroomTop.setOnClickListener(new View.OnClickListener() {
                 @Override

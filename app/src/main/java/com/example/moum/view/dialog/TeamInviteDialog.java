@@ -12,7 +12,6 @@ import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.moum.R;
 import com.example.moum.view.chat.InviteActivity;
-import com.example.moum.view.moum.MoumCreateActivity;
 
 public class TeamInviteDialog extends Dialog {
     private InviteActivity inviteActivity;
@@ -24,7 +23,7 @@ public class TeamInviteDialog extends Dialog {
     private String teamName;
     private final String TAG = getClass().toString();
 
-    public TeamInviteDialog(@NonNull Context context, String memberName, String teamName){
+    public TeamInviteDialog(@NonNull Context context, String memberName, String teamName) {
         super(context);
         this.inviteActivity = (InviteActivity) context;
         this.memberName = memberName;

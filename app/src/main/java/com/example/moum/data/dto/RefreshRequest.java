@@ -3,7 +3,7 @@ package com.example.moum.data.dto;
 public class RefreshRequest {
     private String refresh;
 
-    public RefreshRequest(String refresh){
+    public RefreshRequest(String refresh) {
         this.refresh = refresh;
     }
 

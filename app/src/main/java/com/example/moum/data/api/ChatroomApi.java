@@ -1,11 +1,10 @@
 package com.example.moum.data.api;
 
-import com.example.moum.data.dto.ChatSendRequest;
 import com.example.moum.data.dto.ChatroomCreateRequest;
 import com.example.moum.data.dto.ChatroomDeleteRequest;
+import com.example.moum.data.dto.ChatroomInviteRequest;
 import com.example.moum.data.dto.ChatroomUpdateRequest;
 import com.example.moum.data.dto.SuccessResponse;
-import com.example.moum.data.entity.Chat;
 import com.example.moum.data.entity.Chatroom;
 import com.example.moum.data.entity.Member;
 
@@ -51,6 +50,12 @@ public interface ChatroomApi {
             @Path("chatroomId") Integer chatroomId,
             @Part MultipartBody.Part chatroomProfile,
             @Part("chatroomInfo") ChatroomUpdateRequest chatroomUpdateRequest
+    );
+
+    @POST("/api/chatroom/{chatroomId}/member")
+    Call<SuccessResponse<Chatroom>> inviteMembers(
+            @Path("chatroomId") Integer chatroomId,
+            @Body ChatroomInviteRequest chatroomInviteRequest
     );
 
     @DELETE("/api/chatroom/{chatroomId}/member")

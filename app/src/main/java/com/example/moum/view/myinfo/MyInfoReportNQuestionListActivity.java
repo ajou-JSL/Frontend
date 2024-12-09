@@ -20,14 +20,11 @@ import com.example.moum.R;
 import com.example.moum.data.entity.ReportArticle;
 import com.example.moum.data.entity.ReportMember;
 import com.example.moum.data.entity.ReportTeam;
-import com.example.moum.databinding.ActivityMyinfoReportNQuestionBinding;
 import com.example.moum.databinding.ActivityMyinfoReportNQuestionListBinding;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.view.myinfo.adapter.ReportAdapter;
-import com.example.moum.view.profile.MemberProfileFragment;
-import com.example.moum.view.profile.adapter.ProfileTeamAdapter;
 import com.example.moum.view.report.ReportArticleReplyFragment;
 import com.example.moum.view.report.ReportMemberReplyFragment;
 import com.example.moum.view.report.ReportTeamReplyFragment;
@@ -61,7 +58,7 @@ public class MyInfoReportNQuestionListActivity extends AppCompatActivity {
         String accessToken = sharedPreferenceManager.getCache(getString(R.string.user_access_token_key), "no-access-token");
         String username = sharedPreferenceManager.getCache(getString(R.string.user_username_key), "no-memberId");
         Integer id = sharedPreferenceManager.getCache(getString(R.string.user_id_key), -1);
-        if(accessToken.isEmpty() || accessToken.equals("no-access-token")){
+        if (accessToken.isEmpty() || accessToken.equals("no-access-token")) {
             Toast.makeText(context, "로그인 정보가 없어 초기 페이지로 돌아갑니다.", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(context, InitialActivity.class);
             startActivity(intent);
@@ -71,7 +68,7 @@ public class MyInfoReportNQuestionListActivity extends AppCompatActivity {
         /*이전 액티비티로부터 정보 가져오기*/
         Intent prevIntent = getIntent();
         String reportType = prevIntent.getStringExtra("reportType");
-        if(reportType == null || reportType.isEmpty()){
+        if (reportType == null || reportType.isEmpty()) {
             Toast.makeText(context, "잘못된 접근입니다.", Toast.LENGTH_SHORT).show();
             finish();
         }
@@ -87,15 +84,13 @@ public class MyInfoReportNQuestionListActivity extends AppCompatActivity {
         /*신고 리사이클러뷰 세팅*/
         RecyclerView reportRecycler = binding.recyclerReport;
         ReportAdapter reportAdapter = new ReportAdapter();
-        if(reportType.equals("member")) {
+        if (reportType.equals("member")) {
             reportAdapter.setReportMembers(reportMembers, reportType, context);
             binding.reportListName.setText("멤버 신고 리스트");
-        }
-        else if(reportType.equals("team")) {
+        } else if (reportType.equals("team")) {
             reportAdapter.setReportTeams(reportTeams, reportType, context);
             binding.reportListName.setText("단체 신고 리스트");
-        }
-        else {
+        } else {
             reportAdapter.setReportArticles(reportArticles, reportType, context);
             binding.reportListName.setText("게시글 신고 리스트");
         }
@@ -106,62 +101,53 @@ public class MyInfoReportNQuestionListActivity extends AppCompatActivity {
         viewModel.loadReports(reportType, id);
 
         /*나의 신고 및 문의 리스트 가져오기 감시 결과*/
-        viewModel.getIsLoadReportMembersSuccess().observe(this, isLoadReportMembersSuccess ->{
+        viewModel.getIsLoadReportMembersSuccess().observe(this, isLoadReportMembersSuccess -> {
             Validation validation = isLoadReportMembersSuccess.getValidation();
             List<ReportMember> loadedReportMembers = isLoadReportMembersSuccess.getData();
-            if(validation == Validation.REPORT_MEMBER_GET_SUCCESS){
+            if (validation == Validation.REPORT_MEMBER_GET_SUCCESS) {
                 reportMembers.clear();
                 reportMembers.addAll(loadedReportMembers);
-                reportAdapter.notifyItemInserted(reportMembers.size()-1);
+                reportAdapter.notifyItemInserted(reportMembers.size() - 1);
                 viewModel.setRecentPageNumber(reportMembers.size());
-            }
-            else if(validation == Validation.REPORT_NOT_FOUND){
+            } else if (validation == Validation.REPORT_NOT_FOUND) {
                 Toast.makeText(context, "멤버 신고 목록을 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(validation == Validation.NETWORK_FAILED){
+            } else if (validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else{
+            } else {
                 Log.e(TAG, "결과를 알 수 없습니다.");
                 Toast.makeText(context, "멤버 신고 목록을 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
             }
         });
-        viewModel.getIsLoadReportTeamsSuccess().observe(this, isLoadReportTeamsSuccess ->{
+        viewModel.getIsLoadReportTeamsSuccess().observe(this, isLoadReportTeamsSuccess -> {
             Validation validation = isLoadReportTeamsSuccess.getValidation();
             List<ReportTeam> loadedReportTeams = isLoadReportTeamsSuccess.getData();
-            if(validation == Validation.REPORT_TEAM_GET_SUCCESS){
+            if (validation == Validation.REPORT_TEAM_GET_SUCCESS) {
                 reportTeams.clear();
                 reportTeams.addAll(loadedReportTeams);
-                reportAdapter.notifyItemInserted(reportTeams.size()-1);
+                reportAdapter.notifyItemInserted(reportTeams.size() - 1);
                 viewModel.setRecentPageNumber(reportTeams.size());
-            }
-            else if(validation == Validation.REPORT_NOT_FOUND){
+            } else if (validation == Validation.REPORT_NOT_FOUND) {
                 Toast.makeText(context, "단체 신고 목록을 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(validation == Validation.NETWORK_FAILED){
+            } else if (validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else{
+            } else {
                 Log.e(TAG, "결과를 알 수 없습니다.");
                 Toast.makeText(context, "단체 신고 목록을 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
             }
         });
-        viewModel.getIsLoadReportArticlesSuccess().observe(this, isLoadReportArticlesSuccess ->{
+        viewModel.getIsLoadReportArticlesSuccess().observe(this, isLoadReportArticlesSuccess -> {
             Validation validation = isLoadReportArticlesSuccess.getValidation();
             List<ReportArticle> loadedReportArticles = isLoadReportArticlesSuccess.getData();
-            if(validation == Validation.REPORT_ARTICLE_GET_SUCCESS){
+            if (validation == Validation.REPORT_ARTICLE_GET_SUCCESS) {
                 reportArticles.clear();
                 reportArticles.addAll(loadedReportArticles);
-                reportAdapter.notifyItemInserted(reportArticles.size()-1);
+                reportAdapter.notifyItemInserted(reportArticles.size() - 1);
                 viewModel.setRecentPageNumber(reportArticles.size());
-            }
-            else if(validation == Validation.REPORT_NOT_FOUND){
+            } else if (validation == Validation.REPORT_NOT_FOUND) {
                 Toast.makeText(context, "게시글 신고 목록을 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(validation == Validation.NETWORK_FAILED){
+            } else if (validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else{
+            } else {
                 Log.e(TAG, "결과를 알 수 없습니다.");
                 Toast.makeText(context, "게시글 신고 목록을 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
             }
@@ -174,18 +160,20 @@ public class MyInfoReportNQuestionListActivity extends AppCompatActivity {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if(!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE &&  !isLoading){
-                    if(reportType.equals("member") && reportMembers.isEmpty())
-                       return;
-                    else if(reportType.equals("team") && reportTeams.isEmpty())
+                if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE && !isLoading) {
+                    if (reportType.equals("member") && reportMembers.isEmpty()) {
                         return;
-                    else if(reportType.equals("article") && reportArticles.isEmpty())
+                    } else if (reportType.equals("team") && reportTeams.isEmpty()) {
                         return;
+                    } else if (reportType.equals("article") && reportArticles.isEmpty()) {
+                        return;
+                    }
                     isLoading = true;
                     viewModel.loadNextReports(reportType, id);
                     handler.postDelayed(() -> isLoading = false, DEBOUNCE_DELAY);
                 }
             }
+
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -199,7 +187,7 @@ public class MyInfoReportNQuestionListActivity extends AppCompatActivity {
         viewModel.clearPage();
     }
 
-    public void onReportMemberClicked(Integer reportMemberId){
+    public void onReportMemberClicked(Integer reportMemberId) {
         ReportMemberReplyFragment reportMemberReplyFragment = new ReportMemberReplyFragment(context);
         Bundle bundle = new Bundle();
         bundle.putInt("reportMemberId", reportMemberId);
@@ -207,7 +195,7 @@ public class MyInfoReportNQuestionListActivity extends AppCompatActivity {
         reportMemberReplyFragment.show(getSupportFragmentManager(), reportMemberReplyFragment.getTag());
     }
 
-    public void onReportTeamClicked(Integer reportTeamId){
+    public void onReportTeamClicked(Integer reportTeamId) {
         ReportTeamReplyFragment reportTeamReplyFragment = new ReportTeamReplyFragment(context);
         Bundle bundle = new Bundle();
         bundle.putInt("reportTeamId", reportTeamId);
@@ -215,7 +203,7 @@ public class MyInfoReportNQuestionListActivity extends AppCompatActivity {
         reportTeamReplyFragment.show(getSupportFragmentManager(), reportTeamReplyFragment.getTag());
     }
 
-    public void onReportArticleClicked(Integer reportArticleId){
+    public void onReportArticleClicked(Integer reportArticleId) {
         ReportArticleReplyFragment reportArticleReplyFragment = new ReportArticleReplyFragment(context);
         Bundle bundle = new Bundle();
         bundle.putInt("reportArticleId", reportArticleId);

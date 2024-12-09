@@ -22,7 +22,7 @@ public class MoumListPracticeroomViewModel extends AndroidViewModel {
     private final MutableLiveData<Result<List<MoumPracticeroom>>> isLoadPracticeroomsOfMoumSuccess = new MutableLiveData<>();
     private final PublishSubject<Result<Practiceroom>> isLoadPracticeroomSuccess = PublishSubject.create();
 
-    public MoumListPracticeroomViewModel(Application application){
+    public MoumListPracticeroomViewModel(Application application) {
         super(application);
         practiceNPerformRepository = PracticeNPerformRepository.getInstance(application);
     }
@@ -35,21 +35,22 @@ public class MoumListPracticeroomViewModel extends AndroidViewModel {
         return isLoadPracticeroomSuccess;
     }
 
-    public void setIsLoadPracticeroomsOfMoumSuccess(Result<List<MoumPracticeroom>> isLoadPracticeroomsOfMoumSuccess){
+    public void setIsLoadPracticeroomsOfMoumSuccess(Result<List<MoumPracticeroom>> isLoadPracticeroomsOfMoumSuccess) {
         this.isLoadPracticeroomsOfMoumSuccess.setValue(isLoadPracticeroomsOfMoumSuccess);
     }
 
-    public void setIsLoadPracticeroomSuccess(Result<Practiceroom> isLoadPracticeroomSuccess){
+    public void setIsLoadPracticeroomSuccess(Result<Practiceroom> isLoadPracticeroomSuccess) {
         this.isLoadPracticeroomSuccess.onNext(isLoadPracticeroomSuccess);
     }
 
-    public void loadPracticeroomsOfMoum(Integer moumId){
+    public void loadPracticeroomsOfMoum(Integer moumId) {
         practiceNPerformRepository.getPracticeroomsOfMoum(moumId, this::setIsLoadPracticeroomsOfMoumSuccess);
     }
 
-    public void loadPracticeroom(Integer roomId){
+    public void loadPracticeroom(Integer roomId) {
         /*valid check*/
-        if(isLoadPracticeroomsOfMoumSuccess.getValue() == null || isLoadPracticeroomsOfMoumSuccess.getValue().getValidation() != Validation.MOUM_PRACTICE_ROOM_GET_SUCCESS){
+        if (isLoadPracticeroomsOfMoumSuccess.getValue() == null
+                || isLoadPracticeroomsOfMoumSuccess.getValue().getValidation() != Validation.MOUM_PRACTICE_ROOM_GET_SUCCESS) {
             Result<Practiceroom> result = new Result<>(Validation.MOUM_PRACTICE_ROOM_NOT_FOUND);
             setIsLoadPracticeroomSuccess(result);
             return;

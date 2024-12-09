@@ -16,6 +16,20 @@
             </AndroidTestResultsTableState>
           </value>
         </entry>
+        <entry key="-1973269472">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="90" />
+                  <entry key="Pixel_Fold_API_35" value="120" />
+                  <entry key="Tests" value="360" />
+                  <entry key="samsung SM-G991N" value="120" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
         <entry key="-1795927221">
           <value>
             <AndroidTestResultsTableState>
@@ -68,12 +82,41 @@
             </AndroidTestResultsTableState>
           </value>
         </entry>
+        <entry key="-1601088997">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="90" />
+                  <entry key="Pixel_Fold_API_35" value="120" />
+                  <entry key="Tests" value="360" />
+                  <entry key="samsung SM-G991N" value="120" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
+        <entry key="-1490107170">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="90" />
+                  <entry key="Pixel_Fold_API_35" value="120" />
+                  <entry key="Tests" value="360" />
+                  <entry key="samsung SM-G991N" value="120" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
         <entry key="-1340173476">
           <value>
             <AndroidTestResultsTableState>
               <option name="preferredColumnWidths">
                 <map>
                   <entry key="Duration" value="90" />
+                  <entry key="Pixel_Fold_API_35" value="120" />
                   <entry key="Tests" value="360" />
                   <entry key="samsung SM-G991N" value="120" />
                 </map>
@@ -87,6 +130,20 @@
               <option name="preferredColumnWidths">
                 <map>
                   <entry key="Duration" value="90" />
+                  <entry key="Tests" value="360" />
+                  <entry key="samsung SM-G991N" value="120" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
+        <entry key="-604017539">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="90" />
+                  <entry key="Pixel_Fold_API_35" value="120" />
                   <entry key="Tests" value="360" />
                   <entry key="samsung SM-G991N" value="120" />
                 </map>
@@ -108,6 +165,33 @@
           </value>
         </entry>
         <entry key="-269085487">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="90" />
+                  <entry key="Tests" value="360" />
+                  <entry key="samsung SM-G991N" value="120" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
+        <entry key="-26782628">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="90" />
+                  <entry key="Pixel_Fold_API_35" value="120" />
+                  <entry key="Tests" value="360" />
+                  <entry key="samsung SM-G991N" value="120" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
+        <entry key="214352409">
           <value>
             <AndroidTestResultsTableState>
               <option name="preferredColumnWidths">
@@ -225,6 +309,19 @@
           </value>
         </entry>
         <entry key="1737189352">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="90" />
+                  <entry key="Tests" value="360" />
+                  <entry key="samsung SM-G991N" value="120" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
+        <entry key="1747119737">
           <value>
             <AndroidTestResultsTableState>
               <option name="preferredColumnWidths">

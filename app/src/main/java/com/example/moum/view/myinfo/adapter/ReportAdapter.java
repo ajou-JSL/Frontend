@@ -13,15 +13,11 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moum.R;
-import com.example.moum.data.entity.Chat;
-import com.example.moum.data.entity.Chatroom;
 import com.example.moum.data.entity.ReportArticle;
 import com.example.moum.data.entity.ReportMember;
 import com.example.moum.data.entity.ReportTeam;
-import com.example.moum.view.chat.adapter.ChatAdapter;
 import com.example.moum.view.myinfo.MyInfoReportNQuestionListActivity;
 
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class ReportAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -32,7 +28,7 @@ public class ReportAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private Context context;
     private static final int VIEW_TYPE_MEMBER = 1;
     private static final int VIEW_TYPE_TEAM = 2;
-    private static final int VIEW_TYPE_ARTICLE = 2;
+    private static final int VIEW_TYPE_ARTICLE = 3;
 
     public void setReportMembers(ArrayList<ReportMember> reportMembers, String reportType, Context context) {
         this.reportMembers = reportMembers;
@@ -53,13 +49,14 @@ public class ReportAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     @Override
-    public int getItemViewType(int position){
-        if(reportType.equals("member"))
+    public int getItemViewType(int position) {
+        if (reportType.equals("member")) {
             return VIEW_TYPE_MEMBER;
-        else if(reportType.equals("team"))
-                return VIEW_TYPE_TEAM;
-        else
+        } else if (reportType.equals("team")) {
+            return VIEW_TYPE_TEAM;
+        } else {
             return VIEW_TYPE_ARTICLE;
+        }
     }
 
     @NonNull
@@ -68,7 +65,7 @@ public class ReportAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (viewType == VIEW_TYPE_MEMBER) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_report, parent, false);
             return new ReportAdapter.ReportMemberViewHolder(view, context);
-        } else if(viewType == VIEW_TYPE_TEAM){
+        } else if (viewType == VIEW_TYPE_TEAM) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_report, parent, false);
             return new ReportAdapter.ReportTeamViewHolder(view, context);
         } else {
@@ -86,8 +83,7 @@ public class ReportAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         } else if (holder instanceof ReportAdapter.ReportTeamViewHolder) {
             ReportTeam reportTeam = reportTeams.get(position);
             ((ReportAdapter.ReportTeamViewHolder) holder).bind(reportTeam);
-        }
-        else if (holder instanceof ReportAdapter.ReportArticleViewHolder) {
+        } else if (holder instanceof ReportAdapter.ReportArticleViewHolder) {
             ReportArticle reportArticle = reportArticles.get(position);
             ((ReportAdapter.ReportArticleViewHolder) holder).bind(reportArticle);
         }
@@ -95,15 +91,16 @@ public class ReportAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public int getItemCount() {
-        if(reportType.equals("member"))
+        if (reportType.equals("member")) {
             return reportMembers.size();
-        else if(reportType.equals("team"))
+        } else if (reportType.equals("team")) {
             return reportTeams.size();
-        else
+        } else {
             return reportArticles.size();
+        }
     }
 
-    static class ReportMemberViewHolder extends RecyclerView.ViewHolder{
+    static class ReportMemberViewHolder extends RecyclerView.ViewHolder {
         private ReportMember reportMember;
         private TextView reportType;
         private TextView reportState;
@@ -123,12 +120,13 @@ public class ReportAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
         @RequiresApi(api = Build.VERSION_CODES.O)
-        public void bind(ReportMember reportMember){
+        public void bind(ReportMember reportMember) {
             reportType.setText("멤버 신고");
-            if(reportMember.getResolved())
+            if (reportMember.getResolved()) {
                 reportState.setText("처리 완료");
-            else
+            } else {
                 reportState.setText("처리중");
+            }
             reportTop.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -138,7 +136,7 @@ public class ReportAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    static class ReportTeamViewHolder extends RecyclerView.ViewHolder{
+    static class ReportTeamViewHolder extends RecyclerView.ViewHolder {
         private ReportTeam reportTeam;
         private TextView reportType;
         private TextView reportState;
@@ -158,12 +156,13 @@ public class ReportAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
         @RequiresApi(api = Build.VERSION_CODES.O)
-        public void bind(ReportTeam reportTeam){
+        public void bind(ReportTeam reportTeam) {
             reportType.setText("단체 신고");
-            if(reportTeam.getResolved())
+            if (reportTeam.getResolved()) {
                 reportState.setText("처리 완료");
-            else
+            } else {
                 reportState.setText("처리중");
+            }
             reportTop.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -173,7 +172,7 @@ public class ReportAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    static class ReportArticleViewHolder extends RecyclerView.ViewHolder{
+    static class ReportArticleViewHolder extends RecyclerView.ViewHolder {
         private ReportArticle reportArticle;
         private TextView reportType;
         private TextView reportState;
@@ -193,12 +192,13 @@ public class ReportAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
         @RequiresApi(api = Build.VERSION_CODES.O)
-        public void bind(ReportArticle reportArticle){
+        public void bind(ReportArticle reportArticle) {
             reportType.setText("게시글 신고");
-            if(reportArticle.getResolved())
+            if (reportArticle.getResolved()) {
                 reportState.setText("처리 완료");
-            else
+            } else {
                 reportState.setText("처리중");
+            }
             reportTop.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

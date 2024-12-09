@@ -7,7 +7,6 @@ import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -18,14 +17,10 @@ import androidx.appcompat.content.res.AppCompatResources;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.moum.R;
 import com.example.moum.data.entity.Moum;
-import com.example.moum.data.entity.Team;
 import com.example.moum.view.moum.MoumCreateActivity;
 import com.example.moum.view.moum.MoumManageActivity;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -46,7 +41,7 @@ public class MoumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        return position == moums.size()-1? VIEW_TYPE_EMPTY : VIEW_TYPE_EXIST;
+        return position == moums.size() - 1 ? VIEW_TYPE_EMPTY : VIEW_TYPE_EXIST;
     }
 
     @NonNull
@@ -77,7 +72,7 @@ public class MoumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return moums.size();
     }
 
-    static class MoumExistViewHolder extends RecyclerView.ViewHolder{
+    static class MoumExistViewHolder extends RecyclerView.ViewHolder {
         private Moum moum;
         private Integer teamId;
         private TextView moumName;
@@ -105,21 +100,22 @@ public class MoumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             this.moum = moum;
             this.teamId = teamId;
             moumName.setText(moum.getMoumName());
-            if(moum.getPerformLocation() != null && !moum.getPerformLocation().isEmpty()) moumPlace.setText(moum.getPerformLocation());
-            if(moum.getStartDate() != null && !moum.getStartDate().isEmpty() && moum.getEndDate() != null && !moum.getEndDate().isEmpty())
+            if (moum.getPerformLocation() != null && !moum.getPerformLocation().isEmpty()) moumPlace.setText(moum.getPerformLocation());
+            if (moum.getStartDate() != null && !moum.getStartDate().isEmpty() && moum.getEndDate() != null && !moum.getEndDate().isEmpty()) {
                 moumDate.setText(String.format("%s ~ %s", moum.getStartDate(), moum.getEndDate()));
-            else if(moum.getStartDate() != null && !moum.getStartDate().isEmpty() && (moum.getEndDate() == null || moum.getEndDate().isEmpty()))
+            } else if (moum.getStartDate() != null && !moum.getStartDate().isEmpty() && (moum.getEndDate() == null || moum.getEndDate().isEmpty())) {
                 moumDate.setText(String.format("%s", moum.getStartDate()));
-            else if(moum.getEndDate() != null && !moum.getEndDate().isEmpty() && (moum.getStartDate() == null || moum.getStartDate().isEmpty()))
+            } else if (moum.getEndDate() != null && !moum.getEndDate().isEmpty() && (moum.getStartDate() == null || moum.getStartDate().isEmpty())) {
                 moumDate.setText(String.format("%s", moum.getEndDate()));
-            else
+            } else {
                 moumDate.setText("");
-            if(moum.getProcess().getFinishStatus()) {
+            }
+            if (moum.getProcess().getFinishStatus()) {
                 moumState.setText("완료");
                 topView.setBackground(AppCompatResources.getDrawable(context, R.drawable.background_more_rounded_gray2));
-            }
-            else
+            } else {
                 moumState.setText("진행중");
+            }
             moumProgress.setProgress(moum.getProcess().getProcessPercentage());
             topView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -133,7 +129,7 @@ public class MoumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     }
 
-    static class MoumEmptyViewHolder extends RecyclerView.ViewHolder{
+    static class MoumEmptyViewHolder extends RecyclerView.ViewHolder {
         private Moum moum;
         private Integer teamId;
         private Context context;
@@ -146,7 +142,7 @@ public class MoumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
 
         @RequiresApi(api = Build.VERSION_CODES.O)
-        public void bind(Moum moum, Integer teamId){
+        public void bind(Moum moum, Integer teamId) {
             this.moum = moum;
             this.teamId = teamId;
             moumCreateButton.setOnClickListener(new View.OnClickListener() {

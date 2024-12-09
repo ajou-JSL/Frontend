@@ -1,30 +1,23 @@
 package com.example.moum.view.home.adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.moum.R;
-import com.example.moum.data.entity.Moum;
-import com.example.moum.view.moum.MoumManageActivity;
 
 import java.util.ArrayList;
 
-public class HomeBannerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class HomeBannerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<Drawable> banners;
     private Context context;
 
@@ -53,7 +46,7 @@ public class HomeBannerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         return banners.size();
     }
 
-    static class HomeBannerViewModel extends RecyclerView.ViewHolder{
+    static class HomeBannerViewModel extends RecyclerView.ViewHolder {
         private Drawable banner;
         private ImageView imageviewBanner;
         private Context context;

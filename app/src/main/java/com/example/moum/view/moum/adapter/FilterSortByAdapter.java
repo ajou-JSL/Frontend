@@ -16,13 +16,9 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moum.R;
-import com.example.moum.data.entity.Genre;
-import com.example.moum.view.profile.adapter.ProfileGenreAdapter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 public class FilterSortByAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<String> sortBys;
@@ -35,27 +31,28 @@ public class FilterSortByAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     public ArrayList<Boolean> getIsSelecteds() {
-        Log.e(TAG, isSelecteds.isEmpty()? "empty" : "not");
+        Log.e(TAG, isSelecteds.isEmpty() ? "empty" : "not");
         return isSelecteds;
     }
 
     public void setIsSelected(int pos, Boolean isSelected) {
-        if(!isSelecteds.isEmpty()){
-            isSelecteds.set(pos, isSelected);}
+        if (!isSelecteds.isEmpty()) {
+            isSelecteds.set(pos, isSelected);
+        }
     }
 
-    public Boolean getIsSelected(int pos){
-        if(!isSelecteds.isEmpty()){
+    public Boolean getIsSelected(int pos) {
+        if (!isSelecteds.isEmpty()) {
             return isSelecteds.get(pos);
         }
         return false;
     }
 
-    public String getSelectedItem(){
-        if(!isSelecteds.isEmpty()){
-            for(String sortBy : sortBys){
+    public String getSelectedItem() {
+        if (!isSelecteds.isEmpty()) {
+            for (String sortBy : sortBys) {
                 int idx = sortBys.indexOf(sortBy);
-                if(isSelecteds.get(idx)){
+                if (isSelecteds.get(idx)) {
                     return sortBy;
                 }
             }
@@ -66,7 +63,7 @@ public class FilterSortByAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if(isSelecteds == null) isSelecteds = new ArrayList<>(Collections.nCopies(sortBys.size(), false));
+        if (isSelecteds == null) isSelecteds = new ArrayList<>(Collections.nCopies(sortBys.size(), false));
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_genre, parent, false);
         return new FilterSortByAdapter.FilterSortByViewHolder(view, context, this);
     }
@@ -84,7 +81,7 @@ public class FilterSortByAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return sortBys.size();
     }
 
-    static class FilterSortByViewHolder extends RecyclerView.ViewHolder{
+    static class FilterSortByViewHolder extends RecyclerView.ViewHolder {
         private FilterSortByAdapter adapter;
         private String sortBy;
         private TextView genreItem;
@@ -99,19 +96,20 @@ public class FilterSortByAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         @SuppressLint("UseCompatLoadingForDrawables")
         @RequiresApi(api = Build.VERSION_CODES.O)
-        public void bind(String sortBy){
+        public void bind(String sortBy) {
             int pos = getAbsoluteAdapterPosition();
             this.sortBy = sortBy;
-            if(sortBy.equals("distance"))
+            if (sortBy.equals("distance")) {
                 genreItem.setText("거리순");
-            else if(sortBy.equals("price"))
+            } else if (sortBy.equals("price")) {
                 genreItem.setText("가격순");
-            else if(sortBy.equals("size"))
+            } else if (sortBy.equals("size")) {
                 genreItem.setText("크기순");
-            else if(sortBy.equals("capacity"))
+            } else if (sortBy.equals("capacity")) {
                 genreItem.setText("수용인원순");
-            else if(sortBy.equals("stand"))
+            } else if (sortBy.equals("stand")) {
                 genreItem.setText("보면대 개수순");
+            }
 
             if (pos != RecyclerView.NO_POSITION) {
                 Boolean isSelected = adapter.getIsSelected(pos);
@@ -128,12 +126,11 @@ public class FilterSortByAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 public void onClick(View view) {
                     if (pos != RecyclerView.NO_POSITION) {
                         ArrayList<Boolean> isSeltecteds = adapter.getIsSelecteds();
-                        for(int i = 0; i < isSeltecteds.size(); i++){
-                            if(pos == i){
+                        for (int i = 0; i < isSeltecteds.size(); i++) {
+                            if (pos == i) {
                                 adapter.setIsSelected(pos, true);
                                 adapter.notifyItemChanged(pos);
-                            }
-                            else{
+                            } else {
                                 adapter.setIsSelected(i, false);
                                 adapter.notifyItemChanged(i);
                             }

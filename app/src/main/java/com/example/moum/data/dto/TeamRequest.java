@@ -14,7 +14,8 @@ public class TeamRequest {
     private ArrayList<Record> records;
     private String videoUrl;
 
-    public TeamRequest(Integer leaderId, String teamName, String description, Genre genre, String location, ArrayList<Record> records, String videoUrl){
+    public TeamRequest(Integer leaderId, String teamName, String description, Genre genre, String location, ArrayList<Record> records,
+            String videoUrl) {
         this.leaderId = leaderId;
         this.teamName = teamName;
         this.description = description;

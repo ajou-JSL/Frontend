@@ -51,7 +51,7 @@ public class MoumManageMemberAdapter extends RecyclerView.Adapter<RecyclerView.V
         return members.size();
     }
 
-    static class MoumManageMemberViewModel extends RecyclerView.ViewHolder{
+    static class MoumManageMemberViewModel extends RecyclerView.ViewHolder {
         private Member member;
         private TextView memberName;
         private CircleImageView memberProfile;
@@ -65,14 +65,16 @@ public class MoumManageMemberAdapter extends RecyclerView.Adapter<RecyclerView.V
         }
 
         @RequiresApi(api = Build.VERSION_CODES.O)
-        public void bind(Member member){
+        public void bind(Member member) {
             this.member = member;
             memberName.setText(member.getName());
-            if(member.getProfileImageUrl() != null) Glide.with(context)
-                    .applyDefaultRequestOptions(new RequestOptions()
-                    .placeholder(R.drawable.background_circle_gray_size_fit)
-                    .error(R.drawable.background_circle_gray_size_fit))
-                    .load(member.getProfileImageUrl()).into(memberProfile);
+            if (member.getProfileImageUrl() != null) {
+                Glide.with(context)
+                        .applyDefaultRequestOptions(new RequestOptions()
+                                .placeholder(R.drawable.background_circle_gray_size_fit)
+                                .error(R.drawable.background_circle_gray_size_fit))
+                        .load(member.getProfileImageUrl()).into(memberProfile);
+            }
         }
     }
 }

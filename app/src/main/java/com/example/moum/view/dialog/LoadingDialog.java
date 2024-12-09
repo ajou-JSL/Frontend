@@ -10,7 +10,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.example.moum.R;
-import com.example.moum.view.auth.SignupProfileActivity;
 
 public class LoadingDialog extends Dialog {
     private TextView textViewSub;
@@ -18,7 +17,7 @@ public class LoadingDialog extends Dialog {
     private ProgressBar progressBar;
     private final String TAG = getClass().toString();
 
-    public LoadingDialog(@NonNull Context context){
+    public LoadingDialog(@NonNull Context context) {
         super(context);
     }
 

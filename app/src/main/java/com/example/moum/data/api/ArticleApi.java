@@ -2,11 +2,9 @@ package com.example.moum.data.api;
 
 import com.example.moum.data.dto.ArticleFilterRequest;
 import com.example.moum.data.dto.ArticleRequest;
-import com.example.moum.data.dto.ChatSendRequest;
 import com.example.moum.data.dto.CommentRequest;
 import com.example.moum.data.dto.SuccessResponse;
 import com.example.moum.data.entity.Article;
-import com.example.moum.data.entity.Chat;
 import com.example.moum.data.entity.Comment;
 import com.example.moum.data.entity.Like;
 
@@ -35,21 +33,21 @@ public interface ArticleApi {
 
     @GET("/api/articles/hot")
     Call<SuccessResponse<List<Article>>> loadArticlesHot(
-        @Query("page") Integer page,
-        @Query("size") Integer size
+            @Query("page") Integer page,
+            @Query("size") Integer size
     );
 
     @GET("/api/articles-all/category")
     Call<SuccessResponse<List<Article>>> loadArticlesCategory(
-        @Query("keyword") String keyword,
-        @Query("category") String category,
-        @Query("page") Integer page,
-        @Query("size") Integer size
+            @Query("keyword") String keyword,
+            @Query("category") String category,
+            @Query("page") Integer page,
+            @Query("size") Integer size
     );
 
     @GET("/api/articles/{articleId}")
     Call<SuccessResponse<Article>> loadArticleDetail(
-        @Path("articleId") Integer articleId
+            @Path("articleId") Integer articleId
     );
 
     @GET("api/articles/search")

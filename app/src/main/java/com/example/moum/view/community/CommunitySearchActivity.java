@@ -1,12 +1,9 @@
 package com.example.moum.view.community;
 
-import static com.example.moum.utils.TimeAgo.getTimeAgo;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,10 +20,8 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import com.example.moum.R;
 import com.example.moum.data.entity.Article;
-import com.example.moum.data.entity.BoardFreeItem;
 import com.example.moum.data.entity.Genre;
 import com.example.moum.databinding.ActivityCommunitySearchBinding;
 import com.example.moum.utils.Validation;
@@ -73,7 +68,7 @@ public class CommunitySearchActivity extends AppCompatActivity {
         });
     }
 
-    private void initSearchButton(){
+    private void initSearchButton() {
         SearchView searchView = findViewById(R.id.search_view);
         TextView searchText = searchView.findViewById(androidx.appcompat.R.id.search_src_text);
         if (searchText != null) {
@@ -85,7 +80,7 @@ public class CommunitySearchActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 keyword = searchView.getQuery().toString();
-                communitySearchViewModel.loadSearchArticles(keyword, category,false);
+                communitySearchViewModel.loadSearchArticles(keyword, category, false);
             }
         });
     }
@@ -129,7 +124,7 @@ public class CommunitySearchActivity extends AppCompatActivity {
             spinnerItems.add(genre.name());
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter(context, android.R.layout.simple_spinner_item, spinnerItems){
+        ArrayAdapter<String> adapter = new ArrayAdapter(context, android.R.layout.simple_spinner_item, spinnerItems) {
             @Override
             public boolean isEnabled(int position) {
 
@@ -179,7 +174,7 @@ public class CommunitySearchActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (parent != null) {
-                    switch(position){
+                    switch (position) {
                         case 0:
                             category = "FREE_TALKING_BOARD";
                             break;
@@ -191,6 +186,7 @@ public class CommunitySearchActivity extends AppCompatActivity {
                     }
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
@@ -219,8 +215,9 @@ public class CommunitySearchActivity extends AppCompatActivity {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if(!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE && adapter.getItemCount() > 0 && !communitySearchViewModel.isLoading()){
-                    communitySearchViewModel.loadSearchArticles(keyword, category,true);
+                if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE && adapter.getItemCount() > 0
+                        && !communitySearchViewModel.isLoading()) {
+                    communitySearchViewModel.loadSearchArticles(keyword, category, true);
                     handler.postDelayed(() -> communitySearchViewModel.setIsloading(false), DEBOUNCE_DELAY);
                 }
             }
@@ -232,7 +229,7 @@ public class CommunitySearchActivity extends AppCompatActivity {
         });
 
         // LiveData 처음 호출 데이터 관찰 및 데이터 로딩
-        communitySearchViewModel.getIsLoadSearchArticlesSuccess().observe( this, result -> {
+        communitySearchViewModel.getIsLoadSearchArticlesSuccess().observe(this, result -> {
             if (result != null) {
                 Validation validation = result.getValidation();
                 List<Article> loadedArticles = result.getData();

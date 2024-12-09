@@ -4,15 +4,12 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class TimeManager {
 
@@ -66,7 +63,7 @@ public class TimeManager {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public static String strToPrettyTime(String input){
+    public static String strToPrettyTime(String input) {
         /*target 시간과 현재 시간 구하기*/
         LocalDateTime target;
         LocalDateTime now = LocalDateTime.now();
@@ -76,7 +73,7 @@ public class TimeManager {
         try {
             // ISO 형식 처리 (Offset 포함)
             OffsetDateTime offsetDateTime = OffsetDateTime.parse(input, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
-            target =  offsetDateTime.toLocalDateTime();
+            target = offsetDateTime.toLocalDateTime();
         } catch (DateTimeParseException e) {
             try {
                 // ISO 형식 처리 (Offset 없는 LocalDateTime)
@@ -94,18 +91,19 @@ public class TimeManager {
         long minutes = ChronoUnit.MINUTES.between(target, now);
         long seconds = ChronoUnit.SECONDS.between(target, now);
 
-        if(years == 0 && months == 0 && days == 0 && hours == 0 && minutes == 0)
+        if (years == 0 && months == 0 && days == 0 && hours == 0 && minutes == 0) {
             return "방금 전";
-        else if(years == 0 && months == 0 && days == 0 && hours == 0)
+        } else if (years == 0 && months == 0 && days == 0 && hours == 0) {
             return minutes + "분 전";
-        else if(years == 0 && months == 0 && days == 0)
+        } else if (years == 0 && months == 0 && days == 0) {
             return hours + "시간 전";
-        else if(years == 0 && months == 0)
+        } else if (years == 0 && months == 0) {
             return days + "일 전";
-        else if(years == 0)
+        } else if (years == 0) {
             return months + "달 전";
-        else
+        } else {
             return years + "년 전";
+        }
     }
 
 }

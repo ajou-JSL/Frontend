@@ -9,10 +9,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.PopupMenu;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -29,7 +26,6 @@ import com.example.moum.data.entity.Genre;
 import com.example.moum.data.entity.Member;
 import com.example.moum.data.entity.Record;
 import com.example.moum.data.entity.Team;
-import com.example.moum.databinding.FragmentMemberProfileBinding;
 import com.example.moum.databinding.FragmentTeamProfileBinding;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
@@ -39,10 +35,7 @@ import com.example.moum.view.chat.ChatActivity;
 import com.example.moum.view.profile.adapter.ProfileGenreAdapter;
 import com.example.moum.view.profile.adapter.ProfileMemberAdapter;
 import com.example.moum.view.profile.adapter.ProfileRecordAdapter;
-import com.example.moum.view.profile.adapter.ProfileTeamAdapter;
-import com.example.moum.view.report.ReportMemberFragment;
 import com.example.moum.view.report.ReportTeamFragment;
-import com.example.moum.viewmodel.profile.MemberProfileViewModel;
 import com.example.moum.viewmodel.profile.TeamProfileViewModel;
 import com.google.android.flexbox.AlignItems;
 import com.google.android.flexbox.FlexWrap;
@@ -66,7 +59,7 @@ public class TeamProfileFragment extends BottomSheetDialogFragment {
     private final ArrayList<Member> members = new ArrayList<>();
     private final ArrayList<Genre> genres = new ArrayList<>();
 
-    public TeamProfileFragment(Context context){
+    public TeamProfileFragment(Context context) {
         this.context = context;
     }
 
@@ -74,7 +67,7 @@ public class TeamProfileFragment extends BottomSheetDialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = FragmentTeamProfileBinding.inflate(inflater,container, false);
+        binding = FragmentTeamProfileBinding.inflate(inflater, container, false);
         viewModel = new ViewModelProvider(requireActivity()).get(TeamProfileViewModel.class);
         context = getContext();
         View view = binding.getRoot();
@@ -85,7 +78,7 @@ public class TeamProfileFragment extends BottomSheetDialogFragment {
         String username = sharedPreferenceManager.getCache(getString(R.string.user_username_key), "no-memberId");
         Integer id = sharedPreferenceManager.getCache(getString(R.string.user_id_key), -1);
         String name = sharedPreferenceManager.getCache(getString(R.string.user_name_key), "no-memberName");
-        if(accessToken.isEmpty() || accessToken.equals("no-access-token")){
+        if (accessToken.isEmpty() || accessToken.equals("no-access-token")) {
             Toast.makeText(context, "로그인 정보가 없어 초기 페이지로 돌아갑니다.", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(context, InitialActivity.class);
             startActivity(intent);
@@ -95,7 +88,7 @@ public class TeamProfileFragment extends BottomSheetDialogFragment {
         /*이전 액티비티로부터의 값 가져오기*/
         int targetTeamId;
         Bundle bundle = getArguments();
-        if(bundle == null || bundle.getInt("targetTeamId") < 0){
+        if (bundle == null || bundle.getInt("targetTeamId") < 0) {
             Toast.makeText(context, "조회하고자 하는 단체를 알 수 없습니다.", Toast.LENGTH_SHORT).show();
             dismiss();
         }
@@ -133,14 +126,14 @@ public class TeamProfileFragment extends BottomSheetDialogFragment {
         viewModel.getIsLoadTeamProfileSuccess().observe(getViewLifecycleOwner(), isLoadTeamProfileSuccess -> {
             Validation validation = isLoadTeamProfileSuccess.getValidation();
             Team team = isLoadTeamProfileSuccess.getData();
-            if(validation == Validation.GET_TEAM_SUCCESS){
+            if (validation == Validation.GET_TEAM_SUCCESS) {
                 targetTeam = team;
-                if(targetTeam.getRecords() != null && !targetTeam.getRecords().isEmpty()){
+                if (targetTeam.getRecords() != null && !targetTeam.getRecords().isEmpty()) {
                     records.clear();
                     records.addAll(targetTeam.getRecords());
                     recordsAdapter.notifyDataSetChanged();
                 }
-                if(targetTeam.getMembers() != null && !targetTeam.getMembers().isEmpty()){
+                if (targetTeam.getMembers() != null && !targetTeam.getMembers().isEmpty()) {
                     members.clear();
                     members.addAll(targetTeam.getMembers());
                     membersAdapter.notifyDataSetChanged();
@@ -150,43 +143,37 @@ public class TeamProfileFragment extends BottomSheetDialogFragment {
                 binding.textviewDescription.setText(targetTeam.getDescription());
                 Glide.with(context)
                         .applyDefaultRequestOptions(new RequestOptions()
-                        .placeholder(R.drawable.background_more_rounded_gray_size_fit)
-                        .error(R.drawable.background_more_rounded_gray_size_fit))
+                                .placeholder(R.drawable.background_more_rounded_gray_size_fit)
+                                .error(R.drawable.background_more_rounded_gray_size_fit))
                         .load(targetTeam.getFileUrl()).into(binding.imageviewProfile);
                 binding.imageviewProfile.setClipToOutline(true);
                 int color = context.getColor(R.color.bronze);
-                if(targetTeam.getVideoUrl() != null)
+                if (targetTeam.getVideoUrl() != null) {
                     onVideoValid();
-                if(team.getTier() == null || team.getTier().equals("BRONZE")){
+                }
+                if (team.getTier() == null || team.getTier().equals("BRONZE")) {
                     color = context.getColor(R.color.bronze);
-                }
-                else if(team.getTier().equals("SILVER")){
+                } else if (team.getTier().equals("SILVER")) {
                     color = context.getColor(R.color.silver);
-                }
-                else if(team.getTier().equals("GOLD")){
+                } else if (team.getTier().equals("GOLD")) {
                     color = context.getColor(R.color.gold);
-                }
-                else if(team.getTier().equals("PLATINUM")){
+                } else if (team.getTier().equals("PLATINUM")) {
                     color = context.getColor(R.color.platinum);
-                }
-                else if(team.getTier().equals("DIAMOND")){
+                } else if (team.getTier().equals("DIAMOND")) {
                     color = context.getColor(R.color.diamond);
                 }
                 binding.borderProfile.setColorFilter(color);
                 binding.imageviewTier.setColorFilter(color);
-                if(targetTeam.getGenre() != null){
+                if (targetTeam.getGenre() != null) {
                     genres.clear();
                     genres.add(targetTeam.getGenre());
-                    genreAdapter.notifyItemInserted(genres.size()-1);
+                    genreAdapter.notifyItemInserted(genres.size() - 1);
                 }
-            }
-            else if(validation == Validation.TEAM_NOT_FOUND){
+            } else if (validation == Validation.TEAM_NOT_FOUND) {
                 Toast.makeText(context, "단체를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(validation == Validation.NETWORK_FAILED){
+            } else if (validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else{
+            } else {
                 Log.e(TAG, "프로필을 불러올 수 없습니다.");
                 Toast.makeText(context, "결과를 알 수 없습니다.", Toast.LENGTH_SHORT).show();
             }
@@ -197,9 +184,9 @@ public class TeamProfileFragment extends BottomSheetDialogFragment {
             @Override
             public void onClick(View view) {
 
-                if(targetTeam != null){
-                    for(Member member : members){
-                        if(member.getId() == targetTeam.getLeaderId()){
+                if (targetTeam != null) {
+                    for (Member member : members) {
+                        if (member.getId() == targetTeam.getLeaderId()) {
                             viewModel.createChatroom(member, id, name, context);
                         }
                     }
@@ -211,16 +198,13 @@ public class TeamProfileFragment extends BottomSheetDialogFragment {
         viewModel.getIsCreateChatroomSuccess().observe(getViewLifecycleOwner(), isCreateChatroomSuccess -> {
             Validation validation = isCreateChatroomSuccess.getValidation();
             Chatroom chatroom = isCreateChatroomSuccess.getData();
-            if(validation == Validation.PROFILE_NOT_LOADED){
+            if (validation == Validation.PROFILE_NOT_LOADED) {
                 Toast.makeText(context, "프로필 정보를 가져오지 못했습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(validation == Validation.CHATROOM_CREATE_FAIL){
+            } else if (validation == Validation.CHATROOM_CREATE_FAIL) {
                 Toast.makeText(context, "채팅방 생성에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(validation == Validation.CHATROOM_WITH_ME){
+            } else if (validation == Validation.CHATROOM_WITH_ME) {
                 Toast.makeText(context, "나 자신과의 개인톡은 시작할 수 없습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(validation == Validation.CHATROOM_ALREADY_EXIST || validation == Validation.CHATROOM_CREATE_SUCCESS){
+            } else if (validation == Validation.CHATROOM_ALREADY_EXIST || validation == Validation.CHATROOM_CREATE_SUCCESS) {
                 Toast.makeText(context, "채팅방을 생성하였습니다.", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(context, ChatActivity.class);
                 intent.putExtra("chatroomId", chatroom.getId());
@@ -233,11 +217,9 @@ public class TeamProfileFragment extends BottomSheetDialogFragment {
                 intent.putExtra("fileUrl", chatroom.getFileUrl());
                 context.startActivity(intent);
                 dismiss();
-            }
-            else if(validation == Validation.NETWORK_FAILED){
+            } else if (validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else{
+            } else {
                 Toast.makeText(context, "개인톡을 생성할 수 없습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "알 수 없는 감시 결과");
             }
@@ -272,7 +254,8 @@ public class TeamProfileFragment extends BottomSheetDialogFragment {
 
         return view;
     }
-    public void onVideoValid(){
+
+    public void onVideoValid() {
         /*유튜브 플레이어 연결*/
         YouTubePlayerView youTubePlayerView = binding.youtubePlayerView;
         getLifecycle().addObserver(youTubePlayerView);
@@ -280,12 +263,12 @@ public class TeamProfileFragment extends BottomSheetDialogFragment {
             @Override
             public void onReady(@NonNull YouTubePlayer youTubePlayer) {
                 super.onReady(youTubePlayer);
-                if(targetTeam == null || targetTeam.getVideoUrl() == null || targetTeam.getVideoUrl().isEmpty()){
+                if (targetTeam == null || targetTeam.getVideoUrl() == null || targetTeam.getVideoUrl().isEmpty()) {
                     binding.layoutYoutube.setVisibility(View.GONE);
                     return;
                 }
                 String videoId = YoutubeManager.getVideoId(targetTeam.getVideoUrl());
-                if(videoId == null){
+                if (videoId == null) {
                     binding.layoutYoutube.setVisibility(View.GONE);
                     return;
                 }
@@ -299,7 +282,7 @@ public class TeamProfileFragment extends BottomSheetDialogFragment {
         setStyle(STYLE_NORMAL, R.style.BottomSheetDialogTheme);
     }
 
-    public void onProfileMemberClicked(Integer memberId){
+    public void onProfileMemberClicked(Integer memberId) {
         final MemberProfileFragment memberProfileFragment = new MemberProfileFragment(context);
         Bundle bundle = new Bundle();
         bundle.putInt("targetMemberId", memberId);

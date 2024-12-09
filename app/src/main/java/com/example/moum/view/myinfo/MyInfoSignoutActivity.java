@@ -12,13 +12,11 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.moum.R;
 import com.example.moum.data.entity.Member;
-import com.example.moum.databinding.ActivityMyinfoLogoutNSignoutBinding;
 import com.example.moum.databinding.ActivityMyinfoSignoutBinding;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.view.dialog.SignoutDialog;
-import com.example.moum.viewmodel.myinfo.MyInfoLogoutNSignoutViewModel;
 import com.example.moum.viewmodel.myinfo.MyInfoSignoutViewModel;
 
 public class MyInfoSignoutActivity extends AppCompatActivity {
@@ -44,7 +42,7 @@ public class MyInfoSignoutActivity extends AppCompatActivity {
         String accessToken = sharedPreferenceManager.getCache(getString(R.string.user_access_token_key), "no-access-token");
         username = sharedPreferenceManager.getCache(getString(R.string.user_username_key), "no-memberId");
         Integer id = sharedPreferenceManager.getCache(getString(R.string.user_id_key), -1);
-        if(accessToken.isEmpty() || accessToken.equals("no-access-token")){
+        if (accessToken.isEmpty() || accessToken.equals("no-access-token")) {
             Toast.makeText(context, "로그인 정보가 없어 초기 페이지로 돌아갑니다.", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(context, InitialActivity.class);
             startActivity(intent);
@@ -72,7 +70,7 @@ public class MyInfoSignoutActivity extends AppCompatActivity {
         viewModel.getIsSignoutSuccess().observe(this, isSignoutSuccess -> {
             Validation validation = isSignoutSuccess.getValidation();
             Member member = isSignoutSuccess.getData();
-            if(validation == Validation.SIGNOUT_SUCCESS){
+            if (validation == Validation.SIGNOUT_SUCCESS) {
                 Toast.makeText(context, "회원탈퇴가 완료되었습니다.", Toast.LENGTH_SHORT).show();
 
                 sharedPreferenceManager.removeCache(getString(R.string.user_id_key));
@@ -84,20 +82,17 @@ public class MyInfoSignoutActivity extends AppCompatActivity {
                 intent.putExtra("finish", 1);
                 setResult(RESULT_OK, intent);
                 finish();
-            }
-            else if(validation == Validation.ID_NOT_WRITTEN){
+            } else if (validation == Validation.ID_NOT_WRITTEN) {
                 Toast.makeText(context, "아이디를 입력해야 합니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(validation == Validation.ID_NOT_EQUAL){
+            } else if (validation == Validation.ID_NOT_EQUAL) {
                 Toast.makeText(context, "아이디가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else{
+            } else {
                 Toast.makeText(context, "회원탈퇴에 실패하였습니다.", Toast.LENGTH_SHORT).show();
             }
         });
     }
-    
-    public void onSignoutDialogYesClicked(){
+
+    public void onSignoutDialogYesClicked() {
         viewModel.signout(username);
     }
 }

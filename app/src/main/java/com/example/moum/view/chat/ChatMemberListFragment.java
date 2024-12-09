@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,22 +16,16 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.moum.R;
-import com.example.moum.data.entity.Chatroom;
 import com.example.moum.data.entity.Member;
 import com.example.moum.databinding.FragmentChatLeftMenuBinding;
-import com.example.moum.databinding.FragmentChatroomBinding;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.utils.WrapContentLinearLayoutManager;
 import com.example.moum.view.auth.InitialActivity;
-import com.example.moum.view.chat.adapter.ChatroomAdapter;
 import com.example.moum.view.chat.adapter.ChatroomMemberAdapter;
 import com.example.moum.view.profile.MemberProfileFragment;
 import com.example.moum.viewmodel.chat.ChatMemberListViewModel;
-import com.example.moum.viewmodel.chat.ChatroomViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +63,7 @@ public class ChatMemberListFragment extends Fragment {
         int chatroomId;
         int leaderId;
         Bundle bundle = getArguments();
-        if(bundle == null || bundle.getInt("chatroomId") < 0 || bundle.getInt("leaderId") < 0){
+        if (bundle == null || bundle.getInt("chatroomId") < 0 || bundle.getInt("leaderId") < 0) {
             Toast.makeText(context, "잘못된 접근입니다.", Toast.LENGTH_SHORT).show();
             FragmentManager manager = getParentFragmentManager();
             manager.beginTransaction().remove(ChatMemberListFragment.this).commit();
@@ -93,21 +86,17 @@ public class ChatMemberListFragment extends Fragment {
         viewModel.getIsLoadMembersOfChatroomSuccess().observe(getViewLifecycleOwner(), isLoadMembersOfChatroomSuccess -> {
             Validation validation = isLoadMembersOfChatroomSuccess.getValidation();
             List<Member> loadedMembers = isLoadMembersOfChatroomSuccess.getData();
-            if(validation == Validation.CHATROOM_MEMBER_LOAD_SUCCESS){
+            if (validation == Validation.CHATROOM_MEMBER_LOAD_SUCCESS) {
                 members.clear();
                 members.addAll(loadedMembers);
-                chatroomMemberAdapter.notifyItemInserted(members.size()-1);
-            }
-            else if(validation == Validation.CHAT_RECEIVE_FAIL){
+                chatroomMemberAdapter.notifyItemInserted(members.size() - 1);
+            } else if (validation == Validation.CHAT_RECEIVE_FAIL) {
                 Toast.makeText(context, "채팅방의 멤버 불러오기에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(validation == Validation.MEMBER_NOT_EXIST){
+            } else if (validation == Validation.MEMBER_NOT_EXIST) {
                 Toast.makeText(context, "채팅방 내에 멤버가 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(validation == Validation.NETWORK_FAILED){
+            } else if (validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else{
+            } else {
                 Log.e(TAG, "채팅 불러오기 결과를 알 수 없습니다.");
             }
         });
@@ -115,7 +104,7 @@ public class ChatMemberListFragment extends Fragment {
         return view;
     }
 
-    public void onProfileClicked(Integer targetMemberId){
+    public void onProfileClicked(Integer targetMemberId) {
         MemberProfileFragment memberProfileFragment = new MemberProfileFragment(context);
         Bundle bundle = new Bundle();
         bundle.putInt("targetMemberId", targetMemberId);

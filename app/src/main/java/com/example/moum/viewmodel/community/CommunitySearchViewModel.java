@@ -35,20 +35,26 @@ public class CommunitySearchViewModel extends AndroidViewModel {
     }
 
 
-    public MutableLiveData<Validation> getValidationStatus(){
+    public MutableLiveData<Validation> getValidationStatus() {
         return validationStatus;
     }
 
-    public List<Article> getSearchArticles() { return searchArticles; }
+    public List<Article> getSearchArticles() {
+        return searchArticles;
+    }
 
-    public MutableLiveData<Result<List<Article>>> getIsLoadSearchArticlesSuccess() { return isLoadSearchArticlesSuccess; }
+    public MutableLiveData<Result<List<Article>>> getIsLoadSearchArticlesSuccess() {
+        return isLoadSearchArticlesSuccess;
+    }
 
 
-    public void setIsloading(boolean isLoading){
+    public void setIsloading(boolean isLoading) {
         this.isLoading = isLoading;
     }
 
-    public boolean isLoading() {return isLoading; }
+    public boolean isLoading() {
+        return isLoading;
+    }
 
 
     public void resetPagination() {
@@ -56,7 +62,7 @@ public class CommunitySearchViewModel extends AndroidViewModel {
         isLoading = false;
     }
 
-    public void loadSearchArticles(String keyword, String category,boolean isNext) {
+    public void loadSearchArticles(String keyword, String category, boolean isNext) {
         if (!isNext) {
             currentPage = 0;
             searchArticles.clear();

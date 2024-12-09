@@ -28,7 +28,7 @@ public class MoumFindPerformanceHallViewModel extends AndroidViewModel {
     private LatLng latLng;
     private final SearchPerformHallArgs args = new SearchPerformHallArgs();
 
-    public MoumFindPerformanceHallViewModel(Application application){
+    public MoumFindPerformanceHallViewModel(Application application) {
         super(application);
         practiceNPerformRepository = PracticeNPerformRepository.getInstance(application);
     }
@@ -57,23 +57,23 @@ public class MoumFindPerformanceHallViewModel extends AndroidViewModel {
         return isQuerying;
     }
 
-    public void setIsQueryPerformanceHallSuccess(Result<List<PerformanceHall>> isQueryPerformanceHallSuccess){
+    public void setIsQueryPerformanceHallSuccess(Result<List<PerformanceHall>> isQueryPerformanceHallSuccess) {
         this.isQueryPerformanceHallSuccess.setValue(isQueryPerformanceHallSuccess);
     }
 
-    public void setIsLoadPerformanceHallSuccess(Result<List<PerformanceHall>> isLoadPerformanceHallSuccess){
+    public void setIsLoadPerformanceHallSuccess(Result<List<PerformanceHall>> isLoadPerformanceHallSuccess) {
         this.isLoadPerformanceHallSuccess.setValue(isLoadPerformanceHallSuccess);
     }
 
-    public void setIsLoadNextPerformanceHallSuccess(Result<List<PerformanceHall>> isLoadNextPerformanceHallSuccess){
+    public void setIsLoadNextPerformanceHallSuccess(Result<List<PerformanceHall>> isLoadNextPerformanceHallSuccess) {
         this.isLoadNextPerformanceHallSuccess.setValue(isLoadNextPerformanceHallSuccess);
     }
 
-    public void setIsQueryNextPerformanceHallSuccess(Result<List<PerformanceHall>> isQueryNextPerformanceHallSuccess){
+    public void setIsQueryNextPerformanceHallSuccess(Result<List<PerformanceHall>> isQueryNextPerformanceHallSuccess) {
         this.isQueryNextPerformanceHallSuccess.setValue(isQueryNextPerformanceHallSuccess);
     }
 
-    public void clearArgs(){
+    public void clearArgs() {
         this.args.clear();
     }
 
@@ -81,38 +81,38 @@ public class MoumFindPerformanceHallViewModel extends AndroidViewModel {
         this.args.setName(name);
     }
 
-    public void setLatLng(LatLng latLng){
+    public void setLatLng(LatLng latLng) {
         this.args.setLatitude(latLng.latitude);
         this.args.setLongitude(latLng.longitude);
     }
 
-    public void queryPerformanceHallWithArgs(SearchPerformHallArgs args){
+    public void queryPerformanceHallWithArgs(SearchPerformHallArgs args) {
         this.args.setSortBy(args.getSortBy());
         this.args.setOrderBy(args.getOrderBy());
-        if(args.getMinPrice() != -1) this.args.setMinPrice(args.getMinPrice());
-        if(args.getMaxPrice() != -1) this.args.setMaxPrice(args.getMaxPrice());
-        if(args.getMinCapacity() != -1) this.args.setMinCapacity(args.getMinCapacity());
-        if(args.getMaxCapacity() != -1) this.args.setMaxCapacity(args.getMaxCapacity());
-        if(args.getMinHallSize() != -1) this.args.setMinHallSize(args.getMinHallSize());
-        if(args.getMaxHallSize() != -1) this.args.setMaxHallSize(args.getMaxHallSize());
-        if(args.getMinStand() != -1) this.args.setMinStand(args.getMinStand());
-        if(args.getMaxStand() != -1) this.args.setMaxStand(args.getMaxStand());
-        if(args.getHasPiano() != null) this.args.setHasPiano(args.getHasPiano());
-        if(args.getHasAmp() != null) this.args.setHasAmp(args.getHasAmp());
-        if(args.getHasSpeaker() != null) this.args.setHasSpeaker(args.getHasSpeaker());
-        if(args.getHasMic() != null) this.args.setHasMic(args.getHasMic());
-        if(args.getHasDrums() != null) this.args.setHasDrums(args.getHasDrums());
+        if (args.getMinPrice() != -1) this.args.setMinPrice(args.getMinPrice());
+        if (args.getMaxPrice() != -1) this.args.setMaxPrice(args.getMaxPrice());
+        if (args.getMinCapacity() != -1) this.args.setMinCapacity(args.getMinCapacity());
+        if (args.getMaxCapacity() != -1) this.args.setMaxCapacity(args.getMaxCapacity());
+        if (args.getMinHallSize() != -1) this.args.setMinHallSize(args.getMinHallSize());
+        if (args.getMaxHallSize() != -1) this.args.setMaxHallSize(args.getMaxHallSize());
+        if (args.getMinStand() != -1) this.args.setMinStand(args.getMinStand());
+        if (args.getMaxStand() != -1) this.args.setMaxStand(args.getMaxStand());
+        if (args.getHasPiano() != null) this.args.setHasPiano(args.getHasPiano());
+        if (args.getHasAmp() != null) this.args.setHasAmp(args.getHasAmp());
+        if (args.getHasSpeaker() != null) this.args.setHasSpeaker(args.getHasSpeaker());
+        if (args.getHasMic() != null) this.args.setHasMic(args.getHasMic());
+        if (args.getHasDrums() != null) this.args.setHasDrums(args.getHasDrums());
         queryPerformanceHall();
     }
 
-    public void queryPerformanceHallWithName(String name){
+    public void queryPerformanceHallWithName(String name) {
         setName(name);
         queryPerformanceHall();
     }
 
-    public void queryPerformanceHall(){
+    public void queryPerformanceHall() {
         clearPage();
-        if(args.getLatitude() == null || args.getLongitude() == null) return;
+        if (args.getLatitude() == null || args.getLongitude() == null) return;
         isQuerying = true;
 
         /*goto repository*/
@@ -120,10 +120,10 @@ public class MoumFindPerformanceHallViewModel extends AndroidViewModel {
         page = page + 1;
     }
 
-    public void queryNextPerformanceHall(){
-        if(args.getLatitude() == null || args.getLongitude() == null) return;
+    public void queryNextPerformanceHall() {
+        if (args.getLatitude() == null || args.getLongitude() == null) return;
         isQuerying = true;
-        if(recentPageNumber < LOAD_NUMBER) return; //이전에 불러온 이미지들이 LOAD_PRACTICE_ROOM_NUMBER 적다면, 그만 불러오기
+        if (recentPageNumber < LOAD_NUMBER) return; //이전에 불러온 이미지들이 LOAD_PRACTICE_ROOM_NUMBER 적다면, 그만 불러오기
 
         /*goto repository*/
         practiceNPerformRepository.searchPerformHalls(page, LOAD_NUMBER, args, this::setIsQueryNextPerformanceHallSuccess);
@@ -134,21 +134,21 @@ public class MoumFindPerformanceHallViewModel extends AndroidViewModel {
         this.recentPageNumber = recentPageNumber;
     }
 
-    public void clearPage(){
+    public void clearPage() {
         page = 1;
         recentPageNumber = 0;
         name = null;
         latLng = null;
     }
 
-    public void loadPerformanceHall(){
+    public void loadPerformanceHall() {
         practiceNPerformRepository.getPerformHalls(page, LOAD_NUMBER, this::setIsLoadPerformanceHallSuccess);
         page = page + 1;
     }
 
 
-    public void loadNextPerformanceHall(){
-        if(recentPageNumber < LOAD_NUMBER) return; //이전에 불러온 이미지들이 LOAD_PRACTICE_ROOM_NUMBER 적다면, 그만 불러오기
+    public void loadNextPerformanceHall() {
+        if (recentPageNumber < LOAD_NUMBER) return; //이전에 불러온 이미지들이 LOAD_PRACTICE_ROOM_NUMBER 적다면, 그만 불러오기
         practiceNPerformRepository.getPerformHalls(page, LOAD_NUMBER, this::setIsLoadNextPerformanceHallSuccess);
         page = page + 1;
     }

@@ -31,27 +31,28 @@ public class FilterOrderByAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     public ArrayList<Boolean> getIsSelecteds() {
-        Log.e(TAG, isSelecteds.isEmpty()? "empty" : "not");
+        Log.e(TAG, isSelecteds.isEmpty() ? "empty" : "not");
         return isSelecteds;
     }
 
     public void setIsSelected(int pos, Boolean isSelected) {
-        if(!isSelecteds.isEmpty()){
-            isSelecteds.set(pos, isSelected);}
+        if (!isSelecteds.isEmpty()) {
+            isSelecteds.set(pos, isSelected);
+        }
     }
 
-    public Boolean getIsSelected(int pos){
-        if(!isSelecteds.isEmpty()){
+    public Boolean getIsSelected(int pos) {
+        if (!isSelecteds.isEmpty()) {
             return isSelecteds.get(pos);
         }
         return false;
     }
 
-    public String getSelectedItem(){
-        if(!isSelecteds.isEmpty()){
-            for(String orderBy : orderBys){
+    public String getSelectedItem() {
+        if (!isSelecteds.isEmpty()) {
+            for (String orderBy : orderBys) {
                 int idx = orderBys.indexOf(orderBy);
-                if(isSelecteds.get(idx)){
+                if (isSelecteds.get(idx)) {
                     return orderBy;
                 }
             }
@@ -62,7 +63,7 @@ public class FilterOrderByAdapter extends RecyclerView.Adapter<RecyclerView.View
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if(isSelecteds == null) isSelecteds = new ArrayList<>(Collections.nCopies(orderBys.size(), false));
+        if (isSelecteds == null) isSelecteds = new ArrayList<>(Collections.nCopies(orderBys.size(), false));
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_genre, parent, false);
         return new FilterOrderByAdapter.FilterSortByViewHolder(view, context, this);
     }
@@ -80,7 +81,7 @@ public class FilterOrderByAdapter extends RecyclerView.Adapter<RecyclerView.View
         return orderBys.size();
     }
 
-    static class FilterSortByViewHolder extends RecyclerView.ViewHolder{
+    static class FilterSortByViewHolder extends RecyclerView.ViewHolder {
         private FilterOrderByAdapter adapter;
         private String orderBy;
         private TextView genreItem;
@@ -95,13 +96,14 @@ public class FilterOrderByAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         @SuppressLint("UseCompatLoadingForDrawables")
         @RequiresApi(api = Build.VERSION_CODES.O)
-        public void bind(String orderBy){
+        public void bind(String orderBy) {
             int pos = getAbsoluteAdapterPosition();
             this.orderBy = orderBy;
-            if(orderBy.equals("asc"))
+            if (orderBy.equals("asc")) {
                 genreItem.setText("오름차순");
-            else if(orderBy.equals("desc"))
+            } else if (orderBy.equals("desc")) {
                 genreItem.setText("내림차순");
+            }
 
             if (pos != RecyclerView.NO_POSITION) {
                 Boolean isSelected = adapter.getIsSelected(pos);
@@ -118,12 +120,11 @@ public class FilterOrderByAdapter extends RecyclerView.Adapter<RecyclerView.View
                 public void onClick(View view) {
                     if (pos != RecyclerView.NO_POSITION) {
                         ArrayList<Boolean> isSeltecteds = adapter.getIsSelecteds();
-                        for(int i = 0; i < isSeltecteds.size(); i++){
-                            if(pos == i){
+                        for (int i = 0; i < isSeltecteds.size(); i++) {
+                            if (pos == i) {
                                 adapter.setIsSelected(pos, true);
                                 adapter.notifyItemChanged(pos);
-                            }
-                            else{
+                            } else {
                                 adapter.setIsSelected(i, false);
                                 adapter.notifyItemChanged(i);
                             }

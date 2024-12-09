@@ -1,10 +1,8 @@
 package com.example.moum.view.moum;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
@@ -13,39 +11,27 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentResultListener;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moum.R;
-import com.example.moum.data.dto.SearchPerformHallArgs;
 import com.example.moum.data.dto.SearchPracticeroomArgs;
-import com.example.moum.data.entity.Member;
-import com.example.moum.data.entity.Moum;
-import com.example.moum.data.entity.Music;
-import com.example.moum.data.entity.PerformanceHall;
 import com.example.moum.data.entity.Practiceroom;
 import com.example.moum.databinding.ActivityMoumFindPracticeroomBinding;
-import com.example.moum.databinding.ActivityMoumManageBinding;
 import com.example.moum.utils.PermissionManager;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.utils.WrapContentLinearLayoutManager;
 import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.view.moum.adapter.MoumPracticeroomAdapter;
-import com.example.moum.view.moum.adapter.MoumUpdateImageAdapter;
 import com.example.moum.viewmodel.moum.MoumFindPracticeroomViewModel;
-import com.example.moum.viewmodel.moum.MoumManageViewModel;
 import com.naver.maps.geometry.LatLng;
 
 import java.util.ArrayList;
@@ -115,20 +101,20 @@ public class MoumFindPracticeroomActivity extends AppCompatActivity {
                 PracticeroomFilterFragment practiceroomFilterFragment = new PracticeroomFilterFragment(context);
                 SearchPracticeroomArgs args = viewModel.getArgs();
                 Bundle bundle = new Bundle();
-                if(args.getSortBy() != null) bundle.putString("sortBy", args.getSortBy());
-                if(args.getOrderBy() != null) bundle.putString("orderBy", args.getOrderBy());
-                if(args.getType() != null) bundle.putInt("type", args.getType());
-                if(args.getMinPrice() != null) bundle.putInt("minPrice", args.getMinPrice());
-                if(args.getMaxPrice() != null) bundle.putInt("maxPrice", args.getMaxPrice());
-                if(args.getMinCapacity() != null) bundle.putInt("minCapacity", args.getMinCapacity());
-                if(args.getMaxCapacity() != null) bundle.putInt("maxCapacity", args.getMaxCapacity());
-                if(args.getMinStand() != null) bundle.putInt("minStand", args.getMinStand());
-                if(args.getMaxStand() != null) bundle.putInt("maxStand", args.getMaxStand());
-                if(args.getHasPiano() != null) bundle.putBoolean("hasPiano", args.getHasPiano());
-                if(args.getHasAmp() != null) bundle.putBoolean("hasAmp", args.getHasAmp());
-                if(args.getHasSpeaker() != null) bundle.putBoolean("hasSpeaker", args.getHasSpeaker());
-                if(args.getHasMic() != null) bundle.putBoolean("hasMic", args.getHasMic());
-                if(args.getHasDrums() != null) bundle.putBoolean("hasDrums", args.getHasDrums());
+                if (args.getSortBy() != null) bundle.putString("sortBy", args.getSortBy());
+                if (args.getOrderBy() != null) bundle.putString("orderBy", args.getOrderBy());
+                if (args.getType() != null) bundle.putInt("type", args.getType());
+                if (args.getMinPrice() != null) bundle.putInt("minPrice", args.getMinPrice());
+                if (args.getMaxPrice() != null) bundle.putInt("maxPrice", args.getMaxPrice());
+                if (args.getMinCapacity() != null) bundle.putInt("minCapacity", args.getMinCapacity());
+                if (args.getMaxCapacity() != null) bundle.putInt("maxCapacity", args.getMaxCapacity());
+                if (args.getMinStand() != null) bundle.putInt("minStand", args.getMinStand());
+                if (args.getMaxStand() != null) bundle.putInt("maxStand", args.getMaxStand());
+                if (args.getHasPiano() != null) bundle.putBoolean("hasPiano", args.getHasPiano());
+                if (args.getHasAmp() != null) bundle.putBoolean("hasAmp", args.getHasAmp());
+                if (args.getHasSpeaker() != null) bundle.putBoolean("hasSpeaker", args.getHasSpeaker());
+                if (args.getHasMic() != null) bundle.putBoolean("hasMic", args.getHasMic());
+                if (args.getHasDrums() != null) bundle.putBoolean("hasDrums", args.getHasDrums());
                 practiceroomFilterFragment.setArguments(bundle);
                 practiceroomFilterFragment.show(getSupportFragmentManager(), practiceroomFilterFragment.getTag());
             }
@@ -148,26 +134,31 @@ public class MoumFindPracticeroomActivity extends AppCompatActivity {
                 args.setMaxCapacity(result.getInt("maxCapacity", -1));
                 args.setMinStand(result.getInt("minStand", -1));
                 args.setMaxStand(result.getInt("maxStand", -1));
-                if (result.containsKey("hasPiano"))
+                if (result.containsKey("hasPiano")) {
                     args.setHasPiano(result.getBoolean("hasPiano"));
-                else
+                } else {
                     args.setHasPiano(null);
-                if (result.containsKey("hasAmp"))
+                }
+                if (result.containsKey("hasAmp")) {
                     args.setHasAmp(result.getBoolean("hasAmp"));
-                else
+                } else {
                     args.setHasAmp(null);
-                if (result.containsKey("hasSpeaker"))
+                }
+                if (result.containsKey("hasSpeaker")) {
                     args.setHasSpeaker(result.getBoolean("hasSpeaker"));
-                else
+                } else {
                     args.setHasSpeaker(null);
-                if (result.containsKey("hasMic"))
+                }
+                if (result.containsKey("hasMic")) {
                     args.setHasMic(result.getBoolean("hasMic"));
-                else
+                } else {
                     args.setHasMic(null);
-                if (result.containsKey("hasDrums"))
+                }
+                if (result.containsKey("hasDrums")) {
                     args.setHasDrums(result.getBoolean("hasDrums"));
-                else
+                } else {
                     args.setHasDrums(null);
+                }
                 viewModel.queryPracticeroomWithArgs(args);
             }
         });
@@ -208,13 +199,14 @@ public class MoumFindPracticeroomActivity extends AppCompatActivity {
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE && !isLoading) {
-                    if (practicerooms.isEmpty())
+                    if (practicerooms.isEmpty()) {
                         return;
-                    if(viewModel.isQuerying()){
+                    }
+                    if (viewModel.isQuerying()) {
                         isLoading = true;
                         viewModel.queryNextPracticeroom();
                         handler.postDelayed(() -> isLoading = false, DEBOUNCE_DELAY);
-                    }else{
+                    } else {
                         isLoading = true;
                         viewModel.loadNextPracticeroom();
                         handler.postDelayed(() -> isLoading = false, DEBOUNCE_DELAY);
@@ -280,15 +272,13 @@ public class MoumFindPracticeroomActivity extends AppCompatActivity {
         viewModel.getIsQueryNextPracticeroomSuccess().observe(this, isLoadNextPracticeroomSuccess -> {
             Validation validation = isLoadNextPracticeroomSuccess.getValidation();
             List<Practiceroom> loadedPracticerooms = isLoadNextPracticeroomSuccess.getData();
-            if(validation == Validation.PRACTICE_ROOM_GET_SUCCESS) {
+            if (validation == Validation.PRACTICE_ROOM_GET_SUCCESS) {
                 practicerooms.addAll(loadedPracticerooms);
                 moumPracticeroomAdapter.notifyDataSetChanged();
                 viewModel.setRecentPageNumber(loadedPracticerooms.size());
-            }
-            else if(validation == Validation.NETWORK_FAILED) {
+            } else if (validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else{
+            } else {
                 Toast.makeText(context, "검색에 실패하였습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "감시 결과를 알 수 없습니다.");
             }
@@ -340,8 +330,7 @@ public class MoumFindPracticeroomActivity extends AppCompatActivity {
         @SuppressLint("MissingPermission") Location currentLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         if (currentLocation != null) {
             return new LatLng(currentLocation);
-        }
-        else{
+        } else {
             // 기본 설정 위치
             Log.e(TAG, "기본 위치로 설정되었습니다.");
             return new LatLng(37.279784, 127.043664);

@@ -1,9 +1,5 @@
 package com.example.moum.data.entity;
 
-import android.net.Uri;
-
-import java.net.URL;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Team {

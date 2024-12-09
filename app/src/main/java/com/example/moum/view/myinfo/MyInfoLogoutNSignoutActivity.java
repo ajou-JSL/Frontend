@@ -12,14 +12,11 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.moum.R;
 import com.example.moum.databinding.ActivityMyinfoLogoutNSignoutBinding;
-import com.example.moum.databinding.ActivityMyinfoReportNQuestionBinding;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.view.dialog.LogoutDialog;
-import com.example.moum.view.report.ReportFragment;
 import com.example.moum.viewmodel.myinfo.MyInfoLogoutNSignoutViewModel;
-import com.example.moum.viewmodel.myinfo.MyInformationViewModel;
 
 public class MyInfoLogoutNSignoutActivity extends AppCompatActivity {
     private ActivityMyinfoLogoutNSignoutBinding binding;
@@ -43,7 +40,7 @@ public class MyInfoLogoutNSignoutActivity extends AppCompatActivity {
         String accessToken = sharedPreferenceManager.getCache(getString(R.string.user_access_token_key), "no-access-token");
         String username = sharedPreferenceManager.getCache(getString(R.string.user_username_key), "no-memberId");
         Integer id = sharedPreferenceManager.getCache(getString(R.string.user_id_key), -1);
-        if(accessToken.isEmpty() || accessToken.equals("no-access-token")){
+        if (accessToken.isEmpty() || accessToken.equals("no-access-token")) {
             Toast.makeText(context, "로그인 정보가 없어 초기 페이지로 돌아갑니다.", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(context, InitialActivity.class);
             startActivity(intent);
@@ -81,7 +78,7 @@ public class MyInfoLogoutNSignoutActivity extends AppCompatActivity {
         /*로그아웃 결과 감시*/
         viewModel.getIsLoginSuccess().observe(this, isLoginSuccess -> {
             Validation validation = isLoginSuccess.getValidation();
-            if(validation == Validation.LOGOUT_SUCCESS){
+            if (validation == Validation.LOGOUT_SUCCESS) {
                 Toast.makeText(context, "성공적으로 로그아웃하였습니다.", Toast.LENGTH_SHORT).show();
 
                 sharedPreferenceManager.removeCache(getString(R.string.user_id_key));
@@ -93,20 +90,17 @@ public class MyInfoLogoutNSignoutActivity extends AppCompatActivity {
                 intent.putExtra("finish", 1);
                 setResult(RESULT_OK, intent);
                 finish();
-            }
-            else if(validation == Validation.LOGOUT_ALREADY){
+            } else if (validation == Validation.LOGOUT_ALREADY) {
                 Toast.makeText(context, "이미 로그아웃 하였습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(validation == Validation.NETWORK_FAILED){
+            } else if (validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출할 수 없습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else{
+            } else {
                 Toast.makeText(context, "로그아웃할 수 없습니다.", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    public void onLogoutDialogYesClicked(){
+    public void onLogoutDialogYesClicked() {
         viewModel.logout();
     }
 }

@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/MoumUpdateActivity"
     tools:context=".view.moum.MoumUpdateActivity">
+
     <data>
         <!-- ViewModel을 위한 variable 정의 -->
         <variable
             name="viewModel"
             type="com.example.moum.viewmodel.moum.MoumUpdateViewModel" />
     </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraint_chat_top"
             android:layout_width="match_parent"
@@ -39,14 +41,14 @@
                     android:id="@+id/button_return"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/button_rounded_left"
-                    />
+                    android:src="@drawable/button_rounded_left" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_marginStart="15dp">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -55,10 +57,12 @@
                         android:textColor="@color/gray7"
                         android:textSize="14sp" />
                 </LinearLayout>
+
                 <View
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1" />
+
                 <TextView
                     android:id="@+id/button_next"
                     android:layout_width="wrap_content"
@@ -67,7 +71,7 @@
                     android:fontFamily="@font/noto_sans_kr_semibold"
                     android:textColor="@color/gray7"
                     android:textSize="14sp"
-                    android:clickable="true"/>
+                    android:clickable="true" />
             </LinearLayout>
 
             <LinearLayout
@@ -76,11 +80,13 @@
                 app:layout_constraintTop_toBottomOf="@id/headerLayout"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:orientation="vertical">
+
                 <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
                     >
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -88,6 +94,7 @@
                         android:layout_marginLeft="25dp"
                         android:layout_marginRight="25dp"
                         android:layout_marginTop="25dp">
+
                         <TextView
                             android:textColor="@color/gray4"
                             android:textSize="14sp"
@@ -96,13 +103,14 @@
                             android:text="모음 정보"
                             android:gravity="bottom"
                             android:layout_gravity="bottom"
-                            android:fontFamily="@font/noto_sans_kr_bold"
-                            />
+                            android:fontFamily="@font/noto_sans_kr_bold" />
+
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="3dp"
                             android:src="@drawable/background_rounded_gray"
-                            android:layout_marginBottom="20dp"/>
+                            android:layout_marginBottom="20dp" />
+
                         <LinearLayout
                             android:id="@+id/moum_create_form"
                             android:layout_width="match_parent"
@@ -115,12 +123,14 @@
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
                                 android:layout_marginBottom="15dp">
+
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:gravity="center_vertical"
                                     android:orientation="horizontal"
                                     android:layout_gravity="bottom">
+
                                     <TextView
                                         android:textColor="@color/gray4"
                                         android:textSize="14sp"
@@ -128,8 +138,8 @@
                                         android:layout_height="wrap_content"
                                         android:layout_width="wrap_content"
                                         android:text="모음 이름*"
-                                        android:fontFamily="@font/noto_sans_kr_regular"
-                                        />
+                                        android:fontFamily="@font/noto_sans_kr_regular" />
+
                                     <TextView
                                         android:id="@+id/error_moum_name"
                                         android:textColor="@color/red"
@@ -138,9 +148,9 @@
                                         android:layout_height="wrap_content"
                                         android:layout_width="match_parent"
                                         android:text=""
-                                        android:layout_gravity="center_vertical"
-                                        />
+                                        android:layout_gravity="center_vertical" />
                                 </LinearLayout>
+
                                 <LinearLayout
                                     android:id="@+id/placeholder_moum_name"
                                     android:layout_width="match_parent"
@@ -149,8 +159,8 @@
                                     android:paddingLeft="10dp"
                                     android:paddingRight="10dp"
                                     android:paddingTop="10dp"
-                                    android:paddingBottom="5dp"
-                                    >
+                                    android:paddingBottom="5dp">
+
                                     <EditText
                                         android:id="@+id/edittext_moum_name"
                                         android:layout_width="match_parent"
@@ -164,22 +174,24 @@
                                         android:gravity="center_vertical"
                                         android:focusable="true"
                                         android:focusableInTouchMode="true"
-                                        android:text="@={viewModel.moum.moumName}"
-                                        />
+                                        android:text="@={viewModel.moum.moumName}" />
                                 </LinearLayout>
                             </LinearLayout>
+
                             <LinearLayout
                                 android:id="@+id/placeholder_profile_image"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
                                 android:layout_marginBottom="15dp">
+
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:gravity="center_vertical"
                                     android:orientation="horizontal"
                                     android:layout_gravity="bottom">
+
                                     <TextView
                                         android:textColor="@color/gray4"
                                         android:textSize="14sp"
@@ -187,8 +199,8 @@
                                         android:layout_height="wrap_content"
                                         android:layout_width="wrap_content"
                                         android:text="설명 사진"
-                                        android:fontFamily="@font/noto_sans_kr_regular"
-                                        />
+                                        android:fontFamily="@font/noto_sans_kr_regular" />
+
                                     <TextView
                                         android:id="@+id/error_profile_image"
                                         android:textColor="@color/red"
@@ -197,9 +209,9 @@
                                         android:layout_height="wrap_content"
                                         android:layout_width="match_parent"
                                         android:text=""
-                                        android:layout_gravity="center_vertical"
-                                        />
+                                        android:layout_gravity="center_vertical" />
                                 </LinearLayout>
+
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
@@ -212,17 +224,20 @@
                                         android:background="@color/transparent" />
                                 </LinearLayout>
                             </LinearLayout>
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
                                 android:layout_marginBottom="15dp">
+
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:gravity="center_vertical"
                                     android:orientation="horizontal"
                                     android:layout_gravity="bottom">
+
                                     <TextView
                                         android:textColor="@color/gray4"
                                         android:textSize="14sp"
@@ -230,8 +245,8 @@
                                         android:layout_height="wrap_content"
                                         android:layout_width="wrap_content"
                                         android:text="소개"
-                                        android:fontFamily="@font/noto_sans_kr_regular"
-                                        />
+                                        android:fontFamily="@font/noto_sans_kr_regular" />
+
                                     <TextView
                                         android:id="@+id/error_moum_description"
                                         android:textColor="@color/red"
@@ -240,9 +255,9 @@
                                         android:layout_height="wrap_content"
                                         android:layout_width="match_parent"
                                         android:text=""
-                                        android:layout_gravity="center_vertical"
-                                        />
+                                        android:layout_gravity="center_vertical" />
                                 </LinearLayout>
+
                                 <LinearLayout
                                     android:id="@+id/placeholder_moum_description"
                                     android:layout_width="match_parent"
@@ -251,8 +266,8 @@
                                     android:paddingLeft="10dp"
                                     android:paddingRight="10dp"
                                     android:paddingTop="10dp"
-                                    android:paddingBottom="5dp"
-                                    >
+                                    android:paddingBottom="5dp">
+
                                     <EditText
                                         android:id="@+id/edittext_moum_description"
                                         android:layout_width="match_parent"
@@ -267,21 +282,23 @@
                                         android:gravity="top"
                                         android:focusable="true"
                                         android:focusableInTouchMode="true"
-                                        android:text="@={viewModel.moum.moumDescription}"
-                                        />
+                                        android:text="@={viewModel.moum.moumDescription}" />
                                 </LinearLayout>
                             </LinearLayout>
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
                                 android:layout_marginBottom="15dp">
+
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:gravity="center_vertical"
                                     android:orientation="horizontal"
                                     android:layout_gravity="bottom">
+
                                     <TextView
                                         android:textColor="@color/gray4"
                                         android:textSize="14sp"
@@ -289,8 +306,8 @@
                                         android:layout_height="wrap_content"
                                         android:layout_width="wrap_content"
                                         android:text="분야 및 장르*"
-                                        android:fontFamily="@font/noto_sans_kr_regular"
-                                        />
+                                        android:fontFamily="@font/noto_sans_kr_regular" />
+
                                     <TextView
                                         android:id="@+id/error_moum_genre"
                                         android:textColor="@color/red"
@@ -299,28 +316,30 @@
                                         android:layout_height="wrap_content"
                                         android:layout_width="match_parent"
                                         android:text=""
-                                        android:layout_gravity="center_vertical"
-                                        />
+                                        android:layout_gravity="center_vertical" />
                                 </LinearLayout>
+
                                 <Spinner
                                     android:id="@+id/spinner_genre"
                                     android:layout_width="match_parent"
                                     android:layout_height="48dp"
                                     android:background="@drawable/background_spinner"
-                                    android:spinnerMode="dropdown"
-                                    />
+                                    android:spinnerMode="dropdown" />
                             </LinearLayout>
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
                                 android:layout_marginBottom="15dp">
+
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:gravity="center_vertical"
                                     android:orientation="horizontal"
                                     android:layout_gravity="bottom">
+
                                     <TextView
                                         android:textColor="@color/gray4"
                                         android:textSize="14sp"
@@ -328,8 +347,8 @@
                                         android:layout_height="wrap_content"
                                         android:layout_width="wrap_content"
                                         android:text="위치"
-                                        android:fontFamily="@font/noto_sans_kr_regular"
-                                        />
+                                        android:fontFamily="@font/noto_sans_kr_regular" />
+
                                     <TextView
                                         android:id="@+id/error_moum_place"
                                         android:textColor="@color/red"
@@ -338,9 +357,9 @@
                                         android:layout_height="wrap_content"
                                         android:layout_width="match_parent"
                                         android:text=""
-                                        android:layout_gravity="center_vertical"
-                                        />
+                                        android:layout_gravity="center_vertical" />
                                 </LinearLayout>
+
                                 <LinearLayout
                                     android:id="@+id/placeholder_moum_place"
                                     android:layout_width="match_parent"
@@ -349,8 +368,8 @@
                                     android:paddingLeft="10dp"
                                     android:paddingRight="10dp"
                                     android:paddingTop="10dp"
-                                    android:paddingBottom="5dp"
-                                    >
+                                    android:paddingBottom="5dp">
+
                                     <EditText
                                         android:id="@+id/edittext_moum_place"
                                         android:layout_width="match_parent"
@@ -364,10 +383,10 @@
                                         android:gravity="center_vertical"
                                         android:focusable="true"
                                         android:focusableInTouchMode="true"
-                                        android:text="@={viewModel.moum.performLocation}"
-                                        />
+                                        android:text="@={viewModel.moum.performLocation}" />
                                 </LinearLayout>
                             </LinearLayout>
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -389,8 +408,8 @@
                                         android:layout_height="wrap_content"
                                         android:layout_width="wrap_content"
                                         android:text="공연 기간 또는 날짜"
-                                        android:fontFamily="@font/noto_sans_kr_regular"
-                                        />
+                                        android:fontFamily="@font/noto_sans_kr_regular" />
+
                                     <TextView
                                         android:id="@+id/error_moum_date"
                                         android:textColor="@color/red"
@@ -399,9 +418,9 @@
                                         android:layout_height="wrap_content"
                                         android:layout_width="match_parent"
                                         android:text=""
-                                        android:layout_gravity="center_vertical"
-                                        />
+                                        android:layout_gravity="center_vertical" />
                                 </LinearLayout>
+
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
@@ -421,7 +440,8 @@
                                         android:fontFamily="@font/noto_sans_kr_bold"
                                         android:drawableLeft="@drawable/icon_calendar_days_alpha"
                                         android:drawablePadding="5dp"
-                                        android:layout_marginRight="5dp"/>
+                                        android:layout_marginRight="5dp" />
+
                                     <androidx.appcompat.widget.AppCompatButton
                                         android:id="@+id/button_moum_date_end"
                                         android:layout_width="0dp"
@@ -435,20 +455,23 @@
                                         android:textSize="14sp"
                                         android:fontFamily="@font/noto_sans_kr_bold"
                                         android:drawableLeft="@drawable/icon_calendar_days_alpha"
-                                        android:drawablePadding="5dp"/>
+                                        android:drawablePadding="5dp" />
                                 </LinearLayout>
                             </LinearLayout>
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
                                 android:layout_marginBottom="15dp">
+
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:gravity="center_vertical"
                                     android:orientation="horizontal"
                                     android:layout_gravity="bottom">
+
                                     <TextView
                                         android:textColor="@color/gray4"
                                         android:textSize="14sp"
@@ -456,8 +479,8 @@
                                         android:layout_height="wrap_content"
                                         android:layout_width="wrap_content"
                                         android:text="가격"
-                                        android:fontFamily="@font/noto_sans_kr_regular"
-                                        />
+                                        android:fontFamily="@font/noto_sans_kr_regular" />
+
                                     <TextView
                                         android:id="@+id/error_moum_price"
                                         android:textColor="@color/red"
@@ -466,9 +489,9 @@
                                         android:layout_height="wrap_content"
                                         android:layout_width="match_parent"
                                         android:text=""
-                                        android:layout_gravity="center_vertical"
-                                        />
+                                        android:layout_gravity="center_vertical" />
                                 </LinearLayout>
+
                                 <LinearLayout
                                     android:id="@+id/placeholder_moum_price"
                                     android:layout_width="match_parent"
@@ -477,8 +500,8 @@
                                     android:paddingLeft="10dp"
                                     android:paddingRight="10dp"
                                     android:paddingTop="10dp"
-                                    android:paddingBottom="5dp"
-                                    >
+                                    android:paddingBottom="5dp">
+
                                     <EditText
                                         android:id="@+id/edittext_moum_price"
                                         android:layout_width="match_parent"
@@ -492,22 +515,24 @@
                                         android:gravity="center_vertical"
                                         android:focusable="true"
                                         android:focusableInTouchMode="true"
-                                        android:text="@={viewModel.moum.price}"
-                                        />
+                                        android:text="@={viewModel.moum.price}" />
                                 </LinearLayout>
                             </LinearLayout>
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
                                 android:layout_marginBottom="15dp"
                                 android:visibility="gone">
+
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:gravity="center_vertical"
                                     android:orientation="horizontal"
                                     android:layout_gravity="bottom">
+
                                     <TextView
                                         android:textColor="@color/gray4"
                                         android:textSize="14sp"
@@ -515,8 +540,8 @@
                                         android:layout_height="wrap_content"
                                         android:layout_width="wrap_content"
                                         android:text="참여 멤버"
-                                        android:fontFamily="@font/noto_sans_kr_regular"
-                                        />
+                                        android:fontFamily="@font/noto_sans_kr_regular" />
+
                                     <TextView
                                         android:id="@+id/error_moum_participants"
                                         android:textColor="@color/red"
@@ -525,16 +550,17 @@
                                         android:layout_height="wrap_content"
                                         android:layout_width="match_parent"
                                         android:text=""
-                                        android:layout_gravity="center_vertical"
-                                        />
+                                        android:layout_gravity="center_vertical" />
                                 </LinearLayout>
+
                                 <androidx.recyclerview.widget.RecyclerView
                                     android:id="@+id/recycler_moum_participants"
                                     android:layout_width="match_parent"
                                     android:layout_height="70dp"
-                                    android:background="@color/gray0"/>
+                                    android:background="@color/gray0" />
                             </LinearLayout>
                         </LinearLayout>
+
                         <TextView
                             android:textColor="@color/gray4"
                             android:textSize="14sp"
@@ -543,13 +569,13 @@
                             android:text="곡 추가"
                             android:gravity="bottom"
                             android:layout_gravity="bottom"
-                            android:fontFamily="@font/noto_sans_kr_bold"
-                            />
+                            android:fontFamily="@font/noto_sans_kr_bold" />
+
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="3dp"
                             android:src="@drawable/background_rounded_gray"
-                            android:layout_marginBottom="20dp"/>
+                            android:layout_marginBottom="20dp" />
 
                         <LinearLayout
                             android:id="@+id/moum_music_parent"
@@ -570,7 +596,7 @@
                             android:text="추가하기"
                             android:textColor="@color/gray0"
                             android:textSize="14sp"
-                            android:fontFamily="@font/noto_sans_kr_semibold"/>
+                            android:fontFamily="@font/noto_sans_kr_semibold" />
                     </LinearLayout>
                 </ScrollView>
             </LinearLayout>

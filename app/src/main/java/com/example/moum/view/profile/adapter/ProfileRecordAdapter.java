@@ -1,24 +1,17 @@
 package com.example.moum.view.profile.adapter;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.moum.R;
-import com.example.moum.data.entity.Chatroom;
 import com.example.moum.data.entity.Record;
-import com.example.moum.view.chat.ChatActivity;
-import com.example.moum.view.chat.adapter.ChatroomAdapter;
 
 import java.util.ArrayList;
 
@@ -49,7 +42,7 @@ public class ProfileRecordAdapter extends RecyclerView.Adapter<RecyclerView.View
         return records.size();
     }
 
-    static class ProfileRecordViewHolder extends RecyclerView.ViewHolder{
+    static class ProfileRecordViewHolder extends RecyclerView.ViewHolder {
         private Record record;
         private TextView recordName;
         private TextView recordStartDate;
@@ -65,15 +58,14 @@ public class ProfileRecordAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
 
         @RequiresApi(api = Build.VERSION_CODES.O)
-        public void bind(Record record){
+        public void bind(Record record) {
             this.record = record;
             recordName.setText(record.getRecordName());
-            if(record.getStartDate() != null && !record.getStartDate().isEmpty()) recordStartDate.setText(record.getStartDate());
-            if(record.getEndDate() == null || record.getEndDate().isEmpty()){
+            if (record.getStartDate() != null && !record.getStartDate().isEmpty()) recordStartDate.setText(record.getStartDate());
+            if (record.getEndDate() == null || record.getEndDate().isEmpty()) {
                 recordCenterWave.setText("");
                 recordEndDate.setText("");
-            }
-            else{
+            } else {
                 recordEndDate.setText(record.getStartDate());
             }
         }

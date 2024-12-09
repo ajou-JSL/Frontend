@@ -22,7 +22,7 @@ public class MoumMapPerformanceHallViewModel extends AndroidViewModel {
     private final MutableLiveData<Result<MoumPerformHall>> isCreatePerformanceHallSuccess = new MutableLiveData<>();
     private final MediatorLiveData<Boolean> isAllReady = new MediatorLiveData<>();
 
-    public MoumMapPerformanceHallViewModel(Application application){
+    public MoumMapPerformanceHallViewModel(Application application) {
         super(application);
         practiceNPerformRepository = PracticeNPerformRepository.getInstance(application);
         setupCombinedObserver(isNaverMapReady, isLoadPerformanceHallSuccess);
@@ -46,7 +46,7 @@ public class MoumMapPerformanceHallViewModel extends AndroidViewModel {
         return isAllReady;
     }
 
-    public void setIsAllReady(Boolean isAllReady){
+    public void setIsAllReady(Boolean isAllReady) {
         this.isAllReady.setValue(isAllReady);
     }
 
@@ -62,23 +62,23 @@ public class MoumMapPerformanceHallViewModel extends AndroidViewModel {
         return isCreatePerformanceHallSuccess;
     }
 
-    public void setIsNaverMapReady(Boolean isNaverMapReady){
+    public void setIsNaverMapReady(Boolean isNaverMapReady) {
         this.isNaverMapReady.setValue(isNaverMapReady);
     }
 
-    public void setIsLoadPerformanceHallSuccess(Result<PerformanceHall> isLoadPerformanceHallSuccess){
+    public void setIsLoadPerformanceHallSuccess(Result<PerformanceHall> isLoadPerformanceHallSuccess) {
         this.isLoadPerformanceHallSuccess.setValue(isLoadPerformanceHallSuccess);
     }
 
-    public void setIsCreatePerformanceHallSuccess(Result<MoumPerformHall> isCreatePerformanceHallSuccess){
+    public void setIsCreatePerformanceHallSuccess(Result<MoumPerformHall> isCreatePerformanceHallSuccess) {
         this.isCreatePerformanceHallSuccess.setValue(isCreatePerformanceHallSuccess);
     }
 
-    public void loadPerformanceHall(Integer performanceHallId){
+    public void loadPerformanceHall(Integer performanceHallId) {
         practiceNPerformRepository.getPerformHall(performanceHallId, this::setIsLoadPerformanceHallSuccess);
     }
 
-    public void createPerformanceHall(Integer moumId, Integer hallId){
+    public void createPerformanceHall(Integer moumId, Integer hallId) {
         practiceNPerformRepository.createPerformHallOfMoum(moumId, hallId, null, this::setIsCreatePerformanceHallSuccess);
     }
 }

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/MoumPromote1Activity"
     tools:context=".view.moum.MoumPromote1Activity">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraint_top"
             android:layout_width="match_parent"
@@ -33,14 +34,14 @@
                     android:id="@+id/button_return"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/button_rounded_left"
-                    />
+                    android:src="@drawable/button_rounded_left" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_marginStart="15dp">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -49,10 +50,12 @@
                         android:textColor="@color/gray7"
                         android:textSize="14sp" />
                 </LinearLayout>
+
                 <View
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1" />
+
                 <TextView
                     android:id="@+id/button_next"
                     android:layout_width="wrap_content"
@@ -61,7 +64,7 @@
                     android:fontFamily="@font/noto_sans_kr_semibold"
                     android:textColor="@color/gray7"
                     android:textSize="14sp"
-                    android:clickable="true"/>
+                    android:clickable="true" />
 
             </LinearLayout>
 
@@ -88,7 +91,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="3dp"
                     android:src="@drawable/background_rounded_gray"
-                    android:layout_marginBottom="20dp"/>
+                    android:layout_marginBottom="20dp" />
+
                 <TextView
                     android:textColor="@color/gray4"
                     android:textSize="14sp"
@@ -96,8 +100,7 @@
                     android:layout_width="match_parent"
                     android:breakStrategy="high_quality"
                     android:text="모음을 생성할 때 작성한 정보를 바탕으로, 공연 게시글을 간편하게 생성할 수 있어요!"
-                    android:fontFamily="@font/noto_sans_kr_regular"
-                    />
+                    android:fontFamily="@font/noto_sans_kr_regular" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/top_performance"
@@ -110,14 +113,15 @@
                     android:elevation="5dp"
                     android:layout_margin="5dp"
                     android:background="@drawable/background_more_rounded_white">
+
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        >
+                        app:layout_constraintBottom_toBottomOf="parent">
+
                         <LinearLayout
                             android:id="@+id/performance_left"
                             android:layout_width="0dp"
@@ -139,7 +143,7 @@
                                 android:fontFamily="@font/noto_sans_kr_medium"
                                 android:includeFontPadding="false"
                                 android:maxLines="1"
-                                android:ellipsize="end"/>
+                                android:ellipsize="end" />
 
                             <TextView
                                 android:id="@+id/performance_description"
@@ -152,7 +156,7 @@
                                 android:fontFamily="@font/noto_sans_kr_regular"
                                 android:includeFontPadding="false"
                                 android:maxLines="1"
-                                android:ellipsize="end"/>
+                                android:ellipsize="end" />
 
                             <TextView
                                 android:id="@+id/performance_team"
@@ -178,7 +182,7 @@
                                 android:fontFamily="@font/noto_sans_kr_regular"
                                 android:includeFontPadding="false"
                                 android:maxLines="1"
-                                android:ellipsize="end"/>
+                                android:ellipsize="end" />
                         </LinearLayout>
 
                         <ImageView
@@ -189,8 +193,7 @@
                             android:background="@drawable/background_more_rounded_gray_size_fit"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent">
-                        </ImageView>
+                            app:layout_constraintEnd_toEndOf="parent"></ImageView>
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -206,7 +209,7 @@
                     android:textSize="14sp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
-                    android:layout_marginBottom="20dp"/>
+                    android:layout_marginBottom="20dp" />
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

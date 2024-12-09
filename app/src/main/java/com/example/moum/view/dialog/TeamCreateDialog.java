@@ -3,7 +3,6 @@ package com.example.moum.view.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
@@ -23,7 +22,7 @@ public class TeamCreateDialog extends Dialog {
     private String teamName;
     private final String TAG = getClass().toString();
 
-    public TeamCreateDialog(@NonNull Context context, String teamName){
+    public TeamCreateDialog(@NonNull Context context, String teamName) {
         super(context);
         this.teamCreateActivity = (TeamCreateActivity) context;
         this.teamName = teamName;

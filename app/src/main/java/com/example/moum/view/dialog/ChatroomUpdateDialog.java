@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.moum.R;
-import com.example.moum.view.chat.ChatActivity;
 import com.example.moum.view.chat.ChatUpdateChatroomActivity;
 
 public class ChatroomUpdateDialog extends Dialog {
@@ -23,7 +22,7 @@ public class ChatroomUpdateDialog extends Dialog {
     private String chatroomName;
     private final String TAG = getClass().toString();
 
-    public ChatroomUpdateDialog(@NonNull Context context, String chatroomName){
+    public ChatroomUpdateDialog(@NonNull Context context, String chatroomName) {
         super(context);
         this.chatUpdateChatroomActivity = (ChatUpdateChatroomActivity) context;
         this.chatroomName = chatroomName;

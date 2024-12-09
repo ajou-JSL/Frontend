@@ -30,7 +30,7 @@ public class MoumFindPracticeroomViewModel extends AndroidViewModel {
     private boolean isQuerying = false;
     private final SearchPracticeroomArgs args = new SearchPracticeroomArgs();
 
-    public MoumFindPracticeroomViewModel(Application application){
+    public MoumFindPracticeroomViewModel(Application application) {
         super(application);
         practiceNPerformRepository = PracticeNPerformRepository.getInstance(application);
     }
@@ -59,19 +59,19 @@ public class MoumFindPracticeroomViewModel extends AndroidViewModel {
         return isQuerying;
     }
 
-    public void setIsQueryPracticeroomSuccess(Result<List<Practiceroom>> isQueryPracticeroomSuccess){
+    public void setIsQueryPracticeroomSuccess(Result<List<Practiceroom>> isQueryPracticeroomSuccess) {
         this.isQueryPracticeroomSuccess.setValue(isQueryPracticeroomSuccess);
     }
 
-    public void setIsQueryNextPracticeroomSuccess(Result<List<Practiceroom>> isQueryNextPracticeroomSuccess){
+    public void setIsQueryNextPracticeroomSuccess(Result<List<Practiceroom>> isQueryNextPracticeroomSuccess) {
         this.isQueryNextPracticeroomSuccess.setValue(isQueryNextPracticeroomSuccess);
     }
 
-    public void setIsLoadPracticeroomSuccess(Result<List<Practiceroom>> isLoadPracticeroomSuccess){
+    public void setIsLoadPracticeroomSuccess(Result<List<Practiceroom>> isLoadPracticeroomSuccess) {
         this.isLoadPracticeroomSuccess.setValue(isLoadPracticeroomSuccess);
     }
 
-    public void setIsLoadNextPracticeroomSuccess(Result<List<Practiceroom>> isLoadNextPracticeroomSuccess){
+    public void setIsLoadNextPracticeroomSuccess(Result<List<Practiceroom>> isLoadNextPracticeroomSuccess) {
         this.isLoadNextPracticeroomSuccess.setValue(isLoadNextPracticeroomSuccess);
     }
 
@@ -79,37 +79,37 @@ public class MoumFindPracticeroomViewModel extends AndroidViewModel {
         this.args.setName(name);
     }
 
-    public void setLatLng(LatLng latLng){
+    public void setLatLng(LatLng latLng) {
         this.args.setLatitude(latLng.latitude);
         this.args.setLongitude(latLng.longitude);
     }
 
-    public void queryPracticeroomWithArgs(SearchPracticeroomArgs args){
+    public void queryPracticeroomWithArgs(SearchPracticeroomArgs args) {
         this.args.setSortBy(args.getSortBy());
         this.args.setOrderBy(args.getOrderBy());
-        if(args.getType() != -1) this.args.setType(args.getType());
-        if(args.getMinPrice() != -1) this.args.setMinPrice(args.getMinPrice());
-        if(args.getMaxPrice() != -1) this.args.setMaxPrice(args.getMaxPrice());
-        if(args.getMinCapacity() != -1) this.args.setMinCapacity(args.getMinCapacity());
-        if(args.getMaxCapacity() != -1) this.args.setMaxCapacity(args.getMaxCapacity());
-        if(args.getMinStand() != -1) this.args.setMinStand(args.getMinStand());
-        if(args.getMaxStand() != -1) this.args.setMaxStand(args.getMaxStand());
-        if(args.getHasPiano() != null) this.args.setHasPiano(args.getHasPiano());
-        if(args.getHasAmp() != null) this.args.setHasAmp(args.getHasAmp());
-        if(args.getHasSpeaker() != null) this.args.setHasSpeaker(args.getHasSpeaker());
-        if(args.getHasMic() != null) this.args.setHasMic(args.getHasMic());
-        if(args.getHasDrums() != null) this.args.setHasDrums(args.getHasDrums());
+        if (args.getType() != -1) this.args.setType(args.getType());
+        if (args.getMinPrice() != -1) this.args.setMinPrice(args.getMinPrice());
+        if (args.getMaxPrice() != -1) this.args.setMaxPrice(args.getMaxPrice());
+        if (args.getMinCapacity() != -1) this.args.setMinCapacity(args.getMinCapacity());
+        if (args.getMaxCapacity() != -1) this.args.setMaxCapacity(args.getMaxCapacity());
+        if (args.getMinStand() != -1) this.args.setMinStand(args.getMinStand());
+        if (args.getMaxStand() != -1) this.args.setMaxStand(args.getMaxStand());
+        if (args.getHasPiano() != null) this.args.setHasPiano(args.getHasPiano());
+        if (args.getHasAmp() != null) this.args.setHasAmp(args.getHasAmp());
+        if (args.getHasSpeaker() != null) this.args.setHasSpeaker(args.getHasSpeaker());
+        if (args.getHasMic() != null) this.args.setHasMic(args.getHasMic());
+        if (args.getHasDrums() != null) this.args.setHasDrums(args.getHasDrums());
         queryPracticeroom();
     }
 
-    public void queryPracticeroomWithName(String name){
+    public void queryPracticeroomWithName(String name) {
         setName(name);
         queryPracticeroom();
     }
 
-    public void queryPracticeroom(){
+    public void queryPracticeroom() {
         clearPage();
-        if(args.getLatitude() == null || args.getLongitude() == null) return;
+        if (args.getLatitude() == null || args.getLongitude() == null) return;
         isQuerying = true;
 
         /*goto repository*/
@@ -117,10 +117,10 @@ public class MoumFindPracticeroomViewModel extends AndroidViewModel {
         page = page + 1;
     }
 
-    public void queryNextPracticeroom(){
-        if(args.getLatitude() == null || args.getLongitude() == null) return;
+    public void queryNextPracticeroom() {
+        if (args.getLatitude() == null || args.getLongitude() == null) return;
         isQuerying = true;
-        if(recentPageNumber < LOAD_PRACTICE_ROOM_NUMBER) return; //이전에 불러온 이미지들이 LOAD_PRACTICE_ROOM_NUMBER 적다면, 그만 불러오기
+        if (recentPageNumber < LOAD_PRACTICE_ROOM_NUMBER) return; //이전에 불러온 이미지들이 LOAD_PRACTICE_ROOM_NUMBER 적다면, 그만 불러오기
 
         /*goto repository*/
         practiceNPerformRepository.searchPracticerooms(page, LOAD_PRACTICE_ROOM_NUMBER, args, this::setIsQueryNextPracticeroomSuccess);
@@ -132,19 +132,19 @@ public class MoumFindPracticeroomViewModel extends AndroidViewModel {
         this.recentPageNumber = recentPageNumber;
     }
 
-    public void clearPage(){
+    public void clearPage() {
         page = 1;
         recentPageNumber = 0;
     }
 
-    public void loadPracticeroom(){
+    public void loadPracticeroom() {
         practiceNPerformRepository.getPracticerooms(page, LOAD_PRACTICE_ROOM_NUMBER, this::setIsLoadPracticeroomSuccess);
         page = page + 1;
     }
 
 
-    public void loadNextPracticeroom(){
-        if(recentPageNumber < LOAD_PRACTICE_ROOM_NUMBER) return; //이전에 불러온 이미지들이 LOAD_PRACTICE_ROOM_NUMBER 적다면, 그만 불러오기
+    public void loadNextPracticeroom() {
+        if (recentPageNumber < LOAD_PRACTICE_ROOM_NUMBER) return; //이전에 불러온 이미지들이 LOAD_PRACTICE_ROOM_NUMBER 적다면, 그만 불러오기
         practiceNPerformRepository.getPracticerooms(page, LOAD_PRACTICE_ROOM_NUMBER, this::setIsLoadNextPracticeroomSuccess);
         page = page + 1;
     }

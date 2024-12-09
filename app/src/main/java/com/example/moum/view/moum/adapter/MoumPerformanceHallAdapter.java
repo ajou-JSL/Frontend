@@ -17,9 +17,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.moum.R;
 import com.example.moum.data.entity.PerformanceHall;
-import com.example.moum.data.entity.Practiceroom;
 import com.example.moum.view.moum.MoumFindPerformanceHallActivity;
-import com.example.moum.view.moum.MoumFindPracticeroomActivity;
 
 import java.util.ArrayList;
 
@@ -51,7 +49,7 @@ public class MoumPerformanceHallAdapter extends RecyclerView.Adapter<RecyclerVie
         return performanceHalls.size();
     }
 
-    static class MoumPerformanceHallViewHolder extends RecyclerView.ViewHolder{
+    static class MoumPerformanceHallViewHolder extends RecyclerView.ViewHolder {
         private PerformanceHall performanceHall;
         private TextView performanceHallName;
         private TextView performanceHallDescription;
@@ -76,17 +74,18 @@ public class MoumPerformanceHallAdapter extends RecyclerView.Adapter<RecyclerVie
 
         public void bind(PerformanceHall performanceHall) {
             this.performanceHall = performanceHall;
-            if(performanceHall.getName() != null) performanceHallName.setText(performanceHall.getName());
-            if(performanceHall.getDetails() != null) performanceHallDescription.setText(performanceHall.getDetails());
-            if(performanceHall.getAddress() != null) performanceHallAddress.setText(performanceHall.getAddress());
-            if(performanceHall.getPrice() != null) performanceHallPrice.setText(String.format("시간 당 %,d원", performanceHall.getPrice()));
-            if(performanceHall.getImageUrls() != null && !performanceHall.getImageUrls().isEmpty())
+            if (performanceHall.getName() != null) performanceHallName.setText(performanceHall.getName());
+            if (performanceHall.getDetails() != null) performanceHallDescription.setText(performanceHall.getDetails());
+            if (performanceHall.getAddress() != null) performanceHallAddress.setText(performanceHall.getAddress());
+            if (performanceHall.getPrice() != null) performanceHallPrice.setText(String.format("시간 당 %,d원", performanceHall.getPrice()));
+            if (performanceHall.getImageUrls() != null && !performanceHall.getImageUrls().isEmpty()) {
                 Glide.with(context)
                         .load(performanceHall.getImageUrls().get(0))
                         .apply(new RequestOptions()
-                        .placeholder(R.drawable.background_more_rounded_gray_size_fit)
-                        .error(R.drawable.background_more_rounded_gray_size_fit))
+                                .placeholder(R.drawable.background_more_rounded_gray_size_fit)
+                                .error(R.drawable.background_more_rounded_gray_size_fit))
                         .into(performanceHallProfile);
+            }
             performanceHallProfile.setClipToOutline(true);
             performanceHallTop.setOnClickListener(new View.OnClickListener() {
                 @Override

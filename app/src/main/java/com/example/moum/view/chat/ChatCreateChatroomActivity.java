@@ -51,7 +51,7 @@ public class ChatCreateChatroomActivity extends AppCompatActivity {
         String accessToken = sharedPreferenceManager.getCache(getString(R.string.user_access_token_key), "no-access-token");
         String username = sharedPreferenceManager.getCache(getString(R.string.user_username_key), "no-memberId");
         Integer id = sharedPreferenceManager.getCache(getString(R.string.user_id_key), -1);
-        if(accessToken.isEmpty() || accessToken.equals("no-access-token")){
+        if (accessToken.isEmpty() || accessToken.equals("no-access-token")) {
             Toast.makeText(context, "로그인 정보가 없어 초기 페이지로 돌아갑니다.", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(context, InitialActivity.class);
             startActivity(intent);
@@ -77,29 +77,26 @@ public class ChatCreateChatroomActivity extends AppCompatActivity {
             teams.clear();
             teams = result.getData();
             Validation validation = result.getValidation();
-            if(validation == Validation.GROUP_NOT_SELECTED){
+            if (validation == Validation.GROUP_NOT_SELECTED) {
                 binding.signupErrorChatroomList.setText("단체를 선택하세요.");
-            }
-            else if(validation == Validation.NETWORK_FAILED){
+            } else if (validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패했습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "호출 실패 from loadGroups()");
-            }
-            else if(validation == Validation.GET_TEAM_LIST_SUCCESS && teams.isEmpty()) {
+            } else if (validation == Validation.GET_TEAM_LIST_SUCCESS && teams.isEmpty()) {
                 Toast.makeText(context, "속한 단체가 없습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(validation == Validation.GET_TEAM_LIST_SUCCESS) {
+            } else if (validation == Validation.GET_TEAM_LIST_SUCCESS) {
                 int i = 0;
                 teamNameList = new String[teams.size()];
-                for(Team team : teams)
-                    if(team.getLeaderId().equals(id)){
+                for (Team team : teams) {
+                    if (team.getLeaderId().equals(id)) {
                         teamNameList[i++] = team.getTeamName();
                         teamsAsLeader.add(team);
                     }
-
-                if(teamsAsLeader.isEmpty()){
-                    Toast.makeText(context, "리더로 속한 단체가 없습니다.", Toast.LENGTH_SHORT).show();
                 }
-                else{
+
+                if (teamsAsLeader.isEmpty()) {
+                    Toast.makeText(context, "리더로 속한 단체가 없습니다.", Toast.LENGTH_SHORT).show();
+                } else {
                     /*group 스피너 Adapter 연결*/
                     Spinner groupSpinner = binding.spinnerChatroomList;
                     ArrayAdapter<String> groupAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, teamNameList);
@@ -113,14 +110,14 @@ public class ChatCreateChatroomActivity extends AppCompatActivity {
                             chatCreateChatroomViewModel.setSelectedGroup(teamsAsLeader.get(position));
                             binding.signupErrorChatroomList.setText("");
                         }
+
                         @Override
                         public void onNothingSelected(AdapterView<?> parent) {
                             return;
                         }
                     });
                 }
-            }
-            else{
+            } else {
                 Toast.makeText(context, "알 수 없는 validation", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "알 수 없는 validation from loadGroups()");
             }
@@ -131,13 +128,12 @@ public class ChatCreateChatroomActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Team team = chatCreateChatroomViewModel.getSelectedGroup();
-                if (team != null){
+                if (team != null) {
                     Intent intent = new Intent(ChatCreateChatroomActivity.this, ChatCreateChatroomOnwardActivity.class);
                     intent.putExtra("teamName", team.getTeamName());
                     intent.putExtra("teamId", team.getTeamId());
                     startActivity(intent);
-                }
-                else{
+                } else {
                     Toast.makeText(ChatCreateChatroomActivity.this, "단체를 선택하세요.", Toast.LENGTH_SHORT).show();
                 }
             }

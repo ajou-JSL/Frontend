@@ -19,12 +19,12 @@ public class SearchPracticeroomArgs {
     private Boolean hasMic;
     private Boolean hasDrums;
 
-    public SearchPracticeroomArgs(){
+    public SearchPracticeroomArgs() {
         sortBy = "distance";
         orderBy = "asc";
     }
 
-    public void clear(){
+    public void clear() {
         sortBy = "distance";
         orderBy = "asc";
         type = null;

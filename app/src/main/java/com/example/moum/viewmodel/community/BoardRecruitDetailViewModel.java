@@ -92,15 +92,15 @@ public class BoardRecruitDetailViewModel extends AndroidViewModel {
         return isLoadCommentsSuccess;
     }
 
-    public MutableLiveData<Result<Member>> getIsLoadMemberSuccess(){
+    public MutableLiveData<Result<Member>> getIsLoadMemberSuccess() {
         return isLoadMemberSuccess;
     }
 
-    public MutableLiveData<Result<Member>> getIsLoadItemMemberSuccess(){
+    public MutableLiveData<Result<Member>> getIsLoadItemMemberSuccess() {
         return isLoadItemMemberSuccess;
     }
 
-    public MutableLiveData<Result<Comment>> getIsChangeCommentSuccess(){
+    public MutableLiveData<Result<Comment>> getIsChangeCommentSuccess() {
         return isChangeCommentSuccess;
     }
 
@@ -124,19 +124,19 @@ public class BoardRecruitDetailViewModel extends AndroidViewModel {
         articleRepository.postLike(memberId, articleId, this::setIsLikeSuccess);
     }
 
-    public void loadProfileImage(Integer authorId){
+    public void loadProfileImage(Integer authorId) {
         profileRepository.loadMemberProfile(authorId, this::setIsLoadMemberSuccess);
     }
 
-    public void loadItemProfileImage(Integer authorId){
+    public void loadItemProfileImage(Integer authorId) {
         profileRepository.loadMemberProfile(authorId, this::setIsLoadItemMemberSuccess);
     }
 
-    public void deleteComment(Integer commentId){
+    public void deleteComment(Integer commentId) {
         articleRepository.deleteComment(commentId, this::setIsChangeCommentSuccess);
     }
 
-    public void deleteArticle(Integer articleId){
+    public void deleteArticle(Integer articleId) {
         articleRepository.deleteArticle(articleId, this::setIsdeleteArticeSuccess);
     }
 }

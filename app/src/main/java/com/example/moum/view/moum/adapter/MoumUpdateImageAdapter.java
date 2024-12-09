@@ -32,7 +32,7 @@ public class MoumUpdateImageAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public int getItemViewType(int position) {
-        return position == uris.size()-1? VIEW_TYPE_IMAGE_SELECTOR : VIEW_TYPE_IMAGE_HOLDER;
+        return position == uris.size() - 1 ? VIEW_TYPE_IMAGE_SELECTOR : VIEW_TYPE_IMAGE_HOLDER;
     }
 
     @NonNull
@@ -63,7 +63,7 @@ public class MoumUpdateImageAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         return uris.size();
     }
 
-    static class ImageSelectorViewHolder extends RecyclerView.ViewHolder{
+    static class ImageSelectorViewHolder extends RecyclerView.ViewHolder {
         private Uri uri;
         private ImageView moumUpdateImageview;
         private Context context;
@@ -88,7 +88,7 @@ public class MoumUpdateImageAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     }
 
-    static class ImageHolderViewHolder extends RecyclerView.ViewHolder{
+    static class ImageHolderViewHolder extends RecyclerView.ViewHolder {
         private Uri uri;
         private ImageView moumUpdateImageview;
         private Context context;
@@ -101,7 +101,7 @@ public class MoumUpdateImageAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             moumUpdateActivity = (MoumUpdateActivity) context;
         }
 
-        public void bind(Uri uri){
+        public void bind(Uri uri) {
             this.uri = uri;
             Glide.with(context).load(uri).into(moumUpdateImageview);
             moumUpdateImageview.setClipToOutline(true);

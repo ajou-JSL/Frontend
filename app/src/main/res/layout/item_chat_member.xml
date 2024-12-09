@@ -22,7 +22,7 @@
         android:maxLines="1"
         app:layout_constraintStart_toEndOf="@id/chat_member_profile"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/chat_member_profile"

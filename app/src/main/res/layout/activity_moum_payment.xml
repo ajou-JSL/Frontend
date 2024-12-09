@@ -1,187 +1,194 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/MoumPaymentActivity"
     tools:context=".view.moum.MoumPaymentActivity">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefreshLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraint_top"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/gray0">
 
-            <LinearLayout
-                android:id="@+id/headerLayout"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraint_top"
                 android:layout_width="match_parent"
-                android:layout_height="90dp"
-                android:paddingTop="10dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="30dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:background="@drawable/background_white"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:contentInsetStart="0dp">
-
-                <ImageView
-                    android:id="@+id/button_return"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/button_rounded_left"
-                    />
+                android:layout_height="match_parent"
+                android:background="@color/gray0">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginStart="15dp">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="정산현황 확인하기"
-                        android:fontFamily="@font/noto_sans_kr_semibold"
-                        android:textColor="@color/gray7"
-                        android:textSize="14sp" />
-                </LinearLayout>
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"/>
-
-            </LinearLayout>
-
-            <androidx.core.widget.NestedScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/headerLayout"
-                >
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@color/gray1">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/mediumLayout"
+                    android:id="@+id/headerLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:orientation="vertical"
-                    android:paddingLeft="25dp"
-                    android:paddingRight="25dp"
-                    android:paddingTop="50dp"
-                    android:background="@drawable/background_rounded_lightgray"
+                    android:layout_height="90dp"
+                    android:paddingTop="10dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="30dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/background_white"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    >
-                    <TextView
-                        android:id="@+id/textview_desc_sum"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/gray6"
-                        android:fontFamily="@font/noto_sans_kr_regular"
-                        android:textSize="16sp"
-                        android:text="총 정산 합계"
-                        android:includeFontPadding="false"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"/>
-                    <TextView
-                        android:id="@+id/textview_sum"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/gray6"
-                        android:fontFamily="@font/noto_sans_kr_extrabold"
-                        android:includeFontPadding="false"
-                        android:textSize="30sp"
-                        android:text="16,330,000원"
-                        app:layout_constraintTop_toBottomOf="@id/textview_desc_sum"
-                        app:layout_constraintStart_toStartOf="parent"/>
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:contentInsetStart="0dp">
 
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/button_add_payment"
+                    <ImageView
+                        android:id="@+id/button_return"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/button_rounded_left" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginStart="15dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="정산현황 확인하기"
+                            android:fontFamily="@font/noto_sans_kr_semibold"
+                            android:textColor="@color/gray7"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
+
+                <androidx.core.widget.NestedScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/headerLayout">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_marginBottom="70dp"
-                        android:background="@drawable/button_lightgray_ripple"
-                        android:fontFamily="@font/noto_sans_kr_medium"
-                        android:text="내역 추가하기"
-                        android:textColor="@color/gray0"
-                        android:textSize="14sp"
-                        app:layout_constraintBottom_toBottomOf="parent"/>
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:background="@color/gray1">
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/mediumLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="300dp"
+                            android:orientation="vertical"
+                            android:paddingLeft="25dp"
+                            android:paddingRight="25dp"
+                            android:paddingTop="50dp"
+                            android:background="@drawable/background_rounded_lightgray"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent">
+
+                            <TextView
+                                android:id="@+id/textview_desc_sum"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/gray6"
+                                android:fontFamily="@font/noto_sans_kr_regular"
+                                android:textSize="16sp"
+                                android:text="총 정산 합계"
+                                android:includeFontPadding="false"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintStart_toStartOf="parent" />
+
+                            <TextView
+                                android:id="@+id/textview_sum"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/gray6"
+                                android:fontFamily="@font/noto_sans_kr_extrabold"
+                                android:includeFontPadding="false"
+                                android:textSize="30sp"
+                                android:text="16,330,000원"
+                                app:layout_constraintTop_toBottomOf="@id/textview_desc_sum"
+                                app:layout_constraintStart_toStartOf="parent" />
+
+                            <androidx.appcompat.widget.AppCompatButton
+                                android:id="@+id/button_add_payment"
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:layout_marginBottom="70dp"
+                                android:background="@drawable/button_lightgray_ripple"
+                                android:fontFamily="@font/noto_sans_kr_medium"
+                                android:text="내역 추가하기"
+                                android:textColor="@color/gray0"
+                                android:textSize="14sp"
+                                app:layout_constraintBottom_toBottomOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginTop="250dp"
+                            android:gravity="center_horizontal"
+                            android:paddingBottom="100dp"
+                            android:background="@drawable/background_top_extramore_rounded_white"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/recycler_payment"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="10dp"
+                                android:layout_marginLeft="25dp"
+                                android:layout_marginRight="25dp"
+                                android:layout_marginTop="60dp" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="100dp" />
+
+                            <TextView
+                                android:id="@+id/textview_empty"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/gray3"
+                                android:fontFamily="@font/noto_sans_kr_regular"
+                                android:textSize="16sp"
+                                android:text="내역을 추가해보세요!"
+                                android:visibility="gone"
+                                android:includeFontPadding="false" />
+                        </LinearLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.core.widget.NestedScrollView>
 
                 <LinearLayout
+                    android:id="@+id/footerLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginTop="250dp"
-                    android:gravity="center_horizontal"
-                    android:paddingBottom="100dp"
-                    android:background="@drawable/background_top_extramore_rounded_white"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:paddingTop="5dp">
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recycler_payment"
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/button_make_moumtalk"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginLeft="25dp"
-                        android:layout_marginRight="25dp"
-                        android:layout_marginTop="60dp"/>
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"/>
-                    <TextView
-                        android:id="@+id/textview_empty"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/gray3"
-                        android:fontFamily="@font/noto_sans_kr_regular"
-                        android:textSize="16sp"
-                        android:text="내역을 추가해보세요!"
-                        android:visibility="gone"
-                        android:includeFontPadding="false"/>
+                        android:layout_height="50dp"
+                        android:background="@drawable/button_neon_mint_bold_ripple"
+                        android:fontFamily="@font/noto_sans_kr_semibold"
+                        android:text="정산 모음톡 만들기"
+                        android:textColor="@color/gray0"
+                        android:textSize="14sp"
+                        android:elevation="5dp"
+                        android:layout_margin="5dp" />
+
                 </LinearLayout>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.core.widget.NestedScrollView>
-            <LinearLayout
-                android:id="@+id/footerLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginBottom="30dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:paddingTop="5dp"
-                >
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/button_make_moumtalk"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="@drawable/button_neon_mint_bold_ripple"
-                    android:fontFamily="@font/noto_sans_kr_semibold"
-                    android:text="정산 모음톡 만들기"
-                    android:textColor="@color/gray0"
-                    android:textSize="14sp"
-                    android:elevation="5dp"
-                    android:layout_margin="5dp"/>
-
-            </LinearLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </LinearLayout>
 </layout>

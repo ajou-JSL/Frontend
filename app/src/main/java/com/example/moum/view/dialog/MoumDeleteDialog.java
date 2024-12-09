@@ -12,7 +12,6 @@ import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.moum.R;
 import com.example.moum.view.moum.MoumManageActivity;
-import com.example.moum.view.moum.MoumUpdateActivity;
 
 public class MoumDeleteDialog extends Dialog {
     private MoumManageActivity moumManageActivity;
@@ -24,7 +23,7 @@ public class MoumDeleteDialog extends Dialog {
     private final String TAG = getClass().toString();
     private Context context;
 
-    public MoumDeleteDialog(@NonNull Context context, String moumName){
+    public MoumDeleteDialog(@NonNull Context context, String moumName) {
         super(context);
         this.moumManageActivity = (MoumManageActivity) context;
         this.moumName = moumName;

@@ -1,18 +1,8 @@
 package com.example.moum.view.community;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +10,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moum.R;
 import com.example.moum.data.entity.BoardGroupItem;
@@ -30,7 +28,6 @@ import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.view.community.adapter.BoardGroupItemAdapter;
 import com.example.moum.viewmodel.community.BoardGroupViewModel;
-import com.example.moum.viewmodel.community.BoardRecruitDetailViewModel;
 
 import java.util.ArrayList;
 
@@ -54,7 +51,7 @@ public class BoardGroupFragment extends Fragment implements RefreshableFragment 
         String accessToken = sharedPreferenceManager.getCache(getString(R.string.user_access_token_key), "no-access-token");
         String username = sharedPreferenceManager.getCache(getString(R.string.user_username_key), "no-memberId");
         Integer memberId = sharedPreferenceManager.getCache(getString(R.string.user_id_key), -1);
-        if(accessToken.isEmpty() || accessToken.equals("no-access-token")){
+        if (accessToken.isEmpty() || accessToken.equals("no-access-token")) {
             Toast.makeText(context, "로그인 정보가 없어 초기 페이지로 돌아갑니다.", Toast.LENGTH_SHORT).show();
             Intent intent1 = new Intent(context, InitialActivity.class);
             startActivity(intent1);
@@ -116,7 +113,8 @@ public class BoardGroupFragment extends Fragment implements RefreshableFragment 
                 // 실제 데이터가 있을 경우 변환하여 추가
                 for (Team team : teamList) {
                     BoardGroupItem item = new BoardGroupItem();
-                    item.setBoardGroupItem(team.getTeamId(), team.getTeamName(), team.getDescription(), team.getFileUrl(), team.getExp(), team.getTier());
+                    item.setBoardGroupItem(team.getTeamId(), team.getTeamName(), team.getDescription(), team.getFileUrl(), team.getExp(),
+                            team.getTier());
                     itemList.add(item);
                 }
                 // 데이터 로드 성공시 Log 메시지

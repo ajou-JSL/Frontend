@@ -1,11 +1,8 @@
 package com.example.moum.data.api;
 
-import com.example.moum.data.dto.MoumRequest;
 import com.example.moum.data.dto.PerformRequest;
 import com.example.moum.data.dto.SuccessResponse;
-import com.example.moum.data.entity.Article;
 import com.example.moum.data.entity.Content;
-import com.example.moum.data.entity.Moum;
 import com.example.moum.data.entity.Performance;
 
 import java.util.List;

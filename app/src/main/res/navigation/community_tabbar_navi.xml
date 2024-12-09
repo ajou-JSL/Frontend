@@ -9,8 +9,7 @@
         android:id="@+id/menu_board_free"
         android:name="com.example.moum.view.community.BoardFreeFragment"
         android:label="home"
-        tools:layout="@layout/fragment_board_free" >
-    </fragment>
+        tools:layout="@layout/fragment_board_free"></fragment>
 
     <fragment
         android:id="@+id/menu_board_recruit"

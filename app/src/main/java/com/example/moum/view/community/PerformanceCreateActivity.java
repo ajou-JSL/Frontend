@@ -3,8 +3,6 @@ package com.example.moum.view.community;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,18 +17,13 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.moum.R;
 import com.example.moum.data.entity.Moum;
 import com.example.moum.data.entity.Team;
-import com.example.moum.databinding.ActivityChatCreateChatroomBinding;
 import com.example.moum.databinding.ActivityPerformanceCreateBinding;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
-import com.example.moum.view.chat.ChatCreateChatroomActivity;
-import com.example.moum.view.chat.ChatCreateChatroomOnwardActivity;
-import com.example.moum.viewmodel.chat.ChatCreateChatroomViewModel;
 import com.example.moum.viewmodel.community.PerformanceCreateViewModel;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class PerformanceCreateActivity extends AppCompatActivity {
@@ -58,7 +51,7 @@ public class PerformanceCreateActivity extends AppCompatActivity {
         String accessToken = sharedPreferenceManager.getCache(getString(R.string.user_access_token_key), "no-access-token");
         String username = sharedPreferenceManager.getCache(getString(R.string.user_username_key), "no-memberId");
         Integer id = sharedPreferenceManager.getCache(getString(R.string.user_id_key), -1);
-        if(accessToken.isEmpty() || accessToken.equals("no-access-token")){
+        if (accessToken.isEmpty() || accessToken.equals("no-access-token")) {
             Toast.makeText(context, "로그인 정보가 없어 초기 페이지로 돌아갑니다.", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(context, InitialActivity.class);
             startActivity(intent);
@@ -83,16 +76,16 @@ public class PerformanceCreateActivity extends AppCompatActivity {
         viewModel.getIsLoadTeamsAsLeaderSuccess().observe(this, result -> {
             Validation validation = result.getValidation();
             List<Team> loadedTeams = result.getData();
-            if(validation == Validation.GET_TEAM_LIST_SUCCESS && loadedTeams.isEmpty()) {
+            if (validation == Validation.GET_TEAM_LIST_SUCCESS && loadedTeams.isEmpty()) {
                 Toast.makeText(context, "리더로 속한 단체가 없습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(validation == Validation.GET_TEAM_LIST_SUCCESS) {
+            } else if (validation == Validation.GET_TEAM_LIST_SUCCESS) {
                 teams.clear();
                 teams.addAll(loadedTeams);
                 int i = 0;
                 teamNameList = new String[teams.size()];
-                for(Team team : teams)
+                for (Team team : teams) {
                     teamNameList[i++] = team.getTeamName();
+                }
 
                 /*group 스피너 Adapter 연결*/
                 Spinner teamSpinner = binding.spinnerTeam;
@@ -115,12 +108,10 @@ public class PerformanceCreateActivity extends AppCompatActivity {
                     }
                 });
                 binding.spinnerTeam.setEnabled(true);
-            }
-            else if(validation == Validation.NETWORK_FAILED){
+            } else if (validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패했습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "호출 실패 from loadGroups()");
-            }
-            else{
+            } else {
                 Toast.makeText(context, "단체 리스트를 가져오지 못했습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "알 수 없는 validation from loadGroups()");
             }
@@ -136,14 +127,15 @@ public class PerformanceCreateActivity extends AppCompatActivity {
         viewModel.getIsLoadMoumsOfTeamSuccess().observe(this, isLoadMoumsOfTeamSuccess -> {
             Validation validation = isLoadMoumsOfTeamSuccess.getValidation();
             List<Moum> loadedMoums = isLoadMoumsOfTeamSuccess.getData();
-            if(validation == Validation.GET_MOUM_SUCCESS && !loadedMoums.isEmpty()){
+            if (validation == Validation.GET_MOUM_SUCCESS && !loadedMoums.isEmpty()) {
                 moums.clear();
                 moums.addAll(loadedMoums);
                 int i = 0;
-                moumNameList = new String[moums.size()+1];
+                moumNameList = new String[moums.size() + 1];
                 moumNameList[i++] = "선택안함";
-                for(Moum moum : moums)
+                for (Moum moum : moums) {
                     moumNameList[i++] = moum.getMoumName();
+                }
 
                 /*moum 스피너 Adapter 연결*/
                 Spinner moumSpinner = binding.spinnerMoum;
@@ -156,8 +148,11 @@ public class PerformanceCreateActivity extends AppCompatActivity {
                 moumSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        if(position == 0) viewModel.setMoumSelected(null);
-                        else viewModel.setMoumSelected(moums.get(position-1));
+                        if (position == 0) {
+                            viewModel.setMoumSelected(null);
+                        } else {
+                            viewModel.setMoumSelected(moums.get(position - 1));
+                        }
                         binding.errorTeam.setText("");
                     }
 
@@ -167,20 +162,16 @@ public class PerformanceCreateActivity extends AppCompatActivity {
                     }
                 });
                 binding.spinnerMoum.setEnabled(true);
-            }
-            else if(validation == Validation.GET_MOUM_SUCCESS){
+            } else if (validation == Validation.GET_MOUM_SUCCESS) {
                 moums.clear();
                 viewModel.setMoumSelected(null);
-            }
-            else if(validation == Validation.TEAM_NOT_FOUND){
+            } else if (validation == Validation.TEAM_NOT_FOUND) {
                 Toast.makeText(context, "모음을 불러올 수 없습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "단체를 불러올 수 없습니다.");
-            }
-            else if(validation == Validation.NETWORK_FAILED){
+            } else if (validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패했습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "호출 실패");
-            }
-            else{
+            } else {
                 Toast.makeText(context, "모음을 불러올 수 없습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "알 수 없는 validation");
             }
@@ -192,14 +183,14 @@ public class PerformanceCreateActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Team team = viewModel.getTeamSelectedValue();
                 Moum moum = viewModel.getMoumSelectedValue();
-                if(team == null){
+                if (team == null) {
                     Toast.makeText(context, "단체를 선택하세요.", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 Intent intent = new Intent(PerformanceCreateActivity.this, PerformanceCreateOnwardActivity.class);
                 intent.putExtra("teamId", team.getTeamId());
-                if(moum != null) intent.putExtra("moumId", moum.getMoumId());
+                if (moum != null) intent.putExtra("moumId", moum.getMoumId());
                 startActivity(intent);
                 finish();
             }

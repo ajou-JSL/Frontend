@@ -16,10 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.moum.R;
-import com.example.moum.data.entity.PerformanceHall;
 import com.example.moum.data.entity.Practiceroom;
-import com.example.moum.view.moum.MoumFindPracticeroomActivity;
-import com.example.moum.view.moum.MoumListPerformanceHallActivity;
 import com.example.moum.view.moum.MoumListPracticeroomActivity;
 
 import java.util.ArrayList;
@@ -38,12 +35,13 @@ public class PracticeOfMoumAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public int getItemViewType(int position) {
-        if(practicerooms.get(position) == null || (practicerooms.get(position).getId() == null && practicerooms.get(position).getName() == null))
+        if (practicerooms.get(position) == null || (practicerooms.get(position).getId() == null && practicerooms.get(position).getName() == null)) {
             return VIEW_TYPE_EMPTY;
-        else if(practicerooms.get(position).getId() == null && practicerooms.get(position).getName() != null)
+        } else if (practicerooms.get(position).getId() == null && practicerooms.get(position).getName() != null) {
             return VIEW_TYPE_EXIST_NOT_VERIFIED;
-        else
+        } else {
             return VIEW_TYPE_EXIST;
+        }
     }
 
     @NonNull
@@ -52,12 +50,10 @@ public class PracticeOfMoumAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         if (viewType == VIEW_TYPE_EMPTY) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_practice_of_moum_empty, parent, false);
             return new PracticeOfMoumAdapter.PracticeEmptyViewHolder(view, context);
-        }
-        else if (viewType == VIEW_TYPE_EXIST){
+        } else if (viewType == VIEW_TYPE_EXIST) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_practice_of_moum, parent, false);
             return new PracticeOfMoumAdapter.PracticemExistViewHolder(view, context);
-        }
-        else {
+        } else {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_practice_of_moum, parent, false);
             return new PracticeOfMoumAdapter.PracticemExistNotVerifiedViewHolder(view, context);
         }
@@ -71,8 +67,7 @@ public class PracticeOfMoumAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             ((PracticeOfMoumAdapter.PracticeEmptyViewHolder) holder).bind();
         } else if (holder instanceof PracticeOfMoumAdapter.PracticemExistViewHolder) {
             ((PracticeOfMoumAdapter.PracticemExistViewHolder) holder).bind(practiceroom);
-        }
-        else if (holder instanceof PracticeOfMoumAdapter.PracticemExistNotVerifiedViewHolder) {
+        } else if (holder instanceof PracticeOfMoumAdapter.PracticemExistNotVerifiedViewHolder) {
             ((PracticeOfMoumAdapter.PracticemExistNotVerifiedViewHolder) holder).bind(practiceroom);
         }
     }
@@ -82,7 +77,7 @@ public class PracticeOfMoumAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         return practicerooms.size();
     }
 
-    static class PracticemExistViewHolder extends RecyclerView.ViewHolder{
+    static class PracticemExistViewHolder extends RecyclerView.ViewHolder {
         private Practiceroom practiceroom;
         private TextView practiceroomName;
         private TextView practiceroomDescription;
@@ -107,18 +102,18 @@ public class PracticeOfMoumAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         public void bind(Practiceroom practiceroom) {
             this.practiceroom = practiceroom;
-            if(practiceroom.getName() != null) practiceroomName.setText(practiceroom.getName());
-            if(practiceroom.getDetails() != null) practiceroomDescription.setText(practiceroom.getDetails());
-            if(practiceroom.getAddress() != null) practiceroomAddress.setText(practiceroom.getAddress());
-            if(practiceroom.getPrice() != null) practiceroomPrice.setText(String.format("시간 당 %,d원", practiceroom.getPrice()));
-            if(practiceroom.getImageUrls() != null && !practiceroom.getImageUrls().isEmpty())
+            if (practiceroom.getName() != null) practiceroomName.setText(practiceroom.getName());
+            if (practiceroom.getDetails() != null) practiceroomDescription.setText(practiceroom.getDetails());
+            if (practiceroom.getAddress() != null) practiceroomAddress.setText(practiceroom.getAddress());
+            if (practiceroom.getPrice() != null) practiceroomPrice.setText(String.format("시간 당 %,d원", practiceroom.getPrice()));
+            if (practiceroom.getImageUrls() != null && !practiceroom.getImageUrls().isEmpty()) {
                 Glide.with(context)
                         .load(practiceroom.getImageUrls().get(0))
                         .apply(new RequestOptions()
                                 .placeholder(R.drawable.background_more_rounded_gray_size_fit)
                                 .error(R.drawable.background_more_rounded_gray_size_fit))
                         .into(practiceromProfile);
-            else{
+            } else {
                 practiceromProfile.setVisibility(View.GONE);
             }
             practiceromProfile.setClipToOutline(true);
@@ -132,7 +127,7 @@ public class PracticeOfMoumAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     }
 
-    static class PracticeEmptyViewHolder extends RecyclerView.ViewHolder{
+    static class PracticeEmptyViewHolder extends RecyclerView.ViewHolder {
         private ConstraintLayout practiceroomTop;
         private MoumListPracticeroomActivity activity;
         private Context context;
@@ -144,7 +139,7 @@ public class PracticeOfMoumAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             this.context = context;
         }
 
-        public void bind(){
+        public void bind() {
             practiceroomTop.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -154,7 +149,7 @@ public class PracticeOfMoumAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
     }
 
-    static class PracticemExistNotVerifiedViewHolder extends RecyclerView.ViewHolder{
+    static class PracticemExistNotVerifiedViewHolder extends RecyclerView.ViewHolder {
         private Practiceroom practiceroom;
         private TextView practiceroomName;
         private TextView practiceroomDescription;
@@ -179,7 +174,7 @@ public class PracticeOfMoumAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         public void bind(Practiceroom practiceroom) {
             this.practiceroom = practiceroom;
-            if(practiceroom.getName() != null) practiceroomName.setText(practiceroom.getName());
+            if (practiceroom.getName() != null) practiceroomName.setText(practiceroom.getName());
             practiceroomDescription.setVisibility(View.INVISIBLE);
             practiceroomAddress.setVisibility(View.INVISIBLE);
             practiceroomPrice.setVisibility(View.INVISIBLE);

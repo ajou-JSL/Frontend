@@ -6,10 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
-import android.window.OnBackInvokedDispatcher;
 
-import androidx.activity.OnBackPressedCallback;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
@@ -59,38 +56,30 @@ public class LoginActivity extends AppCompatActivity {
 
         /*로그인 결과 감시*/
         loginViewModel.getIsLoginSuccess().observe(this, isLoginSuccess -> {
-            if(isLoginSuccess == Validation.PASSWORD_NOT_WRITTEN) {
+            if (isLoginSuccess == Validation.PASSWORD_NOT_WRITTEN) {
                 binding.loginEdittextPassword.requestFocus();
                 binding.loginErrorPassword.setText("비밀번호를 입력하세요.");
-            }
-            else if(isLoginSuccess == Validation.ID_NOT_WRITTEN) {
+            } else if (isLoginSuccess == Validation.ID_NOT_WRITTEN) {
                 binding.loginEdittextId.requestFocus();
                 binding.loginErrorId.setText("아이디를 입력하세요.");
-            }
-            else if(isLoginSuccess == Validation.PASSWORD_NOT_FORMAL) {
+            } else if (isLoginSuccess == Validation.PASSWORD_NOT_FORMAL) {
                 binding.loginEdittextPassword.requestFocus();
                 binding.loginErrorPassword.setText("비밀번호 형식이 유효하지 않습니다.");
-            }
-            else if(isLoginSuccess == Validation.ID_NOT_FORMAL) {
+            } else if (isLoginSuccess == Validation.ID_NOT_FORMAL) {
                 binding.loginEdittextId.requestFocus();
                 binding.loginErrorId.setText("아이디 형식이 유효하지 않습니다.");
-            }
-            else if(isLoginSuccess == Validation.LOGIN_FAILED) {
+            } else if (isLoginSuccess == Validation.LOGIN_FAILED) {
                 binding.loginEdittextId.requestFocus();
                 Toast.makeText(context, "아이디 또는 비밀번호가 유효하지 않습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(isLoginSuccess == Validation.SIGNOUT_MEMBER) {
+            } else if (isLoginSuccess == Validation.SIGNOUT_MEMBER) {
                 binding.loginEdittextId.requestFocus();
                 Toast.makeText(context, "탈퇴한 회원입니다. 재가입이 필요합니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(isLoginSuccess == Validation.BANNED_MEMBER) {
+            } else if (isLoginSuccess == Validation.BANNED_MEMBER) {
                 binding.loginEdittextId.requestFocus();
                 Toast.makeText(context, "추방된 계정입니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(isLoginSuccess == Validation.NETWORK_FAILED) {
+            } else if (isLoginSuccess == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(isLoginSuccess == Validation.LOGIN_SUCCESS) {
+            } else if (isLoginSuccess == Validation.LOGIN_SUCCESS) {
 
                 /*자동로그인을 위해 SharedPreference에 토큰 저장*/
                 loginViewModel.getToken().observe(this, token -> {
@@ -100,14 +89,14 @@ public class LoginActivity extends AppCompatActivity {
                     sharedPreferenceManager.setCache(getString(R.string.user_username_key), token.getUesrname());
                     sharedPreferenceManager.setCache(getString(R.string.user_id_key), token.getId());
                     sharedPreferenceManager.setCache(getString(R.string.user_name_key), token.getMember().getName());
-                    Log.e(TAG, "access: " + token.getAccess() + " \nrefresh: " + token.getRefresh() + "\nusername: " + token.getUesrname() + "\nid: " + token.getId());
+                    Log.e(TAG, "access: " + token.getAccess() + " \nrefresh: " + token.getRefresh() + "\nusername: " + token.getUesrname() + "\nid: "
+                            + token.getId());
                 });
 
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
-            }
-            else{
+            } else {
                 Log.e(TAG, "다음 버튼 감시 결과를 알 수 없습니다.");
             }
         });
@@ -116,10 +105,10 @@ public class LoginActivity extends AppCompatActivity {
         binding.loginEdittextId.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if(hasFocus){
+                if (hasFocus) {
                     binding.loginErrorId.setText("");
                     binding.placeholderLoginId.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_mint_stroke));
-                }else{
+                } else {
                     binding.placeholderLoginId.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_gray_stroke));
                 }
             }
@@ -127,10 +116,10 @@ public class LoginActivity extends AppCompatActivity {
         binding.loginEdittextPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if(hasFocus){
+                if (hasFocus) {
                     binding.loginErrorPassword.setText("");
                     binding.placeholderLoginPassword.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_mint_stroke));
-                }else{
+                } else {
                     binding.placeholderLoginPassword.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_gray_stroke));
                 }
             }

@@ -1,7 +1,10 @@
 package com.example.moum.repository;
 
 import android.app.Application;
+import android.os.Build;
 import android.util.Log;
+
+import androidx.annotation.RequiresApi;
 
 import com.example.moum.data.api.PaymentApi;
 import com.example.moum.data.api.PromoteApi;
@@ -30,6 +33,7 @@ public class PaymentRepository {
     private final Retrofit retrofitClient;
     private final String TAG = getClass().toString();
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private PaymentRepository(Application application) {
         retrofitClientManager = new RetrofitClientManager();
         retrofitClientManager.setBaseUrl(BaseUrl.BASIC_SERVER_PATH.getUrl());
@@ -37,13 +41,14 @@ public class PaymentRepository {
         paymentApi = retrofitClient.create(PaymentApi.class);
     }
 
-    public PaymentRepository(RetrofitClientManager retrofitClientManager, PaymentApi paymentApi){
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public PaymentRepository(RetrofitClientManager retrofitClientManager) {
         this.retrofitClientManager = retrofitClientManager;
-        this.retrofitClient = retrofitClientManager.getClient();
-        this.paymentApi = paymentApi;
-        retrofitClientManager.setBaseUrl(BaseUrl.BASIC_SERVER_PATH.getUrl());
+        this.retrofitClient = retrofitClientManager.getAuthClient(null);
+        paymentApi = retrofitClient.create(PaymentApi.class);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public static PaymentRepository getInstance(Application application) {
         if (instance == null) {
             instance = new PaymentRepository(application);
@@ -81,6 +86,7 @@ public class PaymentRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<Settlement>> call, Throwable t) {
                 Result<Settlement> result = new Result<>(Validation.NETWORK_FAILED);
@@ -118,6 +124,7 @@ public class PaymentRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<List<Settlement>>> call, Throwable t) {
                 Result<List<Settlement>> result = new Result<>(Validation.NETWORK_FAILED);
@@ -155,6 +162,7 @@ public class PaymentRepository {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResponse<Settlement>> call, Throwable t) {
                 Result<Settlement> result = new Result<>(Validation.NETWORK_FAILED);

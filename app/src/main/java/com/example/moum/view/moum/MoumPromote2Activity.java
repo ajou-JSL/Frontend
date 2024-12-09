@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
@@ -21,16 +20,11 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.example.moum.R;
-import com.example.moum.data.entity.Moum;
 import com.example.moum.data.entity.Performance;
-import com.example.moum.data.entity.Promote;
-import com.example.moum.databinding.ActivityMoumPromote1Binding;
 import com.example.moum.databinding.ActivityMoumPromote2Binding;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
-import com.example.moum.view.dialog.DownloadDialog;
-import com.example.moum.viewmodel.moum.MoumManageViewModel;
 import com.example.moum.viewmodel.moum.MoumPromoteViewModel;
 
 public class MoumPromote2Activity extends AppCompatActivity {
@@ -90,20 +84,17 @@ public class MoumPromote2Activity extends AppCompatActivity {
         viewModel.getIsLoadPerformOfMoumSuccess().observe(this, isLoadPerformOfMoumSuccess -> {
             Validation validation = isLoadPerformOfMoumSuccess.getValidation();
             Performance loadedPerform = isLoadPerformOfMoumSuccess.getData();
-            if(validation == Validation.PERFORMANCE_GET_SUCCESS){
+            if (validation == Validation.PERFORMANCE_GET_SUCCESS) {
                 performance = loadedPerform;
                 //binding.buttonMakeQr.setEnabled(true);
 
                 /*QR 조회하기*/
                 viewModel.loadQr(loadedPerform.getId());
-            }
-            else if(validation == Validation.NETWORK_FAILED) {
+            } else if (validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(validation == Validation.ILLEGAL_ARGUMENT){
+            } else if (validation == Validation.ILLEGAL_ARGUMENT) {
                 Toast.makeText(context, "음과 연관된 공연 게시글을 먼저 생성하세요.", Toast.LENGTH_SHORT).show();
-            }
-            else{
+            } else {
                 Toast.makeText(context, "모음과 연관된 공연 게시글 찾기에 실패했습니다.", Toast.LENGTH_SHORT).show();
                 e(TAG, "감시 결과를 알 수 없습니다.");
             }
@@ -113,14 +104,14 @@ public class MoumPromote2Activity extends AppCompatActivity {
         viewModel.getIsLoadQrSuccess().observe(this, isLoadQrSuccess -> {
             Validation validation = isLoadQrSuccess.getValidation();
             String loadedQrUrl = isLoadQrSuccess.getData();
-            if(validation == Validation.QR_SUCCESS){
+            if (validation == Validation.QR_SUCCESS) {
                 qrUrl = loadedQrUrl;
                 binding.buttonMakeQr.setEnabled(false);
                 binding.buttonDownload.setEnabled(true);
                 Glide.with(context)
                         .applyDefaultRequestOptions(new RequestOptions()
-                        .placeholder(R.drawable.background_more_rounded_gray_size_fit)
-                        .error(R.drawable.background_more_rounded_gray_size_fit))
+                                .placeholder(R.drawable.background_more_rounded_gray_size_fit)
+                                .error(R.drawable.background_more_rounded_gray_size_fit))
                         .load(loadedQrUrl)
                         .listener(new RequestListener<Drawable>() {
                             @Override
@@ -132,24 +123,21 @@ public class MoumPromote2Activity extends AppCompatActivity {
                             }
 
                             @Override
-                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource,
+                                    boolean isFirstResource) {
                                 return false;
                             }
                         })
                         .into(binding.imageviewQr);
                 binding.imageviewQr.setClipToOutline(true);
-            }
-            else if(validation == Validation.QR_FAIL) {
+            } else if (validation == Validation.QR_FAIL) {
                 binding.buttonMakeQr.setEnabled(true);
                 binding.buttonDownload.setEnabled(false);
-            }
-            else if(validation == Validation.QR_PERFORM_NOT_FOUND) {
+            } else if (validation == Validation.QR_PERFORM_NOT_FOUND) {
                 Toast.makeText(context, "연관된 공연 게시글이 없습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(validation == Validation.NETWORK_FAILED) {
+            } else if (validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else{
+            } else {
                 Toast.makeText(context, "QR 불러오기에 실패하였습니다.", Toast.LENGTH_SHORT).show();
                 e(TAG, "감시 결과를 알 수 없습니다.");
             }
@@ -167,28 +155,24 @@ public class MoumPromote2Activity extends AppCompatActivity {
         viewModel.getIsMakeQrSuccess().observe(this, isMakeQrSuccess -> {
             Validation validation = isMakeQrSuccess.getValidation();
             String loadedQr = isMakeQrSuccess.getData();
-            if(validation == Validation.QR_SUCCESS){
+            if (validation == Validation.QR_SUCCESS) {
                 qrUrl = loadedQr;
                 binding.buttonMakeQr.setEnabled(false);
                 binding.buttonDownload.setEnabled(true);
                 Glide.with(context)
                         .applyDefaultRequestOptions(new RequestOptions()
-                        .placeholder(R.drawable.background_more_rounded_gray_size_fit)
-                        .error(R.drawable.background_more_rounded_gray_size_fit))
+                                .placeholder(R.drawable.background_more_rounded_gray_size_fit)
+                                .error(R.drawable.background_more_rounded_gray_size_fit))
                         .load(loadedQr)
                         .into(binding.imageviewQr);
                 binding.imageviewQr.setClipToOutline(true);
-            }
-            else if(validation == Validation.QR_FAIL) {
+            } else if (validation == Validation.QR_FAIL) {
                 Toast.makeText(context, "QR 생성에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(validation == Validation.QR_PERFORM_NOT_FOUND) {
+            } else if (validation == Validation.QR_PERFORM_NOT_FOUND) {
                 Toast.makeText(context, "연관된 공연 게시글이 없습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(validation == Validation.NETWORK_FAILED) {
+            } else if (validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else{
+            } else {
                 Toast.makeText(context, "QR 생성에 실패하였습니다.", Toast.LENGTH_SHORT).show();
                 e(TAG, "감시 결과를 알 수 없습니다.");
             }

@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.moum.R;
-import com.example.moum.view.chat.ChatActivity;
 import com.example.moum.view.moum.MyMoumFragment;
 
 public class TeamLeaveDialog extends Dialog {
@@ -23,7 +22,7 @@ public class TeamLeaveDialog extends Dialog {
     private String teamName;
     private final String TAG = getClass().toString();
 
-    public TeamLeaveDialog(@NonNull Context context, MyMoumFragment myMoumFragment, String teamName){
+    public TeamLeaveDialog(@NonNull Context context, MyMoumFragment myMoumFragment, String teamName) {
         super(context);
         this.myMoumFragment = myMoumFragment;
         this.teamName = teamName;
