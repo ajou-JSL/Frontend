@@ -38,6 +38,7 @@ public class PracticeNPerformRepository {
     private final Retrofit retrofitClient;
     private final String TAG = getClass().toString();
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private PracticeNPerformRepository(Application application) {
         retrofitClientManager = new RetrofitClientManager();
         retrofitClientManager.setBaseUrl(BaseUrl.BASIC_SERVER_PATH.getUrl());
@@ -45,13 +46,14 @@ public class PracticeNPerformRepository {
         practiceNPerformApi = retrofitClient.create(PracticeNPerformApi.class);
     }
 
-    public PracticeNPerformRepository(RetrofitClientManager retrofitClientManager, PracticeNPerformApi practiceNPerformApi) {
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public PracticeNPerformRepository(RetrofitClientManager retrofitClientManager) {
         this.retrofitClientManager = retrofitClientManager;
-        this.retrofitClient = retrofitClientManager.getClient();
-        this.practiceNPerformApi = practiceNPerformApi;
-        retrofitClientManager.setBaseUrl(BaseUrl.BASIC_SERVER_PATH.getUrl());
+        this.retrofitClient = retrofitClientManager.getAuthClient(null);
+        practiceNPerformApi = retrofitClient.create(PracticeNPerformApi.class);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public static PracticeNPerformRepository getInstance(Application application) {
         if (instance == null) {
             instance = new PracticeNPerformRepository(application);

@@ -1,7 +1,10 @@
 package com.example.moum.repository;
 
 import android.app.Application;
+import android.os.Build;
 import android.util.Log;
+
+import androidx.annotation.RequiresApi;
 
 import com.example.moum.data.api.LoginApi;
 import com.example.moum.data.dto.ErrorResponse;
@@ -33,6 +36,7 @@ public class LoginRepository {
     private Retrofit authRetrofitClient;
     private String TAG = getClass().toString();
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public LoginRepository(Application application) {
         retrofitClientManager = new RetrofitClientManager();
         retrofitClientManager.setBaseUrl(BaseUrl.BASIC_SERVER_PATH.getUrl());
@@ -42,10 +46,13 @@ public class LoginRepository {
         authLoginApi = authRetrofitClient.create(LoginApi.class);
     }
 
-    public LoginRepository(Retrofit retrofitClient, LoginApi loginApi) {
-        retrofitClientManager.setBaseUrl(BaseUrl.BASIC_SERVER_PATH.getUrl());
-        this.retrofitClient = retrofitClient;
-        this.loginApi = loginApi;
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public LoginRepository(RetrofitClientManager retrofitClientManager) {
+        this.retrofitClientManager = retrofitClientManager;
+        retrofitClient = retrofitClientManager.getClient();
+        authRetrofitClient = retrofitClientManager.getAuthClient(null);
+        loginApi = retrofitClient.create(LoginApi.class);
+        authLoginApi = authRetrofitClient.create(LoginApi.class);
     }
 
     public void login(String username, String password, com.example.moum.utils.Callback<Result<Token>> callback) {

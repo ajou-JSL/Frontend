@@ -37,6 +37,7 @@ public class ProfileRepository {
     private final Retrofit retrofitClient;
     private final String TAG = getClass().toString();
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private ProfileRepository(Application application) {
         retrofitClientManager = new RetrofitClientManager();
         retrofitClientManager.setBaseUrl(BaseUrl.BASIC_SERVER_PATH.getUrl());
@@ -44,13 +45,15 @@ public class ProfileRepository {
         profileApi = retrofitClient.create(ProfileApi.class);
     }
 
-    public ProfileRepository(RetrofitClientManager retrofitClientManager, ProfileApi profileApi) {
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public ProfileRepository(RetrofitClientManager retrofitClientManager) {
         this.retrofitClientManager = retrofitClientManager;
-        this.retrofitClient = retrofitClientManager.getClient();
-        this.profileApi = profileApi;
-        retrofitClientManager.setBaseUrl(BaseUrl.BASIC_SERVER_PATH.getUrl());
+        this.retrofitClient = retrofitClientManager.getAuthClient(null);
+        profileApi = retrofitClient.create(ProfileApi.class);
+        ;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public static ProfileRepository getInstance(Application application) {
         if (instance == null) {
             instance = new ProfileRepository(application);

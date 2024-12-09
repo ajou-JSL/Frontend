@@ -37,6 +37,7 @@ public class TeamRepository {
     private final Retrofit retrofitClient;
     private final String TAG = getClass().toString();
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private TeamRepository(Application application) {
         retrofitClientManager = new RetrofitClientManager();
         retrofitClientManager.setBaseUrl(BaseUrl.BASIC_SERVER_PATH.getUrl());
@@ -44,13 +45,14 @@ public class TeamRepository {
         teamApi = retrofitClient.create(TeamApi.class);
     }
 
-    public TeamRepository(RetrofitClientManager retrofitClientManager, TeamApi teamApi) {
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public TeamRepository(RetrofitClientManager retrofitClientManager) {
         this.retrofitClientManager = retrofitClientManager;
-        this.retrofitClient = retrofitClientManager.getClient();
-        this.teamApi = teamApi;
-        retrofitClientManager.setBaseUrl(BaseUrl.BASIC_SERVER_PATH.getUrl());
+        this.retrofitClient = retrofitClientManager.getAuthClient(null);
+        this.teamApi = retrofitClient.create(TeamApi.class);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public static TeamRepository getInstance(Application application) {
         if (instance == null) {
             instance = new TeamRepository(application);

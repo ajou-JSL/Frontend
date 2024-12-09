@@ -68,6 +68,7 @@ public class ChatViewModelTest {
         String chatroomName = "testuser2";
         Chatroom.ChatroomType chatroomType = Chatroom.ChatroomType.PERSONAL_CHAT;
         Chatroom chatroom = new Chatroom(chatroomName, chatroomType, groupId, leaderId);
+        chatroom.setId(chatroomId);
         chatViewModel.setChatroomInfo(memberId, leaderId, chatroom);
         String message = "안녕하세요.";
 
@@ -103,6 +104,7 @@ public class ChatViewModelTest {
         String chatroomName = "testuser2";
         Chatroom.ChatroomType chatroomType = Chatroom.ChatroomType.PERSONAL_CHAT;
         Chatroom chatroom = new Chatroom(chatroomName, chatroomType, groupId, leaderId);
+        chatroom.setId(chatroomId);
         chatViewModel.setChatroomInfo(memberId, leaderId, chatroom);
 
         String message = "안녕하세요.";
@@ -143,6 +145,7 @@ public class ChatViewModelTest {
         Chatroom.ChatroomType chatroomType = Chatroom.ChatroomType.PERSONAL_CHAT;
         LocalDateTime beforeTimestamp = LocalDateTime.now();
         Chatroom chatroom = new Chatroom(chatroomName, chatroomType, groupId, leaderId);
+        chatroom.setId(chatroomId);
         chatViewModel.setChatroomInfo(memberId, leaderId, chatroom);
 
         String message = "안녕하세요.";

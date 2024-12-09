@@ -27,7 +27,6 @@ import java.util.List;
 
 public class TeamCreateViewModel extends AndroidViewModel {
     private final TeamRepository teamRepository;
-    private final MoumRepository moumRepository;
     private final MutableLiveData<Team> team = new MutableLiveData<>(new Team());
     private final MutableLiveData<Uri> profileImage = new MutableLiveData<>();
     private String address;
@@ -83,7 +82,11 @@ public class TeamCreateViewModel extends AndroidViewModel {
     public TeamCreateViewModel(Application application) {
         super(application);
         teamRepository = TeamRepository.getInstance(application);
-        moumRepository = MoumRepository.getInstance(application);
+    }
+
+    public TeamCreateViewModel(Application application, TeamRepository teamRepository) {
+        super(application);
+        this.teamRepository = teamRepository;
     }
 
     public void addRecord(String name, LocalDate startDate, LocalDate endDate) {

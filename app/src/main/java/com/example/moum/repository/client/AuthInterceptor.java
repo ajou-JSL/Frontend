@@ -35,6 +35,7 @@ public class AuthInterceptor implements Interceptor {
 
     public AuthInterceptor(Context context) {
         this.context = context;
+        if (context == null) return;
         this.sharedPreferenceManager = new SharedPreferenceManager(context, context.getString(R.string.preference_file_key));
         this.accessToken = sharedPreferenceManager.getCache(context.getString(R.string.user_access_token_key), "no-access-token");
         this.refreshToken = sharedPreferenceManager.getCache(context.getString(R.string.user_refresh_token_key), "no-refresh-token");
