@@ -116,12 +116,13 @@ public class SignupViewModelTest {
 
         // Given
         SignupUser signupUser = signupViewModel.getSignupUser().getValue();
+        signupUser.setUsername("sosongha3");
         signupUser.setEmail("sosongha3@ajou.ac.kr");
         signupUser.setName("소성하");
         signupUser.setPassword("asdf1234!!");
         signupUser.setPasswordCheck("zxcv1234!!");
         signupUser.setEmailCode("123456");
-        signupViewModel.setIsEmailCodeSuccess(Validation.VALID_ALL);
+        signupViewModel.setIsEmailCodeSuccess(Validation.EMAIL_AUTH_SUCCESS);
         signupViewModel.setIsPersonalAgree(Validation.VALID_ALL);
 
         // When
@@ -137,12 +138,13 @@ public class SignupViewModelTest {
 
         // Given
         SignupUser signupUser = signupViewModel.getSignupUser().getValue();
+        signupUser.setUsername("sosongha3");
         signupUser.setEmail("sosongha3@ajou.ac.kr");
         signupUser.setName("소성하");
         signupUser.setPassword("asdf1234!!");
         signupUser.setPasswordCheck("asdf1234!!");
         signupUser.setEmailCode("123456");
-        signupViewModel.setIsEmailCodeSuccess(Validation.VALID_ALL);
+        signupViewModel.setIsEmailCodeSuccess(Validation.EMAIL_AUTH_SUCCESS);
         signupViewModel.setIsPersonalAgree(Validation.PERSONAL_NOT_AGREE);
 
         // When
@@ -158,12 +160,13 @@ public class SignupViewModelTest {
 
         // Given
         SignupUser signupUser = signupViewModel.getSignupUser().getValue();
+        signupUser.setUsername("sosongha3");
         signupUser.setEmail("sosongha3@ajou.ac.kr");
         signupUser.setName("소성하");
         signupUser.setPassword("asdf1234!!");
         signupUser.setPasswordCheck("asdf1234!!");
         signupUser.setEmailCode("123456");
-        signupViewModel.setIsEmailCodeSuccess(Validation.VALID_ALL);
+        signupViewModel.setIsEmailCodeSuccess(Validation.EMAIL_AUTH_SUCCESS);
         signupViewModel.setIsPersonalAgree(Validation.VALID_ALL);
 
         // When
@@ -209,6 +212,7 @@ public class SignupViewModelTest {
         SignupUser expectedSignupUser = new SignupUser();
         expectedSignupUser.setName("소지섭사촌");
         expectedSignupUser.setInstrument("트럼펫");
+        expectedSignupUser.setProfileDescription("ㅎㅇ");
         signupViewModel.setSignupUser(expectedSignupUser);
         signupViewModel.setProficiency("하");
 
