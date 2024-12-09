@@ -94,7 +94,8 @@ tasks.register("jacocoTestReport", JacocoReport) {
                       '**/service/alarm/**',
                       '**/aop/**',
                       '**/config/**',
-                      '**/MemberRole*']
+                      '**/MemberRole*',
+                      '**/*$*']
 
     sourceDirectories.setFrom(files([layout.projectDirectory.dir("src/main/java").asFile]))
     classDirectories.setFrom(fileTree(dir: layout.buildDirectory.dir("intermediates/javac/debug").get().asFile, excludes: fileFilter))
