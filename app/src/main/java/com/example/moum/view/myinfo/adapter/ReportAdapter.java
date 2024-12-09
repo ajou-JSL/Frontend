@@ -28,7 +28,7 @@ public class ReportAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private Context context;
     private static final int VIEW_TYPE_MEMBER = 1;
     private static final int VIEW_TYPE_TEAM = 2;
-    private static final int VIEW_TYPE_ARTICLE = 2;
+    private static final int VIEW_TYPE_ARTICLE = 3;
 
     public void setReportMembers(ArrayList<ReportMember> reportMembers, String reportType, Context context) {
         this.reportMembers = reportMembers;
