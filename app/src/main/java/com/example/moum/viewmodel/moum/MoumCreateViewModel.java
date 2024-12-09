@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MoumCreateViewModel extends AndroidViewModel {
-    private final TeamRepository teamRepository;
     private final MoumRepository moumRepository;
     private final MutableLiveData<Moum> moum = new MutableLiveData<>(new Moum());
     private final MutableLiveData<ArrayList<Uri>> profileImages = new MutableLiveData<>();
@@ -42,8 +41,12 @@ public class MoumCreateViewModel extends AndroidViewModel {
 
     public MoumCreateViewModel(Application application) {
         super(application);
-        teamRepository = TeamRepository.getInstance(application);
         moumRepository = MoumRepository.getInstance(application);
+    }
+
+    public MoumCreateViewModel(Application application, MoumRepository moumRepository) {
+        super(application);
+        this.moumRepository = moumRepository;
     }
 
     public MutableLiveData<Moum> getMoum() {
