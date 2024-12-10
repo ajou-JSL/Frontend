@@ -85,7 +85,7 @@ public class PerformanceCreateOnwardActivity extends AppCompatActivity {
         Intent prevIntent = getIntent();
         moumId = prevIntent.getIntExtra("moumId", -1);
         teamId = prevIntent.getIntExtra("teamId", -1);
-        if(teamId == -1){
+        if (teamId == -1) {
             Toast.makeText(context, "잘못된 접근입니다.", Toast.LENGTH_SHORT).show();
             finish();
         }
@@ -95,7 +95,7 @@ public class PerformanceCreateOnwardActivity extends AppCompatActivity {
         String accessToken = sharedPreferenceManager.getCache(getString(R.string.user_access_token_key), "no-access-token");
         String username = sharedPreferenceManager.getCache(getString(R.string.user_username_key), "no-memberId");
         id = sharedPreferenceManager.getCache(getString(R.string.user_id_key), -1);
-        if(accessToken.isEmpty() || accessToken.equals("no-access-token")){
+        if (accessToken.isEmpty() || accessToken.equals("no-access-token")) {
             Toast.makeText(context, "로그인 정보가 없어 초기 페이지로 돌아갑니다.", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(context, InitialActivity.class);
             startActivity(intent);
@@ -181,6 +181,7 @@ public class PerformanceCreateOnwardActivity extends AppCompatActivity {
                 viewModel.setGenre(genreList[position]);
                 binding.errorMoumGenre.setText("");
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 return;
@@ -204,32 +205,33 @@ public class PerformanceCreateOnwardActivity extends AppCompatActivity {
         });
 
         /*모음 정보 불러오기*/
-        if(moumId != -1)
+        if (moumId != -1) {
             viewModel.loadMoum(moumId);
+        }
 
         /*모음 정보 불러오기 결과 감시 후 폼 채우기*/
         viewModel.getIsLoadMoumSuccess().observe(this, isLoadMoumSuccess -> {
             Validation validation = isLoadMoumSuccess.getValidation();
             Moum loadedMoum = isLoadMoumSuccess.getData();
-            if(validation == Validation.GET_MOUM_SUCCESS){
-                if(loadedMoum.getMoumName() != null) binding.edittextPerformName.setText(loadedMoum.getMoumName());
-                if(loadedMoum.getMoumDescription() != null) binding.edittextPerformDescription.setText(loadedMoum.getMoumDescription());
-                if(loadedMoum.getPerformLocation() != null) binding.edittextPerformPlace.setText(loadedMoum.getPerformLocation());
-                if(loadedMoum.getStartDate() != null) binding.buttonDateStart.setText(loadedMoum.getStartDate());
-                if(loadedMoum.getEndDate() != null) binding.buttonDateEnd.setText(loadedMoum.getEndDate());
-                if(loadedMoum.getPrice() != null) binding.edittextPerformPrice.setText(String.format("%d", loadedMoum.getPrice()));
-                if(loadedMoum.getGenre() != null) genreSpinner.setSelection(loadedMoum.getGenre().getValue());
-                if(loadedMoum.getImageUrls() != null && !loadedMoum.getImageUrls().isEmpty()){
+            if (validation == Validation.GET_MOUM_SUCCESS) {
+                if (loadedMoum.getMoumName() != null) binding.edittextPerformName.setText(loadedMoum.getMoumName());
+                if (loadedMoum.getMoumDescription() != null) binding.edittextPerformDescription.setText(loadedMoum.getMoumDescription());
+                if (loadedMoum.getPerformLocation() != null) binding.edittextPerformPlace.setText(loadedMoum.getPerformLocation());
+                if (loadedMoum.getStartDate() != null) binding.buttonDateStart.setText(loadedMoum.getStartDate());
+                if (loadedMoum.getEndDate() != null) binding.buttonDateEnd.setText(loadedMoum.getEndDate());
+                if (loadedMoum.getPrice() != null) binding.edittextPerformPrice.setText(String.format("%d", loadedMoum.getPrice()));
+                if (loadedMoum.getGenre() != null) genreSpinner.setSelection(loadedMoum.getGenre().getValue());
+                if (loadedMoum.getImageUrls() != null && !loadedMoum.getImageUrls().isEmpty()) {
                     Glide.with(context)
                             .applyDefaultRequestOptions(new RequestOptions()
-                            .placeholder(R.drawable.background_more_rounded_gray_size_fit)
-                            .error(R.drawable.background_more_rounded_gray_size_fit))
+                                    .placeholder(R.drawable.background_more_rounded_gray_size_fit)
+                                    .error(R.drawable.background_more_rounded_gray_size_fit))
                             .load(loadedMoum.getImageUrls().get(0)).into(binding.imageviewPerformProfile);
                     binding.imageviewPerformProfile.setClipToOutline(true);
                     viewModel.setProfileImage(Uri.parse(loadedMoum.getImageUrls().get(0)), true);
                 }
-                if(loadedMoum.getMusic() != null &&!loadedMoum.getMusic().isEmpty()){
-                    for(Music music : loadedMoum.getMusic()){
+                if (loadedMoum.getMusic() != null && !loadedMoum.getMusic().isEmpty()) {
+                    for (Music music : loadedMoum.getMusic()) {
                         View songChild = addSongLayout(songParent);
                         EditText edittextSingName = songChild.findViewById(R.id.edittext_music_name);
                         EditText edittextArtistName = songChild.findViewById(R.id.edittext_artist_name);
@@ -237,19 +239,16 @@ public class PerformanceCreateOnwardActivity extends AppCompatActivity {
                         edittextArtistName.setText(music.getArtistName());
                     }
                 }
-                if(loadedMoum.getMembers() != null && !loadedMoum.getMembers().isEmpty()){
+                if (loadedMoum.getMembers() != null && !loadedMoum.getMembers().isEmpty()) {
                     members.addAll(loadedMoum.getMembers());
-                    performanceParticipantAdapter.notifyItemInserted(members.size()-1);
+                    performanceParticipantAdapter.notifyItemInserted(members.size() - 1);
                     recyclerView.scrollToPosition(0);
                 }
-            }
-            else if(validation == Validation.NETWORK_FAILED) {
+            } else if (validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(validation == Validation.ILLEGAL_ARGUMENT){
+            } else if (validation == Validation.ILLEGAL_ARGUMENT) {
                 Toast.makeText(context, "유효하지 않은 데이터입니다.", Toast.LENGTH_SHORT).show();
-            }
-            else{
+            } else {
                 Toast.makeText(context, "모음 조회에 실패하였습니다.", Toast.LENGTH_SHORT).show();
                 e(TAG, "감시 결과를 알 수 없습니다.");
             }
@@ -271,8 +270,8 @@ public class PerformanceCreateOnwardActivity extends AppCompatActivity {
                         .toFormatter();
                 LocalDate startDate = null;
                 LocalDate endDate = null;
-                if(!startDateString.equals("시작 날짜")) startDate = LocalDate.parse(startDateString, formatter);
-                if(!endDateString.equals("종료 날짜")) endDate = LocalDate.parse(endDateString, formatter);
+                if (!startDateString.equals("시작 날짜")) startDate = LocalDate.parse(startDateString, formatter);
+                if (!endDateString.equals("종료 날짜")) endDate = LocalDate.parse(endDateString, formatter);
                 viewModel.setDates(startDate, endDate);
 
                 for (int i = 0; i < songParent.getChildCount(); i++) {
@@ -289,32 +288,25 @@ public class PerformanceCreateOnwardActivity extends AppCompatActivity {
 
         /*제출 버튼 클릭 결과 감시*/
         viewModel.getIsValidCheckSuccess().observe(this, isValidCheckSuccess -> {
-            if(isValidCheckSuccess == Validation.NOT_VALID_ANYWAY){
+            if (isValidCheckSuccess == Validation.NOT_VALID_ANYWAY) {
                 Toast.makeText(context, "잘못 입력된 값이 있습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(isValidCheckSuccess == Validation.MOUM_NAME_NOT_WRITTEN){
+            } else if (isValidCheckSuccess == Validation.MOUM_NAME_NOT_WRITTEN) {
                 binding.errorPerformName.setText("모음 이름을 입력하세요.");
                 binding.errorPerformName.requestFocus();
-            }
-            else if(isValidCheckSuccess == Validation.GENRE_NOT_WRITTEN){
+            } else if (isValidCheckSuccess == Validation.GENRE_NOT_WRITTEN) {
                 binding.errorMoumGenre.setText("장르를 선택하세요.");
                 binding.errorMoumGenre.requestFocus();
-            }
-            else if(isValidCheckSuccess == Validation.DATE_NOT_VALID){
+            } else if (isValidCheckSuccess == Validation.DATE_NOT_VALID) {
                 binding.errorPerformDate.setText("시작 날짜는 종료 날짜보다 이전이어야 합니다.");
-            }
-            else if(isValidCheckSuccess == Validation.MUSIC_NAME_NOT_WRITTEN){
+            } else if (isValidCheckSuccess == Validation.MUSIC_NAME_NOT_WRITTEN) {
                 Toast.makeText(context, "곡 이름을 입력하세요.", Toast.LENGTH_SHORT).show();
-            }
-            else if(isValidCheckSuccess == Validation.ARTIST_NAME_NOT_WRITTEN){
+            } else if (isValidCheckSuccess == Validation.ARTIST_NAME_NOT_WRITTEN) {
                 Toast.makeText(context, "아티스트 이름을 입력하세요.", Toast.LENGTH_SHORT).show();
-            }
-            else if(isValidCheckSuccess == Validation.VALID_ALL){
+            } else if (isValidCheckSuccess == Validation.VALID_ALL) {
                 // valid check 유효하다면, 최종 다이얼로그 띄우기
                 PerformCreateDialog performCreateDialog = new PerformCreateDialog(this, binding.edittextPerformName.getText().toString());
                 performCreateDialog.show();
-            }
-            else{
+            } else {
                 Toast.makeText(context, "모음 수정에 실패하였습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "감시 결과를 알 수 없습니다.");
             }
@@ -324,20 +316,16 @@ public class PerformanceCreateOnwardActivity extends AppCompatActivity {
         viewModel.getIsPerformanceCreateSuccess().observe(this, isPerformanceCreateSuccess -> {
             Validation validation = isPerformanceCreateSuccess.getValidation();
             Performance performance = isPerformanceCreateSuccess.getData();
-            if(validation == Validation.PERFORMANCE_CREATE_SUCCESS){
+            if (validation == Validation.PERFORMANCE_CREATE_SUCCESS) {
                 Toast.makeText(context, "공연게시판 글 생성에 성공하였습니다.", Toast.LENGTH_SHORT).show();
                 finish();
-            }
-            else if(validation == Validation.NOT_VALID_ANYWAY){
+            } else if (validation == Validation.NOT_VALID_ANYWAY) {
                 Toast.makeText(context, "잘못 입력된 값이 있습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(validation == Validation.ILLEGAL_ARGUMENT) {
+            } else if (validation == Validation.ILLEGAL_ARGUMENT) {
                 Toast.makeText(context, "유효하지 않은 데이터입니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(validation == Validation.NO_AUTHORITY){
+            } else if (validation == Validation.NO_AUTHORITY) {
                 Toast.makeText(context, "권한이 없습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else{
+            } else {
                 Toast.makeText(context, "공연게시판 글 생성에 실패하였습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "감시 결과를 알 수 없습니다.");
             }
@@ -347,10 +335,10 @@ public class PerformanceCreateOnwardActivity extends AppCompatActivity {
         binding.edittextPerformName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if(hasFocus){
+                if (hasFocus) {
                     binding.errorPerformName.setText("");
                     binding.placeholderMoumName.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_mint_stroke));
-                }else{
+                } else {
                     binding.placeholderMoumName.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_gray_stroke));
                 }
             }
@@ -358,21 +346,23 @@ public class PerformanceCreateOnwardActivity extends AppCompatActivity {
         binding.edittextPerformDescription.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if(hasFocus){
+                if (hasFocus) {
                     binding.errorPerformDescription.setText("");
-                    binding.placeholderPerformDescription.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_mint_stroke));
-                }else{
-                    binding.placeholderPerformDescription.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_gray_stroke));
+                    binding.placeholderPerformDescription.setBackground(
+                            ContextCompat.getDrawable(context, R.drawable.background_rounded_mint_stroke));
+                } else {
+                    binding.placeholderPerformDescription.setBackground(
+                            ContextCompat.getDrawable(context, R.drawable.background_rounded_gray_stroke));
                 }
             }
         });
         binding.edittextPerformPlace.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if(hasFocus){
+                if (hasFocus) {
                     binding.errorPerformPlace.setText("");
                     binding.placeholderPerformPlace.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_mint_stroke));
-                }else{
+                } else {
                     binding.placeholderPerformPlace.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_gray_stroke));
                 }
             }
@@ -380,10 +370,10 @@ public class PerformanceCreateOnwardActivity extends AppCompatActivity {
         binding.edittextPerformPrice.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if(hasFocus){
+                if (hasFocus) {
                     binding.errorPerformPrice.setText("");
                     binding.placeholderPerformPrice.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_mint_stroke));
-                }else{
+                } else {
                     binding.placeholderPerformPrice.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_gray_stroke));
                 }
             }
@@ -391,7 +381,7 @@ public class PerformanceCreateOnwardActivity extends AppCompatActivity {
         binding.spinnerGenre.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if(hasFocus){
+                if (hasFocus) {
                     binding.errorMoumGenre.setText("");
                 }
             }
@@ -399,7 +389,7 @@ public class PerformanceCreateOnwardActivity extends AppCompatActivity {
         binding.buttonDateStart.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if(hasFocus){
+                if (hasFocus) {
                     binding.errorPerformDate.setText("");
                 }
             }
@@ -407,7 +397,7 @@ public class PerformanceCreateOnwardActivity extends AppCompatActivity {
         binding.buttonDateEnd.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if(hasFocus){
+                if (hasFocus) {
                     binding.errorPerformDate.setText("");
                 }
             }
@@ -415,13 +405,13 @@ public class PerformanceCreateOnwardActivity extends AppCompatActivity {
 
     }
 
-    public void onDialogYesClicked(){
+    public void onDialogYesClicked() {
         /*다이얼로그에서 Yes 버튼 클릭 시, createPerformance() 호출*/
         viewModel.setMembers(members, performanceParticipantAdapter.getIsParticipates());
         viewModel.createPerformance(moumId, teamId, context);
     }
 
-    public View addSongLayout(LinearLayout songParent){
+    public View addSongLayout(LinearLayout songParent) {
         // inflate
         View songChild = LayoutInflater.from(PerformanceCreateOnwardActivity.this).inflate(R.layout.item_moum_music_form, songParent, false);
 
@@ -437,9 +427,9 @@ public class PerformanceCreateOnwardActivity extends AppCompatActivity {
         editTextMusicName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if(hasFocus){
+                if (hasFocus) {
                     placeholderMusicName.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_mint_stroke));
-                }else{
+                } else {
                     placeholderMusicName.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_gray_stroke));
                 }
             }
@@ -447,9 +437,9 @@ public class PerformanceCreateOnwardActivity extends AppCompatActivity {
         editTextArtistName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if(hasFocus){
+                if (hasFocus) {
                     placeholderArtistName.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_mint_stroke));
-                }else{
+                } else {
                     placeholderArtistName.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_gray_stroke));
                 }
             }

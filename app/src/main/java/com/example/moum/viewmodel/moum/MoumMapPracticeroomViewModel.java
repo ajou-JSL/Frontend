@@ -22,7 +22,7 @@ public class MoumMapPracticeroomViewModel extends AndroidViewModel {
     private final MutableLiveData<Result<MoumPracticeroom>> isCreatePracticeroomSuccess = new MutableLiveData<>();
     private final MediatorLiveData<Boolean> isAllReady = new MediatorLiveData<>();
 
-    public MoumMapPracticeroomViewModel(Application application){
+    public MoumMapPracticeroomViewModel(Application application) {
         super(application);
         practiceNPerformRepository = PracticeNPerformRepository.getInstance(application);
         setupCombinedObserver(isNaverMapReady, isLoadPracticeroomSuccess);
@@ -58,27 +58,27 @@ public class MoumMapPracticeroomViewModel extends AndroidViewModel {
         return isCreatePracticeroomSuccess;
     }
 
-    public void setIsNaverMapReady(Boolean isNaverMapReady){
+    public void setIsNaverMapReady(Boolean isNaverMapReady) {
         this.isNaverMapReady.setValue(isNaverMapReady);
     }
 
-    public void setIsLoadPracticeroomSuccess(Result<Practiceroom> isLoadPracticeroomSuccess){
+    public void setIsLoadPracticeroomSuccess(Result<Practiceroom> isLoadPracticeroomSuccess) {
         this.isLoadPracticeroomSuccess.setValue(isLoadPracticeroomSuccess);
     }
 
-    public void setIsCreatePracticeroomSuccess(Result<MoumPracticeroom> isCreatePracticeroomSuccess){
+    public void setIsCreatePracticeroomSuccess(Result<MoumPracticeroom> isCreatePracticeroomSuccess) {
         this.isCreatePracticeroomSuccess.setValue(isCreatePracticeroomSuccess);
     }
 
-    public void setIsAllReady(Boolean isAllReady){
+    public void setIsAllReady(Boolean isAllReady) {
         this.isAllReady.setValue(isAllReady);
     }
 
-    public void loadPracticeroom(Integer practiceroomId){
+    public void loadPracticeroom(Integer practiceroomId) {
         practiceNPerformRepository.getPracticeroom(practiceroomId, this::setIsLoadPracticeroomSuccess);
     }
 
-    public void createPracticeroom(Integer moumId, Integer roomId){
+    public void createPracticeroom(Integer moumId, Integer roomId) {
         practiceNPerformRepository.createPracticeroomOfMoum(moumId, roomId, null, this::setIsCreatePracticeroomSuccess);
     }
 }

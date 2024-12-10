@@ -5,7 +5,7 @@ public class PracticeMoumRequest {
     private Integer roomId;
     private String practiceRoom;
 
-    public PracticeMoumRequest(Integer moumId, Integer roomId, String practiceRoom){
+    public PracticeMoumRequest(Integer moumId, Integer roomId, String practiceRoom) {
         this.moumId = moumId;
         this.roomId = roomId;
         this.practiceRoom = practiceRoom;

@@ -17,16 +17,12 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.moum.R;
-import com.example.moum.data.entity.ReportMember;
 import com.example.moum.data.entity.ReportTeam;
-import com.example.moum.databinding.FragmentReportMemberReplyBinding;
 import com.example.moum.databinding.FragmentReportTeamReplyBinding;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
-import com.example.moum.view.profile.MemberProfileFragment;
 import com.example.moum.view.profile.TeamProfileFragment;
-import com.example.moum.viewmodel.report.ReportMemberReplyViewModel;
 import com.example.moum.viewmodel.report.ReportTeamReplyViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
@@ -37,7 +33,7 @@ public class ReportTeamReplyFragment extends BottomSheetDialogFragment {
     private final String TAG = getClass().toString();
     private SharedPreferenceManager sharedPreferenceManager;
 
-    public ReportTeamReplyFragment(Context context){
+    public ReportTeamReplyFragment(Context context) {
         this.context = context;
     }
 
@@ -65,7 +61,7 @@ public class ReportTeamReplyFragment extends BottomSheetDialogFragment {
         /*이전 액티비티로부터의 값 가져오기*/
         int reportTeamId;
         Bundle bundle = getArguments();
-        if(bundle == null || bundle.getInt("reportTeamId") < 0){
+        if (bundle == null || bundle.getInt("reportTeamId") < 0) {
             Toast.makeText(context, "신고 대상 단체를 알 수 없습니다.", Toast.LENGTH_SHORT).show();
             dismiss();
         }
@@ -78,16 +74,17 @@ public class ReportTeamReplyFragment extends BottomSheetDialogFragment {
         viewModel.getIsLoadReportTeamSuccess().observe(getViewLifecycleOwner(), isLoadReportTeamSuccess -> {
             Validation validation = isLoadReportTeamSuccess.getValidation();
             ReportTeam reportTeam = isLoadReportTeamSuccess.getData();
-            if(validation == Validation.REPORT_TEAM_GET_SUCCESS){
-                if(reportTeam.getDetails() != null) binding.edittextDetails.setText(reportTeam.getDetails());
-                if(reportTeam.getReply() != null) binding.edittextReply.setText(reportTeam.getReply());
-                if(reportTeam.getType() != null){
-                    if(reportTeam.getType().equals("허위 이력 또는 사칭"))
+            if (validation == Validation.REPORT_TEAM_GET_SUCCESS) {
+                if (reportTeam.getDetails() != null) binding.edittextDetails.setText(reportTeam.getDetails());
+                if (reportTeam.getReply() != null) binding.edittextReply.setText(reportTeam.getReply());
+                if (reportTeam.getType() != null) {
+                    if (reportTeam.getType().equals("허위 이력 또는 사칭")) {
                         binding.radioGroupTeam.check(R.id.radio_report_team_1);
-                    else if(reportTeam.getType().equals("선정성 또는 폭력적 대화"))
+                    } else if (reportTeam.getType().equals("선정성 또는 폭력적 대화")) {
                         binding.radioGroupTeam.check(R.id.radio_report_team_2);
-                    else
+                    } else {
                         binding.radioGroupTeam.check(R.id.radio_report_team_3);
+                    }
                 }
                 binding.radioGroupTeam.setEnabled(false);
                 binding.radioReportTeam1.setEnabled(false);
@@ -104,14 +101,11 @@ public class ReportTeamReplyFragment extends BottomSheetDialogFragment {
                         teamProfileFragment.show(getParentFragmentManager(), teamProfileFragment.getTag());
                     }
                 });
-            }
-            else if(validation == Validation.REPORT_NOT_FOUND){
+            } else if (validation == Validation.REPORT_NOT_FOUND) {
                 Toast.makeText(context, "신고를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(validation == Validation.NETWORK_FAILED){
+            } else if (validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else{
+            } else {
                 Toast.makeText(context, "신고를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "알 수 없는 validation");
             }
@@ -119,6 +113,6 @@ public class ReportTeamReplyFragment extends BottomSheetDialogFragment {
         binding.radioGroupTeam.setEnabled(false);
         binding.edittextReply.setEnabled(false);
 
-        return  view;
+        return view;
     }
 }

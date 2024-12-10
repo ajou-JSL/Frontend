@@ -29,7 +29,9 @@ public class Comment {
         return createdAt;
     }
 
-    public Integer getAuthorId() {return authorId;}
+    public Integer getAuthorId() {
+        return authorId;
+    }
 
 
     public void setAuthor(String author) {

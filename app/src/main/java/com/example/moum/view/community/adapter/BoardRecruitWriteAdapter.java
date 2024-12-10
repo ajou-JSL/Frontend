@@ -31,7 +31,7 @@ public class BoardRecruitWriteAdapter extends RecyclerView.Adapter<RecyclerView.
 
     @Override
     public int getItemViewType(int position) {
-        return position == uris.size()-1? VIEW_TYPE_IMAGE_SELECTOR : VIEW_TYPE_IMAGE_HOLDER;
+        return position == uris.size() - 1 ? VIEW_TYPE_IMAGE_SELECTOR : VIEW_TYPE_IMAGE_HOLDER;
     }
 
     @NonNull
@@ -62,7 +62,7 @@ public class BoardRecruitWriteAdapter extends RecyclerView.Adapter<RecyclerView.
         return uris.size();
     }
 
-    static class ImageSelectorViewHolder extends RecyclerView.ViewHolder{
+    static class ImageSelectorViewHolder extends RecyclerView.ViewHolder {
         private Uri uri;
         private ImageView boardWriteImageview;
         private Context context;
@@ -87,7 +87,7 @@ public class BoardRecruitWriteAdapter extends RecyclerView.Adapter<RecyclerView.
 
     }
 
-    static class ImageHolderViewHolder extends RecyclerView.ViewHolder{
+    static class ImageHolderViewHolder extends RecyclerView.ViewHolder {
         private Uri uri;
         private ImageView boardWriteImageview;
         private Context context;
@@ -100,7 +100,7 @@ public class BoardRecruitWriteAdapter extends RecyclerView.Adapter<RecyclerView.
             boardRecruitWriteActivity = (BoardRecruitWriteActivity) context;
         }
 
-        public void bind(Uri uri){
+        public void bind(Uri uri) {
             this.uri = uri;
             Glide.with(context).load(uri).into(boardWriteImageview);
             boardWriteImageview.setClipToOutline(true);

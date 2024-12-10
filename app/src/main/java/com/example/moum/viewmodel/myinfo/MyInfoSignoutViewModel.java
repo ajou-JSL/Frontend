@@ -18,7 +18,7 @@ public class MyInfoSignoutViewModel extends AndroidViewModel {
     private final MutableLiveData<Signout> signout = new MutableLiveData<>(new Signout());
     private final MutableLiveData<Result<Member>> isSignoutSuccess = new MutableLiveData<>();
 
-    public MyInfoSignoutViewModel(Application application){
+    public MyInfoSignoutViewModel(Application application) {
         super(application);
         signupRepository = new SignupRepository(application);
     }
@@ -31,19 +31,18 @@ public class MyInfoSignoutViewModel extends AndroidViewModel {
         return isSignoutSuccess;
     }
 
-    public void setIsSignoutSuccess(Result<Member> isSignoutSuccess){
+    public void setIsSignoutSuccess(Result<Member> isSignoutSuccess) {
         this.isSignoutSuccess.setValue(isSignoutSuccess);
     }
 
-    public void signout(String username){
+    public void signout(String username) {
         /*null check*/
         Log.e("sss", "username: " + signout.getValue());
-        if(signout.getValue() == null || signout.getValue().getUsername() == null || signout.getValue().getUsername().isEmpty()){
+        if (signout.getValue() == null || signout.getValue().getUsername() == null || signout.getValue().getUsername().isEmpty()) {
             Result<Member> result = new Result<>(Validation.ID_NOT_WRITTEN);
             setIsSignoutSuccess(result);
             return;
-        }
-        else if(!signout.getValue().getUsername().equals(username)){
+        } else if (!signout.getValue().getUsername().equals(username)) {
             Result<Member> result = new Result<>(Validation.ID_NOT_EQUAL);
             setIsSignoutSuccess(result);
             return;

@@ -18,14 +18,11 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.moum.R;
 import com.example.moum.data.entity.ReportArticle;
-import com.example.moum.data.entity.ReportTeam;
 import com.example.moum.databinding.FragmentReportArticleBinding;
-import com.example.moum.databinding.FragmentReportTeamBinding;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.viewmodel.report.ReportArticleViewModel;
-import com.example.moum.viewmodel.report.ReportTeamViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 public class ReportArticleFragment extends BottomSheetDialogFragment {
@@ -35,7 +32,7 @@ public class ReportArticleFragment extends BottomSheetDialogFragment {
     private final String TAG = getClass().toString();
     private SharedPreferenceManager sharedPreferenceManager;
 
-    public ReportArticleFragment(Context context){
+    public ReportArticleFragment(Context context) {
         this.context = context;
     }
 
@@ -63,7 +60,7 @@ public class ReportArticleFragment extends BottomSheetDialogFragment {
         /*이전 액티비티로부터의 값 가져오기*/
         int targetArticleId;
         Bundle bundle = getArguments();
-        if(bundle == null || bundle.getInt("targetArticleId") < 0){
+        if (bundle == null || bundle.getInt("targetArticleId") < 0) {
             Toast.makeText(context, "신고하고자 하는 멤버를 알 수 없습니다.", Toast.LENGTH_SHORT).show();
             dismiss();
         }
@@ -73,14 +70,15 @@ public class ReportArticleFragment extends BottomSheetDialogFragment {
         binding.radioGroupArticle.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
-                if(checkedId == R.id.radio_report_article_1)
+                if (checkedId == R.id.radio_report_article_1) {
                     viewModel.setType(binding.textviewReport1.getText().toString());
-                else if(checkedId == R.id.radio_report_article_2)
+                } else if (checkedId == R.id.radio_report_article_2) {
                     viewModel.setType(binding.textviewReport2.getText().toString());
-                else if(checkedId == R.id.radio_report_article_3)
+                } else if (checkedId == R.id.radio_report_article_3) {
                     viewModel.setType(binding.textviewReport3.getText().toString());
-                else if(checkedId == R.id.radio_report_article_4)
+                } else if (checkedId == R.id.radio_report_article_4) {
                     viewModel.setType(binding.textviewReport4.getText().toString());
+                }
             }
         });
 
@@ -96,27 +94,22 @@ public class ReportArticleFragment extends BottomSheetDialogFragment {
         viewModel.getIsReportArticleSuccess().observe(getViewLifecycleOwner(), isReportArticleSuccess -> {
             Validation validation = isReportArticleSuccess.getValidation();
             ReportArticle reportArticle = isReportArticleSuccess.getData();
-            if(validation == Validation.REPORT_ARTICLE_SUCCESS){
+            if (validation == Validation.REPORT_ARTICLE_SUCCESS) {
                 Toast.makeText(context, "신고가 접수되었습니다.", Toast.LENGTH_SHORT).show();
                 dismiss();
-            }
-            else if(validation == Validation.REPORT_ARTICLE_FAIL){
+            } else if (validation == Validation.REPORT_ARTICLE_FAIL) {
                 Toast.makeText(context, "신고에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(validation == Validation.REPORT_ARTICLE_ALREADY){
+            } else if (validation == Validation.REPORT_ARTICLE_ALREADY) {
                 Toast.makeText(context, "이미 신고한 멤버입니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(validation == Validation.NOT_VALID_ANYWAY){
+            } else if (validation == Validation.NOT_VALID_ANYWAY) {
                 Toast.makeText(context, "신고 사유를 선택하세요.", Toast.LENGTH_SHORT).show();
-            }
-            else if(validation == Validation.NETWORK_FAILED){
+            } else if (validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else{
+            } else {
                 Toast.makeText(context, "신고에 실패하였습니다.", Toast.LENGTH_SHORT).show();
             }
         });
 
-        return  view;
+        return view;
     }
 }

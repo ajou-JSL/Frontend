@@ -7,10 +7,11 @@ public class Result<T> {
     private Validation validation;
     private T data;
 
-    public Result(Validation validation){
+    public Result(Validation validation) {
         this.validation = validation;
     }
-    public Result(Validation validation, T data){
+
+    public Result(Validation validation, T data) {
         this.validation = validation;
         this.data = data;
     }

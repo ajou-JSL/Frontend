@@ -22,7 +22,7 @@ public class MoumPromoteViewModel extends AndroidViewModel {
     private final MutableLiveData<Result<String>> isMakeQrSuccess = new MutableLiveData<>();
     private final MutableLiveData<Validation> downloadSuccess = new MutableLiveData<>();
 
-    public MoumPromoteViewModel(Application application){
+    public MoumPromoteViewModel(Application application) {
         super(application);
         performRepository = PerformRepository.getInstance(application);
         promoteRepository = PromoteRepository.getInstance(application);
@@ -44,29 +44,30 @@ public class MoumPromoteViewModel extends AndroidViewModel {
         return downloadSuccess;
     }
 
-    public void setIsLoadQrSuccess(Result<String> isLoadQrSuccess){
+    public void setIsLoadQrSuccess(Result<String> isLoadQrSuccess) {
         this.isLoadQrSuccess.setValue(isLoadQrSuccess);
     }
 
-    private void setIsLoadPerformOfMoumSuccess(Result<Performance> isLoadPerformOfMoumSuccess){
+    private void setIsLoadPerformOfMoumSuccess(Result<Performance> isLoadPerformOfMoumSuccess) {
         this.isLoadPerformOfMoumSuccess.setValue(isLoadPerformOfMoumSuccess);
     }
 
-    private void setIsMakeQrSuccess(Result<String> isMakeQrSuccess){
+    private void setIsMakeQrSuccess(Result<String> isMakeQrSuccess) {
         this.isMakeQrSuccess.setValue(isMakeQrSuccess);
     }
 
-    private void setDownloadSuccess(Validation downloadSuccess){
+    private void setDownloadSuccess(Validation downloadSuccess) {
         this.downloadSuccess.setValue(downloadSuccess);
     }
 
-    public void loadPerformOfMoum(Integer moumId){
+    public void loadPerformOfMoum(Integer moumId) {
         performRepository.loadPerformOfMoum(moumId, this::setIsLoadPerformOfMoumSuccess);
     }
 
-    public void loadQr(Integer performId){
+    public void loadQr(Integer performId) {
         /*valid check*/
-        if(isLoadPerformOfMoumSuccess.getValue() == null || isLoadPerformOfMoumSuccess.getValue().getValidation() != Validation.PERFORMANCE_GET_SUCCESS){
+        if (isLoadPerformOfMoumSuccess.getValue() == null
+                || isLoadPerformOfMoumSuccess.getValue().getValidation() != Validation.PERFORMANCE_GET_SUCCESS) {
             Result<String> result = new Result<>(Validation.PERFORMANCE_NOT_FOUNT);
             setIsLoadQrSuccess(result);
             return;
@@ -75,9 +76,10 @@ public class MoumPromoteViewModel extends AndroidViewModel {
         promoteRepository.loadQr(performId, this::setIsLoadQrSuccess);
     }
 
-    public void makeQr(Integer performId){
+    public void makeQr(Integer performId) {
         /*valid check*/
-        if(isLoadPerformOfMoumSuccess.getValue() == null || isLoadPerformOfMoumSuccess.getValue().getValidation() != Validation.PERFORMANCE_GET_SUCCESS){
+        if (isLoadPerformOfMoumSuccess.getValue() == null
+                || isLoadPerformOfMoumSuccess.getValue().getValidation() != Validation.PERFORMANCE_GET_SUCCESS) {
             Result<String> result = new Result<>(Validation.PERFORMANCE_NOT_FOUNT);
             setIsMakeQrSuccess(result);
             return;
@@ -87,14 +89,15 @@ public class MoumPromoteViewModel extends AndroidViewModel {
         promoteRepository.createQr(performId, this::setIsMakeQrSuccess);
     }
 
-    public void downloadQr(Context context, String qrUrl){
+    public void downloadQr(Context context, String qrUrl) {
         /*valid check*/
-        if(isLoadPerformOfMoumSuccess.getValue() == null || isLoadPerformOfMoumSuccess.getValue().getValidation() != Validation.PERFORMANCE_GET_SUCCESS){
+        if (isLoadPerformOfMoumSuccess.getValue() == null
+                || isLoadPerformOfMoumSuccess.getValue().getValidation() != Validation.PERFORMANCE_GET_SUCCESS) {
             setDownloadSuccess(Validation.PERFORMANCE_NOT_FOUNT);
             return;
         }
-        if((isMakeQrSuccess.getValue() != null && isMakeQrSuccess.getValue().getValidation() == Validation.QR_SUCCESS)
-                || isLoadQrSuccess.getValue() != null && isLoadQrSuccess.getValue().getValidation() == Validation.QR_SUCCESS){
+        if ((isMakeQrSuccess.getValue() != null && isMakeQrSuccess.getValue().getValidation() == Validation.QR_SUCCESS)
+                || isLoadQrSuccess.getValue() != null && isLoadQrSuccess.getValue().getValidation() == Validation.QR_SUCCESS) {
             /*download qr image into member's gallery*/
             ImageManager.downloadImageToGallery(context, qrUrl, "moum_qr_code.png");
             return;

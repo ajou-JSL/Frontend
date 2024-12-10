@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.moum.data.dto.PerformMoumRequest;
-import com.example.moum.data.dto.PerformRequest;
 import com.example.moum.data.dto.PracticeMoumRequest;
 import com.example.moum.data.dto.SuccessResponse;
 import com.example.moum.data.entity.Content;
@@ -15,13 +14,11 @@ import com.example.moum.data.entity.Practiceroom;
 
 import java.util.List;
 
-import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 

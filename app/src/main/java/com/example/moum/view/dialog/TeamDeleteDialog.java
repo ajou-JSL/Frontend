@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.moum.R;
-import com.example.moum.view.moum.TeamCreateActivity;
 import com.example.moum.view.moum.TeamUpdateActivity;
 
 public class TeamDeleteDialog extends Dialog {
@@ -23,7 +22,7 @@ public class TeamDeleteDialog extends Dialog {
     private String teamName;
     private final String TAG = getClass().toString();
 
-    public TeamDeleteDialog(@NonNull Context context, String teamName){
+    public TeamDeleteDialog(@NonNull Context context, String teamName) {
         super(context);
         this.teamUpdateActivity = (TeamUpdateActivity) context;
         this.teamName = teamName;

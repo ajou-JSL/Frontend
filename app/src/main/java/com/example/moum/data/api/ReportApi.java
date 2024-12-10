@@ -1,9 +1,7 @@
 package com.example.moum.data.api;
 
-import com.example.moum.data.dto.EmailCodeRequest;
 import com.example.moum.data.dto.ReportRequest;
 import com.example.moum.data.dto.SuccessResponse;
-import com.example.moum.data.entity.Performance;
 import com.example.moum.data.entity.ReportArticle;
 import com.example.moum.data.entity.ReportMember;
 import com.example.moum.data.entity.ReportTeam;

@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.moum.R;
-import com.example.moum.view.moum.MoumCreateActivity;
 import com.example.moum.view.moum.MoumUpdateActivity;
 
 public class MoumUpdateDialog extends Dialog {
@@ -23,7 +22,7 @@ public class MoumUpdateDialog extends Dialog {
     private String moumName;
     private final String TAG = getClass().toString();
 
-    public MoumUpdateDialog(@NonNull Context context, String moumName){
+    public MoumUpdateDialog(@NonNull Context context, String moumName) {
         super(context);
         this.moumUpdateActivity = (MoumUpdateActivity) context;
         this.moumName = moumName;

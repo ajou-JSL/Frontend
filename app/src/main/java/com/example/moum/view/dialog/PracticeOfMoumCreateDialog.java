@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.moum.R;
-import com.example.moum.view.moum.MoumMapPerformanceHallActivity;
 import com.example.moum.view.moum.MoumMapPracticeroomActivity;
 
 public class PracticeOfMoumCreateDialog extends Dialog {
@@ -23,7 +22,7 @@ public class PracticeOfMoumCreateDialog extends Dialog {
     private String practiceName;
     private final String TAG = getClass().toString();
 
-    public PracticeOfMoumCreateDialog(@NonNull Context context, String practiceName){
+    public PracticeOfMoumCreateDialog(@NonNull Context context, String practiceName) {
         super(context);
         this.activity = (MoumMapPracticeroomActivity) context;
         this.practiceName = practiceName;

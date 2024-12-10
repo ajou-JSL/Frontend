@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.moum.R;
-import com.example.moum.view.community.PerformanceCreateOnwardActivity;
 import com.example.moum.view.moum.MoumMapPerformanceHallActivity;
 
 public class PerformOfMoumCreateDialog extends Dialog {
@@ -23,7 +22,7 @@ public class PerformOfMoumCreateDialog extends Dialog {
     private String performName;
     private final String TAG = getClass().toString();
 
-    public PerformOfMoumCreateDialog(@NonNull Context context, String performName){
+    public PerformOfMoumCreateDialog(@NonNull Context context, String performName) {
         super(context);
         this.activity = (MoumMapPerformanceHallActivity) context;
         this.performName = performName;

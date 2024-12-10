@@ -14,7 +14,7 @@ import com.example.moum.view.community.BoardRecruitFragment;
 
 public class TabbarPagerAdapter extends FragmentStateAdapter {
 
-    public TabbarPagerAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle){
+    public TabbarPagerAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
         super(fragmentManager, lifecycle);
     }
 

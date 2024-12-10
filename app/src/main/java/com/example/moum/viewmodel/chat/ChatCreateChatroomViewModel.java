@@ -33,12 +33,12 @@ public class ChatCreateChatroomViewModel extends AndroidViewModel {
         this.selectedTeam = team;
     }
 
-    public ChatCreateChatroomViewModel(Application application){
+    public ChatCreateChatroomViewModel(Application application) {
         super(application);
         this.teamRepository = TeamRepository.getInstance(application);
     }
 
-    public void loadTeamsAsMember(Integer id){
+    public void loadTeamsAsMember(Integer id) {
         teamRepository.loadTeamsAsMember(id, this::setIsLoadTeamsAsMemberSuccess);
     }
 

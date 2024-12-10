@@ -18,7 +18,7 @@ public class MoumPaymentAddViewModel extends AndroidViewModel {
     private final MutableLiveData<Validation> isValidCheckSuccess = new MutableLiveData<>();
     private final MutableLiveData<Result<Settlement>> isCreateSettlementsSuccess = new MutableLiveData<>();
 
-    public MoumPaymentAddViewModel(Application application){
+    public MoumPaymentAddViewModel(Application application) {
         super(application);
         paymentRepository = PaymentRepository.getInstance(application);
     }
@@ -35,30 +35,30 @@ public class MoumPaymentAddViewModel extends AndroidViewModel {
         return isCreateSettlementsSuccess;
     }
 
-    public void setIsValidCheckSuccess(Validation isValidCheckSuccess){
+    public void setIsValidCheckSuccess(Validation isValidCheckSuccess) {
         this.isValidCheckSuccess.setValue(isValidCheckSuccess);
     }
 
-    public void setIsCreateSettlementsSuccess(Result<Settlement> isCreateSettlementsSuccess){
+    public void setIsCreateSettlementsSuccess(Result<Settlement> isCreateSettlementsSuccess) {
         this.isCreateSettlementsSuccess.setValue(isCreateSettlementsSuccess);
     }
 
-    public void validCheck(){
+    public void validCheck() {
         /*null check*/
-        if(settlement.getValue() == null || settlement.getValue().getSettlementName() == null || settlement.getValue().getSettlementName().isEmpty()){
+        if (settlement.getValue() == null || settlement.getValue().getSettlementName() == null
+                || settlement.getValue().getSettlementName().isEmpty()) {
             isValidCheckSuccess.setValue(Validation.SETTLEMENT_NAME_NOT_WRITTEN);
             return;
-        }
-        else if(settlement.getValue().getFee() == null || settlement.getValue().getFee() <= 0){
+        } else if (settlement.getValue().getFee() == null || settlement.getValue().getFee() <= 0) {
             isValidCheckSuccess.setValue(Validation.SETTLEMENT_FEE_NOT_WRITTEN);
             return;
         }
         isValidCheckSuccess.setValue(Validation.VALID_ALL);
     }
 
-    public void createSettlement(Integer moumId){
+    public void createSettlement(Integer moumId) {
         /*valid check*/
-        if(isValidCheckSuccess.getValue() == null || isValidCheckSuccess.getValue() != Validation.VALID_ALL || settlement.getValue() == null){
+        if (isValidCheckSuccess.getValue() == null || isValidCheckSuccess.getValue() != Validation.VALID_ALL || settlement.getValue() == null) {
             Result<Settlement> result = new Result<>(Validation.NOT_VALID_ANYWAY);
             setIsCreateSettlementsSuccess(result);
             return;

@@ -7,7 +7,7 @@ public class CommentRequest {
         this.content = content;
     }
 
-    public String getContent(){
+    public String getContent() {
         return content;
     }
 

@@ -36,8 +36,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     @Override
-    public int getItemViewType(int position){
-        return chats.get(position).isSentByMe()? VIEW_TYPE_RIGHT : VIEW_TYPE_LEFT;
+    public int getItemViewType(int position) {
+        return chats.get(position).isSentByMe() ? VIEW_TYPE_RIGHT : VIEW_TYPE_LEFT;
     }
 
     @NonNull
@@ -68,7 +68,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return chats.size();
     }
 
-    static class ChatLeftViewHolder extends RecyclerView.ViewHolder{
+    static class ChatLeftViewHolder extends RecyclerView.ViewHolder {
         private TextView leftName;
         private TextView leftContent;
         private TextView leftTime;
@@ -85,31 +85,31 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
 
         @RequiresApi(api = Build.VERSION_CODES.O)
-        public void bind(Chat chat){
+        public void bind(Chat chat) {
             leftName.setText(chat.getSender());
             leftContent.setText(chat.getMessage());
             String formatTime = chat.getTimestamp().format(DateTimeFormatter.ofPattern("HH:mm"));
             leftTime.setText(formatTime);
             Glide.with(context)
                     .applyDefaultRequestOptions(new RequestOptions()
-                    .placeholder(R.drawable.background_circle_gray_size_fit)
-                    .error(R.drawable.background_circle_gray_size_fit))
+                            .placeholder(R.drawable.background_circle_gray_size_fit)
+                            .error(R.drawable.background_circle_gray_size_fit))
                     .load(chat.getProfileUrl()).into(leftProfile);
         }
     }
 
-    static class ChatRightViewHolder extends RecyclerView.ViewHolder{
+    static class ChatRightViewHolder extends RecyclerView.ViewHolder {
         private TextView rightContent;
         private TextView rightTime;
 
-        public ChatRightViewHolder(@NonNull View itemView){
+        public ChatRightViewHolder(@NonNull View itemView) {
             super(itemView);
             rightContent = itemView.findViewById(R.id.right_content);
             rightTime = itemView.findViewById(R.id.right_time);
         }
 
         @RequiresApi(api = Build.VERSION_CODES.O)
-        public void bind(Chat chat){
+        public void bind(Chat chat) {
             rightContent.setText(chat.getMessage());
             String formatTime = chat.getTimestamp().format(DateTimeFormatter.ofPattern("HH:mm"));
             rightTime.setText(formatTime);

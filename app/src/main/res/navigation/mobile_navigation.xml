@@ -9,8 +9,7 @@
         android:id="@+id/menu_home"
         android:name="com.example.moum.view.home.HomeFragment"
         android:label="home"
-        tools:layout="@layout/fragment_home" >
-    </fragment>
+        tools:layout="@layout/fragment_home"></fragment>
 
     <fragment
         android:id="@+id/menu_moumtalk"

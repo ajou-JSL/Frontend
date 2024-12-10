@@ -15,7 +15,7 @@ public class MyInfoLogoutNSignoutViewModel extends AndroidViewModel {
     private final MutableLiveData<Result<Member>> isLoginSuccess = new MutableLiveData<>();
     private String TAG = getClass().toString();
 
-    public MyInfoLogoutNSignoutViewModel(Application application){
+    public MyInfoLogoutNSignoutViewModel(Application application) {
         super(application);
         loginRepository = new LoginRepository(application);
     }
@@ -24,11 +24,11 @@ public class MyInfoLogoutNSignoutViewModel extends AndroidViewModel {
         return isLoginSuccess;
     }
 
-    public void setIsLoginSuccess(Result<Member> isLoginSuccess){
+    public void setIsLoginSuccess(Result<Member> isLoginSuccess) {
         this.isLoginSuccess.setValue(isLoginSuccess);
     }
 
-    public void logout(){
+    public void logout() {
         loginRepository.logout(this::setIsLoginSuccess);
     }
 }

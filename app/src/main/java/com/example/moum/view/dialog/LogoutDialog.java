@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.moum.R;
-import com.example.moum.view.moum.MoumManageActivity;
 import com.example.moum.view.myinfo.MyInfoLogoutNSignoutActivity;
 
 public class LogoutDialog extends Dialog {
@@ -23,7 +22,7 @@ public class LogoutDialog extends Dialog {
     private final String TAG = getClass().toString();
     private Context context;
 
-    public LogoutDialog(@NonNull Context context){
+    public LogoutDialog(@NonNull Context context) {
         super(context);
         this.myInfoLogoutNSignoutActivity = (MyInfoLogoutNSignoutActivity) context;
         this.context = context;

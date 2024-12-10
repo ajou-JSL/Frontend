@@ -1,14 +1,18 @@
-
 package com.example.moum.repository.client;
 
 import android.content.Context;
+import android.os.Build;
 
+
+import androidx.annotation.RequiresApi;
 
 import com.example.moum.data.entity.Genre;
 import com.example.moum.utils.GenreTypeAdapter;
+import com.example.moum.utils.LocalDateTimeTypeAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.ConnectionPool;
@@ -31,6 +35,7 @@ public class RetrofitClientManager {
     }
 
     /*인증 없는 클라이언트를 사용할 때*/
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public Retrofit getClient() {
         if (retrofit == null) {
             HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
@@ -38,12 +43,13 @@ public class RetrofitClientManager {
 
             OkHttpClient okHttpClient = new OkHttpClient.Builder()
                     .connectTimeout(5, TimeUnit.MINUTES)
-                    .readTimeout(5,TimeUnit.MINUTES)
-                    .writeTimeout(5,TimeUnit.MINUTES)
+                    .readTimeout(5, TimeUnit.MINUTES)
+                    .writeTimeout(5, TimeUnit.MINUTES)
                     .addInterceptor(loggingInterceptor)
                     .build();
             Gson gson = new GsonBuilder()
                     .registerTypeAdapter(Genre.class, new GenreTypeAdapter()) // Genre 어댑터 등록
+                    .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeTypeAdapter()) // LocalDateTime 어댑터 등록
                     .setPrettyPrinting().create();
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
@@ -55,6 +61,7 @@ public class RetrofitClientManager {
     }
 
     /*인증 있는 클라이언트를 사용할 때*/
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public Retrofit getAuthClient(Context context) {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -68,6 +75,7 @@ public class RetrofitClientManager {
                 .build();
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(Genre.class, new GenreTypeAdapter()) // Genre 어댑터 등록
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeTypeAdapter()) // LocalDateTime 어댑터 등록
                 .setPrettyPrinting().create();
         authRetrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)

@@ -274,7 +274,7 @@ public class BoardRecruitDetailActivity extends AppCompatActivity {
             Comment clickedComment = adapter.getCommentAt(position);
             if (clickedComment != null) {
                 Bundle bundle = new Bundle();
-                bundle.putInt("targetMemberId", boardRecruitDetailViewModel.getIsLoadMemberSuccess().getValue().getData().getId());
+                bundle.putInt("targetMemberId", clickedComment.getAuthorId());
 
                 // 프로필 프래그먼트 생성
                 MemberProfileFragment fragment = new MemberProfileFragment(context);

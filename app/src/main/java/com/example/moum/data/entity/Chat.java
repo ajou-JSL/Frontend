@@ -18,7 +18,7 @@ public class Chat {
     private boolean isSentByMe;
     private String profileUrl;
 
-    public Chat(String sender, String message, Integer chatroomId, LocalDateTime timestamp){
+    public Chat(String sender, String message, Integer chatroomId, LocalDateTime timestamp) {
         this.sender = sender;
         this.message = message;
         this.chatroomId = chatroomId;
@@ -26,7 +26,7 @@ public class Chat {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public Chat(String sender, String message, Integer chatroomId, String timestamp){
+    public Chat(String sender, String message, Integer chatroomId, String timestamp) {
         this.sender = sender;
         this.message = message;
         this.chatroomId = chatroomId;

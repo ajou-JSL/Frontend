@@ -7,7 +7,7 @@ public class Token {
     private Integer id;
     private Member member;
 
-    public Token(String access, String refresh, Integer id, Member member){
+    public Token(String access, String refresh, Integer id, Member member) {
         this.access = access;
         this.refresh = refresh;
         this.id = id;

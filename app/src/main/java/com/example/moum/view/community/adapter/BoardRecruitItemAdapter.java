@@ -42,7 +42,7 @@ public class BoardRecruitItemAdapter extends RecyclerView.Adapter<BoardRecruitIt
         notifyDataSetChanged();
     }
 
-    public void addItemList(ArrayList<Article> boardFreeItems){
+    public void addItemList(ArrayList<Article> boardFreeItems) {
         this.itemList.addAll(boardFreeItems);
         notifyDataSetChanged();
     }

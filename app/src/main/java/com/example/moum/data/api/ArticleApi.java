@@ -2,7 +2,6 @@ package com.example.moum.data.api;
 
 import com.example.moum.data.dto.ArticleFilterRequest;
 import com.example.moum.data.dto.ArticleRequest;
-import com.example.moum.data.dto.ChatSendRequest;
 import com.example.moum.data.dto.CommentRequest;
 import com.example.moum.data.dto.DataResponse;
 import com.example.moum.data.dto.SuccessResponse;
@@ -12,7 +11,6 @@ import com.example.moum.data.entity.Chat;
 import com.example.moum.data.entity.Comment;
 import com.example.moum.data.entity.Like;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import okhttp3.MultipartBody;

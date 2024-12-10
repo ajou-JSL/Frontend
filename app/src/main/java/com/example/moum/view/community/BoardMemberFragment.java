@@ -9,8 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,20 +19,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moum.R;
 import com.example.moum.data.dto.MemberProfileRankResponse;
-import com.example.moum.data.entity.Member;
-import com.example.moum.data.entity.Performance;
 import com.example.moum.databinding.FragmentBoardMemberBinding;
-import com.example.moum.databinding.FragmentBoardPerformanceBinding;
 import com.example.moum.utils.RefreshableFragment;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.utils.WrapContentLinearLayoutManager;
 import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.view.community.adapter.BoardMemberItemAdapter;
-import com.example.moum.view.community.adapter.BoardPerformanceItemAdapter;
 import com.example.moum.view.profile.MemberProfileFragment;
 import com.example.moum.viewmodel.community.BoardMemberViewModel;
-import com.example.moum.viewmodel.community.BoardPerformanceViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +47,7 @@ public class BoardMemberFragment extends Fragment implements RefreshableFragment
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+            @Nullable Bundle savedInstanceState) {
         viewModel = new ViewModelProvider(this).get(BoardMemberViewModel.class);
         binding = FragmentBoardMemberBinding.inflate(inflater, container, false);
         context = getContext();
@@ -66,7 +59,7 @@ public class BoardMemberFragment extends Fragment implements RefreshableFragment
         String username = sharedPreferenceManager.getCache(getString(R.string.user_username_key), "no-memberId");
         Integer id = sharedPreferenceManager.getCache(getString(R.string.user_id_key), -1);
         String name = sharedPreferenceManager.getCache(getString(R.string.user_name_key), "no-memberName");
-        if(accessToken.isEmpty() || accessToken.equals("no-access-token")){
+        if (accessToken.isEmpty() || accessToken.equals("no-access-token")) {
             Toast.makeText(context, "로그인 정보가 없어 초기 페이지로 돌아갑니다.", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(context, InitialActivity.class);
             startActivity(intent);
@@ -87,17 +80,15 @@ public class BoardMemberFragment extends Fragment implements RefreshableFragment
         viewModel.getIsLoadMembersSuccess().observe(getViewLifecycleOwner(), isLoadMembersSuccess -> {
             Validation validation = isLoadMembersSuccess.getValidation();
             List<MemberProfileRankResponse> loadedMembers = isLoadMembersSuccess.getData();
-            if(validation == Validation.GET_PROFILE_SUCCESS){
+            if (validation == Validation.GET_PROFILE_SUCCESS) {
                 members.clear();
                 members.addAll(loadedMembers);
-                boardMemberItemAdapter.notifyItemInserted(members.size()-1);
+                boardMemberItemAdapter.notifyItemInserted(members.size() - 1);
                 recyclerView.scrollToPosition(0);
                 viewModel.setRecentPageNumber(members.size());
-            }
-            else if(validation == Validation.NETWORK_FAILED){
+            } else if (validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else{
+            } else {
                 Log.e(TAG, "공연 게시글을 불러오지 못했습니다.");
                 Toast.makeText(context, "결과를 알 수 없습니다.", Toast.LENGTH_SHORT).show();
             }
@@ -110,12 +101,13 @@ public class BoardMemberFragment extends Fragment implements RefreshableFragment
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if(!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE && !members.isEmpty() &&  !isLoading){
+                if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE && !members.isEmpty() && !isLoading) {
                     isLoading = true;
                     viewModel.loadNextMembers();
                     handler.postDelayed(() -> isLoading = false, DEBOUNCE_DELAY);
                 }
             }
+
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -126,15 +118,13 @@ public class BoardMemberFragment extends Fragment implements RefreshableFragment
         viewModel.getIsLoadNextMembersSuccess().observe(getViewLifecycleOwner(), isLoadNextMembersSuccess -> {
             Validation validation = isLoadNextMembersSuccess.getValidation();
             List<MemberProfileRankResponse> loadedMembers = isLoadNextMembersSuccess.getData();
-            if(validation == Validation.GET_PROFILE_SUCCESS){
+            if (validation == Validation.GET_PROFILE_SUCCESS) {
                 members.addAll(loadedMembers);
-                boardMemberItemAdapter.notifyItemInserted(members.size()-1);
+                boardMemberItemAdapter.notifyItemInserted(members.size() - 1);
                 viewModel.setRecentPageNumber(loadedMembers.size());
-            }
-            else if(validation == Validation.NETWORK_FAILED){
+            } else if (validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else{
+            } else {
                 Log.e(TAG, "공연 게시글을 불러오지 못했습니다.");
                 Toast.makeText(context, "결과를 알 수 없습니다.", Toast.LENGTH_SHORT).show();
             }
@@ -143,7 +133,7 @@ public class BoardMemberFragment extends Fragment implements RefreshableFragment
         return root;
     }
 
-    public void onMemberClicked(Integer targetMemberId){
+    public void onMemberClicked(Integer targetMemberId) {
         MemberProfileFragment memberProfileFragment = new MemberProfileFragment(context);
         Bundle bundle = new Bundle();
         bundle.putInt("targetMemberId", targetMemberId);

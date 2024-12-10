@@ -25,7 +25,6 @@ import com.example.moum.data.entity.Article;
 import com.example.moum.data.entity.Member;
 import com.example.moum.data.entity.Moum;
 import com.example.moum.data.entity.Performance;
-import com.example.moum.data.entity.Record;
 import com.example.moum.databinding.FragmentHomeBinding;
 import com.example.moum.utils.ImageManager;
 import com.example.moum.utils.SharedPreferenceManager;
@@ -35,9 +34,9 @@ import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.view.community.BoardFreeDetailActivity;
 import com.example.moum.view.community.BoardRecruitDetailActivity;
 import com.example.moum.view.community.PerformanceActivity;
+import com.example.moum.view.home.adapter.HomeArticleHotAdapter;
 import com.example.moum.view.home.adapter.HomeBannerAdapter;
 import com.example.moum.view.home.adapter.HomeMoumAdapter;
-import com.example.moum.view.home.adapter.HomeArticleHotAdapter;
 import com.example.moum.view.home.adapter.HomePerformHotAdapter;
 import com.example.moum.view.profile.MemberProfileFragment;
 import com.example.moum.viewmodel.home.HomeViewModel;
@@ -46,7 +45,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
-  private FragmentHomeBinding binding;
+    private FragmentHomeBinding binding;
     private SharedPreferenceManager sharedPreferenceManager;
     private HomeViewModel viewModel;
     private Context context;
@@ -69,7 +68,7 @@ public class HomeFragment extends Fragment {
         String accessToken = sharedPreferenceManager.getCache(getString(R.string.user_access_token_key), "no-access-token");
         String username = sharedPreferenceManager.getCache(getString(R.string.user_username_key), "no-memberId");
         memberId = sharedPreferenceManager.getCache(getString(R.string.user_id_key), -1);
-        if(accessToken.isEmpty() || accessToken.equals("no-access-token")){
+        if (accessToken.isEmpty() || accessToken.equals("no-access-token")) {
             Toast.makeText(context, "로그인 정보가 없어 초기 페이지로 돌아갑니다.", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(context, InitialActivity.class);
             startActivity(intent);
@@ -115,19 +114,16 @@ public class HomeFragment extends Fragment {
         viewModel.getIsLoadArticlesHotSuccess().observe(getViewLifecycleOwner(), isLoadArticlesHotSuccess -> {
             Validation validation = isLoadArticlesHotSuccess.getValidation();
             List<Article> loadedArticles = isLoadArticlesHotSuccess.getData();
-            if(validation == Validation.ARTICLE_LIST_GET_SUCCESS && loadedArticles.isEmpty()){
+            if (validation == Validation.ARTICLE_LIST_GET_SUCCESS && loadedArticles.isEmpty()) {
                 articles.clear();
-            }
-            else if(validation == Validation.ARTICLE_LIST_GET_SUCCESS){
+            } else if (validation == Validation.ARTICLE_LIST_GET_SUCCESS) {
                 articles.clear();
                 articles.addAll(loadedArticles);
-                articleHotAdapter.notifyItemInserted(articles.size()-1);
-            }
-            else if(validation == Validation.NETWORK_FAILED){
+                articleHotAdapter.notifyItemInserted(articles.size() - 1);
+            } else if (validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패했습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "호출 실패");
-            }
-            else{
+            } else {
                 Toast.makeText(context, "실시간 인기글을 불러올 수 없습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "알 수 없는 validation");
             }
@@ -138,24 +134,23 @@ public class HomeFragment extends Fragment {
             Validation validation = isLoadMoumsSuccess.getValidation();
             List<Moum> loadedMoums = isLoadMoumsSuccess.getData();
             List<Moum> ingMoums = new ArrayList<>();
-            if(loadedMoums != null)
-                for(Moum loadedMoum : loadedMoums){
-                    if(!loadedMoum.getProcess().getFinishStatus())
+            if (loadedMoums != null) {
+                for (Moum loadedMoum : loadedMoums) {
+                    if (!loadedMoum.getProcess().getFinishStatus()) {
                         ingMoums.add(loadedMoum);
+                    }
                 }
-            if(validation == Validation.GET_MOUM_SUCCESS && ingMoums.isEmpty()){
-                moums.clear();
             }
-            else if(validation == Validation.GET_MOUM_SUCCESS){
+            if (validation == Validation.GET_MOUM_SUCCESS && ingMoums.isEmpty()) {
+                moums.clear();
+            } else if (validation == Validation.GET_MOUM_SUCCESS) {
                 moums.clear();
                 moums.addAll(loadedMoums);
-                moumAdapter.notifyItemInserted(moums.size()-1);
-            }
-            else if(validation == Validation.NETWORK_FAILED){
+                moumAdapter.notifyItemInserted(moums.size() - 1);
+            } else if (validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패했습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "호출 실패");
-            }
-            else{
+            } else {
                 Toast.makeText(context, "나의 모음을 불러올 수 없습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "알 수 없는 validation");
             }
@@ -165,19 +160,16 @@ public class HomeFragment extends Fragment {
         viewModel.getIsLoadPerformsHotSuccess().observe(getViewLifecycleOwner(), isLoadPerformsHotSuccess -> {
             Validation validation = isLoadPerformsHotSuccess.getValidation();
             List<Performance> loadedPerforms = isLoadPerformsHotSuccess.getData();
-            if(validation == Validation.PERFORMANCE_HOT_LIST_GET_SUCCESS && loadedPerforms.isEmpty()){
+            if (validation == Validation.PERFORMANCE_HOT_LIST_GET_SUCCESS && loadedPerforms.isEmpty()) {
                 performances.clear();
-            }
-            else if(validation == Validation.PERFORMANCE_HOT_LIST_GET_SUCCESS){
+            } else if (validation == Validation.PERFORMANCE_HOT_LIST_GET_SUCCESS) {
                 performances.clear();
                 performances.addAll(loadedPerforms);
-                performanceHotAdapter.notifyItemInserted(performances.size()-1);
-            }
-            else if(validation == Validation.NETWORK_FAILED){
+                performanceHotAdapter.notifyItemInserted(performances.size() - 1);
+            } else if (validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패했습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "호출 실패");
-            }
-            else{
+            } else {
                 Toast.makeText(context, "공연 게시글을 불러올 수 없습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "알 수 없는 validation");
             }
@@ -187,19 +179,18 @@ public class HomeFragment extends Fragment {
         viewModel.getIsLoadMemberProfileSuccess().observe(getViewLifecycleOwner(), isLoadMemberProfileSuccess -> {
             Validation validation = isLoadMemberProfileSuccess.getValidation();
             Member tMember = isLoadMemberProfileSuccess.getData();
-            if(validation == Validation.GET_PROFILE_SUCCESS){
-                if(ImageManager.isUrlValid(tMember.getProfileImageUrl()))
+            if (validation == Validation.GET_PROFILE_SUCCESS) {
+                if (ImageManager.isUrlValid(tMember.getProfileImageUrl())) {
                     Glide.with(context)
                             .applyDefaultRequestOptions(new RequestOptions()
-                            .placeholder(R.drawable.background_circle_darkgray_size_fit)
-                            .error(R.drawable.background_circle_darkgray_size_fit))
+                                    .placeholder(R.drawable.background_circle_darkgray_size_fit)
+                                    .error(R.drawable.background_circle_darkgray_size_fit))
                             .load(tMember.getProfileImageUrl())
                             .into(binding.imageProfile);
-            }
-            else if(validation == Validation.NETWORK_FAILED){
+                }
+            } else if (validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else{
+            } else {
                 Log.e(TAG, "프로필을 불러올 수 없습니다.");
                 Toast.makeText(context, "프로필을 불러올 수 없습니다.", Toast.LENGTH_SHORT).show();
             }
@@ -237,16 +228,16 @@ public class HomeFragment extends Fragment {
         binding = null;
     }
 
-    public void onArticleClicked(Integer articleId, String category){
+    public void onArticleClicked(Integer articleId, String category) {
         Intent intent = new Intent(context, BoardFreeDetailActivity.class);
-        if(category.equals("RECRUIT_BOARD")){
+        if (category.equals("RECRUIT_BOARD")) {
             intent = new Intent(context, BoardRecruitDetailActivity.class);
         }
         intent.putExtra("targetBoardId", articleId);
         context.startActivity(intent);
     }
 
-    public void onPerformClicked(Integer performId){
+    public void onPerformClicked(Integer performId) {
         Intent intent = new Intent(context, PerformanceActivity.class);
         intent.putExtra("performId", performId);
         context.startActivity(intent);

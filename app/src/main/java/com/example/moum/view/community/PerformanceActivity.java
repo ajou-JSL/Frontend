@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -32,10 +31,7 @@ import com.example.moum.utils.Validation;
 import com.example.moum.utils.WrapContentLinearLayoutManager;
 import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.view.community.adapter.ParticipantNotSelectableAdapter;
-import com.example.moum.view.dialog.MoumDeleteDialog;
 import com.example.moum.view.dialog.PerformDeleteDialog;
-import com.example.moum.view.moum.MoumManageActivity;
-import com.example.moum.view.moum.MoumUpdateActivity;
 import com.example.moum.view.profile.MemberProfileFragment;
 import com.example.moum.view.profile.TeamProfileFragment;
 import com.example.moum.viewmodel.community.PerformanceViewModel;
@@ -108,32 +104,41 @@ public class PerformanceActivity extends AppCompatActivity {
             Performance loadedPerform = isLoadPerformanceSuccess.getData();
             if (validation == Validation.PERFORMANCE_GET_SUCCESS) {
                 performance = loadedPerform;
-                if (loadedPerform.getPerformanceImageUrl() != null)
+                if (loadedPerform.getPerformanceImageUrl() != null) {
                     Glide.with(context)
                             .applyDefaultRequestOptions(new RequestOptions()
-                            .placeholder(R.drawable.background_gray)
-                            .error(R.drawable.background_gray))
+                                    .placeholder(R.drawable.background_gray)
+                                    .error(R.drawable.background_gray))
                             .load(loadedPerform.getPerformanceImageUrl()).into(binding.imageviewPerform);
-                if (loadedPerform.getPerformanceName() != null)
+                }
+                if (loadedPerform.getPerformanceName() != null) {
                     binding.textviewPerformName.setText(loadedPerform.getPerformanceName());
-                if (loadedPerform.getPerformanceDescription() != null)
+                }
+                if (loadedPerform.getPerformanceDescription() != null) {
                     binding.textviewPerformDescription.setText(loadedPerform.getPerformanceDescription());
-                if (loadedPerform.getPerformanceLocation() != null)
+                }
+                if (loadedPerform.getPerformanceLocation() != null) {
                     binding.textviewPerformPlace.setText(loadedPerform.getPerformanceLocation());
-                if (loadedPerform.getPerformancePrice() != null)
+                }
+                if (loadedPerform.getPerformancePrice() != null) {
                     binding.textviewPerformPrice.setText(String.format("%,d", loadedPerform.getPerformancePrice()));
-                if (loadedPerform.getPerformanceStartDate() != null && loadedPerform.getPerformanceEndDate() != null)
-                    binding.textviewPerformTime.setText(String.format("%s ~ %s", TimeManager.strToDate(loadedPerform.getPerformanceStartDate()), TimeManager.strToDate(loadedPerform.getPerformanceEndDate())));
-                else if (loadedPerform.getPerformanceStartDate() == null && loadedPerform.getPerformanceEndDate() != null)
+                }
+                if (loadedPerform.getPerformanceStartDate() != null && loadedPerform.getPerformanceEndDate() != null) {
+                    binding.textviewPerformTime.setText(String.format("%s ~ %s", TimeManager.strToDate(loadedPerform.getPerformanceStartDate()),
+                            TimeManager.strToDate(loadedPerform.getPerformanceEndDate())));
+                } else if (loadedPerform.getPerformanceStartDate() == null && loadedPerform.getPerformanceEndDate() != null) {
                     binding.textviewPerformTime.setText(String.format("%s", TimeManager.strToDate(loadedPerform.getPerformanceEndDate())));
-                else if (loadedPerform.getPerformanceStartDate() != null && loadedPerform.getPerformanceEndDate() == null)
+                } else if (loadedPerform.getPerformanceStartDate() != null && loadedPerform.getPerformanceEndDate() == null) {
                     binding.textviewPerformTime.setText(String.format("%s", TimeManager.strToDate(loadedPerform.getPerformanceStartDate())));
-                else
+                } else {
                     binding.textviewPerformTime.setText("");
-                if(loadedPerform.getLikesCount() != null)
+                }
+                if (loadedPerform.getLikesCount() != null) {
                     binding.textviewLikes.setText(String.format("%d", loadedPerform.getLikesCount()));
-                if(loadedPerform.getViewCount() != null)
+                }
+                if (loadedPerform.getViewCount() != null) {
                     binding.textviewViews.setText(String.format("%d", loadedPerform.getViewCount()));
+                }
 
                 /*단체 정보 불러오기*/
                 viewModel.loadTeam(performance.getTeamId());
@@ -152,17 +157,20 @@ public class PerformanceActivity extends AppCompatActivity {
             Team loadedTeam = isLoadTeamSuccess.getData();
             if (validation == Validation.GET_TEAM_SUCCESS) {
                 team = loadedTeam;
-                if (loadedTeam.getFileUrl() != null)
+                if (loadedTeam.getFileUrl() != null) {
                     Glide.with(context)
                             .applyDefaultRequestOptions(new RequestOptions()
-                            .placeholder(R.drawable.background_more_rounded_gray_size_fit)
-                            .error(R.drawable.background_more_rounded_gray_size_fit))
+                                    .placeholder(R.drawable.background_more_rounded_gray_size_fit)
+                                    .error(R.drawable.background_more_rounded_gray_size_fit))
                             .load(loadedTeam.getFileUrl()).into(binding.imageviewPerformTeamProfile);
+                }
                 binding.imageviewPerformTeamProfile.setClipToOutline(true);
-                if (loadedTeam.getTeamName() != null)
+                if (loadedTeam.getTeamName() != null) {
                     binding.textviewPerformTeamName.setText(loadedTeam.getTeamName());
-                if (loadedTeam.getDescription() != null)
+                }
+                if (loadedTeam.getDescription() != null) {
                     binding.textviewPerformTeamDescription.setText(loadedTeam.getDescription());
+                }
                 if (loadedTeam.getMembers() != null && !loadedTeam.getMembers().isEmpty()) {
                     for (Member member : loadedTeam.getMembers()) {
                         for (Integer participantId : performance.getMembersId()) {
@@ -179,14 +187,11 @@ public class PerformanceActivity extends AppCompatActivity {
                         onTeamClicked(loadedTeam.getTeamId());
                     }
                 });
-            }
-            else if (validation == Validation.TEAM_NOT_FOUND) {
+            } else if (validation == Validation.TEAM_NOT_FOUND) {
                 Toast.makeText(context, "팀을 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if (validation == Validation.NETWORK_FAILED) {
+            } else if (validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else {
+            } else {
                 Toast.makeText(context, "팀 정보를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
             }
         });
@@ -197,7 +202,7 @@ public class PerformanceActivity extends AppCompatActivity {
         dropdownMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!id.equals(team.getLeaderId())) return;
+                if (!id.equals(team.getLeaderId())) return;
                 PopupMenu popupMenu = new PopupMenu(PerformanceActivity.this, dropdownMenu);
                 for (int i = 0; i < etcList.length; i++) {
                     popupMenu.getMenu().add(etcList[i]);
@@ -207,15 +212,15 @@ public class PerformanceActivity extends AppCompatActivity {
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         String selectedItem = menuItem.getTitle().toString();
                         if (selectedItem.equals("신고하기")) {
-                           //TODO 신고하기
+                            //TODO 신고하기
                         } else if (selectedItem.equals("URL 복사하기")) {
                             //TODO 복사하기
-                        }else if (selectedItem.equals("수정하기")) {
+                        } else if (selectedItem.equals("수정하기")) {
                             Intent intent = new Intent(PerformanceActivity.this, PerformanceUpdateActivity.class);
                             intent.putExtra("performId", performId);
                             intent.putExtra("teamId", team.getTeamId());
                             startActivity(intent);
-                        }else if (selectedItem.equals("삭제하기")) {
+                        } else if (selectedItem.equals("삭제하기")) {
                             PerformDeleteDialog performDeleteDialog = new PerformDeleteDialog(context, performance.getPerformanceName());
                             performDeleteDialog.show();
                         }
@@ -232,14 +237,11 @@ public class PerformanceActivity extends AppCompatActivity {
             if (validation == Validation.PERFORMANCE_DELETE_SUCCESS) {
                 Toast.makeText(context, "공연 게시글이 삭제되었습니다.", Toast.LENGTH_SHORT).show();
                 finish();
-            }
-            else if (validation == Validation.ILLEGAL_ARGUMENT) {
+            } else if (validation == Validation.ILLEGAL_ARGUMENT) {
                 Toast.makeText(context, "유효하지 않은 데이터입니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if (validation == Validation.NO_AUTHORITY) {
+            } else if (validation == Validation.NO_AUTHORITY) {
                 Toast.makeText(context, "권한이 없습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else {
+            } else {
                 Toast.makeText(context, "공연 게시글을 삭제하지 못했습니다.", Toast.LENGTH_SHORT).show();
             }
         });
@@ -253,7 +255,7 @@ public class PerformanceActivity extends AppCompatActivity {
 
     }
 
-    public void onParticipantClicked(Integer memberId){
+    public void onParticipantClicked(Integer memberId) {
         MemberProfileFragment memberProfileFragment = new MemberProfileFragment(context);
         Bundle bundle = new Bundle();
         bundle.putInt("targetMemberId", memberId);
@@ -261,7 +263,7 @@ public class PerformanceActivity extends AppCompatActivity {
         memberProfileFragment.show(getSupportFragmentManager(), memberProfileFragment.getTag());
     }
 
-    public void onTeamClicked(Integer teamId){
+    public void onTeamClicked(Integer teamId) {
         TeamProfileFragment teamProfileFragment = new TeamProfileFragment(context);
         Bundle bundle = new Bundle();
         bundle.putInt("targetTeamId", teamId);
@@ -269,7 +271,7 @@ public class PerformanceActivity extends AppCompatActivity {
         teamProfileFragment.show(getSupportFragmentManager(), teamProfileFragment.getTag());
     }
 
-    public void onPerformDeleteDialogYesClicked(){
+    public void onPerformDeleteDialogYesClicked() {
         viewModel.deletePerformance(performId);
     }
 }

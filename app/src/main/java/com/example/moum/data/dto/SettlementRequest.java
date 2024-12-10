@@ -5,7 +5,7 @@ public class SettlementRequest {
     private Integer fee;
     private Integer moumId;
 
-    public SettlementRequest(String settlementName, Integer fee, Integer moumId){
+    public SettlementRequest(String settlementName, Integer fee, Integer moumId) {
         this.settlementName = settlementName;
         this.fee = fee;
         this.moumId = moumId;

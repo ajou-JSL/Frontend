@@ -12,7 +12,6 @@ import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.moum.R;
 import com.example.moum.view.community.PerformanceActivity;
-import com.example.moum.view.moum.MoumManageActivity;
 
 public class PerformDeleteDialog extends Dialog {
     private PerformanceActivity performanceActivity;
@@ -24,7 +23,7 @@ public class PerformDeleteDialog extends Dialog {
     private final String TAG = getClass().toString();
     private Context context;
 
-    public PerformDeleteDialog(@NonNull Context context, String performName){
+    public PerformDeleteDialog(@NonNull Context context, String performName) {
         super(context);
         this.performanceActivity = (PerformanceActivity) context;
         this.performName = performName;

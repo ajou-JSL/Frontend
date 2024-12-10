@@ -34,7 +34,7 @@ public class MyInfoReportNQuestionActivity extends AppCompatActivity {
         String accessToken = sharedPreferenceManager.getCache(getString(R.string.user_access_token_key), "no-access-token");
         String username = sharedPreferenceManager.getCache(getString(R.string.user_username_key), "no-memberId");
         Integer id = sharedPreferenceManager.getCache(getString(R.string.user_id_key), -1);
-        if(accessToken.isEmpty() || accessToken.equals("no-access-token")){
+        if (accessToken.isEmpty() || accessToken.equals("no-access-token")) {
             Toast.makeText(context, "로그인 정보가 없어 초기 페이지로 돌아갑니다.", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(context, InitialActivity.class);
             startActivity(intent);

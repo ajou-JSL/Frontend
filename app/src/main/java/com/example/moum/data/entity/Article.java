@@ -46,45 +46,83 @@ public class Article {
 
     public String getGenre() { return genre; }
 
-    public String getAuthor() {return author;}
+    public String getAuthor() {
+        return author;
+    }
 
-    public String getAuthorName() { return authorName; }
+    public String getAuthorName() {
+        return authorName;
+    }
 
-    public String getCategory() {return category;}
+    public String getCategory() {
+        return category;
+    }
 
-    public String getContent() {return content;}
+    public String getContent() {
+        return content;
+    }
 
-    public String getTitle() {return title;}
+    public String getTitle() {
+        return title;
+    }
 
-    public String getCreateAt() {return createdAt;}
+    public String getCreateAt() {
+        return createdAt;
+    }
 
-    public String getUpdateAt() { return updatedAt; }
+    public String getUpdateAt() {
+        return updatedAt;
+    }
 
     public String getFileUrl() { return fileUrl; }
 
-    public void setId(Integer id) {this.id = id;}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-    public void setAuthorId(Integer authorId) { this.authorId = authorId; }
+    public void setAuthorId(Integer authorId) {
+        this.authorId = authorId;
+    }
 
-    public void setAuthor(String author) {this.author = author;}
+    public void setAuthor(String author) {
+        this.author = author;
+    }
 
-    public void setCategory(String category) {this.category = category;}
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
-    public void setCommentsCounts(Integer commentCounts) {this.commentsCounts = commentCounts;}
+    public void setCommentsCounts(Integer commentCounts) {
+        this.commentsCounts = commentCounts;
+    }
 
-    public void setComments(List<Comment> comments) {this.comments = comments;}
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
 
-    public void setContent(String content) {this.content = content;}
+    public void setContent(String content) {
+        this.content = content;
+    }
 
-    public void setLikeCounts(Integer likeCounts) {this.likeCounts = likeCounts;}
+    public void setLikeCounts(Integer likeCounts) {
+        this.likeCounts = likeCounts;
+    }
 
-    public void setTitle(String title) {this.title = title;}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-    public void setViewCounts(Integer viewCounts) {this.viewCounts = viewCounts;}
+    public void setViewCounts(Integer viewCounts) {
+        this.viewCounts = viewCounts;
+    }
 
-    public void setCreateAt(String createAt) {this.createdAt = createAt;}
+    public void setCreateAt(String createAt) {
+        this.createdAt = createAt;
+    }
 
-    public void setUpdateAt(String updateAt) { this.updatedAt = updateAt; }
+    public void setUpdateAt(String updateAt) {
+        this.updatedAt = updateAt;
+    }
 
     public void setFileUrl(String fileUrl) { this.fileUrl = fileUrl; }
 

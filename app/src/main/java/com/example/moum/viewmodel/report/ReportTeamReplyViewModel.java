@@ -14,7 +14,7 @@ public class ReportTeamReplyViewModel extends AndroidViewModel {
     private ReportRepository reportRepository;
     private final MutableLiveData<Result<ReportTeam>> isLoadReportTeamSuccess = new MutableLiveData<>();
 
-    public ReportTeamReplyViewModel(Application application){
+    public ReportTeamReplyViewModel(Application application) {
         super(application);
         reportRepository = ReportRepository.getInstance(application);
     }
@@ -23,11 +23,11 @@ public class ReportTeamReplyViewModel extends AndroidViewModel {
         return isLoadReportTeamSuccess;
     }
 
-    public void setIsLoadReportTeamSuccess(Result<ReportTeam> isLoadReportTeamSuccess){
+    public void setIsLoadReportTeamSuccess(Result<ReportTeam> isLoadReportTeamSuccess) {
         this.isLoadReportTeamSuccess.setValue(isLoadReportTeamSuccess);
     }
 
-    public void loadReportTeam(Integer reportTeamId){
+    public void loadReportTeam(Integer reportTeamId) {
         /*goto repository*/
         reportRepository.loadReportTeam(reportTeamId, this::setIsLoadReportTeamSuccess);
     }

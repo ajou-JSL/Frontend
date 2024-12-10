@@ -31,7 +31,7 @@ public class MoumPaymentChatroomViewModel extends AndroidViewModel {
     private final MutableLiveData<Validation> isCreateChatroomSuccess = new MutableLiveData<>();
 
 
-    public MoumPaymentChatroomViewModel(Application application){
+    public MoumPaymentChatroomViewModel(Application application) {
         super(application);
         chatroomRepository = ChatroomRepository.getInstance(application);
         teamRepository = TeamRepository.getInstance(application);
@@ -53,27 +53,28 @@ public class MoumPaymentChatroomViewModel extends AndroidViewModel {
         return isCreateChatroomSuccess;
     }
 
-    public void setChatroomProfile(Uri uri){
+    public void setChatroomProfile(Uri uri) {
         chatroomProfile.setValue(uri);
     }
 
-    private void setIsLoadTeamSuccess(Result<Team> isLoadTeamSuccess){
+    private void setIsLoadTeamSuccess(Result<Team> isLoadTeamSuccess) {
         this.isLoadTeamSuccess.setValue(isLoadTeamSuccess);
     }
 
-    private void setIsCreateChatroomSuccess(Validation validation){
+    private void setIsCreateChatroomSuccess(Validation validation) {
         this.isCreateChatroomSuccess.setValue(validation);
     }
 
-    public void setInfo(Integer userId, String username, Integer teamId, String chatroomName, ArrayList<Member> members, ArrayList<Boolean> isParticipates){
+    public void setInfo(Integer userId, String username, Integer teamId, String chatroomName, ArrayList<Member> members,
+            ArrayList<Boolean> isParticipates) {
         this.chatroom = new Chatroom(chatroomName, Chatroom.ChatroomType.MULTI_CHAT, teamId, userId);
         this.members = members;
         this.isParticipates = isParticipates;
     }
 
-    public void loadTeam(Integer teamId){
+    public void loadTeam(Integer teamId) {
         /*valid check*/
-        if(teamId == -1){
+        if (teamId == -1) {
             Result<Team> result = new Result<>(Validation.TEAM_NOT_FOUND);
             setIsLoadTeamSuccess(result);
             return;
@@ -83,18 +84,16 @@ public class MoumPaymentChatroomViewModel extends AndroidViewModel {
         teamRepository.loadTeam(teamId, this::setIsLoadTeamSuccess);
     }
 
-    public void createChatroom(Context context){
+    public void createChatroom(Context context) {
         /*valid check*/
         Result<Team> isLoadMembersOfGroupSuccessVal = isLoadTeamSuccess.getValue();
-        if(isLoadMembersOfGroupSuccessVal == null || isLoadMembersOfGroupSuccessVal.getValidation() != Validation.GET_TEAM_SUCCESS){
+        if (isLoadMembersOfGroupSuccessVal == null || isLoadMembersOfGroupSuccessVal.getValidation() != Validation.GET_TEAM_SUCCESS) {
             setIsCreateChatroomSuccess(Validation.CHATROOM_NOT_LOADED);
             return;
-        }
-        else if(members == null || isParticipates == null) {
+        } else if (members == null || isParticipates == null) {
             setIsCreateChatroomSuccess(Validation.CHATROOM_NOT_LOADED);
             return;
-        }
-        else if(chatroom.getName() == null || chatroom.getName().isEmpty()) {
+        } else if (chatroom.getName() == null || chatroom.getName().isEmpty()) {
             setIsCreateChatroomSuccess(Validation.CHATROOM_NAME_EMPTY);
             return;
         }
@@ -103,15 +102,16 @@ public class MoumPaymentChatroomViewModel extends AndroidViewModel {
         ArrayList<Integer> participants = new ArrayList<>();
         File chatroomProfileFile = null;
         for (int i = 0; i < members.size(); i++) {
-            if (isParticipates.get(i))
+            if (isParticipates.get(i)) {
                 participants.add(members.get(i).getId());
+            }
         }
-        if(chatroomProfile.getValue() != null){
+        if (chatroomProfile.getValue() != null) {
             Uri uri = chatroomProfile.getValue();
             ImageManager imageManager = new ImageManager(context);
             chatroomProfileFile = imageManager.convertUriToFile(uri);
         }
-        if(participants.isEmpty() || participants.size() < 2){
+        if (participants.isEmpty() || participants.size() < 2) {
             setIsCreateChatroomSuccess(Validation.PARTICIPATE_AT_LEAST_TWO);
             return;
         }

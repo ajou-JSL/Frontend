@@ -21,7 +21,8 @@ public class MoumRequest {
     private ArrayList<Music> music;
     private Genre genre;
 
-    public MoumRequest(String moumName, String moumDescription, String performLocation, String startDate, String endDate, Integer price, Integer leaderId, Integer teamId, ArrayList<Member> members, ArrayList<Record> records, ArrayList<Music> music, Genre genre){
+    public MoumRequest(String moumName, String moumDescription, String performLocation, String startDate, String endDate, Integer price,
+            Integer leaderId, Integer teamId, ArrayList<Member> members, ArrayList<Record> records, ArrayList<Music> music, Genre genre) {
         this.moumName = moumName;
         this.moumDescription = moumDescription;
         this.performLocation = performLocation;

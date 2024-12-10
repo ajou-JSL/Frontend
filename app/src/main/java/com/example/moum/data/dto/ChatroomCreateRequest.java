@@ -1,9 +1,6 @@
 package com.example.moum.data.dto;
 
-import com.example.moum.data.entity.Chatroom;
-
 import java.util.ArrayList;
-import java.util.List;
 
 public class ChatroomCreateRequest {
     private String name;
@@ -12,7 +9,7 @@ public class ChatroomCreateRequest {
     private Integer leaderId;
     private ArrayList<Integer> members;
 
-    public ChatroomCreateRequest(String name, Integer type, Integer teamId, Integer leaderId, ArrayList<Integer> members){
+    public ChatroomCreateRequest(String name, Integer type, Integer teamId, Integer leaderId, ArrayList<Integer> members) {
         this.name = name;
         this.type = type;
         this.teamId = teamId;
@@ -60,19 +57,4 @@ public class ChatroomCreateRequest {
         return leaderId;
     }
 
-    public static class Member {
-        private Integer memberId;
-
-        public Member(Integer memberId){
-            this.memberId = memberId;
-        }
-
-        public void setMemberId(Integer memberId) {
-            this.memberId = memberId;
-        }
-
-        public Integer getMemberId() {
-            return memberId;
-        }
-    }
 }

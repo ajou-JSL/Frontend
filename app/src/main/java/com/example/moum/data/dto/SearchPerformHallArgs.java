@@ -20,12 +20,12 @@ public class SearchPerformHallArgs {
     private Boolean hasMic;
     private Boolean hasDrums;
 
-    public SearchPerformHallArgs(){
+    public SearchPerformHallArgs() {
         sortBy = "distance";
         orderBy = "asc";
     }
 
-    public void clear(){
+    public void clear() {
         sortBy = "distance";
         orderBy = "asc";
         name = null;

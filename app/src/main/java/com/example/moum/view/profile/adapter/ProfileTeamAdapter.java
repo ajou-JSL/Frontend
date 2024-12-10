@@ -1,12 +1,7 @@
 package com.example.moum.view.profile.adapter;
 
-import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
-
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Build;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,17 +15,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.moum.R;
-import com.example.moum.data.entity.Member;
 import com.example.moum.data.entity.Team;
-import com.example.moum.view.chat.adapter.ChatroomParticipantAdapter;
 import com.example.moum.view.profile.MemberProfileFragment;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
-public class ProfileTeamAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class ProfileTeamAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<Team> teams;
     private Context context;
     private MemberProfileFragment memberProfileFragment;
@@ -61,7 +51,7 @@ public class ProfileTeamAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         return teams.size();
     }
 
-    static class ProfileTeamViewHolder extends RecyclerView.ViewHolder{
+    static class ProfileTeamViewHolder extends RecyclerView.ViewHolder {
         private Team team;
         private TextView teamName;
         private ImageView teamProfile;
@@ -77,14 +67,14 @@ public class ProfileTeamAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
 
         @RequiresApi(api = Build.VERSION_CODES.O)
-        public void bind(Team team){
+        public void bind(Team team) {
             this.team = team;
             teamName.setText(team.getTeamName());
             teamProfile.setClipToOutline(true);
             Glide.with(context)
                     .applyDefaultRequestOptions(new RequestOptions()
-                    .placeholder(R.drawable.background_more_rounded_gray_size_fit)
-                    .error(R.drawable.background_more_rounded_gray_size_fit))
+                            .placeholder(R.drawable.background_more_rounded_gray_size_fit)
+                            .error(R.drawable.background_more_rounded_gray_size_fit))
                     .load(team.getFileUrl()).into(teamProfile);
             teamProfile.setOnClickListener(new View.OnClickListener() {
                 @Override

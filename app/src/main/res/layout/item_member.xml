@@ -23,7 +23,7 @@
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/participant_profile"/>
+        app:layout_constraintTop_toBottomOf="@id/participant_profile" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/participant_profile"

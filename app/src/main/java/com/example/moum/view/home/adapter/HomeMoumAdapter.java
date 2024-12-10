@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -18,9 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moum.R;
 import com.example.moum.data.entity.Moum;
-import com.example.moum.view.home.HomeFragment;
 import com.example.moum.view.moum.MoumManageActivity;
-import com.example.moum.view.moum.adapter.MoumAdapter;
 
 import java.util.ArrayList;
 
@@ -53,7 +50,7 @@ public class HomeMoumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return moums.size();
     }
 
-    static class HomeMoumViewModel extends RecyclerView.ViewHolder{
+    static class HomeMoumViewModel extends RecyclerView.ViewHolder {
         private Moum moum;
         private TextView moumName;
         private TextView moumPlace;
@@ -79,19 +76,21 @@ public class HomeMoumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         public void bind(Moum moum) {
             this.moum = moum;
             moumName.setText(moum.getMoumName());
-            if(moum.getPerformLocation() != null && !moum.getPerformLocation().isEmpty()) moumPlace.setText(moum.getPerformLocation());
-            if(moum.getStartDate() != null && !moum.getStartDate().isEmpty() && moum.getEndDate() != null && !moum.getEndDate().isEmpty())
+            if (moum.getPerformLocation() != null && !moum.getPerformLocation().isEmpty()) moumPlace.setText(moum.getPerformLocation());
+            if (moum.getStartDate() != null && !moum.getStartDate().isEmpty() && moum.getEndDate() != null && !moum.getEndDate().isEmpty()) {
                 moumDate.setText(String.format("%s ~ %s", moum.getStartDate(), moum.getEndDate()));
-            else if(moum.getStartDate() != null && !moum.getStartDate().isEmpty() && (moum.getEndDate() == null || moum.getEndDate().isEmpty()))
+            } else if (moum.getStartDate() != null && !moum.getStartDate().isEmpty() && (moum.getEndDate() == null || moum.getEndDate().isEmpty())) {
                 moumDate.setText(String.format("%s", moum.getStartDate()));
-            else if(moum.getEndDate() != null && !moum.getEndDate().isEmpty() && (moum.getStartDate() == null || moum.getStartDate().isEmpty()))
+            } else if (moum.getEndDate() != null && !moum.getEndDate().isEmpty() && (moum.getStartDate() == null || moum.getStartDate().isEmpty())) {
                 moumDate.setText(String.format("%s", moum.getEndDate()));
-            else
+            } else {
                 moumDate.setText("");
-            if(moum.getProcess().getFinishStatus())
+            }
+            if (moum.getProcess().getFinishStatus()) {
                 moumState.setText("완료");
-            else
+            } else {
                 moumState.setText("진행중");
+            }
             moumProgress.setProgress(moum.getProcess().getProcessPercentage());
             topView.setOnClickListener(new View.OnClickListener() {
                 @Override

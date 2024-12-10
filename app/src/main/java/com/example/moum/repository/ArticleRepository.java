@@ -103,7 +103,7 @@ public class ArticleRepository {
     }
 
     public void loadArticlesHot(Integer page, Integer size, com.example.moum.utils.Callback<Result<List<Article>>> callback){
-       Call<SuccessResponse<List<Article>>> result = articleApi.loadArticlesHot(page, size);
+        Call<SuccessResponse<List<Article>>> result = articleApi.loadArticlesHot(page, size);
         result.enqueue(new retrofit2.Callback<SuccessResponse<List<Article>>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override

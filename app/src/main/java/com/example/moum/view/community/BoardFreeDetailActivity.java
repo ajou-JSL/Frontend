@@ -129,9 +129,9 @@ public class BoardFreeDetailActivity extends AppCompatActivity {
 
         /* 댓글 감시 */
         boardFreeDetailViewModel.getisLoadCommentsSuccess().observe(this, commentList -> {
-                comments.clear();
-                comments.addAll(commentList.getData());
-                adapter.updateComment(commentList.getData());
+            comments.clear();
+            comments.addAll(commentList.getData());
+            adapter.updateComment(commentList.getData());
         });
 
         /* 댓글 삭제 추가 감시 */
@@ -258,7 +258,7 @@ public class BoardFreeDetailActivity extends AppCompatActivity {
             Comment clickedComment = adapter.getCommentAt(position);
             if (clickedComment != null) {
                 Bundle bundle = new Bundle();
-                bundle.putInt("targetMemberId", boardFreeDetailViewModel.getIsLoadMemberSuccess().getValue().getData().getId());
+                bundle.putInt("targetMemberId", clickedComment.getAuthorId());
 
                 // 프로필 프래그먼트 생성
                 MemberProfileFragment fragment = new MemberProfileFragment(context);

@@ -8,7 +8,7 @@ public class EmailCodeRequest {
     @SerializedName("verifyCode")
     private String verifyCode;
 
-    public EmailCodeRequest(String email, String verifyCode){
+    public EmailCodeRequest(String email, String verifyCode) {
 
         this.email = email;
         this.verifyCode = verifyCode;

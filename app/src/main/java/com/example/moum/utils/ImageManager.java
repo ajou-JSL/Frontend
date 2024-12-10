@@ -15,7 +15,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executors;
 import java.util.regex.Pattern;
 
 public class ImageManager {
@@ -23,7 +22,7 @@ public class ImageManager {
     private static int num = 0;
     private final String TAG = getClass().toString();
 
-    public ImageManager(Context context){
+    public ImageManager(Context context) {
         this.context = context;
     }
 
@@ -50,13 +49,14 @@ public class ImageManager {
     }
 
     public static Boolean isUrlValid(String url) {
+        if (url == null || url.equals("null")) return false;
         String urlFormat = "^https://kr\\.object\\.ncloudstorage\\.com/moumstorage/([\\w가-힣\\s-]+/)*[\\w가-힣\\s-]+\\.(jpg|png|jpeg|gif|bmp)$";
         Pattern urlPattern = Pattern.compile(urlFormat, Pattern.CASE_INSENSITIVE); // 대소문자 무시
         return urlPattern.matcher(url).matches();
     }
 
     public File downloadImageToFile(String imageUrl) {
-        try{
+        try {
             return Glide.with(context)
                     .downloadOnly()
                     .load(imageUrl)

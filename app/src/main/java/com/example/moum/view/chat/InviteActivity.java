@@ -12,20 +12,16 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.moum.R;
 import com.example.moum.data.entity.Member;
 import com.example.moum.data.entity.Team;
-import com.example.moum.databinding.ActivityChatCreateChatroomBinding;
 import com.example.moum.databinding.ActivityInviteBinding;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
-import com.example.moum.view.dialog.MoumCreateDialog;
 import com.example.moum.view.dialog.TeamInviteDialog;
-import com.example.moum.viewmodel.chat.ChatCreateChatroomViewModel;
 import com.example.moum.viewmodel.chat.InviteViewModel;
 
 import java.util.ArrayList;
@@ -59,7 +55,7 @@ public class InviteActivity extends AppCompatActivity {
         String accessToken = sharedPreferenceManager.getCache(getString(R.string.user_access_token_key), "no-access-token");
         String username = sharedPreferenceManager.getCache(getString(R.string.user_username_key), "no-memberId");
         memberId = sharedPreferenceManager.getCache(getString(R.string.user_id_key), -1);
-        if(accessToken.isEmpty() || accessToken.equals("no-access-token")){
+        if (accessToken.isEmpty() || accessToken.equals("no-access-token")) {
             Toast.makeText(context, "로그인 정보가 없어 초기 페이지로 돌아갑니다.", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(context, InitialActivity.class);
             startActivity(intent);
@@ -70,7 +66,7 @@ public class InviteActivity extends AppCompatActivity {
         Intent prevIntent = getIntent();
         targetMemberId = prevIntent.getIntExtra("targetMemberId", -1);
         targetMemberName = prevIntent.getStringExtra("targetMemberName");
-        if(targetMemberId == -1){
+        if (targetMemberId == -1) {
             Toast.makeText(context, "멤버 정보를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
             finish();
         }
@@ -91,29 +87,26 @@ public class InviteActivity extends AppCompatActivity {
         viewModel.getIsLoadTeamsAsMemberSuccess().observe(this, result -> {
             teams = result.getData();
             Validation validation = result.getValidation();
-            if(validation == Validation.GROUP_NOT_SELECTED){
+            if (validation == Validation.GROUP_NOT_SELECTED) {
                 binding.inviteTeamError.setText("단체를 선택하세요.");
-            }
-            else if(validation == Validation.NETWORK_FAILED){
+            } else if (validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패했습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "호출 실패 from loadGroups()");
-            }
-            else if(validation == Validation.GET_TEAM_LIST_SUCCESS && teams.isEmpty()) {
+            } else if (validation == Validation.GET_TEAM_LIST_SUCCESS && teams.isEmpty()) {
                 Toast.makeText(context, "속한 단체가 없습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(validation == Validation.GET_TEAM_LIST_SUCCESS) {
+            } else if (validation == Validation.GET_TEAM_LIST_SUCCESS) {
                 int i = 0;
                 teamNameList = new String[teams.size()];
-                for(Team team : teams)
-                    if(team.getLeaderId().equals(memberId)){
+                for (Team team : teams) {
+                    if (team.getLeaderId().equals(memberId)) {
                         teamNameList[i++] = team.getTeamName();
                         teamsAsLeader.add(team);
                     }
-
-                if(teamsAsLeader.isEmpty()){
-                    Toast.makeText(context, "리더로 속한 단체가 없습니다.", Toast.LENGTH_SHORT).show();
                 }
-                else{
+
+                if (teamsAsLeader.isEmpty()) {
+                    Toast.makeText(context, "리더로 속한 단체가 없습니다.", Toast.LENGTH_SHORT).show();
+                } else {
                     /*group 스피너 Adapter 연결*/
                     Spinner groupSpinner = binding.spinnerInvite;
                     ArrayAdapter<String> groupAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, teamNameList);
@@ -126,14 +119,14 @@ public class InviteActivity extends AppCompatActivity {
                             selectedTeam = teamsAsLeader.get(position);
                             binding.inviteTeamError.setText("");
                         }
+
                         @Override
                         public void onNothingSelected(AdapterView<?> parent) {
                             return;
                         }
                     });
                 }
-            }
-            else{
+            } else {
                 Toast.makeText(context, "단체 리스트를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "알 수 없는 validation from loadGroups()");
             }
@@ -149,7 +142,7 @@ public class InviteActivity extends AppCompatActivity {
 
         /*다음 버튼 결과 감시*/
         viewModel.getIsValidCheckSuccess().observe(this, isValidCheckSuccess -> {
-            if(isValidCheckSuccess == Validation.VALID_ALL){
+            if (isValidCheckSuccess == Validation.VALID_ALL) {
                 // valid check 유효하다면, 최종 다이얼로그 띄우기
                 TeamInviteDialog teamInviteDialog = new TeamInviteDialog(this, targetMemberName, selectedTeam.getTeamName());
                 teamInviteDialog.show();
@@ -160,25 +153,20 @@ public class InviteActivity extends AppCompatActivity {
         viewModel.getIsInviteMemberToTeamSuccess().observe(this, isInviteMemberToTeamSuccess -> {
             Validation validation = isInviteMemberToTeamSuccess.getValidation();
             Member invitedMember = isInviteMemberToTeamSuccess.getData();
-            if(validation == Validation.INVITE_MEMBER_SUCCESS){
+            if (validation == Validation.INVITE_MEMBER_SUCCESS) {
                 Toast.makeText(context, invitedMember.getName() + "을 " + selectedTeam.getTeamName() + "에 초대 완료하였습니다.", Toast.LENGTH_SHORT).show();
                 finish();
-            }
-            else if(validation == Validation.MEMBER_NOT_EXIST){
+            } else if (validation == Validation.MEMBER_NOT_EXIST) {
                 Toast.makeText(context, "잘못된 멤버입니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(validation == Validation.TEAM_NOT_FOUND){
+            } else if (validation == Validation.TEAM_NOT_FOUND) {
                 Toast.makeText(context, "단체를 선택하세요.", Toast.LENGTH_SHORT).show();
                 binding.inviteTeamError.setText("단체를 선택하세요.");
                 binding.spinnerInvite.requestFocus();
-            }
-            else if(validation == Validation.NO_AUTHORITY){
+            } else if (validation == Validation.NO_AUTHORITY) {
                 Toast.makeText(context, "단체의 리더가 아닙니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(validation == Validation.NETWORK_FAILED){
+            } else if (validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패했습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else{
+            } else {
                 Toast.makeText(context, "초대에 실패하였습니다", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "알 수 없는 validation from loadGroups()");
             }
@@ -188,13 +176,14 @@ public class InviteActivity extends AppCompatActivity {
         binding.spinnerInvite.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if(hasFocus)
+                if (hasFocus) {
                     binding.inviteTeamError.setText("");
+                }
             }
         });
     }
 
-    public void onDialogYesClicked(){
+    public void onDialogYesClicked() {
         viewModel.inviteMemberToTeam(targetMemberId, selectedTeam.getTeamId());
     }
 }

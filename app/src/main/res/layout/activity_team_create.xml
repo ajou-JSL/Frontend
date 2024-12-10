@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/TeamCreateActivity"
     tools:context=".view.moum.TeamCreateActivity">
+
     <data>
         <!-- ViewModel을 위한 variable 정의 -->
         <variable
             name="viewModel"
             type="com.example.moum.viewmodel.moum.TeamCreateViewModel" />
     </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraint_chat_top"
             android:layout_width="match_parent"
@@ -39,14 +41,14 @@
                     android:id="@+id/button_return"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/button_rounded_left"
-                    />
+                    android:src="@drawable/button_rounded_left" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_marginStart="15dp">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -55,10 +57,12 @@
                         android:textColor="@color/gray7"
                         android:textSize="14sp" />
                 </LinearLayout>
+
                 <View
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1" />
+
                 <TextView
                     android:id="@+id/button_next"
                     android:layout_width="wrap_content"
@@ -67,7 +71,7 @@
                     android:fontFamily="@font/noto_sans_kr_semibold"
                     android:textColor="@color/gray7"
                     android:textSize="14sp"
-                    android:clickable="true"/>
+                    android:clickable="true" />
             </LinearLayout>
 
             <LinearLayout
@@ -76,11 +80,13 @@
                 app:layout_constraintTop_toBottomOf="@id/headerLayout"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:orientation="vertical">
+
                 <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
                     >
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -88,6 +94,7 @@
                         android:layout_marginLeft="25dp"
                         android:layout_marginRight="25dp"
                         android:layout_marginTop="25dp">
+
                         <TextView
                             android:textColor="@color/gray4"
                             android:textSize="14sp"
@@ -96,13 +103,14 @@
                             android:text="단체 프로필"
                             android:gravity="bottom"
                             android:layout_gravity="bottom"
-                            android:fontFamily="@font/noto_sans_kr_bold"
-                            />
+                            android:fontFamily="@font/noto_sans_kr_bold" />
+
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="3dp"
                             android:src="@drawable/background_rounded_gray"
-                            android:layout_marginBottom="20dp"/>
+                            android:layout_marginBottom="20dp" />
+
                         <LinearLayout
                             android:id="@+id/team_create_form"
                             android:layout_width="match_parent"
@@ -115,12 +123,14 @@
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
                                 android:layout_marginBottom="15dp">
+
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:gravity="center_vertical"
                                     android:orientation="horizontal"
                                     android:layout_gravity="bottom">
+
                                     <TextView
                                         android:textColor="@color/gray4"
                                         android:textSize="14sp"
@@ -128,8 +138,8 @@
                                         android:layout_height="wrap_content"
                                         android:layout_width="wrap_content"
                                         android:text="단체명*"
-                                        android:fontFamily="@font/noto_sans_kr_regular"
-                                        />
+                                        android:fontFamily="@font/noto_sans_kr_regular" />
+
                                     <TextView
                                         android:id="@+id/error_team_name"
                                         android:textColor="@color/red"
@@ -138,9 +148,9 @@
                                         android:layout_height="wrap_content"
                                         android:layout_width="match_parent"
                                         android:text=""
-                                        android:layout_gravity="center_vertical"
-                                        />
+                                        android:layout_gravity="center_vertical" />
                                 </LinearLayout>
+
                                 <LinearLayout
                                     android:id="@+id/placeholder_team_name"
                                     android:layout_width="match_parent"
@@ -149,8 +159,8 @@
                                     android:paddingLeft="10dp"
                                     android:paddingRight="10dp"
                                     android:paddingTop="10dp"
-                                    android:paddingBottom="5dp"
-                                    >
+                                    android:paddingBottom="5dp">
+
                                     <EditText
                                         android:id="@+id/edittext_team_name"
                                         android:layout_width="match_parent"
@@ -164,10 +174,10 @@
                                         android:gravity="center_vertical"
                                         android:focusable="true"
                                         android:focusableInTouchMode="true"
-                                        android:text="@={viewModel.team.teamName}"
-                                        />
+                                        android:text="@={viewModel.team.teamName}" />
                                 </LinearLayout>
                             </LinearLayout>
+
                             <LinearLayout
                                 android:id="@+id/placeholder_profile_image"
                                 android:layout_width="match_parent"
@@ -182,6 +192,7 @@
                                     android:gravity="center_vertical"
                                     android:orientation="horizontal"
                                     android:layout_gravity="bottom">
+
                                     <TextView
                                         android:textColor="@color/gray4"
                                         android:textSize="14sp"
@@ -189,8 +200,8 @@
                                         android:layout_height="wrap_content"
                                         android:layout_width="wrap_content"
                                         android:text="프로필 사진"
-                                        android:fontFamily="@font/noto_sans_kr_regular"
-                                        />
+                                        android:fontFamily="@font/noto_sans_kr_regular" />
+
                                     <TextView
                                         android:id="@+id/error_profile_image"
                                         android:textColor="@color/red"
@@ -199,9 +210,9 @@
                                         android:layout_height="wrap_content"
                                         android:layout_width="match_parent"
                                         android:text=""
-                                        android:layout_gravity="center_vertical"
-                                        />
+                                        android:layout_gravity="center_vertical" />
                                 </LinearLayout>
+
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
@@ -213,7 +224,8 @@
                                         android:layout_height="50dp"
                                         android:scaleType="fitXY"
                                         android:background="@drawable/background_more_rounded_gray"
-                                        android:layout_marginEnd="10dp"/>
+                                        android:layout_marginEnd="10dp" />
+
                                     <androidx.appcompat.widget.AppCompatButton
                                         android:id="@+id/button_image_upload"
                                         android:layout_width="0dp"
@@ -227,20 +239,23 @@
                                         android:textSize="14sp"
                                         android:fontFamily="@font/noto_sans_kr_bold"
                                         android:drawableLeft="@drawable/icon_image_alpha"
-                                        android:drawablePadding="5dp"/>
+                                        android:drawablePadding="5dp" />
                                 </LinearLayout>
                             </LinearLayout>
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
                                 android:layout_marginBottom="15dp">
+
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:gravity="center_vertical"
                                     android:orientation="horizontal"
                                     android:layout_gravity="bottom">
+
                                     <TextView
                                         android:textColor="@color/gray4"
                                         android:textSize="14sp"
@@ -248,8 +263,8 @@
                                         android:layout_height="wrap_content"
                                         android:layout_width="wrap_content"
                                         android:text="소개"
-                                        android:fontFamily="@font/noto_sans_kr_regular"
-                                        />
+                                        android:fontFamily="@font/noto_sans_kr_regular" />
+
                                     <TextView
                                         android:id="@+id/error_team_description"
                                         android:textColor="@color/red"
@@ -258,9 +273,9 @@
                                         android:layout_height="wrap_content"
                                         android:layout_width="match_parent"
                                         android:text=""
-                                        android:layout_gravity="center_vertical"
-                                        />
+                                        android:layout_gravity="center_vertical" />
                                 </LinearLayout>
+
                                 <LinearLayout
                                     android:id="@+id/placeholder_team_description"
                                     android:layout_width="match_parent"
@@ -269,8 +284,8 @@
                                     android:paddingLeft="10dp"
                                     android:paddingRight="10dp"
                                     android:paddingTop="10dp"
-                                    android:paddingBottom="5dp"
-                                    >
+                                    android:paddingBottom="5dp">
+
                                     <EditText
                                         android:id="@+id/edittext_team_description"
                                         android:layout_width="match_parent"
@@ -285,21 +300,23 @@
                                         android:gravity="top"
                                         android:focusable="true"
                                         android:focusableInTouchMode="true"
-                                        android:text="@={viewModel.team.description}"
-                                        />
+                                        android:text="@={viewModel.team.description}" />
                                 </LinearLayout>
                             </LinearLayout>
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
                                 android:layout_marginBottom="15dp">
+
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:gravity="center_vertical"
                                     android:orientation="horizontal"
                                     android:layout_gravity="bottom">
+
                                     <TextView
                                         android:textColor="@color/gray4"
                                         android:textSize="14sp"
@@ -307,8 +324,8 @@
                                         android:layout_height="wrap_content"
                                         android:layout_width="wrap_content"
                                         android:text="분야 및 장르*"
-                                        android:fontFamily="@font/noto_sans_kr_regular"
-                                        />
+                                        android:fontFamily="@font/noto_sans_kr_regular" />
+
                                     <TextView
                                         android:id="@+id/error_team_genre"
                                         android:textColor="@color/red"
@@ -317,16 +334,15 @@
                                         android:layout_height="wrap_content"
                                         android:layout_width="match_parent"
                                         android:text=""
-                                        android:layout_gravity="center_vertical"
-                                        />
+                                        android:layout_gravity="center_vertical" />
                                 </LinearLayout>
+
                                 <Spinner
                                     android:id="@+id/spinner_genre"
                                     android:layout_width="match_parent"
                                     android:layout_height="48dp"
                                     android:background="@drawable/background_spinner"
-                                    android:spinnerMode="dropdown"
-                                    />
+                                    android:spinnerMode="dropdown" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -334,12 +350,14 @@
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
                                 android:layout_marginBottom="15dp">
+
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:gravity="center_vertical"
                                     android:orientation="horizontal"
                                     android:layout_gravity="bottom">
+
                                     <TextView
                                         android:textColor="@color/gray4"
                                         android:textSize="14sp"
@@ -347,8 +365,8 @@
                                         android:layout_height="wrap_content"
                                         android:layout_width="wrap_content"
                                         android:text="활동 지역"
-                                        android:fontFamily="@font/noto_sans_kr_regular"
-                                        />
+                                        android:fontFamily="@font/noto_sans_kr_regular" />
+
                                     <TextView
                                         android:id="@+id/team_error_address"
                                         android:textColor="@color/red"
@@ -357,8 +375,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_width="match_parent"
                                         android:text=""
-                                        android:layout_gravity="center_vertical"
-                                        />
+                                        android:layout_gravity="center_vertical" />
                                 </LinearLayout>
 
                                 <Spinner
@@ -366,20 +383,22 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="48dp"
                                     android:background="@drawable/background_spinner"
-                                    android:spinnerMode="dropdown"
-                                    />
+                                    android:spinnerMode="dropdown" />
                             </LinearLayout>
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
                                 android:layout_marginBottom="15dp">
+
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:gravity="center_vertical"
                                     android:orientation="horizontal"
                                     android:layout_gravity="bottom">
+
                                     <TextView
                                         android:textColor="@color/gray4"
                                         android:textSize="14sp"
@@ -387,8 +406,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_width="wrap_content"
                                         android:text="프로필 동영상"
-                                        android:fontFamily="@font/noto_sans_kr_regular"
-                                        />
+                                        android:fontFamily="@font/noto_sans_kr_regular" />
 
                                     <TextView
                                         android:id="@+id/error_video"
@@ -400,6 +418,7 @@
                                         android:textColor="@color/gray7"
                                         android:textSize="9sp" />
                                 </LinearLayout>
+
                                 <LinearLayout
                                     android:id="@+id/placeholder_video"
                                     android:layout_width="match_parent"
@@ -408,8 +427,8 @@
                                     android:paddingLeft="10dp"
                                     android:paddingRight="10dp"
                                     android:paddingTop="10dp"
-                                    android:paddingBottom="5dp"
-                                    >
+                                    android:paddingBottom="5dp">
+
                                     <EditText
                                         android:id="@+id/edittext_video"
                                         android:layout_width="match_parent"
@@ -423,8 +442,7 @@
                                         android:gravity="center_vertical"
                                         android:focusable="true"
                                         android:focusableInTouchMode="true"
-                                        android:text="@={viewModel.team.videoUrl}"
-                                        />
+                                        android:text="@={viewModel.team.videoUrl}" />
                                 </LinearLayout>
                             </LinearLayout>
 
@@ -437,13 +455,13 @@
                                 android:gravity="bottom"
                                 android:layout_gravity="bottom"
                                 android:fontFamily="@font/noto_sans_kr_bold"
-                                android:layout_marginTop="100dp"
-                                />
+                                android:layout_marginTop="100dp" />
+
                             <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="3dp"
                                 android:src="@drawable/background_rounded_gray"
-                                android:layout_marginBottom="20dp"/>
+                                android:layout_marginBottom="20dp" />
 
                             <LinearLayout
                                 android:id="@+id/team_record_parent"
@@ -463,7 +481,7 @@
                                 android:text="추가하기"
                                 android:textColor="@color/gray0"
                                 android:textSize="14sp"
-                                android:fontFamily="@font/noto_sans_kr_semibold"/>
+                                android:fontFamily="@font/noto_sans_kr_semibold" />
                         </LinearLayout>
                     </LinearLayout>
                 </ScrollView>

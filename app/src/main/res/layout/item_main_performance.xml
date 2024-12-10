@@ -38,8 +38,7 @@
             android:background="@drawable/gradient_top_rounded_black_transparent"
             android:scaleType="fitXY"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-        </ImageView>
+            app:layout_constraintTop_toTopOf="parent"></ImageView>
 
         <TextView
             android:id="@+id/textview_main_performance_name"
@@ -56,7 +55,7 @@
             android:fontFamily="@font/noto_sans_kr_bold"
             android:includeFontPadding="false"
             app:layout_constraintTop_toBottomOf="@id/imageview_main_performance"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/textview_main_performance_place"
@@ -73,7 +72,7 @@
             android:fontFamily="@font/noto_sans_kr_regular"
             android:includeFontPadding="false"
             app:layout_constraintTop_toBottomOf="@id/textview_main_performance_name"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/textview_main_performance_time"
@@ -90,7 +89,7 @@
             android:fontFamily="@font/noto_sans_kr_regular"
             android:includeFontPadding="false"
             app:layout_constraintTop_toTopOf="@id/textview_main_performance_place"
-            app:layout_constraintStart_toEndOf="@id/textview_main_performance_place"/>
+            app:layout_constraintStart_toEndOf="@id/textview_main_performance_place" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

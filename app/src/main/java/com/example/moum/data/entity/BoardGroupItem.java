@@ -8,7 +8,7 @@ public class BoardGroupItem {
     private Integer exp;
     private String tier;
 
-    public void setBoardGroupItem(Integer teamId, String writer, String content,String image, Integer exp, String tier) {
+    public void setBoardGroupItem(Integer teamId, String writer, String content, String image, Integer exp, String tier) {
         this.teamId = teamId;
         this.writer = writer;
         this.content = content;

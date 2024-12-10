@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/PerformanceHallFilterFragment"
     tools:context=".view.moum.PerformanceHallFilterFragment">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -39,7 +39,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:contentInsetStart="0dp">
 
-                        <TextView
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="연습실 필터링"
@@ -47,11 +47,12 @@
                         android:textColor="@color/gray7"
                         android:fontFamily="@font/noto_sans_kr_bold"
                         android:layout_gravity="bottom"
-                        android:includeFontPadding="false"/>
+                        android:includeFontPadding="false" />
+
                     <View
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
 
                     <RelativeLayout
                         android:layout_width="25dp"
@@ -64,7 +65,7 @@
                             android:layout_height="match_parent"
                             android:src="@drawable/icon_xmark"
                             android:scaleType="fitCenter"
-                            android:alpha="0.7"/>
+                            android:alpha="0.7" />
 
                     </RelativeLayout>
 
@@ -98,13 +99,14 @@
                         android:fontFamily="@font/noto_sans_kr_regular"
                         android:textColor="@color/gray7"
                         android:textSize="16sp"
-                        android:layout_marginTop="24dp"/>
+                        android:layout_marginTop="24dp" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_sortBy"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/layout_orderBy"
                     android:layout_width="match_parent"
@@ -121,12 +123,12 @@
                         android:fontFamily="@font/noto_sans_kr_regular"
                         android:textColor="@color/gray7"
                         android:textSize="16sp"
-                        android:layout_marginTop="24dp"/>
+                        android:layout_marginTop="24dp" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_orderBy"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -145,12 +147,12 @@
                         android:fontFamily="@font/noto_sans_kr_regular"
                         android:textColor="@color/gray7"
                         android:textSize="16sp"
-                        android:layout_marginTop="24dp"/>
+                        android:layout_marginTop="24dp" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_type"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -169,7 +171,8 @@
                         android:fontFamily="@font/noto_sans_kr_regular"
                         android:textColor="@color/gray7"
                         android:textSize="16sp"
-                        android:layout_marginTop="24dp"/>
+                        android:layout_marginTop="24dp" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -178,7 +181,7 @@
                         android:textColor="@color/gray4"
                         android:includeFontPadding="false"
                         android:textSize="12sp"
-                        android:layout_marginBottom="5dp"/>
+                        android:layout_marginBottom="5dp" />
 
                     <com.google.android.material.slider.RangeSlider
                         android:id="@+id/slider_price"
@@ -188,8 +191,9 @@
                         android:valueFrom="0.0"
                         android:valueTo="1000000.0"
                         app:values="@array/filter_range_practice_price"
-                        style="@style/RangeSliderStyle"/>
+                        style="@style/RangeSliderStyle" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/layout_capacity"
                     android:layout_width="match_parent"
@@ -206,7 +210,8 @@
                         android:fontFamily="@font/noto_sans_kr_regular"
                         android:textColor="@color/gray7"
                         android:textSize="16sp"
-                        android:layout_marginTop="24dp"/>
+                        android:layout_marginTop="24dp" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -215,7 +220,8 @@
                         android:textColor="@color/gray4"
                         android:includeFontPadding="false"
                         android:textSize="12sp"
-                        android:layout_marginBottom="5dp"/>
+                        android:layout_marginBottom="5dp" />
+
                     <com.google.android.material.slider.RangeSlider
                         android:id="@+id/slider_capacity"
                         android:layout_width="match_parent"
@@ -224,8 +230,9 @@
                         android:valueTo="200.0"
                         android:stepSize="1.0"
                         app:values="@array/filter_range_practice_capacity"
-                        style="@style/RangeSliderStyle"/>
+                        style="@style/RangeSliderStyle" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/layout_stand"
                     android:layout_width="match_parent"
@@ -242,7 +249,8 @@
                         android:fontFamily="@font/noto_sans_kr_regular"
                         android:textColor="@color/gray7"
                         android:textSize="16sp"
-                        android:layout_marginTop="24dp"/>
+                        android:layout_marginTop="24dp" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -251,7 +259,8 @@
                         android:textColor="@color/gray4"
                         android:includeFontPadding="false"
                         android:textSize="12sp"
-                        android:layout_marginBottom="5dp"/>
+                        android:layout_marginBottom="5dp" />
+
                     <com.google.android.material.slider.RangeSlider
                         android:id="@+id/slider_stand"
                         android:layout_width="match_parent"
@@ -260,8 +269,9 @@
                         android:valueTo="100.0"
                         android:stepSize="1.0"
                         app:values="@array/filter_range_practice_stand"
-                        style="@style/RangeSliderStyle"/>
+                        style="@style/RangeSliderStyle" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/layout_piano"
                     android:layout_width="match_parent"
@@ -278,13 +288,14 @@
                         android:fontFamily="@font/noto_sans_kr_regular"
                         android:textColor="@color/gray7"
                         android:textSize="16sp"
-                        android:layout_marginTop="24dp"/>
+                        android:layout_marginTop="24dp" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_piano"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/layout_amp"
                     android:layout_width="match_parent"
@@ -301,13 +312,14 @@
                         android:fontFamily="@font/noto_sans_kr_regular"
                         android:textColor="@color/gray7"
                         android:textSize="16sp"
-                        android:layout_marginTop="24dp"/>
+                        android:layout_marginTop="24dp" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_amp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/layout_speaker"
                     android:layout_width="match_parent"
@@ -324,13 +336,14 @@
                         android:fontFamily="@font/noto_sans_kr_regular"
                         android:textColor="@color/gray7"
                         android:textSize="16sp"
-                        android:layout_marginTop="24dp"/>
+                        android:layout_marginTop="24dp" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_speaker"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/layout_mic"
                     android:layout_width="match_parent"
@@ -347,13 +360,14 @@
                         android:fontFamily="@font/noto_sans_kr_regular"
                         android:textColor="@color/gray7"
                         android:textSize="16sp"
-                        android:layout_marginTop="24dp"/>
+                        android:layout_marginTop="24dp" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_mic"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/layout_drums"
                     android:layout_width="match_parent"
@@ -370,16 +384,17 @@
                         android:fontFamily="@font/noto_sans_kr_regular"
                         android:textColor="@color/gray7"
                         android:textSize="16sp"
-                        android:layout_marginTop="24dp"/>
+                        android:layout_marginTop="24dp" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_drums"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
+
         <LinearLayout
             android:id="@+id/footerLayout"
             android:layout_width="match_parent"
@@ -392,8 +407,8 @@
             android:paddingLeft="25dp"
             android:paddingRight="25dp"
             android:paddingTop="15dp"
-            android:background="@color/gray0"
-            >
+            android:background="@color/gray0">
+
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_refresh"
                 android:layout_width="0dp"
@@ -404,7 +419,7 @@
                 android:text="초기화"
                 android:textColor="@color/gray4"
                 android:textSize="14sp"
-                android:fontFamily="@font/noto_sans_kr_semibold"/>
+                android:fontFamily="@font/noto_sans_kr_semibold" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_apply"
@@ -416,7 +431,7 @@
                 android:text="적용"
                 android:textColor="@color/gray0"
                 android:textSize="14sp"
-                android:fontFamily="@font/noto_sans_kr_semibold"/>
+                android:fontFamily="@font/noto_sans_kr_semibold" />
 
 
         </LinearLayout>

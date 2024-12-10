@@ -2,7 +2,6 @@ package com.example.moum.data.dto;
 
 import com.example.moum.data.entity.Genre;
 import com.example.moum.data.entity.Record;
-import com.example.moum.data.entity.Team;
 
 import java.util.ArrayList;
 
@@ -18,7 +17,8 @@ public class MemberProfileUpdateRequest {
     private ArrayList<Genre> genres;
     private String videoUrl;
 
-    public MemberProfileUpdateRequest(String name, String username, String profileDescription, String email, String proficiency, String instrument, String address, ArrayList<Record> records, ArrayList<Genre> genres, String videoUrl) {
+    public MemberProfileUpdateRequest(String name, String username, String profileDescription, String email, String proficiency, String instrument,
+            String address, ArrayList<Record> records, ArrayList<Genre> genres, String videoUrl) {
         this.name = name;
         this.username = username;
         this.profileDescription = profileDescription;

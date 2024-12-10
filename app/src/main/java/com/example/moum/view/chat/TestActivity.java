@@ -25,6 +25,7 @@ public class TestActivity extends AppCompatActivity {
     private String TAG = getClass().toString();
     ActivityTestBinding binding;
     private String CHAT_BASE_URL = "http://172.30.1.78/8070/";
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,13 +66,14 @@ public class TestActivity extends AppCompatActivity {
 
             @Override
             public void onMessage(ServerSentEvent sse, String id, String event, String message) {
-                Log.d(TAG, "Event: "+event+ " => Message; "+message);
-                if(event.equals("message")){
+                Log.d(TAG, "Event: " + event + " => Message; " + message);
+                if (event.equals("message")) {
                     try {
                         ChatStreamResponse receivedChat = new Gson().fromJson(message, ChatStreamResponse.class);
                         Log.e(TAG, receivedChat.getMessage());
                         messages.add(receivedChat.getMessage());
-                        //Chat chat = new Chat(receivedChat.getSender(), receivedChat.getReceiver(), receivedChat.getMessage(), receivedChat.getChatroomId());
+                        //Chat chat = new Chat(receivedChat.getSender(), receivedChat.getReceiver(), receivedChat.getMessage(), receivedChat
+                        // .getChatroomId());
 //                        JSONObject jsonObject = new JSONObject(message);
 //                        final String mMessage = jsonObject.getString("message");
                         runOnUiThread(new Runnable() {
@@ -123,7 +125,7 @@ public class TestActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 String messageAll = "";
-                for(String message : messages){
+                for (String message : messages) {
                     messageAll = messageAll.concat(message);
                 }
                 binding.textviewTest.setText(messageAll);

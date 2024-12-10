@@ -11,15 +11,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.moum.R;
-import com.example.moum.data.entity.Practiceroom;
 import com.example.moum.data.entity.Settlement;
-import com.example.moum.view.moum.MoumFindPracticeroomActivity;
 import com.example.moum.view.moum.MoumPaymentActivity;
 
 import java.util.ArrayList;
@@ -52,7 +47,7 @@ public class MoumSettlementAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         return settlements.size();
     }
 
-    static class MoumSettlementViewHolder extends RecyclerView.ViewHolder{
+    static class MoumSettlementViewHolder extends RecyclerView.ViewHolder {
         private Settlement settlement;
         private TextView settlementName;
         private TextView settlementFee;
@@ -72,8 +67,8 @@ public class MoumSettlementAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         @SuppressLint("DefaultLocale")
         public void bind(Settlement settlement) {
             this.settlement = settlement;
-            if(settlement.getSettlementName() != null) settlementName.setText(settlement.getSettlementName());
-            if(settlement.getFee() != null) settlementFee.setText(String.format("%,d", settlement.getFee()));
+            if (settlement.getSettlementName() != null) settlementName.setText(settlement.getSettlementName());
+            if (settlement.getFee() != null) settlementFee.setText(String.format("%,d", settlement.getFee()));
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

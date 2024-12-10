@@ -47,7 +47,7 @@ public class PerformanceUpdateViewModel extends AndroidViewModel {
     private LocalDate endDate;
     private Genre genre;
 
-    public PerformanceUpdateViewModel(Application application){
+    public PerformanceUpdateViewModel(Application application) {
         super(application);
         performRepository = PerformRepository.getInstance(application);
         teamRepository = TeamRepository.getInstance(application);
@@ -77,21 +77,21 @@ public class PerformanceUpdateViewModel extends AndroidViewModel {
         return isPerformanceUpdateSuccess;
     }
 
-    public void setProfileImage(Uri profileImage, Boolean fromExisting){
+    public void setProfileImage(Uri profileImage, Boolean fromExisting) {
         this.profileImage.setValue(profileImage);
         this.fromExisting = fromExisting;
     }
 
-    public void setDates(LocalDate startDate, LocalDate endDate){
+    public void setDates(LocalDate startDate, LocalDate endDate) {
         this.startDate = startDate;
         this.endDate = endDate;
     }
 
-    public void addMusic(String musicName, String artistName){
+    public void addMusic(String musicName, String artistName) {
         this.music.add(new Music(musicName, artistName));
     }
 
-    public void setMembers(ArrayList<Member> members, ArrayList<Boolean> isParticipates){
+    public void setMembers(ArrayList<Member> members, ArrayList<Boolean> isParticipates) {
         this.members = members;
         this.isParticipates = isParticipates;
     }
@@ -100,7 +100,7 @@ public class PerformanceUpdateViewModel extends AndroidViewModel {
         this.genre = Genre.fromString(genreStr);
     }
 
-    public void setIsLoadTeamSuccess(Result<Team> isLoadTeamSuccess){
+    public void setIsLoadTeamSuccess(Result<Team> isLoadTeamSuccess) {
         this.isLoadTeamSuccess.setValue(isLoadTeamSuccess);
     }
 
@@ -108,48 +108,43 @@ public class PerformanceUpdateViewModel extends AndroidViewModel {
         this.isLoadPerformanceSuccess.setValue(isLoadPerformanceSuccess);
     }
 
-    public void setIsValidCheckSuccess(Validation isValidCheckSuccess){
+    public void setIsValidCheckSuccess(Validation isValidCheckSuccess) {
         this.isValidCheckSuccess.setValue(isValidCheckSuccess);
     }
 
-    public void setIsPerformanceUpdateSuccess(Result<Performance> isPerformanceUpdateSuccess){
+    public void setIsPerformanceUpdateSuccess(Result<Performance> isPerformanceUpdateSuccess) {
         this.isPerformanceUpdateSuccess.setValue(isPerformanceUpdateSuccess);
     }
 
-    public void loadTeam(Integer teamId){
+    public void loadTeam(Integer teamId) {
         teamRepository.loadTeam(teamId, this::setIsLoadTeamSuccess);
     }
 
-    public void loadPerformance(Integer performId){
+    public void loadPerformance(Integer performId) {
         performRepository.loadPerform(performId, this::setIsLoadPerformanceSuccess);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void validCheck(){
+    public void validCheck() {
         /*null check*/
-        if(perform.getValue() == null){
+        if (perform.getValue() == null) {
             setIsValidCheckSuccess(Validation.NOT_VALID_ANYWAY);
             return;
-        }
-        else if(perform.getValue().getPerformanceName() == null || perform.getValue().getPerformanceName().isEmpty()) {
+        } else if (perform.getValue().getPerformanceName() == null || perform.getValue().getPerformanceName().isEmpty()) {
             setIsValidCheckSuccess(Validation.MOUM_NAME_NOT_WRITTEN);
             return;
-        }
-        else if(genre == null){
+        } else if (genre == null) {
             setIsValidCheckSuccess(Validation.GENRE_NOT_WRITTEN);
             return;
-        }
-        else if(startDate != null && endDate != null && startDate.isAfter(endDate)){
+        } else if (startDate != null && endDate != null && startDate.isAfter(endDate)) {
             setIsValidCheckSuccess(Validation.DATE_NOT_VALID);
             return;
-        }
-        else if(music != null){
-            for(Music one : music){
-                if(one.getMusicName() == null || one.getMusicName().isEmpty()){
+        } else if (music != null) {
+            for (Music one : music) {
+                if (one.getMusicName() == null || one.getMusicName().isEmpty()) {
                     setIsValidCheckSuccess(Validation.MUSIC_NAME_NOT_WRITTEN);
                     return;
-                }
-                else if(one.getArtistName() == null || one.getArtistName().isEmpty()){
+                } else if (one.getArtistName() == null || one.getArtistName().isEmpty()) {
                     setIsValidCheckSuccess(Validation.ARTIST_NAME_NOT_WRITTEN);
                     return;
                 }
@@ -158,9 +153,9 @@ public class PerformanceUpdateViewModel extends AndroidViewModel {
         setIsValidCheckSuccess(Validation.VALID_ALL);
     }
 
-    public void updatePerformance(Integer performId, Integer teamId, Context context){
+    public void updatePerformance(Integer performId, Integer teamId, Context context) {
         /*valid check*/
-        if(isValidCheckSuccess.getValue() == null || isValidCheckSuccess.getValue() != Validation.VALID_ALL){
+        if (isValidCheckSuccess.getValue() == null || isValidCheckSuccess.getValue() != Validation.VALID_ALL) {
             Result<Performance> result = new Result<>(Validation.NOT_VALID_ANYWAY);
             setIsPerformanceUpdateSuccess(result);
             return;
@@ -170,15 +165,17 @@ public class PerformanceUpdateViewModel extends AndroidViewModel {
         Performance performToCreate = perform.getValue();
         performToCreate.setTeamId(teamId);
         performToCreate.setGenre(genre);
-        if(startDate != null) performToCreate.setPerformanceStartDate(startDate.toString().concat("T00:00:00"));
-        if(endDate != null) performToCreate.setPerformanceEndDate(endDate.toString().concat("T00:00:00"));
+        if (startDate != null) performToCreate.setPerformanceStartDate(startDate.toString().concat("T00:00:00"));
+        if (endDate != null) performToCreate.setPerformanceEndDate(endDate.toString().concat("T00:00:00"));
         performToCreate.setMusics(music);
         ArrayList<Integer> participants = new ArrayList<>();
-        if(members != null && isParticipates != null)
+        if (members != null && isParticipates != null) {
             for (int i = 0; i < members.size(); i++) {
-                if (isParticipates.get(i))
+                if (isParticipates.get(i)) {
                     participants.add(members.get(i).getId());
+                }
             }
+        }
         performToCreate.setMembersId(participants);
         File profileFile = null;
 
@@ -201,9 +198,9 @@ public class PerformanceUpdateViewModel extends AndroidViewModel {
             } catch (ExecutionException | InterruptedException e) {
                 e.printStackTrace();
             }
-        }
-        else if(profileImage.getValue() != null && !fromExisting)
+        } else if (profileImage.getValue() != null && !fromExisting) {
             profileFile = new ImageManager(context).convertUriToFile(profileImage.getValue());
+        }
 
         //TODO 백에서 구현되면 삭제할 것
         performToCreate.setMusics(null);

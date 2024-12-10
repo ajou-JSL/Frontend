@@ -5,7 +5,9 @@ import android.content.Context;
 import android.net.Uri;
 
 import androidx.lifecycle.AndroidViewModel;
+
 import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.moum.data.entity.Article;
@@ -43,7 +45,7 @@ public class BoardFreeWriteViewModel extends AndroidViewModel {
         profileRepository = ProfileRepository.getInstance(application);
     }
 
-    public Team getTeamSelectedValue(){
+    public Team getTeamSelectedValue() {
         return teamSelected.getValue();
     }
 
@@ -51,17 +53,16 @@ public class BoardFreeWriteViewModel extends AndroidViewModel {
         return isLoadTeamsAsLeaderSuccess;
     }
 
-    public void setIsValidCheckSuccess(Validation isValidCheckSuccess){
+    public void setIsValidCheckSuccess(Validation isValidCheckSuccess) {
         this.isValidCheckSuccess.setValue(isValidCheckSuccess);
     }
 
-    public void validCheck(){
+    public void validCheck() {
         /*null check*/
-        if(article.getValue() == null){
+        if (article.getValue() == null) {
             setIsValidCheckSuccess(Validation.NOT_VALID_ANYWAY);
             return;
-        }
-        else if(article.getValue().getTitle() == null || article.getValue().getTitle().isEmpty()) {
+        } else if (article.getValue().getTitle() == null || article.getValue().getTitle().isEmpty()) {
             setIsValidCheckSuccess(Validation.MOUM_NAME_NOT_WRITTEN);
             return;
         }
@@ -72,11 +73,11 @@ public class BoardFreeWriteViewModel extends AndroidViewModel {
         this.fileImageList.setValue(uriArrayList);
     }
 
-    public void setIsLoadTeamsAsLeaderSuccess(Result<List<Team>> isLoadTeamsAsLeaderSuccess){
+    public void setIsLoadTeamsAsLeaderSuccess(Result<List<Team>> isLoadTeamsAsLeaderSuccess) {
         this.isLoadTeamsAsLeaderSuccess.setValue(isLoadTeamsAsLeaderSuccess);
     }
 
-    public void setIsArticleCreateSuccess(Result<Article> isArticleCreateSuccess){
+    public void setIsArticleCreateSuccess(Result<Article> isArticleCreateSuccess) {
         this.isArticleCreateSuccess.setValue(isArticleCreateSuccess);
     }
 
@@ -88,7 +89,7 @@ public class BoardFreeWriteViewModel extends AndroidViewModel {
         return isArticleCreateSuccess;
     }
 
-    public MutableLiveData<Member> getMemberSelected(){
+    public MutableLiveData<Member> getMemberSelected() {
         return memberSelected;
     }
 
@@ -97,25 +98,26 @@ public class BoardFreeWriteViewModel extends AndroidViewModel {
     }
 
 
-    public void loadTeamsAsLeader(Integer memberId){
+    public void loadTeamsAsLeader(Integer memberId) {
         teamRepository.loadTeamsAsMember(memberId, result -> {
             Validation validation = result.getValidation();
             List<Team> loadedTeams = result.getData();
             List<Team> teamsAsLeader = new ArrayList<>();
-            if(validation == Validation.GET_TEAM_LIST_SUCCESS && !loadedTeams.isEmpty()) {
-                for (Team team : loadedTeams)
-                    if (team.getLeaderId().equals(memberId))
+            if (validation == Validation.GET_TEAM_LIST_SUCCESS && !loadedTeams.isEmpty()) {
+                for (Team team : loadedTeams) {
+                    if (team.getLeaderId().equals(memberId)) {
                         teamsAsLeader.add(team);
+                    }
+                }
                 Result<List<Team>> newResult = new Result<>(validation, teamsAsLeader);
                 setIsLoadTeamsAsLeaderSuccess(newResult);
-            }
-            else{
+            } else {
                 setIsLoadTeamsAsLeaderSuccess(result);
             }
         });
     }
 
-    public void createArticle(String title, String content, String category, Integer genre, Context context){
+    public void createArticle(String title, String content, String category, Integer genre, Context context) {
         /*processing for repository*/
         Article articleToCreate = article.getValue();
         articleToCreate.setTitle(title);
@@ -131,12 +133,12 @@ public class BoardFreeWriteViewModel extends AndroidViewModel {
                 imageURLs.add(file);
             }
         }
-        if(imageURLs.isEmpty()) imageURLs = null;
+        if (imageURLs.isEmpty()) imageURLs = null;
 
         articleRepository.createArticle(articleToCreate, imageURLs, this::setIsArticleCreateSuccess);
     }
 
-    public void loadMemberProfile(Integer memberId){
+    public void loadMemberProfile(Integer memberId) {
         profileRepository.loadMemberProfile(memberId, this::setMemberSelected);
     }
 

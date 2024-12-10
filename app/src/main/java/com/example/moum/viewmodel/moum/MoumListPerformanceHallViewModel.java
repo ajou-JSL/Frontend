@@ -22,7 +22,7 @@ public class MoumListPerformanceHallViewModel extends AndroidViewModel {
     private final MutableLiveData<Result<List<MoumPerformHall>>> isLoadPerformanceHallsOfMoumSuccess = new MutableLiveData<>();
     private final PublishSubject<Result<PerformanceHall>> isLoadPerformanceHallSuccess = PublishSubject.create();
 
-    public MoumListPerformanceHallViewModel(Application application){
+    public MoumListPerformanceHallViewModel(Application application) {
         super(application);
         practiceNPerformRepository = PracticeNPerformRepository.getInstance(application);
     }
@@ -35,20 +35,20 @@ public class MoumListPerformanceHallViewModel extends AndroidViewModel {
         return isLoadPerformanceHallSuccess;
     }
 
-    public void setIsLoadPerformanceHallsOfMoumSuccess(Result<List<MoumPerformHall>> isLoadPerformanceHallsOfMoumSuccess){
+    public void setIsLoadPerformanceHallsOfMoumSuccess(Result<List<MoumPerformHall>> isLoadPerformanceHallsOfMoumSuccess) {
         this.isLoadPerformanceHallsOfMoumSuccess.setValue(isLoadPerformanceHallsOfMoumSuccess);
     }
 
-    public void setIsLoadPerformanceHallSuccess(Result<PerformanceHall> isLoadPerformanceHallSuccess){
+    public void setIsLoadPerformanceHallSuccess(Result<PerformanceHall> isLoadPerformanceHallSuccess) {
         Log.e("gg", isLoadPerformanceHallSuccess.getData().getName());
         this.isLoadPerformanceHallSuccess.onNext(isLoadPerformanceHallSuccess);
     }
 
-    public void loadPerformanceHallsOfMoum(Integer moumId){
+    public void loadPerformanceHallsOfMoum(Integer moumId) {
         practiceNPerformRepository.getPerformHallsOfMoum(moumId, this::setIsLoadPerformanceHallsOfMoumSuccess);
     }
 
-    public void loadPerformanceHall(Integer hallId){
+    public void loadPerformanceHall(Integer hallId) {
         practiceNPerformRepository.getPerformHall(hallId, this::setIsLoadPerformanceHallSuccess);
     }
 }

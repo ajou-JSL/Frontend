@@ -20,12 +20,12 @@ public class LoginViewModel extends AndroidViewModel {
     private final MutableLiveData<Validation> isLoginSuccess = new MutableLiveData<>();
     private final MutableLiveData<Token> token = new MutableLiveData<>();
 
-    public LoginViewModel(Application application){
+    public LoginViewModel(Application application) {
         super(application);
         loginRepository = new LoginRepository(application);
     }
 
-    public LoginViewModel(Application application, LoginRepository loginRepository){
+    public LoginViewModel(Application application, LoginRepository loginRepository) {
         super(application);
         this.loginRepository = loginRepository;
     }
@@ -46,22 +46,25 @@ public class LoginViewModel extends AndroidViewModel {
         return token;
     }
 
-    public void setId(String id) { this.id.setValue(id); }
+    public void setId(String id) {
+        this.id.setValue(id);
+    }
 
-    public void setPassword(String password) { this.password.setValue(password); }
+    public void setPassword(String password) {
+        this.password.setValue(password);
+    }
 
-    public void setIsLoginSuccess(Validation validation){
+    public void setIsLoginSuccess(Validation validation) {
         isLoginSuccess.setValue(validation);
     }
 
-    public void login(){
+    public void login() {
 
         /*null check*/
-        if(id.getValue() == null || id.getValue().isEmpty()){
+        if (id.getValue() == null || id.getValue().isEmpty()) {
             setIsLoginSuccess(Validation.ID_NOT_WRITTEN);
             return;
-        }
-        else if(password.getValue() == null || password.getValue().isEmpty()){
+        } else if (password.getValue() == null || password.getValue().isEmpty()) {
             setIsLoginSuccess(Validation.PASSWORD_NOT_WRITTEN);
             return;
         }
@@ -71,18 +74,18 @@ public class LoginViewModel extends AndroidViewModel {
         String passwordFormat = "^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,20}$";
         Pattern idPattern = Pattern.compile(idFormant);
         Pattern passwordPattern = Pattern.compile(passwordFormat);
-        if(!idPattern.matcher(id.getValue()).matches()){
+        if (!idPattern.matcher(id.getValue()).matches()) {
             setIsLoginSuccess(Validation.ID_NOT_FORMAL);
             return;
         }
-        if(!passwordPattern.matcher(password.getValue()).matches()){
+        if (!passwordPattern.matcher(password.getValue()).matches()) {
             setIsLoginSuccess(Validation.PASSWORD_NOT_FORMAL);
             return;
         }
 
         /*goto repository*/
         loginRepository.login(id.getValue(), password.getValue(), result -> {
-            if(result.getValidation() != null && result.getValidation() == Validation.LOGIN_SUCCESS && result.getData() != null){
+            if (result.getValidation() != null && result.getValidation() == Validation.LOGIN_SUCCESS && result.getData() != null) {
                 result.getData().setUesrname(id.getValue());
                 this.token.setValue(result.getData());
             }

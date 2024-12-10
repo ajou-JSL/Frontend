@@ -58,7 +58,7 @@ public class BoardRecruitWriteActivity extends AppCompatActivity {
         String accessToken = sharedPreferenceManager.getCache(getString(R.string.user_access_token_key), "no-access-token");
         String userName = sharedPreferenceManager.getCache(getString(R.string.user_username_key), "no-memberId");
         memberId = sharedPreferenceManager.getCache(getString(R.string.user_id_key), -1);
-        if(accessToken.isEmpty() || accessToken.equals("no-access-token")){
+        if (accessToken.isEmpty() || accessToken.equals("no-access-token")) {
             Toast.makeText(context, "로그인 정보가 없어 초기 페이지로 돌아갑니다.", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(context, InitialActivity.class);
             startActivity(intent);
@@ -89,7 +89,7 @@ public class BoardRecruitWriteActivity extends AppCompatActivity {
     private void initializePickMedia() {
         pickMultipleMedia = registerForActivityResult(new ActivityResultContracts.PickMultipleVisualMedia(3), uris -> {
             if (!uris.isEmpty()) {
-                Log.d("pickMultipleMedia",  "Number of items selected: " + uris.size());
+                Log.d("pickMultipleMedia", "Number of items selected: " + uris.size());
                 boardRecruitWriteViewModel.setFileImageList(uris);
             } else {
                 Log.d("pickMultipleMedia", "No media selected");
@@ -119,7 +119,7 @@ public class BoardRecruitWriteActivity extends AppCompatActivity {
                 return;
             }
 
-            if(genre < 0){
+            if (genre < 0) {
                 Toast.makeText(context, "장르를 고르세요", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -173,7 +173,6 @@ public class BoardRecruitWriteActivity extends AppCompatActivity {
     }
 
 
-
     public void initSpinnerGenre() {
         List<String> spinnerItems = new ArrayList<>();
 
@@ -220,23 +219,23 @@ public class BoardRecruitWriteActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setAdapter(boardRecruitWriteAdapter);
         uris.add(null); //for image selector
-        boardRecruitWriteAdapter.notifyItemInserted(uris.size()-1);
+        boardRecruitWriteAdapter.notifyItemInserted(uris.size() - 1);
 
 
         // ViewModel 관찰로 이미지 추가
         boardRecruitWriteViewModel.getFileImageList().observe(this, addedUris -> {
-            for(Uri uri : addedUris){
+            for (Uri uri : addedUris) {
                 Log.e(TAG, "Uri: " + uri.toString());
             }
             uris.clear();
             uris.addAll(addedUris);
             uris.add(null); //for image selector
             boardRecruitWriteAdapter.notifyDataSetChanged();
-            recyclerView.scrollToPosition(uris.size()-1);
+            recyclerView.scrollToPosition(uris.size() - 1);
         });
     }
 
-    public void onImageSelectorClicked(){
+    public void onImageSelectorClicked() {
         /*이미지 선택 버튼 클릭 시, Photo picker 열기*/
         pickMultipleMedia.launch(new PickVisualMediaRequest.Builder()
                 .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)

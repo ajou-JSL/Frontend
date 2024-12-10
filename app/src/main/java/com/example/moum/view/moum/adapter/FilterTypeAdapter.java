@@ -31,29 +31,33 @@ public class FilterTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     public ArrayList<Boolean> getIsSelecteds() {
-        Log.e(TAG, isSelecteds.isEmpty()? "empty" : "not");
+        Log.e(TAG, isSelecteds.isEmpty() ? "empty" : "not");
         return isSelecteds;
     }
 
     public void setIsSelected(int pos, Boolean isSelected) {
-        if(!isSelecteds.isEmpty()){
-            isSelecteds.set(pos, isSelected);}
+        if (!isSelecteds.isEmpty()) {
+            isSelecteds.set(pos, isSelected);
+        }
     }
 
-    public Boolean getIsSelected(int pos){
-        if(!isSelecteds.isEmpty()){
+    public Boolean getIsSelected(int pos) {
+        if (!isSelecteds.isEmpty()) {
             return isSelecteds.get(pos);
         }
         return false;
     }
 
-    public Integer getSelectedItem(){
-        if(!isSelecteds.isEmpty()){
-            for(String type : types){
+    public Integer getSelectedItem() {
+        if (!isSelecteds.isEmpty()) {
+            for (String type : types) {
                 int idx = types.indexOf(type);
-                if(isSelecteds.get(idx)){
-                    if(idx == 0) return null;
-                    else return idx; //return int value(null or 1 or 2)
+                if (isSelecteds.get(idx)) {
+                    if (idx == 0) {
+                        return null;
+                    } else {
+                        return idx; //return int value(null or 1 or 2)
+                    }
                 }
             }
         }
@@ -63,7 +67,7 @@ public class FilterTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if(isSelecteds == null) isSelecteds = new ArrayList<>(Collections.nCopies(types.size(), false));
+        if (isSelecteds == null) isSelecteds = new ArrayList<>(Collections.nCopies(types.size(), false));
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_genre, parent, false);
         return new FilterTypeAdapter.FilterTypeViewHolder(view, context, this);
     }
@@ -81,7 +85,7 @@ public class FilterTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         return types.size();
     }
 
-    static class FilterTypeViewHolder extends RecyclerView.ViewHolder{
+    static class FilterTypeViewHolder extends RecyclerView.ViewHolder {
         private FilterTypeAdapter adapter;
         private String type;
         private TextView genreItem;
@@ -96,7 +100,7 @@ public class FilterTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         @SuppressLint("UseCompatLoadingForDrawables")
         @RequiresApi(api = Build.VERSION_CODES.O)
-        public void bind(String type){
+        public void bind(String type) {
             int pos = getAbsoluteAdapterPosition();
             this.type = type;
             genreItem.setText(type);
@@ -116,12 +120,11 @@ public class FilterTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 public void onClick(View view) {
                     if (pos != RecyclerView.NO_POSITION) {
                         ArrayList<Boolean> isSeltecteds = adapter.getIsSelecteds();
-                        for(int i = 0; i < isSeltecteds.size(); i++){
-                            if(pos == i){
+                        for (int i = 0; i < isSeltecteds.size(); i++) {
+                            if (pos == i) {
                                 adapter.setIsSelected(pos, true);
                                 adapter.notifyItemChanged(pos);
-                            }
-                            else{
+                            } else {
                                 adapter.setIsSelected(i, false);
                                 adapter.notifyItemChanged(i);
                             }

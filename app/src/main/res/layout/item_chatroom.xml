@@ -29,7 +29,7 @@
             android:ellipsize="end"
             android:textColor="@color/gray7"
             android:textSize="13sp"
-            android:visibility="visible"/>
+            android:visibility="visible" />
 
         <TextView
             android:id="@+id/chatroom_content"
@@ -45,7 +45,7 @@
             android:maxLines="2"
             android:ellipsize="end"
             android:textSize="14sp"
-            android:fontFamily="@font/noto_sans_kr_regular"/>
+            android:fontFamily="@font/noto_sans_kr_regular" />
     </LinearLayout>
 
     <TextView
@@ -70,6 +70,6 @@
         android:src="@drawable/background_circle_gray_size_fit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

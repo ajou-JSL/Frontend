@@ -14,7 +14,7 @@ public class ReportMemberReplyViewModel extends AndroidViewModel {
     private ReportRepository reportRepository;
     private final MutableLiveData<Result<ReportMember>> isLoadReportMemberSuccess = new MutableLiveData<>();
 
-    public ReportMemberReplyViewModel(Application application){
+    public ReportMemberReplyViewModel(Application application) {
         super(application);
         reportRepository = ReportRepository.getInstance(application);
     }
@@ -23,12 +23,12 @@ public class ReportMemberReplyViewModel extends AndroidViewModel {
         return isLoadReportMemberSuccess;
     }
 
-    public void setIsLoadReportMemberSuccess(Result<ReportMember> isLoadReportMemberSuccess){
+    public void setIsLoadReportMemberSuccess(Result<ReportMember> isLoadReportMemberSuccess) {
         this.isLoadReportMemberSuccess.setValue(isLoadReportMemberSuccess);
     }
 
-    public void loadReportMember(Integer reportMemberId){
+    public void loadReportMember(Integer reportMemberId) {
         /*goto repository*/
-        reportRepository.loadReportMember(reportMemberId,this::setIsLoadReportMemberSuccess);
+        reportRepository.loadReportMember(reportMemberId, this::setIsLoadReportMemberSuccess);
     }
 }

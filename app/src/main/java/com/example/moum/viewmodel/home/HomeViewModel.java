@@ -57,35 +57,35 @@ public class HomeViewModel extends AndroidViewModel {
         return isLoadMemberProfileSuccess;
     }
 
-    public void setIsLoadArticlesHotSuccess(Result<List<Article>> isLoadArticlesHotSuccess){
+    public void setIsLoadArticlesHotSuccess(Result<List<Article>> isLoadArticlesHotSuccess) {
         this.isLoadArticlesHotSuccess.setValue(isLoadArticlesHotSuccess);
     }
 
-    public void setIsLoadMoumsSuccess(Result<List<Moum>> isLoadMoumsSuccess){
+    public void setIsLoadMoumsSuccess(Result<List<Moum>> isLoadMoumsSuccess) {
         this.isLoadMoumsSuccess.setValue(isLoadMoumsSuccess);
     }
 
-    public void setIsLoadPerformsHotSuccess(Result<List<Performance>> isLoadPerformsHotSuccess){
+    public void setIsLoadPerformsHotSuccess(Result<List<Performance>> isLoadPerformsHotSuccess) {
         this.isLoadPerformsHotSuccess.setValue(isLoadPerformsHotSuccess);
     }
 
-    public void setIsLoadMemberProfileSuccess(Result<Member> isLoadMemberProfileSuccess){
+    public void setIsLoadMemberProfileSuccess(Result<Member> isLoadMemberProfileSuccess) {
         this.isLoadMemberProfileSuccess.setValue(isLoadMemberProfileSuccess);
     }
 
-    public void loadArticlesHot(){
+    public void loadArticlesHot() {
         articleRepository.loadArticlesHot(0, 5, this::setIsLoadArticlesHotSuccess);
     }
 
-    public void loadMoums(Integer memberId){
+    public void loadMoums(Integer memberId) {
         moumRepository.loadMoumsAll(this::setIsLoadMoumsSuccess);
     }
 
-    public void loadPerformsHot(){
+    public void loadPerformsHot() {
         performRepository.loadPerformsHot(0, 5, this::setIsLoadPerformsHotSuccess);
     }
 
-    public void loadMemberProfile(Integer targetMemberId){
+    public void loadMemberProfile(Integer targetMemberId) {
         profileRepository.loadMemberProfile(targetMemberId, this::setIsLoadMemberProfileSuccess);
     }
 }

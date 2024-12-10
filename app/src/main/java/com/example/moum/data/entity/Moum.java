@@ -1,8 +1,5 @@
 package com.example.moum.data.entity;
 
-import androidx.databinding.BindingConversion;
-import androidx.databinding.InverseMethod;
-
 import java.util.ArrayList;
 
 public class Moum {
@@ -111,6 +108,7 @@ public class Moum {
                     '}';
         }
     }
+
     public void setMembers(ArrayList<Member> members) {
         this.members = members;
     }

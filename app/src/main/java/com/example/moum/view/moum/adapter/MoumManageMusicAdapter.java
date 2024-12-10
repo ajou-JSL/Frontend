@@ -11,15 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.moum.R;
-import com.example.moum.data.entity.Member;
 import com.example.moum.data.entity.Music;
 
 import java.util.ArrayList;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MoumManageMusicAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<Music> musics;
@@ -50,7 +45,7 @@ public class MoumManageMusicAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         return musics.size();
     }
 
-    static class MoumManageMusicViewModel extends RecyclerView.ViewHolder{
+    static class MoumManageMusicViewModel extends RecyclerView.ViewHolder {
         private Music music;
         private TextView musicName;
         private TextView artistName;
@@ -64,7 +59,7 @@ public class MoumManageMusicAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
 
         @RequiresApi(api = Build.VERSION_CODES.O)
-        public void bind(Music music){
+        public void bind(Music music) {
             this.music = music;
             musicName.setText(music.getMusicName());
             artistName.setText(music.getArtistName());

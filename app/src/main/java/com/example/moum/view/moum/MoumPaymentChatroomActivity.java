@@ -21,13 +21,11 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.moum.R;
 import com.example.moum.data.entity.Member;
-import com.example.moum.databinding.ActivityChatCreateChatroomOnwardBinding;
 import com.example.moum.databinding.ActivityMoumPaymentChatroomBinding;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
 import com.example.moum.view.chat.adapter.ChatroomParticipantAdapter;
-import com.example.moum.viewmodel.chat.ChatCreateChatroomOnWardViewModel;
 import com.example.moum.viewmodel.moum.MoumPaymentChatroomViewModel;
 
 import java.util.ArrayList;
@@ -54,7 +52,7 @@ public class MoumPaymentChatroomActivity extends AppCompatActivity {
         String accessToken = sharedPreferenceManager.getCache(getString(R.string.user_access_token_key), "no-access-token");
         String username = sharedPreferenceManager.getCache(getString(R.string.user_username_key), "no-memberId");
         Integer id = sharedPreferenceManager.getCache(getString(R.string.user_id_key), -1);
-        if(accessToken.isEmpty() || accessToken.equals("no-access-token")){
+        if (accessToken.isEmpty() || accessToken.equals("no-access-token")) {
             Toast.makeText(context, "로그인 정보가 없어 초기 페이지로 돌아갑니다.", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(context, InitialActivity.class);
             startActivity(intent);
@@ -118,19 +116,16 @@ public class MoumPaymentChatroomActivity extends AppCompatActivity {
         viewModel.getIsLoadTeamSuccess().observe(this, isLoadTeamSuccess -> {
             Validation validation = isLoadTeamSuccess.getValidation();
             //TODO: validation 추가도면 if절 더 추가
-            if(validation == Validation.TEAM_NOT_FOUND){
+            if (validation == Validation.TEAM_NOT_FOUND) {
                 Toast.makeText(context, "단체 설정 정보가 없습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(validation == Validation.NETWORK_FAILED){
+            } else if (validation == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패했습니다.", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "호출 실패 from loadGroups()");
-            }
-            else if(validation == Validation.GET_TEAM_SUCCESS) {
+            } else if (validation == Validation.GET_TEAM_SUCCESS) {
                 members.addAll(isLoadTeamSuccess.getData().getMembers());
-                chatroomParticipantAdapter.notifyItemInserted(members.size()-1);
+                chatroomParticipantAdapter.notifyItemInserted(members.size() - 1);
                 recyclerView.scrollToPosition(0);
-            }
-            else{
+            } else {
                 Toast.makeText(context, "알 수 없는 validation", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "알 수 없는 validation");
             }
@@ -142,9 +137,9 @@ public class MoumPaymentChatroomActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String chatroomName = binding.edittextMoumtalkName.getText().toString();
 
-                Log.e(TAG, chatroomParticipantAdapter.getIsParticipates().isEmpty()? "empty" : "not");
+                Log.e(TAG, chatroomParticipantAdapter.getIsParticipates().isEmpty() ? "empty" : "not");
                 ArrayList<Boolean> isParticipates = chatroomParticipantAdapter.getIsParticipates();
-                Log.e(TAG, isParticipates.isEmpty()? "empty" : "not");
+                Log.e(TAG, isParticipates.isEmpty() ? "empty" : "not");
                 viewModel.setInfo(id, username, teamId, chatroomName, members, isParticipates);
                 viewModel.createChatroom(context);
             }
@@ -152,28 +147,22 @@ public class MoumPaymentChatroomActivity extends AppCompatActivity {
 
         /*제출 버튼 결과 감시*/
         viewModel.getIsCreateChatroomSuccess().observe(this, result -> {
-            if(result == Validation.CHATROOM_NOT_LOADED){
+            if (result == Validation.CHATROOM_NOT_LOADED) {
                 Toast.makeText(context, "채팅방 정보를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(result == Validation.CHATROOM_NAME_EMPTY){
+            } else if (result == Validation.CHATROOM_NAME_EMPTY) {
                 binding.errorMoumtalkName.setText("모음톡 이름을 입력하세요.");
                 binding.edittextMoumtalkName.requestFocus();
-            }
-            else if(result == Validation.PARTICIPATE_AT_LEAST_TWO){
+            } else if (result == Validation.PARTICIPATE_AT_LEAST_TWO) {
                 binding.errorMoumtalkParticipants.setText("멤버를 1명 이상 선택하세요.");
                 binding.recyclerMoumtalkParticipants.requestFocus();
-            }
-            else if(result == Validation.CHATROOM_CREATE_FAIL){
+            } else if (result == Validation.CHATROOM_CREATE_FAIL) {
                 Toast.makeText(context, "채팅방 생성에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else if(result == Validation.CHATROOM_CREATE_SUCCESS){
+            } else if (result == Validation.CHATROOM_CREATE_SUCCESS) {
                 Toast.makeText(context, "채팅방 생성에 성공하였습니다.", Toast.LENGTH_SHORT).show();
                 finish();
-            }
-            else if(result == Validation.NETWORK_FAILED){
+            } else if (result == Validation.NETWORK_FAILED) {
                 Toast.makeText(context, "호출에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-            }
-            else{
+            } else {
                 Toast.makeText(context, "알 수 없는 감시 결과", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "알 수 없는 감시 결과");
             }
@@ -183,10 +172,10 @@ public class MoumPaymentChatroomActivity extends AppCompatActivity {
         binding.edittextMoumtalkName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if(hasFocus){
+                if (hasFocus) {
                     binding.errorMoumtalkName.setText("");
                     binding.placeholderMoumtalkName.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_mint_stroke));
-                }else{
+                } else {
                     binding.placeholderMoumtalkName.setBackground(ContextCompat.getDrawable(context, R.drawable.background_rounded_gray_stroke));
                 }
             }

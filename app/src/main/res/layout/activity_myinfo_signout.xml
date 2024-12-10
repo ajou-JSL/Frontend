@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/MyInfoSignoutActivity"
     tools:context=".view.myinfo.MyInfoSignoutActivity">
+
     <data>
         <!-- ViewModel을 위한 variable 정의 -->
         <variable
             name="viewModel"
             type="com.example.moum.viewmodel.myinfo.MyInfoSignoutViewModel" />
     </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraint_top"
             android:layout_width="match_parent"
@@ -39,8 +41,7 @@
                     android:id="@+id/button_return"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/button_rounded_left"
-                    />
+                    android:src="@drawable/button_rounded_left" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -56,10 +57,11 @@
                         android:textColor="@color/gray7"
                         android:textSize="14sp" />
                 </LinearLayout>
+
                 <View
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1" />
             </LinearLayout>
 
             <LinearLayout
@@ -70,68 +72,69 @@
                 app:layout_constraintTop_toBottomOf="@id/headerLayout"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:orientation="vertical">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="탈퇴 시 주의사항"
-                            android:fontFamily="@font/noto_sans_kr_bold"
-                            android:textColor="@color/gray4"
-                            android:textSize="18sp"
-                            android:textStyle="bold"/>
 
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="3dp"
-                            android:src="@drawable/line_dash"
-                            android:layerType="software"
-                            android:layout_marginBottom="20dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="탈퇴 시 주의사항"
+                    android:fontFamily="@font/noto_sans_kr_bold"
+                    android:textColor="@color/gray4"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="회원님의 계정 관련 모든 정보가 영구적으로 삭제되며, 이후 같은 아이디로 재가입이 불가능합니다\n\n이미 작성된 게시물, 단체, 모음 정보는 삭제되지 않으며, 삭제를 원할 시 탈퇴 전 게시물을 삭제해주시기 바랍니다.
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:src="@drawable/line_dash"
+                    android:layerType="software"
+                    android:layout_marginBottom="20dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="회원님의 계정 관련 모든 정보가 영구적으로 삭제되며, 이후 같은 아이디로 재가입이 불가능합니다\n\n이미 작성된 게시물, 단체, 모음 정보는 삭제되지 않으며, 삭제를 원할 시 탈퇴 전 게시물을 삭제해주시기 바랍니다.
  "
-                            android:fontFamily="@font/noto_sans_kr_regular"
-                            android:textColor="@color/gray4"
-                            android:textSize="12sp"/>
+                    android:fontFamily="@font/noto_sans_kr_regular"
+                    android:textColor="@color/gray4"
+                    android:textSize="12sp" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="탈퇴 사유"
-                            android:fontFamily="@font/noto_sans_kr_semibold"
-                            android:textColor="@color/gray4"
-                            android:layout_marginTop="15dp"
-                            android:textSize="12sp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="탈퇴 사유"
+                    android:fontFamily="@font/noto_sans_kr_semibold"
+                    android:textColor="@color/gray4"
+                    android:layout_marginTop="15dp"
+                    android:textSize="12sp" />
 
-                        <LinearLayout
-                            android:id="@+id/placeholder_details"
-                            android:layout_width="match_parent"
-                            android:layout_height="100dp"
-                            android:background="@drawable/background_rounded_gray_stroke"
-                            android:paddingLeft="10dp"
-                            android:paddingRight="10dp"
-                            android:paddingTop="10dp"
-                            android:paddingBottom="10dp"
-                            >
-                            <EditText
-                                android:id="@+id/edittext_details"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:background="@color/transparent"
-                                android:inputType="text"
-                                android:hint="탈퇴 사유를 입력하세요."
-                                android:text="@={viewModel.signout.details}"
-                                android:textSize="12sp"
-                                android:includeFontPadding="false"
-                                android:textColor="@color/gray7"
-                                android:fontFamily="@font/noto_sans_kr_regular"
-                                android:gravity="top"
-                                android:focusable="true"
-                                android:breakStrategy="high_quality"
-                                android:focusableInTouchMode="true"
-                                />
-                        </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/placeholder_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="@drawable/background_rounded_gray_stroke"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp">
+
+                    <EditText
+                        android:id="@+id/edittext_details"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/transparent"
+                        android:inputType="text"
+                        android:hint="탈퇴 사유를 입력하세요."
+                        android:text="@={viewModel.signout.details}"
+                        android:textSize="12sp"
+                        android:includeFontPadding="false"
+                        android:textColor="@color/gray7"
+                        android:fontFamily="@font/noto_sans_kr_regular"
+                        android:gravity="top"
+                        android:focusable="true"
+                        android:breakStrategy="high_quality"
+                        android:focusableInTouchMode="true" />
+                </LinearLayout>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -139,7 +142,7 @@
                     android:fontFamily="@font/noto_sans_kr_semibold"
                     android:textColor="@color/gray4"
                     android:layout_marginTop="15dp"
-                    android:textSize="12sp"/>
+                    android:textSize="12sp" />
 
                 <LinearLayout
                     android:id="@+id/placeholder_username"
@@ -149,8 +152,8 @@
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    >
+                    android:paddingBottom="10dp">
+
                     <EditText
                         android:id="@+id/edittext_username"
                         android:layout_width="match_parent"
@@ -166,11 +169,11 @@
                         android:gravity="top"
                         android:focusable="true"
                         android:breakStrategy="high_quality"
-                        android:focusableInTouchMode="true"
-                        />
+                        android:focusableInTouchMode="true" />
                 </LinearLayout>
 
             </LinearLayout>
+
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_submit"
                 android:layout_width="match_parent"
@@ -186,7 +189,7 @@
                 android:layout_marginRight="25dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintBottom_toBottomOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 </layout>

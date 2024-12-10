@@ -3,10 +3,7 @@ package com.example.moum.data.api;
 import com.example.moum.data.dto.MoumProcessRequest;
 import com.example.moum.data.dto.MoumRequest;
 import com.example.moum.data.dto.SuccessResponse;
-import com.example.moum.data.dto.TeamRequest;
-import com.example.moum.data.entity.Member;
 import com.example.moum.data.entity.Moum;
-import com.example.moum.data.entity.Team;
 
 import java.util.List;
 

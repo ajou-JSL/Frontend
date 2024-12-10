@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/MoumMapPracticeroomActivity"
@@ -9,6 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraint_chat_top"
             android:layout_width="match_parent"
@@ -34,14 +34,14 @@
                     android:id="@+id/button_return"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/button_rounded_left"
-                    />
+                    android:src="@drawable/button_rounded_left" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_marginStart="15dp">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -50,11 +50,13 @@
                         android:textColor="@color/gray7"
                         android:textSize="14sp" />
                 </LinearLayout>
+
                 <View
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1" />
             </LinearLayout>
+
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -62,6 +64,7 @@
                 android:orientation="vertical"
                 app:layout_constraintTop_toBottomOf="@id/headerLayout"
                 app:layout_constraintBottom_toBottomOf="parent">
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -73,7 +76,7 @@
                         android:name="com.naver.maps.map.MapFragment"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"/>
+                        app:layout_constraintEnd_toEndOf="parent" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -102,22 +105,22 @@
                             <TextView
                                 android:id="@+id/textview_practiceroom_name"
                                 android:textColor="@color/gray6"
-                                android:textSize="18sp"
+                                android:textSize="17sp"
                                 android:layout_height="wrap_content"
                                 android:layout_width="wrap_content"
                                 android:text="장소 이름"
-                                android:maxWidth="200dp"
+                                android:maxWidth="160dp"
                                 android:gravity="bottom"
                                 android:layout_gravity="bottom"
                                 android:includeFontPadding="false"
+                                android:breakStrategy="high_quality"
                                 android:fontFamily="@font/noto_sans_kr_extrabold"
-                                android:layout_margin="5dp"
-                                />
+                                android:layout_margin="5dp" />
 
                             <View
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
-                                android:layout_weight="1"/>
+                                android:layout_weight="1" />
 
                             <androidx.appcompat.widget.AppCompatButton
                                 android:id="@+id/button_goto_naver_map"
@@ -133,12 +136,12 @@
                                 android:text="네이버 지도에서 보기"
                                 android:includeFontPadding="false"
                                 android:textColor="@color/gray4"
-                                android:textSize="10sp"
+                                android:textSize="9sp"
                                 android:elevation="8dp"
                                 android:drawablePadding="5dp"
                                 android:paddingLeft="8dp"
                                 android:paddingRight="8dp"
-                                android:drawableRight="@drawable/icon_naver_map_resize"/>
+                                android:drawableRight="@drawable/icon_naver_map_resize" />
 
                         </LinearLayout>
 
@@ -149,21 +152,33 @@
                             android:layout_marginLeft="25dp"
                             android:layout_marginRight="25dp"
                             android:layout_marginBottom="30dp"
-                            android:background="@drawable/background_more_rounded_gray_size_fit2"/>
+                            android:background="@drawable/background_more_rounded_gray_size_fit2" />
 
                         <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/button_add_in_moum"
                             android:layout_width="300dp"
                             android:layout_height="50dp"
+                            android:layout_margin="5dp"
                             android:layout_marginLeft="25dp"
                             android:layout_marginRight="25dp"
                             android:background="@drawable/button_neon_mint_bold_ripple"
+                            android:elevation="5dp"
                             android:fontFamily="@font/noto_sans_kr_semibold"
                             android:text="모음에 등록하기"
                             android:textColor="@color/gray0"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/textview_description"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="장소 설명"
+                            android:fontFamily="@font/noto_sans_kr_light"
                             android:textSize="14sp"
-                            android:elevation="5dp"
-                            android:layout_margin="5dp"/>
+                            android:layout_marginLeft="25dp"
+                            android:layout_marginRight="25dp"
+                            android:layout_marginTop="30dp"
+                            android:breakStrategy="high_quality" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -182,13 +197,13 @@
                                 android:text="장소 정보"
                                 android:gravity="bottom"
                                 android:layout_gravity="bottom"
-                                android:fontFamily="@font/noto_sans_kr_bold"
-                                />
+                                android:fontFamily="@font/noto_sans_kr_bold" />
+
                             <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="3dp"
                                 android:src="@drawable/background_rounded_gray"
-                                android:layout_marginBottom="20dp"/>
+                                android:layout_marginBottom="20dp" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -196,13 +211,15 @@
                                 android:orientation="horizontal"
                                 android:gravity="center_vertical"
                                 android:layout_marginBottom="10dp">
+
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="시간 당 가격: "
                                     android:textSize="14sp"
                                     android:fontFamily="@font/noto_sans_kr_bold"
-                                    android:includeFontPadding="false"/>
+                                    android:includeFontPadding="false" />
+
                                 <TextView
                                     android:id="@+id/textview_practiceroom_price"
                                     android:layout_width="wrap_content"
@@ -213,21 +230,24 @@
                                     android:fontFamily="@font/noto_sans_kr_regular"
                                     android:includeFontPadding="false"
                                     android:ellipsize="end"
-                                    android:maxLines="1"/>
+                                    android:maxLines="1" />
                             </LinearLayout>
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="40dp"
                                 android:orientation="horizontal"
                                 android:gravity="center_vertical"
                                 android:layout_marginBottom="10dp">
+
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="최대 수용인원: "
                                     android:textSize="14sp"
                                     android:fontFamily="@font/noto_sans_kr_bold"
-                                    android:includeFontPadding="false"/>
+                                    android:includeFontPadding="false" />
+
                                 <TextView
                                     android:id="@+id/textview_practiceroom_capacity"
                                     android:layout_width="wrap_content"
@@ -238,21 +258,24 @@
                                     android:fontFamily="@font/noto_sans_kr_regular"
                                     android:includeFontPadding="false"
                                     android:ellipsize="end"
-                                    android:maxLines="1"/>
+                                    android:maxLines="1" />
                             </LinearLayout>
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="40dp"
                                 android:orientation="horizontal"
                                 android:gravity="center_vertical"
                                 android:layout_marginBottom="10dp">
+
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="주소: "
                                     android:textSize="14sp"
                                     android:fontFamily="@font/noto_sans_kr_bold"
-                                    android:includeFontPadding="false"/>
+                                    android:includeFontPadding="false" />
+
                                 <TextView
                                     android:id="@+id/textview_practiceroom_address"
                                     android:layout_width="wrap_content"
@@ -262,22 +285,23 @@
                                     android:layout_marginLeft="5dp"
                                     android:fontFamily="@font/noto_sans_kr_regular"
                                     android:includeFontPadding="false"
-                                    android:ellipsize="end"
-                                    android:maxLines="1"/>
+                                    android:breakStrategy="high_quality" />
                             </LinearLayout>
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="40dp"
                                 android:orientation="horizontal"
                                 android:gravity="center_vertical"
                                 android:layout_marginBottom="10dp">
+
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="소유주: "
                                     android:textSize="14sp"
                                     android:fontFamily="@font/noto_sans_kr_bold"
-                                    android:includeFontPadding="false"/>
+                                    android:includeFontPadding="false" />
 
                                 <TextView
                                     android:id="@+id/textview_practiceroom_owner"
@@ -291,19 +315,22 @@
                                     android:text="가격"
                                     android:textSize="12sp" />
                             </LinearLayout>
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="40dp"
                                 android:orientation="horizontal"
                                 android:gravity="center_vertical"
                                 android:layout_marginBottom="10dp">
+
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="전화번호: "
                                     android:textSize="14sp"
                                     android:fontFamily="@font/noto_sans_kr_bold"
-                                    android:includeFontPadding="false"/>
+                                    android:includeFontPadding="false" />
+
                                 <TextView
                                     android:id="@+id/textview_practiceroom_phone"
                                     android:layout_width="wrap_content"
@@ -314,21 +341,24 @@
                                     android:fontFamily="@font/noto_sans_kr_regular"
                                     android:includeFontPadding="false"
                                     android:ellipsize="end"
-                                    android:maxLines="1"/>
+                                    android:maxLines="1" />
                             </LinearLayout>
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="40dp"
                                 android:orientation="horizontal"
                                 android:gravity="center_vertical"
                                 android:layout_marginBottom="10dp">
+
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="이메일: "
                                     android:textSize="14sp"
                                     android:fontFamily="@font/noto_sans_kr_bold"
-                                    android:includeFontPadding="false"/>
+                                    android:includeFontPadding="false" />
+
                                 <TextView
                                     android:id="@+id/textview_practiceroom_email"
                                     android:layout_width="wrap_content"
@@ -339,11 +369,12 @@
                                     android:fontFamily="@font/noto_sans_kr_regular"
                                     android:includeFontPadding="false"
                                     android:ellipsize="end"
-                                    android:maxLines="1"/>
+                                    android:maxLines="1" />
                             </LinearLayout>
 
 
                         </LinearLayout>
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -352,6 +383,7 @@
                             android:layout_marginRight="25dp"
                             android:layout_marginTop="30dp"
                             android:layout_marginBottom="100dp">
+
                             <TextView
                                 android:textColor="@color/gray4"
                                 android:textSize="14sp"
@@ -360,13 +392,13 @@
                                 android:text="시설 및 물품 정보"
                                 android:gravity="bottom"
                                 android:layout_gravity="bottom"
-                                android:fontFamily="@font/noto_sans_kr_bold"
-                                />
+                                android:fontFamily="@font/noto_sans_kr_bold" />
+
                             <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="3dp"
                                 android:src="@drawable/background_rounded_gray"
-                                android:layout_marginBottom="20dp"/>
+                                android:layout_marginBottom="20dp" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -374,13 +406,15 @@
                                 android:orientation="horizontal"
                                 android:gravity="center_vertical"
                                 android:layout_marginBottom="10dp">
+
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="보면대 개수: "
                                     android:textSize="14sp"
                                     android:fontFamily="@font/noto_sans_kr_bold"
-                                    android:includeFontPadding="false"/>
+                                    android:includeFontPadding="false" />
+
                                 <TextView
                                     android:id="@+id/textview_practiceroom_stand"
                                     android:layout_width="wrap_content"
@@ -391,21 +425,24 @@
                                     android:fontFamily="@font/noto_sans_kr_regular"
                                     android:includeFontPadding="false"
                                     android:ellipsize="end"
-                                    android:maxLines="1"/>
+                                    android:maxLines="1" />
                             </LinearLayout>
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="40dp"
                                 android:orientation="horizontal"
                                 android:gravity="center_vertical"
                                 android:layout_marginBottom="10dp">
+
                                 <TextView
                                     android:layout_width="40dp"
                                     android:layout_height="wrap_content"
                                     android:text="피아노"
                                     android:textSize="14sp"
                                     android:fontFamily="@font/noto_sans_kr_bold"
-                                    android:includeFontPadding="false"/>
+                                    android:includeFontPadding="false" />
+
                                 <CheckBox
                                     android:id="@+id/checkbox_practiceroom_piano"
                                     android:layout_width="wrap_content"
@@ -417,21 +454,24 @@
                                     android:includeFontPadding="false"
                                     android:ellipsize="end"
                                     android:enabled="false"
-                                    android:maxLines="1"/>
+                                    android:maxLines="1" />
                             </LinearLayout>
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="40dp"
                                 android:orientation="horizontal"
                                 android:gravity="center_vertical"
                                 android:layout_marginBottom="10dp">
+
                                 <TextView
                                     android:layout_width="40dp"
                                     android:layout_height="wrap_content"
                                     android:text="앰프"
                                     android:textSize="14sp"
                                     android:fontFamily="@font/noto_sans_kr_bold"
-                                    android:includeFontPadding="false"/>
+                                    android:includeFontPadding="false" />
+
                                 <CheckBox
                                     android:id="@+id/checkbox_practiceroom_amp"
                                     android:layout_width="wrap_content"
@@ -444,7 +484,7 @@
                                     android:ellipsize="end"
                                     android:enabled="false"
 
-                                    android:maxLines="1"/>
+                                    android:maxLines="1" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -475,19 +515,22 @@
                                     android:enabled="false"
                                     android:textSize="12sp" />
                             </LinearLayout>
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="40dp"
                                 android:orientation="horizontal"
                                 android:gravity="center_vertical"
                                 android:layout_marginBottom="10dp">
+
                                 <TextView
                                     android:layout_width="40dp"
                                     android:layout_height="wrap_content"
                                     android:text="마이크"
                                     android:textSize="14sp"
                                     android:fontFamily="@font/noto_sans_kr_bold"
-                                    android:includeFontPadding="false"/>
+                                    android:includeFontPadding="false" />
+
                                 <CheckBox
                                     android:id="@+id/checkbox_performance_hall_mic"
                                     android:layout_width="wrap_content"
@@ -499,21 +542,24 @@
                                     android:fontFamily="@font/noto_sans_kr_regular"
                                     android:includeFontPadding="false"
                                     android:ellipsize="end"
-                                    android:maxLines="1"/>
+                                    android:maxLines="1" />
                             </LinearLayout>
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="40dp"
                                 android:orientation="horizontal"
                                 android:gravity="center_vertical"
                                 android:layout_marginBottom="10dp">
+
                                 <TextView
                                     android:layout_width="40dp"
                                     android:layout_height="wrap_content"
                                     android:text="드럼"
                                     android:textSize="14sp"
                                     android:fontFamily="@font/noto_sans_kr_bold"
-                                    android:includeFontPadding="false"/>
+                                    android:includeFontPadding="false" />
+
                                 <CheckBox
                                     android:id="@+id/checkbox_practiceroom_drum"
                                     android:layout_width="wrap_content"
@@ -525,15 +571,15 @@
                                     android:fontFamily="@font/noto_sans_kr_regular"
                                     android:includeFontPadding="false"
                                     android:ellipsize="end"
-                                    android:maxLines="1"/>
+                                    android:maxLines="1" />
                             </LinearLayout>
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal"
                                 android:gravity="center_vertical"
-                                android:layout_marginBottom="10dp">
-                            </LinearLayout>
+                                android:layout_marginBottom="10dp"></LinearLayout>
 
                         </LinearLayout>
                     </LinearLayout>

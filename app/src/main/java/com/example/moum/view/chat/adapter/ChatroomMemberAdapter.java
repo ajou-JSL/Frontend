@@ -1,12 +1,8 @@
 package com.example.moum.view.chat.adapter;
 
-import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Build;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,11 +20,10 @@ import com.example.moum.utils.ImageManager;
 import com.example.moum.view.chat.ChatMemberListFragment;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ChatroomMemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class ChatroomMemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<Member> members;
     private Context context;
     private Integer leaderId;
@@ -62,7 +57,7 @@ public class ChatroomMemberAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         return members.size();
     }
 
-    static class ChatroomMemberViewHolder extends RecyclerView.ViewHolder{
+    static class ChatroomMemberViewHolder extends RecyclerView.ViewHolder {
         private ChatMemberListFragment chatMemberListFragment;
         private Integer leaderId;
         private Member member;
@@ -81,30 +76,32 @@ public class ChatroomMemberAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         @SuppressLint("UseCompatLoadingForDrawables")
         @RequiresApi(api = Build.VERSION_CODES.O)
-        public void bind(Member member){
+        public void bind(Member member) {
             this.member = member;
 
             // 리더인 경우
-            if(member.getId().equals(leaderId)){
+            if (member.getId().equals(leaderId)) {
                 memberName.setText(String.format("[단체장] %s", member.getName()));
-                if(ImageManager.isUrlValid(member.getProfileImageUrl()))
+                if (ImageManager.isUrlValid(member.getProfileImageUrl())) {
                     Glide.with(context)
                             .load(member.getProfileImageUrl())
                             .apply(new RequestOptions()
-                            .placeholder(R.drawable.background_circle_gray_size_fit)
-                            .error(R.drawable.background_circle_gray_size_fit))
+                                    .placeholder(R.drawable.background_circle_gray_size_fit)
+                                    .error(R.drawable.background_circle_gray_size_fit))
                             .into(memberProfile);
+                }
             }
             //리더가 아닌 경우
-            else{
+            else {
                 memberName.setText(member.getName());
-                if(ImageManager.isUrlValid(member.getProfileImageUrl()))
+                if (ImageManager.isUrlValid(member.getProfileImageUrl())) {
                     Glide.with(context)
                             .load(member.getProfileImageUrl())
                             .apply(new RequestOptions()
-                            .placeholder(R.drawable.background_circle_gray_size_fit)
-                            .error(R.drawable.background_circle_gray_size_fit))
+                                    .placeholder(R.drawable.background_circle_gray_size_fit)
+                                    .error(R.drawable.background_circle_gray_size_fit))
                             .into(memberProfile);
+                }
             }
             memberProfile.setOnClickListener(new View.OnClickListener() {
                 @Override

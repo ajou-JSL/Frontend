@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -28,7 +27,7 @@
                     android:src="@drawable/gradient_mint_and_pink_vertical"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/constraint_my_moum_header"
@@ -36,8 +35,7 @@
                     android:layout_height="200dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    >
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -58,14 +56,14 @@
                             android:textSize="18dp"
                             android:textColor="@color/gray0"
                             android:gravity="center_vertical"
-                            android:includeFontPadding="false"/>
+                            android:includeFontPadding="false" />
 
                         <ImageView
                             android:layout_width="17dp"
                             android:layout_height="17dp"
                             android:src="@drawable/icon_plus"
                             android:layout_marginStart="5dp"
-                            app:tint="@color/gray1"/>
+                            app:tint="@color/gray1" />
 
                     </LinearLayout>
 
@@ -83,7 +81,7 @@
                         android:includeFontPadding="false"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -120,7 +118,7 @@
                             android:textColor="@color/gray3"
                             android:textSize="15sp"
                             android:fontFamily="@font/noto_sans_kr_regular"
-                            android:includeFontPadding="false"/>
+                            android:includeFontPadding="false" />
 
                     </LinearLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>

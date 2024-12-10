@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+
 public class BoardFreeFragment extends Fragment implements RefreshableFragment {
     private FragmentBoardFreeBinding binding;
     private SharedPreferenceManager sharedPreferenceManager;
