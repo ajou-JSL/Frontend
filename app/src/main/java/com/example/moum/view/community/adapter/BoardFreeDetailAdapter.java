@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -119,31 +118,21 @@ public class BoardFreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             commentTimestamp.setText(TimeAgo.getTimeAgo(comment.getCreateAt()));
             commentContent.setText(comment.getContent());
 
-            // context가 LifecycleOwner인지 확인 후 처리
-            if (context instanceof LifecycleOwner) {
-                LifecycleOwner lifecycleOwner = (LifecycleOwner) context;
+            // 기본 이미지 설정
+            profileImage.setImageResource(R.drawable.background_circle_darkgray);
 
-                // ViewModel에서 멤버 정보를 가져오고 observe를 설정
-                boardFreeDetailViewModel.getIsLoadItemMemberSuccess().observe(lifecycleOwner, member -> {
-                    if (member != null && member.getData().getProfileImageUrl() != null) {
-                        Glide.with(profileImage.getContext())
-                                .load(member.getData().getProfileImageUrl())
-                                .apply(new RequestOptions().circleCrop())
-                                .into(profileImage);
-                    } else {
-                        profileImage.setImageResource(R.drawable.background_circle_darkgray);
-                    }
-                });
+            if(comment.getAuthorProfileImage() != null){
+                Glide.with(profileImage.getContext())
+                        .load(comment.getAuthorProfileImage())
+                        .apply(new RequestOptions().circleCrop())
+                        .into(profileImage);
             }
-            boardFreeDetailViewModel.loadItemProfileImage(comment.getAuthorId());
-
         }
 
         private void showPopupMenu(View view, int position) {
-            if (context instanceof BoardFreeDetailActivity) {  // 액티비티가 맞는지 확인
+            if (context instanceof BoardFreeDetailActivity) {
                 ((BoardFreeDetailActivity) context).commentPopupMenu(view, position);
             }
         }
-
     }
 }

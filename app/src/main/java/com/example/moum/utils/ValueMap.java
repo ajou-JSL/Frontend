@@ -70,6 +70,7 @@ public class ValueMap {
             put("S-C001", Validation.COMMENT_CREATE_SUCCESS);
             put("S-C002", Validation.COMMENT_UPDATE_SUCCESS);
             put("S-C003", Validation.COMMENT_DELETE_SUCCESS);
+            put("S-C004", Validation.COMMENT_GET_SUCCESS);
 
             // 좋아요 관련 성공 응답
             put("S-L001", Validation.LIKES_CREATE_SUCCESS);

@@ -3,8 +3,11 @@ package com.example.moum.data.api;
 import com.example.moum.data.dto.ArticleFilterRequest;
 import com.example.moum.data.dto.ArticleRequest;
 import com.example.moum.data.dto.CommentRequest;
+import com.example.moum.data.dto.DataResponse;
 import com.example.moum.data.dto.SuccessResponse;
 import com.example.moum.data.entity.Article;
+import com.example.moum.data.entity.ArticleDetail;
+import com.example.moum.data.entity.Chat;
 import com.example.moum.data.entity.Comment;
 import com.example.moum.data.entity.Like;
 
@@ -16,6 +19,7 @@ import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
@@ -33,28 +37,35 @@ public interface ArticleApi {
 
     @GET("/api/articles/hot")
     Call<SuccessResponse<List<Article>>> loadArticlesHot(
-            @Query("page") Integer page,
-            @Query("size") Integer size
+        @Query("page") Integer page,
+        @Query("size") Integer size
     );
 
     @GET("/api/articles-all/category")
     Call<SuccessResponse<List<Article>>> loadArticlesCategory(
-            @Query("keyword") String keyword,
-            @Query("category") String category,
-            @Query("page") Integer page,
-            @Query("size") Integer size
+        @Query("keyword") String keyword,
+        @Query("category") String category,
+        @Query("page") Integer page,
+        @Query("size") Integer size
     );
 
     @GET("/api/articles/{articleId}")
-    Call<SuccessResponse<Article>> loadArticleDetail(
-            @Path("articleId") Integer articleId
+    Call<SuccessResponse<ArticleDetail>> loadArticleDetail(
+        @Path("articleId") Integer articleId
     );
 
     @GET("api/articles/search")
-    Call<SuccessResponse<List<Article>>> searchArticlesFilters(
+    Call<SuccessResponse<DataResponse<Article>>> searchArticlesFilters(
+            @Query("keyword") String keyword,
+            @Query("filterByLikesCount") boolean filterByLikesCount,
+            @Query("filterByViewCount") boolean filterByViewCount,
+            @Query("filterByCommentsCount") boolean filterByCommentsCount,
+            @Query("filterByCreatedAt") boolean filterByCreatedAt,
+            @Query("createdAt") String createdAt,
+            @Query("category") String category,
+            @Query("genre") String genre,
             @Query("page") Integer page,
-            @Query("size") Integer size,
-            @Query("searchDto") ArticleFilterRequest articleFilterRequest
+            @Query("size") Integer size
     );
 
     @Multipart
@@ -93,7 +104,7 @@ public interface ArticleApi {
     );
 
     @DELETE("/api/articles/{articleId}")
-    Call<SuccessResponse<Article>> deleteArticle(
+    Call<SuccessResponse<ArticleDetail>> deleteArticle(
             @Path("articleId") int articleId
     );
 

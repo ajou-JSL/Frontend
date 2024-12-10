@@ -1,18 +1,21 @@
 package com.example.moum.data.entity;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class Article {
     private Integer id;
     private Integer authorId;
     private String title;
-    private String category; //TODO enum으로 리팩토링
+    private String category;
     private String content;
     private Integer viewCounts;
     private Integer commentsCounts;
-    private Integer genres;
+    private String genre;
     private Integer likeCounts;
-    private List<String> fileURL;
+    private String fileUrl;
     private String author;
     private String authorName; // 닉네임 추가
     private List<Comment> comments;
@@ -23,9 +26,7 @@ public class Article {
         return id;
     }
 
-    public Integer getAuthorId() {
-        return authorId;
-    }
+    public Integer getAuthorId() { return authorId; }
 
     public List<Comment> getComments() {
         return comments;
@@ -43,9 +44,7 @@ public class Article {
         return viewCounts;
     }
 
-    public Integer getGenre() {
-        return genres;
-    }
+    public String getGenre() { return genre; }
 
     public String getAuthor() {
         return author;
@@ -75,9 +74,7 @@ public class Article {
         return updatedAt;
     }
 
-    public List<String> getFileURL() {
-        return fileURL;
-    }
+    public String getFileUrl() { return fileUrl; }
 
     public void setId(Integer id) {
         this.id = id;
@@ -127,13 +124,9 @@ public class Article {
         this.updatedAt = updateAt;
     }
 
-    public void setFileURL(List<String> fileURL) {
-        this.fileURL = fileURL;
-    }
+    public void setFileUrl(String fileUrl) { this.fileUrl = fileUrl; }
 
-    public void setGenre(Integer genres) {
-        this.genres = genres;
-    }
+    public void setGenre(String genre) { this.genre = genre; }
 
     @Override
     public String toString() {
@@ -146,13 +139,12 @@ public class Article {
                 ", viewCounts=" + viewCounts +
                 ", commentCounts=" + commentsCounts +
                 ", likeCounts=" + likeCounts +
-                ", imageURL=" + fileURL + '\'' +
+                ", fileUrl=" + fileUrl + '\'' +
                 ", author='" + author + '\'' +
                 ", comments=" + comments +
                 ", createdAt='" + createdAt + '\'' +
                 ", viewCounts=" + updatedAt +
+                ", genre =" + genre +
                 '}';
     }
-
-
 }

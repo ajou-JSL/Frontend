@@ -4,14 +4,18 @@ import static com.example.moum.utils.TimeAgo.getTimeAgo;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.PopupMenu;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,11 +25,13 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.moum.R;
 import com.example.moum.data.entity.Article;
+import com.example.moum.data.entity.ArticleDetail;
 import com.example.moum.data.entity.Comment;
 import com.example.moum.databinding.ActivityBoardRecruitDetailBinding;
 import com.example.moum.utils.SharedPreferenceManager;
 import com.example.moum.utils.Validation;
 import com.example.moum.view.auth.InitialActivity;
+import com.example.moum.view.community.adapter.BoardImageAdapter;
 import com.example.moum.view.community.adapter.BoardRecruitDetailAdapter;
 import com.example.moum.view.profile.MemberProfileFragment;
 import com.example.moum.view.report.ReportArticleFragment;
@@ -39,11 +45,13 @@ public class BoardRecruitDetailActivity extends AppCompatActivity {
     private BoardRecruitDetailViewModel boardRecruitDetailViewModel;
     private SharedPreferenceManager sharedPreferenceManager;
     private BoardRecruitDetailAdapter adapter;
+    private BoardImageAdapter imageAdapter;
     private Integer memberId;
     private int targetBoardId;
     private Context context;
     private String profileURL;
-    private ArrayList<Comment> comments;
+    private ArrayList<Comment> comments = new ArrayList<>();
+    private ArticleDetail articleDetail;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,7 +69,7 @@ public class BoardRecruitDetailActivity extends AppCompatActivity {
         String accessToken = sharedPreferenceManager.getCache(getString(R.string.user_access_token_key), "no-access-token");
         String username = sharedPreferenceManager.getCache(getString(R.string.user_username_key), "no-memberId");
         memberId = sharedPreferenceManager.getCache(getString(R.string.user_id_key), -1);
-        if (accessToken.isEmpty() || accessToken.equals("no-access-token")) {
+        if(accessToken.isEmpty() || accessToken.equals("no-access-token")){
             Toast.makeText(context, "로그인 정보가 없어 초기 페이지로 돌아갑니다.", Toast.LENGTH_SHORT).show();
             Intent intent1 = new Intent(context, InitialActivity.class);
             startActivity(intent1);
@@ -77,35 +85,52 @@ public class BoardRecruitDetailActivity extends AppCompatActivity {
         /* 게시글 감지 설정*/
         boardRecruitDetailViewModel.getIsLoadArticeSuccess().observe(this, articleData -> {
             if (articleData != null) {
+                articleDetail = articleData;
                 binding.boardRecruitDetailWriter.setText(articleData.getAuthor());
                 binding.boardRecruitDetailTime.setText(getTimeAgo(articleData.getCreateAt()));
                 binding.boardRecruitDetailTitle.setText(articleData.getTitle());
                 binding.boardRecruitDetailContent.setText(articleData.getContent());
-                binding.boardRecruitDetailLikeCount.setText(String.valueOf(articleData.getLikeCounts()));
                 boardRecruitDetailViewModel.loadProfileImage(articleData.getAuthorId());
+                imageAdapter.updateItemList(articleData.getFileUrl());
+
             } else {
                 Toast.makeText(context, "데이터를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
             }
         });
 
-        /* 좋아요 수 감시 */
+        /* 좋아요 감시 */
         boardRecruitDetailViewModel.getIsLikeSuccess().observe(this, like -> {
-            binding.boardRecruitDetailLikeCount.setText(String.valueOf(like.getData().getLikesCount()));
-            binding.buttonLikeImage.setChecked(like.getData().getLiked());
+            Validation validation = like.getValidation();
+            if (like.getData() != null) {
+                if (like.getData().getLiked()) {
+                    // 안눌렀을 때
+                    binding.buttonLikeImage.setBackgroundResource(R.drawable.icon_heart_click);
+                } else {
+                    // 이미 눌렀을 때
+                    binding.buttonLikeImage.setBackgroundResource(R.drawable.icon_heart_click_no);
+                }
+
+                binding.boardRecruitDetailLikeCount.setText(String.valueOf(like.getData().getLikesCount()));
+            }
+            else if(validation == Validation.CANNOT_CREATE_SELF_LIKES){
+                Toast.makeText(context, "자신의 게시물에 좋아요를 할 수 없습니다.", Toast.LENGTH_SHORT).show();
+            }
+            else if(validation == Validation.ARTICLE_NOT_FOUND) {
+                Toast.makeText(context, "게시물을 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
+            }
         });
 
         /* 댓글 감시 */
         boardRecruitDetailViewModel.getisLoadCommentsSuccess().observe(this, commentList -> {
-            if (commentList != null) {
-                Log.e("commentList", commentList.toString());
+                comments.clear();
+                comments.addAll(commentList.getData());
                 adapter.updateComment(commentList.getData());
-            }
         });
 
         /* 댓글 삭제 추가 감시 */
         boardRecruitDetailViewModel.getIsChangeCommentSuccess().observe(this, comment -> {
             Validation validataion = comment.getValidation();
-            if (validataion == Validation.COMMENT_CREATE_SUCCESS || validataion == Validation.COMMENT_DELETE_SUCCESS) {
+            if(validataion == Validation.COMMENT_CREATE_SUCCESS || validataion == Validation.COMMENT_DELETE_SUCCESS){
                 boardRecruitDetailViewModel.loadComments(targetBoardId);
                 adapter.notifyDataSetChanged();
             }
@@ -136,7 +161,7 @@ public class BoardRecruitDetailActivity extends AppCompatActivity {
 
         /* 게시글 로드 */
         boardRecruitDetailViewModel.loadArticlesDetail(targetBoardId);
-        boardRecruitDetailViewModel.loadLike(memberId, targetBoardId);
+        boardRecruitDetailViewModel.loadLike(memberId,targetBoardId);
         boardRecruitDetailViewModel.loadComments(targetBoardId);
 
 
@@ -144,13 +169,14 @@ public class BoardRecruitDetailActivity extends AppCompatActivity {
         initLeftArrow();
         initLikeButton();
         initMenu();
+        initRecyclerviewImage();
         initRecyclerviewContent();
         initInputbutton();
         initprofileImage();
 
     }
 
-    public void initLeftArrow() {
+    public void initLeftArrow(){
         binding.leftarrow.setOnClickListener(v -> {
             finish();
         });
@@ -162,8 +188,8 @@ public class BoardRecruitDetailActivity extends AppCompatActivity {
             PopupMenu popupMenu = new PopupMenu(this, binding.menu);
 
             // 작성자가 게시글 보는 본인 일 때
-            Article article = boardRecruitDetailViewModel.getIsLoadArticeSuccess().getValue();
-            if (memberId.equals(article.getAuthorId())) {
+            ArticleDetail article = boardRecruitDetailViewModel.getIsLoadArticeSuccess().getValue();
+            if(memberId.equals(article.getAuthorId())){
                 //popupMenu.getMenu().add("수정하기");
                 popupMenu.getMenu().add("삭제하기");
             }
@@ -202,12 +228,12 @@ public class BoardRecruitDetailActivity extends AppCompatActivity {
         });
     }
 
-    public void initLikeButton() {
+    public void initLikeButton(){
         binding.buttonLike.setOnClickListener(v -> {
-            boardRecruitDetailViewModel.postLike(memberId, targetBoardId);
+            boardRecruitDetailViewModel.postLike(memberId ,targetBoardId);
             Validation validation = boardRecruitDetailViewModel.getIsLikeSuccess().getValue().getValidation();
-            if (validation != null) {
-                switch (validation) {
+            if(validation != null){
+                switch(validation){
                     case DUPLICATE_LIKES:
                         Toast.makeText(context, "이미 좋아요를 눌렀습니다.", Toast.LENGTH_SHORT).show();
                         break;
@@ -219,16 +245,18 @@ public class BoardRecruitDetailActivity extends AppCompatActivity {
                 }
 
             }
-            boardRecruitDetailViewModel.loadLike(memberId, targetBoardId);
+            boardRecruitDetailViewModel.loadLike(memberId,targetBoardId);
         });
     }
 
-    private void initImageRecyclerview() {
+    private void initRecyclerviewImage(){
+        ArrayList<String> imageUrls = new ArrayList<>();
         // RecyclerView 초기화
-        RecyclerView recyclerView = binding.boardRecruitDetailRecyclerView;
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        RecyclerView recyclerView = binding.boardImageRecyclerView;
+        recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
 
-        //TODO 이미지 어댑터 구성 + viewmodel 이미지 파일 적용
+        imageAdapter = new BoardImageAdapter(context);
+        recyclerView.setAdapter(imageAdapter);
     }
 
 
@@ -238,7 +266,6 @@ public class BoardRecruitDetailActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
         // RecyclerView 어댑터 설정 (처음에 빈 데이터로 어댑터 설정)
-        comments = new ArrayList<>();
         adapter = new BoardRecruitDetailAdapter(comments, context, boardRecruitDetailViewModel);
 
         // 프로필 클릭 이벤트
@@ -247,7 +274,7 @@ public class BoardRecruitDetailActivity extends AppCompatActivity {
             Comment clickedComment = adapter.getCommentAt(position);
             if (clickedComment != null) {
                 Bundle bundle = new Bundle();
-                bundle.putInt("targetMemberId", boardRecruitDetailViewModel.getIsLoadMemberSuccess().getValue().getData().getId());
+                bundle.putInt("targetMemberId", clickedComment.getAuthorId());
 
                 // 프로필 프래그먼트 생성
                 MemberProfileFragment fragment = new MemberProfileFragment(context);
@@ -266,7 +293,7 @@ public class BoardRecruitDetailActivity extends AppCompatActivity {
         });
     }
 
-    public void initInputbutton() {
+    public void initInputbutton(){
         binding.boardRecruitDetailInputButton.setOnClickListener(v -> {
             String content = binding.boardRecruitDetailInputBox.getText().toString();
             boardRecruitDetailViewModel.postComment(targetBoardId, content);
@@ -291,7 +318,7 @@ public class BoardRecruitDetailActivity extends AppCompatActivity {
         PopupMenu popupMenu = new PopupMenu(this, view);
 
         // 메뉴 항목 추가
-        if (memberId.equals(comments.get(position).getAuthorId())) {
+        if(memberId.equals(comments.get(position).getAuthorId())) {
             popupMenu.getMenu().add("삭제하기");
         }
         popupMenu.getMenu().add("신고하기");
@@ -327,6 +354,7 @@ public class BoardRecruitDetailActivity extends AppCompatActivity {
         // 메뉴 표시
         popupMenu.show();
     }
+
 
 
     @Override

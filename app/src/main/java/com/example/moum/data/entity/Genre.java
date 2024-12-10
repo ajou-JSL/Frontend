@@ -55,4 +55,14 @@ public enum Genre {
             throw new IllegalArgumentException("Unknown Genre name: " + name);
         }
     }
+
+    public static String fromInt(int value) {
+        for (Genre genre : Genre.values()) {
+            if (genre.getValue() == value) {
+                return genre.name(); // enum 이름을 반환
+            }
+        }
+        throw new IllegalArgumentException("Unknown enum value: " + value);
+    }
+
 }

@@ -1,6 +1,8 @@
 package com.example.moum.view.community.adapter;
 
 import android.content.Intent;
+import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,11 +10,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.moum.R;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.moum.data.entity.Article;
+import com.example.moum.R;
 import com.example.moum.utils.TimeAgo;
 import com.example.moum.view.community.BoardFreeDetailActivity;
 
@@ -40,7 +45,7 @@ public class BoardFreeItemAdapter extends RecyclerView.Adapter<BoardFreeItemAdap
         notifyDataSetChanged();
     }
 
-    public void addItemList(ArrayList<Article> boardFreeItems) {
+    public void addItemList(ArrayList<Article> boardFreeItems){
         this.itemList.addAll(boardFreeItems);
         notifyDataSetChanged();
     }
@@ -82,21 +87,26 @@ public class BoardFreeItemAdapter extends RecyclerView.Adapter<BoardFreeItemAdap
 
         public void bind(Article article) {
             title.setText(article.getTitle());
-            writer.setText(article.getAuthor());
+            writer.setText(article.getAuthorName());
             time.setText(TimeAgo.getTimeAgo(article.getCreateAt()));
             String count = "[" + article.getCommentsCounts() + "] / " + article.getViewCounts() + " 회";
             counts.setText(count);
 
-            if (article.getFileURL() != null) {
+            if (article.getFileUrl() != null) {
                 // 이미지가 있을 때만 보이게 설정
                 image.setVisibility(View.VISIBLE);
                 Glide.with(itemView.getContext())
-                        .load(article.getFileURL().get(0))
+                        .applyDefaultRequestOptions(new RequestOptions()
+                                .placeholder(R.drawable.background_more_rounded_gray_size_fit)
+                                .error(R.drawable.background_more_rounded_gray_size_fit))
+                        .load(article.getFileUrl())
                         .into(image);
+                image.setClipToOutline(true);  // outline 설정
             } else {
                 // 이미지가 없으면 숨기기
                 image.setVisibility(View.GONE);
             }
         }
+
     }
 }

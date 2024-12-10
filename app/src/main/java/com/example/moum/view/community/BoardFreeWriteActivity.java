@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moum.R;
+import com.example.moum.data.entity.Article;
 import com.example.moum.data.entity.Genre;
 import com.example.moum.data.entity.Team;
 import com.example.moum.databinding.ActivityBoardFreeWriteBinding;
@@ -64,13 +65,24 @@ public class BoardFreeWriteActivity extends AppCompatActivity {
             finish();
         }
 
+        /* 게시글 생성 감시 */
+        boardFreeWriteViewModel.getIsArticleCreateSuccess().observe(this, result -> {
+            Validation validation = result.getValidation();
+            Article article = result.getData();
+            if(validation == Validation.ARTICLE_POST_SUCCESS && article != null){
+                Toast.makeText(context,"게시글 생성 성공", Toast.LENGTH_SHORT).show();
+                finish();
+            } else {
+                Toast.makeText(context,"게시글 생성 실패", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         initBackButton();
         initWriteButton();
         initSpinnerWriter();
         initSpinnerGenre();
         initializePickMedia();
         initImageRecyclerView();
-
     }
 
     private void initializePickMedia() {
@@ -112,7 +124,6 @@ public class BoardFreeWriteActivity extends AppCompatActivity {
             }
 
             boardFreeWriteViewModel.createArticle(title, content, category, genre, context);
-            finish();
         });
     }
 

@@ -2,11 +2,13 @@ package com.example.moum.viewmodel.community;
 
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.moum.data.entity.Article;
+import com.example.moum.data.entity.ArticleDetail;
 import com.example.moum.data.entity.Comment;
 import com.example.moum.data.entity.Like;
 import com.example.moum.data.entity.Member;
@@ -19,13 +21,13 @@ import java.util.List;
 
 public class BoardFreeDetailViewModel extends AndroidViewModel {
     private final MutableLiveData<Validation> validationStatus = new MutableLiveData<>();
-    private final MutableLiveData<Article> isLoadArticeSuccess = new MutableLiveData<>();
-    private final MutableLiveData<Article> isdeleteArticeSuccess = new MutableLiveData<>();
+    private final MutableLiveData<ArticleDetail> isLoadArticeSuccess = new MutableLiveData<>();
+    private final MutableLiveData<ArticleDetail> isdeleteArticeSuccess = new MutableLiveData<>();
     private final MutableLiveData<Result<List<Comment>>> isLoadCommentsSuccess = new MutableLiveData<>();
     private final MutableLiveData<Result<Like>> isLoadLikeSuccess = new MutableLiveData<>();
     private final MutableLiveData<Result<Member>> isLoadMemberSuccess = new MutableLiveData<>();
-    private final MutableLiveData<Result<Member>> isLoadItemMemberSuccess = new MutableLiveData<>();
     private final MutableLiveData<Result<Comment>> isChangeCommentSuccess = new MutableLiveData<>();
+    private Like like = new Like();
     private String userName = new String();
     private ArticleRepository articleRepository;
     private ProfileRepository profileRepository;
@@ -38,7 +40,7 @@ public class BoardFreeDetailViewModel extends AndroidViewModel {
 
     }
 
-    private void setIsLoadArticleSuccess(Result<Article> result) {
+    private void setIsLoadArticleSuccess(Result<ArticleDetail> result) {
         if (result != null && result.getData() != null) {
             this.isLoadArticeSuccess.setValue(result.getData());
         } else {
@@ -46,12 +48,16 @@ public class BoardFreeDetailViewModel extends AndroidViewModel {
         }
     }
 
-    private void setIsdeleteArticeSuccess(Result<Article> result) {
+    private void setIsdeleteArticeSuccess(Result<ArticleDetail> result) {
         this.isdeleteArticeSuccess.setValue(result.getData());
     }
 
     private void setIsLoadCommentSuccess(Result<List<Comment>> result) {
-        this.isLoadCommentsSuccess.setValue(result);
+        if(result.getValidation() == Validation.COMMENT_GET_SUCCESS){
+            this.isLoadCommentsSuccess.setValue(result);
+        } else {
+            Log.e("BoardRecruitViewModel", "댓글 로드 실패");
+        }
     }
 
     private void setIsChangeCommentSuccess(Result<Comment> result) {
@@ -59,26 +65,19 @@ public class BoardFreeDetailViewModel extends AndroidViewModel {
     }
 
     private void setIsLikeSuccess(Result<Like> result) {
-        isLoadLikeSuccess.setValue(result);
+        like = result.getData();
+        this.isLoadLikeSuccess.setValue(result);
     }
 
     private void setIsLoadMemberSuccess(Result<Member> result) {
-        isLoadMemberSuccess.setValue(result);
-    }
-
-    private void setIsLoadItemMemberSuccess(Result<Member> result) {
-        isLoadItemMemberSuccess.setValue(result);
-    }
-
-    private void setIsItemLoadMemberSuccess(Result<Member> result) {
-        isLoadItemMemberSuccess.setValue(result);
+            this.isLoadMemberSuccess.setValue(result);
     }
 
     public MutableLiveData<Validation> getValidationStatus() {
         return validationStatus;
     }
 
-    public MutableLiveData<Article> getIsLoadArticeSuccess() {
+    public MutableLiveData<ArticleDetail> getIsLoadArticeSuccess() {
         return isLoadArticeSuccess;
     }
 
@@ -90,15 +89,11 @@ public class BoardFreeDetailViewModel extends AndroidViewModel {
         return isLoadCommentsSuccess;
     }
 
-    public MutableLiveData<Result<Member>> getIsLoadMemberSuccess() {
+    public MutableLiveData<Result<Member>> getIsLoadMemberSuccess(){
         return isLoadMemberSuccess;
     }
 
-    public MutableLiveData<Result<Member>> getIsLoadItemMemberSuccess() {
-        return isLoadItemMemberSuccess;
-    }
-
-    public MutableLiveData<Result<Comment>> getIsChangeCommentSuccess() {
+    public MutableLiveData<Result<Comment>> getIsChangeCommentSuccess(){
         return isChangeCommentSuccess;
     }
 
@@ -122,19 +117,15 @@ public class BoardFreeDetailViewModel extends AndroidViewModel {
         articleRepository.postLike(memberId, articleId, this::setIsLikeSuccess);
     }
 
-    public void loadProfileImage(Integer authorId) {
+    public void loadProfileImage(Integer authorId){
         profileRepository.loadMemberProfile(authorId, this::setIsLoadMemberSuccess);
     }
 
-    public void loadItemProfileImage(Integer authorId) {
-        profileRepository.loadMemberProfile(authorId, this::setIsLoadItemMemberSuccess);
-    }
-
-    public void deleteComment(Integer commentId) {
+    public void deleteComment(Integer commentId){
         articleRepository.deleteComment(commentId, this::setIsChangeCommentSuccess);
     }
 
-    public void deleteArticle(Integer articleId) {
+    public void deleteArticle(Integer articleId){
         articleRepository.deleteArticle(articleId, this::setIsdeleteArticeSuccess);
     }
 }

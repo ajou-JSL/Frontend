@@ -7,8 +7,8 @@ public class ArticleFilterRequest {
     private boolean filterByCommentsCount;
     private boolean filterByCreatedAt;
     private String createdAt;
-    private Integer category;
-    private Integer genre;
+    private String category;
+    private String genre;
 
     public ArticleFilterRequest(
             String keyword,
@@ -17,8 +17,8 @@ public class ArticleFilterRequest {
             boolean filterByCommentsCount,
             boolean filterByCreatedAt,
             String createdAt,
-            Integer category,
-            Integer genre) {
+            String category,
+            String genre) {
 
         this.keyword = keyword;
         this.filterByLikesCount = filterByLikesCount;
@@ -54,12 +54,25 @@ public class ArticleFilterRequest {
         this.createdAt = createdAt;
     }
 
-    public void setCategory(Integer category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 
-    public void setGenre(Integer genre) {
+    public void setGenre(String genre) {
         this.genre = genre;
     }
+
+    public String getKeyword(){ return keyword;}
+
+    public boolean getLike() { return filterByLikesCount; }
+    public boolean getView() { return filterByViewCount; }
+    public boolean getComment() { return filterByCommentsCount; }
+    public boolean getCreatedAt() { return filterByCreatedAt; }
+    public String getCreatedAtValue() {return createdAt; }
+    public String getCategory() { return category; }
+    public String getGenre() { return genre; }
+
+
+
 
 }
