@@ -138,6 +138,7 @@ public enum Validation {
     COMMENT_CREATE_SUCCESS,
     COMMENT_UPDATE_SUCCESS,
     COMMENT_DELETE_SUCCESS,
+    COMMENT_GET_SUCCESS,
 
     // 좋아요 관련 성공 응답
     LIKES_GET_SUCCESS,

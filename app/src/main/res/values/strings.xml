@@ -332,6 +332,7 @@
         <item>좋아요순</item>
     </string-array>
     <string-array name="board_search_spinner_items">
+        <item>모든게시판</item>
         <item>자유게시판</item>
         <item>모집게시판</item>
     </string-array>

@@ -130,13 +130,7 @@ public class BoardFreeFragment extends Fragment implements RefreshableFragment {
         spinnerItems.add("모든 장르");
         spinnerItems.addAll(boardFreeViewModel.getGenreName());
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, spinnerItems) {
-            @Override
-            public boolean isEnabled(int position) {
-                // 0번째 항목은 선택 불가
-                return position != 0;
-            }
-        };
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, spinnerItems);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         // 어댑터 연결

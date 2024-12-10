@@ -7,6 +7,7 @@ import com.example.moum.data.dto.CommentRequest;
 import com.example.moum.data.dto.DataResponse;
 import com.example.moum.data.dto.SuccessResponse;
 import com.example.moum.data.entity.Article;
+import com.example.moum.data.entity.ArticleDetail;
 import com.example.moum.data.entity.Chat;
 import com.example.moum.data.entity.Comment;
 import com.example.moum.data.entity.Like;
@@ -51,7 +52,7 @@ public interface ArticleApi {
     );
 
     @GET("/api/articles/{articleId}")
-    Call<SuccessResponse<Article>> loadArticleDetail(
+    Call<SuccessResponse<ArticleDetail>> loadArticleDetail(
         @Path("articleId") Integer articleId
     );
 
@@ -105,7 +106,7 @@ public interface ArticleApi {
     );
 
     @DELETE("/api/articles/{articleId}")
-    Call<SuccessResponse<Article>> deleteArticle(
+    Call<SuccessResponse<ArticleDetail>> deleteArticle(
             @Path("articleId") int articleId
     );
 

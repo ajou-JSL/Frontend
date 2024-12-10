@@ -14,6 +14,7 @@ import com.example.moum.data.dto.DataResponse;
 import com.example.moum.data.dto.ErrorResponse;
 import com.example.moum.data.dto.SuccessResponse;
 import com.example.moum.data.entity.Article;
+import com.example.moum.data.entity.ArticleDetail;
 import com.example.moum.data.entity.Comment;
 import com.example.moum.data.entity.Genre;
 import com.example.moum.data.entity.Like;
@@ -183,19 +184,19 @@ public class ArticleRepository {
         });
     }
 
-    public void loadArticleDetail(Integer articleId, com.example.moum.utils.Callback<Result<Article>> callback) {
-        Call<SuccessResponse<Article>> result = articleApi.loadArticleDetail(articleId);
-        result.enqueue(new retrofit2.Callback<SuccessResponse<Article>>() {
+    public void loadArticleDetail(Integer articleId, com.example.moum.utils.Callback<Result<ArticleDetail>> callback) {
+        Call<SuccessResponse<ArticleDetail>> result = articleApi.loadArticleDetail(articleId);
+        result.enqueue(new retrofit2.Callback<SuccessResponse<ArticleDetail>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
-            public void onResponse(Call<SuccessResponse<Article>> call, Response<SuccessResponse<Article>> response) {
+            public void onResponse(Call<SuccessResponse<ArticleDetail>> call, Response<SuccessResponse<ArticleDetail>> response) {
                 if (response.isSuccessful()) {
                     /*성공적으로 응답을 받았을 때*/
-                    SuccessResponse<Article> responseBody = response.body();
+                    SuccessResponse<ArticleDetail> responseBody = response.body();
                     Log.e(TAG, responseBody.toString());
-                    Article article = responseBody.getData();
+                    ArticleDetail articleDetail = responseBody.getData();
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
-                    Result<Article> result = new Result<>(validation, article);
+                    Result<ArticleDetail> result = new Result<>(validation, articleDetail);
                     callback.onResult(result);
                 } else {
                     /*응답은 받았으나 문제 발생 시*/
@@ -205,7 +206,7 @@ public class ArticleRepository {
                         if (errorResponse != null) {
                             Log.e(TAG, errorResponse.toString());
                             Validation validation = ValueMap.getCodeToVal(errorResponse.getCode());
-                            Result<Article> result = new Result<>(validation);
+                            Result<ArticleDetail> result = new Result<>(validation);
                             callback.onResult(result);
                         }
                     } catch (Exception e) {
@@ -215,8 +216,8 @@ public class ArticleRepository {
             }
 
             @Override
-            public void onFailure(Call<SuccessResponse<Article>> call, Throwable t) {
-                Result<Article> result = new Result<>(Validation.NETWORK_FAILED);
+            public void onFailure(Call<SuccessResponse<ArticleDetail>> call, Throwable t) {
+                Result<ArticleDetail> result = new Result<>(Validation.NETWORK_FAILED);
                 callback.onResult(result);
             }
         });
@@ -391,19 +392,19 @@ public class ArticleRepository {
         });
     }
 
-    public void deleteArticle(int articleId, com.example.moum.utils.Callback<Result<Article>> callback) {
-        Call<SuccessResponse<Article>> result = articleApi.deleteArticle(articleId);
-        result.enqueue(new retrofit2.Callback<SuccessResponse<Article>>() {
+    public void deleteArticle(int articleId, com.example.moum.utils.Callback<Result<ArticleDetail>> callback) {
+        Call<SuccessResponse<ArticleDetail>> result = articleApi.deleteArticle(articleId);
+        result.enqueue(new retrofit2.Callback<SuccessResponse<ArticleDetail>>() {
             @Override
-            public void onResponse(Call<SuccessResponse<Article>> call, Response<SuccessResponse<Article>> response) {
+            public void onResponse(Call<SuccessResponse<ArticleDetail>> call, Response<SuccessResponse<ArticleDetail>> response) {
 
                 if (response.isSuccessful()) {
                     /*성공적으로 응답을 받았을 때*/
-                    SuccessResponse<Article> responseBody = response.body();
+                    SuccessResponse<ArticleDetail> responseBody = response.body();
 
-                    Article article = responseBody.getData();
+                    ArticleDetail articleDetail = responseBody.getData();
                     Validation validation = ValueMap.getCodeToVal(responseBody.getCode());
-                    Result<Article> result = new Result<>(validation, article);
+                    Result<ArticleDetail> result = new Result<>(validation, articleDetail);
                     callback.onResult(result);
                 } else {
                     try {
@@ -412,7 +413,7 @@ public class ArticleRepository {
                         if (errorResponse != null) {
                             Log.e(TAG, errorResponse.toString());
                             Validation validation = ValueMap.getCodeToVal(errorResponse.getCode());
-                            Result<Article> result = new Result<>(validation);
+                            Result<ArticleDetail> result = new Result<>(validation);
                             callback.onResult(result);
                         }
                     } catch (Exception e) {
@@ -422,8 +423,8 @@ public class ArticleRepository {
             }
 
             @Override
-            public void onFailure(Call<SuccessResponse<Article>> call, Throwable t) {
-                Result<Article> result = new Result<>(Validation.NETWORK_FAILED);
+            public void onFailure(Call<SuccessResponse<ArticleDetail>> call, Throwable t) {
+                Result<ArticleDetail> result = new Result<>(Validation.NETWORK_FAILED);
                 callback.onResult(result);
             }
         });

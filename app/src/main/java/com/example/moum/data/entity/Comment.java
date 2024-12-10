@@ -7,6 +7,7 @@ public class Comment {
     private String author;
     private String content;
     private String createdAt;
+    private String authorProfileImage;
 
     public String getAuthor() {
         return author;
@@ -55,6 +56,13 @@ public class Comment {
         this.authorId = authorId;
     }
 
+    public void setAuthorProfileImage(String authorProfileImage) {
+        this.authorProfileImage = authorProfileImage;
+    }
+
+    public String getAuthorProfileImage(){
+        return authorProfileImage;
+    }
 
     @Override
     public String toString() {
@@ -63,6 +71,7 @@ public class Comment {
                 ", articleDetailsId=" + articleDetailsId +
                 ", author='" + author + '\'' +
                 ", authorId='" + authorId + '\'' +
+                ", authorProfileImage='" + authorProfileImage + '\'' +
                 ", content='" + content + '\'' +
                 ", createAt='" + createdAt + '\'' +
                 '}';

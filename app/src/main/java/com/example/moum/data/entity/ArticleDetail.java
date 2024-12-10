@@ -13,7 +13,7 @@ public class ArticleDetail {
     private Integer commentsCounts;
     private String genre;
     private Integer likeCounts;
-    private ArrayList<String> fileUrl;
+    private ArrayList<String> fileUrls;
     private String author;
     private String authorName; // 닉네임 추가
     private List<Comment> comments;
@@ -58,7 +58,7 @@ public class ArticleDetail {
 
     public String getUpdateAt() { return updatedAt; }
 
-    public ArrayList<String> getFileUrl() { return fileUrl; }
+    public ArrayList<String> getFileUrl() { return fileUrls; }
 
     public void setId(Integer id) {this.id = id;}
 
@@ -84,7 +84,7 @@ public class ArticleDetail {
 
     public void setUpdateAt(String updateAt) { this.updatedAt = updateAt; }
 
-    public void setFileUrl(ArrayList<String> fileURL) { this.fileUrl = fileURL; }
+    public void setFileUrl(ArrayList<String> fileURL) { this.fileUrls = fileURL; }
 
     public void setGenre(String genre) { this.genre = genre; }
 
@@ -99,7 +99,7 @@ public class ArticleDetail {
                 ", viewCounts=" + viewCounts +
                 ", commentCounts=" + commentsCounts +
                 ", likeCounts=" + likeCounts +
-                ", fileUrl=" + fileUrl + '\'' +
+                ", fileUrl=" + fileUrls + '\'' +
                 ", author='" + author + '\'' +
                 ", comments=" + comments +
                 ", createdAt='" + createdAt + '\'' +

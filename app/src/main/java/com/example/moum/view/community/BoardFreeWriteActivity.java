@@ -72,6 +72,8 @@ public class BoardFreeWriteActivity extends AppCompatActivity {
             if(validation == Validation.ARTICLE_POST_SUCCESS && article != null){
                 Toast.makeText(context,"게시글 생성 성공", Toast.LENGTH_SHORT).show();
                 finish();
+            } else {
+                Toast.makeText(context,"게시글 생성 실패", Toast.LENGTH_SHORT).show();
             }
         });
 

@@ -101,7 +101,6 @@ public class BoardFreeItemAdapter extends RecyclerView.Adapter<BoardFreeItemAdap
                                 .error(R.drawable.background_more_rounded_gray_size_fit))
                         .load(article.getFileUrl())
                         .into(image);
-
                 image.setClipToOutline(true);  // outline 설정
             } else {
                 // 이미지가 없으면 숨기기
